@@ -1,0 +1,18 @@
+\begin{frame}[fragile]{exercise (incremental compilation)}
+\begin{itemize}
+\item program built from main.c + extra.c
+\item main.c, extra.c both include extra.h, stdio.h
+\end{itemize}
+\vspace{.5cm}
+\begin{Verbatim}[fontsize=\small]
+clang -c main.c                 # command 1
+clang -c extra.c                # command 2
+clang -o program main.o extra.o # command 3
+\end{Verbatim}
+What commands need to be rerun if\ldots
+\vspace{.25cm}
+\begin{itemize}
+\item Question A: \ldots main.c changes?
+\item Question B: \ldots extra.h changes?
+\end{itemize}
+\end{frame}

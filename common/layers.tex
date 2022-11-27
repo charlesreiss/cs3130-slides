@@ -1,0 +1,40 @@
+\usetikzlibrary{fit,positioning}
+
+\providecommand{\layersPicture}[1]{
+\begin{tikzpicture}
+        \tikzset{
+            hll/.style={},
+            asm/.style={},
+            machineCode/.style={},
+            hdl/.style={},
+            gates/.style={},
+            layerBox/.style={draw, rectangle, minimum width=5cm},
+            hiOn/.style={alt=##1{draw=red,very thick,fill=red!10}{}},
+        }
+        \tikzset{
+            #1
+        }
+        \node[layerBox,hll] (hll) {``Higher-level'' language: C};
+            \node[left=1cm of hll] {\small \tt x += y};
+        \node[layerBox,asm,below=3mm of hll] (asm) {Assembly: X86-64};
+            \node[left=1cm of asm] {\small \tt add \%rbx, \%rax};
+        \node[layerBox,machineCode,below=3mm of asm] (machineCode) {Machine code: Y86};
+            \node[left=1cm of machineCode] {\small \texttt 60 03\textsubscript{SIXTEEN}};
+        \node[layerBox,hdl,below=3mm of machineCode] (hw) {Hardware Design Language: HCLRS};
+        \node[layerBox,gates,below=3mm of hw] (gates) {Gates / Transistors  / Wires / Registers};
+\end{tikzpicture}
+}
+
+\providecommand{\layersHighlighting}[1]{
+\begin{frame}{layers of abstraction}
+    \layersPicture{#1/.style={hiOn=<1>}}
+\end{frame}
+}
+
+\providecommand{\layersHighlightingTwo}[2]{
+\begin{frame}{layers of abstraction}
+    \layersPicture{
+        #1/.style={hiOn=<1>},
+    }
+\end{frame}
+}

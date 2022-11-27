@@ -1,0 +1,906 @@
+\usetikzlibrary{arrows.meta,chains,positioning,matrix,fit}
+
+
+\ifdefined\NOBEAMER\else
+\newcommand<>{\mathHL}[1]{%
+\alt#2{
+\text{\colorbox{green!20}{\ensuremath{#1}}}%
+}{
+\text{\colorbox{white!20}{\ensuremath{#1}}}%
+}%
+}
+\fi
+
+\makeatletter
+\pgfdeclareshape{myregister}%
+{
+    \inheritsavedanchors[from=rectangle]
+    \inheritanchorborder[from=rectangle]
+    \inheritanchor[from=rectangle]{center}
+    \inheritanchor[from=rectangle]{north}
+    \inheritanchor[from=rectangle]{south}
+    \inheritanchor[from=rectangle]{west}
+    \inheritanchor[from=rectangle]{east}
+    \inheritanchor[from=rectangle]{north east}
+    \inheritanchor[from=rectangle]{north west}
+    \inheritanchor[from=rectangle]{south east}
+    \inheritanchor[from=rectangle]{south west}
+    \inheritbackgroundpath[from=rectangle]
+    \saveddimen{\halfbaselength}{%
+         \pgf@x=0.5\wd\pgfnodeparttextbox
+         % get xsep
+         \pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/inner xsep}}%
+         \advance\pgf@x by \pgf@xc%
+         % get \ht of textbox, add to baselength 
+         \advance\pgf@x by \wd\pgfnodeparttextbox
+         % get minimum width
+         \pgfmathsetlength\pgf@xb{\pgfkeysvalueof{/pgf/minimum width}}%
+         \divide\pgf@xb by 2
+         \ifdim\pgf@x<\pgf@xb%
+             % yes, too small. Enlarge...
+             \pgf@x=\pgf@xb%
+         \fi%
+     }
+    \backgroundpath{
+        \pgfpathrectanglecorners{\southwest}{\northeast}
+        \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y 
+        \pgf@yb=\pgf@ya
+        \northeast \pgf@xb=\pgf@x %\pgf@yb=\pgf@y
+        \pgf@xc = \pgf@xa
+        \advance\pgf@xc by \halfbaselength
+        \pgf@yc=\pgf@ya
+        \advance\pgf@yc by \halfbaselength
+        \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+        \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+        \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+        \pgfpathclose
+    }
+}
+\makeatother
+
+\newcommand{\rA}{\it rA}
+\newcommand{\rB}{\it rB}
+\newcommand{\V}{\it V}
+\newcommand{\D}{\it D}
+\newcommand{\fn}{\it fn}
+\newcommand{\Dest}{\it Dest}
+\newcommand{\cc}{\it cc}
+\tikzset{extra box/.style={},
+         extra box opcode/.style={},
+         extra box fn/.style={},
+         extra box cc/.style={},
+         extra box register/.style={},
+         extra box immediate/.style={},
+         extra box shorter width/.style={},
+         extra box fake/.style={},
+         }
+\newcommand{\instrEncodingStyles}{
+\tikzset{
+    empty box/.style={text height=1ex,text depth=.4ex,font=\tt\fontsize{9}{10}\selectfont},
+    box/.style={draw,rectangle,thick,empty box,extra box,align=center},
+    opcode/.style={box,fill=blue!40!white,extra box opcode},
+    secondOpcode/.style={box,fill=violet!40!white},
+    secondOpcodeFN/.style={secondOpcode,extra box fn},
+    secondOpcodeCC/.style={secondOpcode,extra box cc},
+    literal/.style={box,fill=white!90!black},
+    register/.style={box,fill=red!40!white,extra box register},
+    fake/.style={empty box,pattern color=red!40!white,pattern=north west lines,inner sep=-1pt,extra box fake},
+    immediate/.style={box,fill=green!40!white,extra box immediate},
+    immediateLabel/.style={box,fill=green!40!white,extra box immediate,label={center:\fontsize{9}{10}\selectfont##1}},
+}
+}
+\newcommand{\ccify}[2]{\begin{tikzpicture}[baseline]\node[anchor=base,secondOpcodeCC,text width=.35cm,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\fnify}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,secondOpcodeFN,text width=.35cm,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\fnifyWide}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,secondOpcodeFN,inner xsep=0pt,inner sep=2pt,outer sep=0pt,dashed]{#1};\end{tikzpicture}}
+\newcommand{\opify}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,opcode,text width=.35cm,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\opifyWide}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,opcode,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\literalify}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,literal,text width=.35cm,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\immedify}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,immediate,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\rnify}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,register,text width=.35cm,inner xsep=0pt,inner sep=2pt,outer sep=0pt]{#1};\end{tikzpicture}}
+\newcommand{\rnifyWide}[1]{\begin{tikzpicture}[baseline]\node[anchor=base,register,inner xsep=0pt,inner sep=2pt,outer sep=0pt,dashed]{#1};\end{tikzpicture}}
+
+\newcommand{\movq}{{\keywordstyle movq}\xspace}
+\newcommand{\rmmovq}{{\keywordstyle rmmovq}\xspace}
+\newcommand{\mrmovq}{{\keywordstyle mrmovq}\xspace}
+\newcommand{\addq}{{\keywordstyle addq}\xspace}
+\newcommand{\subq}{{\keywordstyle subq}\xspace}
+\newcommand{\xorq}{{\keywordstyle xorq}\xspace}
+\newcommand{\andq}{{\keywordstyle andq}\xspace}
+\newcommand{\asmj}{{\keywordstyle jmp}\xspace}
+\newcommand{\call}{{\keywordstyle call}\xspace}
+\newcommand{\halt}{{\keywordstyle halt}\xspace}
+\newcommand{\ret}{{\keywordstyle ret}\xspace}
+\newcommand{\nop}{{\keywordstyle nop}\xspace}
+\newcommand{\irmovq}{{\keywordstyle irmovq}\xspace}
+\newcommand{\rrmovq}{{\keywordstyle rrmovq}\xspace}
+\newcommand{\jmp}{{\keywordstyle jmp}\xspace}
+
+\tikzset{
+    hReg/.style={draw,myregister,minimum width=.4cm,minimum height=2cm,label={[font=\small,align=center]-90:#1}},
+    hhReg/.style={draw,myregister,minimum width=.3cm,minimum height=5.5cm,label={[font=\small,align=center]-90:#1}},
+    horizReg/.style={draw,myregister,rotate=-90,minimum width=.1cm,minimum height=1cm,label={[font=\small,align=center,fill=white]90:#1}},
+    wReg/.style={draw,myregister,minimum width=2cm,minimum height=.4cm,label={[font=\small]-90:#1}},
+    hRegSmall/.style={draw,myregister,minimum height=.6cm,minimum width=.2cm,label={[font=\small,inner sep=.5mm,align=center]-90:#1}},
+    hRegT/.style={hRegSmall,minimum height=.4cm},
+    mem/.style={draw,rectangle,minimum height=1.5cm,minimum width=1cm,inner sep=4pt,align=center,font=\small},
+    memBig/.style={draw,rectangle,minimum height=3cm,minimum width=3cm,align=center,font=\small},
+    regFile/.style={draw,rectangle,minimum height=4cm,minimum width=2cm,align=center,font=\small},
+    ll/.style={font=\scriptsize},
+    a/.style={-{Latex[length=5pt,width=3pt]},thick},
+    aR/.style={{Latex[length=5pt,width=3pt]}-,thick},
+    aN/.style={thick},
+    aa/.style={-{Latex[length=5pt,width=3pt]},line width=1.2pt},
+    aaR/.style={{Latex[length=5pt,width=3pt]}-,line width=1.2pt},
+    aaN/.style={line width=1.2pt},
+    b/.style={-{Latex[length=2pt,width=2pt]}},
+    bN/.style={thin},
+    bb/.style={line width=.5pt,-{Latex[length=2pt,width=2pt]}},
+    bbR/.style={line width=.5pt,{Latex[length=2pt,width=2pt]}-},
+    bR/.style={{Latex[length=2pt,width=2pt]}-},
+    global scale/.style={scale=#1,every node/.style={scale=#1}},
+    %logicBlock/.style={draw,cloud,cloud puffs=13.7,inner sep=0pt,cloud ignores aspect,align=center,draw},
+    logicBlock/.style={draw,rectangle,inner sep=1pt,align=center,draw,fill=blue!20},
+    logicBlockS/.style={draw,rectangle,inner sep=1pt,align=center,draw,fill=blue!20,font=\small},
+    control/.style={dashed,color=blue!60},
+    logicFill/.style={fill=blue!20},
+    offsetBox/.style={align=left,font=\small,draw=blue!60!black,line width=2pt,rectangle}
+}
+
+\tikzset{
+    bookLabel/.style={color=red!60!black,font=\small\bfseries,outer sep=0pt,inner sep=1pt,fill=white},
+    imemPcPre/.style={invisible},
+    imemPc/.style={},
+    instrRegs/.style={},
+    instrRegsPre/.style={invisible},
+    instrRegsSplitOut/.style={invisible},
+    instrRegsSplitImmed/.style={instrRegsSplitOut},
+    instrRegsRS1/.style={instrRegs},
+    instrRegsMux/.style={instrRegs},
+    instrRegsMuxRS2/.style={instrRegsMux},
+    instrRegsMuxRS3/.style={instrRegsMux},
+    instrRegsMuxRS3F/.style={instrRegsMuxRS3},
+    instrRegsMuxRS4/.style={instrRegsMux},
+    instrRegsRS34Loop/.style={invisible},
+    instrRegsNoMux/.style={invisible},
+    instrRegsNoMuxRS2/.style={instrRegsNoMux},
+    instrRegsNoMuxRS3/.style={instrRegsNoMux},
+    instrRegsNoMuxRS4/.style={instrRegsNoMux},
+    instrRegsPreSingle/.style={invisible},
+    regsLogic/.style={},
+    regsLogicMux/.style={regsLogic},
+    regsLogicMuxA/.style={regsLogicMux},
+    regsLogicMuxB/.style={regsLogicMux},
+    regsLogicNoMux/.style={invisible},
+    regsLogicNoMuxA/.style={regsLogicNoMux},
+    regsLogicNoMuxB/.style={regsLogicNoMux},
+    logicDmem/.style={},
+    logicDmemMux/.style={logicDmem},
+    logicDmemNoMux/.style={invisible},
+    dmemWB/.style={},
+    dmemWBFromMem/.style={dmemWB},
+    dmemWBvalENoMux/.style={dmemWB},
+    dmemWBvalELoop/.style={invisible},
+    dmemWBvalEMux/.style={invisible},
+    dmemOutToPC/.style={dmemWB},
+    dmemPC/.style={},
+    dmemPCMux/.style={dmemPC},
+    dmemPCNoMux/.style={invisible},
+    pcDecode/.style={},
+    isStatReg/.style={hRegSmall=#1},
+    isStat/.style={invisible},
+    dmemNorm/.style={},
+    dmemInputLabel/.style={dmemNorm},
+    dmemLabel/.style={invisible},
+    dmemPre/.style={invisible},
+    dmemPreSingle/.style={invisible},
+    regNorm/.style={},
+    regNormLabel/.style={},
+    regNormLabelE/.style={regNormLabel},
+    regNormLabelM/.style={regNormLabel},
+    regPre/.style={},
+    regPreSingle/.style={},
+    ccsNorm/.style={invisible},
+    smallLabel/.style={font=\scriptsize,inner sep=1pt,outer sep=0pt},
+    smallerLabel/.style={font=\tiny,inner sep=1pt,outer sep=0pt},
+    pcStyle/.style={},
+    wbPCLine/.style={},
+    aluOpExplain/.style={regsLogic},
+    funcOpExplain/.style={logicDmem},
+    muxDst/.style={},
+}
+\newcommand{\instrEncodingSubTable}[3]{
+\matrix[matrix of nodes,
+    column sep=-2\pgflinewidth,
+    row sep=2.5pt,
+    nodes={empty box,text width=.35cm,inner xsep=0pt, inner sep=2pt,outer sep=0pt},
+    column 1/.style={nodes={font=\tt\fontsize{9}{10}\selectfont,text width=3.5cm}},
+    column 6/.style={nodes={extra box shorter width}},
+    column 7/.style={nodes={extra box shorter width}},
+    column 8/.style={nodes={extra box shorter width}},
+    column 9/.style={nodes={extra box shorter width}},
+    column 10/.style={nodes={extra box shorter width}},
+    column 11/.style={nodes={extra box shorter width}},
+    column 12/.style={nodes={extra box shorter width}},
+    column 13/.style={nodes={extra box shorter width}},
+    column 14/.style={nodes={extra box shorter width}},
+    column 15/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 16/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 17/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 18/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 19/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 20/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 21/.style={nodes={text width=.2cm,extra box shorter width}},
+#1,
+] (#2) {#3}}
+
+\newcommand{\var}[1]{\ensuremath{\text{#1}}}
+\newcommand{\icode}{\var{icode}}
+\newcommand{\ifun}{\var{ifun}}
+\newcommand{\vrA}{\var{rA}}
+\newcommand{\vrB}{\var{rB}}
+\newcommand{\valP}{\var{valP}}
+\newcommand{\valA}{\var{valA}}
+\newcommand{\valB}{\var{valB}}
+\newcommand{\valC}{\var{valC}}
+\newcommand{\valE}{\var{valE}}
+\newcommand{\valM}{\var{valM}}
+\newcommand{\PC}{\var{PC}}
+\newcommand{\srcA}{\var{srcA}}
+\newcommand{\srcB}{\var{srcB}}
+\newcommand{\dstE}{\var{dstE}}
+\newcommand{\dstM}{\var{dstM}}
+\newcommand{\aluA}{\var{aluA}}
+\newcommand{\aluB}{\var{aluB}}
+\newcommand{\pcMemDist}{2.cm}
+\newcommand{\imemRegsDist}{3.5cm}
+\newcommand{\regAluDist}{1.25cm}
+\newcommand{\regMemDist}{3cm}
+\newcommand{\regMuxDmemDist}{1.5cm}
+\newcommand{\regReadOffset}{0cm}
+\newcommand{\dstMuxDelta}{2.5mm}
+\newcommand{\ilenOffset}{0cm}
+\newcommand{\pcLabel}{PC}
+\newcommand{\prePcDist}{2.5mm}
+\newcommand{\regRegLabelDist}{1.5cm}
+\newcommand{\regBDist}{.4cm}
+
+\newcommand{\circuitStateToALU}{
+        \node[hReg=\pcLabel,pcStyle] (pc) {};
+        \node[mem,right=\pcMemDist of pc,font=\scriptsize] (imem) {Instr. \\ Mem.};
+        \coordinate (imemData) at (imem.east);
+        \coordinate (imemAddr) at (imem.west);
+        \begin{scope}[regNorm]
+            \node[regFile,right=\imemRegsDist of imem,label={[label distance=1pt,inner sep=0pt]\small register file}] (regs) {};
+            \coordinate (regSelect1) at ($(regs.north west) - (0cm, .5cm)$);
+            \coordinate (regSelect2) at ($(regs.north west) - (0cm, 1cm)$);
+            \coordinate (regSelect3) at ($(regs.north west) - (0cm, 1.5cm)$);
+            \coordinate (regSelect4) at ($(regs.north west) - (0cm, 2cm)$);
+            \coordinate (regWriteIn1) at ($(regs.north west) - (0cm, 3.0cm)$);
+            \coordinate (regWriteIn2) at ($(regs.north west) - (0cm, 3.5cm)$);
+            \coordinate (regRead1) at ($(regs.north east) - (0cm, .4cm)$);
+            \coordinate (regRead2) at ($(regs.north east) - (0cm, .4cm) - (0cm, \regBDist)$);
+            %\node[ll,below left=0pt of regWriteIn,outer sep=1pt,inner sep=0pt] {data};
+        \end{scope}
+        \begin{scope}[regNormLabel]
+            \node[smallLabel,right=0mm of regSelect1] (srcALabel) {\srcA};
+            \node[smallLabel,right=0mm of regSelect2] (srcBLabel) {\srcB};
+            \node[smallLabel,left=0mm of regRead1] {R[\srcA]};
+            \node[smallLabel,left=0mm of regRead2] {R[\srcB]};
+        \end{scope}[regNormLabel]
+
+        \begin{scope}[regNormLabelE]
+            \node[smallLabel,right=0mm of regSelect4] (dstELabel) {\dstE};
+            \node[smallLabel,right=0mm of regWriteIn2] {next R[\dstE]};
+        \end{scope}
+        \begin{scope}[regNormLabelM]
+            \node[smallLabel,right=0mm of regSelect3] (dstMLabel) {\dstM};
+            \node[smallLabel,right=0mm of regWriteIn1] {next R[\dstM]};
+        \end{scope}
+}
+
+\newcommand{\circuitState}{
+        \circuitStateToALU
+        \begin{scope}[dmemNorm]
+            \node[mem,right=\regMemDist of regs,minimum width=1.3cm] (dmem) {};
+            \node[dmemLabel,align=center] at (dmem) {Data\\Mem.};
+            \coordinate (dmemIn) at (dmem.west);
+            \coordinate (dmemInHigh) at ([yshift=.3cm]dmem.west);
+            \coordinate (dmemInLow) at ([yshift=-.3cm]dmem.west);
+            \coordinate (dmemDataOut) at (dmem.east);
+        \end{scope}
+        \begin{scope}[ccsNorm]
+            \node[below=1cm of dmem,hRegSmall=ZF/SF] (ccs) {};
+        \end{scope}
+        \begin{scope}[isStat]
+            \node[isStatReg=Stat,below=.25cm of dmem] (Stat) {};
+        \end{scope}
+}
+\newcommand{\circuitStatePre}{
+        \begin{scope}[imemPcPre]
+            \draw[thick,latex-] (pc.west) -- +(-.5cm,0cm);
+            \draw[thick,latex-] (imemAddr) -- +(-.3cm,0cm);
+            \draw[thick,-latex] (pc.east) -- +(.3cm,0cm);
+            \draw[thick,-latex] (imemData) -- +(.5cm,0cm);
+        \end{scope}
+        \begin{scope}[regPre]
+            \draw[a,-latex,double] (regRead1) -- +(.5cm,0cm);
+            \draw[thick,double,latex-] (regWriteIn1) -- +(-.5cm,0cm);
+        \end{scope}
+        \begin{scope}[regPreSingle]
+            \draw[a,-latex] (regRead1) -- +(.5cm,0cm);
+            \draw[thick,latex-] (regWriteIn1) -- +(-.5cm,0cm);
+            \draw[a,-latex] (regRead2) -- +(.5cm,0cm);
+            \draw[thick,latex-] (regWriteIn2) -- +(-.5cm,0cm);
+        \end{scope}
+        \begin{scope}[instrRegsPre]
+            %\foreach \x in {regSelect1,regSelect2} {
+            %    \draw[latex-] (\x) -- +(-.5cm,0cm);
+            %}
+            \draw[b,latex-,double] (regSelect1) -- +(-.5cm,0cm);
+        \end{scope}
+        \begin{scope}[instrRegsPreSingle]
+            \foreach \x in {regSelect1,regSelect2,regSelect3,regSelect4} {
+                \draw[latex-] (\x) -- +(-.5cm,0cm);
+            }
+        \end{scope}
+        \begin{scope}[dmemPre]
+            \draw[thick,-latex] (dmemDataOut) -- +(.5cm,0cm);
+            \draw[thick,double,latex-] (dmemIn) -- +(-.5cm,0cm);
+        \end{scope}
+        \begin{scope}[dmemPreSingle]
+            \draw[thick,-latex] (dmemDataOut) -- +(.5cm,0cm);
+            \draw[thick,latex-] (dmemInHigh) -- +(-.5cm,0cm);
+            \draw[thick,latex-] (dmemInLow) -- +(-.5cm,0cm);
+        \end{scope}
+}
+\newcommand{\dmemInput}{
+    \begin{scope}[dmemInputLabel]
+        \node[smallLabel,right=0mm of dmemInHigh] {Data in};
+        \node[smallLabel,right=0mm of dmemInLow] {Addr in};
+        \node[smallLabel,left=0mm of dmemDataOut] {Data out};
+    \end{scope}
+}
+
+\newcommand{\circuitConnectDetail}{
+    \dmemInput
+
+    % PC/IMEM
+    \begin{scope}[imemPc]
+        \draw[a] (pc.east) -- (imemAddr);
+    \end{scope}
+
+    % IMEM/REGISTERS
+    \begin{scope}[instrRegs]
+        \coordinate (split) at ([xshift=1cm]imemData);
+        \coordinate (splitIcode) at ([xshift=.15cm]imemData);
+        \coordinate (splitImmed) at ([xshift=.25cm]imemData);
+        \coordinate (splitrA) at ([xshift=.5cm]imemData);
+        \coordinate (splitrB) at ([xshift=.75cm]imemData);
+        \draw[line width=1.5pt] (imemData) -- (splitIcode);
+        \draw[line width=1.25pt] (imemData) -- (splitImmed);
+        \coordinate (aboveRegFile) at ([yshift=.5cm]regs.north);
+        \coordinate (furtherAboveRegFile) at ([yshift=.75cm]regs.north);
+
+        \begin{scope}[instrRegsSplitOut]
+            \draw[b] (splitrA) |- ([xshift=-1cm]regSelect1);
+            \draw[b] (splitrB) |- ([xshift=-1cm]regSelect2);
+        \end{scope}
+        \begin{scope}[instrRegsSplitImmed]
+            \draw[a] (splitImmed) |- (aboveRegFile) node[right,bookLabel] {valC};
+        \end{scope}
+
+        \begin{scope}[instrRegsRS1]
+            \draw[b] (splitrA) |- (regSelect1);
+        \end{scope}
+
+        \begin{scope}[instrRegsNoMuxRS2]
+           \draw[b] (splitrB) |- (regSelect2);
+        \end{scope}
+        \begin{scope}[instrRegsNoMuxRS3]
+            \draw[b] (splitrA) |- (regSelect3);
+        \end{scope}
+        \begin{scope}[instrRegsNoMuxRS4]
+            \draw[b] (splitrB) |- (regSelect4);
+        \end{scope}
+
+        \draw[line width=.75pt] (imemData) -- (splitrA);
+        \draw[line width=0.5pt] (splitrA) -- (splitrB);
+        
+            \begin{scope}[instrRegsMuxRS3]
+                \node[draw,minimum height=2cm,minimum width=1.25cm,left=\dstMuxDelta of regSelect3,mux,inputs={nn},global scale=0.25] (muxDstM) {};
+                \draw[thin] (splitrA |- muxDstM.input 1) -- ([xshift=-2pt]splitrB |- muxDstM.input 1);
+                \draw[b] ([xshift=2pt]splitrB |- muxDstM.input 1) -- (muxDstM.input 1);
+                \draw[b] (muxDstM.output) -- (regSelect3);
+                %\draw[bR] (muxDstM.input 3) -| (splitrB);
+            \end{scope}
+            \begin{scope}[instrRegsMuxRS3F]
+                \draw[bR] (muxDstM.input 2) -- ++(180:2.5mm) node[left,inner sep=0pt,font=\tiny\tt] {0xF};
+            \end{scope}
+            \begin{scope}[instrRegsMuxRS4]
+                \node[draw,minimum height=2cm,minimum width=1.25cm,left=\dstMuxDelta of regSelect4,mux,inputs={nnn},global scale=0.25] (muxDstE) {};
+                \draw[b] (muxDstE.output) -- (regSelect4);
+                \draw[bR] (muxDstE.input 2) -- ++(180:2.5mm) node[left,inner sep=0pt,font=\tiny\tt] {0xF};
+
+                \draw[b] (splitrB) |- (muxDstE.input 1);
+                \draw[bR] (muxDstE.input 3) -- ++(-.25cm,-.4mm) node[left,font=\tiny\tt,inner sep=0pt] {\%rsp};
+            \end{scope}
+
+            \begin{scope}[instrRegsMuxRS2]
+                \node[draw,mux,minimum height=1.5cm,minimum width=0.5cm,global scale=0.25,inputs={nn},anchor=output,minimum height=1cm] (muxSrcB) at ([xshift=-.25cm]regSelect2) {};
+
+                \draw[b] (muxSrcB.output) -- (regSelect2);
+                \draw[b] (splitrB) |- (muxSrcB.input 1);
+                \draw[bR] (muxSrcB.input 2) -- ++(-.25cm,-.25mm) node[left,font=\tiny\tt,inner sep=0pt] {\%rsp};
+            \end{scope}
+
+            \begin{scope}[instrRegsRS34Loop]
+                \node[draw,minimum height=2cm,minimum width=1cm,mux,inputs={nnn},global scale=0.25,muxDst] (muxDstEAbove)
+                    at ([yshift=1cm]regs.north) {};
+                \node[draw,minimum height=2cm,minimum width=1cm,mux,inputs={nn},global scale=0.25,muxDst] (muxDstMAbove)
+                    at ([yshift=1.5cm]regs.north) {};
+
+                \coordinate (splitOffRBLoop) at ([xshift=-1cm]regSelect2 |- muxSrcB.input 1);
+                \draw[bN] ([xshift=-1.25cm]regSelect1) |- ([xshift=-1.25cm,yshift=-2pt]regSelect1 |- aboveRegFile);
+                \draw[b] ([xshift=-1.25cm,yshift=2pt]regSelect1 |- aboveRegFile) |- (muxDstMAbove.input 2);
+                \draw[bN] (splitOffRBLoop) -- ([yshift=-2pt]splitOffRBLoop |- regSelect1);
+                \draw[bN] ([yshift=2pt]splitOffRBLoop |- regSelect1) -- ([yshift=-2pt]splitOffRBLoop |- aboveRegFile);
+                %\draw[b] ([yshift=2pt]splitOffRBLoop |- aboveRegFile) |- (muxDstMAbove.input 3);
+                \draw[bR] (muxDstMAbove.input 1) -- ++(180:2.5mm) node[left,inner sep=0pt,font=\tiny\tt] {0xF};
+
+                \draw[bR] (muxDstEAbove.input 1) -- ++(180:2.5mm) node[left,inner sep=0pt,font=\tiny\tt] {0xF};
+                \draw[bR] (muxDstEAbove.input 2) -- ++(180:2.5mm) node[left,inner sep=0pt,font=\tiny\tt] {\%rsp};
+                \draw[b] ([yshift=2pt]splitOffRBLoop |- aboveRegFile) |- (muxDstEAbove.input 3);
+
+                \coordinate (dstMUpperRightCorner) at ([xshift=.5cm,yshift=2cm]dmem.north east);
+                \coordinate (dstEUpperRightCorner) at ([xshift=.4cm,yshift=1.9cm]dmem.north east);
+                \coordinate (dstMLowerRightCorner) at ([xshift=.5cm,yshift=-2.3cm]dmem.south east);
+                \coordinate (dstELowerRightCorner) at ([xshift=.4cm,yshift=-2.2cm]dmem.south east);
+                \coordinate (dstELeft) at ([xshift=-.75cm]regs.west);
+                \coordinate (dstMLeft) at ([xshift=-1cm]regs.west);
+                \coordinate (badLineHeight) at ([yshift=-.75cm]regs.south west);
+                \draw[bN] (muxDstMAbove.output) -- ++(0.35cm, 0cm) |- (dstMUpperRightCorner) -- (dstMLowerRightCorner)
+                    -| ([yshift=-2pt]dstMLeft |- badLineHeight);
+                \draw[b] ([yshift=2pt]dstMLeft |- badLineHeight) |- (regSelect3);
+                \draw[bN] (muxDstEAbove.output) -- ++(0.25cm, 0cm) |- (dstEUpperRightCorner) -- (dstELowerRightCorner)
+                    -| ([yshift=-2pt]dstELeft |- badLineHeight);
+                \draw[b] ([yshift=2pt]dstELeft |- badLineHeight) |- (regSelect4);
+            \end{scope}
+        
+        \node[left=\regRegLabelDist of regSelect1,fill=white,font=\tiny,inner sep=1pt,outer sep=0pt] (vrALabel) {\vrA};
+        \node[left=\regRegLabelDist of regSelect2,fill=white,font=\tiny,outer sep=0pt,inner sep=1pt] (vrBLabel) {\vrB};
+    \end{scope}
+
+
+    % REGISTERS/ALU
+    % + ALU component
+    \begin{scope}[regsLogic]
+        \node[right=\regAluDist of regs,minimum height=1cm,minimum width=.75cm,logicBlock,label={[label distance=1pt,inner sep=0pt]\small ALU}] (alu) {};
+        \coordinate (aluTop) at ([yshift=-2mm]alu.north west);
+        \coordinate (aluBottom) at ([yshift=2mm]alu.south west);
+        \node[smallerLabel,right=0mm of aluTop] {\aluA};
+        \node[smallerLabel,right=0mm of aluBottom] {\aluB};
+        \node[smallerLabel,left=0mm of alu.east] {\valE};
+        \coordinate (afterAlu) at ([xshift=1mm]alu.east);
+
+        \coordinate (regReadAfter1Pre) at ([xshift=4mm]regRead1);
+        \coordinate (regReadAfter1) at ([xshift=\regReadOffset]regReadAfter1Pre);
+        \coordinate (regReadAfter2Pre) at ([xshift=1mm]regRead2);
+        \coordinate (regReadAfter2) at ([xshift=\regReadOffset]regReadAfter2Pre);
+        
+        \begin{scope}[regsLogicMuxA]
+            \node[draw,mux,global scale=0.45,minimum height=1cm,left=2.5mm of aluTop,inputs={nnn}] (muxAluA) {};
+            \draw[a] (muxAluA.output) -- (aluTop);
+            \draw[a] (regRead1) -- (regReadAfter1) |- (muxAluA.input 2);
+            \coordinate (dmemInBefore) at ([xshift=-2.5mm]dmemInHigh);
+            \coordinate (beforeMux1) at ([xshift=-2.5mm]muxAluA.input 1);
+            \coordinate (immedPreAlu) at ([xshift=-2.5mm,yshift=4pt] regRead1 -| muxAluA.input 1);
+            \draw[aN] (splitImmed) |- (aboveRegFile) -| (immedPreAlu);
+            \draw[a] ([xshift=-2.5mm,yshift=-4pt] regRead1 -| muxAluA.input 1) |- (muxAluA.input 1);
+            \draw[bR] (muxAluA.input 3) -- ++(-.1cm,-.2cm) node[left,font=\tiny\tt,inner sep=0pt] {8};
+        \end{scope}
+
+        \begin{scope}[regsLogicMuxB]
+            \node[draw,mux,minimum height=1.5cm,minimum width=.5cm,global scale=0.35,inputs={nn},anchor=output] (muxAluB) at ([xshift=-.5cm]aluBottom) {};
+            \draw[a] (regRead2) -- (regReadAfter2) |- (muxAluB.input 1);
+            \draw[aR] (muxAluB.input 2) -- ++(-.25cm,0cm) node[left,font=\tiny\tt,inner sep=0pt]{0};
+            \draw[a] (muxAluB.output) -- (aluBottom);
+        \end{scope}
+
+        \begin{scope}[regsLogicNoMuxB]
+            \draw[a] (regRead2) -- (regReadAfter2) |- (aluBottom);
+        \end{scope}
+        \begin{scope}[regsLogicNoMuxA]
+            \draw[a] (regRead1) -- (regReadAfter1) |- (aluTop);
+        \end{scope}
+
+        % ALU Registers
+        \draw[bR,aluOpExplain] (alu.south) -- ++(0,-2.5mm) node[below,inner sep=0pt,align=center,font=\tiny,aluOpExplain] (aluOpExplain) {add/sub\\ xor/and \\ (function \\ of instr.)};
+    \end{scope}
+
+    \begin{scope}[dmemPC]
+        \node[dmemPCMux,draw,minimum height=2cm,left=.25cm of pc,mux,inputs={nnn},global scale=0.5] (muxPc) {};
+    \end{scope}
+
+
+    % ALU/MEMORY
+    \begin{scope}[logicDmem]
+        \node[smallerLabel,above=0mm of dmem.south] {write?};
+        
+        \draw[bR,funcOpExplain] (dmem.south) -- ++(0,-2.5mm) node[funcOpExplain,below,align=center,inner sep=0pt,font=\tiny] (funcOpExplain) {function\\of opcode};
+
+        % MEMORY Registers
+            % FIXME: correct input?
+        \begin{scope}[logicDmemMux]
+            \node[draw,mux,minimum height=1cm,global scale=0.45,left=5mm of dmemInLow,inputs={nn}] (muxDAddr) {};
+            \draw[a] (muxDAddr.output) -- (dmemInLow);
+            \draw[a] (regRead2) -- (regReadAfter2) |- ([yshift=-1mm,xshift=.5mm]alu.south east) |- (muxDAddr.input 2);
+            \draw[a] (alu.east) -- (afterAlu) |- (muxDAddr.input 1);
+
+            \node[draw,mux,minimum height=1cm,global scale=0.5,inputs={nn},anchor=input 2,minimum height=1cm] (muxDMem) at ([xshift=\regMuxDmemDist]regRead1) {};
+            \draw[a] (muxDMem.output) -| (dmemInBefore) -- (dmemInHigh);
+            \draw[a] (regRead1) -- (muxDMem.input 2);
+            \coordinate (immedIntersect) at ([xshift=.5cm,yshift=2.5mm]pc.north east);
+            %\draw[aN] (pc.east) -| ([yshift=-4pt]immedIntersect); 
+            %\draw[a] ([yshift=4pt]immedIntersect) |- (furtherAboveRegFile) -| ([xshift=-2.5mm]muxDMem.input 1)
+            %            -- (muxDMem.input 1);
+            \draw[aR] (muxDMem.input 1) -- ++ (-.25cm, 0cm) -- ++ (0cm, .25cm) node[above,font=\scriptsize,inner sep=0.5mm] {PC+9};
+        \end{scope}
+
+        \begin{scope}[logicDmemNoMux]
+            \draw[a] (alu.east) -- (afterAlu) |- (dmemInLow);
+            \draw[a] (regRead1) -| ([xshift=-.5cm]dmemInHigh) -- (dmemInHigh);
+        \end{scope}
+    \end{scope}
+    
+    \begin{scope}[dmemWBvalENoMux]
+        \draw[aN] (alu.east) -- (afterAlu) -- ([yshift=.025cm]afterAlu |- muxDAddr.input 2);
+        \draw[a] ([yshift=-.025cm]afterAlu |- muxDAddr.input 2) |- ([yshift=-.25cm,xshift=-.25cm]regs.south west) |- (regWriteIn2);
+    \end{scope}
+    \begin{scope}[dmemWBvalELoop]
+        \draw[aN] (alu.east) -- (afterAlu) -- ([yshift=.025cm]afterAlu |- muxDAddr.input 2);
+        \draw[a] ([yshift=-.025cm]afterAlu |- muxDAddr.input 2) |- ([yshift=-.15cm]dmem.south west) |- ([yshift=-.25cm,xshift=-.25cm]regs.south west) |- (regWriteIn2);
+    \end{scope}
+    \begin{scope}[dmemWBvalEMux]
+        \node[draw,mux,minimum height=1cm,global scale=0.5,inputs={nnn},rotate=180] (muxValE) at ([yshift=-.25cm, xshift=.1cm]regs.south east) {};
+        \draw[a] (alu.east) -- (afterAlu) |- (muxValE.input 3);
+        \draw[aN] (regRead1) -- (regReadAfter1) -- ([yshift=.05cm]regReadAfter1 |- aluBottom);
+        \draw[aN] ([yshift=-.05cm]regReadAfter1 |- aluBottom) -- ([yshift=-.05cm]regReadAfter1 |- alu.south);
+        \draw[a] ([yshift=-.15cm]regReadAfter1 |- alu.south) |- (muxValE.input 1);
+        \draw[a] (muxValE.output) -- ([yshift=-.25cm,xshift=-.25cm]regs.south west) |- (regWriteIn2);
+        \draw[aN] ([yshift=1cm]immedPreAlu) -- ([yshift=.05cm]immedPreAlu |- muxAluA.input 2);
+        \draw[aN] ([yshift=-.05cm] immedPreAlu |- muxAluA.input 2) -- ([yshift=.05cm]immedPreAlu |- aluBottom);
+        \draw[a] ([yshift=-.05cm] immedPreAlu |- aluBottom) |- (muxValE.input 2);
+    \end{scope}
+    \begin{scope}[dmemWB]
+        \draw[a] (dmemDataOut) -- ++(2.5mm,0) |- ([yshift=-.5cm,xshift=-.5cm]regs.south west) |- (regWriteIn1);
+    \end{scope}
+    \begin{scope}[dmemOutToPC]
+        \draw[a] (dmemDataOut) -- ++(2.5mm,0) |- ([yshift=-.5cm,xshift=-.5cm]regs.south west) --
+            ++ (0cm,-.25cm) -| ([xshift=-3.5mm]muxPc.input 2) -- (muxPc.input 2);
+    \end{scope}
+
+    % PC update mux
+    \begin{scope}[dmemPC]
+        % above: \node[left=.25cm of pc,mux,inputs={nnn},global scale=0.5] (muxPc) {};
+        \node[xshift=\ilenOffset,below=1cm of imem,logicBlock,font=\small] (iLen) {instr.\\length};
+        \node[left=.25cm of iLen,logicBlock,font=\small] (iLenPlus) {+};
+        
+        \draw[b] ([xshift=\ilenOffset]splitIcode) |- (iLen.east);
+        \draw[b] (iLen.west) -- (iLenPlus.east);
+        \draw[a] (pc.east) -| (iLenPlus.north);
+
+        \begin{scope}[dmemPCMux]
+            \draw[a] (iLenPlus.west) -| ([xshift=-2.5mm]muxPc.input 3) -- (muxPc.input 3);
+
+            \draw[a] (splitImmed) |- ([yshift=2.5mm]pc.north) -| ([xshift=-2.5mm]muxPc.input 1) -- (muxPc.input 1);
+
+            \draw[a] (muxPc.output) -- (pc.west);
+        \end{scope}
+        
+        \begin{scope}[dmemPCNoMux]
+            \draw[a] (iLenPlus.west) -| ([xshift=-\prePcDist]pc.west) -- (pc.west);
+        \end{scope}
+    \end{scope}
+    
+}
+
+\newcommand{\circuitConnect}{
+        \begin{scope}[imemPc]
+            \draw[a] (pc.east) -- (imemAddr);
+        \end{scope}
+        \begin{scope}[instrRegs]
+            \node[logicBlock,right=1cm of imem,minimum height=6cm,minimum width=1cm] (decode) {logic};
+            \draw[a] (imemData) -- (decode);
+            \draw[b] (decode.east |- regSelect1) -- (regSelect1);
+            \draw[b] (decode.east |- regSelect2) -- (regSelect2);
+            \draw[b] (decode.east |- regSelect3) -- (regSelect3);
+            \draw[b] (decode.east |- regSelect4) -- (regSelect4);
+        \end{scope}
+        \begin{scope}[regsLogic]
+            \node[logicBlock,right=1cm of regs,minimum height=5.5cm,yshift=.25cm,minimum width=.1cm] (execute) {logic \\ (with\\ ALU)};
+            \draw[a] (regRead1) -- (execute.west |- regRead1);
+            \draw[a] (regRead2) -- (execute.west |- regRead2);
+            \begin{scope}[ccsNorm]
+                \draw[b] (ccs.east) -- (execute.west |- ccs.east);
+            \end{scope}
+        \end{scope}
+        \begin{scope}[logicDmem]
+            \draw[a, double] (execute.east |- dmemIn) -- (dmemIn);
+            \draw[b,isStat] (execute.east |- Stat.west) -- (Stat.west);
+            \coordinate (leftBelowExecute) at ($(execute.south east) + (.5cm,-.4cm)$);
+            \coordinate (leftBelowExecute2) at ($(execute.south east) + (.75cm,-.5cm)$);
+            \coordinate (leftBelowExecute3) at ($(execute.south east) + (.1cm,-.6cm)$);
+            \coordinate (rightBelowExecute) at ($(execute.south east) + (-3cm,-.6cm)$);
+            \coordinate (beforeReg1) at ($(regWriteIn1) + (-.125cm,0cm)$);
+            \coordinate (beforeReg2) at ($(regWriteIn2) + (-.25cm,0cm)$);
+            \coordinate (regWriteInMid) at ($(regWriteIn1)!0.5!(regWriteIn2)$);
+            \coordinate (beforeRegMid) at ($(regWriteInMid) + (-.25cm,0cm)$);
+            \coordinate (rightBelowRegs1) at (beforeReg1 |- leftBelowExecute2);
+            \coordinate (rightBelowRegs2) at (beforeReg2 |- leftBelowExecute3);
+            \coordinate (rightBelowRegsMid) at (beforeRegMid |- leftBelowExecute3);
+            \begin{scope}[ccsNorm]
+                \draw[b] ($(execute.south east) + (0cm, .25cm)$) -| (leftBelowExecute) -- (rightBelowExecute) |- (ccs.west);
+            \end{scope}
+            \coordinate (logicInstr) at ($(execute.north west) + (0cm, -.5cm)$);
+            \draw[a,double] (decode.east |- logicInstr) -- (logicInstr);
+        \end{scope}
+        \begin{scope}[dmemWB]
+            \node[logicBlock,right=.75cm of dmem,minimum height=4cm] (writeMux) {l\\o\\g\\i\\c};
+            \coordinate (writeMuxTopIn) at ($(writeMux.north west) + (0cm,-0.5cm)$);
+            \draw[a,double] (execute.east |- writeMuxTopIn) -- (writeMuxTopIn);
+            \coordinate (writeMuxAfter) at ($(writeMux.east) + (.5cm, 0cm)$);
+            \node[above=1pt of writeMuxAfter,font=\scriptsize,inner sep=1pt,outer sep=1pt,xshift=-.5ex] (toRegLabel) {to reg};
+            \coordinate (rightBelowWriteMux) at (leftBelowExecute3 -| writeMuxAfter);
+            \draw[a,double] (writeMux) -| (rightBelowWriteMux) --(leftBelowExecute3) |- (rightBelowRegsMid) |- (regWriteInMid);
+        \end{scope}
+        \begin{scope}[dmemWBFromMem]
+            \draw[a] (dmem.east) -- (writeMux.west |- dmem.west);
+        \end{scope}
+        \begin{scope}[pcDecode]
+            \coordinate (afterPC) at ($(pc.east) + (.25cm, 0cm)$);
+            \draw[a] (afterPC) |- (decode.west |- logicInstr);
+        \end{scope}
+        \begin{scope}[dmemPC]
+            %\draw[a] (dmem.east) -| (leftBelowExecute3) -- (rightBelowRegs2) |- ($(writeMux.east) + (0cm,.25cm)$);
+            \coordinate (leftAboveWM) at ($(writeMux.north east) + (.5cm,1.5cm)$);
+            \coordinate (aboveWM) at ($(writeMux.north) + (0cm,1.5cm)$);
+            \coordinate (beforePC) at ($(pc.west) + (-.3cm, 0cm)$);
+            \coordinate (rightAbovePC) at (beforePC |- leftAboveWM);
+            \coordinate (leftAbovePC) at (beforePC |- leftAboveWM);
+            \node[logicBlock,font=\tiny] (nextPC) at (afterPC |- aboveWM) {l\\o\\g\\i\\c};
+            \coordinate (writeMuxTopOut) at ($(writeMux.north east) + (0cm,-.5cm)$);
+            \draw[a,wbPCLine] (writeMuxTopOut) -| (leftAboveWM) -- (nextPC.east |- leftAboveWM);
+            \node[below right=0pt of writeMuxTopOut,font=\scriptsize,inner sep=1pt,outer sep=1pt] {to PC};
+            \draw[a] (afterPC) -- (nextPC);
+            \draw[overlay,a] (nextPC.west |- rightAbovePC) -- (rightAbovePC) -- (beforePC) -- (pc);
+        \end{scope}
+}
+
+\newcommand{\circuitLayout}{
+        \circuitState
+        \circuitStatePre
+        \circuitConnect
+}
+
+
+
+\newcommand{\assign}{\ensuremath{\leftarrow}}
+
+\newcommand{\instrEncodingTable}{
+\instrEncodingStyles
+\matrix[matrix of nodes,
+    column sep=-2\pgflinewidth,
+    row sep=2.5pt,
+    nodes={empty box,text width=.35cm,inner xsep=0pt, inner sep=2pt,outer sep=0pt},
+    column 1/.style={nodes={font=\tt\fontsize{9}{10}\selectfont,text width=3.5cm}},
+    column 6/.style={nodes={extra box shorter width}},
+    column 7/.style={nodes={extra box shorter width}},
+    column 8/.style={nodes={extra box shorter width}},
+    column 9/.style={nodes={extra box shorter width}},
+    column 10/.style={nodes={extra box shorter width}},
+    column 11/.style={nodes={extra box shorter width}},
+    column 12/.style={nodes={extra box shorter width}},
+    column 13/.style={nodes={extra box shorter width}},
+    column 14/.style={nodes={extra box shorter width}},
+    column 15/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 16/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 17/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 18/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 19/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 20/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 21/.style={nodes={text width=.2cm,extra box shorter width}},
+] (table) {
+    % row 1
+    \bf byte: \& 0 \& ~ \& 1 \& ~ \& 2 \& ~ \& 3 \& ~ \& 4 \& ~ \& 5 \& ~ \& 6 \& ~ \& 7 \& ~ \& 8 \& ~ \& 9 \& ~ \\
+    % row 2
+    \halt     \& |[opcode]| 0 \& |[literal]| 0 \& ~ \& ~ \& ~ \& ~ \\
+    % row 3
+    \nop      \& |[opcode]| 1 \& |[literal]| 0 \\
+    % row 4
+    \rrmovq/{\keywordstyle cmovCC} \rA, \rB \& |[opcode]| 2 \& |[secondOpcodeCC]| \cc \& |[register]| \rA \& |[register]| \rB \\
+    % row 5
+    \irmovq \V, \rB \& |[opcode]| 3 \& |[literal]| 0 \& |[literal]| F \& |[register]| \rB 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~
+    \\
+    % row 6
+    \rmmovq \rA, \D(\rB) \& |[opcode]| 4 \& |[literal]| 0 \& |[register]| \rA \& |[register]| \rB
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~
+    \\
+    % row 7
+    \mrmovq \D(\rB), \rA \& |[opcode]| 5 \& |[literal]| 0 \& |[register]| \rA \& |[register]| \rB
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~
+    \\
+    % row 8
+    {\keywordstyle {\it OP}q} \rA, \rB \& |[opcode]| 6 \& |[secondOpcodeFN]| \fn \& |[register]| \rA \& |[register]| \rB \\
+    % row 9
+    {\keywordstyle j{\it CC}} \Dest \& |[opcode]| 7 \& |[secondOpcodeCC]| \cc 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~
+    \\
+    % row 10
+    {\keywordstyle call} \Dest \& |[opcode]| 8 \& |[literal]| 0 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~
+    \\
+    {\keywordstyle ret} \& |[opcode]| 9 \& |[literal]| 0 \\
+    {\keywordstyle pushq} \rA \& |[opcode]| A \& |[literal]| 0 \& |[register]| \rA \& |[literal]| F \\
+    {\keywordstyle popq} \rA \& |[opcode]| B \& |[literal]| 0 \& |[register]| \rA \& |[literal]| F \\
+};
+\foreach \x in {5} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-6) (table-\x-21)] (V-\x) {\V};
+}
+\foreach \x in {6,7} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-6) (table-\x-21)] (D-\x) {\D};
+}
+\foreach \x in {9,10} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-4) (table-\x-19)] (Dest-\x) {\Dest};
+}
+}
+
+\newcommand{\instrEncodingTableReversed}{
+\instrEncodingStyles
+\matrix[matrix of nodes,
+    column sep=-2\pgflinewidth,
+    row sep=2.5pt,
+    nodes={empty box,text width=.35cm,inner xsep=0pt, inner sep=2pt,outer sep=0pt},
+    column 1/.style={nodes={font=\tt\fontsize{9}{10}\selectfont,text width=3.5cm}},
+    column 17/.style={nodes={extra box shorter width}},
+    column 16/.style={nodes={extra box shorter width}},
+    column 15/.style={nodes={extra box shorter width}},
+    column 14/.style={nodes={extra box shorter width}},
+    column 13/.style={nodes={extra box shorter width}},
+    column 12/.style={nodes={extra box shorter width}},
+    column 11/.style={nodes={extra box shorter width}},
+    column 10/.style={nodes={extra box shorter width}},
+    column 9/.style={nodes={extra box shorter width}},
+    column 8/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 7/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 6/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 5/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 4/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 3/.style={nodes={text width=.2cm,extra box shorter width}},
+    column 2/.style={nodes={text width=.2cm,extra box shorter width}},
+] (table) {
+    % row 1
+    \bf byte: \& 9 \& ~ \& 8 \& ~ \& 7 \& ~ \& 6 \& ~ \& 5 \& ~ \& 4 \& ~ \& 3 \& ~ \& 2 \& ~ \& 1 \& ~ \& 0 \& ~ \\
+    % row 2
+    \halt     \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~
+        \&  |[opcode]| 0 \& |[literal]| 0 \\
+    % row 3
+    \nop      \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \&
+        |[opcode]| 1 \& |[literal]| 0 \\
+    % row 4
+    \rrmovq/{\keywordstyle cmovCC} \rA, \rB \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ 
+        \&
+    |[register]| \rA \& |[register]| \rB \&
+    |[opcode]| 2 \& |[secondOpcodeCC]| \cc \\
+    % row 5
+    \irmovq \V, \rB \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \&
+        |[literal]| F \& |[register]| \rB  \&
+        |[opcode]| 3 \& |[literal]| 0
+    \\
+    % row 6
+    \rmmovq \rA, \D(\rB) \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \&
+    |[register]| \rA \& |[register]| \rB \&
+        |[opcode]| 4 \& |[literal]| 0
+    \\
+    % row 7
+    \mrmovq \D(\rB), \rA \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \&
+    |[register]| \rA \& |[register]| \rB \&
+    |[opcode]| 5 \& |[literal]| 0
+    \\
+    % row 8
+    {\keywordstyle {\it OP}q} \rA, \rB \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \&
+    |[register]| \rA \& |[register]| \rB \&
+    |[opcode]| 6 \& |[secondOpcodeFN]| \fn \\
+    % row 9
+    {\keywordstyle j{\it CC}} \Dest \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&
+    |[opcode]| 7 \& |[secondOpcodeCC]| \cc 
+    \\
+    % row 10
+    {\keywordstyle call} \Dest \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&
+    |[opcode]| 8 \& |[literal]| 0 
+    \\
+    {\keywordstyle ret} \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&
+    |[opcode]| 9 \& |[literal]| 0 \\
+    {\keywordstyle pushq} \rA \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ \&
+    |[register]| \rA \& |[literal]| F \&
+    |[opcode]| A \& |[literal]| 0 \\
+    {\keywordstyle popq} \rA \& 
+           ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& ~ 
+    \& |[register]| \rA \& |[literal]| F \&
+    |[opcode]| B \& |[literal]| 0  \\
+};
+\foreach \x in {5} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-2) (table-\x-17)] (V-\x) {\V};
+}
+\foreach \x in {6,7} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-2) (table-\x-17)] (D-\x) {\D};
+}
+\foreach \x in {9,10} {
+    \node[immediate,inner sep=0pt,outer sep=0pt,fit=(table-\x-4) (table-\x-19)] (Dest-\x) {\Dest};
+}
+}
+

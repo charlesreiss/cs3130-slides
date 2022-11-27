@@ -1,0 +1,46 @@
+\begin{frame}{make}
+    \begin{itemize}
+    \item \texttt{make} --- Unix program for ``making'' things\ldots
+    \item \ldots by running commands based on what's changed
+    \vspace{.5cm}
+    \item what commands? based on \textit{rules} in \textit{makefile}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{make rules}
+
+{\tt
+\begin{tabular}{l}
+\myemph<2>{main.o}: \myemph<3>{main.c main.h extra.h} \\
+\myemph<4>{▶}\hspace{2cm}\myemph<5>{clang -c main.c} \\
+\end{tabular}
+}
+\vspace{1cm}
+\begin{itemize}
+\item before colon: \myemph<2>{target(s)} (file(s) generated/updated)
+\item after colon: \myemph<3>{prerequisite(s)}
+\item following lines prefixed by a \myemph<4>{tab} character: \\
+      \myemph<5>{command(s) to run}
+\vspace{.5cm}
+\item \texttt{make} will run the commands if any prerequisite is newer than the target
+    (or the target does not exist)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{running make}
+\begin{itemize}
+    \item ``\texttt{make \textit{target}}''
+        \begin{itemize}
+        \item look in \texttt{Makefile} in current directory for rules
+        \item check if \texttt{\textit{target}} is up-to-date
+        \item if not, rebuild it (and dependencies, if needed) so it is
+        \end{itemize}
+    \item ``make''
+        \begin{itemize}
+        \item look in \texttt{Makefile} in current directory for rules
+        \item build target for first rule in Makefile
+        \item convention: first target called ``\texttt{all}''
+        \item (and not file called all actually generated)
+        \end{itemize}
+\end{itemize}
+\end{frame}
