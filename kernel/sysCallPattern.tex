@@ -1,0 +1,13 @@
+\begin{frame}{system call pattern}
+    \begin{itemize}
+    \item basically a function call, but\ldots
+    \vspace{.5cm}
+    \item calling convention for arguments, return value
+    \item special instruction to trigger excpetion
+        \begin{itemize}
+        \item can't specify address of function to call, so\ldots
+        \item typically set \textit{system call number} in register
+        \item e.g. on x86-64 Linux, \%rax = 0 for read, 1 for write, 2 for open, \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}

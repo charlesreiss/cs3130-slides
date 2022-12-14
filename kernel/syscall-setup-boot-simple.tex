@@ -1,0 +1,14 @@
+\begin{frame}{controlled entry to kernel mode}
+\begin{itemize}
+\item OS specifies where to start executing code in kernel mode
+    \begin{itemize}
+    \item typically set at boot
+    \item requires privileged instructions to change
+    \end{itemize}
+\item OS makes sure the code it says to start is ``safe''
+    \begin{itemize}
+    \item (hopefully)
+    \item example: checks whether current program is allowed to read file before reading it
+    \end{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,65 @@
+\begin{frame}{Linux x86-64 system calls}
+\begin{itemize}
+\item special instruction: {\tt syscall}
+\item runs OS specified code in kernel mode
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=LinuxSyscall]{Linux syscall calling convention}
+\begin{itemize}
+\item before {\tt syscall}:
+\item \lstinline|%rax| --- system call number
+\item \lstinline|%rdi|, \lstinline|%rsi|, \lstinline|%rdx|, \lstinline|%r10|, \lstinline|%r8|, \lstinline|%r9| --- args
+\vspace{.5cm}
+\item after {\tt syscall}:
+\item \lstinline|%rax| --- return value
+\item on error: \lstinline|%rax| contains -1 times ``error number''
+\vspace{.5cm}
+\item \myemph{almost} the same as normal function calls
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Linux x86-64 hello world}
+\lstset{language=myasm,style=small,morekeywords={syscall,movq,.asciz,.globl}}
+\lstinputlisting{../kernel/hello_world.s}
+\end{frame}
+
+\begin{frame}[fragile,label=sysHandler]{approx. system call handler}
+\lstset{
+    language=myasm,
+    morekeywords={.quad,pushq,jmp},
+    escapechar=@,
+    style=small,
+}
+\begin{lstlisting}
+sys_call_table:
+    .quad handle_read_syscall
+    .quad handle_write_syscall
+    // ...
+
+handle_syscall:
+    ... // save old PC, etc.
+    pushq %rcx // save registers
+    pushq %rdi
+    ...
+    call *sys_call_table(,%rax,8)
+    ...
+    popq %rdi
+    popq %rcx
+    return_from_exception
+\end{lstlisting}
+\end{frame}
+
+% FIXME: kernel stack diagram
+
+\begin{frame}{Linux system call examples}
+\begin{itemize}
+\item {\tt mmap}, {\tt brk} --- allocate memory
+\item {\tt fork} --- create new process
+\item {\tt execve} --- run a program in the current process
+\item {\tt \_exit} --- terminate a process
+\item {\tt open}, {\tt read}, {\tt write} --- access files
+\item {\tt socket}, {\tt accept}, {\tt getpeername} --- socket-related
+\end{itemize}
+\end{frame}
+

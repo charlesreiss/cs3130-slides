@@ -1,0 +1,25 @@
+\begin{frame}{privileged instructions}
+\begin{itemize}
+\item can't let \myemph{any program} run some instructions
+\item example: talk to I/O device
+\item allows machines to be shared between users (e.g. lab servers)
+\vspace{.5cm}
+\item processor has two modes:
+\begin{itemize}
+    \item kernel mode --- privileged instructions work
+    \item user mode --- privileged instructions cause exception instead
+\end{itemize}
+\item only \textit{trusted} OS code runs in kernel mode
+\end{itemize}
+\end{frame}
+
+\begin{frame}{kernel mode}
+\begin{itemize}
+\item extra one-bit register: ``are we in kernel mode''
+\vspace{.5cm}
+\item processor switches to kernel mode to run OS
+\item OS switches processor back to use mode when running normal code
+\end{itemize}
+\end{frame}
+
+

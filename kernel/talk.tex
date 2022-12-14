@@ -1,0 +1,62 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\section{some malicious things we'd like to stop}
+
+\input{../kernel/malicious-p}
+
+\section{privileged instruction idea}
+\againframe<2>{portalShouldnt}
+\input{../kernel/priv-instr-intro}
+
+\section{system calls: running the OS}
+\input{../kernel/calling-the-OS-naive} % FIXME: incomplete
+    % special switch to OS function
+    % can't let us just call an OS function directly
+
+\subsection{exception entry point}
+\input{../kernel/syscall-setup-boot-simple}
+
+\subsection{system calls on Linux}
+% FIXME import slides
+\input{../kernel/sysCallLinux}
+
+\subsection{system call wrappers}
+\input{../kernel/sysCallWrapperShort}
+
+\section{memory protection}
+\againframe<3>{portalShouldnt}
+
+\subsection{example: two programs?}
+
+% FIXME: 3330 example of two programs
+
+% FIXME: modifying OS code
+
+% FIXME: OS-set memory map idea
+
+\section{infinite loop}
+\againframe<4>{portalShouldnt}
+
+% FIXME: what happens if I try
+
+\section{reasons for exceptions, generally}
+
+\section{exception table + dispatch}
+
+\section{context switches}
+
+\section{process}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}

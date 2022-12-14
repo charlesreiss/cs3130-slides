@@ -1,4 +1,5 @@
 
+\makeatletter
 \newenvironment<>{btHighlight}[1][]
 {\begin{onlyenv}#2\begingroup\tikzset{bt@Highlight@par/.style={#1}}\begin{lrbox}{\@tempboxa}}
 {\end{lrbox}\bt@HL@box[bt@Highlight@par]{\@tempboxa}\endgroup\end{onlyenv}}
@@ -23,7 +24,6 @@
   }%
 }
 
-\makeatletter
 \lst@CCPutMacro
     \lst@ProcessOther {"2A}{%
       \lst@ttfamily 
@@ -110,4 +110,5 @@
     basicstyle=\sourcecodepro\EmptyMapping\scriptsize,
     keywordstyle=\sourcecodepro\EmptyMapping\scriptsize\bfseries,
 }
+
 
