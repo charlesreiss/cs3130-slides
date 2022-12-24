@@ -1,0 +1,96 @@
+\usetikzlibrary{arrows.meta,calc,fit,patterns,positioning,shapes.multipart}
+
+\begin{frame}<0>[label=progMem]{program memory (two programs)}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white,inner sep=1mm},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\begin{scope}[name prefix=A-]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[above=0cm of kernel] {Program A};
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{scope}
+
+\begin{scope}[name prefix=B-,xshift=6cm]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[above=0cm of kernel] {Program B};
+\node[mybox, minimum height=.6cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=1.4cm, below=.3cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{scope}
+
+\begin{visibleenv}<2>
+\node[myhigh,fit=(A-heap.north west) (A-stack.south east)] {};
+\node[myhigh,fit=(B-heap.north west) (B-stack.south east)] {};
+\node[myhigh,fit=(A-memBottom) (A-sdata.south west)] {};
+\node[myhigh,fit=(B-memBottom) (B-sdata.south west)] {};
+\node[myhigh,fit=(A-stack.north west) (A-kernel.south east)] {};
+\node[myhigh,fit=(B-stack.north west) (B-kernel.south east)] {};
+\end{visibleenv}
+
+\begin{visibleenv}<3>
+\node[myhigh,fit=(A-kernel)] {};
+\node[myhigh,fit=(B-kernel)] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<0>[label=addrSpace]{address space}
+\begin{itemize}
+\item programs have \myemph{illusion of own memory}
+\item called a program's \myemph{address space}
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+}
+\node[align=center] (progAAddr) {Program A \\ addresses};
+\node[below=1cm of progAAddr,align=center] (progBAddr) {Program B \\ addresses};
+\node[draw, right=1cm of progAAddr,align=center] (translationA) { mapping \\ (set by OS) };
+\node[draw, right=1cm of progBAddr,align=center] (translationB) { mapping \\ (set by OS) };
+\node[draw,rectangle split, rectangle split parts=6, anchor=north west,label={north:real memory}] (mem) at ([xshift=1cm]translationA.north east) {
+    \nodepart{one}
+    Program A code 
+    \nodepart{two}
+    Program B code
+    \nodepart{three}
+    Program A data
+    \nodepart{four}
+    Program B data
+    \nodepart{five}
+    OS data
+    \nodepart{six}
+    \ldots
+};
+\draw[-Latex,green,thick] (progAAddr) -- (translationA) (translationA.east) -- (mem.one west);
+\draw[-Latex,green,thick] (translationA.east) -- (mem.three west);
+\draw[-Latex,blue,thick] (progBAddr) -- (translationB) (translationB.east) -- (mem.two west);
+\draw[-Latex,blue,thick] (translationB.east) -- (mem.four west);
+\begin{visibleenv}<2->
+    \node[thick,red,draw,anchor=north west] (error) at ([yshift=-.5cm]mem.south west) {trigger error};
+    \draw[-Latex,green,thick] (translationA.east) -- (error.west);
+    \draw[-Latex,blue,thick] (translationB.east) -- (error.west);
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \draw[-Latex,green,ultra thick,dotted] (translationA.east) -- (mem.five west);
+    \draw[-Latex,blue,ultra thick,dotted] (translationB.east) -- (mem.five west);
+    \draw[-Latex,ultra thick,dotted] ([xshift=-3cm,yshift=-.5cm]translationB.south) -- ([xshift=-2cm,yshift=-.5cm]translationB.south)
+        node[right] {= kernel-mode only};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

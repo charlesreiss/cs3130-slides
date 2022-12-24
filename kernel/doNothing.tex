@@ -1,0 +1,24 @@
+\begin{frame}{an infinite loop}
+\inputminted{C}{../kernel/loop.c}
+\begin{itemize}
+\item If I run this on a shared department machine, can you still use it? \\
+\ldots if the machine only has one core?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{timing nothing}
+\inputminted[firstline=18]{C}{../kernel/timedloop.c}
+\begin{itemize}
+\item same instructions --- \myemph{same difference} each time?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{doing nothing on a busy system}
+    % FIXME: wider versions?
+\includegraphics[width=\textwidth]{../kernel/empty-samples}
+\end{frame}
+
+\begin{frame}{doing nothing on a busy system}
+\includegraphics[width=\textwidth]{../kernel/empty-samples-big-marked}
+\end{frame}
+

@@ -1,0 +1,159 @@
+\usetikzlibrary{arrows.meta,calc,positioning,matrix,patterns}
+
+\begin{frame}<1-2>[label=timeMultiReally]{time multiplexing really}
+\begin{tikzpicture}
+\tikzset{
+    prog1/.style={draw,fill=cyan},
+    prog2/.style={draw,fill=green},
+    prog3/.style={draw,fill=violet!30},
+    proglabel/.style={font=\tt\scriptsize},
+    labelprog1/.style={execute at begin node={\strut loop.exe}},
+    labelprog2/.style={execute at begin node={\strut ssh.exe}},
+    labelprog3/.style={execute at begin node={\strut firefox.exe}},
+}
+
+\begin{scope}[xscale=1.5,yscale=1]
+\foreach \s/\e/\p [count=\x] in {0/2/1,2/3/2,3/5/3,5/6/1,6/7/2}{
+    \coordinate (s-\x) at (\s, 0);
+    \coordinate (e-\x) at (\e, 0);
+    \draw[prog\p] (\s, 0) rectangle (\e, 1) coordinate[midway] (mid-\x);
+    \node[anchor=center,proglabel,labelprog\p] at (mid-\x) {};
+    \begin{pgfonlayer}{fg}
+    \draw[fill=white] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+    \draw[pattern=north west lines] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+   \end{pgfonlayer}
+}
+\end{scope}
+\begin{scope}[xshift=5cm]
+\draw[fill=white,pattern=north west lines] (0, -1) rectangle (1, -2);
+\node[anchor=west] at (1, -1.5) {\strut = operating system};
+\end{scope}
+\begin{visibleenv}<2->
+    \draw[red,very thick,Latex-] ([xshift=-.05cm]e-1) -- (1, -4) node[fill=white,draw] {exception happens};
+    \draw[red,very thick,Latex-] ([xshift=+.05cm]e-1) -- (7, -4) node[fill=white,draw] {return from exception};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{OS and time multiplexing}
+% FIXME: picture showing zoom of timeline
+\begin{itemize}
+\item starts running instead of normal program
+    \begin{itemize}
+    \item mechanism for this: \myemph{exceptions} (later)
+    \end{itemize}
+\item saves old program counter, registers somewhere
+\item sets new registers, jumps to new program counter
+\item called \myemph{context switch}
+    \begin{itemize}
+    \item saved information called \myemph{context}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}<1>[fragile,label=context]{context}
+\begin{itemize}
+\item all registers values
+    \begin{itemize}
+        \item \lstinline|%rax| \lstinline|%rbx|, \ldots, \myemph{\tt \%rsp}, \ldots
+    \end{itemize}
+\item condition codes
+\item program counter
+\item \sout<2->{i.e. all visible state in your CPU except memory}
+\item<2-> \myemph{address space}: map from program to real addresses
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=ctxtSwitchPseudo]{context switch pseudocode}
+\lstset{
+    style=small,
+    language=myasm,
+    morekeywords={copy_preexception_pc},
+}
+\begin{lstlisting}
+context_switch(last, next):
+  copy_preexception_pc last->pc
+  mov rax,last->rax 
+  mov rcx, last->rcx 
+  mov rdx, last->rdx
+  ...
+  mov next->rdx, rdx
+  mov next->rcx, rcx
+  mov next->rax, rax
+  jmp next->pc
+\end{lstlisting}
+\end{frame}
+
+\tikzset{a/.style={fill=blue!30},b/.style={fill=green!30},>=Latex}
+\newsavebox{\aContext}
+\savebox{\aContext}{
+\begin{tikzpicture}
+\matrix[tight matrix,nodes={font=\small\tt,a}] (cpuState) {
+    \%rax \& SF \\
+    \%rbx \& ZF \\
+    \%rcx \& PC \\
+    \ldots \& \ldots \\
+};
+\end{tikzpicture}
+}
+\newsavebox{\bContext}
+\savebox{\bContext}{
+\begin{tikzpicture}
+\matrix[tight matrix,nodes={font=\small\tt,b}] (cpuState) {
+    \%rax \& SF \\
+    \%rbx \& ZF \\
+    \%rcx \& PC \\
+    \ldots \& \ldots \\
+};
+\end{tikzpicture}
+}
+
+
+\begin{frame}{contexts (A running)}
+\begin{tikzpicture}
+\matrix[tight matrix,label={north:in CPU},nodes={font=\small\tt,a}] (cpuState) {
+    \%rax \\
+    \%rbx \\
+    \%rcx \\
+    \%rsp \\
+    \ldots \\
+    SF \\
+    ZF \\
+    PC \\
+};
+
+\matrix[tight matrix,right=3cm of cpuState, nodes={minimum height=2cm,text width=5cm,align=left},label={in Memory}] (memState) {
+    |[a]| {Process A memory: \\ code, stack, etc.} \\
+    |[b]| {Process B memory: \\ code, stack, etc.} \\
+    |[fill=black!10]|{OS memory: \\ \usebox{\bContext} }\\
+};
+\draw[thick,dashed,->] (cpuState-4-1.east) -- (memState-1-1.west);
+\draw[thick,dashed,->] (cpuState-8-1.east) -- (memState-1-1.west);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{contexts (B running)}
+\begin{tikzpicture}
+\tikzset{a/.style={fill=blue!30},b/.style={fill=green!30}}
+\matrix[tight matrix,label={north:in CPU},nodes={font=\small\tt,b}] (cpuState) {
+    \%rax \\
+    \%rbx \\
+    \%rcx \\
+    \%rsp \\
+    \ldots \\
+    SF \\
+    ZF \\
+    PC \\
+};
+\matrix[tight matrix,right=3cm of cpuState, nodes={minimum height=2cm,text width=5cm},label={north:in Memory}]
+    (memState) {
+    |[a]| {Process A memory: \\ code, stack, etc.} \\
+    |[b]| {Process B memory: \\ code, stack, etc.} \\
+    |[fill=black!10]| {OS memory: \\ \usebox{\aContext}} \\
+};
+\draw[thick,dashed,->] (cpuState-4-1.east) -- (memState-2-1.west);
+\draw[thick,dashed,->] (cpuState-8-1.east) -- (memState-2-1.west);
+\end{tikzpicture}
+\end{frame}
+
+

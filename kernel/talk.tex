@@ -31,19 +31,31 @@
 \subsection{system call wrappers}
 \input{../kernel/sysCallWrapperShort}
 
+\section{kernel + standard library}
+
+% FIXME: diagram of kernel + standard library from whatisos
+\input{../kernel/unix-design}
+
 \section{memory protection}
 \againframe<3>{portalShouldnt}
 
-\subsection{example: two programs?}
+\subsubsection{exercise: expected behavior?}
+\input{../kernel/memProtectQ}
 
-% FIXME: 3330 example of two programs
-
-% FIXME: modifying OS code
-
-% FIXME: OS-set memory map idea
+\subsubsection{address spaces}
+\input{../kernel/memProtectAddressSpaces}
 
 \section{infinite loop}
 \againframe<4>{portalShouldnt}
+
+\input{../kernel/doNothing}
+
+\input{../kernel/timeMulti}
+
+\subsection{the context switch}
+    % FIXME: simplify diagram
+    % FIXME: include address space as part of context
+\input{../kernel/contextSwitch}
 
 % FIXME: what happens if I try
 

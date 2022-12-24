@@ -1,0 +1,27 @@
+\usetikzlibrary{positioning,shapes.multipart}
+
+\begin{frame}<1-2>[label=memProtectQ]{memory protection}
+\begin{itemize}
+    \item reading from another program's memory?
+\end{itemize}
+\lstset{language=myasm,style=small,morekeywords={movq,.word}}
+\begin{tabular}{l@{\hspace{.5cm}}|@{\hspace{.5cm}}l}
+Program A & Program B \\ \hline
+\lstinputlisting{../kernel/memprot-ex1.c} & \lstinputlisting{../kernel/memprot-ex2.c} \\ \hline
+~ & ~ \\
+\only<2>{result: {\tt \%rax} (in A) is \ldots} 
+\only<3->{result: {\tt \%rax} (in A) is {\tt 42} (always)} &
+\only<4>{result: {\tt \%rax} (in B) is \ldots} 
+\only<5->{result: \myemph{might crash}} \\
+\end{tabular}
+
+\begin{visibleenv}<2-5>
+\small
+A. 42 \hspace{1cm} B. 99 \hspace{1cm} C. 0x10000  \\
+D. 42 or 99 (depending on timing/program layout/etc) \\
+E. 42 or 99 or program might crash (depending on \ldots) \\
+F. something else \\
+\end{visibleenv}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<3>{memProtectQ}}
