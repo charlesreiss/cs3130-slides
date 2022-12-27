@@ -1,0 +1,73 @@
+\usetikzlibrary{arrows.meta,calc,fit,patterns,positioning,shapes.multipart}
+\begin{frame}{program memory}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{address spaces}
+\begin{itemize}
+\item illuision of \myemph{dedicated memory}
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+}
+\node[align=center] (progAAddr) {Process A \\ addresses};
+\node[below=1cm of progAAddr,align=center] (progBAddr) {Process B \\ addresses};
+\node[draw, right=3cm of progAAddr,align=center] (translationA) { mapping \\ (set by OS) };
+\node[draw, right=3cm of progBAddr,align=center] (translationB) { mapping \\ (set by OS) };
+\node[draw,rectangle split, rectangle split parts=6, anchor=north west,label={north:real memory}] (mem) at ([xshift=3.5cm]translationA.north east) {
+    \nodepart{one}
+    Process A code 
+    \nodepart{two}
+    Process B code
+    \nodepart{three}
+    Process A data
+    \nodepart{four}
+    Process B data
+    \nodepart{five}
+    OS data
+    \nodepart{six}
+    \ldots
+};
+\draw[-Latex,green,thick] (progAAddr) -- (translationA) (translationA.east) -- (mem.one west);
+\draw[-Latex,green,thick] (translationA.east) -- (mem.three west);
+\draw[-Latex,blue,thick] (progBAddr) -- (translationB) (translationB.east) -- (mem.two west);
+\draw[-Latex,blue,thick] (translationB.east) -- (mem.four west);
+\node[thick,draw,anchor=north west] (error) at ([yshift=-.5cm]mem.south west) {trigger exception};
+\draw[-Latex,green,thick] (translationA.east) -- (error.west);
+\draw[-Latex,blue,thick] (translationB.east) -- (error.west);
+\draw[-Latex,green,ultra thick,dotted] (translationA.east) -- (mem.five west);
+\draw[-Latex,blue,ultra thick,dotted] (translationB.east) -- (mem.five west);
+\draw[-Latex,ultra thick,dotted] ([xshift=-3cm,yshift=-.5cm]translationB.south) -- ([xshift=-2cm,yshift=-.5cm]translationB.south)
+    node[right] {= kernel-mode only};
+\begin{visibleenv}<2>
+    \node[fill=red,fill opacity=0.1,draw=red,ultra thick,fit=(translationA) (translationB),label={[red]north:chose one during context switch}] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

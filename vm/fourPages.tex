@@ -1,0 +1,162 @@
+\usetikzlibrary{arrows.meta,calc,fit,matrix,patterns,positioning}
+\begin{frame}{toy program memory}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    addr/.style={font=\fontsize{12}{13}\selectfont\tt},
+}
+\draw[very thick] (0, 0) rectangle (4, 4);
+\foreach \x in {1,2,3} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\node at (2, 0.5) {code};
+\node at (2, 1.5) {data/heap};
+\node at (2, 2.5) {empty/more heap?};
+\node at (2, 3.5) {stack};
+\draw[<-,thick] (0,0.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{00} \myemph<5>{0000 0000} = 0x000};
+\draw[<-,thick] (0,1.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{01} \myemph<5>{0000 0000} = 0x100};
+\draw[<-,thick] (0,2.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{10} \myemph<5>{0000 0000} = 0x200};
+\draw[<-,thick] (0,3.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{11} \myemph<5>{0000 0000} = 0x300};
+\draw[<-,thick] (0,3.95)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{11} \myemph<5>{1111 1111} = 0x3FF};
+\begin{visibleenv}<2->
+\foreach \x/\y in {0/green,1/blue,2/orange,3/yellow} {
+    \fill[\y,opacity=0.10] (0, \x) rectangle ($(0, \x) + (4, 1)$);
+    \node[anchor=west] at ($(0, \x) + (4, 0.5)$) {virtual page\# \myemph<4>{\x}};
+}
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    divide memory into \myemph{pages} ($2^8$ bytes in this case) \\
+    ``virtual'' = addresses the program sees
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    \myemph{page number} is upper bits of address \\
+    (because page size is power of two)
+};
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    rest of address is called \myemph{page offset}
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{toy physical memory}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    addr/.style={font=\small\tt},
+    y=0.8cm,
+}
+\node[anchor=south,align=center]at (2, 4) {program memory \\ \myemph{virtual addresses}};
+\draw[very thick] (0, 0) rectangle (4, 4);
+\foreach \x in {1,2,3} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt}]
+\node[align=left] at (2, 0.5) {00 0000 0000 to \\ 00 1111 1111};
+\node[align=left] at (2, 1.5) {01 0000 0000 to \\ 01 1111 1111};
+\node[align=left] at (2, 2.5) {10 0000 0000 to \\ 10 1111 1111};
+\node[align=left] at (2, 3.5) {11 0000 0000 to \\ 11 1111 1111};
+\end{scope}
+\foreach \x/\y in {0/green,1/blue,2/orange,3/yellow} {
+    \fill[\y,opacity=0.10] (0, \x) rectangle ($(0, \x) + (4, 1)$);
+}
+\begin{scope}[xshift=6cm]
+\node[anchor=south,align=center]at (2, 8) {real memory \\ \myemph{physical addresses}};
+\draw[very thick] (0, 0) rectangle (4, 8);
+\foreach \x in {1,2,3,...,7} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt}]
+\node[align=left] at (2, 0.5) {\myemph<2>{000} 0000 0000 to \\ \myemph<2>{000} 1111 1111};
+\node[align=left] at (2, 1.5) {\myemph<2>{001} 0000 0000 to \\ \myemph<2>{001} 1111 1111};
+\node[align=left] at (2, 7.5) {\myemph<2>{111} 0000 0000 to \\ \myemph<2>{111} 1111 1111};
+\end{scope}
+\begin{visibleenv}<2>
+\node[anchor=west] at (4, 0.5) {physical page 0};
+\node[anchor=west] at (4, 1.5) {physical page 1};
+\node[anchor=west] at (4, 7.5) {physical page 7};
+\end{visibleenv}
+\end{scope}
+\begin{visibleenv}<3->
+\draw[thick,->] (4, 0.5) -- (6, 2.5);
+\draw[thick,->] (4, 1.5) -- (6, 7.5);
+\draw[thick,->] (4, 3.5) -- (6, 0.5);
+\end{visibleenv}
+\begin{visibleenv}<4->
+\matrix[tight matrix,anchor=north,
+    nodes={text width=2cm,minimum height=0.5cm},
+    column 1/.style={nodes={draw=none,font=\tt}},
+    column 2/.style={nodes={draw,thick,font=\tt}},
+    row 1/.style={nodes={draw=none,font=\normalfont}}] (thePt) at (2, 10.0) {
+    virtual page \# \& physical page \# \\
+    00 \& 010 \normalfont (2) \\
+    01 \& 111 \normalfont (7) \\
+    10 \& \normalfont\it none \\
+    11 \& 000 \normalfont (0) \\
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[draw=red,fill=red,fill opacity=0.1,ultra thick,inner sep=0.5mm,fit=(thePt)] {};
+    \node[overlay,red,anchor=south west] at ([xshift=.5cm,yshift=-.25cm]thePt.north east) {page table!};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{toy page table lookup}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.6cm},
+    column 1/.style={nodes={draw=none,font=\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
+    column 3/.style={nodes={draw,thick,font=\tt, text width=3.5cm}},
+    column 4/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
+    column 5/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    ] (pt) at (0, 5) {
+    virtual page \# \& valid? \& physical page \# \& read OK? \& write OK? \\
+    00 \& 1 \& 010 \normalfont (2, code) \& 1 \& 0 \\
+    01 \& 1 \& 111 \normalfont (7, data) \& 1 \& 1 \\
+    10 \& 0 \& ??? \normalfont (ignored) \& 0 \& 0 \\
+    11 \& 1 \& 000 \normalfont (0, stack) \& 1 \& 1 \\
+};
+\begin{visibleenv}<all:2->
+\node[draw,fill=blue!10,alt=<all:4>{draw=red,fill=red!10,ultra thick}] (addrLeft) at (-1, 6.0) {\tt 01};
+    \node[anchor=west,fill=green!10,alt=<all:6>{draw=red,fill=red!10,ultra thick}] (addrRest) at (addrLeft.east) {\tt 1101 0010 \normalfont};
+\node[anchor=west] (addrDesc) at (addrRest.east) {--- address from CPU};
+    \draw[->,very thick,draw=blue!50!black] (addrLeft.south) |- ([xshift=4ex]pt-3-1.west);
+    \draw[->,thick] (pt-5-2.south) |- ++(-1cm,-1.5cm) -- ++(0cm,-.5cm) node[below] {trigger exception if 0?};
+\draw[->,very thick,draw=blue!50!black] ([xshift=3ex]pt-5-3.south west) |- ++(2cm,-1cm)
+    node[right,fill=blue!10,alt=<all:5>{draw=red,fill=red!10,ultra thick}] (newAddrLeft) {\tt 111};
+    \node[anchor=west,fill=green!10,alt=<all:6>{draw=red,fill=red!10,ultra thick}] (newAddrRight) at (newAddrLeft.east) {\tt 1101 0010};
+\draw[->,very thick,draw=green!50!black] (addrRest) |- ([xshift=1cm,yshift=.5cm]pt-1-3.north east) -| (newAddrRight);
+    \node[inner sep=0mm,draw=black,thin,fit=(newAddrLeft) (newAddrRight)] (newAddrBox) {};
+    \draw[->,very thick] (newAddrBox.south) -- ++(0cm,-.5cm) node[below] {to cache (data or instruction)};
+\end{visibleenv}
+\begin{visibleenv}<all:2>
+\node[inner sep=0mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\end{visibleenv}
+\begin{visibleenv}<all:3>
+\node[inner sep=0mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3),fill=red,fill opacity=0.1] {};
+    \node[fill=white,anchor=west,align=center] at (pt-3-3.east) {\myemph{``page}\\ \myemph{table} \\ \myemph{entry''}};
+\end{visibleenv}
+\begin{visibleenv}<all:4>
+    \node[fill=white,anchor=south west,xshift=-1cm,overlay] at (addrLeft.north east) {\myemph{``virtual page number''}};
+\end{visibleenv}
+\begin{visibleenv}<all:5>
+    \node[fill=white, anchor=south west,xshift=-2cm] at (newAddrLeft.north east) {\myemph{``physical page number''}};
+\end{visibleenv}
+\begin{visibleenv}<all:6>
+    \node[fill=white,xshift=-2cm,anchor=south west] at (newAddrRight.north east) {\myemph{``page offset''}};
+    \node[overlay,fill=white,xshift=-2cm,anchor=south west] at (addrRest.north east) {\myemph{``page offset''}};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

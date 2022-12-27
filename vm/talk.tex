@@ -1,0 +1,106 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\section{virtual memory}
+
+\subsection{address spaces}
+
+\input{../vm/recallAddr}  % FIXME: some duplication with memProtect exceptions slides
+
+\subsection{address translation overview}
+
+\input{../vm/translationOverview}
+
+% FIXME: reminder about this and context switches
+
+\subsection{simple paging with four pages}
+\input{../vm/fourPages}
+
+\subsection{switching address spaces}
+\input{../vm/switchAddr}
+
+\subsection{read-only}
+\input{../vm/twoCopiesOfProgram} % FIXME: move?
+
+\subsection{on address space sizes}
+\input{../vm/sizeNotes}
+
+\subsection{exercise: address splitting}
+\input{../vm/ptSizeEx}
+
+\subsection{page table in memory}
+\input{../vm/ptInMemory}
+
+\subsection{exercise warmup}
+\input{../vm/transEx} % FIXME: should be earlier?
+
+\subsection{exercise: page table in memory}
+\input{../vm/multiSplitExPt1}
+\subsection{exercise (alt): page table in memory}
+\input{../vm/multiSplitExPt1b}
+
+\section{handling big page tables}
+\subsection{the problem}
+\input{../vm/ptSize64A}
+
+\subsection{general options}
+\input{../vm/bigPageOptions}
+
+\subsection{two-level page tables}
+\input{../vm/twoLevelPT}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{more than two levels}
+\input{../vm/multiLevelGen}
+
+\subsection{assignment preview}
+% FIXME:assignment preview slides
+
+\subsection{exercises: multi-level lookup}
+% FIXME: \subsubsection{part 0}
+% FIXME: \input{../vm/multiSplitExPt0}
+\subsubsection{part 2}
+\input{../vm/multiSplitExPt2}
+\subsubsection{part 3}
+\input{../vm/multiSplitExPt3}
+\input{../vm/multiSplitExPt3b}
+\subsubsection{part 4}
+\input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+
+\section{page table tricks}
+
+\subsection{space on demand}
+\input{../vm/spaceOnDemand}
+
+\subsection{swapping}
+\input{../vm/swapping}
+
+\input{../vm/swapTimeline}
+
+\subsection{general page table tricks}
+\input{../vm/generalPtTrick}
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{mmap}
+\input{../vm/mmap}
+
+\subsubsection{copy-on-write?} % FIXME: consider skipping
+\input{../vm/copyOnWrite}
+
+
+\end{document}

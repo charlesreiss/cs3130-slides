@@ -1,0 +1,383 @@
+\iftoggle{heldback}{\newcommand<>{\maybeEmph}[1]{#1}}{\newcommand<>{\maybeEmph}[1]{\myemph#2{#1}}}
+\usetikzlibrary{matrix}
+
+\begin{frame}{splitting addresses for levels}
+\begin{itemize}
+\item x86-32
+\item 32-bit physical address; 32-bit virtual address
+\item $2^{12}$ byte page size 
+\begin{itemize}\item<2->\iftoggle{heldback}{}{\textit{12-bit page offset}}\end{itemize}
+\item 2-levels of page tables; each page table is one page
+\item 4 byte page table entries
+\begin{itemize}\item<3->\iftoggle{heldback}{}{\textit{$2^{12}/4 = 2^{10}$ PTEs/page table; 10-bit VPN parts}}\end{itemize}
+\vspace{.5cm}
+\item how is address {\tt 0x12345678} split up?
+\begin{itemize}
+\item \iftoggle{heldback}{}{\only<4->{10-bit VPN part 1: {\tt 0001 0010 00 (0x48)}; \\ 10-bit VPN part 2: {\tt 11 0100 0101 (0x345)}; \\ 12-bit page offset: {\tt 0x678}}}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{1-level example}
+\begin{itemize}
+\item 6-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 other bits;
+\item page table base register {\tt 0x20}; translate virtual address {\tt 0x30}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 \maybeEmph<2>{D6} D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& \maybeEmph<3>{BA} 0A BA 0A \\
+    0x34-7 \& CB 0B CB 0B \\
+    0x38-B \& DC 0C DC 0C \\
+    0x3C-F \& EC 0C EC 0C \\
+};
+%\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left] {
+    {\tt 0x30} = {\tt \myemph<2>{11 0}\myemph<4>{000}} \\
+    \textit{PTE addr:} \\
+    \texttt{0x20} + 6 \times 1 = {\tt \myemph<2>{0x26}} \\
+    \textit{PTE value:} \\
+    {\tt \myemph<2>{0xD6}} = {\tt \myemph<3>{110}1 0110} \\
+    PPN {\tt \myemph<3>{110}}, valid {\tt 1} \\
+    M[{\tt \myemph<3>{110} \myemph<4>{000}}] = \textbf{M[\tt{0x30}]} $\rightarrow$ {\tt 0xBA}
+};
+\end{visibleenv}
+%}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{2-level example}
+\begin{itemize}
+\item {}\myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+\item page table base register {\tt 0x20}; translate virtual address {\tt 0x131}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& \maybeEmph<2>{D4} D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA \maybeEmph<6>{0A} BA 0A \\
+    0x34-7 \& DB 0B \maybeEmph<3>{DB} 0B \\
+    0x38-B \& EC 0C EC 0C \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+    {\tt 0x131} = {\tt \myemph<2>{1 00}\myemph<3>{11 0}\myemph<5>{001}} \\
+    \texttt{0x20} + 4 \times 1 = {\tt 0x24} \\
+    \textit{PTE 1 value:} \\
+    {\tt 0xD4} = {\tt 1101 0100} \\
+    PPN {\tt 110}, valid {\tt 1} \\
+    \only<3->{\textit{PTE 2 addr:}} \\
+    \only<3->{\texttt{110 000} +  \texttt{110} = {\tt 0x36}}\\
+    \only<3->{\textit{PTE 2 value:} {\tt 0xDB}} \\
+    \only<4->{PPN {\tt \myemph<4>{110}}; valid {\tt 1}} \\
+    \only<4->{M[\texttt{\myemph<4>{110} \myemph<5>{001}} (\texttt{0x31})] = \texttt{0x0A}}
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{2-level splitting}
+    \begin{itemize}
+    \item 9-bit virtual address 
+    \item 6-bit physical address
+    \vspace{.5cm}
+    \item 8-byte pages $\rightarrow$ 3-bit page offset (bottom bits)
+    \item 9-bit VA: 6 bit VPN + 3 bit PO
+    \item 6-bit PA: 3 bit PPN + 3 bit PO
+    \vspace{.5cm}
+    \item 8 entry page tables $\rightarrow$ 3-bit VPN parts
+    \item 9-bit VA: 3 bit VPN part 1; 3 bit VPN part 2
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{pages and page table base pointer}
+    \begin{itemize}
+    \item page table base pointer --- only for first-level lookup
+        \begin{itemize}
+        \item zeroth page table entry
+        \end{itemize}
+    \item 1st-level page table entry contains physical page number
+    \item multiply page number by page size to get byte address of page
+    \begin{itemize}
+        \item (then same process as using page table base pointer)
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{2-level exercise (1)}
+\begin{itemize}
+\item \myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;
+\item page table base register {\tt 0x08}; translate virtual address {\tt 0x0FB}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA \maybeEmph<3>{BB} \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE \maybeEmph<4>{EF} F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
+    0x38-B \& EC 0C EC \maybeEmph<5>{0C} \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+{\tt 0x0F3} = {\tt 011 111 \myemph<5>{011}} \\
+\textit{PTE 1:} \myemph<3>{\tt 0xBB} at {\tt 0x0B} \\
+\textit{PTE 1:} PPN {\tt 101} (5) valid {\tt 1} \\
+\textit{PTE 2:} \myemph<4>{\tt 0xF0} at {\tt 0x2F} \\
+\textit{PTE 2:} PPN {\tt 111} (7) valid {\tt 1} \\
+{\tt 111 \myemph<5>{011}} = {\tt 0x3B} $\rightarrow$ {\tt 0x0C}
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{2-level exercise (2)}
+\begin{itemize}
+\item \myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+\item page table base register {\tt 0x08}; translate virtual address {\tt 0x00B}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& \maybeEmph<3>{88} 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
+    0x38-B \& EC 0C EC 0C \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+{\tt 0x0F3} = {\tt 000 001 011} \\
+PTE 1: \myemph<3>{\tt 0x88} at {\tt 0x08} \\
+PTE 1: PPN {\tt 100} (5) valid {\tt 0} \\
+page fault!
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{2-level exercise (3)}
+\begin{itemize}
+\item \myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+\item page table base register {\tt 0x08}; translate virtual address {\tt 0x1CB}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
+    0x38-B \& EC 0C EC 0C \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+{\tt 0x1CB} = {\tt 111 001 011} \\
+PTE 1: \myemph<3>{\tt 0xFF} at {\tt 0x0F} \\
+PTE 1: PPN {\tt 111} (7) valid {\tt 1} \\
+PTE 2: \myemph<4>{\tt 0x0C} at {\tt 0x39} \\
+PTE 2: PPN {\tt 000} (0) valid {\tt 0} \\
+page fault!
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{2-level exercise (4)}
+\begin{itemize}
+\item \myemph<1>{10-bit} virtual addresses, 6-bit physical; 16 byte pages, 2 byte PTE
+\item page tables 1 page; PTE: 2 bit PPN (MSB of first byte), 1 valid bit, rest unused
+\item page table base register {\tt 0x10}; translate virtual address {\tt 0x376}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& \maybeEmph<4>{AC BC} DC EC \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 E1 D2 D3 \\
+    0x24-7 \& D4 E5 D6 E7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE \maybeEmph<6>{EF F0} \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& DB 0B \maybeEmph<8>{DB} 0B \\
+    0x38-B \& EC 0C EC 0C \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+{\tt 0x376} = {\tt \myemph<3>{110} \myemph<5>{111} \myemph<7>{0110}} \\
+PTE 1: 0x10 + \myemph<3>{$6 \times 2$} = {\tt 0x1C}: \\
+\myemph<4>{\tt AC BC} \\
+PTE 1: PPN {\tt 10} valid {\tt 1} \\
+PTE 2: 0x20 + \myemph<5>{$7 \times 2$} = {\tt 0x2E}:\\
+\myemph<6>{\tt EF F0} \\
+PTE 2: PPN {\tt 11} valid {\tt 1} \\
+{\tt 11 \myemph<7>{0110}} = {\tt 0x36} $\rightarrow$ \myemph<8>{\tt DB}
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}{memory HW}
+\begin{itemize}
+\item very similar exericses
+\end{itemize}
+\end{frame}

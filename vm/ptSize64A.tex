@@ -1,0 +1,24 @@
+\usetikzlibrary{shapes.callouts}
+
+\begin{frame}[fragile,label=64bExA]{exercise: 64-bit system}
+\begin{itemize}
+\item my desktop: 39-bit physical addresses; \myemph<2>{48-bit\tikzmark{virtAddr} virtual addresses}
+\item 4096 byte pages
+\item<3-> exercise: how many page table entries? (assuming page table like shown before)
+    \only<4->{\iftoggle{heldback}{}{$2^{48} / 2^{12} = 2^{36}$ entries}}
+\item<3-> exercise: how large are physical page numbers?
+    \only<4->{\iftoggle{heldback}{}{$39 - 12 = 27$ bits}}
+\item<5-> page table entries are \myemph{8 bytes} (room for expansion, metadata)
+    \begin{itemize}
+    \item trick: power of two size makes table lookup faster
+    \end{itemize}
+\item<5-> would take up $2^{39}$ bytes?? (512GB??)
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[my callout=virtAddr,align=center] at ([yshift=-1cm,xshift=-8cm]pic cs:virtAddr) {
+    top 16 bits of 64-bit addresses not used for translation
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

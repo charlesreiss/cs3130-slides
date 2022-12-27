@@ -1,0 +1,257 @@
+\usetikzlibrary{arrows.meta,matrix,shapes.misc,calc,fit,positioning}
+
+% FIXME: with VPN ranges labelled?
+\begin{frame}<all:1-8>[fragile,label=twoLevelPT]{two-level page tables}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    ptr/.style={->,very thick},
+    ptNode/.style={minimum height=.5cm,text width=4.5cm,thick},
+    ptNodeW/.style={minimum height=.5cm,text width=5.5cm,thick},
+    firstLevel/.style={blue!40!black},
+    secondLevel/.style={green!40!black},
+}
+\matrix[tight matrix,firstLevel,
+    nodes={ptNodeW},
+    label={north:first-level page table},
+    ] (first) {
+        for VPN 0x0-0xFF  \\
+        for VPN 0x100-0x1FF \\
+        for VPN 0x200-0x2FF \\
+        for VPN 0x300-0x300 \\
+        |[draw=none,align=center]| \ldots \\
+        for VPN 0xFF00-0xFFFF \\
+    };
+\node[anchor=north west] at ([yshift=3.5cm]first.north west) {
+two-level page tables for 65536 pages (16-bit VPN; 256 entries/table)
+};
+\matrix[tight matrix,anchor=north west,secondLevel,
+nodes={ptNode},
+label={north:second-level page tables},
+] (secondOne) at ([xshift=1cm,yshift=2cm]first.north east) {
+    PTE for VPN 0x00 \\
+    PTE for VPN 0x01 \\
+    PTE for VPN 0x02 \\
+    PTE for VPN 0x03 \\
+    |[draw=none,align=center]| \ldots \\
+    PTE for VPN 0xFF \\
+};
+\draw[ptr] ([xshift=-.5cm]first-1-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]first-1-1.east) -- (secondOne-1-1.west);
+\draw[ptr] ([xshift=-.5cm]secondOne-1-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]secondOne-1-1.east) -- ++(1cm,0cm) node[right,align=left] {actual data for page \\ (if PTE valid)};
+\matrix[tight matrix,anchor=north west,secondLevel,
+nodes={ptNode},
+] (secondTwo) at ([xshift=1.5cm,yshift=-1.5cm]first.north east) {
+    PTE for VPN 0x300 \\
+    PTE for VPN 0x301 \\
+    PTE for VPN 0x302\\
+    PTE for VPN 0x303 \\
+    |[draw=none,align=center]| \ldots \\
+    PTE for VPN 0x3FF \\
+};
+\draw[ptr] ([xshift=-.5cm]first-4-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]first-4-1.east) -- (secondTwo-1-1.west);
+\begin{visibleenv}<all:2->
+\foreach \x in {2,3} {
+\draw[thick,red] ([xshift=-.5cm]first-\x-1.east) node[draw=red,cross out,minimum width=.25cm,minimum height=.25cm] {};
+}
+\end{visibleenv}
+\begin{visibleenv}<all:2>
+    \node[draw=red,ultra thick,inner sep=0mm,fit=(first-2-1) (first-3-1),label={[draw=red,ultra thick,label distance=2mm,fill=white]east:invalid entries represent big holes}] {};
+\end{visibleenv}
+\begin{pgfonlayer}{fg}
+\begin{visibleenv}<all:3-5>
+\matrix[tight matrix,anchor=north west,firstLevel,
+    nodes={minimum height=.55cm},
+    label={[alias=firstZoomLabel,font=\bfseries]north:first-level page table},
+    column 1/.style={nodes={draw=none,font=\tt,text width=4cm}},
+    column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 4/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 5/.style={nodes={text width=3.6cm,font=\tt,align=left,
+        alt=<all:4>{red}}},
+    row 1/.style={nodes={font=\normalfont,draw=none,black}},
+] (firstZoom) at ([xshift=-2cm,yshift=2cm]first.north east) {
+    VPN range \& valid \& kernel \& write \& physical page \# \small (of \myemph<all:4>{next page table}) \\
+    0x\myemph<all:5>{00}00-0x\myemph<all:5>{00}FF \& 1 \& 0 \& 1 \& 0x22343 \\
+    0x\myemph<all:5>{01}00-0x\myemph<all:5>{01}FF \& 0 \& 0 \& 1 \& 0x00000 \\
+    0x\myemph<all:5>{02}00-0x\myemph<all:5>{02}FF \& 0 \& 0 \& 0 \& 0x00000 \\
+    0x\myemph<all:5>{03}00-0x\myemph<all:5>{03}FF \& 1 \& 1 \& 0 \& 0x33454 \\
+    0x\myemph<all:5>{04}00-0x\myemph<all:5>{04}FF \& 1 \& 1 \& 0 \& 0xFF043 \\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \\
+    0x\myemph<all:5>{FF}00-0x\myemph<all:5>{FF}FF \& 1 \& 1 \& 0 \& 0xFF045 \\
+} ;
+\end{visibleenv}
+
+\begin{visibleenv}<all:6-7>
+\matrix[tight matrix,anchor=north west,secondLevel,
+    nodes={minimum height=.55cm},
+    label={[alias=secondZoomLabel,font=\bfseries]north:a second-level page table},
+    column 1/.style={nodes={draw=none,font=\tt,text width=1.7cm}},
+    column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 4/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 5/.style={nodes={text width=3.6cm,font=\tt,align=left,
+        alt=<all:4>{red}}},
+    row 1/.style={nodes={font=\normalfont,draw=none,black}},
+] (secondZoom) at ([xshift=.5cm,yshift=2cm]first.north east) {
+    VPN \& valid \& kernel \& write \& physical page \# \small (of data) \\
+    0x3\myemph<all:7>{00} \& 1 \& 1 \& 0 \& 0x42443 \\
+    0x3\myemph<all:7>{01} \& 1 \& 1 \& 0 \& 0x4A9DE \\
+    0x3\myemph<all:7>{02} \& 1 \& 1 \& 0 \& 0x5C001 \\
+    0x3\myemph<all:7>{03} \& 0 \& 0 \& 0 \& 0x00000 \\
+    0x3\myemph<all:7>{04} \& 1 \& 1 \& 0 \& 0x6C223 \\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \\
+    0x3\myemph<all:7>{FF} \& 0 \& 0 \& 0 \& 0x00000 \\
+} ;
+\end{visibleenv}
+\end{pgfonlayer}
+
+\begin{visibleenv}<all:3-5>
+\node[draw,fit=(firstZoom) (firstZoomLabel),fill=white] (firstZoomBox) {};
+    \draw[ultra thick,dotted] (first.north west) -- (firstZoomBox.north west);
+    \draw[ultra thick,dotted] (first-6-1.south west) -- (firstZoomBox.south west);
+    %\draw[ultra thick,dotted] (first-4-1.south east) -- (firstZoomBox.south east);
+\end{visibleenv}
+
+\begin{visibleenv}<all:6-7>
+\node[draw,fit=(secondZoom) (secondZoomLabel),fill=white] (secondZoomBox) {};
+    %\draw[ultra thick,dotted] (secondTwo.north west) -- (secondZoomBox.north west);
+    %\draw[ultra thick,dotted] (secondTwo.north east) -- (secondZoomBox.north east);
+    \draw[ultra thick,dotted] (secondTwo.south west) -- (secondZoomBox.south west);
+    \draw[ultra thick,dotted] (secondTwo.south east) -- (secondZoomBox.south east);
+\end{visibleenv}
+
+
+
+% FIXME: emphasize same format --- difference: is it the final location
+% FIXME: highlight part used to identify row
+% FIXME: highlight valid, permission bits
+% FIXME: highlight physical page \# of next --- usually not address
+
+% FIXME: show address splitting examples
+% FIXME: color code for each page table
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{two-level page table lookup}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    pageNumber/.style={fill=blue!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageNumberA/.style={fill=violet!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageNumberB/.style={fill=brown!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageOffset/.style={fill=green!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    comp/.style={fill=yellow!10,font=\fontsize{11}{12}\selectfont,draw},
+    memAccess/.style={alt=<all:7>{red, very thick}},
+    pageNumberExpand/.style={alt=<all:11>{draw=red,very thick}},
+    smallLabel/.style={fill=white,draw,thick,font=\fontsize{10}{11}\selectfont,inner sep=.5mm,align=center},
+}
+\node[pageNumberA] (addrLeftA) {11 0101 01};
+\node[pageNumberB,anchor=west] (addrLeftB) at (addrLeftA.east) {00 1011 00};
+\node[anchor=west,pageOffset] (addrRight) at (addrLeftB.east) {00 1101 1111};
+\node[inner sep=0mm,draw=none,fit=(addrLeftA) (addrLeftB),alt=<1>{draw=red,very thick}] (addrLeft) {};
+\begin{visibleenv}<all:1>
+\node[below=1cm of addrLeft,xshift=2cm] (vpn split explain) {VPN --- split into two parts (one per level)};
+\node[below=1cm of vpn split explain,font=\small] {
+    this example: parts equal sized --- common, but not required
+};
+\end{visibleenv}
+\begin{visibleenv}<all:2->
+\node[draw,comp,below=1cm of addrLeftA,align=center,xshift=-1cm] (timesPte) {$\times$ \\ PTE \\ size};
+\draw[->,thick] (addrLeftA) -- ++(0cm,-.5cm) -| (timesPte);
+\node[font=\tt\fontsize{10}{11}\selectfont,draw,very thick,left=0.25cm of addrLeft,label={[align=center,font=\small]north:page table\\base register}] (ptbr) {0x10000};
+\node[draw,comp] (plus) at ([yshift=-1cm]timesPte.south) {+};
+\draw[->,thick] (timesPte) -- (plus);
+\draw[->,thick] (ptbr) |- (plus);
+\end{visibleenv}
+
+\begin{visibleenv}<all:3->
+\node[below=1.5cm of plus,fill=violet!10,draw,very thick,minimum height=1cm,minimum width=15cm,xshift=5.5cm] (cache) {data or instruction cache};
+\end{visibleenv}
+\begin{visibleenv}<all:5->
+\node[pageNumber] (addrLeftFinal) at ([xshift=9.8cm,yshift=-1cm]plus) {1101 0011 11};
+\end{visibleenv}
+\begin{visibleenv}<all:3->
+\draw[->,thick,memAccess] (plus) -- (cache.north -| plus.south) node[midway,smallLabel] {1st PTE \\ addr.};
+\node[above right=1cm and .5cm of plus,align=center,draw,comp,font=\small] (check) {valid, etc?};
+\node[below=.75cm of check,draw,comp,align=center] (splitA) {split  \\ PTE parts};
+\draw[->,thick] (cache.north -| splitA.south) -- (splitA.south);
+\draw[->,thick] (splitA) -- (check);
+\draw[->,thick] (check.north) -- ++(0,.75cm) node[above,font=\small,inner sep=.5mm] {cause fault?};
+\end{visibleenv}
+
+\begin{visibleenv}<all:4->
+    \node[comp,align=center,right=.75cm of splitA,pageNumberExpand] (timesSize){$\times$ \\ page \\ size};
+    \node[comp,align=center,right=1.25cm of timesSize] (plusB) {+};
+    \draw[brown!60!black,->,thick,pageNumberExpand] (splitA) -- (timesSize);
+    \draw[dotted,black,thick] ($(splitA.east)!0.5!(timesSize.west)$) -- ++ (0cm, .5cm) node[above,font=\fontsize{10}{11}\selectfont,align=center] {phys\\page \#};
+    \draw[brown!60!black,->,thick,pageNumberExpand] (timesSize) -- (plusB);
+    \draw[dotted,black,thick] ($(plusB.east)!0.5!(timesSize.west)$) -- ++ (0cm, .5cm) node[above,font=\fontsize{10}{11}\selectfont,align=center] {phys\\addr};
+    \draw[memAccess,->,thick] (plusB) -- (plusB |- cache.north) node[midway,smallLabel]{2nd PTE \\ addr.};
+    \node[comp,align=center,above=.5cm of plusB] (timesPteB) {$\times$ \\ PTE \\ size};
+    \draw[brown!60!black,->,thick] (addrLeftB) -- ++(0cm,-.5cm) -| (timesPteB.north);
+    \draw[brown!60!black,->,thick] (timesPteB) -- (plusB);
+\end{visibleenv}
+
+\begin{visibleenv}<all:5->
+\node[right=.5cm of plusB,draw,comp,align=center] (splitB) {split  \\ PTE parts};
+\draw[->,thick] (cache.north -| splitB.south) -- (splitB.south);
+\node[above=.75cm of splitB,align=center,draw,comp,font=\small] (checkB) {valid, etc?};
+\draw[->,thick] (splitB) -- (checkB);
+\draw[->,thick] (checkB.north) -- ++(0cm, .75cm) node[above,font=\small,inner sep=.5mm] {cause fault?};
+\draw[blue!50!black,->,thick] (splitB) -| (addrLeftFinal);
+\end{visibleenv}
+
+\begin{visibleenv}<all:6->
+\node[anchor=west,pageOffset] (addrRightFinal) at (addrLeftFinal.east) {00 1101 1111};
+%\draw[very thick,green!50!black,densely dotted] (addrRight) |- ([xshift=-.5mm,yshift=.5cm]splitA.north);
+\draw[very thick,green!50!black,densely dotted,->] (addrRight) -| (addrRightFinal.north);
+\end{visibleenv}
+\begin{visibleenv}<all:3->
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]south:physical address},fit=(addrLeftFinal) (addrRightFinal)] (addrFinal) {};
+\end{visibleenv}
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]north:virtual address},fit=(addrLeft) (addrRight)] (addr) {};
+\begin{visibleenv}<all:5->
+    \draw[->,thick,memAccess] (addrFinal) -- (cache.north -| addrFinal.south);
+\end{visibleenv}
+
+\begin{pgfonlayer}{bg}
+\begin{visibleenv}<all:8,10>
+    \node [fill=violet!5,fit=(timesPte) (splitA),draw,line width=0.125mm,dashed] (firstBox) {};
+\end{visibleenv}
+\begin{visibleenv}<all:9,10>
+    \node [fill=brown!5,fit=(timesPteB) (splitB),draw,line width=0.125mm,dashed] (secondBox) {};
+\end{visibleenv}
+
+\begin{visibleenv}<all:12>
+    \node [fill=black!5,fit=(timesPte) (splitA) (timesPteB) (splitB),draw,line width=0.5mm,dashed,label={south:MMU}] (mmu) {};
+\end{visibleenv}
+\end{pgfonlayer}
+ 
+\begin{visibleenv}<all:8> 
+\node [fill=white,fill opacity=0.9,anchor=north] at (firstBox.south) {first-level page table lookup};
+\end{visibleenv}
+
+\begin{visibleenv}<all:9> 
+\node [fill=white,fill opacity=0.9,anchor=north] at (secondBox.south) {second-level page table lookup};
+\end{visibleenv}
+ 
+\begin{visibleenv}<all:10> 
+\node [fill=white,fill opacity=0.9,anchor=north] at (firstBox.south) {first-level};
+\end{visibleenv}
+
+\begin{visibleenv}<all:10> 
+\node [fill=white,fill opacity=0.9,anchor=north] at (secondBox.south) {second-level};
+\end{visibleenv}
+
+\begin{visibleenv}<all:11>
+\node[fill=white,fill opacity=0.9,anchor=south,align=center] at (timesSize.north) {
+    have physical page number \\
+    need address of first byte of page 
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

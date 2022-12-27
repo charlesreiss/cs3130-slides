@@ -1,0 +1,35 @@
+\begin{frame}{multi-level page tables}
+    \begin{itemize}
+    \item VPN split into pieces for each level of page table
+    \vspace{.5cm}
+    \item top levels: page table entries point to next page table
+        \begin{itemize}
+        \item usually using physical page number of next page table
+        \end{itemize}
+    \item bottom level: page table entry points to destination page
+    \vspace{.5cm}
+    \item validity and permission checks at \myemph{each level}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{x86-64 page table splitting}
+    \begin{itemize}
+    \item 48-bit virtual address
+    \item 12-bit page offset (4KB pages)
+    \item 36-bit virtual page number, split into four 9-bit parts
+    \item page tables at each level: $2^9$ entries, 8 bytes/entry
+        \begin{itemize}
+        \item deliberate choice: each page table is one page
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{note on VPN splitting}
+    \begin{itemize}
+    \item textbook labels it `VPN 1' and `VPN 2' and so on
+    \item these are \myemph{parts of the virtual page number}
+        \begin{itemize}
+        \item (there are not multiple VPNs)
+        \end{itemize}
+    \end{itemize}
+\end{frame}

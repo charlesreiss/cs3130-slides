@@ -1,0 +1,29 @@
+\begin{frame}{on virtual address sizes}
+    \begin{itemize}
+    \item virtual address size = size of pointer?
+    \vspace{.5cm}
+    \item often, but --- sometimes part of pointer not used
+    \item example: typical x86-64 only use 48 bits
+        \begin{itemize}
+        \item rest of bits have fixed value
+        \end{itemize}
+    \item virtual address size is amount used for mapping
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{address space sizes}
+\begin{itemize}
+    \item amount of stuff that can be addressed = address space size
+        \begin{itemize}
+        \item based on number of unique addresses
+        \end{itemize}
+    \item e.g. 32-bit virtual address = $2^{32}$ byte virtual address space
+    \item e.g. 20-bit physical addresss = $2^{20}$ byte physical address space
+    \vspace{.5cm}
+    \item<2-> what if my machine has 3GB of memory (not power of two)?
+        \begin{itemize}
+        \item not all addresses in physical address space are useful
+        \item most common situation (since CPUs support having a lot of memory)
+        \end{itemize}
+\end{itemize}
+\end{frame}

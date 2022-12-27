@@ -1,0 +1,87 @@
+\usetikzlibrary{calc,patterns,positioning}
+
+\begin{frame}[label=progMem]{emacs (two copies)}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=7cm,fill=white,inner sep=1mm},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\begin{scope}[name prefix=A-]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[above=0cm of kernel] {Emacs (run by user mst3k)};
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {emacs.exe (Code + Constants)};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{scope}
+
+\begin{scope}[name prefix=B-,xshift=8cm]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[above=0cm of kernel] {Emacs (run by user xyz4w)};
+\node[mybox, minimum height=.6cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=1.4cm, below=.3cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {emacs.exe (Code + Constants)};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{scope}
+
+\begin{visibleenv}<2->
+\node[draw,red,ultra thick,inner sep=0.2mm,fit=(A-sdata) (B-sdata),label={[fill=white,fill opacity=0.8]south:\bf same data?}] {};  
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{two copies of program}
+\begin{itemize}
+\item would like to only have one copy of program
+\vspace{.5cm}
+\item what if {\tt mst3k}'s emacs tries to modify its code?
+\item would break process abstraction:
+    \begin{itemize}
+        \item ``illusion of own memory''
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{typical page table entries}
+\begin{itemize}
+\item solution: same idea as kernel-only bit
+\item page table entry will have more \myemph{permissions bits}
+\begin{itemize}
+\item can read?
+\item can write?
+\item can execute?
+\end{itemize}
+\item checked by MMU like valid/kernel bit
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+        nodes={text width=2.3cm,minimum height=0.3cm,font=\fontsize{10}{11}\selectfont\tt,black!80},
+        column 1/.style={nodes={draw=none,align=right}},
+        column 2/.style={nodes={draw,thick,text width=1.2cm,align=center}},
+        column 3/.style={nodes={draw,thick,text width=1.2cm,align=center}},
+        column 4/.style={nodes={draw,thick,text width=1.2cm,align=center}},
+        column 5/.style={nodes={draw,thick,text width=1.2cm,align=center}},
+        column 6/.style={nodes={draw,thick,text width=2.7cm}},
+        row 1/.style={nodes={draw=none,font=\fontsize{10}{11}\selectfont\normalfont}},
+        label={above:page table (logically)},
+    ] (pt) at (0, 0) {
+    virtual page \# \& valid? \& kernel? \& write? \& exec? \& physical page \# \\
+    0000 0000 \& 0 \& 0 \& 0 \& 0 \& 00 0000 0000 \\
+    0000 0001 \& 1 \& 0 \& 1 \& 0 \& 10 0010 0110\\
+    0000 0010 \& 1 \& 0 \& 1 \& 0 \& 00 0000 1100 \\
+    0000 0011 \& 1 \& 0 \& 0 \& 1 \& 11 0000 0011 \\
+    \ldots \\
+    1111 1111 \& 1 \& 0 \& 1 \& 0 \& 00 1110 1000 \\
+};
+\end{tikzpicture}
+\end{frame}

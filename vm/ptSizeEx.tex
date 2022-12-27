@@ -1,0 +1,32 @@
+\begin{frame}{exercise: page counting}
+    \begin{itemize}
+        \item suppose 32-bit virtual (program) addresses
+        \item and each page is 4096 bytes ($2^{12}$ bytes)
+            \vspace{.5cm}
+        \item how many virtual pages?
+        \item<2-> \iftoggle{heldback}{}{$2^{32} / 2^{12} = 2^{20}$}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{exercise: page table size}
+    \begin{itemize}
+        \item suppose 32-bit virtual (program) addresses
+        \item suppose 30-bit physical (hardware) addresses
+        \item each page is 4096 bytes ($2^{12}$ bytes)
+        \item pgae table entries have physical page \#, valid bit, kernel-mode bit
+            \vspace{.5cm}
+        \item how big is the page table (if laid out like ones we've seen)? 
+        \item<2-> \iftoggle{heldback}{}{$2^{20}$ entries $\times (18 + 2)$ bits per entry}
+            \begin{itemize}
+            \item issue: where can we store that?
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{exercise: address splitting}
+    \begin{itemize}
+    \item and each page is 4096 bytes ($2^{12}$ bytes)
+    \item split the address {\tt 0x12345678} into page number and page offset:
+    \item<2-> \iftoggle{heldback}{}{page \#: {\tt0x12345}; offset: {\tt 0x678}}
+    \end{itemize}
+\end{frame}

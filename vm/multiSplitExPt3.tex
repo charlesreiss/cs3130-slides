@@ -1,0 +1,57 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}{2-level exercise (1)}
+\begin{itemize}
+\item \myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+\item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;
+\item page table base register {\tt 0x08}; translate virtual address {\tt 0x0FB}
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA \maybeEmph<3>{BB} \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE \maybeEmph<4>{EF} F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
+    0x38-B \& EC 0C EC \maybeEmph<5>{0C} \\
+    0x3C-F \& FC 0C FC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+{\tt 0x0F3} = {\tt 011 111 \myemph<5>{011}} \\
+(PTE 1 addr: {\tt 0x08} + \\
+PTE size times 011 (3)) \\
+\textit{PTE 1:} \myemph<3>{\tt 0xBB} at {\tt 0x0B} \\
+\textit{PTE 1:} PPN {\tt 101} (5) valid {\tt 1} \\
+\textit{PTE 2:} \myemph<4>{\tt 0xF0} at {\tt 0x2F} \\
+\textit{PTE 2:} PPN {\tt 111} (7) valid {\tt 1} \\
+{\tt 111 \myemph<5>{011}} = {\tt 0x3B} $\rightarrow$ {\tt 0x0C}
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}

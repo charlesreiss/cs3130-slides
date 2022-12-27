@@ -1,0 +1,118 @@
+\begin{frame}[fragile,label=transExSetup]{exercise setup}
+\begin{itemize}
+\item 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+\end{itemize}
+
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.6cm},
+    column 1/.style={nodes={draw=none,font=\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
+    column 3/.style={nodes={draw,thick,font=\tt, text width=2cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    label={north:page table},
+    ] (pt)  {
+    virtual page \# \& valid? \& physical page \#  \\
+    00 \& 1 \& 010 \\
+    01 \& 1 \& 111 \\
+    10 \& 0 \& 000 \\
+    11 \& 1 \& 000 \\
+};
+
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA) at ([xshift=.25cm]pt.north east) {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& CB 0B CB 0B \\
+    0x38-B \& DC 0C DC 0C \\
+    0x3C-F \& EC 0C EC 0C \\
+};
+\begin{visibleenv}<2->
+    \node[fit=(memA-2-2) (memA-3-2),inner sep=0.25mm,draw=red,ultra thick,label={[fill=white,fill opacity=0.95,text=red]east:phys. page 0}] {};
+    \node[fit=(memA-4-2) (memA-5-2),inner sep=0.25mm,draw=red,ultra thick,label={[fill=white,fill opacity=0.95,text=red]east:phys. page 1}] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile,label=transExAddrs]{exercise}
+\newcommand<>{\exAnswer}[1]{\begingroup\alt#2{\iftoggle{heldback}{}{#1}}{???}\endgroup}
+\newcommand<>{\emphAns}[1]{\iftoggle{heldback}{#1}{\alt#2{\myemph{#1}}{#1}}}
+\begin{itemize}
+\item 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+\item (virtual addresses) \small \myemph<all:2>{\tt 0x18} = \exAnswer<all:2->{\tt 00}; {\tt 0x03} = \exAnswer<all:3->{0x4A}; {\tt 0x0A} = \exAnswer<all:4->{\tt 0xDC}; {\tt 0x13} = \exAnswer<all:5->{fault} 
+\end{itemize}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.6cm},
+    column 1/.style={nodes={draw=none,font=\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
+    column 3/.style={nodes={draw,thick,font=\tt, text width=2cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    label={north:page table},
+    ] (pt)  {
+    virtual page \# \& valid? \& physical page \#  \\
+    00 \& 1 \& \emphAns<all:3>{010} \\
+    01 \& 1 \& \emphAns<all:4>{111}\\
+    10 \& \emphAns<all:5>{0} \& 000\\
+    11 \& 1 \& \emphAns<all:2>{000}\\
+};
+
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA) at ([xshift=.25cm]pt.north east) {
+    physical addresses \& bytes \\
+    0x00-3 \& \emphAns<all:2>{00} 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A \emphAns<all:3>{4A} \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memA) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& D0 D1 D2 D3 \\
+    0x24-7 \& D4 D5 D6 D7 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA 0A BA 0A \\
+    0x34-7 \& CB 0B CB 0B \\
+    0x38-B \& DC 0C \emphAns<all:4>{DC} 0C \\
+    0x3C-F \& EC 0C EC 0C \\
+};
+\end{tikzpicture}
+\end{frame}

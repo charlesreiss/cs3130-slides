@@ -1,0 +1,75 @@
+\usetikzlibrary{patterns,positioning,calc}
+
+\begin{frame}{huge page tables}
+\begin{itemize}
+    \item huge virtual address spaces!
+    \item impossible to store PTE for every page
+    \vspace{.5cm}
+    \item how can we save space?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{holes}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=7cm,fill=white,inner sep=1mm},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\begin{scope}[name prefix=A-]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\node[fill=red,fill opacity=0.05,inner sep=0mm,draw=red,ultra thick,fit=(kernel.south west) (stack.north east)] {};
+\node[fill=red,fill opacity=0.05,inner sep=0mm,draw=red,ultra thick,fit=(stack.south west) (heap.north east)] {};
+\node[fill=red,fill opacity=0.05,inner sep=0mm,draw=red,ultra thick,fit=(sdata.south west) (memBottom)] {};
+\end{scope}
+\node[right=1cm of A-stack] {most pages are \myemph{invalid}};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{saving space}
+\begin{itemize}
+    \item basic idea: don't store (most) invalid page table entries
+    \item use a data structure other than a flat array
+        \begin{itemize}
+        \item want a map --- lookup key (virtual page number), get value (PTE)
+        \end{itemize}
+    \item options?
+    \vspace{.5cm}
+    \item<2-> \myemph<2>{hashtable}
+        \begin{itemize}
+        \item<2-> actually used by some historical processors
+        \item<2-> but never common
+        \end{itemize}
+    \item<3-> \myemph<3>{tree data structure}
+        \begin{itemize}
+        \item<3-> but not quite a search tree
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{search tree tradeoffs}
+    \begin{itemize}
+    \item lookup usually implemented \myemph{in hardware}
+        \begin{itemize}
+        \item lookup should be simple
+        \item solution: lookup splits up address bits (no complex calculations)
+        \end{itemize}
+    \item lookup should not involve many memory accesses
+        \begin{itemize}
+        \item doing two memory accesses is already very slow
+        \item solution: tree with many children from each node
+            \begin{itemize}
+            \item (far from binary tree's left/right child)
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

@@ -1,0 +1,81 @@
+\begin{frame}{swapping}
+\begin{itemize}
+    \item early motivation for virtual memory: \myemph{swapping}
+\item using disk (or SSD, \ldots) as the next level of the memory hierarchy
+\begin{itemize}
+    \item how our textbook and many other sources presents virtual memory
+\end{itemize}
+\vspace{.5cm}
+\item OS allocates \myemph{program space on disk}
+    \begin{itemize}
+    \item own mapping of virtual addresses to location on disk
+    \end{itemize}
+\item \myemph<2>{DRAM is a cache for disk}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{swapping versus caching}
+\begin{itemize}
+    \item ``cache block'' $\approx$ physical page
+    \item \myemph{fully associative}
+        \begin{itemize}
+        \item every virtual page can be stored in any physical page
+        \end{itemize}
+    \item replacement/cache misses managed by the OS
+    \item normal cache hits happen in hardware
+        \begin{itemize}
+        \item hardware's page table lookup
+        \item common case that needs to be very fast
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{swapping components}
+\begin{itemize}
+\item ``swap in'' a page --- exactly like allocating on demand!
+\begin{itemize}
+    \item OS gets page fault --- invalid in page table
+    \item check where page actually is (from virtual address)
+    \item read from disk
+    \item eventually restart process
+\end{itemize}
+\item ``swap out'' a page
+\begin{itemize}
+    \item OS marks as invalid in the page table(s)
+    \item copy to disk (if modified)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{HDD/SDDs are slow}
+\begin{itemize}
+\item HDD reads and writes: \myemph<2-3>{milliseconds to tens of milliseconds}
+    \begin{itemize}
+    \item minimum size: 512 bytes
+    \item writing tens of \myemph<4>{kilobytes} basically as fast as writing 512 bytes
+    \end{itemize}
+\item SSD writes and writes: \myemph<2-3>{hundreds of microseconds}
+    \begin{itemize}
+    \item designed for writes/reads of \myemph<4>{kilobytes} (not much smaller)
+    \end{itemize}
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[draw=red,ultra thick] at ([yshift=-1cm]current page.south) {
+    page fault handler is going \myemph{switch to another program}
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red,ultra thick] at ([yshift=-1cm]current page.south) {
+    worth using expensive replacement policies to lower miss rate \\
+    (plus other tricks, like prefetching, \ldots)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red,ultra thick] at ([yshift=-1cm]current page.south) {
+    factor in why pages are as big as they are 
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

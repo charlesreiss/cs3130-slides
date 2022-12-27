@@ -1,0 +1,16 @@
+\begin{frame}{switching page tables}
+    \begin{itemize}
+    \item part of context switch is changing the page table
+    \item extra \myemph{privileged instructions}
+    \vspace{.5cm}
+    \item<2-> where in memory is the code that does this switching?
+        \begin{itemize}
+            \item<3-> probably have a page table entry pointing to it
+            \item<3-> hopefully marked kernel-mode-only
+        \end{itemize}
+    \item<4-> code better not be modified by user program
+        \begin{itemize}
+        \item otherwise: uncontrolled way to ``escape'' user mode
+        \end{itemize}
+    \end{itemize}
+\end{frame}

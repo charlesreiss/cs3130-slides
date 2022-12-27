@@ -1,0 +1,41 @@
+\begin{frame}[fragile,label=mmap]{mmap}
+\lstset{
+    language=C,
+    style=small
+}
+\begin{itemize}
+\item Linux/Unix has a function to ``map'' a file to memory
+\end{itemize}
+\begin{lstlisting}
+int file = open("somefile.dat", O_RDWR);
+
+    // data is region of memory that represents file
+char *data = mmap(..., file, 0);
+
+    // read byte 6 from somefile.dat
+char seventh_char = data[6];
+
+   // modifies byte 100 of somefile.dat
+data[100] = 'x';
+    // can continue to use 'data' like an array
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{swapping almost mmap}
+\begin{itemize}
+    \item access mapped file for first time, read from disk
+        \begin{itemize}
+        \item (like swapping when memory was swapped out)
+        \end{itemize}
+    \item write ``mapped'' memory, write to disk eventually
+        \begin{itemize}
+        \item (like writeback policy in swapping)
+        \item use ``dirty'' bit
+        \end{itemize}
+    \vspace{.5cm}
+    \item extra detail: other processes should see changes
+        \begin{itemize}
+        \item all accesses to file use \myemph{same physical memory}
+        \end{itemize}
+\end{itemize}
+\end{frame}

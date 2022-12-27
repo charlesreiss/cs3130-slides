@@ -1,0 +1,120 @@
+\usetikzlibrary{arrows.meta,calc,fit,patterns,positioning,matrix}
+\begin{frame}{space on demand}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=7cm,fill=white,inner sep=1mm},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\begin{scope}[name prefix=A-]
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[above=0cm of kernel] {Program Memory};
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\node[draw,very thick,blue,inner sep=0mm,fit=(stack)] {};
+\end{scope}
+\coordinate (zoomBase) at ([xshift=1cm]A-kernel.north east);
+\begin{scope}[shift=(zoomBase)]
+\draw[ultra thick,blue] (0, 0) rectangle (6, -8);
+\foreach \x in {-1,-2,-3,-4,-5,-6,-7} {
+    \draw (0, \x) -- (6, \x);
+}
+\draw (A-stack.north east) -- (0, 0);
+\draw (A-stack.south east) -- (0, -8);
+\begin{visibleenv}<2->
+    \draw[fill=green, fill opacity=0.1, ultra thick] (0, 0) rectangle (6, -3);
+    \node[green!60!black] at (3, -1.5) { used stack space (12 KB) };
+    \draw[fill=blue, fill opacity=0.1, ultra thick] (0, -3) rectangle (6, -8);
+    \node[blue!60!black] at (3, -4.5) { wasted space? (huge??) };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \node[draw=red,ultra thick,fill=white] at (-1, -3.5) {
+        OS would like to allocate space only if needed
+    };
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=spaceOnDemand]{allocating space on demand}
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim=**[is][\btHL<all:2-3>]{~2~}{~end~},
+}
+\begin{tikzpicture}
+\tikzset{>=Latex}
+\node[draw] (exCode) {
+\begin{lstlisting}
+...
+// requires more stack space
+~2~A: pushq %rbx~end~
+
+B: movq 8(%rcx), %rbx
+C: addq %rbx, %rax
+...
+\end{lstlisting}
+};
+\node[above=.25cm of exCode,font=\tt,inner sep=0mm] (rspEq) {
+\%rsp = 0x
+};
+\node[anchor=base west,fill=blue!10,inner sep=0mm,font=\tt] (vpn) at (rspEq.base east) {7FFFC};
+\node[anchor=base west,font=\tt,inner sep=0mm] at (vpn.base east) {000};
+\matrix[tight matrix,right=1cm of exCode,
+    nodes={font=\tt,draw},
+    column 1/.style={nodes={draw=none,text width=2.5cm}},
+    column 2/.style={nodes={text width=1.25cm,align=center}},
+    column 3/.style={nodes={text width=2.5cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    row 3/.append style={nodes={alt=<3>{draw=red,thick}}},
+] (pt) {
+    VPN \& valid? \& physical page \\
+    \ldots \& \ldots \& \ldots \\
+    0x7FFFB \& \only<1-2>{0}\only<3->{1} \& \only<1-2>{---}\only<3->{0x200D8} \\
+    0x7FFFC \& 1 \& 0x200DF \\
+    0x7FFFD \& 1 \& 0x12340 \\
+    0x7FFFE \& 1 \& 0x12347 \\
+    0x7FFFF \& 1 \& 0x12345 \\
+    \ldots \& \ldots \& \ldots \\
+};
+\coordinate (noteLoc) at ([yshift=-1cm]exCode.south west);
+\begin{visibleenv}<2>
+\node[inner sep=0.25mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\node[draw,anchor=north west,align=left] at (noteLoc) {
+    pushq triggers exception \\
+    hardware says ``accessing address {\tt 0x7FFFBFF8}'' \\
+    OS looks up what's should be there --- ``stack''
+};
+    \draw[very thick,red,->] ([yshift=-1.7cm,xshift=-1cm]exCode.north) -- ++(1cm,0cm) node[right] {page fault!};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[inner sep=0.25mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\node[draw,anchor=north west,align=left] at (noteLoc) {
+    in exception handler, OS allocates more stack space \\
+    OS updates the page table \\
+    then returns to retry the instruction
+};
+\draw[very thick,red,->] ([yshift=-1.7cm,xshift=-1cm]exCode.north) -- ++(2cm,0cm)
+        -- ++(0cm,.6cm) node[midway,right] {restarted} -- ++(-2cm,0cm);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{allocating space on demand}
+\begin{itemize}
+\item note: the space doesn't have to be initially empty
+\item only change: load from file, etc. instead of allocating empty page
+\vspace{.5cm}
+\item loading program can be \myemph{merely creating empty page table}
+\item everything else can be handled \myemph{in response to page faults}
+    \begin{itemize}
+    \item no time/space spent loading/allocating unneeded space
+    \end{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,18 @@
+\begin{frame}{splitting addresses for levels}
+\begin{itemize}
+\item x86-32
+\item 32-bit physical address; 32-bit virtual address
+\item $2^{12}$ byte page size 
+\begin{itemize}\item<2->\iftoggle{heldback}{}{\textit{12-bit page offset}}\end{itemize}
+\item 2-levels of page tables; each page table is one page
+\item 4 byte page table entries
+\begin{itemize}\item<3->\iftoggle{heldback}{}{\textit{$2^{12}/4 = 2^{10}$ PTEs/page table; 10-bit VPN parts}}\end{itemize}
+\vspace{.5cm}
+\item how is address {\tt 0x12345678} split up?
+\begin{itemize}
+\item \iftoggle{heldback}{}{\only<4->{10-bit VPN part 1: {\tt 0001 0010 00 (0x48)}; \\ 10-bit VPN part 2: {\tt 11 0100 0101 (0x345)}; \\ 12-bit page offset: {\tt 0x678}}}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+

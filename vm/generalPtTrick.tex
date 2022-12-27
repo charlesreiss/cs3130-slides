@@ -1,0 +1,29 @@
+\begin{frame}{page tricks generally}
+\begin{itemize}
+\item deliberately \myemph{make program trigger page/protection fault}
+\item but \myemph{don't assume page/protection fault is an error}
+\vspace{.5cm}
+\item have \myemph{seperate data structures} represent logically allocated memory
+    \begin{itemize}
+    \item e.g. ``addresses {\tt 0x7FFF8000} to {\tt 0x7FFFFFFFF} are the stack''
+    \item might talk about Linux data structures later (book section 9.7)
+    \end{itemize}
+\item page table is for the hardware and not the OS
+\end{itemize}
+\end{frame}
+
+\begin{frame}{hardware help for page table tricks}
+\begin{itemize}
+\item information about the address causing the fault
+    \begin{itemize}
+    \item e.g. special register with memory address accessed
+    \item harder alternative: OS disassembles instruction, look at registers
+    \end{itemize}
+\item (by default) rerun faulting instruction when returning from exception
+\item precise exceptions: no side effects from faulting instruction or after
+    \begin{itemize}
+    \item e.g. {\tt pushq} that caused did not change {\tt \%rsp} before fault
+    \item e.g. instructions reordered after faulting instruction not visible
+    \end{itemize}
+\end{itemize}
+\end{frame}
