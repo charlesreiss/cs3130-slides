@@ -1,0 +1,103 @@
+\usetikzlibrary{shapes.callouts,positioning,calc}
+
+\begin{frame}{on implementing try/catch}
+\begin{itemize}
+\item could do something like setjmp()/longjmp()
+\item but setjmp is \myemph{slow}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=lowOverTryCatch1]{low-overhead try/catch (1)}
+\lstset{language=C,style=small}
+\begin{lstlisting}
+main() {
+  printf("about to read file\n");
+  try {
+    read_file();
+  } catch(...) {
+    printf("some error happened\n");
+  }
+}
+read_file() {
+  ...
+  if (open failed) {
+      throw IOException();
+  }
+  ...
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=lowOverTryCatch2]{low-overhead try/catch (2)}
+\lstset{language=C,style=small,
+    basicstyle={\tt\fontsize{10}{11}\selectfont},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{tikzpicture}
+\tikzset{every node/.style={font=\small}}
+\node[draw] (code1) {
+\begin{lstlisting}
+main:
+  ...
+  call printf
+start_try:
+  call read_file
+end_try:
+  ret
+\end{lstlisting}
+};
+\node[draw,anchor=north west] (code2) at ([xshift=.25cm]code1.north east) {
+\begin{lstlisting}
+main_catch:
+  movq $str, %rdi 
+  call printf
+  jmp end_try
+\end{lstlisting}
+};
+\node[draw,anchor=north west] (code3) at ([xshift=.25cm]code2.north east) {
+\begin{lstlisting}
+read_file:
+  pushq %r12
+  ...
+  @2call do_throw@
+  ...
+end_read:
+  popq %r12
+  ret
+\end{lstlisting}
+};
+\matrix[label={north:lookup table},anchor=north west,
+        tight matrix,
+        nodes={font=\small,execute at begin node={\tt\strut\normalfont}},
+        column 1/.append style={nodes={text width=6cm}},
+        column 2/.append style={nodes={text width=3.9cm}},
+        column 3/.append style={nodes={text width=1.8cm}},    
+        row 1/.append style={nodes={font=\small\bfseries,execute at begin node={\tt\strut\normalfont\bfseries}}},
+] (tbl) at ([yshift=-1cm]code1.south west){
+    program counter range \& action \& recurse? \\
+    {\tt start\_try} to {\tt end\_try} \& \myemph<3>{\tt jmp main\_catch} \& \myemph<3>{no} \\
+    {\tt read\_file} to {\tt end\_read} \& \myemph<2>{\tt popq \%r12, ret} \& \myemph<2>{yes} \\
+    anything else \& error \& --- \\
+};
+\begin{visibleenv}<4>
+\node[align=left,my callout2=tbl-3-2.north,anchor=south] at ([xshift=-1cm,yshift=2cm]tbl-3-2.north) {
+    not actual x86 code to run \\
+    track a ``virtual PC'' while looking for catch block
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{lookup table tradeoffs}
+\begin{itemize}
+\item no overhead if throw not used
+\item handles local variables on registers/stack, but\ldots{}
+\vspace{.5cm}
+\item larger executables (probably)
+\item extra complexity for compiler 
+\end{itemize}
+\end{frame}
+
+

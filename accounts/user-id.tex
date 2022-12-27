@@ -1,0 +1,27 @@
+\begin{frame}{user IDs}
+    \begin{itemize}
+    \item most common way OSes identify what \textit{domain} process belongs to:
+    \vspace{.5cm}
+    \item (unspecified for now) procedure sets user IDs
+    \item every process has a user ID
+    \item user ID used to decide what process is authorized to do
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=posixUID]{POSIX user IDs}
+\begin{lstlisting}[language=C++,style=small]
+uid_t geteuid(); // get current process's "effective" user ID
+\end{lstlisting}
+\begin{itemize}
+\item process's user identified with unique number
+\item kernel typically only knows about number
+\item effective user ID is used for all permission checks
+\item also some other user IDs --- we'll talk later
+\vspace{.5cm}
+\item<2-> standard programs/library maintain number to name mapping
+    \begin{itemize}
+    \item<2-> \texttt{/etc/passwd} on typical single-user systems
+    \item<2-> network database on department machines
+    \end{itemize}
+\end{itemize}
+\end{frame}

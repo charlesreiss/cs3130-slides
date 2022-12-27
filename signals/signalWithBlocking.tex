@@ -1,0 +1,43 @@
+\begin{frame}{blocking signals}
+\begin{itemize}
+\item avoid having signal handlers anywhere:
+\item can instead \myemph{block signals}
+\vspace{.5cm}
+\item {\tt sigprocmask} system call
+\item signal will become ``pending'' instead
+\item OS will not deliver unless unblocked
+\item \myemph{analagous to  disabling interrupts}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{alternatives to signal handlers}
+\begin{itemize}
+\item first, block a signal
+\item then use system calls to inspect pending signals
+    \begin{itemize}
+    \item example: {\tt sigwait}
+    \end{itemize}
+\item or unblock signals only when waiting for I/O
+    \begin{itemize}
+    \item example: {\tt pselect} system call
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=syncSig]{synchronous signal handling}
+\lstset{language=C,style=small}
+\begin{lstlisting}
+int main(void) {
+    sigset_t set;
+    sigemptyset(&set);
+    sigaddset(&set, SIGINT);
+    sigprocmask(SIG_BLOCK, SIGINT);
+    
+    printf("Waiting for SIGINT (control-C)\n"); 
+    if (sigwait(&set, NULL) == 0) {
+        printf("Got SIGINT\n");
+    }
+}
+\end{lstlisting}
+\end{frame}
+

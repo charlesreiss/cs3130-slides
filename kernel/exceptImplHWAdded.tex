@@ -1,0 +1,18 @@
+\begin{frame}<1-4>{added to CPU for exceptions}
+\begin{itemize}
+\item new instruction: set \myemph<2>{exception table base}
+\item new logic: \myemph<2>{jump based on exception table}
+    \begin{itemize}
+    \item may need to cancel partially completed instructions before jumping
+    \end{itemize}
+\item new logic: \myemph<3>{save the old PC} (and maybe more)
+    \begin{itemize}
+    \item to special register or to memory
+    \end{itemize}
+\item new instruction: \myemph<4>{return from exception}
+    \begin{itemize}
+    \item i.e. jump to saved PC
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

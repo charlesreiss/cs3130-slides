@@ -1,0 +1,84 @@
+\begin{frame}{signal handler unsafety (0)}
+\lstset{
+    language=C,
+    style=small,
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\lstinputlisting{unsafe-signal-0.c}
+\end{frame}
+
+\begin{frame}{signal handler unsafety (1)}
+\lstset{
+    language=C,
+    style=smaller,
+    moredelim=**[is][\btHL<2|handout:2>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\lstinputlisting{unsafe-signal.c}
+\end{frame}
+
+\begin{frame}{signal handler unsafety (2)}
+\lstset{
+    language=C,
+    style=smaller,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\lstinputlisting{unsafe-signal-2.c}
+\end{frame}
+
+\begin{frame}[fragile,label=unsafeTime]{signal handler unsafety: timeline}
+\begin{tikzpicture}
+\tikzset{every node/.style={font=\small},>=Latex,myline/.style={very thick}}
+\node[draw] (fooStart) {
+foo starts
+};
+\node[draw,anchor=north west] (mallocStart) at ([yshift=-.25cm,xshift=1cm]fooStart.south west) {
+    malloc: \lstinline|to_return = next_to_return;|
+};
+\draw[->,myline] ([xshift=.5cm]fooStart.south west) |- (mallocStart.west);
+\node[draw,anchor=north west] (sigintStart) at ([yshift=-.25cm,xshift=1cm]mallocStart.south west) {
+    handle\_sigint
+};
+\draw[->,myline] ([xshift=.5cm]mallocStart.south west) |- (sigintStart.west);
+\node[draw,anchor=north west] (printfStart) at ([yshift=-.25cm,xshift=1cm]sigintStart.south west) {
+    printf
+};
+\draw[->,myline] ([xshift=.5cm]sigintStart.south west) |- (printfStart.west);
+\node[draw,anchor=north west,align=left] (mallocStart2) at ([yshift=-.25cm,xshift=1cm]printfStart.south west) {
+    malloc: \lstinline|to_return = next_to_return;| \\
+    malloc: \lstinline|next_to_return += ...;| \\
+};
+\draw[->,myline] ([xshift=.5cm]printfStart.south west) |- (mallocStart2.west);
+\node[draw,anchor=north west,align=left] (printfDone) at ([yshift=-.25cm,xshift=-1cm]mallocStart2.south west) {
+    printf: store/use returned {\tt buf}
+};
+\draw[->,myline] ([xshift=.5cm]printfStart.south west) -- ([xshift=.5cm]printfDone.north west);
+\node[draw,anchor=north west,align=left] (fooFinish) at ([yshift=-.25cm,xshift=-3cm]printfDone.south west) {
+    foo: \myemph{malloc returns pointer {\tt printf} is using!}
+};
+\draw[->,myline] ([xshift=.5cm]fooStart.south west) -- ([xshift=.5cm]fooFinish.north west);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{signal handler unsafety (3)}
+\lstset{
+    language=C,
+    basicstyle={\tt\fontsize{10}{11}\selectfont},
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\lstinputlisting{unsafe-signal-3.c}
+\end{frame}
+
+\begin{frame}{signal handler safety}
+\begin{itemize}
+\item POSIX (standard that Linux follows) defines ``async-signal-safe'' functions
+\item these must work correctly no matter what they interrupt
+\item \ldots and no matter how they are interrupted
+\item includes: {\tt write}, {\tt \_exit}
+\item does not include: {\tt printf}, {\tt malloc}, {\tt exit}
+\end{itemize}
+\end{frame}
+
+

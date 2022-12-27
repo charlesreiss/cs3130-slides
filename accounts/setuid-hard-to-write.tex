@@ -1,0 +1,10 @@
+\begin{frame}{set-user ID programs are very hard to write}
+\begin{itemize}
+\item what if stdin, stdout, stderr start closed?
+\item what if the PATH env. var. set to directory of malicious programs?
+\item what if \texttt{argc == 0}?
+\item what if dynamic linker env. vars are set?
+\item what if some bug allows memory corruption?
+\item \ldots
+\end{itemize}
+\end{frame}

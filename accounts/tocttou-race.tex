@@ -1,0 +1,13 @@
+\begin{frame}{practical TOCTTOU races?}
+    \begin{itemize}
+    \item can use symlinks \textit{maze} to make check slower
+    \begin{itemize}
+        \item symlink \texttt{toprint.txt} $\rightarrow$ \texttt{a/b/c/d/e/f/g/normal.txt}
+        \item symlink \texttt{a/b} $\rightarrow$ \texttt{../a}
+        \item symlink \texttt{a/c} $\rightarrow$ \texttt{../a}
+        \item \ldots
+    \end{itemize}
+    \item lots of time spent following symbolic links when program opening toprint.txt
+    \item gives more time to sneak in unlink/link or (more likely) rename
+    \end{itemize}
+\end{frame}

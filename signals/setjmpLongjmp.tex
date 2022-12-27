@@ -1,0 +1,122 @@
+\begin{frame}[fragile,label=setjmpL]{setjmp/longjmp}
+\lstset{
+    language=C,
+    basicstyle={\tt\fontsize{10.5}{11}\selectfont},
+}
+\begin{lstlisting}
+jmp_buf env;
+
+main() {
+  if (setjmp(env) == 0) { // like try {
+    ...
+    read_file()
+    ...
+  } else { // like catch
+    printf("some error happened\n");
+  }
+}
+
+read_file() {
+  ...
+  if (open failed) {
+      longjmp(env, 1) // like throw
+  }
+  ...
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{implementing setjmp/longjmp}
+\begin{itemize}
+\item setjmp:
+    \begin{itemize}
+    \item copy all registers to {\tt jmp\_buf}
+    \item \ldots{} including stack pointer
+    \end{itemize}
+\item longjmp
+    \begin{itemize}
+    \item copy registers from {\tt jmp\_buf}
+    \item \ldots{} but change {\tt \%rax} (return value)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=setjmpPseudo]{setjmp psuedocode}
+\lstset{language=myasm,style=small,morekeywords={movq,save_condition_codes}}
+\begin{itemize}
+    \item setjmp: looks like first half of context switch
+\end{itemize}
+\begin{lstlisting}
+setjmp:
+  movq %rcx, env->rcx
+  movq %rdx, env->rdx
+  movq %rsp + 8, env->rsp // +8: skip return value
+  ...
+  save_condition_codes env->ccs
+  movq 0(%rsp), env->pc
+  movq $0, %rax // always return 0
+  ret
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=longjmpPseudo]{longjmp psuedocode}
+\lstset{language=myasm,style=small,morekeywords={movq,restore_condition_codes}}
+\begin{itemize}
+    \item longjmp: looks like second half of context switch
+\end{itemize}
+\begin{lstlisting}
+longjmp:
+  movq %rdi, %rax // return a different value
+  movq env->rcx, %rcx
+  movq env->rdx, %rdx
+  ...
+  restore_condition_codes env->ccs
+  movq env->rsp, %rsp
+  jmp env->pc
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=setjmpW]{setjmp weirdness --- local variables}
+\lstset{
+    language=C,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:0>]{@1@}{@},
+}
+Undefined behavior:
+\begin{lstlisting}
+int @1@x@ = 0;
+if (setjmp(env) == 0) {
+    ...
+    @1@x += 1@;
+    longjmp(env, 1);
+} else {
+    printf("%d\n", @1@x@);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=setjmpWF]{setjmp weirdness --- fix}
+\lstset{
+    language=C,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:0>]{@1@}{@},
+}
+Defined behavior:
+\begin{lstlisting}
+@1@volatile@ int x = 0;
+if (setjmp(env) == 0) {
+    ...
+    x += 1;
+    longjmp(env, 1);
+} else {
+    printf("%d\n", x);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{on implementing try/catch}
+\begin{itemize}
+\item could do something like setjmp()/longjmp()
+\item but setjmp is \myemph{slow}
+\end{itemize}
+\end{frame}

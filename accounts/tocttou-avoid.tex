@@ -1,0 +1,10 @@
+\begin{frame}{exercise}
+    \begin{itemize}
+    \item which (if any) of the following would fix for a TOCTTOU vulnerability in our setuid printing application?
+        (assume the Unix-permissions without ACLs are in use)
+    \vspace{.5cm}
+    \item\relax[A] \textbf{both before and after} opening the path passed in for reading, check that the path is accessible to the user who ran our application
+    \item\relax[B] after opening the path passed in for reading, using \texttt{fstat} with the file descriptor opened to check the permissions on the file
+    \item\relax[C] before opening the path, verify that the user controls the file referred to by the path \textbf{and} the directory containing it
+    \end{itemize}
+\end{frame}

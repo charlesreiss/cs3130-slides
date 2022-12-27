@@ -1,0 +1,58 @@
+\begin{frame}{a delegation problem}
+\begin{itemize}
+\item consider printing program marked setuid to access printer
+    \begin{itemize}
+    \item decision: no accessing printer directly
+    \item printing program enforces page limits, etc.
+    \end{itemize}
+\item command line: file to print
+\item can printing program just call open()?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=delegationBroken]{a broken solution}
+\begin{lstlisting}[language=C++,style=small]
+if (original user can read file from argument) {
+    open(file from argument);
+    read contents of file;
+    write contents of file to printer
+    close(file from argument);
+}
+\end{lstlisting}
+\begin{itemize}
+\item hope: this prevents users from printing files than can't read
+\item problem: race condition!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=delegationBrokenWhy]{a broken solution / why}
+\begin{tabular}{l|l}
+setuid program & other user program \\ \hline
+                & create normal file \texttt{toprint.txt} \\
+check: can user access? (yes)  & --- \\
+~ & \texttt{unlink("toprint.txt")} \\
+~ & \texttt{link("/secret", "toprint.txt")} \\
+\texttt{open("toprint.txt")} & --- \\
+read \ldots & --- \\
+\end{tabular}
+\begin{itemize}
+\item link: create new directory entry for file
+    \begin{itemize}
+    \item another option: rename, symlink (``symbolic link'' --- alias for file/directory)
+    \item another possibility: run a program that creates secret file \\
+        (e.g. temporary file used by password-changing program)
+    \end{itemize}
+\item time-to-check-to-time-of-use vulnerability
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TOCTTOU solution}
+\begin{itemize}
+\item temporarily `become' original user
+\item then open
+\item then turn back into set-uid user
+\vspace{.5cm}
+\item this is why POSIX processes have multiple user IDs
+\item can swap out effective user ID temporarily
+\end{itemize}
+\end{frame}

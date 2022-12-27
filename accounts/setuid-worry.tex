@@ -1,0 +1,31 @@
+\begin{frame}{a broken setuid program: setup}
+    \begin{itemize}
+    \item suppose I have a directory all-grades on shared server
+    \item in it I have a folder for each assignment
+    \item and within that a text file for each user's grade + other info
+    \item say I don't have flexible ACLs and want to give each user access
+    \vspace{.5cm}
+    \item<2-> one (bad?) idea: setuid program to read grade for assignment
+    \item<2-> \texttt{./print\_grade assignment}
+    \item<2-> outputs grade from \texttt{all-grades/assignment/USER.txt}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=brokenSetuid]{a very broken setuid program}
+print\_grade.c:
+\begin{lstlisting}[language=C,style=small]
+int main(int argc, char **argv) {
+    char filename[500];
+    sprintf(filename, "all-grades/%s/%s.txt",
+            argv[1], getenv("USER"));
+    int fd = open(filename, O_RDWR);
+    char buffer[1024];
+    read(fd, buffer, 1024);
+    printf("%s: %s\n", argv[1], buffer);
+}
+\end{lstlisting}
+\begin{itemize}
+\item HUGE amount of stuff can go wrong
+\item examples?
+\end{itemize}
+\end{frame}

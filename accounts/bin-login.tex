@@ -1,0 +1,70 @@
+\begin{frame}<1>[fragile,label=loginProgram]{how does login work?}
+\begin{lstlisting}[
+    language={},
+    moredelim={**[is][]{X}{X}},
+    moredelim={**[is][\it]{Y}{Y}},
+]
+XsomemachineX login: YjoY
+password: ********
+
+jo@XsomemachineX$ YlsY
+...
+\end{lstlisting}
+\begin{itemize}
+\item this is a program which\ldots
+\item \myemph<2>{checks if the password is correct}, and
+\item \myemph<3>{changes user IDs}, and
+\item runs a shell
+\end{itemize}
+\end{frame}
+
+\againframe<2>{loginProgram}
+
+\begin{frame}{Unix password storage}
+    \begin{itemize}
+    \item typical single-user system: \texttt{/etc/shadow}
+    \begin{itemize}
+    \item only readable by root/superuser
+    \end{itemize}
+    \item department machines: network service
+    \begin{itemize}
+        \item Kerberos / Active Directory:
+        \item server takes (encrypted) passwords
+        \item server gives tokens: ``yes, really this user''
+        \item can cryptographically verify tokens come from server
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{aside: beyond passwords}
+    \begin{itemize}
+    \item /bin/login entirely user-space code
+    \item only thing special about it: when it's run
+    \item could use any criteria to decide, not just passwords
+        \begin{itemize}
+        \item physical tokens
+        \item biometrics
+        \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\againframe<3>{loginProgram}
+
+\begin{frame}[fragile,label=setuid]{changing user IDs}
+\begin{lstlisting}[language=C++,style=small]
+int setuid(uid_t uid);
+\end{lstlisting}
+\begin{itemize}
+    \item if superuser: sets effective user ID to arbitrary value
+        \begin{itemize}
+        \item and a ``real user ID'' and a ``saved set-user-ID'' (we'll talk later)
+        \end{itemize}
+    \vspace{.5cm}
+    \item system starts in/login programs run as superuser
+        \begin{itemize}
+        \item voluntarily restrict own access before running shell, etc.
+        \end{itemize}
+\end{itemize}
+\end{frame}
+

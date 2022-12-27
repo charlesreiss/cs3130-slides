@@ -1,0 +1,41 @@
+\begin{frame}{POSIX file permissions}
+    \begin{itemize}
+    \item POSIX files have a very restricted access control list
+    \vspace{.5cm}
+    \item one user ID + read/write/execute bits for user
+        \begin{itemize}
+        \item ``owner'' --- also can change permissions
+        \end{itemize}
+    \item one group ID + read/write/execute bits for group
+    \item default setting --- read/write/execute
+    \vspace{.5cm}
+    \item (see docs for chmod command)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{POSIX/NTFS ACLs}
+    \begin{itemize}
+    \item more flexible access control lists
+    \vspace{.5cm}
+    \item list of (user or group, read or write or execute or \ldots)
+    \vspace{.5cm}
+    \item supported by NTFS (Windows)
+    \item a version standardized by POSIX, but usually not supported
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=posixAclSyntax]{POSIX ACL syntax}
+\begin{lstlisting}[language={},style=small]
+# group students have read+execute permissions
+group:students:r-x
+# group faculty has read/write/execute permissions
+group:faculty:rwx
+# user mst3k has read/write/execute permissions
+user:mst3k:rwx
+# user tj1a has no permissions
+user:tj1a:---
+
+# POSIX acl rule:
+    # user take precedence over group entries
+\end{lstlisting}
+\end{frame}

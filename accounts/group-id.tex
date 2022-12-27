@@ -1,0 +1,46 @@
+\begin{frame}[fragile,label=posixGRoups]{POSIX groups}
+\begin{lstlisting}[language=C++,style=small]
+gid_t getegid(void);
+    // process's"effective" group ID
+
+int getgroups(int size, gid_t list[]);
+    // process's extra group IDs
+\end{lstlisting}
+    \begin{itemize}
+    \item POSIX also has \textit{group IDs}
+    \item like user IDs: kernel only knows numbers
+        \begin{itemize}
+        \item standard library+databases for mapping to names
+        \end{itemize}
+    \item {\small also process has some other group IDs --- we'll talk later}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=idCommand]{id}
+\begin{lstlisting}[language={},style=small]
+cr4bd@power4
+: /net/zf14/cr4bd ; id
+uid=858182(cr4bd) gid=21(csfaculty)
+        groups=21(csfaculty),325(instructors),90027(cs4414)
+\end{lstlisting}
+\vspace{.5cm}
+\begin{itemize}
+\item id command displays uid, gid, group list
+\item names looked up in database
+    \begin{itemize}
+    \item kernel doesn't know about this database
+    \item code in the C standard library
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{groups that don't correspond to users}
+    \begin{itemize}
+    \item example: video group for access to monitor
+    \vspace{.5cm}
+    \item put process in video group when logged in directly
+    \item don't do it when SSH'd in
+    \vspace{.5cm}
+    \item<2-> \ldots but: user can keep program running with video group \\ in the background after logout?
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,23 @@
+
+\begin{frame}[fragile,label=whyRFE]{why return from exception?}
+\lstset{language=myasm}
+\begin{itemize}
+\item reasons related to protection (later)
+\item not just ret --- can't modify process's stack
+    \begin{itemize}
+    \item would break the \myemph{illusion of dedicated CPU/memory}
+    \item program could use stack in weird way
+\begin{lstlisting}
+movq $100, -8(%rsp)
+...
+movq -8(%rsp), %rax
+\end{lstlisting}
+        \begin{itemize}
+        \item (even though this wouldn't be following calling conventions)
+        \end{itemize}
+    \item need to restart program \myemph{undetectably}!
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+

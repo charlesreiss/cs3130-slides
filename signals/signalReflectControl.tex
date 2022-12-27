@@ -1,0 +1,34 @@
+\begin{frame}{example signals}
+\begin{tabular}{l|l|l}
+signal & default action & description \\\hline
+SIGINT & terminate & control-C \\
+SIGHUP & terminate & terminal closed \\
+SIGTERM & terminate & request termination \\
+SIGTSTP & stop & control-Z \\
+\myemph<2>{SIGSEGV} & terminate & \myemph<2>{Segmentation fault} \\
+\myemph<3>{SIGILL} & terminate & \myemph<3>{Illegal instruction} \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{reflecting exceptions}
+\begin{itemize}
+    \item Linux turns faults into \myemph{signals}
+    \item allows \myemph{process's signal handler} to try running, e.g.:
+    \vspace{.5cm}
+    \item save a debug log when crashing
+    \item emulate a missing instruction
+\end{itemize}
+\end{frame}
+
+\begin{frame}{special signals}
+\begin{itemize}
+    \item SIGKILL --- always terminates a process
+    \item SIGSTOP --- always stops a process
+    \item both \myemph{cannot have a signal handler}
+        \begin{itemize}
+        \item might register one, but will never be called
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+

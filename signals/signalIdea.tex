@@ -1,0 +1,24 @@
+\begin{frame}{signals}
+\begin{itemize}
+\item Unix-like \myemph{operating system feature}
+\item like exceptions for processes:
+\vspace{.5cm}
+\item can be triggered by external process
+    \begin{itemize}
+    \item kill command/system call
+    \end{itemize}
+\item can be triggered by special events
+    \begin{itemize}
+    \item pressing control-C
+    \item events that trigger hardware exceptions
+        \begin{itemize}
+        \item `segmentation fault'
+        \item illegal instruction
+        \item divide by zero
+        \end{itemize}
+    \end{itemize}
+\item can invoke \myemph{signal handler} (like exception handler)
+\end{itemize}
+\end{frame}
+
+

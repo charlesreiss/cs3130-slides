@@ -1,0 +1,12 @@
+\begin{frame}{authorization checking on Unix}
+    \begin{itemize}
+    \item checked on system call entry
+        \begin{itemize}
+        \item no relying on libraries, etc. to do checks
+        \end{itemize}
+    \vspace{.5cm}
+    \item files (open, rename, \ldots) --- file/directory permissions
+    \item processes (kill, \ldots) --- process UID = user UID
+    \item \ldots
+    \end{itemize}
+\end{frame}

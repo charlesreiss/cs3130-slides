@@ -1,0 +1,48 @@
+\usetikzlibrary{arrows.meta,matrix}
+\begin{frame}{x86-64 Linux signal delivery (1)}
+\begin{itemize}
+\item suppose: signal happens while {\tt foo()} is running
+\item OS saves registers \myemph{to user stack}
+\item OS modifies user registers, PC to call signal handler
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{every node/.style={font=\small}}
+\matrix[tight matrix,nodes={text width=6cm},label={the stack}] (stack) {
+    address of {\tt \_\_restore\_rt} \\
+    saved registers \\
+    PC when signal happened \\
+    local variables for foo \\
+    \ldots{} \\
+};
+\draw[thick,-Latex] (stack-4-1.east) -- ++(.5cm,0cm) node[right,align=left] {stack pointer \\ before signal delivered};
+\draw[thick,-Latex] (stack-1-1.east) -- ++(.5cm,0cm) node[right,align=left] {stack pointer \\ when signal handler started};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=sigReturn]{x86-64 Linux signal delivery (2)}
+\lstset{
+    language=myasm,
+    style=small,
+    morekeywords={ret,syscall,movq}
+}
+\begin{lstlisting}
+handle_sigint:
+    ...
+    ret
+...
+__restore_rt:
+    // 15 = "sigreturn" system call
+    movq $15, %rax
+    syscall
+\end{lstlisting}
+\begin{itemize}
+\item {\tt \_\_restore\_rt} is \myemph{return address} for signal handler
+\item sigreturn syscall restores pre-signal state
+\begin{itemize}
+    \item needed to handle caller-saved registers
+    \item also might unblock signals (like un-disabling interrupts)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+

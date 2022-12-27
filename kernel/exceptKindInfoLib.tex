@@ -1,0 +1,44 @@
+\usetikzlibrary{decorations.pathreplacing}
+
+\begin{frame}<0>[label=exceptTypesN]{types of exceptions}
+\begin{itemize}
+\item \tikzmark{int bot}\myemph<3>{externally-triggered}
+    \begin{itemize}
+    \item \myemph<3>{timer} --- keep program from hogging CPU
+    \item \myemph<4>{I/O devices} --- key presses, hard drives, networks, \ldots
+    \item \tikzmark{abort bot}hardware is broken (e.g. memory parity error)
+    \end{itemize}
+\item \tikzmark{trap bot}intentionally triggered exceptions
+    \begin{itemize}
+    \item \myemph<5>{system calls} --- ask OS to do something
+    \end{itemize}
+\item \tikzmark{fault bot}\myemph<6>{errors/events in programs}
+    \begin{itemize}
+        \item \myemph<7>{memory not in address space} (``Segmentation fault'')
+        \item \myemph<8>{privileged instruction}
+    \item divide by zero
+    \item invalid instruction\tikzmark{invalid}
+    \end{itemize}
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \coordinate (int top) at ([yshift=.6cm]pic cs:int bot);
+    \coordinate (fault top) at ([yshift=.6cm]pic cs:fault bot);
+    \coordinate (trap top) at ([yshift=.6cm]pic cs:trap bot);
+    \coordinate (fault bot) at (pic cs:fault bot);
+    \coordinate (over) at ([xshift=-4.5cm]current page.east);
+    \coordinate (abort bot)  at (pic cs:abort bot);
+    \coordinate (invalid bot)  at ([yshift=.6cm]pic cs:invalid bot);
+    \draw[very thick,decorate,decoration={brace}] (int top -| over) -- (abort bot -| over) 
+        node[midway,right,font=\large] (async label) {\myemph<2>{asynchronous}};
+        \node[anchor=north west,font=\small,align=left] at ([xshift=.15cm,yshift=.3cm]async label.south west) {
+            not triggered by \\
+            running program
+        };
+    \draw[very thick,decorate,decoration={brace}] (trap top -| over) -- (invalid bot -| over) 
+        node[midway,right,font=\large] (sync label) {\myemph<2>{synchronous}};
+        \node[anchor=north west,font=\small,align=left] at ([xshift=.15cm,yshift=.3cm]sync label.south west) {
+            triggered by \\
+            current program
+        };
+\end{tikzpicture}
+\end{frame}

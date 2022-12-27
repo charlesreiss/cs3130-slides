@@ -52,20 +52,27 @@
 
 \input{../kernel/timeMulti}
 
-\subsection{the context switch}
+
+\section{reasons for exceptions, generally}
+
+\input{../kernel/exceptKindInfoLib}
+\againframe<1>{exceptTypesN}
+
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{exception table + dispatch}
+
+\input{../kernel/exceptImplHW}
+
+\section{context switches} % FIXME: move earlier???
     % FIXME: simplify diagram
     % FIXME: include address space as part of context
 \input{../kernel/contextSwitch}
 
-% FIXME: what happens if I try
-
-\section{reasons for exceptions, generally}
-
-\section{exception table + dispatch}
-
-\section{context switches}
-
 \section{process}
+\input{../kernel/processIdea}
 
 \section{backup slides}
 \begin{frame}{backup slides}
