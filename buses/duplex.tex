@@ -1,0 +1,79 @@
+\usetikzlibrary{arrows.meta,calc,positioning,shapes.callouts}
+
+\tikzset{
+    >=Latex,
+    nd/.style={draw,very thick},
+    connect/.style={ultra thick},
+    message/.style={line width=1mm,red,dashed},
+    the callout/.style={my callout2=#1,fill=black!5,align=left,anchor=north},
+}
+
+
+\begin{frame}{connecting things}
+\begin{itemize}
+\item how to (in hardware) connect A and B?
+\end{itemize}
+\begin{tikzpicture}
+\node[nd] (A) at (0, 0) {A};
+\node[nd] (B) at (10, 0) {B};
+\begin{visibleenv}<2>
+    \draw[connect] (A) -- (B) node[midway,above] {one wire carrying binary signals?};
+\end{visibleenv}
+\coordinate (midpoint) at (5, 0);
+\begin{visibleenv}<3>
+    \draw[connect,<->] (A) -- (B);
+    \draw[message,->] (A) -- (midpoint);
+    \draw[message,->] (B) -- (midpoint);
+    \node[my callout2=midpoint] at ([yshift=-1cm]midpoint) {
+        collision?
+    };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \draw[connect,->] (A) -- (B);
+    \node[the callout=midpoint] at ([yshift=-1cm]midpoint) {
+        one-way communication only? \\
+        called \textit{simplex}
+    };
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \draw[connect] (A) -- (B);
+    \draw (0, -1.5) -- (10, -1.5);
+    \node[anchor=north west] at (0, -1.5) {\ldots and later};
+    \node[nd] (A alt) at (0, -3) {A};
+    \coordinate (midpoint alt) at (5, -3);
+    \node[nd] (B alt) at (10, -3) {B};
+    \draw[connect] (A alt) -- (B alt);
+    \draw[message,->] (A) -- (B);
+    \draw[message,<-] (A alt) -- (B alt);
+    \foreach \inside in {midpoint,midpoint alt} {
+        \node[anchor=north,the callout=\inside] at ([yshift=-1cm]midpoint alt) {
+            taking turns, but one-way \\
+            called \textit{half-duplex} \\
+            challenge: how to agree who's turn?
+        };
+    }
+\end{visibleenv}
+\begin{visibleenv}<6-7>
+    \draw[connect] ([yshift=-1mm]A.east) -- ([yshift=-1mm]B.west);
+    \draw[connect] ([yshift=1mm]A.east) -- ([yshift=1mm]B.west);
+    \draw[message,->] ([yshift=-1mm]A.east) -- ([yshift=-1mm]B.west);
+    \draw[message,<-] ([yshift=1mm]A.east) -- ([yshift=1mm]B.west);
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \node[the callout=midpoint] at ([yshift=-1cm]midpoint) {
+        both ways at the same time \\
+        called \textit{full duplex} (or \textit{duplex})
+    };
+\end{visibleenv}
+\begin{visibleenv}<7>
+    \node[the callout=midpoint] at ([yshift=-1cm]midpoint) {
+        here: duplex via multiple wires (simplest scheme) \\
+        can achieve effect electrically/etc. via one wire \\
+        example: cable Internet \\
+        (how is topic for ECE class)
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{connecting more things}
