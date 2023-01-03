@@ -1,0 +1,52 @@
+\usetikzlibrary{arrows.meta}
+
+\tikzset{>=Latex}
+\newcommand{\busStuff}{
+\draw[ultra thick,<->] (0, 0) -- (15, 0);
+\node[draw,very thick,align=center,minimum height=1cm] (core 1) at (1, -3) {core};
+\node[draw,very thick,align=center,minimum height=1cm] (core 2) at (3, -2) {core};
+\node[draw,very thick,align=center,minimum height=1cm] (core 3) at (5, -3) {core};
+\node[draw,very thick,align=center,is device] (memory) at (7, -3) {memory\\controller};
+\node[draw,very thick,align=center,very thick,is device] (usb) at (10, -2) {USB\\controller};
+\node[draw,very thick,align=center,very thick,is device] (graphics) at (13, -3) {graphics\\controller};
+\node[draw,very thick,align=center,very thick,is device] (hdd) at (14.5, -5) {disk\\controller};
+\node[font=\small,draw,black!60,very thick,align=center] (memory chip 1) at (6, -5) {memory};
+\node[font=\small,draw,black!60,very thick,align=center] (memory chip 2) at (7, -6) {memory};
+\node[font=\small,draw,black!60,very thick,align=center] (memory chip 3) at (8, -5) {memory};
+\foreach \x in {1,2,3} {
+    \draw[black!60,very thick,<->] (memory chip \x) -- (memory);
+}
+\node[font=\small,draw,black!60,very thick,align=center,is sub bus] (usb 1) at (9, -4) {keyboard};
+\node[font=\small,draw,black!60,very thick,align=center, is sub bus] (usb 3) at (11, -4) {mouse};
+\foreach \x in {1,3} {
+    \draw[black!60,very thick,<->,is sub bus] (usb \x) -- (usb);
+}
+\foreach \x in {core 1,core 2,core 3,memory,usb,graphics,hdd} {
+    \draw[<->,very thick] (\x) -- (0,0 -| \x);
+}
+}
+
+\begin{frame}<0>[label=stdBusDiag]{the ``bus''}
+\begin{tikzpicture}
+\tikzset{
+    is device/.style={alt=<2>{draw=red,fill=red!10}},
+    is sub bus/.style={alt=<3>{draw=red,fill=red!10}}
+}
+\busStuff
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<0>[label=busRedundantTrips]{extra trips to CPU}
+\begin{tikzpicture}
+\tikzset{
+    is device/.style={},
+    is sub bus/.style={},
+}
+\busStuff
+\draw[line width=2mm,red,<-] ([xshift=-2mm]core 1.north) |- (7.5, .4) -| ([xshift=-1mm]hdd.north);
+\draw[line width=2mm,red,->] ([xshift=2mm]core 1.north) |- (1.5, -.1) -| ([xshift=-1mm]memory.north);
+\begin{visibleenv}<2->
+\draw[line width=2mm,blue,<-,dotted] ([xshift=2mm]memory.north) |- (7.5, -.1) -| ([xshift=-1mm]hdd.north);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

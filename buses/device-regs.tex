@@ -1,0 +1,73 @@
+\usetikzlibrary{fit,matrix}
+
+\begin{frame}{connecting devices}
+\begin{tikzpicture}
+\tikzset{
+    bus/.style={ultra thick,blue!50!black},
+    ibus/.style={thick,green!50!black},
+}
+\node[font=\large] (cpu) {processor};
+\node[draw,thin,anchor=north,align=center,alt=<5>{draw=red,ultra thick}] (ic) at (cpu.south) {interrupt\\ controller};
+\node[draw,thick,fit=(cpu) (ic)] (cpu box) {};
+\draw[bus] (cpu box.east) -- ++ (14cm ,0cm) node[midway, above] { memory bus };
+\node[draw,font=\small,anchor=south,thick] (cpu2) at ([xshift=2cm,yshift=1cm]cpu box.east) {other processors\ldots};
+\node[draw,font=\small,anchor=south,thick] (memory) at ([xshift=9cm,yshift=1cm]cpu box.east) {actual memory};
+\node[draw,font=\small,anchor=north,thick] (other dev) at ([xshift=11cm,yshift=-1cm]cpu box.east) {other devices};
+\node[font=\large,anchor=north west,minimum width=7cm] (controller top) at ([xshift=2cm,yshift=-1cm]cpu box.east) {device controller};
+\matrix[tight matrix no line,nodes={align=left,font=\small,text width=3cm,draw,thin,alt=<2>{draw=red,thick}},label={[alias=creg label]north:control registers},anchor=north west] (creg) at ([yshift=-.5cm]controller top.south west) {
+    \small status \\
+    \small \myemph<3>{read?} \\
+    \small \myemph<3>{write?} \\
+    \small \ldots \\
+};
+\node[font=\small,draw,thin,anchor=north east,alt=<4>{draw=red,thick}] (cbuf) at (controller top.south east) {
+    buffers/queues 
+};
+\node[draw,thick,fit=(controller top) (creg) (cbuf) (creg label)] (device) {};
+\draw[bus,green!50!black,dotted,overlay] (device.south) -- ++(0cm, -.5cm) node[below,draw,black,solid,thick] {external hardware?};
+\draw[bus] (cpu box.east) -| (cpu2);
+\draw[bus] (cpu box.east) -| (memory);
+\draw[bus] (cpu box.east) -| (other dev);
+\draw[bus] (cpu box.east) -| (device);
+\draw[ibus] (ic.east) -| ([xshift=-.5cm]other dev.north);
+\draw[ibus] (ic.east) -| ([xshift=-.5cm]device.north);
+\begin{visibleenv}<2-3>
+\matrix[fill=white,anchor=north east,inner sep=0mm,outer sep=0mm,tight matrix no line,nodes={alt=<2>{draw=red}{draw=black},thin,font=\small,align=right,text width=3cm}]
+    (addrs) 
+ at ([xshift=1mm]creg.north west) {
+    \texttt{0x80004800}:\\
+    \texttt{0x80004808}:\\
+    \texttt{0x80004810}:\\
+    \ldots: \\
+};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\node[draw=red, very thick,fill=white,anchor=south,align=center] at ([xshift=2cm,yshift=2cm]addrs.north) {
+    control registers have memory addresses \\
+    looks like write to memory \\
+    actually changes value in device controller
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red, very thick,fill=white,anchor=south,align=center] at ([xshift=2cm,yshift=2cm]addrs.north) {
+    control registers might not really be registers \\
+    e.g. maybe writing to write? ``control register'' \\
+    actually just sends the value the external hardware
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red, very thick,fill=white,anchor=south,align=center] at ([xshift=2cm,yshift=-2cm]addrs.north) {
+    buffers/queues will also have memory addresses
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[draw=red, very thick,fill=white,anchor=north,align=center] at ([xshift=2cm,yshift=-1cm]addrs.north) {
+    way to send ``please interrupt'' signal \\
+    component of processor decides when to handle \\
+    (deals with ordering, interrupt disabling,\\ which of
+     several processors handles it, \ldots, etc.)
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

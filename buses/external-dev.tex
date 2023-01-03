@@ -1,0 +1,63 @@
+\input{../buses/std-bus-lib}
+
+\againframe<3>{stdBusDiag}
+
+\begin{frame}{buses interfacing to buses}
+    \begin{itemize}
+    \item many translators from system buses to other buses
+    \item fast but very processor-specific system bus
+    \item more generic/standardized buses for other devices
+        \begin{itemize}
+        \item USB
+        \item PCIe
+        \item SATA
+        \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\againframe<2>{stdBusDiag}
+
+\begin{frame}{memory-mapped I/O}
+    \begin{itemize}
+    \item devices expose ``memory locations'' to read/write
+    \item OS: use read/write instructions to manipulate device
+    \item device controller: handle reads/writes for those addreses on the bus
+    \vspace{.5cm}
+    \item device controller implements same protocol has memory
+    \item but makes reads/writes do very different things
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{memory-mapped I/O example}
+    \begin{itemize}
+    \item example: keyboard controller
+    \item \myemph<2>{read from magic memory location} --- get last keypress/release
+    \item reading location clears buffer for next keypress/release
+    \item \myemph<3>{get interrupt} whenever new keypress/release you haven't read
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{device as magic memory (2)}
+    \begin{itemize}
+    \item example: display controller
+    \item write to pixels to magic memory location --- displayed on screen
+    \item other memory locations control format/screen size
+        \vspace{.5cm}
+    \item example: network interface
+    \item write to buffers 
+    \item write ``send now'' signal to magic memory location --- send data
+    \item read from ``status'' location, buffers to receive
+    \end{itemize}
+\end{frame}
+\begin{frame}{talking to devices?}
+    \begin{itemize}
+    \item looks same as talking to memory
+    \vspace{.5cm}
+    \item ``memory-mapped I/O''
+    \item magic memory locations
+    \vspace{.5cm}
+    \item operating system reads/writes to special addresses
+    \item device controller decides what accessing those memory locations does
+    \end{itemize}
+\end{frame}

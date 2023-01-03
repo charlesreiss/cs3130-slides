@@ -1,4 +1,5 @@
 \usetikzlibrary{arrows.meta,calc}
+\input{../buses/std-bus-lib}
 
 \tikzset{
     >=Latex,
@@ -17,32 +18,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{the ``bus'' (1)}
-\begin{tikzpicture}
-\draw[ultra thick,<->] (0, 0) -- (15, 0);
-\node[draw,very thick,align=center,minimum height=1cm] (core 1) at (1, -3) {core};
-\node[draw,very thick,align=center,minimum height=1cm] (core 2) at (3, -2) {core};
-\node[draw,very thick,align=center,minimum height=1cm] (core 3) at (5, -3) {core};
-\node[draw,very thick,align=center] (memory) at (7, -3) {memory\\controller};
-\node[draw,very thick,align=center] (usb) at (10, -2) {USB\\controller};
-\node[draw,very thick,align=center] (graphics) at (13, -3) {graphics\\controller};
-\node[font=\small,draw,black!60,very thick,align=center] (memory chip 1) at (6, -5) {memory};
-\node[font=\small,draw,black!60,very thick,align=center] (memory chip 2) at (7, -6) {memory};
-\node[font=\small,draw,black!60,very thick,align=center] (memory chip 3) at (8, -5) {memory};
-\foreach \x in {1,2,3} {
-    \draw[black!60,very thick,<->] (memory chip \x) -- (memory);
-}
-\node[font=\small,draw,black!60,very thick,align=center] (usb 1) at (9, -4) {keyboard};
-\node[font=\small,draw,black!60,very thick,align=center] (usb 3) at (11, -4) {mouse};
-\foreach \x in {1,3} {
-    \draw[black!60,very thick,<->] (usb \x) -- (usb);
-}
-\foreach \x in {core 1,core 2,core 3,memory,usb,graphics} {
-    \draw[<->,very thick] (\x) -- (0,0 -| \x);
-}
-\end{tikzpicture}
-\end{frame}
-
+\againframe<1>{stdBusDiag}
 % FIXME: Intel 80386 block diagram as comparison
 
 
