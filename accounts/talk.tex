@@ -32,10 +32,7 @@
 \section{superuser}
 \input{../accounts/auth-unix-superuser}
 
-\subsection{superuser is not kernel mode}
-% FIXME: write!
-
-\section{running as superuser}
+\section{becoming superuser}
 
 \subsection{on boot, /bin/login}
 \input{../accounts/bin-login}
@@ -44,17 +41,16 @@
 \input{../accounts/sudo}
 
 \section{privilege escalation}
-
-% fIXME: write --- take from setuid-worry?
+\input{../accounts/priv-escalate}
 
 \subsection{buggy set-user-ID program 1}
 \input{../accounts/setuid-worry}
 
-\input{../accounts/setuid-hard-to-write}
-
 \subsection{buggy set-user-ID program 2}
-% FIXME: example: PATH environment variable 
-     % ls of spool directory?
+\input{../accounts/setuid-worry-2}
+
+\subsection{a litany of silly setuid program issues}
+\input{../accounts/setuid-hard-to-write}
 
 \subsection{example: path traversal in web}
 % FIXME: write

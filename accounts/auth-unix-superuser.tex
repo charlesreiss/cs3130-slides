@@ -2,6 +2,9 @@
 \begin{itemize}
 \item user ID \texttt{0} is special
 \item \textit{superuser} or \textit{root}
+    \begin{itemize}
+    \item (non-Unix) or Administrator or SYSTEM or \ldots
+    \end{itemize}
 \vspace{.5cm}
 \item some system calls: only work for uid \texttt{0}
     \begin{itemize}
@@ -9,4 +12,15 @@
     \end{itemize}
 \item automatically passes all (or almost all) permission checks
 \end{itemize}
+\end{frame}
+
+\begin{frame}{superuser v kernel mode}
+    \begin{itemize}
+    \item superuser : OS :: kernel mode : hardware
+    \vspace{.5cm}
+    \item programs running as superuser still in user mode
+        \begin{itemize}
+        \item just change in how OS acts on system calls, etc.
+        \end{itemize}
+    \end{itemize}
 \end{frame}

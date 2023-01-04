@@ -1,0 +1,26 @@
+\begin{frame}{another very broken setuid program (setup)}
+\begin{itemize}
+\item allow users to print files, but only if less than 1KB
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{another very broken setuid program}
+\lstset{language=C,style=small}
+print\_short\_file.c:\\
+\begin{lstlisting}[language=C,style=small]
+int main(int argc, char **argv) {
+    struct stat st;
+    if (stat(argv[1], &st) == -1) abort();
+    // make sure argv[1] is owned by user running this
+    if (st.st_uid != getuid()) abort();
+    // and that it's less than 1 KB
+    if (st.st_size >= 1024) abort();
+    char command[1024];
+    sprintf(command, "print %1000s", argv[1]);
+    system(command);
+    return EXIT_SUCCESS;
+}
+\end{lstlisting}
+\end{frame}
+

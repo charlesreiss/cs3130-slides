@@ -1,7 +1,7 @@
 \usetikzlibrary{arrows.meta}
 
 \tikzset{>=Latex}
-\newcommand{\busStuff}{
+\providecommand{\busStuff}{
 \draw[ultra thick,<->] (0, 0) -- (15, 0);
 \node[draw,very thick,align=center,minimum height=1cm] (core 1) at (1, -3) {core};
 \node[draw,very thick,align=center,minimum height=1cm] (core 2) at (3, -2) {core};
@@ -47,6 +47,20 @@
 \draw[line width=2mm,red,->] ([xshift=2mm]core 1.north) |- (1.5, -.1) -| ([xshift=-1mm]memory.north);
 \begin{visibleenv}<2->
 \draw[line width=2mm,blue,<-,dotted] ([xshift=2mm]memory.north) |- (7.5, -.1) -| ([xshift=-1mm]hdd.north);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<0>[label=busDMA]{DMA}
+\begin{tikzpicture}
+\tikzset{
+    is device/.style={},
+    is sub bus/.style={},
+}
+\busStuff
+\draw[line width=.5mm,red,->] ([xshift=-2mm]core 1.north) |- (7.5, .4) node[above,overlay] {``place data at \texttt{0xABCD}''} -| ([xshift=1mm]hdd.north);
+\begin{visibleenv}<2->
+\draw[line width=2mm,blue,<-,dotted] ([xshift=2mm]memory.north) |- (9.5, -.1) node[below] {``write to \texttt{0xABCD}''} -| ([xshift=-1mm]hdd.north);
 \end{visibleenv}
 \end{tikzpicture}
 \end{frame}
