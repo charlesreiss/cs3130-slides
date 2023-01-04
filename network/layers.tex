@@ -1,0 +1,32 @@
+\begin{frame}<1>[fragile,label=layerOverview]{layers}
+\begin{tabular}{l|l|p{6cm}} \hline
+application & HTTP, SSH, SMTP, \ldots & {application-defined meanings}\\ \hline
+transport & TCP, UDP, \ldots & {reach correct program, reliablity/streams (sometimes)} \\
+network & IPv4, IPv6, \ldots & {reach correct machine} \\
+link & Ethernet, Wi-Fi, \ldots & travel over wires/radio \\
+\end{tabular}
+\end{frame}
+
+% FIXME: application atop application
+
+\begin{frame}{more than four layers?}
+    \begin{itemize}
+    \item sometimes more layers above `application'
+    \item e.g. HTTPS:
+        \begin{itemize}
+        \item HTTP (app layer) on TLS (another app layer) on TCP (network) on \ldots
+        \end{itemize}
+    \item e.g. DNS over HTTPS:
+        \begin{itemize}
+        \item DNS (app layer) on HTTP on on TLS on TCP on \ldots
+        \end{itemize}
+    \item e.g. SFTP:
+        \begin{itemize}
+        \item SFTP (app layer??) on SSH (another app layer) on TCP on \ldots
+        \end{itemize}
+    \item e.g. HTTP over OpenVPN:
+        \begin{itemize}
+        \item HTTP on TCP on IP on OpenVPN on UDP on different IP on \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}

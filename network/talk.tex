@@ -6,11 +6,28 @@
     \titlepage
 \end{frame}
 
+\input{../common/listingsLib}
+
 \section{review: connection abstraction}
+
+\input{../network/connection-model}
+
+\subsection{example: echo client/server}
+\subsubsection{server setup}
+\input{../network/conn-setup-server-manual}
+\subsubsection{client setup}
+\input{../network/conn-setup-client-manual}
+
+\subsubsection{read/write code}
+\input{../network/echo-client-server-ex}
 
 \section{mailbox model}
 
+\input{../network/mailbox-model} % FIXME: wrong place?
+
 \section{frames, packets, datagrams, segments}
+
+\input{../network/layers}
 
 \section{addresses versus names}
 
@@ -19,6 +36,9 @@
 \subsection{network layer: IP addresses / DNS names}
 
 \subsection{transport layer: port numbers / service names}
+
+% FIXME: connection setup with names
+    % FIXME: add to reading
 
 \section{a frame example}
 
@@ -63,5 +83,14 @@
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\subsection{more normal connection setup}
+\input{../network/conn-setup-server}
+\input{../network/conn-setup-client}
+
+\subsection{other connection setup options}
+\input{../network/conn-setup-server-multi}
+\input{../network/conn-setup-gethostbyname}
+\input{../network/conn-setup-server-1023-note}
 
 \end{document}

@@ -1,0 +1,43 @@
+
+\begin{frame}[fragile,label=echoClient]{echo client/server}
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+]
+void client_for_connection(int socket_fd) {
+    int n; char send_buf[MAX_SIZE]; char recv_buf[MAX_SIZE];
+    while (prompt_for_input(send_buf, MAX_SIZE)) {
+        n = @2write(socket_fd, send_buf, strlen(send_buf))2@;
+        if (n != strlen(send_buf)) {...error?...}
+        n = @3read(socket_fd, recv_buf, MAX_SIZE)3@;
+        if (n <= 0) return; // error or EOF 
+        write(STDOUT_FILENO, recv_buf, n);
+    }
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+]
+void server_for_connection(int socket_fd) {
+    int read_count, write_count; char request_buf[MAX_SIZE];
+    while (1) {
+        read_count = @2read(socket_fd, request_buf, MAX_SIZE)2@;
+        if (read_count <= 0) return; // error or EOF 
+        write_count = @3write(socket_fd, request_buf, read_count)3@;
+        if (read_count != write_count) {...error?...}
+    }
+}
+\end{lstlisting}
+\end{frame}

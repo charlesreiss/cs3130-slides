@@ -1,0 +1,84 @@
+\usetikzlibrary{arrows.meta,shapes.symbols,shapes.multipart}
+
+\begin{frame}{mailbox model}
+    \begin{itemize}
+    \item \textit{mailbox} abstraction: send/receive messages
+    \end{itemize}
+    \begin{tikzpicture}
+    \tikzset{
+        >=Latex,
+        comp box/.style={draw, thick, align=center, minimum width=1.5cm,minimum height=3cm},
+        explain box/.style={draw=red,very thick, align=left},
+        msg/.style={font=\small},
+        cmd/.style={font=\small},
+    }
+        \node[comp box] (machine A) at (-6.5, 0) {machine \\ A};
+        \node[draw,cloud,line width=1pt,minimum width=4cm,minimum height=1cm,aspect=3,
+                alt=<2>{red,thick}] (network) at (0,0) {the network};
+        \node[comp box] (machine B) at (6.5, 0) {machine \\ B};
+        \draw[very thick,->] (machine A) -- (network) 
+            node[midway,above,msg] {B: ``Hello''}
+            node[pos=0.0,below right,cmd] {Send(B, ``Hello'')};
+        \draw[very thick,<-] (machine B) -- (network) 
+            node[midway,above,msg] {B: ``Hello''}
+            node[pos=0.0,below left,cmd] {Recv() = ``Hello''};
+        % FIXME: hilite network: knows how to get message to particular place
+            % note/show buffering at A/B
+        \begin{visibleenv}<2>
+            \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
+                network knows how to get message to B
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<3->
+            \node[anchor=south,draw,rectangle,rectangle split,rectangle split parts=5,rectangle split horizontal, inner sep=0.25mm] at ([yshift=.1cm]machine A.south) {
+                ~~~
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<3>
+            \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
+                queue of messages \\
+                from sending program \\
+                waiting to be sent
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<4->
+            \node[anchor=south,draw,rectangle,rectangle split,rectangle split parts=5,rectangle split horizontal,inner sep=0.25mm] at ([yshift=.1cm]machine B.south) {
+                ~~~
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<4>
+            \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
+                queue of messages \\
+                not yet received by \\
+                receiving program
+            };
+        \end{visibleenv}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{what about servers?}
+    \begin{itemize}
+    \item two-way communication
+    \item stream of data, not just one message
+    \vspace{.5cm}
+    \item<2-> can build this with mailbox idea
+        \begin{itemize}
+        \item send a `return address'
+        \item need to track related messages
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{connections over mailboxes}
+    \begin{itemize}
+    \item real Internet: mailbox-style communication
+        \begin{itemize}
+        \item send packets to particular mailboxes
+        \item no gaurentee on order, when received
+        \item no relationship between 
+        \end{itemize}
+    \item connections implemented on top of this
+    \end{itemize}
+\end{frame}
+
+
