@@ -1,0 +1,32 @@
+\begin{frame}{the link layer}
+\begin{itemize}
+\item Ethernet, Wi-Fi, Bluetooth, DOCSIS (cable modems), \ldots
+\vspace{.5cm}
+\item allows send/recv messages to machines on ``same'' network segment
+    \begin{itemize}
+    \item typically: wireless range+channel or connected to a single switch/router
+    \item could be larger (if \textit{bridging} multiple network segments)
+    \item could be smaller (switch/router uses ``virtual LANs'')
+    \end{itemize}
+\item typically: source+destination specified with MAC addresses
+    \begin{itemize}
+    \item MAC = media access control
+    \item usually manufacturer assigned / hard-coded into device
+    \item unique address per port/wifi transmitter/etc.
+    \end{itemize}
+\item can specify destination of ``anyone'' (called \textit{broadcast})
+\end{itemize}
+\end{frame}
+
+\begin{frame}{link layer quality of service}
+if message gets\ldots \\
+\small
+\begin{tabular}{l|l|l}
+event & on Ethernet & on WiFi \\\hline
+collides with another & detected + may resend & resend\\
+not received & lose silently & resent \\
+header corrupted & usually discard silently & usually resend \\
+data corrupted & usually discard silently & usually resend \\
+too long & not allowed to send & not allowed to send \\
+\end{tabular}
+\end{frame}
