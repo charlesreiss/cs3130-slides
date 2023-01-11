@@ -1,0 +1,19 @@
+\begin{frame}[fragile,label=exer]{exercise: miss estimating (3)}
+\begin{lstlisting}[language=C++,style=small]
+for (int kk = 0; kk < 1000; kk += 10)
+    for (int jj = 0; jj < 1000; jj += 10)
+        for (int i = 0; i < 1000; i += 1)
+            for (int j = jj; j < jj+10; j += 1)
+                for (int k = kk; k < kk + 10; k += 1)
+                    A[k*N+j] += B[i*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item assuming: 4 elements per block
+\item assuming: cache not close to big enough to hold 1K elements, but big enough to hold 500 or so
+\vspace{.5cm}
+\item estimate: \textit{approximately} how many misses for A, B?
+\vspace{.5cm}
+\item hint 1: part of A, B loaded in two inner-most loops only needs to be loaded once
+\item hint 2: part of A can be reused between iterations of \texttt{i} loop
+\end{itemize}
+\end{frame}

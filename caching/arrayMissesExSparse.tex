@@ -1,0 +1,59 @@
+
+
+\begin{frame}[fragile,label=arrayMissesSparse1]{C and cache misses (3)}
+\begin{lstlisting}[language=C,style=small]
+typedef struct {
+    int a_value, b_value;
+    int boring_values[126];
+} item;
+item items[8]; // 4 KB array
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 8; ++i)
+    a_sum += items[i].a_value;
+for (int i = 0; i < 8; ++i)
+    b_sum += items[i].b_value;
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt items} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+    \item
+How many \textit{data cache misses} on a 2KB direct-mapped cache with 16B cache blocks?
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=arrayMissesSparse1b]{C and cache misses (3, rewritten?)}
+\begin{lstlisting}[language=C,style=small]
+item array[1024]; // 4 KB array
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 1024; i += 128)
+    a_sum += array[i];
+for (int i = 1; i < 1024; i += 128)
+    b_sum += array[i];
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesSparse2]{C and cache misses (4)}
+\begin{lstlisting}[language=C,style=small]
+typedef struct {
+    int a_value, b_value;
+    int boring_values[126];
+} item;
+item items[8]; // 4 KB array
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 8; ++i)
+    a_sum += items[i].a_value;
+for (int i = 0; i < 8; ++i)
+    b_sum += items[i].b_value;
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt items} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+    \item
+How many \textit{data cache misses} on a 4-way set associative 2KB direct-mapped cache with 16B cache blocks?
+    \end{itemize}
+\end{frame}

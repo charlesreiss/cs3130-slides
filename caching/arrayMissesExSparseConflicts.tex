@@ -1,0 +1,80 @@
+\begin{frame}[fragile,label=arrayMissesSparse2Alt]{C and cache misses (4)}
+\begin{lstlisting}[language=C,style=small]
+typedef struct {
+    int a_value, b_value;
+    int other_values[6];
+} item;
+item items[5];
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 5; ++i)
+    a_sum += items[i].a_value;
+for (int i = 0; i < 5; ++i)
+    b_sum += items[i].b_value;
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt items} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesSparse2bAlt]{C and cache misses (4, rewrite)}
+\begin{lstlisting}[language=C,style=small]
+int array[40]
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 40; i += 8)
+    a_sum += array[i];
+for (int i = 1; i < 40; i += 8)
+    b_sum += array[i];
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt array} is kept in registers (and the compiler does not do
+    anything funny) and array starts at beginning of cache block.
+        }
+    \item
+How many \textit{data cache misses} on a \myemph{2-way} set associative 128B cache with 16B cache blocks and
+LRU replacement?
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=arrayMissesSparse2AltSoln1]{C and cache misses (4, solution pt 1)}
+    \begin{itemize}
+    \item ints 4 byte $\rightarrow$ array[0 to 3] and array[16 to 19] in same cache set
+        \begin{itemize}
+        \item 64B = 16 ints stored per way
+        \item 4 sets total
+        \end{itemize}
+    \item accessing 0, 8, 16, 24, 32, 1, 9, 17, 25, 33
+    \item<2-> 0 (set 0), 8 (set 2), 16 (set 0), 24 (set 2), 32 (set 0)
+    \item<2-> 1 (set 0), 9 (set 2), 17 (set 0), 25 (set 2), 33 (set 0)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesSparse2AltSoln2]{C and cache misses (4, solution pt 2)}
+\begin{tabular}{lll}
+access & set 0 after (LRU first) & result \\
+--- & ---, --- \\
+array[0] & ---, array[0 to 3] & miss \\
+array[16] & array[0 to 3], array[16 to 19] & miss \\
+array[32] & array[16 to 19], array[32 to 35] & miss \\
+array[1] & array[32 to 35], array[0 to 3] & miss \\
+array[17] & array[0 to 3], array[16 to 19] & miss \\
+array[32] & array[16 to 19], array[32 to 35] & miss \\
+\end{tabular}
+6 misses for set 0
+\end{frame}
+\begin{frame}[fragile,label=arrayMissesSparse2AltSoln3]{C and cache misses (4, solution pt 3)}
+\begin{tabular}{lll}
+access & set 2 after (LRU first) & result \\
+--- & ---, --- \\
+array[8] & ---, array[8 to 11] & miss \\
+array[24] & array[8 to 11], array[24 to 27] & miss \\
+array[9] & array[8 to 11], array[24 to 27] & hit \\
+array[25] & array[16 to 19], array[32 to 35] & hit \\
+\end{tabular}
+2 misses for set 1
+\end{frame}

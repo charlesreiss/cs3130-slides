@@ -1,0 +1,43 @@
+\begin{frame}[fragile,label=thinkStorage1]{thinking about cache storage (1)}
+    \begin{itemize}
+    \item 2KB direct-mapped cache with 16B blocks ---
+    \item set 0: address 0 to 15\tikzmark{first}, (0 to 15) +\tikzmark{second} 2KB, (0 to 15) + 4KB, \ldots
+        \begin{itemize}
+        \item<3-> block at 0: \myemph<4>{array[0] through array[3]}
+        \item<4-> block at 0+2KB: \myemph<4>{array[512] through array[515]}
+        \end{itemize}
+    \item set 1: address 16 to 31, (16 to 31) + 2KB, (16 to 31) + 4KB, \ldots \\
+        \begin{itemize}
+        \item<3-> block at 16: array[4] through array[7]
+        \item<4-> block at 16+2KB: array[516] through array[519]
+        \end{itemize}
+    \item \ldots
+    \item set 127: address 2032 to 2047, (2032 to 2047) + 2KB, \ldots
+        \begin{itemize}
+        \item<3-> block at 2032: array[508] through array[511]
+        \item<4-> block at 2032+2KB: array[1020] through array[1023]
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=thinkStorage2]{thinking about cache storage (2)}
+    \begin{itemize}
+    \item 2KB 2-way set associative cache with 16B blocks: block addresses --- 
+    \item set 0: address 0\tikzmark{first}, 0 +\tikzmark{second} 2KB, 0 + 4KB, \ldots
+        \begin{itemize}
+        \item<2-> block at 0: \myemph<4>{array[0] through array[3]}
+        \item<3-> block at 0+1KB: \myemph<4>{array[256] through array[259]}
+        \item<3-> block at 0+2KB: \myemph<4>{array[512] through array[515]}
+        \item<3-> \ldots
+        \end{itemize}
+    \item set 1: address 16, 16 + 2KB, 16 + 4KB, \ldots \\
+        \begin{itemize}
+        \item<2-> address 16: array[4] through array[7]
+        \end{itemize}
+    \item \ldots
+    \item set 63: address 1008, 2032 + 2KB, 2032 + 4KB \ldots
+        \begin{itemize}
+        \item<2-> address 1008: array[252] through array[255]
+        \end{itemize}
+    \end{itemize}
+\end{frame}

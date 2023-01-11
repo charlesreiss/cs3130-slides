@@ -1,0 +1,95 @@
+\usetikzlibrary{arrows.meta}
+
+\begin{frame}{mapping of sets to memory (direct-mapped)}
+\begin{tikzpicture}
+    \tikzset{
+    >=Latex,
+        cache/.style={draw,very thick},
+        set 0/.style={draw,thin,fill=blue!20},
+        set K/.style={draw,thin,fill=orange!30},
+    }
+\node[anchor=south] at (.5, 2) { DM cache };
+\draw[cache] (0, 0) rectangle ++(1, 2);
+\draw[set 0] (0, 1.9) rectangle ++(1, 0.1);
+\draw[<-,thick] (0, 1.95) -- ++(-.5cm, 0cm) node[left] {set 0};
+\draw[set K] (0, 0.4) rectangle ++(1, 0.1);
+\draw[<-,thick] (0, 0.45) -- ++(-.5cm, 0cm) node[left] {set $K$};
+\begin{visibleenv}<2>
+\draw[<->,very thick] (1.25, 2) -- ++(0, -2);
+\end{visibleenv}
+\begin{scope}[xshift=3cm]
+\node[anchor=south] at (.5, 2) { memory };
+\draw[cache] (0, -6) rectangle ++(1, +8);
+\draw[set 0] (0, 1.9) rectangle ++(1, 0.1);
+\draw[set 0] (0, -.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -2.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -4.1) rectangle ++(1, 0.1);
+\draw[set K] (0, 0.4) rectangle ++(1, 0.1);
+\draw[set K] (0, -1.6) rectangle ++(1, 0.1);
+\draw[set K] (0, -3.6) rectangle ++(1, 0.1);
+\draw[set K] (0, -5.6) rectangle ++(1, 0.1);
+\begin{visibleenv}<2>
+\draw[<->,very thick] (1.25, 1.9) -- ++(0, -2) node[midway,right,align=left] {
+    values which would be stored in same set \\
+    (cache size) bytes apart
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\draw[<-] (1.0, -.05) -- ++ (1, 0) node[right] {array[0] here};
+\draw[<-] (1.0, -1.55) -- ++ (1, 0) node[right,align=left] {array[X] where \\
+    X = K \cdot (array elements per cache block)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\draw[<-] (1.0, -.05) -- ++ (1, 0) node[right] {array[0] here};
+    \draw[<-] (1.0, -2.05) -- ++ (1, 0) node[right,align=left] (cache by array elem) {array[X] \\
+    X = (cache size / array element size)
+};
+\node[anchor=north,draw=red,align=left,very thick] at (cache by array elem.south) {
+    elements (cache size) bytes apart in array \\
+    beware conflict misses!
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{mapping of sets to memory (3-way)}
+\begin{tikzpicture}
+    \tikzset{
+    >=Latex,
+        cache/.style={draw,very thick},
+        set 0/.style={draw,thin,fill=blue!20},
+        set K/.style={draw,thin,fill=orange!30},
+    }
+\node[anchor=south] at (1.5, 1) { 3-way set assoc. cache };
+\draw[cache] (0, 0) rectangle ++(1, 1);
+\draw[cache] (1.1, 0) rectangle ++(1, 1);
+\draw[cache] (2.2, 0) rectangle ++(1, 1);
+\draw[set 0] (0, .9) rectangle ++(1, 0.1);
+\draw[set 0] (1.1, .9) rectangle ++(1, 0.1);
+\draw[set 0] (2.2, .9) rectangle ++(1, 0.1);
+\draw[<-,thick] (0, .95) -- ++(-.5cm, 0cm) node[left] {set 0};
+\begin{scope}[xshift=9cm]
+\node[anchor=south] at (.5, 1) { memory };
+\draw[cache] (0, -6) rectangle ++(1, +7);
+\draw[set 0] (0, .9) rectangle ++(1, 0.1);
+\draw[set 0] (0, -0.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -1.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -2.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -3.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -4.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -5.1) rectangle ++(1, 0.1);
+\begin{visibleenv}<4>
+\draw[<-] (1.0, -.05) -- ++ (1, 0) node[right,font=\small] {array[0]};
+    \draw[<-] (.0, -1.05) -- ++ (-1, 0) node[left,align=right,font=\small,yshift=-.5cm] (cache by array elem) {array[X] \\
+    where $X=\frac{\text{way size}}{\text{array element size}}$
+};
+\node[xshift=-2cm,anchor=north,draw=red,align=left,very thick,fill=white] at (cache by array elem.south) {
+    accesses data-per-way bytes apart in array? \\
+    beware conflict misses!
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}
+\end{frame}

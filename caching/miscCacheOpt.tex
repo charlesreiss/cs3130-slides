@@ -1,0 +1,33 @@
+\begin{frame}{prefetching}
+    \begin{itemize}
+    \item seems like we can't really improve cold misses\ldots
+    \item have to have a miss to bring value into the cache?
+    \vspace{.5cm}
+    \item<2-> solution: don't require miss: `prefetch' the value before it's accessed
+    \item<2-> remaining problem: how do we know what to fetch?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{common access patterns}
+    \begin{itemize}
+    \item suppose recently accessed 16B cache blocks are at:
+        \begin{itemize}
+        \item 0x48010, 0x48020, 0x48030, 0x48040
+        \end{itemize}
+    \item guess what's accessed next
+    \vspace{.5cm}
+    \item<2-> common pattern with \myemph{instruction fetches} and \myemph{array accesses}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{prefetching idea}
+\begin{itemize}
+\item look for sequential accesses
+\item bring in guess at next-to-be-accessed value
+\item if right: no cache miss (even if never accessed before)
+\item if wrong: possibly evicted something else --- could cause more misses
+    \begin{itemize}
+    \item fortunately, sequential access guesses almost always right
+    \end{itemize}
+\end{itemize}
+\end{frame}

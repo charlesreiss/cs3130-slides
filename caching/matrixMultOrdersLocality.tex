@@ -1,0 +1,34 @@
+\begin{frame}{loop orders and locality}
+\begin{itemize}
+\item loop body: $C_{ij} += A_{ik}B_{kj}$
+\item $ki\myemph<2>{j}$ order: $C_{i\myemph<2>{j}}$, $B_{k\myemph<2>{j}}$ have \myemph<1>{spatial locality}
+\item $kij$ order: $A_{ik}$ has \myemph<1>{temporal locality}
+\item \ldots{} better than \ldots{}
+\item $ij\myemph<2>{k}$ order: $A_{i\myemph<2>{k}}$ has spatial locality
+\item $ijk$ order: $C_{ij}$ has temporal locality
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=matrixMultTwoVersionsHilite]{matrix multiply}
+\[ C_{ij} = \sum_{k=1}^n A_{ik}\times B_{kj} \]
+\lstset{
+    style=small,
+    language=C,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{lstlisting}
+/* version 1: inner loop is k, middle is j*/
+for (int i = 0; i < N; ++i)
+  for (int j = 0; j < N; ++j)
+    for (int k = 0; k < N; ++k)
+      ~3C[i*N+j]~ += A[i * N + ~2k~] * B[k * N + j];
+
+/* version 2: outer loop is k, middle is i */
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      C[i*N+~2j~] += ~3A[i * N + k]~ * B[k * N + ~2j~];
+\end{lstlisting}
+\end{frame}

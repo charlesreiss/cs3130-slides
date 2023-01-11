@@ -1,0 +1,13 @@
+\begin{frame}{Tag-Index-Offset formulas (complete)}
+\def\arraystretch{1.5}
+\begin{tabular}{ll}
+$m$ & memory addreses bits (Y86-64: 64) \\
+$E$ & number of blocks per set (``ways'') \\
+$S=2^s$ & number of sets \\
+$s$  & (set) index bits \\
+$B=2^b$ & block size \\
+$b$ & (block) offset bits \\
+$t = m - (s+b)$ & tag bits \\
+$C = B \times S \times E$ & cache size (excluding metadata) \\
+\end{tabular}
+\end{frame}

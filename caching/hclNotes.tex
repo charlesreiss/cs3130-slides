@@ -1,0 +1,10 @@
+\begin{frame}{minor HCL update}
+    \begin{itemize}
+    \item new version of hclrs.tar:
+    \vspace{.5cm}
+    \item removes poptest.yo from list of tests for seqhw, pipehw2
+    \item gives error if you try to assign to register output: \\
+        {\tt register xY \{ foo : 1 = 0; \}\\ x\_foo = 0; Y\_foo = 1; } 
+    \item (previously: silently choose a value to give {\tt Y\_foo})
+    \end{itemize}
+\end{frame}

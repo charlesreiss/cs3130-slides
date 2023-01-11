@@ -1,0 +1,100 @@
+\begin{frame}[fragile,label=pattern1Ex]{exercise}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+}
+\tikzset{
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small,minimum height=.5cm,text depth=.1ex},
+        column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+        row 1/.append style={nodes={font=\small\bfseries}},
+        column 2/.append style={nodes={text width=1.3cm}},
+        ] (pattern) {
+    address (hex)\& result \\
+    00000000 (00) \& ~ \\
+    00000001 (01) \& ~ \\
+    01100011 (63) \& ~ \\
+    01100001 (61) \& ~ \\
+    01100010 (62) \& ~ \\
+    00000000 (00) \& ~ \\
+    01100100 (64) \& ~ \\
+};
+\matrix[tight matrix,anchor=north west,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.5cm}},
+        column 4/.append style={nodes={text width=5cm,align=center,dataColor,
+            text depth=2.3ex}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        label={[font=\small]$4$ byte blocks, $4$ sets}] (cache) at ([xshift=.5cm]pattern.north east) {
+    index \& valid \& tag \& value \\
+    00 \& ~ \& ~ \& ~ \\
+    01 \& ~ \& ~ \& ~ \\
+    10 \& ~ \& ~ \& ~ \\
+    11 \& ~ \& ~ \& ~ \\
+};
+\begin{visibleenv}<2>
+    \node[draw=red,very thick,anchor=north west,align=left] (ex1) at ([yshift=-.5cm]pattern.south west) {
+        how is the 8-bit address 61 (01100001) split \\ 
+        up into tag/index/offset? 
+    };
+    \node[anchor=north west,align=left,font=\small] at (ex1.north east) {
+        $b$ block offset bits;\\
+        $B=2^b$ byte block size; \\
+        $s$ set index bits; $S=2^s$ sets ;\\
+        $t=m-(s+b)$ tag bits (leftover)
+    };
+\end{visibleenv}
+\begin{visibleenv}<3-4>
+\iftoggle{heldback}{}{
+    \node[anchor=north west,font=\small,align=left] (explain1) at ([yshift=-.5cm]pattern.south west) {
+        $m = 8$ bit addresses \\ 
+        $S=4=2^s$ sets \\
+        $s=\myemph<2>{2}$ (set) index bits \\
+    };
+    \node[anchor=north west,font=\small,align=left] (explain2) at ([xshift=.5cm]explain1.north east) {
+        $B=4=2^b$ byte block size \\
+        $b=\myemph<2>{2}$ (block) offset bits \\
+        $t = m - (s+b) = \myemph<2>{4}$ tag bits\\
+    };
+}
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[anchor=north west,draw=red,very thick,align=left] at ([yshift=-.5cm]pattern.south west) {
+        exercise: which accesses are hits?
+    };
+\end{visibleenv}
+\begin{visibleenv}<4->
+\iftoggle{heldback}{}{
+    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+    \coordinate (indexTopLeft) at ([xshift=4\oneZero]tagTopLeft);
+    \coordinate (offsetTopLeft) at ([xshift=2\oneZero]indexTopLeft);
+    \coordinate (offsetTopRight) at ([xshift=2\oneZero]offsetTopLeft);
+    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+    \fill[offsetColor,opacity=0.3] (offsetTopLeft) rectangle (offsetBottomRight);
+    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+            tag
+        };
+        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+            index
+        };
+        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+            offset
+        };
+    \end{scope}
+}
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

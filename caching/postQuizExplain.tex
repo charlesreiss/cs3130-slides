@@ -1,0 +1,242 @@
+\begin{frame}[fragile,label=postQ1B]{post-quiz Q1 B}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+}
+\begin{lstlisting}
+rmmovq %rcx, 0(%rdx)  
+    // reads: %rcx, %rdx
+    // writes: data memory [no registers!]
+nop
+addq %rcx, %rdx
+    // reads: %rcx, %rdx
+    // writes: %rdx
+\end{lstlisting}
+    \begin{itemize}
+    \item read to read $\rightarrow$ \myemph{no dependency}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=postQ1D]{post-quiz Q1 D}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix noline,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %rax, ~1~%rbx~end~|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|nop|  \& ~ \fdemw \& ~ \& ~\\
+\lstinline|nop|    \& ~ \& ~ \fdemw \& ~\\
+    \lstinline|addq ~1~%rbx~end~, %rcx|    \& ~ \& ~ \& ~ \fdemw \& ~ \& ~ \& ~ \& ~ \\
+};
+
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={densely dotted,thick},
+};
+\foreach \x in {1,...,10} {
+    \draw[sepLine] (tbl-1-\x.north east) -- (tbl-5-\x.south east);
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=.05cm]tbl-#2-\idx.east) -- ([xshift=.15cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwdNo{5}{2}{5}{<all:0>}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{post-quiz Q 2}
+    \begin{itemize}
+        \item goal: squash instruction currently in execute
+        \item i.e. C disappears from the pipeline instead of advancing to memory
+    \end{itemize}
+\begin{tikzpicture}
+    \matrix[tight matrix,matrix stages,
+        row sep=.5cm,
+        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
+        column 1/.append style={nodes={text width=.8cm}},
+        column 2/.append style={nodes={text width=2.2cm}},
+        column 3/.append style={nodes={text width=1.8cm}},
+        column 4/.append style={nodes={text width=2.6cm}},
+        column 5/.append style={nodes={text width=2.0cm}},
+        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
+        time \& fetch \& decode \& execute \& memory \& writeback \\
+        1    \& A \& B \& C \& D \& E \\
+        2    \& ? \& ? \& \only<all:1-3>{?}\only<all:4>{C}\only<all:5>{nop} \& \only<all:1>{?}\only<all:2>{nop}\only<all:3>{D}\only<all:4->{\color{black!50}C} \& ? \\
+    };
+    \tikzset{
+        stall/.style={thick,blue!80!black,-Latex,font=\small,inner sep=0.1mm},
+        bubble/.style={thick,green!80!black,-Latex,font=\small,inner sep=0.1mm},
+        normal/.style={thick,black!80,-Latex,font=\small,inner sep=0.1mm},
+        normalD/.style={dotted,thick,black!60,-Latex,font=\small,inner sep=0.1mm},
+    }
+    \begin{visibleenv}<all:2>
+    \draw[bubble] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {B};
+    \end{visibleenv}
+    \begin{visibleenv}<all:3>
+    \draw[stall] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {S};
+    \end{visibleenv}
+    \begin{visibleenv}<all:4>
+    \draw[stall] (timeline-2-3.south) -- (timeline-3-4.north) node[above left] {S};
+    \draw[normalD] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {N};
+    \end{visibleenv}
+    \begin{visibleenv}<all:5>
+    \draw[bubble] (timeline-2-3.south) -- (timeline-3-4.north) node[above left] {B};
+    \draw[normalD] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {N};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=postQuizQ3]{post-quiz Q 3}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+}
+    \begin{itemize}
+    \item our/book's CPU predicts branches as \myemph{always taken}
+    \item use branch result at \myemph{beginning of jump's memory stage}
+    \end{itemize}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix noline,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|mrmovq 0(%rbx), %rcx|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|jne foo|               \& ~ \fdemw \& ~ \& ~\\
+\lstinline|foo + 0 instr: ???|    \& ~ \& ~ \& |[fetch]| F \& |[decode]| D \\
+\lstinline|foo + 1 instr: ???|    \& ~ \& ~ \& ~ \& |[fetch]| F \\
+\lstinline|addq %rcx, %rdx|       \& ~ \& ~ \& ~ \& ~\fdemw \& ~ \& ~ \& ~ \& ~ \\
+};
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={densely dotted,thick},
+}
+\foreach \x in {1,...,10} {
+    \draw[sepLine] (tbl-1-\x.north east) -- (tbl-6-\x.south east);
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=.05cm]tbl-#2-\idx.east) -- ([xshift=.15cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwd{4}{3}{6}{<all:0>}
+\begin{visibleenv}<2>
+\fwdNo{4}{2}{6}{<all:0>}
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=postQuizQ4]{post-quiz Q 4}
+\lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+}
+    \begin{itemize}
+        \item irmovq $\rightarrow$ rmmovq: needs \%rax
+        \item mrmovq $\rightarrow$ subq: needs \%rbx
+    \end{itemize}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fddemww}{ \& |[fetch]| F \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\ddemww}{ \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\f}{ \& |[fetch]| F }
+    \newcommand{\dX}{ \& |[decode]| D1 }
+\matrix[tight matrix noline,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11 \& 12 \& 13 \\
+\lstinline|irmovq $0x1234, %rax|    \fddemww \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|mrmovq 4(%rax), %rbx|    \& ~   \f   \dX \dX \dX  \dX  \dX \ddemww \& ~ \& ~\\
+\lstinline|subq %rbx, %rcx|         \& ~ \& ~   \f   \f \f   \f   \f  \f \dX \dX  \dX \dX \dX \ddemww \\
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=postQuizQ5]{post-quiz Q 5}
+\lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+}
+    \begin{itemize}
+        \item irmovq $\rightarrow$ rmmovq: needs \%rax
+        \item mrmovq $\rightarrow$ subq: needs \%rbx
+    \end{itemize}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fddemww}{ \& |[fetch]| F \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\ddemww}{ \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\f}{ \& |[fetch]| F }
+    \newcommand{\dX}{ \& |[decode]| D1 }
+\matrix[tight matrix noline,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11 \& 12 \& 13 \\
+\lstinline|irmovq $0x1234, %rax|    \fddemww \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|mrmovq 4(%rax), %rbx|    \& ~   \fddemww \& ~ \& ~\\
+\lstinline|subq %rbx, %rcx|         \& ~ \& ~   \f  \dX \ddemww \\
+};
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={densely dotted,thick},
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=.05cm]tbl-#2-\idx.east) -- ([xshift=.15cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwd{4}{2}{3}{<all:0>}
+\fwd{6}{3}{4}{<all:0>}
+\end{tikzpicture}
+\end{frame}

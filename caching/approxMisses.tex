@@ -1,0 +1,21 @@
+\begin{frame}{approximate miss analysis}
+    \begin{itemize}
+    \item very tedious to precisely count cache misses
+        \begin{itemize}
+        \item even more tedious when we take advanced cache optimizations into account
+        \end{itemize}
+    \vspace{.5cm}
+    \item instead, approximations:
+    \item \myemph<2>{good or bad temporal/spatial locality}
+        \begin{itemize}
+        \item good temporal locality: value stays in cache
+        \item good spatial locality: use all parts of cache block
+        \end{itemize}
+    \item with nested loops: what does inner loop use?
+        \begin{itemize}
+        \item intuition: values used in inner loop loaded into cache once 
+        \item (that is, once each time the inner loop is run)
+        \item \ldots if they can all fit in the cache
+        \end{itemize}
+    \end{itemize}
+\end{frame}

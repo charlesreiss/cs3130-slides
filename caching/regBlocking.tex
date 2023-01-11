@@ -1,0 +1,25 @@
+
+
+\begin{frame}[fragile,label=registerBlocking]{``register blocking''}
+\lstset{
+    style=small,
+    language=C
+}
+\begin{lstlisting}
+  for (int k = 0; k < N; ++k) {
+    for (int i = 0; i < N; i += 2) {
+      float Ai0k = A[(i+0)*N + k];
+      float Ai1k = A[(i+1)*N + k];
+      for (int j = 0; j < N; j += 2) {
+        float Akj0 = A[k*N + j+0];
+        float Akj1 = A[k*N + j+1];
+        B[(i+0)*N + j+0] += Ai0k * Akj0;
+        B[(i+1)*N + j+0] += Ai1k * Akj0;
+        B[(i+0)*N + j+1] += Ai0k * Akj1;
+        B[(i+1)*N + j+1] += Ai1k * Akj1;
+      }
+    }
+  }
+\end{lstlisting}
+\end{frame}
+

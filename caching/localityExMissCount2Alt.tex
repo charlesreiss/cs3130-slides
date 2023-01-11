@@ -1,0 +1,11 @@
+\begin{frame}[fragile,label=missEstExer2]{exercise: miss estimating (2)}
+\begin{lstlisting}[language=C++,style=small]
+for (int ii = 0; ii < N; ii += 32)
+    for (int jj = 0; jj < N; jj += 32)
+        for (int i = ii; i < ii + 32; ++i)
+            for (int j = jj; j < jj + 32; ++j)
+                A[i] += B[j] * C[i * N + j];
+\end{lstlisting}
+\begin{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,27 @@
+\begin{frame}[fragile,label=cacheBlockExample]{generalizing cache blocking}
+\lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<all:2>]{~2}{~},
+    moredelim=**[is][\btHL<all:3>]{~3}{~},
+    moredelim=**[is][\btHL<all:4>]{~4}{~},
+}
+\vspace{-.25cm}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += K) {
+  for (int ii = 0; ii < N; ii += I) {
+    @\sffamily with I by K block of A hopefully cached:@
+    for (int jj = 0; jj < N; jj += J) {
+      @\sffamily with K by J block of A, I by J block of B cached:@
+      for i in ii to ii+I:
+        for j in jj to jj+J:
+          for k in kk to kk+K:
+            ~2B[i * N + j]~ += ~3A[i * N + k]~
+                          * ~4A[k * N + j]~;
+\end{lstlisting}
+\begin{itemize}
+    \item \myemph<2>{$B_{ij}$} used $K$ times for one miss --- $N^2/K$ misses
+    \item \myemph<3>{$A_{ik}$} used $J$ times for one miss --- $N^2/J$ misses
+    \item \myemph<4>{$A_{kj}$} used $I$ times for one miss --- $N^2/I$ misses
+\item catch: $IK+KJ+IJ$ elements must \myemph{fit in cache}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,326 @@
+\usetikzlibrary{fit,matrix}
+\begin{frame}[fragile,label=writeReplaceEx1]{exercise (1)}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, \myemph{write-allocate, writeback}}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    001100 \& 
+    mem[0x30] mem[0x31] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    010000 \& 
+    mem[0x40]* mem[0x41]*%
+    %
+     \&
+    1 \& ~ \&
+    0 \\
+1 \& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~ \&
+    1 \&  
+    001100 \&
+    % i 1, 1:
+    mem[0x32]* mem[0x33]* \& 1 \&  ~ \&
+    1
+    \\
+};
+\end{tikzpicture}
+\begin{itemize}
+\item
+for each of the following accesses, performed alone, would it require (a) reading a value from memory (or next level of cache) and (b) writing a value to the memory (or next level of cache)?
+    \begin{itemize}
+    \item writing 1 byte to 0x33
+    \item reading 1 byte from 0x52
+    \item reading 1 byte from 0x50
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}<0>[fragile,label=writeReplaceEx1Soln]{exercise (1, solution)}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.6cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, \myemph{write-allocate, writeback}}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    001100 \& 
+    |[alias=problem3Data]| mem[0x30] mem[0x31] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    010000 \& 
+     mem[0x40]* mem[0x41]*%
+    %
+     \&
+    1 \& ~ \&
+    |[alias=problem3lru]| 0 \\
+1 \& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~ \&
+    1 \&  
+    001100 \&
+    % i 1, 1:
+    |[alias=problem1data,alias=problem2data]| {mem[0x32]* mem[0x33]*} \& |[alias=problem1lru,alias=problem2lru]| {1} \&  ~ \&
+    1
+    \\
+};
+    \begin{visibleenv}<1>
+        \node[fit=(problem1data),inner sep=0mm,draw=red,ultra thick,fill=red,fill opacity=0.10] {};
+        \node[fit=(problem1lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{1}0};
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+        \node[fit=(problem2data),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red,
+              font=\tt\fontsize{7}{8}\selectfont] {
+                mem[0x52]\\mem[0x53]
+            };
+        \node[fit=(problem2lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{1}0};
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+        \node[fit=(problem2data),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red,
+              font=\tt\fontsize{7}{8}\selectfont] {
+                mem[0x50]\\mem[0x51]
+            };
+        \node[fit=(problem2lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{0}1};
+    \end{visibleenv}
+\end{tikzpicture}
+\begin{itemize}
+\item \myemph<1>{writing 1 byte to 0x33}: \only<1->{(set 1, offset 1) no read or write}
+\item \myemph<2>{reading 1 byte from 0x52}: \only<2->{(set 1, offset 0) \textbf{write} back 0x32-0x33; \textbf{read} 0x52-0x53}
+\item \myemph<3>{reading 1 byte from 0x50}: \only<3->{(set 0, offset 0) replace 0x30-0x31 (no write back); \textbf{read} 0x50-0x51}
+\end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{
+    \againframe<1->{writeReplaceEx1Soln}
+}
+
+\begin{frame}[fragile,label=writeReplaceEx2]{exercise (2)}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, \myemph{write-no-allocate, write-through}}] (cache)  {
+index \& valid \& tag \& value \& \& ~\& valid \& tag \& value \& \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    001100 \& 
+    mem[0x30] mem[0x31] \&
+     \& ~\&
+    % i 0, 1:
+    1 \& 
+    010000 \& 
+    mem[0x40] mem[0x41]%
+    %
+     \&
+    \& ~ \&
+    0 \\
+1 \& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+     \& ~ \&
+    1 \&  
+    001100 \&
+    % i 1, 1:
+    mem[0x32] mem[0x33] \&  \&  ~ \&
+    1
+    \\
+};
+\end{tikzpicture}
+\begin{itemize}
+\item
+for each of the following accesses, performed alone, would it require (a) reading a value from memory and (b) writing a value to the memory?
+    \begin{itemize}
+    \item writing 1 byte to 0x33
+    \item reading 1 byte from 0x52
+    \item reading 1 byte from 0x50
+    
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=writeReplaceEx2Soln]{exercise (2, solution)}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, \myemph{write-no-allocate, write-through}}] (cache)  {
+index \& valid \& tag \& value \& \& ~\& valid \& tag \& value \& \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    001100 \& 
+    |[alias=problem3data]| mem[0x30] mem[0x31] \&
+     \& ~\&
+    % i 0, 1:
+    1 \& 
+    010000 \& 
+    mem[0x40] mem[0x41]%
+    %
+     \&
+    \& ~ \&
+    |[alias=problem3lru]| 0 \\
+1 \& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+     \& ~ \&
+    1 \&  
+    001100 \&
+    % i 1, 1:
+    |[alias=problem1data,alias=problem2data]| {mem[0x32] mem[0x33]} \& \&  ~ \&
+    |[alias=problem1lru,alias=problem2lru]| 1
+    \\
+};
+    \begin{visibleenv}<1>
+        \node[fit=(problem1data),inner sep=0mm,draw=red,ultra thick,fill=red,fill opacity=0.10] {};
+        \node[fit=(problem1lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{1}0};
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+        \node[fit=(problem2data),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red,
+              font=\tt\fontsize{7}{8}\selectfont] {
+                mem[0x52]\\mem[0x53]
+            };
+        \node[fit=(problem2lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{1}0};
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+        \node[fit=(problem3data),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red,
+              font=\tt\fontsize{7}{8}\selectfont] {
+                mem[0x50]\\mem[0x51]
+            };
+        \node[fit=(problem3lru),inner sep=0mm,draw=red,ultra thick,fill=red!10,text=red] {\sout{0}1};
+    \end{visibleenv}
+\end{tikzpicture}
+\begin{itemize}
+\item \myemph<1>{writing 1 byte to 0x33}: \only<1->{(set 1, offset 1) write-through 0x33 modification}
+\item \myemph<2>{reading 1 byte from 0x52}: \only<2->{(set 1, offset 0) replace 0x32-0x33; \textbf{read} 0x52-0x53}
+\item \myemph<3>{reading 1 byte from 0x50}: \only<3->{(set 0, offset 0) replace 0x30-0x31; \textbf{read} 0x50-0x51}
+\end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{
+    \againframe<1->{writeReplaceEx2Soln}
+}

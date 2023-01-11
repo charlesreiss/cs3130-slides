@@ -1,0 +1,48 @@
+\begin{frame}[fragile,label=cacheBlockKLoadsAlt]{simple blocking -- with 3?}
+\lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<1>]{~1}{~},
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += ~13~)
+  for (int i = 0; i < N; i += 1)
+    for (int j = 0; j < N; ++j) {
+      ~2C[i*N+j]~ += ~3A[i*N+kk+0]~ * ~4B[(kk+0)*N+j]~;
+      ~2C[i*N+j]~ += ~3A[i*N+kk+1]~ * ~4B[(kk+1)*N+j]~;
+      ~2C[i*N+j]~ += ~3A[i*N+kk+2]~ * ~4B[(kk+2)*N+j]~;
+    }
+\end{lstlisting}
+\begin{itemize}
+\item $\frac{N}{\myemph{3}}\cdot N$ j-loop iterations, and (assuming $N$ large):
+\item about $1$ misses from $A$ per j-loop iteration
+    \begin{itemize}
+    \item \myemph<2>{$N^2/\myemph{3}$ total misses (before blocking: $N^2$)}
+    \end{itemize}
+\item about $3N\div\text{block size}$ misses from $B$ per j-loop iteration
+    \begin{itemize}
+    \item $N^3\div\text{block size}$ total misses (same as before)
+    \end{itemize}
+\item about $3N\div\text{block size}$ misses from $C$ per j-loop iteration
+    \begin{itemize}
+    \item $N^3\div\text{block size}$ total misses (same as before)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{more than 3?}
+    \begin{itemize}
+    \item can we just keep doing this increase from 3 to some large $X$?
+    \ldots
+    \item assumption: $X$ values from A would stay in cache
+        \begin{itemize}
+        \item $X$ too large --- cache not big enough
+        \end{itemize}
+    \item assumption: $X$ blocks from B would help with spatial locality
+        \begin{itemize}
+        \item $X$ too large --- evicted from cache before next iteration
+        \end{itemize}
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,76 @@
+\providecommand{\KB}{\text{KB}}
+\providecommand{\Byte}{\text{Byte}}
+
+\begin{frame}{T-I-O exercise: L1}
+\iftoggle{heldback}{}{
+\def\arraystretch{1.1}
+\begin{tabular}{llll}
+quantity & value for L1\\\hline
+block size (given) & $B=64\Byte$  \\ \hline
+           & \multicolumn{3}{l}{$B=2^b$ ($b$: block offset bits)} \\ \pause
+block offset bits & $b=\myemph{6}$ \\ \hline \pause
+blocks/set (given) & $E=8$ \\ \hline
+cache size (given) & $C = 32\KB = E \times B \times S$ \\ \hline \pause
+           & \multicolumn{3}{l}{$S = \frac{C}{B\times E}$ ($S$: number of sets)} \\\pause
+number of sets & $S = \frac{32\KB}{64\Byte\times 8} = \myemph{64}$ \\\hline \pause
+               & \multicolumn{3}{l}{$S = 2^s$ ($s$: set index bits)} \\
+set index bits & $s = \log_2(64) = \myemph{6}$ \\\hline
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}{T-I-O results}
+\iftoggle{heldback}{}{
+\begin{tabular}{llll}
+~ & L1 & L2 & L3 \\ \hline
+sets & 64 & 1024 & 8192 \\
+block offset bits & 6 & 6 & 6 \\
+set index bits & 6 & 10 & 13 \\
+tag bits & \multicolumn{3}{c}{(the rest)} \\
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}{T-I-O: splitting}
+\iftoggle{heldback}{}{
+\begin{tabular}{llll}
+~ & L1 & L2 & L3 \\ \hline
+block offset bits & \myemph<1|handout:0>{6} & 6 & 6 \\
+set index bits & 6 & 10 & 13 \\
+tag bits & \multicolumn{3}{c}{(the rest)} \\
+\end{tabular}
+\begin{itemize}
+\item {\tt 0x34567}:
+\begin{tabular}{ccccc}
+3 & 4 & 5 & 6 & 7 \\
+\tt \myemph<4|handout:0>{0\myemph<7|handout:0>{011}} & \tt \myemph<4,5,7|handout:0>{0100} & 
+\tt \myemph<3,5,7|handout:0>{0101} & 
+\tt \myemph<3,5,7|handout:0>{01}\myemph<2|handout:0>{10} & 
+\tt \myemph<2|handout:0>{0111} \\
+\end{tabular}
+\item bits 0-\myemph<1|handout:0>{5} (all offsets): {\tt \myemph<2>{100111}} = {\tt 0x27}
+\only<3-4|handout:1>{
+\item<3-> L1:
+\begin{itemize}
+    \item bits 6-11 (L1 set): {\tt \myemph<3>{01 0101}} = {\tt 0x15}
+    \item bits 12- (L1 tag): \myemph<4>{\tt 0x34}
+\end{itemize}
+}
+\only<5-6|handout:2>{
+\item<5-> L2:
+\begin{itemize}
+    \item bits 6-15 (set for L2): {\tt \myemph<5>{01 0001 0101}} = {\tt 0x115}
+    \item bits 16-: {\tt 0x3}
+\end{itemize}
+}
+\only<7-|handout:3>{
+\item<7-> L3:
+\begin{itemize}
+    \item bits 6-18 (set for L3): {\tt \myemph<7>{0 1101 0001 0101}} = {\tt 0xD15}
+    \item bits 18-: {\tt 0x0} 
+\end{itemize}
+}
+\end{itemize}
+}
+\end{frame}
+

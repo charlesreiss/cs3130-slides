@@ -1,0 +1,17 @@
+
+% FIXME: consider having a picture showing probably blocks
+\begin{frame}{inefficiencies}
+    \begin{itemize}
+        \item if a row doesn't fit in cache --- \\
+            cache effectively holds \myemph{one element}
+            \begin{itemize}
+            \item everything else --- too much other stuff between accesses
+            \end{itemize}
+        \vspace{.5cm}
+        \item if a row does fit in cache --- \\
+            cache effectively holds \myemph{one row + one element}
+            \begin{itemize}
+            \item everything else --- too much other stuff between accesses
+            \end{itemize}
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,18 @@
+\begin{frame}[fragile,label=cacheBlockMotivation2]{systematic approach}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k) {
+  for (int i = 0; i < N; ++i) {
+    @$A_{ik}$ loaded once in this loop:@
+    for (int j = 0; j < N; ++j)
+      @$B_{ij}$, $A_{kj}$ loaded each iteration (if $N$ big):@
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item $N^3$ multiplies, $N^3$ adds
+\item values from $A_{ik}$ loaded $N^2$ times
+\item values from $A_{kj}$ loaded $N^3$ times
+\item values from $B_{ij}$ loaded $N^3$ times
+\item net: about one load into cache per operatoin
+\end{itemize}
+\end{frame}

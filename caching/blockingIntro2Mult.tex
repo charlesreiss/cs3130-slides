@@ -1,0 +1,132 @@
+
+
+\begin{frame}[fragile,label=cacheBlockExamplePartial]{simple blocking (2)}
+\lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{itemize}
+\item same thing for $i$ in addition to $k$?
+\end{itemize}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += 2) {
+  for (int ii = 0; ii < N; ii += 2) {
+    for (int j = 0; j < N; ++j) {
+      /* process a "block": */
+      for (int k = kk; k < kk + 2; ++k)
+        for (int i = 0; i < ii + 2; ++i)
+            C[i*N+j] += A[i*N+k] * B[k*N+j];
+    }
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockExamplePartialExpand]{simple blocking --- locality}
+\lstset{style=smaller,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; k += 2) {
+  for (int i = 0; i < N; i += 2) {
+    /* load a block around Aik */
+    for (int j = 0; j < N; ++j) {
+      /* process a "block": */
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+  }
+}
+\end{lstlisting}
+\begin{itemize}
+\item<2-> now: more temporal locality in $B$
+    \begin{itemize}
+    \item previously: access $B_{kj}$, then don't use it again for a \myemph{long} time
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockExamplePartialMissesA]{simple blocking --- counting misses for A}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize$B_{k+0,j}$@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize$B_{k+0,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+\end{lstlisting}
+\begin{itemize}
+\item $\frac{N}{2}\cdot\frac{N}{2}$ iterations of $j$ loop
+\item likely 2 misses per loop with $A$ (2 cache blocks)
+    \begin{itemize}
+    \item total misses: $\frac{N^2}{2}$ (same as only blocking in K)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockExamplePartialMissesB]{simple blocking --- counting misses for B}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+\end{lstlisting}
+\begin{itemize}
+\item $\frac{N}{2}\cdot\frac{N}{2}$ iterations of $j$ loop
+\item likely $2\div\text{block size}$ misses per iteration with $B$
+    \begin{itemize}
+    \item total misses: $\frac{N^3}{2\cdot\text{block size}}$ (before: $\frac{N^3}{\text{block size}}$)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockExamplePartialMissesC]{simple blocking --- counting misses for C}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+\end{lstlisting}
+\begin{itemize}
+\item $\frac{N}{2}\cdot\frac{N}{2}$ iterations of $j$ loop
+\item likely $\frac{2}{\text{block size}}$ misses per iteration with $C$
+    \begin{itemize}
+    \item total misses: $\frac{N^3}{2\cdot\text{block size}}$ (same as blocking only in K)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockExamplePartialMissesTot]{simple blocking --- counting misses (total)}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+\end{lstlisting}
+\begin{itemize}
+\item before: \\
+A: $\frac{N^2}{2}$; B: $\frac{N^3}{1\cdot\text{block size}}$; C $\frac{N^3}{1\cdot\text{block size}}$
+\item after: \\
+A: $\frac{N^2}{2}$; B: $\frac{N^3}{2\cdot\text{block size}}$; C $\frac{N^3}{2\cdot\text{block size}}$
+\end{itemize}
+\end{frame}

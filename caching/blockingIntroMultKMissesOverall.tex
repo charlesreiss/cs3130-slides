@@ -1,0 +1,32 @@
+\begin{frame}[fragile,label=cacheBlockKLoads]{simple blocking -- counting misses}
+\lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += 2)
+  for (int i = 0; i < N; i += 1)
+    for (int j = 0; j < N; ++j) {
+      ~2C[i*N+j]~ += ~3A[i*N+kk+0]~ * ~4B[(kk+0)*N+j]~;
+      ~2C[i*N+j]~ += ~3A[i*N+kk+1]~ * ~4B[(kk+1)*N+j]~;
+    }
+\end{lstlisting}
+\begin{itemize}
+\item $\frac{N}{2}\cdot N$ j-loop executions and (assuming $N$ large):
+\item about $1$ misses from $A$ per j-loop 
+    \begin{itemize}
+    \item \myemph<2>{$N^2/2$ total misses (before blocking: $N^2$)}
+    \end{itemize}
+\item about $2N\div\text{block size}$ misses from $B$ per j-loop 
+    \begin{itemize}
+    \item $N^3\div\text{block size}$ total misses (same as before blocking)
+    \end{itemize}
+\item about $N\div\text{block size}$ misses from $C$ per j-loop 
+    \begin{itemize}
+    \item \myemph<2>{$N^3\div(2\cdot\text{block size})$ total misses (before: $N^3\div\text{block size}$)}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

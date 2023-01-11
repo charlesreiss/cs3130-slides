@@ -1,0 +1,38 @@
+\begin{frame}[fragile,label=arrayMissesOddEven1]{arrays and cache misses (1)}
+\begin{lstlisting}
+int array[1024]; // 4KB array
+int even_sum = 0, odd_sum = 0;
+for (int i = 0; i < 1024; i += 2) {
+    even_sum += array[i + 0];
+    odd_sum +=  array[i + 1];
+}
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+            anything funny).}
+\item
+How many \textit{data cache misses} on a 2KB direct-mapped cache with 16B cache blocks?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesOddEven2]{arrays and cache misses (2)}
+\begin{lstlisting}
+int array[1024]; // 4KB array
+int even_sum = 0, odd_sum = 0;
+for (int i = 0; i < 1024; i += 2)
+    even_sum += array[i + 0];
+for (int i = 0; i < 1024; i += 2)
+    odd_sum +=  array[i + 1];
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt array} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+    \item
+How many \textit{data cache misses} on a 2KB direct-mapped cache with 16B cache blocks?
+Would a set-associtiave cache be better?
+    \end{itemize}
+\end{frame}
+

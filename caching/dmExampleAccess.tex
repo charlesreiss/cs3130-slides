@@ -1,0 +1,92 @@
+\usetikzlibrary{matrix,shapes.callouts}
+\begin{frame}<1-12>[fragile,label=pattern1]{example access pattern (1)}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+}
+\tikzset{
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small,minimum height=.5cm,text depth=.1ex},
+        column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+        row 1/.append style={nodes={font=\small\bfseries}},
+        column 2/.append style={nodes={text width=1.3cm}},
+        ] (pattern) {
+    address (hex)\& result \\
+    00000000 (00) \& |[v=4]| miss \\
+    00000001 (01) \& |[v=5,h=12]| hit \\
+    01100011 (63) \& |[v=6]| miss \\
+    01100001 (61) \& |[v=7,h=12]| miss \\
+    01100010 (62) \& |[v=8]| hit \\
+    00000000 (00) \& |[v=9,h=12]| miss \\
+    01100100 (64) \& |[v=10]| miss \\
+};
+\begin{pgfonlayer}{fg}
+    \begin{visibleenv}<12-13>
+        \node[my callout2=pattern-7-2.east,anchor=west] at ([xshift=1cm]pattern-7-2.east) {
+            miss caused by \myemph{conflict}
+        };
+    \end{visibleenv}
+\end{pgfonlayer}
+\matrix[tight matrix,anchor=north west,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.5cm}},
+        column 4/.append style={nodes={text width=2.5cm,align=center,dataColor,
+            text depth=2.3ex}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        label={[font=\small]$2$ byte blocks, $4$ sets}] (cache) at ([xshift=.5cm]pattern.north east) {
+    index \& valid \& tag \& value \\
+    00 \& \zzx{1}{3}{0}\z{4}{1} \& \zz{4,5}{6}{00000}\zz{7}{8}{01100}\z{9}{00000} \& 
+        \zz{4,5}{6}{mem[0x00] mem[0x01]}%
+        \zz{7}{8}{mem[0x60] mem[0x61]}%
+        \z{9}{mem[0x00] mem[0x01]}%
+        \\
+    01 \& \zzx{1}{5}{0}\z{6}{1} \& \z{6}{01100} \& \z{6}{mem[0x62] mem[0x63]} \\
+    10 \& \zzx{1}{9}{0}\z{10}{1} \& \z{10}{01100} \& \z{10}{mem[0x64] mem[0x65]} \\
+    11 \& 0 \& ~ \& ~ \\
+};
+\begin{visibleenv}<2->
+    \node[anchor=north west,font=\small,align=left] (explain1) at ([yshift=-.5cm]pattern.south west) {
+        $m = 8$ bit addresses \\ 
+        $S=4=2^s$ sets \\
+        $s=\myemph<2>{2}$ (set) index bits \\
+    };
+    \node[anchor=north west,font=\small,align=left] (explain2) at ([xshift=.5cm]explain1.north east) {
+        $B=2=2^b$ byte block size \\
+        $b=\myemph<2>{1}$ (block) offset bits \\
+        $t = m - (s+b) = \myemph<2>{5}$ tag bits\\
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+    \coordinate (indexTopLeft) at ([xshift=5\oneZero]tagTopLeft);
+    \coordinate (offsetTopLeft) at ([xshift=2\oneZero]indexTopLeft);
+    \coordinate (offsetTopRight) at ([xshift=1\oneZero]offsetTopLeft);
+    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+    \fill[offsetColor,opacity=0.3] (offsetTopLeft) rectangle (offsetBottomRight);
+    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+            tag
+        };
+        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+            index
+        };
+        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+            offset
+        };
+    \end{scope}
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}

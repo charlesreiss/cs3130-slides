@@ -1,0 +1,26 @@
+\begin{frame}[fragile,label=noConflict]{avoiding conflict misses}
+\begin{itemize}
+\item problem --- array is scattered throughout memory
+\item observation: 32KB cache can store 32KB contiguous array
+    \begin{itemize}
+    \item contiguous array is \myemph{split evenly} among sets
+    \end{itemize}
+\item solution: \myemph{copy block into contiguous array}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=noConflictCopy]{avoiding conflict misses (code)}
+\begin{lstlisting}[style=small]
+process_block(ii, jj, kk) {
+  float B_copy[I * J];
+  /* pseudocode for loop to save space */
+  for i = ii to ii + I, j = jj to jj + J:
+    B_copy[i * J + j] = B[i * N + j];
+  for i = ii to ii + I, j = jj to jj + J, k:
+    B_copy[i * J + j] += A[k * N + j] * A[i * N + k];
+  for all i, j:
+    B[i * N + j] = B_copy[i * J + j];
+}
+\end{lstlisting}
+\end{frame}
+

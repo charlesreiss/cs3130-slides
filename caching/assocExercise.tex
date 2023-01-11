@@ -1,0 +1,98 @@
+\newcommand<>{\ans}[1]{%
+    \iftoggle{heldback}{}{\only#2{#1}}%
+}
+
+\begin{frame}[fragile,label=pattern2Ex]{exercise}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+}
+\tikzset{
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small,minimum height=.48cm,text depth=.1ex},
+        column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+        row 1/.append style={nodes={font=\small\bfseries}},
+        column 2/.append style={nodes={text width=1cm}},
+        ] (pattern) {
+    address (hex)\& hit?\\
+    00000000 (00) \& |[v=5]| \only<5->{miss} \\
+    00000001 (01) \& \ans<6->{hit} \\
+    00001010 (0A) \& |[v=6]| \ans<6->{miss} \\
+    00100001 (21) \& |[v=7]| \ans<7->{miss} \\
+    00001100 (0C) \& \ans<7->{miss} \\
+    00000011 (02) \& |[v=8]| \ans<8->{miss} \\
+    00100011 (23) \& |[v=9]| \ans<9->{hit} \\
+};
+\matrix[tight matrix,anchor=south west,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm}},
+        column 2/.append style={nodes={align=center,text width=.5cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.25cm}},
+        column 4/.append style={nodes={text width=3.5cm,align=center,dataColor,
+            text depth=2.3ex,font=\fontsize{10}{11}\selectfont}},
+        column 5/.append style={nodes={draw=none,text width=0.25cm}},
+        column 6/.append style={nodes={align=center,text width=.5cm}},
+        column 7/.append style={nodes={align=center,tagColor,text width=1.25cm}},
+        column 8/.append style={nodes={text width=3.5cm,align=center,dataColor,
+            text depth=2.3ex,font=\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={draw=none,text width=0.25cm}},
+        column 10/.append style={nodes={text width=1cm,font=\fontsize{9}{10}\selectfont}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        row 1 column 8/.append style={nodes={text depth=.1ex}},
+        label={[overlay,font=\small]$4$ byte blocks, $2$ sets}] (cache) at ([yshift=.25cm]pattern.north west) {
+            index \& V \& tag \& value \& ~ \& V \& tag \& value \& ~ \& LRU \\
+    0 \& \only<1-4>{0}\only<5->{1} \& \only<5>{00000}\ans<6>{00000}\ans<7->{\myemph<7>{00100}} \& \only<5>{M[0x00] M[0x01] M[0x02] M[0x03]}\ans<6>{M[0x00] M[0x01] M[0x02] M[0x03]}\ans<7->{M[0x20] M[0x21] M[0x22] M[0x23]} \& ~
+      \& \only<1-5>{0}\ans<6->{1} \& \ans<6-7>{00001}\ans<8->{\myemph<8>{00000}} \& \only<6-7>{M[0x08] M[0x09] M[0x0A] M[0x0B]}\ans<8->{M[0x00] M[0x01] M[0x02] M[0x03]}  \& ~ \& \only<5>{way 1}\ans<6>{way 0}\ans<7>{way 1}\ans<8>{way 0}\ans<9>{\myemph<9>{way 1}} \\
+    1 \& \only<1-5>{0}\ans<6-7>{0}\ans<8->{1} \& \ans<8->{00000} \& \ans<8->{M[0x0C] M[0x0D] M[0x0E] M[0x0F]} \& ~  \& 0 \& ~ \& ~  \& ~ \& \ans<8->{way 1} \\
+};
+\begin{visibleenv}<2>
+    \node[draw=red,very thick,anchor=north west,align=left] (ex1) at ([xshift=.5cm]pattern.north east) {
+        how is the address 21 (00100001) split \\ 
+        up into tag/index/offset? 
+    };
+    \node[anchor=north west,align=left,font=\small] at (ex1.south west) {
+        $b$ block offset bits;\\
+        $B=2^b$ byte block size; \\
+        $s$ set index bits; $S=2^s$ sets;\\
+        $t=m-(s+b)$ tag bits (leftover)
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+\iftoggle{heldback}{}{
+    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+    \coordinate (indexTopLeft) at ([xshift=5\oneZero]tagTopLeft);
+    \coordinate (offsetTopLeft) at ([xshift=1\oneZero]indexTopLeft);
+    \coordinate (offsetTopRight) at ([xshift=2\oneZero]offsetTopLeft);
+    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+    \fill[offsetColor,opacity=0.3] (offsetTopLeft) rectangle (offsetBottomRight);
+    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+            tag
+        };
+        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+            index
+        };
+        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+            offset
+        };
+    \end{scope}
+}
+\end{visibleenv}
+\begin{visibleenv}<4-5>
+    \node[anchor=north west,draw=red,very thick,align=left] at ([xshift=.5cm]pattern.north east) {
+        exercise: how many accesses are hits? \\
+        what is the final state of the cache?
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,28 @@
+\begin{frame}{loop ordering compromises}
+    \begin{itemize}
+    \item loop ordering forces compromises:
+    \item for k: for i: for j: c[i,j] += a[i,k] * b[j,k]
+    \vspace{.5cm}
+    \item perfect temporal locality in a[i,k]
+    \item bad temporal locality for c[i,j], b[j,k]
+    \item perfect spatial locality in c[i,j]
+    \item bad spatial locality  in b[j,k], a[i,k]
+    \vspace{.5cm}
+    \item<2-> cache blocking: work on blocks rather than rows/columns
+        \begin{itemize}
+        \item have some temporal, spatial locality in everything
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{cache blocking pattern}
+    \begin{itemize}
+    \item no perfect loop order? work on rectangular matrix blocks
+    \vspace{.5cm}
+    \item size amount used in inner loops based on cache size
+    \item in practice:
+        \begin{itemize}
+        \item test performance to determine `size' of blocks
+        \end{itemize}
+    \end{itemize}
+\end{frame}

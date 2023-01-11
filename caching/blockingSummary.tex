@@ -1,0 +1,17 @@
+
+\begin{frame}{cache blocking: summary}
+\begin{itemize}
+\item reorder calculation to reduce cache misses:
+\item make \myemph{explicit choice} about what is in cache
+\item perform calculations in \myemph{cache-sized blocks}
+\item get more spatial and temporal locality
+\item temporal locality --- \myemph{reuse values} in many calculations
+    \begin{itemize}
+    \item before they are replaced in the cache
+    \end{itemize}
+\item spatial locality --- use \myemph{adjacent values} in calculations
+    \begin{itemize}
+    \item before cache block is replaced
+    \end{itemize}
+\end{itemize}
+\end{frame}

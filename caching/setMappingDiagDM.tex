@@ -1,0 +1,55 @@
+\usetikzlibrary{arrows.meta}
+
+\begin{frame}{mapping of sets to memory (direct-mapped)}
+\begin{tikzpicture}
+    \tikzset{
+    >=Latex,
+        cache/.style={draw,very thick},
+        set 0/.style={draw,thin,fill=blue!20},
+        set K/.style={draw,thin,fill=orange!30},
+    }
+\node[anchor=south] at (.5, 2) { DM cache };
+\draw[cache] (0, 0) rectangle ++(1, 2);
+\draw[set 0] (0, 1.9) rectangle ++(1, 0.1);
+\draw[<-,thick] (0, 1.95) -- ++(-.5cm, 0cm) node[left] {set 0};
+\draw[set K] (0, 0.4) rectangle ++(1, 0.1);
+\draw[<-,thick] (0, 0.45) -- ++(-.5cm, 0cm) node[left] {set $K$};
+\begin{visibleenv}<2>
+\draw[<->,very thick] (1.25, 2) -- ++(0, -2);
+\end{visibleenv}
+\begin{scope}[xshift=3cm]
+\node[anchor=south] at (.5, 2) { memory };
+\draw[cache] (0, -6) rectangle ++(1, +8);
+\draw[set 0] (0, 1.9) rectangle ++(1, 0.1);
+\draw[set 0] (0, -.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -2.1) rectangle ++(1, 0.1);
+\draw[set 0] (0, -4.1) rectangle ++(1, 0.1);
+\draw[set K] (0, 0.4) rectangle ++(1, 0.1);
+\draw[set K] (0, -1.6) rectangle ++(1, 0.1);
+\draw[set K] (0, -3.6) rectangle ++(1, 0.1);
+\draw[set K] (0, -5.6) rectangle ++(1, 0.1);
+\begin{visibleenv}<2>
+\draw[<->,very thick] (1.25, 1.9) -- ++(0, -2) node[midway,right,align=left] {
+    values which would be stored in same set \\
+    (cache size) bytes apart
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\draw[<-] (1.0, -.05) -- ++ (1, 0) node[right] {array[0] here};
+\draw[<-] (1.0, -1.55) -- ++ (1, 0) node[right,align=left] {array[X] where \\
+    X = K \cdot (array elements per cache block)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\draw[<-] (1.0, -.05) -- ++ (1, 0) node[right] {array[0] here};
+    \draw[<-] (1.0, -2.05) -- ++ (1, 0) node[right,align=left] (cache by array elem) {array[X] \\
+    X = (cache size / array element size)
+};
+\node[anchor=north,draw=red,align=left,very thick] at (cache by array elem.south) {
+    elements (cache size) bytes apart in array \\
+    beware conflict misses!
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}
+\end{frame}

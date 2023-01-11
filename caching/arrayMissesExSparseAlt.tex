@@ -1,0 +1,65 @@
+\begin{frame}[fragile,label=arrayMissesSparse1Alt]{C and cache misses (3)}
+\begin{lstlisting}[language=C,style=small]
+typedef struct {
+    int a_value, b_value;
+    int other_values[10];
+} item;
+item items[5];
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 5; ++i)
+    a_sum += items[i].a_value;
+for (int i = 0; i < 5; ++i)
+    b_sum += items[i].b_value;
+\end{lstlisting}
+\begin{itemize}
+    \item observation: 12 ints in struct: only first two used
+    \item equivalent to accessing array[0], array[12], array[24], etc.
+    \item \ldots then accessing array[1], array[13], array[25], etc.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=arrayMissesSparse1bAlt]{C and cache misses (3, rewritten?)}
+\begin{lstlisting}[language=C,style=small]
+int array[60];
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 60; i += 12)
+    a_sum += array[i];
+for (int i = 1; i < 60; i += 12)
+    b_sum += array[i];
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt array} is kept in registers (and the compiler does not do
+    anything funny) and array at beginning of cache block.
+        }
+    \item
+How many \textit{data cache misses} on a 128B two-way set associative cache with 16B cache blocks
+and LRU replacement?
+\item observation 1: first loop has 5 misses --- first accesses to blocks
+\item observation 2: array[0] and array[1], array[12] and array[13], etc. in same cache block
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesSparse1bAltSoln]{C and cache misses (3, solution)}
+    \begin{itemize}
+    \item ints 4 byte $\rightarrow$ array[0 to 3] and array[16 to 19] in same cache set
+        \begin{itemize}
+        \item 64B = 16 ints stored per way
+        \item 4 sets total
+        \end{itemize}
+    \item accessing array indices 0, 12, 24, 36, 48, 1, 13, 25, 37, 49
+    \item<3-> 0 (set 0, array[0 to 3]), 12 (set 3), 24 (set 2), 36 (set 1), 48 (set 0)
+        \begin{itemize}
+        \item each set used at most twice
+        \item no replacement needed
+        \end{itemize}
+    \item so access to 1, 21, 41, 61, 81 all hits:
+        \begin{itemize}
+        \item set 0 contains block with array[0 to 3]
+        \item set 5 contains block with array[20 to 23]
+        \item etc.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

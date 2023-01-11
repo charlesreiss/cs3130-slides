@@ -1,0 +1,64 @@
+
+\begin{frame}{exercise (2)}
+    \begin{itemize}
+    \item 2 set, 3-way cache, 4 byte blocks
+    \item access pattern:
+        \begin{itemize}
+        \item 0x0, 0x1000, 0x4, 0x1004, 0x0, 0x1008, 0x4, 0x100C,
+        \item 0x0, 0x1010, 0x4, 0x1014, 0x0, 0x1018, 0x4, 0x101C,
+        \item 0x0, 0x1020, 0x4, 0x1024, 0x0, 0x1028, 0x4, 0x102C,
+        \item \ldots
+        \end{itemize}
+    \item how does each do?
+        \begin{itemize}
+        \item LRU
+        \item FIFO
+        \item random
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{
+\begin{frame}{exercise (2)}
+    \begin{itemize}
+    \item 2 set, 3-way cache, 4 byte blocks
+    \item access pattern:
+        \begin{itemize}
+        \item \myemph{0x0, 0x1000,} 0x4, 0x1004, \myemph{0x0, 0x1008,} 0x4, 0x100C,
+        \item \myemph{0x0, 0x1010,} 0x4, 0x1014, \myemph{0x0, 0x1018,} 0x4, 0x101C,
+        \item \myemph{0x0, 0x1020,} 0x4, 0x1024, \myemph{0x0, 0x1028,} 0x4, 0x102C,
+        \item \ldots
+        \end{itemize}
+    \item how does each do?
+        \begin{itemize}
+        \item LRU
+        \item FIFO
+        \item random
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}{FIFO}
+\tt\small
+\begin{tabular}{ll}
+\tt\small
+access & last in $\leftarrow\rightarrow$ first in \\
+    0x0 & \myemph{0x0} \\
+    0x1000 & \myemph{0x1000}, 0x0 \\
+    0x0 & 0x1000, 0x0 \\
+    0x1008 & \myemph{0x1008}, 0x1000, 0x0 \\
+    0x0 & 0x1008, 0x1000, 0x0 \\
+    0x1010 & \myemph{0x1010}, 0x1008, 0x1000 \\
+    0x0 & \myemph{0x0}, 0x1010, 0x1008 \\
+    0x1018 & \myemph{0x1018}, 0x0, 0x1010 \\
+    0x0 & 0x1018, 0x0, 0x1010 \\
+    0x1020 & \myemph{0x1020}, 0x1018, 0x0 \\
+    0x0 & 0x1020, 0x1018, 0x0 \\
+    0x1028 & \myemph{0x1028}, 0x1020, 0x1018 \\
+    0x0 & \myemph{0x0}, 0x1028, 0x1020 \\
+    \ldots & \ldots \\
+\end{tabular}
+\begin{itemize}
+    \item 0x0: 67\% hit rate; others: 0\% hit rate
+\end{itemize}
+\end{frame}
+}

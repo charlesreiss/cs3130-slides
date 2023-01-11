@@ -1,0 +1,21 @@
+\begin{frame}{reasoning about cache performance}
+    \begin{itemize}
+        \item \myemph{hit time}: time to lookup and find value in cache
+        \begin{itemize}
+        \item L1 cache --- typically 1 cycle?
+        \end{itemize}
+    \item \myemph{miss rate}: portion of hits (value in cache)
+    \item \myemph{miss penalty}: extra time to get value if there's a miss
+        \begin{itemize}
+        \item time to access next level cache or memory
+        \end{itemize}
+    \item \myemph{miss time}: hit time + miss penalty
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{average memory access time}
+    \begin{itemize}
+    \item $\text{AMAT} = \text{hit time} + \text{miss penalty} \times \text{miss rate}$
+    \item effective speed of memory
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,13 @@
+\begin{frame}[fragile]{make}
+\begin{Verbatim}
+$ ./foo.exe
+...
+...
+$ edit readline.c
+$ make
+clang -g -O -Wall -c readline.c -o readline.o
+ar rcs terminal.o readline.o libreadline.a
+clang -o foo.exe libreadline.a foo.o foo-utility.o bar.o
+$ 
+\end{Verbatim}
+\end{frame}

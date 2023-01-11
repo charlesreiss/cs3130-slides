@@ -1,0 +1,151 @@
+\usetikzlibrary{
+    arrows.meta,
+    decorations.pathreplacing,
+    matrix,
+}
+
+\begin{frame}<0>[fragile,label=quizAccessSoln1]{quiz exercise solution}
+\newcommand{\mywidth}{0.39}
+\begin{tikzpicture}
+    \foreach \offset in {-2,-1,0,1,2,...,31,32,33} {
+        \draw[black!25,thin] (\offset * \mywidth, 0) rectangle ++(\mywidth, -.7);
+    }
+    \node[font=\large,anchor=east] at (-2 * \mywidth, -.5) {\ldots};
+    \node[font=\large,anchor=west] at (34 * \mywidth, -.5) {\ldots};
+    \begin{scope}
+    \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -.7);
+    \foreach \offset/\name in {0/0,4/1,8/2,12/3,16/4,20/5,24/6,28/7,32/8} {
+        \draw[thin,fill=blue!10] (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -.7)
+            node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {array[\name]};
+    }
+    \foreach \offset in {-8,0,8,16,24,32} {
+        \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+            rectangle ++(\mywidth * 8, -.7);
+    }
+    \end{scope}
+        \draw[very thick, decorate, decoration={brace}] (8 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (set index 0)};
+        \draw[very thick, decorate, decoration={brace}] (16 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (set index 1)};
+        \draw[very thick, decorate, decoration={brace}] (24 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (set index 0)};
+        \draw[very thick, decorate, decoration={brace}] (0 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (set index 1)};
+    \tikzset{
+        set both/.style={alt=<2-3>{nodes={fill=red!10}}},
+        set 0/.style={
+            alt=<2>{nodes={fill=red!10}},
+            alt=<3>{opacity=0.1},
+        },
+        set 1/.style={
+            alt=<3>{nodes={fill=red!10}},
+            alt=<2>{opacity=0.1},
+        },
+    }
+    \matrix[tight matrix,
+        nodes={minimum height=0.5cm,font=\fontsize{8}{9}\selectfont},
+        column 1/.append style={nodes={text width=4cm}},
+        column 2/.append style={nodes={text width=5cm,font=\fontsize{10}{11}\tt\selectfont,set 0}},
+        column 3/.append style={nodes={text width=5cm,font=\fontsize{10}{11}\tt\selectfont,set 1}},
+        row 1/.append style={nodes={font=\fontsize{9}{10}\bfseries\selectfont}},
+        row 2/.append style={set both},
+        row 3/.append style={set 0},
+        row 4/.append style={set 1},
+        row 5/.append style={set 1},
+        row 6/.append style={set 0},
+        row 7/.append style={set 0},
+        row 8/.append style={set 1},
+        row 9/.append style={set 1},
+        row 10/.append style={set 0},
+        row 11/.append style={set 0},
+        anchor=north west] at (-1, -1.7) {
+        memory access \& set 0 afterwards \& set 1 afterwards \\ 
+        --- \& (empty) \& (empty) \\
+        read \lstinline|array[0]| (miss) \& \{array[0], array[1]\} \& (empty) \\
+        read \lstinline|array[3]| (miss) \& \{array[0], array[1]\} \& \{array[2], array[3]\} \\
+        read \lstinline|array[6]| (miss) \& \{array[0], array[1]\} \& \{array[6], array[7]\} \\
+        read \lstinline|array[1]| (hit) \& \{array[0], array[1]\} \& \{array[6], array[7]\} \\
+        read \lstinline|array[4]| (miss) \& \{array[4], array[5]\} \& \{array[6], array[7]\} \\
+        read \lstinline|array[7]| (hit) \& \{array[4], array[5]\} \& \{array[6], array[7]\} \\
+        read \lstinline|array[2]| (miss) \& \{array[4], array[5]\} \& \{array[2], array[3]\} \\
+        read \lstinline|array[5]| (hit) \& \{array[4], array[5]\} \& \{array[6], array[7]\} \\
+        read \lstinline|array[8]| (miss) \& \{array[8], array[9]\} \& \{array[6], array[7]\} \\
+    };
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{}{
+\againframe<1-3>{quizAccessSoln1}
+}
+
+\begin{frame}<0>[fragile,label=quizNotSoln]{not the quiz problem}
+\newcommand{\mywidth}{0.39}
+\begin{tikzpicture}
+    \foreach \offset in {-2,-1,0,1,2,...,31,32,33} {
+        \draw[black!25,thin] (\offset * \mywidth, 0) rectangle ++(\mywidth, -.7);
+    }
+    \node[font=\large,anchor=east] at (-2 * \mywidth, -.5) {\ldots};
+    \node[font=\large,anchor=west] at (34 * \mywidth, -.5) {\ldots};
+    \begin{scope}
+    \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -.7);
+    \foreach \offset/\name in {0/0,4/1,8/2,12/3,16/4,20/5,24/6,28/7,32/8} {
+        \draw[thin,fill=blue!10] (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -.7)
+            node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {array[\name]};
+    }
+    \foreach \offset in {-8,0,8,16,24,32} {
+        \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+            rectangle ++(\mywidth * 8, -.7);
+    }
+    \end{scope}
+        \draw[very thick, decorate, decoration={brace}] (8 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block};
+        \draw[very thick, decorate, decoration={brace}] (16 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache bloc};
+        \draw[very thick, decorate, decoration={brace}] (24 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block};
+        \draw[very thick, decorate, decoration={brace}] (0 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block };
+    \tikzset{
+        set both/.style={alt=<2-3>{nodes={fill=red!10}}},
+        set 0/.style={
+            alt=<2>{nodes={fill=red!10}},
+            alt=<3>{opacity=0.1},
+        },
+        set 1/.style={
+            alt=<3>{nodes={fill=red!10}},
+            alt=<2>{opacity=0.1},
+        },
+    }
+    \matrix[tight matrix,
+        nodes={minimum height=0.5cm,font=\fontsize{8}{9}\selectfont},
+        column 1/.append style={nodes={text width=4cm}},
+        column 2/.append style={nodes={text width=10cm,font=\fontsize{10}{11}\tt\selectfont}},
+        row 1/.append style={nodes={font=\fontsize{9}{10}\bfseries\selectfont}},
+        anchor=north west] (access matrix) at (-1, -1.7) {
+        memory access \& single set with 2-ways, LRU first \\ 
+        --- \& ---, --- \\
+        read \lstinline|array[0]| (miss) \& ---, \{array[0], array[1]\} \\
+        read \lstinline|array[3]| (miss) \& \{array[0], array[1]\}, \{array[2], array[3]\} \\
+        read \lstinline|array[6]| (miss) \& \{array[2], array[3]\}, \{array[6], array[7]\} \\
+        read \lstinline|array[1]| (miss) \& \{array[6], array[7]\}, \{array[0], array[1]\} \\
+        read \lstinline|array[4]| (miss) \& \{array[0], array[1]\}, \{array[3], array[4]\} \\
+        read \lstinline|array[7]| (miss) \& \{array[3], array[4]\}, \{array[6], array[7]\} \\
+        read \lstinline|array[2]| (miss) \& \{array[6], array[7]\}, \{array[2], array[3]\} \\
+        read \lstinline|array[5]| (miss) \& \{array[2], array[3]\}, \{array[5], array[6]\} \\
+        read \lstinline|array[8]| (miss) \& \{array[5], array[6]\}, \{array[8], array[9]\} \\
+    };
+    \node[draw=red,very thick,anchor=south] at ([yshift=1mm]access matrix.north) {
+        if 1-set 2-way cache instead of 2-set 1-way cache:
+    };
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{}{
+\againframe<1>{quizNotSoln}
+}
+
+

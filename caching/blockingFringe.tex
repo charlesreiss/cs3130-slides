@@ -1,0 +1,42 @@
+\begin{frame}[fragile,label=fringeCode1]{cache blocking ugliness --- fringe}
+\lstset{
+    style=small,
+    escapechar=@
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += K) {
+  for (int ii = 0; ii < N; ii += I) {
+    for (int jj = 0; jj < N; jj += J) {
+      for (int k = kk; k < @\myemph{$\mathtt{\min}(kk+K,N)$}@; ++k) {
+          // ...
+      }
+    }
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=fringeCode2]{cache blocking ugliness --- fringe}
+\lstset{
+    style=small,
+    escapechar=@
+}
+\begin{lstlisting}
+for (kk = 0; kk + K <= N; kk += K) {
+  for (ii = 0; ii + I <= N; ii += I) {
+    for (jj = 0; jj + J <= N; ii += J) {
+      // ...
+    }
+    for (; jj < N; ++jj) {
+      // handle remainder
+    }
+  }
+  for (; ii < N; ++ii) {
+    // handle remainder
+  }
+}
+for (; kk < N; ++kk) {
+  // handle remainder
+}
+\end{lstlisting}
+\end{frame}

@@ -1,0 +1,126 @@
+
+% FIXME: numerical labels for blocks within set
+\begin{frame}[fragile,label=cacheOpAssocSplitTag]{cache operation (associative)}
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    tagStoreFill/.style={fill=green!20},
+    dataStoreFill/.style={fill=blue!20},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries}},
+        column 1/.style={nodes={text width=1cm,align=center,tagStoreFill}},
+        column 2/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 3/.style={nodes={text width=1cm,align=center,tagStoreFill}},
+        column 4/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 5/.style={nodes={text width=.1cm,draw=none}},
+        column 6/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        column 7/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        ] (cache) {
+    valid \& tag \&  valid \& tag \& ~ \& data \& data\\
+    1  \& 10 \& 1 \& 00 \& ~ \& 00 11 \& AA BB \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    1 \&  11 \& 1 \& 01 \& ~ \& B4 B5 \& 33 44 \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=.5cm,xshift=-.3cm]cache.north west){100};
+\node[left=0cm of idx,tagColor] (tag) {11};
+\node[right=0cm of idx,offsetColor] (offset) {1};
+\end{scope}
+\draw[thick,dashed,-latex] (idx) |- (cache-6-1.west) node[near start,font=\small,fill=white,inner sep=2pt,xshift=-.3cm] {index};
+
+%\begin{visibleenv}<2->
+    \node[below=0.3cm of cache-9-2,draw,circle,inner sep=3pt] (comp1) {\small =};
+    \node[below=1.4cm of cache-9-4,draw,circle,inner sep=3pt] (comp2) {\small =};
+    %\coordinate(comp1Intersect) at ($(comp1) + (-.7cm,0.5cm)$);
+    %\node[draw,circle,tagColorFill,inner sep=0pt,minimum width=1mm] at (comp1Intersect) {};
+    \draw[tagColor,myline] (cache-9-2) -- (comp1);
+    \draw[tagColor,myline] (cache-9-4) -- (comp2);
+
+    %\draw[myline no arrow,tagColor] (tag) |- (comp1Intersect);
+    %\draw[myline,tagColor] (comp1Intersect) |- (comp1);
+    \draw[tagColor,myline] (tag) |- (comp2);
+    \draw[tagColor,myline] (tag) |- (comp1) node[near start,font=\small,fill=white] {tag};
+    %\draw[myline no arrow,tagColor] (comp1Intersect) |- (comp2Intersect);
+    %\draw[myline,tagColor] (comp2Intersect) |- (comp2);
+
+    \node[xshift=-.4cm,draw,below=1cm of cache-9-3,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck1) {};
+    \node[xshift=-.4cm,draw,below=2.0cm of cache-9-6,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck2) {};
+    \draw[myline] (comp1.south) |- (validCheck1.input 1);
+    \draw[myline] (cache-9-1.south) |- (validCheck1.input 2);
+    \draw[myline] (comp2.south) |- (validCheck2.input 1);
+    \draw[myline] ([xshift=.25cm]cache-9-3.south) |- (validCheck2.input 2);
+%\end{visibleenv}
+
+\node[fit=(cache-6-1) (cache-6-7),inner sep=1pt,red,draw,line width=3pt] {};
+
+%\node[draw,trapezium,inner xsep=0pt,outer sep=0pt,trapezium angle=75,below=.7cm of validCheck2,
+%text width=5cm,shape border rotate=180,xshift=1.5cm] (mux) {};
+%\draw[myline] (validCheck1.output) -| (buffer1.west);
+%\draw[myline] (cache-9-3.south) -- (buffer1);
+%\draw[myline] (buffer1.south) -- (bufEnd1);
+\coordinate (outputData) at ([xshift=1.5cm,yshift=-.5cm]cache-9-7.south east);
+\coordinate (beforeOutputData) at ([xshift=-.5cm]outputData);
+\coordinate (outputHit1) at ([xshift=-1.5cm] beforeOutputData |- validCheck1.output);
+\coordinate (outputHit2) at ([xshift=-1.5cm] beforeOutputData |- validCheck2.output);
+%\begin{visibleenv}<2->
+\node[or gate,logic gate inputs=nn,label={[font=\scriptsize]center:OR},anchor=output] (validCheckTotal)
+    at ([xshift=1cm]$(outputHit1)!0.5!(outputHit2)$) {};
+%\draw[myline] (validCheck1.output) -- (outputHit1) |- (validCheckTotal.input 1);
+    \draw[myline no arrow] (validCheck1.output) -- ([xshift=0.23cm]validCheck1.output -| cache-9-3.south);
+    \draw[myline no arrow] ([xshift=0.27cm]validCheck1.output -| cache-9-3.south) -- 
+                  ([xshift=-2pt]validCheck1.output -| cache-9-4.south);
+    \draw[myline no arrow] ([xshift=2pt]validCheck1.output -| cache-9-4.south) -- (outputHit1);
+    \draw[myline] (outputHit1) |- (validCheckTotal.input 1);
+\draw[myline] (validCheck2.output) -- (outputHit2) |- (validCheckTotal.input 2);
+\draw[myline] (validCheckTotal.output) -- ++(.5cm,0cm) node[right] {is hit? ({\tt 1})};
+%\end{visibleenv}
+%\begin{visibleenv}<3->
+    \node[dataColor,draw,mux,anchor=east,inputs=nn] (outputSelect) at ([xshift=-.2cm]beforeOutputData) {};
+    \draw[myline] (outputHit1) -| (outputSelect.south);
+    \fill[black] (outputHit1) circle (2pt);
+    %\draw[myline,dataColor] (cache-9-3.south) |- (outputSelect.input 2);
+        \draw[dataColor,myline no arrow] (cache-9-6.south) |- ([xshift=-1pt]cache-9-6.south |- outputSelect.input 2);
+        \draw[dataColor,myline no arrow] ([xshift=1pt]cache-9-6.south |- outputSelect.input 2) --
+                               ([xshift=-1pt]cache-9-7.south |- outputSelect.input 2);
+        \draw[dataColor,myline] ([xshift=1pt]cache-9-6.south |- outputSelect.input 2) --
+                               (outputSelect.input 2);
+    \draw[myline,dataColor] (cache-9-7.south) |- (outputSelect.input 1);
+    \draw[myline no arrow,dataColor] (outputSelect.output) -- (beforeOutputData);
+    \node[draw,mux,anchor=west,inputs=nn] (selectByte) at (outputData) {};
+    \foreach \x in {1,2} {
+        \draw[dataColor,myline thin] (beforeOutputData) |- (selectByte.input \x);
+    };
+    \draw[offsetColor,myline] (offset.east) -| (selectByte.north) node[very near start,fill=white,font=\small] {offset};
+    \draw[dataColor,myline thin] (selectByte.output) -- ++(0.5cm,0cm) -- ++(0cm,0.5cm) node[above,align=center] {data\\({\tt B5})};
+%\end{visibleenv}
+
+\begin{visibleenv}<2-3>
+\node[draw,red,thick,fit=(validCheck1)] {};
+\node[draw,red,thick,fit=(comp1)] {};
+\draw[red,thick,dashed,-Latex] (validCheck1.output) -| (outputSelect.south);
+\end{visibleenv}
+\begin{visibleenv}<3>
+\draw[thick,red,-Latex] (outputSelect.input 2) -- (outputSelect.output);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

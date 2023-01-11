@@ -1,0 +1,75 @@
+\usetikzlibrary{fit,matrix}
+\begin{frame}{5x5 array and 4-element cache blocks}
+\begin{tikzpicture}
+\tikzset{
+    cb1/.style={
+        alt={<2,5>{fill=red!15}},
+    },
+    cb2/.style={
+        alt={<3,5>{fill=orange!20}},
+    },
+    cb3/.style={
+        alt={<4,5>{fill=yellow!20}},
+    },
+    cb4/.style={
+        alt=<5>{fill=green!15},
+    },
+    cb5/.style={
+        alt=<5>{fill=blue!15},
+    },
+    cb6/.style={
+        alt=<5>{fill=violet!15},
+    },
+    cb7/.style={
+        alt=<5>{fill=magenta!20},
+    },
+}
+\matrix[tight matrix,nodes={font=\fontsize{9}{10}\selectfont,text width=2.5cm}] (a) {
+    |[cb1]| \tt array[0*5 + 0] \&
+    |[cb1]| \tt array[0*5 + 1] \&
+    |[cb1]| \tt array[0*5 + 2] \&
+    |[cb1]| \tt array[0*5 + 3] \&
+    |[cb2]| \tt array[0*5 + 4] \\
+    |[cb2]| \tt array[1*5 + 0] \&
+    |[cb2]| \tt array[1*5 + 1] \&
+    |[cb2]| \tt array[1*5 + 2] \&
+    |[cb3]| \tt array[1*5 + 3] \&
+    |[cb3]| \tt array[1*5 + 4] \\
+    |[cb3]| \tt array[2*5 + 0] \&
+    |[cb3]| \tt array[2*5 + 1] \&
+    |[cb4]| \tt array[2*5 + 2] \&
+    |[cb4]| \tt array[2*5 + 3] \&
+    |[cb4]| \tt array[2*5 + 4] \\
+    |[cb4]| \tt array[3*5 + 0] \&
+    |[cb5]| \tt array[3*5 + 1] \&
+    |[cb5]| \tt array[3*5 + 2] \&
+    |[cb5]| \tt array[3*5 + 3] \&
+    |[cb5]| \tt array[3*5 + 4] \\
+    |[cb6]| \tt array[4*5 + 0] \&
+    |[cb6]| \tt array[4*5 + 1] \&
+    |[cb6]| \tt array[4*5 + 2] \&
+    |[cb6]| \tt array[4*5 + 3] \&
+    |[cb7]| \tt array[4*5 + 4] \\
+};
+\begin{visibleenv}<2>
+\node[align=left,anchor=north] at ([yshift=-1cm]a.south) {
+    if array starts on cache block \\
+    first cache block = first elements \\
+    all together in one row!
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[align=left,anchor=north] at ([yshift=-1cm]a.south) {
+    second cache block: \\
+    1 from row 0 \\
+    3 from row 1 \\
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[align=left,anchor=north] at ([yshift=-1cm]a.south) {
+    generally: cache blocks contain data from 1 or 2 rows \\
+    $\rightarrow$ better performance from reusing rows
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

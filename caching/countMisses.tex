@@ -1,0 +1,29 @@
+\begin{frame}{reasoning about loop orders}
+    \begin{itemize}
+    \item changing loop order changed locality
+        \vspace{.5cm}
+    \item how do we tell which loop order will be best?
+        \begin{itemize}
+        \item besides running each one?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockMotivation]{systematic approach (1)}
+\lstset{style=small,language=C}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item goal: get most out of \myemph{each cache miss}
+\item if $N$ is larger than the cache:
+\item miss for $B_{ij}$ --- 1 comptuation
+\item miss for $A_{ik}$ --- $N$ computations
+\item miss for $A_{kj}$ --- 1 computation
+\item effectively caching \myemph{just 1 element}
+\end{itemize}
+\end{frame}
+

@@ -1,0 +1,283 @@
+\usetikzlibrary{arrows.meta,matrix,positioning,shapes.callouts,shapes.misc}
+\begin{frame}{write-through v. write-back}
+\begin{tikzpicture}
+\tikzset{
+    stepCircle/.style={circle,fill=yellow!10,draw,very thick,inner sep=1pt},
+    every pin edge/.style={-,thick},
+}
+
+\node[draw,minimum width=1cm,minimum height=2.5cm] (cpu) {CPU};
+\node[draw,minimum width=3cm,minimum height=4cm,right=4cm of cpu] (cache) {Cache};
+    \node[above=2cm of cache,font=\bfseries] {
+        \only<1-2>{option 1: write-through}\only<3-4>{option 2: write-back}
+    };
+\node[draw,minimum width=3cm,minimum height=6cm,right=4cm of cache] (mem) {RAM};
+    \node[align=center,draw] (storedValue) at ([yshift=-1cm]cache.center) {{\tt ABCD}: \only<1>{FF}\only<2->{\myemph<2,3>{10}} \\ 
+        \only<3->{(\myemph{dirty})}};
+    \node[align=center,draw,anchor=north] (storedValueMem) at ([yshift=-.5cm]mem.center) {\ldots \\ {\tt 11CD}: {\tt 42} \\ {\tt ABCD}: \only<1,3>{FF}\only<2,4->{\myemph<4>{10}} \\ \ldots};
+
+\begin{scope}[every node/.style={inner sep=1pt},every pin/.style={align=center}]
+    \draw[very thick,-Latex] ([yshift=1cm]cpu.east) -- ([yshift=1cm]cache.west)
+        node[-,midway,pin={[name=writeToCache]north:write {\tt 10}\\to {\tt 0xABCD}}] (cacheWrite) {};
+    \node[stepCircle] at (writeToCache.north west) {1};
+    \begin{visibleenv}<2>
+        \draw[very thick,-Latex] ([yshift=1cm]cache.east) coordinate (cacheOut) --
+            ([yshift=1cm]mem.west) coordinate (memIn)
+            node[-,midway,pin={[name=forwardWrite]north:write {\tt 10}\\to {\tt 0xABCD}}] {};
+        \node[stepCircle] at (forwardWrite.north west) {2};
+    \end{visibleenv}
+\end{scope}
+\begin{visibleenv}<4->
+    \node[draw,thick,cross out,minimum width=2cm,minimum height=1cm] at (storedValue) {};
+\end{visibleenv}
+\begin{visibleenv}<4->
+    \node[pin={[align=center,name=readCmd]south:read \\ from \\ {\tt 0x11CD} \\ (conflicts)}] at (cacheWrite) {};
+    \node[stepCircle] at (readCmd.north west) {2};
+    \draw[very thick,-Latex] (cacheOut) -- (memIn)
+        node[midway,pin={[align=center,name=writeBackOut]north:write {\tt 10} \\ to {\tt ABCD}}] {};
+    \node[stepCircle] at (writeBackOut.north west) {3};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[my callout2=storedValue.south,anchor=north] at ([yshift=-1cm]storedValue) {
+        \ldots{} when replaced --- send value to memory
+    };
+\end{visibleenv}
+\begin{visibleenv}<5->
+    \path (cacheOut) -- (memIn)
+        node[midway,pin={[align=center,name=actualRead]south:read\\from\\{\tt 0x11CD}}] {};
+    \node[stepCircle] at (actualRead.north west) {4};
+    \node[my callout2=actualRead.south,anchor=north] at ([xshift=1cm,yshift=-1cm]storedValue) {
+        \ldots{} read new value to store in cache
+    };
+\end{visibleenv}
+% FIXME: hilite hit miss in diagram, separate into animation
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=writebackBits]{writeback policy}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.7cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.5cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.7cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.5cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, $4$ byte blocks, $2$ sets}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    000000 \& 
+    mem[0x00] mem[0x01] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    011000 \& 
+    mem[0x60]* mem[0x61]* \&
+    1 \& ~ \&
+    1 \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~\&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~ \&
+    ~ \& 0
+    \\
+};
+
+\node[my callout2=cache-2-9.north,anchor=south,align=left] at ([yshift=2cm,xshift=-4cm]cache-2-9.north) {
+    changed value!
+};
+\node[my callout2=cache-2-10.south,anchor=north,align=left] at ([yshift=-1cm,xshift=-4cm]cache-2-10.south) {
+    1 = dirty (different than memory) \\ needs to be written if evicted
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{allocate on write?}
+\begin{itemize}
+\item processor writes \myemph{less than whole} cache block
+\item block not yet in cache
+\item two options:
+\vspace{0.5cm}
+\item \myemph{write-allocate}
+    \begin{itemize}
+    \item fetch rest of cache block, replace written part
+    \item (then follow write-through or write-back policy)
+    \end{itemize}
+\item \myemph{write-no-allocate}
+    \begin{itemize}
+    \item don't use cache at all (send write to memory \textit{instead})
+    \item guess: not read soon?
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=writeAllocateEx]{write-allocate}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.7cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.7cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, writeback}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    000000 \& 
+    mem[0x00] mem[0x01] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    \only<1-3>{011000}\only<4->{000001} \& 
+    \only<1-3>{mem[0x60]* mem[0x61]*}%
+    \only<4->{0xFF mem[0x05]}%
+     \&
+    \sout<3>{1} \& ~ \&
+    |[h=2]| \only<1-3>{1}\only<4->{\myemph<4>{0}} \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~\&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~ \&
+    ~ \& 0
+    \\
+};
+\begin{visibleenv}<2-3>
+    \node[inner sep=-1pt,line width=2pt,red,draw,fit=(cache-2-7) (cache-2-10)] {};
+\end{visibleenv}
+\node[anchor=north west,align=left] at ([yshift=-.1cm]cache.south west) {
+    \myemph{writing} {\t 0xFF} into address {\tt 0x04}? \\
+    index 0, tag 000001 \\
+    \only<2->{step 1: find \myemph{least recently used} block} \\
+    \only<3->{step 2: possibly writeback old block} \\
+    \only<4->{step 3a: read in new block -- to get mem[0x05]} \\
+    \only<4->{step 3b: update LRU information}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=writeNoAllocateEx]{write-no-allocate}
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, writeback}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    000000 \& 
+    mem[0x00] mem[0x01] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    011000 \& 
+    mem[0x60]* mem[0x61]*%
+    %
+     \&
+    1 \& ~ \&
+    1 \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~\&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~ \&
+    ~ \& 0
+    \\
+};
+\begin{visibleenv}<1>
+    \node[inner sep=-1pt,line width=2pt,red,draw,fit=(cache-2-7) (cache-2-10)] {};
+\end{visibleenv}
+\node[anchor=north west,align=left] at ([yshift=-.1cm]cache.south west) {
+    \myemph{writing} {\t 0xFF} into address {\tt 0x04}? \\
+    step 1: is it in cache yet? \\
+    step 2: no, \myemph{just send it to memory}
+};
+\end{tikzpicture}
+\end{frame}
+
+

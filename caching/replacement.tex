@@ -1,0 +1,113 @@
+\usetikzlibrary{arrows.meta,calc,fit,matrix,positioning,shapes.callouts}
+\begin{frame}[fragile,label=replPolicies]{replacement policies}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+
+\begin{tikzpicture}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.1cm}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.9cm,align=center,dataColor,
+            font=\tt\fontsize{10}{11}\selectfont,
+            text depth=2.3ex}},
+        column 5/.append style={nodes={draw=none,text width=.1cm}},
+        column 6/.append style={nodes={align=center,text width=1cm}},
+        column 7/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 8/.append style={nodes={text width=1.9cm,align=center,dataColor,
+            font=\tt\fontsize{10}{11}\selectfont,
+            text depth=2.3ex}},
+        column 9/.append style={nodes={draw=none,text width=.1cm}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        row 1 column 8/.append style={nodes={text depth=.1ex}},
+        column 10/.append style={nodes={visible on=<2->,align=center}},
+        label={[font=\small]$2$-way set associative, $2$ byte blocks, $2$ sets}] (cache)  {
+index \& valid \& tag \& value \& ~ \& valid \& tag \& value \& ~\& LRU\\
+0\&
+    % i 0, 0:
+    1 \& 
+    000000 \& 
+    mem[0x00] mem[0x01] \& ~\&
+    % i 0, 1:
+    1 \& 
+    011000 \& 
+    mem[0x60] mem[0x61] \& ~ \& 1 \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \&  ~ \&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~\& 1
+    \\
+};
+\matrix[tight matrix,anchor=north west,
+            nodes={font=\small,minimum height=.5cm,text depth=.1ex},
+            column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+            row 1/.append style={nodes={font=\small\bfseries}},
+            column 2/.append style={nodes={text width=1.3cm}},
+            ] (pattern) at ([yshift=-.5cm]cache.south west) {
+        address (hex)\& result \\
+        00000000 (00) \&  miss \\
+        00000001 (01) \& hit \\
+        01100011 (63) \& miss \\
+        01100001 (61) \& miss \\
+        01100010 (62) \&  hit \\
+        00000000 (00) \& hit \\
+        01100100 (64) \& |[red]| miss \\
+    };
+\node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-2-2) (cache-2-8)] {};
+\begin{visibleenv}<1|handout:0>
+    \node[my callout2=cache-2-4.south,anchor=north] at ([yshift=-2cm]cache-2-4.south) {
+        how to decide where to insert 0x64?
+    };
+\end{visibleenv}
+\begin{visibleenv}<2>
+    \node[my callout2=cache-3-10.south,anchor=north,align=left] at ([yshift=-1cm,xshift=-1cm]cache-3-8.south) {
+        track which block was read least recently \\
+        updated on \myemph{every access}
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{example replacement policies}
+\begin{itemize}
+    \item least recently used
+        \begin{itemize}
+        \item take advantage of \myemph{temporal locality}
+        \item at least $\left\lceil\log_2(E!)\right\rceil$ bits per set for $E$-way cache
+            \begin{itemize}
+            \item (need to store order of all blocks)
+            \end{itemize}
+        \end{itemize}
+    \item approximations of least recently used
+        \begin{itemize}
+        \item implementing least recently used is expensive 
+            \begin{itemize}
+            \item lots of bookkeeping bits+time
+            \end{itemize}
+        \item really just need ``avoid recently used'' --- much faster/simpler
+        \item good approximations: $E$ to $2E$ bits
+        \end{itemize}
+    \item first-in, first-out
+        \begin{itemize}
+        \item counter per set --- where to replace next
+        \end{itemize}
+    \item (pseudo-)random
+        \begin{itemize}
+        \item no extra information!
+        \item actually works pretty well in practice
+        \end{itemize}
+\end{itemize}
+\end{frame}
+

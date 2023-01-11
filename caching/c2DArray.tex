@@ -1,0 +1,24 @@
+\begin{frame}[fragile,label=flatMatrix]{a note on matrix storage}
+\begin{itemize}
+\item $A$ --- $N\times N$ matrix
+\item represent as \myemph{array}
+\item makes dynamic sizes easier:
+\end{itemize}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+float A_2d_array[N][N];
+float *A_flat = malloc(N * N);
+
+A_flat[i * N + j] === A_2d_array[i][j]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{convertion re: rows/columns}
+\begin{itemize}
+\item going to call the first index rows
+\item $A_{i,j}$ is A row i, column j
+\item rows are stored together
+\vspace{.5cm}
+\item this is an arbitrary choice
+\end{itemize}
+\end{frame}

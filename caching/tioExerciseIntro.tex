@@ -1,0 +1,28 @@
+\begin{frame}{Tag-Index-Offset exercise}
+
+{\fontsize{12}{13}\selectfont
+\begin{tabular}{ll}
+$m$ & memory addreses bits (Y86-64: 64) \\
+$E$ & number of blocks per set (``ways'') \\
+$S=2^s$ & number of sets \\
+$s$  & (set) index bits \\
+$B=2^b$ & block size \\
+$b$ & (block) offset bits \\
+$t = m - (s+b)$ & tag bits \\
+$C = B \times S \times E$ & cache size (excluding metadata) \\
+\end{tabular}
+}
+    \begin{itemize}
+        \item My desktop:
+            \begin{itemize}
+        \item L1 Data Cache: 32 KB, 8 blocks/set, 64 byte blocks
+        \item L2 Cache: 256 KB, 4 blocks/set, 64 byte blocks
+        \item L3 Cache: 8 MB, 16 blocks/set, 64 byte blocks
+            \end{itemize}
+        \begin{itemize}
+            \item Divide the address {\tt 0x34567} into \myemph{tag}, \myemph{index}, \myemph{offset} for each cache.
+        \end{itemize}
+    \end{itemize} 
+\end{frame}
+
+

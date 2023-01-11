@@ -1,0 +1,32 @@
+\begin{frame}{after forwarding/prediction}
+    \begin{itemize}
+    \item where do we still need to stall?
+    \vspace{.5cm}
+    \item memory output needed in fetch 
+    \vspace{-.25cm}
+    \item \hspace{.5cm} {\tt ret} followed by anything
+    \item memory output needed in exceute
+    \vspace{-.25cm}
+    \item \hspace{.5cm} {\tt mrmovq} or {\tt popq} + use  \\
+          \hspace{.5cm} (in immediatelly following instruction)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{overall CPU}
+    \begin{itemize}
+    \item 5 stage pipeline
+    \item 1 instruction completes \myemph{every cycle --- except hazards}
+    \item most data hazards: solved by forwarding
+    \item load/use hazard: 1 cycle of stalling
+    \item jXX control hazard: branch prediction + squashing
+        \begin{itemize}
+            \item 2 cycle penalty for misprediction
+            \item (correct misprediction after jXX finishes execute)
+        \end{itemize}
+    \item ret control hazard: 3 cycles of stalling
+        \begin{itemize}
+            \item (fetch next instruction after ret finishes memory)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

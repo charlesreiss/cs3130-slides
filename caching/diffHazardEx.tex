@@ -1,0 +1,147 @@
+\begin{frame}[fragile,label=diffHaz]{pipeline with different hazards}
+\lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,andq},
+    moredelim=**[is][\btHL<1|handout:1>]{~1~}{~end~},
+}
+    \begin{itemize}
+        \item example: 4-stage pipeline: fetch/decode/execute+memory/writeback
+\begin{lstlisting}
+                 // 4 stage  // 5 stage
+addq %rax, ~1~%r8~end~   //          // W
+subq %rax, %r9   // W        // M
+xorq %rax, %r10  // EM       // E
+andq ~1~%r8~end~,  %r11  // D        // D
+\end{lstlisting}
+        \item<2> addq/andq is hazard with 5-stage pipeline
+        \item<2> addq/andq is \textbf{not} a hazard with 4-stage pipeline
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=diffHazEx]{exercise: different pipeline}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\begin{itemize}
+\item split execute into two stages: F/D/E1/E2/M/W
+\item result only available after second execute stage
+\item where does forwarding, stalls occur?
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\matrix[tight matrix noline,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5.2cm,align=left}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %rcx, %r9|       \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \& ~ \\
+\lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
+\lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
+\lstinline|rmmovq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+};
+\begin{visibleenv}<1|handout:1>
+    \fill[white] (tbl-3-2.north west) rectangle (tbl-5-10.south east);
+\end{visibleenv}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\foreach \x in {1,...,10} {
+    \draw[dotted] (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=diffHazExSoln]{exercise: different pipeline}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\begin{itemize}
+\item split execute into two stages: F/D/E1/E2/M/W
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\matrix[tight matrix noline,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5.2cm,align=left}},
+        row 4/.style={nodes={visible on=<3-|handout:2>}},
+        row 3/.style={nodes={alt=<1-2|handout:1>{}{opacity=0.2}}},
+        row 6/.style={nodes={visible on=<3-|handout:2>}},
+        row 5/.style={nodes={alt=<1-2|handout:1>{}{opacity=0.2}}},
+        row 8/.style={nodes={visible on=<3-|handout:2>}},
+        row 7/.style={nodes={alt=<1-2|handout:1>{}{opacity=0.2}}},
+        row 9/.style={nodes={visible on=<5-|handout:1>}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %rcx, %r9|       \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \& ~ \\
+\lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \\
+\lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
+\lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W \& ~ \\
+\lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
+\lstinline|rmmovq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+\lstinline|rmmovq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+};
+\begin{visibleenv}<1|handout:1>
+    \fill[white] (tbl-3-2.north west) rectangle (tbl-8-11.south east);
+\end{visibleenv}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\foreach \x in {1,...,10} {
+    \draw[dotted] (tbl-1-\x.north east) -- (tbl-8-\x.south east);
+}
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2|handout:1>
+    \fwdNo{3}{2}{3}
+\end{visibleenv}
+\begin{visibleenv}<3-|handout:2>
+    \fwd{4}{2}{4}{<3|handout:0>}
+\end{visibleenv}
+\begin{visibleenv}<4-|handout:2>
+    \fwd{5}{2}{6}{<4|handout:0>}
+\end{visibleenv}
+\begin{visibleenv}<5-|handout:2>
+    \fwd{6}{4}{8}{<5|handout:0>}
+    \fwd{8}{6}{8}{<5|handout:0>}
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}

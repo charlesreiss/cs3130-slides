@@ -1,0 +1,18 @@
+\begin{frame}[fragile,label=missCountingEx]{exercise: miss estimating (1)}
+\lstset{language=C,style=small}
+\begin{lstlisting}
+for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+        A[i] += B[j] * C[i * N + j]
+\end{lstlisting}
+\begin{itemize}
+\item Assume: 4 array elements per block, N very large, nothing in cache at beginning.\\
+\item Example: $N/4$ estimated misses for A accesses:
+\begin{itemize}
+\item A[i] should always be hit on all but first iteration of inner-most loop.
+\item first iter: A[i] should be hit about 3/4s of the time (same block as A[i-1] that often)
+\end{itemize}
+\item Exericse: estimate \# of misses for B, C
+\end{itemize}
+\end{frame}
+

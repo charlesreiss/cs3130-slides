@@ -1,0 +1,41 @@
+
+\begin{frame}[fragile,label=cacheBlockKLoadsA]{counting misses for A (1)}
+\lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += 2)
+  for (int i = 0; i < N; i += 1)
+    for (int j = 0; j < N; ++j) {
+      ~2C[i*N+j]~ += ~3A[i*N+kk+0]~ * ~4B[(kk+0)*N+j]~;
+      ~2C[i*N+j]~ += ~3A[i*N+kk+1]~ * ~4B[(kk+1)*N+j]~;
+    }
+\end{lstlisting}
+access pattern for A: \\
+\myemph<2-3>{A[0*N+0], A[0*N+1]}, A[0*N+0], A[0*N+1] \ldots (repeats N times) \\
+\myemph<2-3>{A[1*N+0], A[1*N+1]}, A[1*N+0], A[1*N+1] \ldots (repeats N times) \\
+\ldots \\
+\only<2->{A[(N-1)*N+0], A[(N-1)*N+1], A[(N-1)*N+0], A[(N-1)*N+1] \ldots} \\
+\only<2->{A[0*N+2], A[0*N+3], A[0*N+2], A[0*N+3] \ldots} \\
+\ldots 
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockKLoadsA2]{counting misses for A (2)}
+\myemph<2-3>{A[0*N+0], A[0*N+1]}, A[0*N+0], A[0*N+1] \ldots (repeats N times) \\
+\myemph<2-3>{A[1*N+0], A[1*N+1]}, A[1*N+0], A[1*N+1] \ldots (repeats N times) \\
+\ldots \\
+\only<2->{\myemph<2-3>{A[(N-1)*N+0], A[(N-1)*N+1]}, A[(N-1)*N+0], A[(N-1)*N+1] \ldots} \\
+\only<2->{\myemph<2-3>{A[0*N+2], A[0*N+3]}, A[0*N+2], A[0*N+3] \ldots} \\
+\ldots 
+\begin{itemize}
+\item<2-> likely cache misses: only first iterations of $j$ loop
+\item<2-> how many cache misses per iteration? usually one
+    \begin{itemize}
+    \item A[0*N+0] and A[0*N+1] usually in same cache block
+    \end{itemize}
+\item<3-> about $\frac{N}{2}\cdot N$ misses total
+\end{itemize}
+\end{frame}

@@ -1,0 +1,24 @@
+\begin{frame}<1>[fragile,label=matrixMultTwoVersions]{matrix multiply}
+\[ C_{ij} = \sum_{k=1}^n A_{ik}\times B_{kj} \]
+\lstset{
+    style=small,
+    language=C,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{lstlisting}
+/* version 1: inner loop is k, middle is j*/
+for (int i = 0; i < N; ++i)
+  for (int j = 0; j < N; ++j)
+    for (int k = 0; k < N; ++k)
+      ~2C[i*N+j]~ += A[i * N + k] * B[k * N + j];
+
+/* version 2: outer loop is k, middle is i */
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      C[i*N+j] += ~2A[i * N + k]~ * B[k * N + j];
+\end{lstlisting}
+\end{frame}
+

@@ -1,0 +1,77 @@
+\begin{frame}[fragile,label=cacheBlockKPrep]{a transformation}
+\lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{lstlisting}
+for (int k = 0; k < N; ~2k += 1~)
+      for (int i = 0; i < N; ++i)
+        for (int j = 0; j < N; ++j)
+          C[i*N+j] += A[i*N+k] * B[k*N+j];
+\end{lstlisting}
+\hrule
+\begin{lstlisting}
+for (int kk = 0; kk < N; ~2kk += 2~)
+  for (int k = kk; ~2k < kk + 2~; ++k)
+      for (int i = 0; i < N; ++i)
+        for (int j = 0; j < N; ++j)
+          C[i*N+j] += A[i*N+k] * B[k*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item split the loop over $k$ --- should be exactly the same 
+    \begin{itemize}
+    \item (assuming even $N$)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockK]{simple blocking}
+\lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<2-3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; ~2kk += 2~)
+  /* was here: for (int k = kk; k < kk + 2; ++k) */
+    for (int i = 0; i < N; ++i)
+      for (int j = 0; j < N; ++j)
+        /* load Aik, Aik+1 into cache and process: */
+        ~3for (int k = kk; k < kk + 2; ++k)~
+            C[i*N+j] += A[i*N+k] * B[k*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item now \myemph{reorder} split loop --- same calculations
+\item<2-> now handle $B_{ij}$ for $k+1$ right after $B_{ij}$ for $k$
+\item<2-> (previously: $B_{i,j+1}$ for $k$ right after $B_{ij}$ for $k$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheBlockKExpand]{simple blocking -- expanded}
+\lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+}
+\begin{lstlisting}
+for (int kk = 0; kk < N; kk += 2) {
+  for (int i = 0; i < N; ++i) {
+    for (int j = 0; j < N; ++j) {
+      /* process a "block" of 2 k values: */
+      ~2C[i*N+j]~ += ~3A[i*N+kk+0]~ * ~4B[(kk+0)*N+j]~;
+      ~2C[i*N+j]~ += ~3A[i*N+kk+1]~ * B[(kk+1)*N+j];
+    }
+  }
+}
+\end{lstlisting}
+\begin{itemize}
+\item \only<2>{Temporal locality in $C_{ij}$s}
+      \only<3>{More spatial locality in $A_{ik}$}
+      \only<4>{Still have good spatial locality in $B_{kj}$, $C_{ij}$}
+\end{itemize}
+\end{frame}
+

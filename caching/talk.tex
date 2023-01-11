@@ -1,23 +1,16 @@
-\date{}
-\title{}
+\graphicspath{{./figures/}}
+\title{Caching}
 \date{}
 \begin{document}
-\begin{frame}
-    \titlepage
-\end{frame}
 
+\input{../common/listingsLib}
 
-usepgflibrary{shapes.gates.logic.mux}
+\usepgflibrary{shapes.gates.logic.mux}
 \input{../caching/cacheUtils}
 \section{caching}
 
 \subsection{memory hierarchy intro}
-% FIXME
 \input{../caching/memHierarchyIntro}
-
-\subsection{on split data/instruction caches and hierarchy}
-% FIXME: drop?
-\input{../caching/cacheSplitID}
 
 \subsection{locality}
 \input{../caching/localityBasics}
@@ -91,20 +84,6 @@ usepgflibrary{shapes.gates.logic.mux}
 
 \section{cache tradeoffs}
 \input{../caching/cacheTradeoffs}
-
-
-\subsection{addt'l order usage diagrams}
-\againframe<6->{ijkCacheUsage}
-\againframe<6->{kijCacheUsage}
-
-\subsection{cache blocking: more than two at a time?}
-\input{../caching/blockingIntroMultKTo3}
-%\input{../caching/blockingIntroMult}
-\input{../caching/blockingUsageMult}
-
-\subsection{explicit counting}
-\input{../caching/explicitCounting}
-
 
 \section{misses in C, and intuition behind conflicts}
 \input{../caching/conflictMissesAndC}
@@ -213,12 +192,50 @@ usepgflibrary{shapes.gates.logic.mux}
 \subsection{benchmarking and cache results}
 \input{../caching/cacheBenchExample}
 
+\subsection{on split data/instruction caches and hierarchy}
+% FIXME: drop?
+\input{../caching/cacheSplitID}
 
 \section{varying parameters exercise}
     % FIXME: put back?
 \input{../caching/cacheTradeoffsEx}
 
+\subsection{misc cache optimizations: prefetching}
+    % FIXME: put back? (named in tradeoffs table)
+\input{../caching/miscCacheOpt}
+
+\subsection{an old quiz question}
+\input{../caching/arrayMissesQuizAnswer}
+
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
+\subsection{mapping misses to sets (3-way)}
+\input{../caching/setMappingDiag3}
+
+\subsection{sparse array miss exericse}
+\input{../caching/arrayMissesExSparseConflicts}
+
+\section{alternate cache miss exericse}
+\input{../caching/arrayMissesExSparseAlt}
+
+\section{array misses and cache results (old sparse)}
+\input{../caching/arrayMissesExSparse}
+
+\subsection{set mapping (text)}
+\input{../caching/setMappingText}
 
 
+
+\subsection{addt'l order usage diagrams}
+\againframe<6->{ijkCacheUsage}
+\againframe<6->{kijCacheUsage}
+
+\subsection{cache blocking: more than two at a time?}
+\input{../caching/blockingIntroMultKTo3}
+%\input{../caching/blockingIntroMult}
+\input{../caching/blockingUsageMult}
+
+\subsection{explicit counting}
+\input{../caching/explicitCounting}
 
 \end{document}

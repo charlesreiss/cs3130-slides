@@ -1,0 +1,25 @@
+\begin{frame}{exercise: AMAT and multi-level caches}
+\begin{itemize}
+\item suppose we have L1 cache with
+    \begin{itemize}
+    \item 3 cycle hit time
+    \item 90\% hit rate
+    \end{itemize}
+\item and an L2 cache with
+    \begin{itemize}
+    \item 10 cycle hit time
+    \item 80\% hit rate (for accesses that make this far)
+    \item (assume all accesses come via this L1)
+    \end{itemize}
+\item and main memory has a 100 cycle access time
+\item assume when there's an cache miss, the next level access starts after the hit time
+    \begin{itemize}
+    \item e.g. an access that misses in L1 and hits in L2 will take 10+3 cycles
+    \end{itemize}
+\item what is the average memory access time for the L1 cache?
+\begin{itemize}
+\item<2-> \iftoggle{heldback}{~}{$3 + 0.1\cdot(\myemph<3>{10 + 0.2\cdot100}) = 6$ cycles}
+\item<3-> \iftoggle{heldback}{~}{L1 miss penalty is $10 + 0.2\cdot100 = 30$ cycles}
+\end{itemize}
+\end{itemize}
+\end{frame}

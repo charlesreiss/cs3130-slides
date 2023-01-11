@@ -1,0 +1,209 @@
+\usetikzlibrary{arrows.meta,circuits.logic.US,fit,matrix,positioning,shapes.callouts}
+\begin{frame}[fragile,label=buildingCache]{building a (direct-mapped) cache}
+\begin{tikzpicture}[remember picture]
+\tikzset{
+    hi/.style={fill=#1,opacity=0.3,inner sep=1pt}
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text width=1.2cm,minimum height=.5cm,inner sep=3pt,inner xsep=0pt},
+        row 1/.append style={nodes={font=\small\bfseries,draw=none}},
+        column 1/.append style={nodes={draw=none,font=\small\tt,visible on=<all:3->,
+            alt=<3>{red}{}}},
+        column 2/.append style={nodes={visible on=<all:6->,align=center,
+            text width=1cm,
+            alt=<6>{red}{}}},
+        column 3/.append style={nodes={visible on=<all:8->,align=center}},
+        column 4/.append style={nodes={text width=1.5cm,align=center}},
+        label={Cache}] (cacheEntries) {
+    index \& valid \& tag \& value \\
+    00 \& 0 \& 00\& 00 00 \\
+    \myemph<all:4>{01} \& \only<all:1-6>{\myemph<all:6>{0}}\only<all:7->{\myemph<all:7>{1}} \& \myemph<all:8>{01} \& \only<all:1-6>{\myemph<all:6>{00 00}}\only<all:7->{\myemph<7>{AA BB}} \\
+    10 \& 0 \& 00 \& 00 00 \\
+    11 \& 0 \& 00 \& 00 00 \\
+};
+\matrix[tight matrix,label={Memory},
+    nodes={font=\small\tt\addfontfeatures{Ligatures=TeX},inner sep=3pt, inner xsep=0pt},
+    row 1/.append style={nodes={draw=none,font=\small\bfseries}},
+    column 1/.append style={nodes={draw=none,text width=3cm}},
+    column 2/.append style={nodes={text width=1.2cm}},
+    anchor=north west,
+    ] (memory) at ([xshift=1cm]cacheEntries.north east) {
+    addresses \& bytes \\
+    00000--00001 \& 00 11\\
+    00010--00011 \& 22 33 \\
+    00100--00101 \& 55 55\\
+    00110--00111 \& 66 77 \\
+    01000--01001 \& 88 99 \\
+    \myemph<8>{01}010--\myemph<8>{01}011 \& AA \myemph<6-8>{BB} \\
+    01100--01101 \& CC DD \\
+    01110--01111 \& EE FF \\
+    10000--10001 \& F0 F1 \\
+    \ldots \& |[draw=none]| \ldots\\
+};
+\begin{pgfonlayer}{bg}
+    \begin{visibleenv}<all:3-4>
+        \fill[red,opacity=0.3] ([xshift=\twoZeroes]memory-2-1.north west) rectangle ([xshift=2\twoZeroes]memory-10-1.south west);
+        \fill[red,opacity=0.3] ([xshift=4\twoZeroes]memory-2-1.north west) rectangle ([xshift=5\twoZeroes]memory-10-1.south west);
+    \end{visibleenv}
+\end{pgfonlayer}
+\begin{visibleenv}<all:3-5>
+    \begin{scope}[dashed,Latex-Latex]
+    \foreach \x/\y in {2/2,3/3,4/4,5/5,6/2,7/3,8/4,9/5} {
+        \draw (memory-\x-1.west) -- (cacheEntries-\y-4.east);
+    }
+    \end{scope}
+\end{visibleenv}
+
+\begin{pgfonlayer}{bg}
+    \begin{visibleenv}<all:3,5>
+        \node[fit=(cacheEntries-2-4),hi=green] {};
+        \node[fit=(memory-2-2),hi=green] {};
+        \node[fit=(memory-6-2),hi=green] {};
+        \node[fit=(memory-10-2),hi=green] {};
+    \end{visibleenv}
+    \begin{visibleenv}<all:4,5,6>
+        \node[fit=(cacheEntries-3-4),hi=blue] {};
+        \node[fit=(memory-3-2),hi=blue] {};
+        \node[fit=(memory-7-2),hi=blue] {};
+    \end{visibleenv}
+    \begin{visibleenv}<all:5>
+        \node[fit=(cacheEntries-4-4),hi=violet] {};
+        \node[fit=(memory-4-2),hi=violet] {};
+        \node[fit=(memory-8-2),hi=violet] {};
+        \node[fit=(cacheEntries-5-4),hi=yellow] {};
+        \node[fit=(memory-5-2),hi=yellow] {};
+        \node[fit=(memory-9-2),hi=yellow] {};
+    \end{visibleenv}
+
+    \begin{visibleenv}<all:8>
+        \node[fit=(memory-3-2),hi=blue] {};
+        \node[fit=(memory-7-2),hi=blue] {};
+    \end{visibleenv}
+\end{pgfonlayer}
+\begin{visibleenv}<all:2-9>
+    \node[anchor=south west,inner sep=0pt] (readOp1) at ([yshift=2cm]cacheEntries.north west) {read byte at 01\myemph<4-5>{01}1?};
+\end{visibleenv}
+\begin{visibleenv}<all:3-5>
+\node[draw=red,anchor=north west,align=left] at ([xshift=.5cm]readOp1.north east){
+    exactly \myemph{one place} for each address\\
+    spread out what can go in a block
+};
+\end{visibleenv}
+\begin{visibleenv}<all:6>
+    \coordinate (theEntryTop) at ([yshift=-1mm]cacheEntries-3-4.north);
+    \node[my callout2=theEntryTop,anchor=west] at ([xshift=1cm]cacheEntries-2-4) {
+        is this even a value?
+    };
+    \node[my callout2=cacheEntries-3-2.center,anchor=west] at ([yshift=-1cm,xshift=0.2cm]cacheEntries-2-2) {
+        need \myemph{extra bit} to know
+    };
+\end{visibleenv}
+\begin{visibleenv}<all:8>
+    \coordinate (theEntryTop) at ([yshift=-1mm]cacheEntries-3-4.north);
+    \node[my callout2=theEntryTop,anchor=west] at ([yshift=1cm,xshift=1cm]cacheEntries-2-4) {
+        value from {\tt 01010} or {\tt 00010}?
+    };
+    \node[my callout2=cacheEntries-3-3.south,anchor=west] at ([yshift=-1cm,xshift=-1cm]cacheEntries-3-3) {
+        need \myemph{tag} to know
+    };
+\end{visibleenv}
+\begin{visibleenv}<all:7-9>
+    \node[anchor=north west,inner sep=0pt] at ([yshift=-1mm]readOp1.south west) {invalid, fetch};
+\end{visibleenv}
+
+\node[anchor=north west,align=left] at ([yshift=-0.2cm]cacheEntries.south west) {
+    \only<all:1->{cache block: \myemph<1>{2 bytes}} \\
+    \only<all:3->{\myemph<3-5>{direct-mapped}} \\
+};
+\end{tikzpicture}
+% FIXME: add storing back fetched value, fetching another value to example
+\end{frame}
+    
+\begin{frame}[fragile,label=cacheOp]{cache operation (read)}
+% FIXME: build for this
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries,draw=none}},
+        column 1/.style={nodes={text width=1cm}},
+        column 2/.style={nodes={text width=1cm,tagColor}},
+        column 3/.style={nodes={draw=none,text width=.5cm}},
+        column 4/.style={nodes={text width=3cm,dataColor}},
+        ] (cache) {
+        valid \& tag \& ~ \&  data \\
+    1  \& 10 \& ~ \& 00 11 22 33 \\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    1 \&  11 \& ~ \& B4 B5 B6 B7 \\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=1cm,xshift=-1cm]cache.north west){100};
+\node[left=0cm of idx,tagColor] (tag) {11};
+\node[draw=none,left=0cm of tag] {0b};
+\node[right=0cm of idx,offsetColor] (offset) {10};
+\end{scope}
+\draw[thick,dashed,-latex] (idx) |- (cache-6-1.west) node[near start,font=\small,fill=white] {index};
+
+\begin{visibleenv}<2->
+    \node[below=0.4cm of cache-9-2,draw,circle,inner sep=3pt] (comp1) {\small =};
+    %\coordinate(comp1Intersect) at ($(comp1) + (-.7cm,0.5cm)$);
+    %\node[draw,circle,tagColorFill,inner sep=0pt,minimum width=1mm] at (comp1Intersect) {};
+    \draw[tagColor,myline] (cache-9-2) -- (comp1);
+
+    %\draw[myline no arrow,tagColor] (tag) |- (comp1Intersect);
+    %\draw[myline,tagColor] (comp1Intersect) |- (comp1);
+    \draw[tagColor,myline] (tag) |- (comp1) node[near start,font=\small,fill=white] {tag};
+    %\draw[myline no arrow,tagColor] (comp1Intersect) |- (comp2Intersect);
+    %\draw[myline,tagColor] (comp2Intersect) |- (comp2);
+
+    \node[xshift=.4cm,draw,below=1cm of cache-9-4,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck1) {};
+
+    \draw[myline] (comp1.south) |- (validCheck1.input 1);
+    \draw[myline] (cache-9-1.south) |- (validCheck1.input 2);
+\end{visibleenv}
+
+\node[fit=(cache-6-1) (cache-6-4),inner sep=1pt,red,draw,line width=3pt] {};
+
+%\node[draw,trapezium,inner xsep=0pt,outer sep=0pt,trapezium angle=75,below=.7cm of validCheck2,
+%text width=5cm,shape border rotate=180,xshift=1.5cm] (mux) {};
+%\draw[myline] (validCheck1.output) -| (buffer1.west);
+%\draw[myline] (cache-9-3.south) -- (buffer1);
+%\draw[myline] (buffer1.south) -- (bufEnd1);
+\coordinate (outputData) at ([xshift=1cm,yshift=-.3cm]cache-9-4.south east);
+\coordinate (beforeOutputData) at ([xshift=-.5cm]outputData);
+\coordinate (outputHit) at (outputData |- validCheck1.output);
+\begin{visibleenv}<2->
+\draw[myline] (validCheck1.output) |- (outputHit) node[right] {is hit? ({\tt 1})};
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \draw[myline no arrow,dataColor] (cache-9-4.south) |- (beforeOutputData);
+    \node[draw,mux,anchor=west,inputs=nnnn] (selectByte) at (outputData) {};
+    \foreach \x in {1,2,3,4} {
+        \draw[dataColor,myline thin] (beforeOutputData) |- (selectByte.input \x);
+    };
+    \draw[offsetColor,myline] (offset.east) -| (selectByte.north) node[very near start,fill=white,font=\small] {offset};
+    \draw[dataColor,myline thin] (selectByte.output) -- ++(0.5cm,0cm) node[right] {data ({\tt B6})};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

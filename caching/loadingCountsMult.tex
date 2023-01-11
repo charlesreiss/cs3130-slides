@@ -1,0 +1,22 @@
+\begin{frame}[fragile,label=cacheBlockMotivation2]{systematic approach}
+\lstset{style=small,language=C,escapechar=@}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k) {
+  for (int i = 0; i < N; ++i) {
+    @$A_{ik}$ loaded once in this loop:@
+    for (int j = 0; j < N; ++j)
+      @$C_{ij}$, $B_{kj}$ loaded each iteration (if $N$ big):@
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+\end{lstlisting}
+\begin{itemize}
+\item values from $A_{ik}$ used $N$ times per load
+\item values from $B_{kj}$ used $1$ times per load
+    \begin{itemize}
+    \item but good spatial locality, so cache block of $B_{kj}$ together
+    \end{itemize}
+\item values from $C_{ij}$ used $1$ times per load
+    \begin{itemize}
+    \item but good spatial locality, so cache block of $C_{ij}$ together
+    \end{itemize}
+\end{itemize}
+\end{frame}

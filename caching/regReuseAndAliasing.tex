@@ -1,0 +1,39 @@
+\begin{frame}[fragile,label=registerReuse]{register reuse}
+\lstset{style=small,language=C}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+// optimize into:
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i) {
+    float Aik = A[i*N+k]; // hopefully keep in register!
+                          // faster than even cache hit!
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += Aik * A[k*N+j];
+  }
+}
+\end{lstlisting}
+\begin{itemize}
+\item can compiler do this for us?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=registerReuseAuto]{can compiler do register reuse?}
+\lstset{style=small,language=C}
+\begin{itemize}
+\item Not easily --- What if \lstinline|A=B|? What if \lstinline|A=&B[10]|
+\end{itemize}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i) {
+    // want to preload A[i*N+k] here!
+    for (int j = 0; j < N; ++j) {
+      // but if A = B, modifying here!
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+    }
+  }
+}
+\end{lstlisting}
+\end{frame}

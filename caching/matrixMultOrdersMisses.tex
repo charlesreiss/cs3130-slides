@@ -1,0 +1,51 @@
+\begin{frame}[fragile,label=countingMissesV1]{counting misses: version 1}
+\lstset{style=smaller,language=C++}
+\begin{lstlisting}
+for (int i = 0; i < N; ++i)
+  for (int j = 0; j < N; ++j)
+    for (int k = 0; k < N; ++k)
+      C[i * N + j] += A[i * N + k] * B[k * N + j];
+\end{lstlisting}
+\begin{itemize}
+\item if $N$ really large
+    \begin{itemize}
+    \item assumption: can't get close to storing $N$ values in cache at once
+    \end{itemize}
+\item for A: about $N\div \text{block size}$ misses per k-loop
+    \begin{itemize}
+    \item total misses: $N^3\div\text{block size}$
+    \end{itemize}
+\item for B: about $N$ misses per k-loop 
+    \begin{itemize}
+    \item total misses: $N^3$
+    \end{itemize}
+\item for C: about $1\div\text{block size}$ miss per k-loop
+    \begin{itemize}
+    \item total misses: $N^2\div\text{block size}$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=countingMissesV2]{counting misses: version 2}
+\lstset{style=smaller,language=C++}
+\begin{lstlisting}
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      C[i * N + j] += A[i * N + k] * B[k * N + j];
+\end{lstlisting}
+\begin{itemize}
+\item for A: about $1$ misses per j-loop
+    \begin{itemize}
+    \item total misses: $N^2$
+    \end{itemize}
+\item for B: about $N\div\text{block size}$ miss per j-loop
+    \begin{itemize}
+    \item total misses: $N^3\div\text{block size}$
+    \end{itemize}
+\item for C: about $N\div\text{block size}$ miss per j-loop
+    \begin{itemize}
+    \item total misses: $N^3\div\text{block size}$
+    \end{itemize}
+\end{itemize}
+\end{frame}

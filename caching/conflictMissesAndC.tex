@@ -1,0 +1,71 @@
+\begin{frame}[fragile,label=accessesAndCCode]{cache accesses and C code (1)}
+\begin{lstlisting}[style=small]
+int scaleFactor;
+
+int scaleByFactor(int value) {
+    return value * scaleFactor;
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=myasm,style=small]
+scaleByFactor:
+    movl scaleFactor, %eax
+    imull %edi, %eax
+    ret
+\end{lstlisting}
+\hrule
+\begin{itemize}
+\item exericse: what data cache accesses does this function do?
+    \begin{itemize}
+    \item<2-> 4-byte read of scaleFactor
+    \item<2-> 8-byte read of return address
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=sfUse]{possible scaleFactor use}
+\begin{lstlisting}[style=small]
+for (int i = 0; i < size; ++i) {
+    array[i] = scaleByFactor(array[i]);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=conflictsAndCode]{misses and code (2)}
+\begin{lstlisting}[language=myasm,style=smaller]
+scaleByFactor:
+    movl scaleFactor, %eax
+    imull %edi, %eax
+    ret
+\end{lstlisting}
+\begin{itemize}
+\item suppose each time this is called in the loop:
+    \begin{itemize}
+    \item return address located at address \texttt{0x7ffffffe43b8}
+    \item scaleFactor located at address \texttt{0x6bc3a0}
+    \end{itemize}
+\item with direct-mapped 32KB cache w/64 B blocks, what is their:
+\begin{tabular}{l|l|l}
+~ & return address & scaleFactor \\ \hline
+tag &  \only<2->{0xfffffffc} & \only<2->{0xd7} \\
+index & \only<2->{\myemph<3>{0x10e}} & \only<2->{\myemph<3>{0x10e}} \\
+offset & \only<2->{0x38} & \only<2->{0x20} \\
+\end{tabular}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{conflict miss coincidences?}
+\begin{itemize}
+\item obviously I set that up to have the same index 
+    \begin{itemize}
+    \item have to use exactly the right amount of stack space\ldots
+    \end{itemize}
+\item but gives one possible reason for conflict misses:
+\item bad luck giving the same index for unrelated values
+\vspace{.5cm}
+\item more direct reason: values related by power of two
+    \begin{itemize}
+    \item some examples later, probably
+    \end{itemize}
+\end{itemize}
+\end{frame}

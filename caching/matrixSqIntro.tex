@@ -1,0 +1,11 @@
+\begin{frame}[fragile,label=matrixSquare]{matrix squaring}
+\[ B_{ij} = \sum_{k=1}^n A_{ik}\times A_{kj} \]
+\lstset{language=C,style=small}
+\begin{lstlisting}
+/* version 1: inner loop is k, middle is j */
+for (int i = 0; i < N; ++i)
+  for (int j = 0; j < N; ++j)
+    for (int k = 0; k < N; ++k)
+      B[i * N + j] += A[i * N + k] * A[k * N + j];
+\end{lstlisting}
+\end{frame}

@@ -1,0 +1,38 @@
+\begin{frame}[fragile,label=cacheBlockBetter]{array usage (better)}
+\begin{tikzpicture}
+\draw[fill=yellow!10] (0, 0) rectangle (4, 4);
+\draw[fill=yellow!10] (5, 0) rectangle (9, 4);
+%\fill[green] (0.51, 3.49) rectangle (0.19, 3.81);
+\fill[green] (3.49, 0.51) rectangle (3.81, 0.19);
+%\fill[red] (0.5, 3.5) rectangle (0.2, 3.8) node[black,midway, above=5pt,fill=none,align=left] {$A_{ik}$ to $A_{i+1,k+1}$};
+\fill[red] (3.5, 0.5) rectangle (3.8, 0.2) node[black,midway, above=5pt,fill=none,align=left] {$A_{ik}$ to $A_{i+1,k+1}$};
+    \begin{visibleenv}<all:2>
+        \draw[thick,blue] (3.0, 0.5) rectangle (3.8, 0.35);
+        \draw[thick,blue] (3.2, 0.35) rectangle (4.0, 0.2);
+    \end{visibleenv}
+%\fill[green] (3.5, 0.0) rectangle (3.8, 4.0) node[black,midway,left,align=right,fill=none] {$A_{k0}$\\to\\$A_{k+1,N}$};
+\fill[green] (0.0, 3.5) rectangle (4.0, 3.8) node[black,midway,left,align=right,fill=none] {$A_{k0}$\\to\\$A_{k+1,N}$};
+%\fill[red] (3.5, 0.8) rectangle (3.8, 0.9);
+\fill[red] (0.8, 3.5) rectangle (0.9, 3.8);
+%\fill[green] (5.5, 0.0) rectangle (5.2, 4.0) node[black,midway,right,align=left,fill=none] {$B_{i0}$\\to\\$B_{i+1,N}$};
+\fill[green] (5.0, 0.5) rectangle (9.0, 0.2) node[black,midway,right,align=left,fill=none] {$B_{i0}$ to $B_{i+1,N}$};
+%\fill[red] (5.5, 0.8) rectangle (5.2, 0.9);
+\fill[red] (5.9, 0.5) rectangle (5.8, 0.2);
+    \begin{visibleenv}<all:1>
+\node[anchor=north,align=left] at (4.5,-0.5) {
+    more \myemph{temporal} locality:\\
+    $N$ calculations for each $A_{ik}$\\% , $A_{i+1,k}$, $A_{i,k+1}$, $A_{i+1,k+1}$ \\
+    $2$ calculations for each $B_{ij}$ (for $k$, $k+1$)\\%, $B_{i+1,j}$ (for $k$, $k+1$) \\
+    $2$ calculations for each $A_{kj}$ (for $k$, $k+1$)\\%, $B_{k+1,j}$ (for $i$, $i+1$)
+};
+    \end{visibleenv}
+    \begin{visibleenv}<all:2>
+\node[anchor=north,align=left] at (4.5,-0.5) {
+    more \myemph{spatial} locality: \\
+    calculate on each $A_{i,k}$ and $A_{i,k+1}$ together \\
+    both in same cache block --- same amount of cache loads
+};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

@@ -1,0 +1,23 @@
+\begin{frame}[fragile,label=cacheDivideConquer]{generalizing: divide and conquer}
+\lstset{style=small}
+\begin{lstlisting}
+partial_matrixmultiply(float *A, float *B, float *C
+               int startI, int endI, ...) {
+  for (int i = startI; i < endI; ++i) {
+    for (int j = startJ; j < endJ; ++j) {
+      for (int k = startK; k < endK; ++k) {
+        ...
+}
+matrix_multiply(float *A, float *B, float *C, int N) {
+  for (int ii = 0; ii < N; ii += BLOCK_I)
+    for (int jj = 0; jj < N; jj += BLOCK_J)
+      for (int kk = 0; kk < N; kk += BLOCK_K)
+         ...
+         /* do everything for segment of A, B, C
+            that fits in cache! */
+         partial_matmul(A, B, C,
+               ii, ii + BLOCK_I, jj, jj + BLOCK_J,
+               kk, kk + BLOCK_K)
+}
+\end{lstlisting}
+\end{frame}

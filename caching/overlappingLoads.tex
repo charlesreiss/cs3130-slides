@@ -1,0 +1,45 @@
+\begin{frame}<1-2>[label=optimizedLoopP]{optimized loop???}
+\begin{itemize}
+\item performance difference wasn't visible at small sizes 
+\item until I optimized \myemph{arithmetic} in the loop
+\item (mostly by \myemph<3>{supplying better options to GCC})
+\vspace{.5cm}
+\item 1: reducing number of loads
+\item 2: doing adds/multiplies/etc. with less instructions
+\item 3: simplifying address computations
+\item<2> but\ldots{} how can that make cache blocking better???
+\end{itemize}
+\end{frame}
+
+\begin{frame}{overlapping loads and arithmetic}
+\begin{tikzpicture}
+\draw[thick,-Latex] (0, 0) -- (8,0) node[right] {time};
+\begin{scope}[every node/.style={draw}]
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (-1, -2) {load};
+\node[anchor=center,minimum width=7cm,minimum height=1cm] at (5, -2) {load};
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (12, -2) {load};
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (0, -3.5) (m0) {multiply};
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (0, -4.5) (a0) {add};
+\node[anchor=center,minimum width=3cm,minimum height=1cm] at (3, -3.5) (m1) {multiply};
+\node[anchor=center,minimum width=3cm,minimum height=1cm] at (6, -3.5) (m2) {multiply};
+\node[anchor=center,minimum width=3cm,minimum height=1cm] at (9, -3.5) (m3) {multiply};
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (12, -3.5) (m4) {multiply};
+\node[anchor=center,minimum width=3cm,minimum height=1cm] at (3, -4.5) (a1) {add};
+\node[anchor=center,minimum width=3cm,minimum height=1cm] at (6, -4.5) (a2) {add};
+\node[overlay,anchor=center,minimum width=3cm,minimum height=1cm] at (12, -4.5) (a3) {add};
+\end{scope}
+\node[fit=(m1) (m2) (m3) (a1) (a2),draw,red,very thick,label={below:speed of load \myemph{might} not matter if these are slower}] {};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{optimization and bottlenecks}
+    \begin{itemize}
+        \item arithmetic/loop efficiency was the \myemph{bottleneck}
+        \item after fixing this, cache performance was the bottleneck
+            \vspace{.5cm}
+        \item common theme when optimizing:
+            \begin{itemize}
+            \item X may not matter until Y is optimized
+            \end{itemize}
+    \end{itemize}
+\end{frame}

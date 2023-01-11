@@ -1,0 +1,20 @@
+
+\begin{frame}[fragile,label=localityExercise2]{locality exercise (2)}
+\lstset{language=C,style=small}
+\begin{lstlisting}
+/* version 2 */
+for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+        A[i] += B[j] * C[i * N + j]
+
+/* version 3 */
+for (int ii = 0; ii < N; ii += 32)
+    for (int jj = 0; jj < N; jj += 32)
+        for (int i = ii; i < ii + 32; ++i)
+            for (int j = jj; j < jj + 32; ++j)
+                A[i] += B[j] * C[i * N + j];
+\end{lstlisting}
+exercise: which has better temporal locality in A? in B? in C? \\
+how about spatial locality?
+\end{frame}
+
