@@ -1,0 +1,30 @@
+\begin{frame}{writing Makefiles?}
+\begin{itemize}
+\item error-prone to automatically all .h dependencies
+\vspace{.5cm}
+\item \texttt{-M} option to \texttt{gcc} or \texttt{clang}
+    \begin{itemize}
+    \item outputs Make rule
+    \item ways of having make run this
+    \end{itemize}
+\item Makefile generators
+    \begin{itemize}
+    \item other programs that write Makefiles
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{other build systems}
+\begin{itemize}
+\item alternatives to writing Makefiles:
+\vspace{.25cm}
+\item other make-ish build systems
+    \begin{itemize}
+    \item ninja, scons, bazel, maven, xcodebuild, msbuild, \ldots
+    \end{itemize}
+\item tools that generate inputs for make-ish build systems
+    \begin{itemize}
+    \item cmake, autotools, qmake, \ldots
+    \end{itemize}
+\end{itemize}
+\end{frame}

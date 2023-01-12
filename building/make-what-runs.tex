@@ -1,0 +1,34 @@
+\begin{frame}[fragile,label=makeWhatRun]{exercise: what will run?}
+\begin{tikzpicture}
+\node[draw,very thick,align=left] (makefile) {
+\tt
+\begin{tabular}{l}
+W: X Y \\
+▶\hspace{1cm}buildW \\
+X: Q \\
+▶\hspace{1cm}buildX \\
+Y: X Z \\
+▶\hspace{1cm}buildY \\
+\end{tabular}
+};
+\node[anchor=north west,align=left] at ([xshift=1cm]makefile.north east) {
+\begin{tabular}{ll}
+W & modified 1 minute ago \\
+X & modified 2 hours ago \\
+Y & does not exist \\
+Z & modified 1 hour ago \\
+Q & modified 3 hours ago \\
+\end{tabular}
+};
+\end{tikzpicture}
+
+exercise: ``make W'' will run what commands?
+\vspace{.5cm}
+
+\fontsize{13}{14}\selectfont
+\begin{tabular}{lll}
+A. none & B. \texttt{buildY} only & C. \texttt{buildW} then \texttt{buildY} \\
+D. \texttt{buildY} then \texttt{buildW} & \multicolumn{2}{l}{E. \texttt{buildX} then \texttt{buildY} then \texttt{buildW}} \\
+F. \texttt{buildX} then \texttt{buildW} & G. something else \\
+\end{tabular}
+\end{frame}

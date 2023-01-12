@@ -1,0 +1,128 @@
+\begin{frame}{redundancy (1)}
+
+{\tt
+\begin{tabular}{l}
+program: main.o extra.o \\
+▶\hspace{2.5cm}clang -o program main.o extra.o \\
+~ \\
+extra.o: extra.c extra.h \\
+▶\hspace{2.5cm}clang -o extra.o -c extra.c \\
+main.o: main.c main.h extra.h \\
+~ \\
+▶\hspace{2.5cm}clang -o main.o -c main.c \\
+\end{tabular}
+}
+\begin{itemize}
+\item what if I want to run \texttt{clang} with \texttt{-Wall}?
+\item what if I want to change to \texttt{gcc}?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{variables (1)}
+
+{\tt
+\begin{tabular}{l}
+\myemph{CC = gcc} \\
+\myemph{CFLAGS = -Wall} \\
+\myemph{LDFLAGS = -Wall} \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o program main.o extra.o \\
+~ \\
+extra.o: extra.c extra.h \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o extra.o -c extra.c \\
+~ \\
+main.o: main.c main.h extra.h \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o main.o -c main.c \\
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}{variables (2)}
+
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o \myemph{\$@} \myemph{\$\textasciicircum} \\
+~ \\
+extra.o: extra.c extra.h \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
+~ \\
+main.o: main.c main.h extra.h \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
+\end{tabular}
+}
+
+{\small aside: \texttt{\$\textasciicircum} works on GNU make (usual on Linux), but not portable.}
+\end{frame}
+
+\begin{frame}{suffix rules}
+
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
+~ \\
+\myemph{.c.o:} \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\end{tabular}
+} \\
+{\small aside: \texttt{\$\textasciicircum} works on GNU make (usual on Linux), but not portable.}
+\end{frame}
+
+
+\begin{frame}{pattern rules}
+
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
+~ \\
+\myemph{\%.o: \%.c} \\
+▶\hspace{2.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\end{tabular}
+} \\
+{\small aside: these rules work on GNU make (usual on Linux), but less portable than suffix rules.}
+\end{frame}
+
+\begin{frame}{built-in rules}
+\begin{itemize}
+\item `make' has the `make .o from .c' rule built-in already, so:
+\end{itemize}
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\end{tabular}
+}
+\begin{itemize}
+\item (don't actually need to write supplied rule!)
+\end{itemize}
+\end{frame}
+
+

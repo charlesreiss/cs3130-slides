@@ -1,0 +1,64 @@
+\begin{frame}{`phony' targets (1)}
+\begin{itemize}
+\item common to have Makefile targets that aren't files
+\end{itemize}
+{\tt
+\begin{tabular}{l}
+all: program1 program2 libfoo.a \\
+\end{tabular}
+}
+\begin{itemize}
+\item ``\texttt{make all}'' effectively shorthand for ``\texttt{make program1 program2 libfoo.a}''
+\item no actual file called ``all''
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{`phony' targets (2)}
+\begin{itemize}
+\item sometimes want targets that don't actually build file
+\item example: ``\texttt{make clean}'' to remove generated files
+\end{itemize}
+{\tt
+\begin{tabular}{l}
+clean: \\
+▶\hspace{3cm}rm --force main.o extra.o \\
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}{but what if I create\ldots}
+
+{\tt
+\begin{tabular}{l}
+clean: \\
+▶\hspace{3cm}rm --force main.o extra.o \\
+~ \\
+all: program1 program2 libfoo.a \\
+\end{tabular}
+}
+\begin{itemize}
+\item Q: if I make a file called ``all'' and then ``make all'' what happens?
+\item Q: same with ``clean'' and ``make clean''?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{marking phony targets}
+
+{\tt
+\begin{tabular}{l}
+clean: \\
+▶\hspace{3cm}rm --force main.o extra.o \\
+~ \\
+all: program1 program2 libfoo.a \\
+~ \\
+\myemph{.PHONY: all clean}
+\end{tabular}
+}
+\begin{itemize}
+\item special .PHONY rule says `` `all' and `clean' not real files''
+\vspace{.5cm}
+\item \small (not required by POSIX, but in every \texttt{make} version I know)
+\end{itemize}
+\end{frame}
+

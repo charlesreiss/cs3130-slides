@@ -12,18 +12,37 @@
 {\tt
 \begin{tabular}{l}
 \myemph<2>{main.o}: \myemph<3>{main.c main.h extra.h} \\
-\myemph<4>{▶}\hspace{2cm}\myemph<5>{clang -c main.c} \\
+\myemph<4>{▶}\hspace{3cm}\myemph<5>{clang -c main.c} \\
 \end{tabular}
 }
 \vspace{1cm}
 \begin{itemize}
 \item before colon: \myemph<2>{target(s)} (file(s) generated/updated)
 \item after colon: \myemph<3>{prerequisite(s)}
-\item following lines prefixed by a \myemph<4>{tab} character: \\
-      \myemph<5>{command(s) to run}
+\item following lines prefixed by a \myemph<4>{tab} character: \myemph<5>{command(s) to run}
 \vspace{.5cm}
-\item \texttt{make} will run the commands if any prerequisite is newer than the target
-    (or the target does not exist)
+\item \texttt{make} will run the commands \myemph<6>{if any prerequisite is newer than the target}
+\item<7-> \ldots \myemph{after making sure prerequisites up to date}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{make rule chains}
+
+{\tt
+\begin{tabular}{l}
+program: main.o extra.o \\
+▶\hspace{3cm}clang -o program main.o extra.o \\
+~ \\
+extra.o: extra.c extra.h \\
+▶\hspace{3cm}clang -c extra.c \\
+main.o: main.c main.h extra.h \\
+~ \\
+▶\hspace{3cm}clang -c main.c \\
+\end{tabular}
+}
+\begin{itemize}
+\item to \textit{make} \texttt{program}, first\ldots
+\item update main.o and extra.o if they aren't
 \end{itemize}
 \end{frame}
 
@@ -35,12 +54,14 @@
         \item check if \texttt{\textit{target}} is up-to-date
         \item if not, rebuild it (and dependencies, if needed) so it is
         \end{itemize}
-    \item ``make''
+    \item ``\texttt{make \textit{target1} \textit{target2}}''
         \begin{itemize}
-        \item look in \texttt{Makefile} in current directory for rules
-        \item build target for first rule in Makefile
-        \item convention: first target called ``\texttt{all}''
-        \item (and not file called all actually generated)
+        \item check if both target1 and target2 are up-to-date
+        \end{itemize}
+    \item ``\texttt{make}''
+        \begin{itemize}
+        \item if ``\texttt{\textit{firstTarget}}'' is the first rule in Makefile,\\
+            same as `\texttt{make \textit{firstTarget}}''
         \end{itemize}
 \end{itemize}
 \end{frame}
