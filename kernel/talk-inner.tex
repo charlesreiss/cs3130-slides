@@ -1,0 +1,75 @@
+
+\input{../common/listingsLib}
+
+\section{some malicious things we'd like to stop}
+
+\input{../kernel/malicious-p}
+
+\section{privileged instruction idea}
+\againframe<2>{portalShouldnt}
+\input{../kernel/priv-instr-intro}
+
+\subsection{diagram with OS code in memory}
+\input{../kernel/calling-the-OS-naive}
+
+\subsection{exception entry point}
+\input{../kernel/syscall-setup-boot-simple}
+
+\subsection{system calls on Linux}
+% FIXME import slides
+\input{../kernel/sysCallLinux}
+
+\subsection{system call wrappers}
+\input{../kernel/sysCallWrapperShort}
+
+\section{interlude: strace}
+\input{../kernel/strace-hello}
+
+\section{kernel + standard library}
+% FIXME: diagram of kernel + standard library from whatisos
+\input{../kernel/unix-design}
+
+\section{memory protection}
+\againframe<3>{portalShouldnt}
+
+\subsubsection{exercise: expected behavior?}
+\input{../kernel/memProtectQ}
+
+\subsubsection{address spaces}
+\input{../kernel/memProtectAddressSpaces}
+
+\section{infinite loop}
+\againframe<4>{portalShouldnt}
+
+\input{../kernel/doNothing}
+
+\section{time multiplexing}
+\input{../kernel/timeMulti}
+
+\subsection{thread idea}
+\input{../kernel/thread}
+
+
+\section{reasons for exceptions, generally}
+\input{../kernel/exceptKindInfoLib}
+\againframe<1>{exceptTypesN}
+
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{exception table + dispatch}
+
+\input{../kernel/exceptImplHW}
+
+\section{context switches} % FIXME: move earlier???
+    % FIXME: simplify diagram
+    % FIXME: include address space as part of context
+\input{../kernel/contextSwitch}
+
+\section{exercise}
+\input{../kernel/howManyEx}
+
+\section{process}
+\input{../kernel/processIdea}
+\end{document}

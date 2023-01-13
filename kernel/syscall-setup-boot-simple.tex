@@ -1,14 +1,27 @@
-\begin{frame}{controlled entry to kernel mode}
+
+
+\begin{frame}{controlled entry to kernel mode (1)}
 \begin{itemize}
-\item OS specifies where to start executing code in kernel mode
+\item special instruction: ``system call''
+\vspace{.5cm}
+\item runs OS code in kernel mode at location specified earlier 
+\item OS sets up at boot
+\item location can't be changed without privilieged instrution
+\end{itemize}
+\end{frame}
+
+\begin{frame}{controlled entry to kernel mode (2)}
+\begin{itemize}
+\item OS needs to make specified location:
+\vspace{.5cm}
+\item figure out what operation the program wants
     \begin{itemize}
-    \item typically set at boot
-    \item requires privileged instructions to change
+    \item calling convention, similar to function arguments + return value
     \end{itemize}
-\item OS makes sure the code it says to start is ``safe''
+\item be ``safe'' --- not allow the program to do `bad' things
     \begin{itemize}
-    \item (hopefully)
     \item example: checks whether current program is allowed to read file before reading it
+    \item requires exceptional care --- program can try weird things
     \end{itemize}
 \end{itemize}
 \end{frame}

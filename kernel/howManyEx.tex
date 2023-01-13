@@ -1,0 +1,59 @@
+\begin{frame}{which of these require exceptions? context switches?}
+    \begin{itemize}
+    \item A. program calls a function in the standard library
+    \item B. program writes a file to disk
+    \item C. program A goes to sleep, letting program B run
+    \item D. program exits
+    \item E. program returns from one function to another function
+    \item F. program pops a value from the stack
+    \end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{
+\begin{frame}{which require exceptions [answers] (1)}
+\begin{itemize}
+    \item A. program calls a function in the standard library
+        \begin{itemize}
+        \item no (same as other functions in program; some standard library functions might make system calls, but if so, that'll be part of what happens after they're called and before they return)
+        \end{itemize}
+    \item B. program writes a file to disk
+        \begin{itemize}
+        \item yes (requires kernel mode only operations)
+        \end{itemize}
+    \item C. program A goes to sleep, letting program B run
+        \begin{itemize}
+        \item yes (kernel mode usually required to change the address space to acess program B's memory)
+        \end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{which require exceptions [answer] (2)}
+    \begin{itemize}
+    \item D. program exits
+        \begin{itemize}
+        \item yes (requires switching to another program, which requires accessing OS data + other program's memory)
+        \end{itemize}
+    \item E. program returns from one function to another function
+        \begin{itemize}
+        \item no
+        \end{itemize}
+    \item F. program pops a value from the stack
+        \begin{itemize}
+        \item no
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{which require context switches [answer]}
+    \begin{itemize}
+    \item no: A. program calls a function in the standard library
+    \item no: B. program writes a file to disk
+        \begin{itemize}
+        \item (but might be done if program needs to wait for disk and other things could be run while it does)
+        \end{itemize}
+    \item yes: C. program A goes to sleep, letting program B run
+    \item yes: D. program exits
+    \item no: E. program returns from one function to another function
+    \item no: F. program pops a value from the stack
+    \end{itemize}
+\end{frame}
+}
