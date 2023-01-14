@@ -1,11 +1,62 @@
-\begin{frame}{signal API}
-\begin{itemize}
-    \item {\tt sigaction} --- register handler for signal
-    \item {\tt kill} --- send signal to process
-    \item {\tt pause} --- put process to sleep until signal received
-    \item {\tt sigprocmask} --- temporarily block some signals from being received
-    \item \ldots{} and much more
-\end{itemize}
+\begin{frame}[fragile,label=exNoSignal]{base program}
+\lstset{
+    language=C,
+    basicstyle={\tt\fontsize{10.5}{11}\selectfont},
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{lstlisting}
+int main() {
+    char buf[1024];
+    while (fgets(buf, sizeof buf, stdin)) {
+        printf("read %s", buf);
+    }
+}
+\end{lstlisting}
+\begin{visibleenv}<2->
+\hrule
+\begin{tabular}{l}
+some input \\
+\bfseries read some input \\
+more input \\
+\bfseries read more input \\
+\it (control-C pressed) \\
+\it \myemph<3>{(program terminates immediately)}
+\end{tabular}
+\end{visibleenv}
+\end{frame}
+
+\begin{frame}[fragile,label=exSignalWhat]{new program}
+\lstset{
+    language=C,
+    basicstyle={\tt\fontsize{10.5}{11}\selectfont},
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{lstlisting}
+int main() {
+    @2...@ // added stuff shown later
+    char buf[1024];
+    while (fgets(buf, sizeof buf, stdin)) {
+        printf("read %s", buf);
+    }
+}
+\end{lstlisting}
+\hrule
+\begin{tabular}{l}
+some input \\
+\bfseries read some input \\
+more input \\
+\bfseries read more input \\
+\it (control-C pressed) \\
+\bfseries \myemph<3>{Control-C pressed?!} \\
+another input
+\bfseries read another input
+\end{tabular}
 \end{frame}
 
 \begin{frame}[fragile,label=exSignals]{example signal program}

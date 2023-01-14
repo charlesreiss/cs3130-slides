@@ -1,0 +1,42 @@
+\begin{frame}[fragile,label=signalEx]{output of this?}
+\lstset{language=C,style=script}
+\begin{tikzpicture}
+\node[draw,very thick,label={north:pid 1000}] (left) {
+\begin{lstlisting}
+void handle_sigusr1() {
+    write(1, "X", 1);
+    kill(2000, SIGUSR2);
+    _exit(0);
+}
+
+int main() {
+    struct sigaction act;
+    act.sa_handler = &handler_usr1;
+    sigaction(SIGUSR1, &act);
+    kill(1000, SIGUSR1);
+}
+\end{lstlisting}
+};
+\node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\begin{lstlisting}
+void handle_sigusr1() {
+    write(1, "Y", 1);
+    _exit(0);
+}
+
+int main() {
+    struct sigaction act;
+    act.sa_handler = &handler_usr1;
+    sigaction(SIGUSR1, &act);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+
+If these run at same time, expected output?
+\begin{tabular}{lll}
+A. XY & B. X & C. Y \\
+D. YX & E. X or XY, depending on timing & F. crash \\
+G. (nothing) & H. something else \\
+\end{tabular}
+\end{frame}

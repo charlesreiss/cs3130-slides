@@ -1,6 +1,6 @@
 void @3handle_sigint@(int signum) {
-    write(1, "Got signal!\n", sizeof("Got signal!\n"));
-    _exit(0);
+    write(1, "Control-C pressed?!\n",
+        sizeof("Control-C pressed?!\n"));
 }
 
 int main(void) {

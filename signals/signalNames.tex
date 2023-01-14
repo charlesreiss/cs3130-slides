@@ -1,0 +1,19 @@
+\begin{frame}{SIGxxxx}
+\begin{itemize}
+\item signals types identified by number\ldots
+\item constants declared in \texttt{<signal.h>}
+\end{itemize}
+\small
+\begin{tabular}{l|l}
+constant & likely use \\\hline
+SIGBUS & ``bus error''; certain types of invalid memory accesses \\
+SIGSEGV & ``segmentation fault''; other types of invalid memory accesses \\
+SIGINT & what control-C usually does \\
+SIGFPE & ``floating point exception''; includes integer divide-by-zero \\
+SIGHUP, SIGPIPE & reading from/writing to disconnected terminal/socket \\
+SIGUSR1, SIGUSR2 & use for whatever you (app developer) wants \\
+SIGKILL & terminates process \myemph<2>{(cannot be handled by process!)} \\
+SIGSTOP & suspends process \myemph<2>{(cannot be handled by process!)} \\
+\ldots & \ldots \\
+\end{tabular}
+\end{frame}

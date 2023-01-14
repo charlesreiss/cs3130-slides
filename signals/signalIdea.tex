@@ -1,3 +1,5 @@
+\usetikzlibrary{shapes.callouts,positioning}
+
 \begin{frame}{signals}
 \begin{itemize}
 \item Unix-like \myemph{operating system feature}
@@ -10,7 +12,7 @@
 \item can be triggered by special events
     \begin{itemize}
     \item pressing control-C
-    \item events that trigger hardware exceptions
+    \item other events that would normal terminate program
         \begin{itemize}
         \item `segmentation fault'
         \item illegal instruction
@@ -21,4 +23,37 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}{exceptions v signals}
+
+\begin{tabular}{l|l}
+(hardware) exceptions & signals \\ \hline
+handler runs in kernel mode & handler runs in user mode \\
+hardware decides when & \myemph<2>{OS decides}~\tikzmark{OS when}\myemph<2>{when} \\
+hardware needs to save PC & OS needs to save PC \tikzmark{plus regs}\myemph<3>{+ registers} \\
+\myemph<4>{processor} next instruction changes& \myemph<4>{thr\tikzmark{thread}ead} next instruction changes \\
+\end{tabular}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (callout mark) at ([xshift=-2cm,yshift=-2cm]pic cs:OS when);
+\begin{visibleenv}<2>
+    \node[align=left,my callout=OS when,anchor=north] at (callout mark) {
+        \ldots but OS needs to run to trigger handler \\
+        most  likely ``forwarding'' hardware exception
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[align=left,my callout=plus regs,anchor=north] at (callout mark) {
+        signal handler follows normal calling convention \\
+        not special assembly like typical exception handler
+    };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[align=left,my callout=thread,anchor=north] at (callout mark) {
+        signal handler runs in same thread (`virtual processor') \\
+        as process was using before \\
+        ~ \\
+        not running at `same time' as the code it interrupts
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
 
