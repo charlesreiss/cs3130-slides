@@ -1,0 +1,66 @@
+
+\section{authentication v authorization}
+\input{../accounts/authz-v-authn}
+
+\section{user ID idea}
+\input{../accounts/user-id}
+
+\subsection{group IDs}
+\input{../accounts/group-id}
+
+\section{permissions and access control lists}
+\subsection{file permissions}
+\input{../accounts/file-acls}
+
+\section{enforcing permissions}
+\input{../accounts/auth-unix-check}
+
+\subsection{exercise: why not check}
+\input{../accounts/check-perm-when-exer}
+
+\section{superuser}
+\input{../accounts/auth-unix-superuser}
+
+\section{becoming superuser}
+
+\subsection{on boot, /bin/login}
+\input{../accounts/bin-login}
+
+\subsection{set-user-ID/sudo}
+\input{../accounts/sudo}
+
+\section{privilege escalation}
+\input{../accounts/priv-escalate}
+
+\subsection{buggy set-user-ID program 1}
+\input{../accounts/setuid-worry}
+
+\subsection{buggy set-user-ID program 2}
+\input{../accounts/setuid-worry-2}
+
+\subsection{a litany of silly setuid program issues}
+\input{../accounts/setuid-hard-to-write}
+
+\subsection{example: path traversal in web}
+% FIXME: write
+
+\subsection{example: some browser thing}
+% FIXME: write
+
+
+\section{exercises on the POSIX model}
+\input{../accounts/reflect-posix}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{TOCTTOU example}
+
+\input{../accounts/tocttou}
+\input{../accounts/tocttou-race}
+
+\subsubsection{exercise}
+
+\input{../accounts/tocttou-avoid} % FIXME: add to zoom
+
