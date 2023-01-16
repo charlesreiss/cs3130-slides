@@ -1,0 +1,26 @@
+\begin{frame}[fragile,label=setjmpEx]{setjmp exercise}
+\lstset{language=C++,style=smaller}
+\begin{lstlisting}
+jmp_buf env;
+int counter = 0;
+void bar() {
+    puts("Z");
+    ++counter;
+    if (counter < 3) {
+        longjmp(env, 1);
+    }
+}
+int main() {
+    while (setjmp(env) == 1) {
+        puts("X");
+    }
+    puts("Y");
+    bar();
+}
+\end{lstlisting}
+Expected output? \\
+\begin{tabular}{llll}
+A. YZ & B. XYZ & C. YZYZ & D. XYZXYZ \\
+E. XYZYZ & F. YZXYZ & G. something else & H. varies/might crash\\
+\end{tabular}
+\end{frame}
