@@ -1,20 +1,19 @@
 \begin{frame}[fragile,label=setjmpEx]{setjmp exercise}
 \lstset{language=C++,style=smaller}
 \begin{lstlisting}
-jmp_buf env;
-int counter = 0;
+jmp_buf env; int counter = 0;
 void bar() {
-    puts("Z");
+    putchar('Z');
     ++counter;
-    if (counter < 3) {
+    if (counter < 2) {
         longjmp(env, 1);
     }
 }
 int main() {
     while (setjmp(env) == 1) {
-        puts("X");
+        putchar('X');
     }
-    puts("Y");
+    putchar('Y');
     bar();
 }
 \end{lstlisting}
@@ -24,3 +23,29 @@ A. YZ & B. XYZ & C. YZYZ & D. XYZXYZ \\
 E. XYZYZ & F. YZXYZ & G. something else & H. varies/might crash\\
 \end{tabular}
 \end{frame}
+
+\begin{frame}<0>[fragile,label=setjmpExSoln]{setjmp exercise soln}
+\lstset{language=C++,
+    basicstyle=\sourcecodepro\EmptyMapping\fontsize{10}{11}\selectfont,
+    keywordstyle=\sourcecodepro\EmptyMapping\fontsize{10}{11}\selectfont\keywordstyle,
+}
+\begin{lstlisting}
+jmp_buf env; int counter = 0;
+void bar() {
+    putchar('Z');               //           3 Z                12 Z
+    ++counter;                  //           4                  13        
+    if (counter < 2) {          //           5 (1<2)            14 (2<2) 
+        longjmp(env, 1);        //           6*      
+    }                           //                              15
+}
+int main() {
+    while (setjmp(env) == 1) {  // 0 (ret 0) 7*(ret 1) 9 (ret 0)
+        putchar('X');           //           8 X       
+    }
+    putchar('Y');               // 1 Y                 10 Y
+    bar();                      // 2                   11
+}                               //                              16
+\end{lstlisting}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1>{setjmpExSoln}}
