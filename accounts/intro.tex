@@ -1,0 +1,20 @@
+\begin{frame}{opening a file?}
+\begin{itemize}
+\item \texttt{open("/u/creiss/private.txt", O\_RDONLY)}
+\item say, private file on portal
+\vspace{.5cm}
+\item on Linux: makes \textit{system call}
+\item kernel needs to decide if this should work or not
+\end{itemize}
+\end{frame}
+
+\begin{frame}{how does OS decide this?}
+\begin{itemize}
+\item argument: needs extra metadata
+\vspace{.5cm}
+\item what would be wrong using\ldots
+\item system call arguments?
+\item where the code calling open came from?
+\end{itemize}
+\end{frame}
+
