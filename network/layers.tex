@@ -1,9 +1,10 @@
 \begin{frame}<1>[fragile,label=layerOverview]{layers}
-\begin{tabular}{l|l|p{6cm}} \hline
+\begin{tabular}{|l|l|p{6cm}|} \hline
 application & HTTP, SSH, SMTP, \ldots & {application-defined meanings}\\ \hline
-transport & TCP, UDP, \ldots & {reach correct program, reliablity/streams (sometimes)} \\
-network & IPv4, IPv6, \ldots & {reach correct machine} \\
-link & Ethernet, Wi-Fi, \ldots & travel over wires/radio \\
+transport & TCP, UDP, \ldots & {reach correct program,\linebreak reliablity/streams} \\ \hline
+network & IPv4, IPv6, \ldots & {reach correct machine}\linebreak(across networks) \\ \hline
+    link & Ethernet, Wi-Fi, \ldots & {coordinate shared wire/radio}\\ \hline
+physical & \ldots & encode bits for wire/radio \\ \hline
 \end{tabular}
 \end{frame}
 
