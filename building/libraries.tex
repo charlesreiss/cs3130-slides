@@ -1,0 +1,40 @@
+\begin{frame}{static libraries}
+    \begin{itemize}
+    \item Unix-like \textit{static} libraries: libfoo.a
+    \item internally: archive of .o files with index
+    \item create: \texttt{ar rcs file1.o file2.o \ldots}
+    \item use: \texttt{\textit{cc} \ldots~-o program -L/path/to/lib \ldots -lfoo}
+        \begin{itemize}
+        \item \texttt{\textit{cc}} could be clang, gcc, clang++, g++, etc.
+        \item \texttt{-L/path/to/lib} not needed if in standard location
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{shared libraries}
+    \begin{itemize}
+    \item Linux \textit{shared} libraries: libfoo.so
+    \item create:
+        \begin{itemize}
+        \item compile .o files with \texttt{-fPIC} (position independent code)
+        \item then: \texttt{\textit{cc} -shared \ldots~-o libfoo.so}
+        \end{itemize}
+    \item use: \texttt{\textit{cc} \ldots -o program -L/path/to/lib \ldots -lfoo}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{finding shared libraries}
+    \begin{itemize}
+    \item \texttt{\textit{cc} \ldots -o program -L/path/to/lib \ldots -lfoo}
+        \begin{itemize}
+        \item on Linux: \texttt{/path/to/lib} only used to create program
+        \item program contains \texttt{libfoo.so} \textit{without full path}
+        \end{itemize}
+    \item Linux default: \texttt{libfoo.so} expected to be in /usr/lib, /lib, and other `standard' locations
+    \item possible overrides:
+        \begin{itemize}
+        \item LD\_LIBRARY\_PATH environment variable
+        \item paths specified with \texttt{-Wl,-rpath=/path/to/lib} when creating executable
+        \end{itemize}
+    \end{itemize}
+\end{frame}

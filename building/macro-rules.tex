@@ -23,8 +23,8 @@ main.o: main.c main.h extra.h \\
 {\tt
 \begin{tabular}{l}
 \myemph{CC = gcc} \\
-\myemph{CFLAGS = -Wall} \\
-\myemph{LDFLAGS = -Wall} \\
+\myemph{CFLAGS = -Wall -pedantic -std=c11 -fsanitize=address} \\
+\myemph{LDFLAGS = -Wall -pedantic -fsanitize=address} \\
 ~ \\
 program: main.o extra.o \\
 ▶\hspace{2.5cm}\$(CC) \$(LDFLAGS) -o program main.o extra.o \\

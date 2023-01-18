@@ -1,7 +1,7 @@
 \begin{frame}[fragile]{some performance examples}
 \begin{tikzpicture}
 \node[draw,very thick,align=left] (v1) {
-\lstset{language=myasm}
+\lstset{language=myasm,style=smaller}
 \begin{lstlisting}
 example1:
     movq $10000000000, %rax
@@ -12,12 +12,12 @@ loop1:
     ret
 \end{lstlisting}
 };
-\node[align=left] at (v1.south) {
+\node[align=left,anchor=north] at (v1.south) {
 \myemph<2>{about 30B} instructions \\
 my desktop: approx \myemph<2>{2.65 sec}
 };
 \node[align=left,draw,very thick,anchor=north west] (v2) at ([xshift=1cm]v1.north east) {
-\lstset{language=myasm}
+\lstset{language=myasm,style=smaller}
 \begin{lstlisting}
 example2:
     movq $10000000000, %rax
@@ -29,7 +29,7 @@ loop2:
     ret
 \end{lstlisting}
 };
-\node[align=left] at (v2.south) {
+\node[align=left,anchor=north] at (v2.south) {
 \myemph<2>{about 40B} instructions \\
 my desktop: approx \myemph<2>{2.65 sec}
 };
