@@ -1,0 +1,39 @@
+
+\begin{frame}[fragile,label=multiCoreProg]{multiple cores+threads}
+\begin{tikzpicture}
+\tikzset{
+    prog1/.style={draw,fill=cyan!70,alt=<2>{draw=red,ultra thick}},
+    prog2/.style={draw,fill=green},
+    prog3/.style={draw,fill=violet!30,alt=<2>{draw=red,ultra thick}},
+    prog4/.style={draw,fill=red!30},
+    proglabel/.style={font=\tt\scriptsize},
+    labelprog1/.style={execute at begin node={\strut firefox graphics}},
+    labelprog2/.style={execute at begin node={\strut clang}},
+    labelprog3/.style={execute at begin node={\strut firefox networking}},
+    labelprog4/.style={execute at begin node={\strut ssh}},
+}
+
+\begin{scope}[xscale=1.2,yscale=1]
+\foreach \s/\e/\p [count=\x] in {0/8/1,8/10/4}{
+    \draw[prog\p] (\s, 0) rectangle (\e, 1) coordinate[midway] (mid-\x);
+    \node[anchor=center,proglabel,labelprog\p] at (mid-\x) {};
+}
+\foreach \s/\e/\p [count=\x] in {0/3/2,3/6/3,6/10/2}{
+    \draw[prog\p] (\s, -1.5) rectangle (\e, -.5) coordinate[midway] (mid-\x);
+    \node[anchor=center,proglabel,labelprog\p] at (mid-\x) {};
+}
+\end{scope}
+\node[anchor=east] at (-0.25, 0.5) {core 1:};
+\node[anchor=east] at (-0.25, -1) {core 2:};
+\end{tikzpicture}
+    \begin{onlyenv}<1>
+        \begin{itemize}
+            \item multiple cores? each core still divided up
+        \end{itemize}
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+        \begin{itemize}
+            \item one program with multiple \textit{threads}
+        \end{itemize}
+    \end{onlyenv}
+\end{frame}
