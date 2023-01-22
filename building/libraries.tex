@@ -2,7 +2,7 @@
     \begin{itemize}
     \item Unix-like \textit{static} libraries: libfoo.a
     \item internally: archive of .o files with index
-    \item create: \texttt{ar rcs file1.o file2.o \ldots}
+    \item create: \texttt{ar rcs libfoo.a file1.o file2.o \ldots}
     \item use: \texttt{\textit{cc} \ldots~-o program -L/path/to/lib \ldots -lfoo}
         \begin{itemize}
         \item \texttt{\textit{cc}} could be clang, gcc, clang++, g++, etc.
