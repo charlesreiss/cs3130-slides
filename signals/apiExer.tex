@@ -3,9 +3,9 @@
 \begin{tikzpicture}
 \node[draw,very thick,label={north:pid 1000}] (left) {
 \begin{lstlisting}
-void handle_sigusr1() {
+void handle_sigusr1(int num) {
     write(1, "X", 1);
-    kill(2000, SIGUSR2);
+    kill(2000, SIGUSR1);
     _exit(0);
 }
 
@@ -19,7 +19,7 @@ int main() {
 };
 \node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
 \begin{lstlisting}
-void handle_sigusr1() {
+void handle_sigusr1(int num) {
     write(1, "Y", 1);
     _exit(0);
 }

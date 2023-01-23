@@ -1,4 +1,5 @@
 void @3handle_sigint@(int signum) {
+    /* signum == SIGINT */
     write(1, "Control-C pressed?!\n",
         sizeof("Control-C pressed?!\n"));
 }

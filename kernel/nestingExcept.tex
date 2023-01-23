@@ -1,0 +1,134 @@
+\usetikzlibrary{shapes.misc}
+
+\begin{frame}[fragile,label=nestedExcept]{exceptions in exceptions}
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{tikzpicture}
+\node (code1) {
+\begin{lstlisting}
+handle_timer_interrupt:
+  save_old_pc @2save_pc@
+  movq %r15, @2save_r15@
+  @1/* key press here */@
+\end{lstlisting}
+};
+\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\begin{lstlisting}
+  movq %r14, save_r14
+  ...
+\end{lstlisting}
+};
+\begin{visibleenv}<2->
+\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\begin{lstlisting}
+handle_keyboard_interrupt:
+  save_old_pc @2save_pc@
+  movq %r15, @2save_r15@
+  movq %r14, save_r14
+  movq %r13, save_r13
+  ...
+\end{lstlisting}
+};
+\draw[very thick,blue,-Latex] (code1.south west) -- (code1.south east) -- (code1.south east |- code2.north);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\node[draw,red,ultra thick,cross out,fit=(code2)] at (code2) {};
+\node[left=.1cm of code2,red] {
+    oops, overwrote saved values?
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{interrupt disabling}
+\begin{itemize}
+\item CPU supports \myemph{disabling} (most) interrupts
+\item interrupts will \myemph{wait} until it is reenabled
+\item CPU has extra state:
+    \begin{itemize}
+    \item are interrupts enabled?
+    \item is keyboard interrupt pending?
+    \item is timer interrupt pending?
+    \end{itemize}
+\end{itemize}
+% FIXME: shwoing logic?
+\end{frame}
+
+\begin{frame}[fragile,label=nestedExcept2]{exceptions in exceptions}
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{tikzpicture}
+\node (code1) {
+\begin{lstlisting}
+handle_timer_interrupt:
+  /* interrupts automatically disabled here */
+  movq %rsp, save_rsp
+  save_old_pc save_pc
+  @1/* key press here */@
+  jmpIfFromKernelMode skip_exception_stack
+  movq current_exception_stack, %rsp
+skip_set_kernel_stack:
+  pushq save_rsp
+  pushq save_pc
+  @2enable_intterupts2@
+  pushq %r15
+  ...
+\end{lstlisting}
+};
+\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\begin{lstlisting}
+  /* interrupt happens here! */
+  ...
+\end{lstlisting}
+};
+\begin{visibleenv}<3->
+\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\begin{lstlisting}
+handle_keyboard_interrupt:
+  movq %rsp, save_rsp
+  save_old_pc save_pc
+  jmpIfFromKernelMode skip_exception_stack
+  movq current_exception_stack, %rsp
+skip_exception_stack:
+  pushq save_rsp
+  pushq save_pc
+  enable_intterupts
+  pushq %r15
+  ...
+\end{lstlisting}
+};
+\draw[very thick,blue,-Latex] (code1.south west) -- ([xshift=-2cm]code1.south east) -- ([xshift=-2cm]code1.south east |- code2.north);
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=disableInt]{disabling interrupts}
+\begin{itemize}
+\item automatically disabled when exception handler starts
+\item also can be done with privileged instruction:
+\end{itemize}
+\begin{lstlisting}
+change_keyboard_parameters:
+  disable_interrupts
+  ...
+  /* change things used by
+     handle_keyboard_interrupt here */
+  ...
+  enable_interrupts
+\end{lstlisting}
+\end{frame}
+
+

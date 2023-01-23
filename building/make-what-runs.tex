@@ -1,3 +1,5 @@
+\usetikzlibrary{arrows.meta}
+
 \begin{frame}[fragile,label=makeWhatRun]{exercise: what will run?}
 \begin{tikzpicture}
 \node[draw,very thick,align=left] (makefile) {
@@ -14,10 +16,10 @@ Y: X Z \\
 \node[anchor=north west,align=left] at ([xshift=1cm]makefile.north east) {
 \begin{tabular}{ll}
 W & modified 1 minute ago \\
-X & modified 2 hours ago \\
+X & modified 3 hours ago \\
 Y & does not exist \\
 Z & modified 1 hour ago \\
-Q & modified 3 hours ago \\
+Q & modified 2 hours ago \\
 \end{tabular}
 };
 \end{tikzpicture}
@@ -32,3 +34,24 @@ D. \texttt{buildY} then \texttt{buildW} & \multicolumn{2}{l}{E. \texttt{buildX} 
 F. \texttt{buildX} then \texttt{buildW} & G. something else \\
 \end{tabular}
 \end{frame}
+
+\begin{frame}<0>[fragile,label=makeWhatRunExplain]{explanation}
+\begin{tikzpicture}
+\begin{scope}[every node/.style={draw,very thick}]
+\node (W) {W (1 min old)};
+\node (X) at ([yshift=-1cm]W.south) {X (3 h old)};
+\node (Y) at ([yshift=-1cm,xshift=4cm]W.south) {Y (not existant)};
+\node (Q) at ([yshift=-1cm]X.south)  {Q (2 h old)};
+\node (Z) at ([yshift=-1cm]Y.south)  {Z (3 h old)};
+\end{scope}
+\begin{scope}[-Latex,thick]
+\draw (W) -- (X);
+\draw[red] (W) -- (Y);
+\draw[red] (X) -- (Q);
+\draw[red] (Y) -- (X);
+\draw (Y) -- (Z);
+\end{scope}
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1->{makeWhatRunExplain}}
