@@ -18,7 +18,8 @@
 \input{../kernel/sysCallLinux}
 
 \subsection{system call wrappers}
-\input{../kernel/sysCallWrapperShort}
+\input{../kernel/syscallWrap}
+% \input{../kernel/sysCallWrapperShort}
 
 \section{interlude: strace}
 \input{../kernel/strace-hello}
@@ -49,26 +50,29 @@
 \section{time multiplexing}
 \input{../kernel/timeMulti}
 
+\subsection{context switching idea}
+\input{../kernel/contextSwitchIntro}
+
 \subsection{thread idea}
 \input{../kernel/thread}
 
+\subsection{context switches} 
+\againframe<3>{timeMultiReally}
+\input{../kernel/contextSwitch}
+
+\section{not just timers}
+\input{../kernel/keyInTimeline}
 
 \section{reasons for exceptions, generally}
 \input{../kernel/exceptKindInfoLib}
 \againframe<1>{exceptTypesN}
 
-
 \subsection{aside: terms}
 \input{../kernel/exceptTerms}
 
 \section{exception table + dispatch}
-
 \input{../kernel/exceptImplHW}
 
-\section{context switches} % FIXME: move earlier???
-    % FIXME: simplify diagram
-    % FIXME: include address space as part of context
-\input{../kernel/contextSwitch}
 
 \section{exercise}
 \input{../kernel/howManyEx}

@@ -1,5 +1,10 @@
 \usetikzlibrary{arrows.meta,fit,positioning,shapes.multipart}
 \begin{frame}[label=sharedMemAddr]{shared memory}
+\begin{itemize}
+\item recall: dynamically linked libraries
+\item would be nice not to duplicate code/data\ldots
+\item we can!
+\end{itemize}
 \begin{tikzpicture}
 \tikzset{
     every node/.style={font=\small},
@@ -53,9 +58,6 @@ void *memory = mmap(NULL, size, PROT_READ | PROT_WRITE,
 \end{lstlisting}
 \begin{itemize}
     \item mmap: ``map'' a file's data into your memory
-        \begin{itemize}
-        \item if MAP\_SHARED: same data for everyone mapping the file
-        \end{itemize}
     \item will discuss a bit more when we talk about virtual memory
     \item part of how Linux loads dynamically linked libraries
 \end{itemize}

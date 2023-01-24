@@ -1,0 +1,50 @@
+
+\begin{frame}[fragile,label=syscallWrap]{system call wrappers}
+\begin{itemize}
+    \item library functions to not write assembly:
+\end{itemize}
+\lstset{language=myasm,style=small,morekeywords={syscall,cmp,jl,ret,neg,movq,ret},
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\begin{lstlisting}
+open:
+    movq $2, %rax // 2 = sys_open
+    // 2 arguments happen to use same registers
+    @1syscall@
+    // return value in %eax
+    @2cmp $0, %rax@
+    jl has_error
+    ret
+has_error:
+    neg %rax
+    movq %rax, @2errno@
+    movq $-1, %rax
+    ret
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=syscallUsage]{system call wrapper: usage}
+\lstset{
+    language=C,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+}
+\begin{lstlisting}
+/* unistd.h contains definitions of:
+    O_RDONLY (integer constant), open() */
+#include <unistd.h>
+int main(void) {
+  int file_descriptor;
+  file_descriptor = @1open("input.txt", O_RDONLY)@;
+  if (@2file_descriptor < 0@) {
+      printf("error: %s\n", @2strerror(errno)@);
+      exit(1);
+  }
+  ...
+  result = read(file_descriptor, ...);
+  ...
+}
+\end{lstlisting}
+\end{frame}
