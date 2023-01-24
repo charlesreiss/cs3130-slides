@@ -45,13 +45,27 @@ F. \texttt{buildX} then \texttt{buildW} & G. something else \\
 \node (Z) at ([yshift=-1cm]Y.south)  {Z (3 h old)};
 \end{scope}
 \begin{scope}[-Latex,thick]
-\draw (W) -- (X);
-\draw[red] (W) -- (Y);
-\draw[red] (X) -- (Q);
-\draw[red] (Y) -- (X);
+\draw[alt=<3->{red},alt=<3>{ultra thick}] (W) -- (X);
+\draw[alt=<2->{red}] (W) -- (Y);
+\draw[alt=<2->{red},alt=<3>{ultra thick}] (X) -- (Q);
+\draw (Y) -- (X);
 \draw (Y) -- (Z);
 \end{scope}
 \end{tikzpicture}
+\begin{itemize}
+    \item first: to make W, need X, Y up to date
+        \begin{itemize}
+        \item to make X up to date: \\
+              need Q up to date $\checkmark$ \\
+                then build X if less recent than Q (yes) $\checkmark$
+        \hrule
+        \item to make Y up to date:
+              need X up to date $\checkmark$ \\
+              need Z up to date $\checkmark$ \\
+                then build Y if less recent than X (yes) or Z (yes) $\checkmark$
+        \end{itemize}
+    \item then build W if less recent than X (no) or Y (yes) $\checkmark$
+\end{itemize}
 \end{frame}
 
 \iftoggle{heldback}{}{\againframe<1->{makeWhatRunExplain}}
