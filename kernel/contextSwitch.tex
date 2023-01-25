@@ -17,38 +17,6 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}<2>[fragile,label=context]{context}
-\begin{itemize}
-\item all registers values
-    \begin{itemize}
-        \item \lstinline|%rax| \lstinline|%rbx|, \ldots, \myemph{\tt \%rsp}, \ldots
-    \end{itemize}
-\item condition codes
-\item program counter
-\item address space (map from program to real addresses)
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile,label=ctxtSwitchPseudo]{context switch pseudocode}
-\lstset{
-    style=small,
-    language=myasm,
-    morekeywords={copy_preexception_pc},
-}
-\begin{lstlisting}
-context_switch(last, next):
-  copy_preexception_pc last->pc
-  mov rax,last->rax 
-  mov rcx, last->rcx 
-  mov rdx, last->rdx
-  ...
-  mov next->rdx, rdx
-  mov next->rcx, rcx
-  mov next->rax, rax
-  jmp next->pc
-\end{lstlisting}
-\end{frame}
-
 \tikzset{a/.style={fill=blue!30},b/.style={fill=green!30},>=Latex}
 \newsavebox{\aContext}
 \savebox{\aContext}{
