@@ -1,0 +1,15 @@
+
+\begin{frame}{SA\_RESTART}
+    \begin{itemize}
+    \item if flag included:
+        \begin{itemize}
+        \item after signal handler runs, attempt to restart interrupted operations
+                (e.g. reading from keyboard)
+        \end{itemize}
+    \item if flat not included:
+        \begin{itemize}
+        \item after signal handler runs, interrupted operations return
+            typically an error (errno == EINTR)
+        \end{itemize}
+    \end{itemize}
+\end{frame}

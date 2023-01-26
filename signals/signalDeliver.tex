@@ -39,8 +39,9 @@ __restore_rt:
 \item {\tt \_\_restore\_rt} is \myemph{return address} for signal handler
 \item sigreturn syscall restores pre-signal state
 \begin{itemize}
-    \item needed to handle caller-saved registers
-    \item also might unblock signals (like un-disabling interrupts)
+    \item if SA\_RESTART set, restarts interrupted operation
+    \item also handles caller-saved registers
+    \item also might change signal \textit{mask}
 \end{itemize}
 \end{itemize}
 \end{frame}

@@ -8,7 +8,7 @@ int main(void) {
     struct sigaction act;
     act.sa_handler = @3&handle_sigint@;
     sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
+    act.sa_flags = SA_RESTART;
     @2sigaction(SIGINT, &act, NULL);@
 
     char buf[1024];

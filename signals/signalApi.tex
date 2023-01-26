@@ -5,6 +5,17 @@
     \item {\tt kill} --- send signal to process
     \item {\tt pause} --- put process to sleep until signal received
     \item {\tt sigprocmask} --- temporarily block some signals from being received
+        \begin{itemize}
+        \item signal will still be \textit{pending}, received if unblocked
+        \end{itemize}
     \item \ldots{} and much more
 \end{itemize}
+\end{frame}
+
+\begin{frame}{kill command}
+    \begin{itemize}
+    \item \textit{kill} command-line command : calls the kill() function
+    \item \texttt{kill 1234} --- sends SIGTERM to pid 1234
+    \item \texttt{kill -USR1 1234} --- sends SIGUSR1 to pid 1234
+    \end{itemize}
 \end{frame}
