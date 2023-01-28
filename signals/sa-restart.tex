@@ -1,12 +1,17 @@
 
 \begin{frame}{SA\_RESTART}
     \begin{itemize}
-    \item if flag included:
+    \item \texttt{sa.sa\_flags = SA\_RESTART;}
+        \begin{itemize}
+        \item general version:
+        \item \texttt{sa.sa\_flags = SA\_NAME | SA\_NAME | SA\_NAME;} (or \texttt{0})
+        \end{itemize}
+    \item if SA\_RESTART included:
         \begin{itemize}
         \item after signal handler runs, attempt to restart interrupted operations
                 (e.g. reading from keyboard)
         \end{itemize}
-    \item if flat not included:
+    \item if SA\_RESTART not included:
         \begin{itemize}
         \item after signal handler runs, interrupted operations return
             typically an error (errno == EINTR)

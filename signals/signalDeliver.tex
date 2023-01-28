@@ -41,7 +41,7 @@ __restore_rt:
 \begin{itemize}
     \item if SA\_RESTART set, restarts interrupted operation
     \item also handles caller-saved registers
-    \item also might change signal \textit{mask}
+    \item also might change which signals blocked (depending how sigaction was called)
 \end{itemize}
 \end{itemize}
 \end{frame}
