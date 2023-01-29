@@ -1,0 +1,56 @@
+\usetikzlibrary{arrows.meta,calc,matrix,shapes.misc}
+
+\begin{frame}[fragile,label=linuxMapsAreaStruct]{Linux maps: list of maps}
+\lstset{language=}
+\tikzset{
+    btHLbox/.style={
+        fill=red!30,outer sep=0pt,inner xsep=1pt, inner ysep=0pt, rounded corners=3pt
+    },
+}
+\begin{lstlisting}[
+    basicstyle=\fontsize{8.5}{9.5}\selectfont,
+    moredelim={**[is][\btHL<1|handout:1>]{@2}{2@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@6}{6@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@7}{7@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@8}{8@}},
+]
+$ cat /proc/self/maps
+@200400000-0040b000 r-xp 00000000 08:01 48328831          /bin/cat2@
+0060a000-0060b000 r--p 0000a000 08:01 48328831          /bin/cat
+0060b000-0060c000 rw-p 0000b000 08:01 48328831          /bin/cat
+01974000-01995000 rw-p 00000000 00:00 0                 [heap]
+7f60c718b000-7f60c7490000 r--p 00000000 08:01 77483660  /usr/lib/locale/locale-archive
+7f60c7490000-7f60c764e000 r-xp 00000000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c764e000-7f60c784e000 ---p 001be000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c784e000-7f60c7852000 r--p 001be000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c7852000-7f60c7854000 rw-p 001c2000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c7854000-7f60c7859000 rw-p 00000000 00:00 0 
+7f60c7859000-7f60c787c000 r-xp 00000000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a39000-7f60c7a3b000 rw-p 00000000 00:00 0 
+7f60c7a7a000-7f60c7a7b000 rw-p 00000000 00:00 0 
+7f60c7a7b000-7f60c7a7c000 r--p 00022000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a7c000-7f60c7a7d000 rw-p 00023000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a7d000-7f60c7a7e000 rw-p 00000000 00:00 0 
+7ffc5d2b2000-7ffc5d2d3000 rw-p 00000000 00:00 0         [stack]
+7ffc5d3b0000-7ffc5d3b3000 r--p 00000000 00:00 0         [vvar]
+7ffc5d3b3000-7ffc5d3b5000 r-xp 00000000 00:00 0         [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 [vsyscall]
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\node[fill=white,draw=red,ultra thick,anchor=south,align=left] at ([yshift=1cm]current page.south) {
+PCB contains list of \texttt{struct vm\_area\_struct} with: \\
+(shown in this output): \\
+\hspace{.5cm}virtual address start, end \\
+\hspace{.5cm}permissions \\
+\hspace{.5cm}offset in backing file (if any) \\
+\hspace{.5cm}pointer to backing file (if any) \\
+~ \\
+(not shown): \\
+\hspace{.5cm}info about sharing of non-file data
+\hspace{.5cm}\ldots
+};
+\end{tikzpicture}
+\end{frame}
