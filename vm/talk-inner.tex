@@ -8,10 +8,7 @@
 \input{../vm/addrSpaceOnly}
 
 \subsection{address translation overview}
-
 \input{../vm/translationOverview}
-
-% FIXME: reminder about this and context switches
 
 \subsection{simple paging with four pages}
 \input{../vm/fourPages}
@@ -30,6 +27,8 @@
 
 \subsection{page table in memory}
 \input{../vm/ptInMemory}
+
+% FIXME: x86-64 page table format
 
 \subsection{exercise warmup}
 \input{../vm/transEx} % FIXME: should be earlier?
@@ -75,6 +74,12 @@
 \subsection{space on demand}
 \input{../vm/spaceOnDemand}
 
+\subsection{mmap}
+\input{../vm/mmap}
+
+\subsection{/proc/PID/maps}
+\input{../vm/linux-maps}
+
 \subsection{swapping}
 \input{../vm/swapping}
 
@@ -83,11 +88,4 @@
 \subsection{general page table tricks}
 \input{../vm/generalPtTrick}
 
-% FIXME: mmap and memory regions
-
-\subsection{mmap}
-\input{../vm/mmap}
-
-\subsubsection{copy-on-write?} % FIXME: consider skipping
-\input{../vm/copyOnWrite}
 

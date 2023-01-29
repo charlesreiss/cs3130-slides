@@ -34,7 +34,7 @@ int main(void) {
     sigprocmask(SIG_BLOCK, SIGINT);
     
     printf("Waiting for SIGINT (control-C)\n"); 
-    if (sigwait(&set, NULL) == 0) {
+    if (sigwait(&set, NULL) == SIGINT) {
         printf("Got SIGINT\n");
     }
 }
