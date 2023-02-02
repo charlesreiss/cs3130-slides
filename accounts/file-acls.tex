@@ -1,18 +1,3 @@
-\begin{frame}{POSIX file permissions}
-    \begin{itemize}
-    \item POSIX files have a very restricted access control list
-    \vspace{.5cm}
-    \item one user ID + read/write/execute bits for user
-        \begin{itemize}
-        \item ``owner'' --- also can change permissions
-        \end{itemize}
-    \item one group ID + read/write/execute bits for group
-    \item default setting --- read/write/execute
-    \vspace{.5cm}
-    \item (see docs for chmod command)
-    \end{itemize}
-\end{frame}
-
 \begin{frame}{POSIX/NTFS ACLs}
     \begin{itemize}
     \item more flexible access control lists
@@ -38,4 +23,35 @@ user:tj1a:---
 # POSIX acl rule:
     # user take precedence over group entries
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{POSIX ACLs on command line}
+\begin{Verbatim}
+getfacl file
+\end{Verbatim}
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+setfacl -m 'user:tj1a:---' file
+\end{Verbatim}
+add line to ACL
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+setfacl -x 'user:tj1a' file
+\end{Verbatim}
+REMOVE line from acl
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+setfacl -M acl.txt file
+\end{Verbatim}
+add to acl, but read what to add from a file
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+setfacl -X acl.txt file
+\end{Verbatim}
+remove from acl, but read what to remove from a file
+    \vspace{.1cm}
 \end{frame}

@@ -1,0 +1,59 @@
+\begin{frame}{POSIX file permissions}
+    \begin{itemize}
+    \item POSIX files have a very restricted access control list
+    \vspace{.5cm}
+    \item one user ID + read/write/execute bits for user
+        \begin{itemize}
+        \item ``owner'' --- also can change permissions
+        \end{itemize}
+    \item one group ID + read/write/execute bits for group
+    \item default setting --- read/write/execute
+    \vspace{.5cm}
+    \item on directories, `execute' means `search' instead
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{permissions encoding}
+\begin{itemize}
+    \item permissions encoded as 9-bit number, can write as octal: \texttt{XYZ}
+    \item octal divides into three 3-bit parts:
+        \begin{itemize}
+        \item user permissions (X), group permissions (Y), other permission (Z)
+        \end{itemize}
+    \item each 3-bit part has a bit for `read' (4), `write' (2), `execute' (1)
+    \vspace{.5cm}
+    \item \texttt{700} --- user read+write+execute; group none; other none
+    \item \texttt{451} --- user read; group read+execute; other none
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{chmod --- exact permissions}
+\begin{Verbatim}
+chmod 700 file
+chmod u=rwx,og= file
+\end{Verbatim}
+user read write execute; group/others no accesss
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+chmod 451 file
+chmod u=r,g=rx,o= file
+\end{Verbatim}
+user read; group read/execute; others no access
+\end{frame}
+
+\begin{frame}[fragile]{chmod --- adjusting permissions}
+\begin{Verbatim}
+chmod u+rx foo
+\end{Verbatim}
+add user read and execute permissions \\
+leave other settings unchanged
+    \vspace{.1cm}
+\hrule
+\begin{Verbatim}
+chmod o-rwx,u=rx foo
+\end{Verbatim}
+remove other read/write/execute permissions \\
+set user permissions to read/execute \\
+leave group settings unchanged
+\end{frame}

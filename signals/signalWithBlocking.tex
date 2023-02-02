@@ -3,23 +3,25 @@
 \item avoid having signal handlers anywhere:
 \item can instead \myemph{block signals}
 \vspace{.5cm}
-\item {\tt sigprocmask} system call
+\item can be done with {\tt sigprocmask} or {\tt pthread\_sigmask} 
 \item signal will become ``pending'' instead
 \item OS will not deliver unless unblocked
-\item \myemph{analagous to  disabling interrupts}
+    \begin{itemize}
+    \item similar mechanism provided by CPU for interrupts (``disabling interrupts'')
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{alternatives to signal handlers}
+\begin{frame}{controlling when signals are handled}
 \begin{itemize}
 \item first, block a signal
 \item then use system calls to inspect pending signals
     \begin{itemize}
     \item example: {\tt sigwait}
     \end{itemize}
-\item or unblock signals only when waiting for I/O
+\item and/or unblock signals only at certain times
     \begin{itemize}
-    \item example: {\tt pselect} system call
+        \item some special functions to help: \\ {\tt sigsuspend} (unblock until handler runs), \\ {\tt pselect} (unblock while checking for I/O), \ldots
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -31,7 +33,7 @@ int main(void) {
     sigset_t set;
     sigemptyset(&set);
     sigaddset(&set, SIGINT);
-    sigprocmask(SIG_BLOCK, SIGINT);
+    sigprocmask(SIG_BLOCK, &set, NULL);
     
     printf("Waiting for SIGINT (control-C)\n"); 
     if (sigwait(&set, NULL) == SIGINT) {

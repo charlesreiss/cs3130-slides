@@ -12,7 +12,7 @@ void handle_sigusr1(int num) {
 int main() {
     struct sigaction act;
     act.sa_handler = &handler_usr1;
-    sigaction(SIGUSR1, &act);
+    sigaction(SIGUSR1, &act, NULL);
     kill(1000, SIGUSR1);
 }
 \end{lstlisting}
@@ -27,7 +27,7 @@ void handle_sigusr1(int num) {
 int main() {
     struct sigaction act;
     act.sa_handler = &handler_usr1;
-    sigaction(SIGUSR1, &act);
+    sigaction(SIGUSR1, &act, NULL);
 }
 \end{lstlisting}
 };
