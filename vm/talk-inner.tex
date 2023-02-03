@@ -16,9 +16,6 @@
 \subsection{switching address spaces}
 \input{../vm/switchAddr}
 
-\subsection{read-only}
-\input{../vm/twoCopiesOfProgram} % FIXME: move?
-
 \subsection{on address space sizes}
 \input{../vm/sizeNotes}
 
@@ -52,8 +49,20 @@
 \subsection{more than two levels}
 \input{../vm/multiLevelGen}
 
+\section{permissions bits}
+\subsection{kernel-only}
+\input{../vm/kernelOnly}
+
+\subsection{read-only}
+\input{../vm/twoCopiesOfProgram} % FIXME: move?
+
+\subsection{solution: permission bits}
+\input{../vm/permissionsBits}
+
 \subsection{assignment preview}
 % FIXME:assignment preview slides
+\begin{frame}{assignment}
+\end{frame}
 
 \subsection{exercises: multi-level lookup}
 % FIXME: \subsubsection{part 0}
@@ -80,12 +89,14 @@
 \subsection{/proc/PID/maps}
 \input{../vm/linux-maps}
 
+\subsection{general page table tricks}
+\input{../vm/generalPtTrick}
+
 \subsection{swapping}
 \input{../vm/swapping}
 
 \input{../vm/swapTimeline}
 
-\subsection{general page table tricks}
-\input{../vm/generalPtTrick}
-
+\subsection{copy-on-write}
+\input{../vm/copyOnWrite} % FIXME: move to much later in semester?
 
