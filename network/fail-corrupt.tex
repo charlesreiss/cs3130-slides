@@ -1,0 +1,18 @@
+\begin{frame}{message corrupted}
+\begin{itemize}
+\item instead of sending ``message''
+\vspace{.5cm}
+\item say Hash(``message'') = 0xABCDEF12
+\item then send ``0xABCDEF12,message''
+\vspace{.5cm}
+\item when receiving, recompute hash
+\item pretend message lost if does not match
+\end{itemize}
+\end{frame}
+
+\begin{frame}{``checksum''}
+\begin{itemize}
+\item these hashes commonly called ``checksums''
+\item in UDP/TCP, produced by adding message parts together (with wraparound)
+\end{itemize}
+\end{frame}

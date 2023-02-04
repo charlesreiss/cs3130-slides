@@ -56,28 +56,14 @@
     \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{what about servers?}
-    \begin{itemize}
-    \item two-way communication
-    \item stream of data, not just one message
-    \vspace{.5cm}
-    \item<2-> can build this with mailbox idea
-        \begin{itemize}
-        \item send a `return address'
-        \item need to track related messages
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
 \begin{frame}{connections over mailboxes}
     \begin{itemize}
     \item real Internet: mailbox-style communication
         \begin{itemize}
         \item send packets to particular mailboxes
         \item no gaurentee on order, when received
-        \item no relationship between 
         \end{itemize}
-    \item connections implemented on top of this
+    \item sockets implemented on top of this
     \end{itemize}
 \end{frame}
 
