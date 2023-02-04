@@ -1,0 +1,94 @@
+\usetikzlibrary{arrows.meta,calc}
+
+
+\begin{frame}{sockets and server sockets}
+% FIXME
+\begin{tikzpicture}
+    \tikzset{
+        >=Latex,
+        comp box/.style={draw, thick, align=center, minimum width=1.5cm,minimum height=1.5cm},
+        explain box/.style={draw=red,very thick, align=left},
+        msg/.style={font=\small},
+        cmd/.style={font=\small},
+    }
+    \node[draw,circle,label={south:client}] (client) {socket};
+    \node[draw,circle,align=center] (ssocket) at ([xshift=8.75cm,yshift=4cm]client.west) {server\\socket};
+    \node[draw,circle,align=center,label={south:server},visible on=<4->] (server) at ([xshift=8.75cm]client.west) {socket};
+    \draw[very thick,dotted,<-] (ssocket.east) -- ++(.5cm,0cm) node[right,font=\small\tt,align=left] {
+        server: \\
+        \myemph<2>{ss\_fd = socket(\ldots)} \\
+        \ldots \\
+        \myemph<3>{bind(ss\_fd, addr, \ldots)} \\
+        \myemph<3>{listen(ss\_fd, \ldots)}
+    };
+    \draw[very thick,dotted,<-] (client.north) -- ++(0cm,2cm) node[above,xshift=1cm,font=\small\tt,align=left] {
+        client: \\
+        \myemph<2>{fd = socket(\ldots)}
+    };
+    \begin{visibleenv}<2>
+        \node[explain box,anchor=north] at ([yshift=-.5cm]ssocket.south) {
+            socket() function --- create socket fd
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[explain box,anchor=north] at ([yshift=-.5cm]ssocket.south) {
+            listen() --- turn socket into server socket \\
+            still has a file descriptor, but \ldots \\
+            can only \texttt{accept()} --- create normal socket
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<4->
+    \draw[very thick,dotted,->] (client) -- (ssocket)
+        node[font=\small,midway,sloped,above,align=left] {request connection \\
+                                   client: \texttt{\myemph<4-5>{connect(fd, addr, \ldots)}}};
+    \draw[very thick,dotted,->,out=-120,in=120] (ssocket) to (server);
+    \node[anchor=west,align=left] at ([xshift=-.75cm]$(server)!0.5!(ssocket)$) {server: \\ \texttt{fd = \myemph<4-5>{accept(ss\_fd, \ldots)}}};
+    \end{visibleenv}
+    \begin{visibleenv}<5->
+    \draw[<->,double,ultra thick] (client) -- (server) node[midway,fill=white,inner sep=0.1mm] {connection};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{connections in TCP/IP}
+    \begin{itemize}
+    \item on network: connection identified by \textit{5-tuple}
+        \begin{itemize}
+        \item used by OS to lookup ``where is the file descriptor?''
+        \end{itemize}
+    \item \small(protocol=TCP, local IP addr., local port, remote IP addr., remote port)
+    \item \myemph{both ends always have an address+port}
+    \vspace{.5cm}
+    \item what is the IP address, port number? set with \texttt{bind()} function
+        \begin{itemize}
+        \item \textit{typically} always done for servers, not done for clients
+        \item system will choose default if you don't
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=laptopNetstat]{connections on my desktop}
+\begin{lstlisting}[language={},basicstyle=\fontsize{9.5}{10.5}\selectfont]
+cr4bd@reiss-t3620
+: /zf14/cr4bd ; netstat --inet --inet6 --numeric
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 128.143.67.91:49202     128.143.63.34:22        ESTABLISHED
+tcp        0      0 128.143.67.91:803       128.143.67.236:2049     ESTABLISHED
+tcp        0      0 128.143.67.91:50292     128.143.67.226:22       TIME_WAIT  
+tcp        0      0 128.143.67.91:54722     128.143.67.236:2049     TIME_WAIT  
+tcp        0      0 128.143.67.91:52002     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:732       128.143.67.236:63439    TIME_WAIT  
+tcp        0      0 128.143.67.91:40664     128.143.67.236:2049     TIME_WAIT  
+tcp        0      0 128.143.67.91:54098     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:49302     128.143.67.236:63439    TIME_WAIT  
+tcp        0      0 128.143.67.91:50236     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:22        172.27.98.20:49566      ESTABLISHED
+tcp        0      0 128.143.67.91:51000     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 127.0.0.1:50438         127.0.0.1:631           ESTABLISHED
+tcp        0      0 127.0.0.1:631           127.0.0.1:50438         ESTABLISHED
+\end{lstlisting}
+\end{frame}
+% FIXME: flow chart
+
+

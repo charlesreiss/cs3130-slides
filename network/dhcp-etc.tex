@@ -1,0 +1,27 @@
+
+\begin{frame}{autoconfiguration}
+\begin{itemize}
+\item problem: how does my machine get IP address
+\vspace{.5cm}
+\item otherwise:
+    \begin{itemize}
+    \item have sysadmin type one in?
+    \item just choose one?
+    \item \myemph<2>{ask someone on local network to assign it}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{DHCP high-level}
+    \begin{itemize}
+    \item protocol done over UDP
+    \vspace{.5cm}
+    \item but since we don't have IP address yet, use \texttt{0.0.0.0}
+    \item and since we don't know server address, use \texttt{255.255.255.255}
+        \begin{itemize}
+        \item = ``everyone on the local network''
+        \end{itemize}
+    \item local server replies to request with address + time limit
+    \end{itemize}
+\end{frame}
+
