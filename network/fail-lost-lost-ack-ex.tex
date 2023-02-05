@@ -1,0 +1,46 @@
+\begin{frame}{exercise: lost acknowledgement}
+\begin{tikzpicture}
+\tikzset{
+    box/.style={thick},
+    message/.style={draw,thick,-Latex},
+    failure/.style={draw,ultra thick,red,cross out,minimum width=1cm,minimum height=1cm},
+}
+\draw[box] (0, 0) rectangle ++(2, -8) 
+    node[midway,align=center] {machine\\A};
+\draw[box] (13, 0) rectangle ++(2, -8) 
+    node[midway,align=center] {machine\\B};
+\draw[message] (2, -0.5) -- (13, -1) node[pos=0.35, above, sloped] {``The meeting is at 12pm.''};
+\draw[message] (13, -1.5) -- (6.5, -1.75) node[pos=0.5, sloped,below] {Got it!}
+    node[failure] {};
+\end{tikzpicture}
+exercise: how to fix this?
+\begin{tabular}{ll}
+A. & machine A needs to send ``Got `got it!' '' \\
+B. & machine B should resend ``Got it!'' on its own \\
+C. & machine A should resend the original message on its own \\
+D. & none of these \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}<0>[label=lostAckExExplain]{answers}
+\begin{itemize}
+\item send ``Got `got it!' ''?
+    \begin{itemize}
+    \item same problem: Now send `Got Got Got it'?
+    \end{itemize}
+\item resend ``Got it!'' own its own?
+    \begin{itemize}
+    \item how many times? --- B doesn't have that info
+    \end{itemize}
+\item resend original message?
+    \begin{itemize}
+    \item yes!
+    \item as far as machine A can be, \textit{exact same situation} as losing original message
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{
+    \againframe<1>{lostAckExExplain}
+}
+

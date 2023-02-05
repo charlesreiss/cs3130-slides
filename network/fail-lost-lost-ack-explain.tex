@@ -1,0 +1,34 @@
+
+
+\begin{frame}{lost acknowledgements}
+\begin{tikzpicture}
+\tikzset{
+    box/.style={thick},
+    message/.style={draw,thick,-Latex},
+    failure/.style={draw,ultra thick,red,cross out,minimum width=1cm,minimum height=1cm},
+}
+\draw[box] (0, 0) rectangle ++(2, -8) 
+    node[midway,align=center] {machine\\A};
+\draw[box] (13, 0) rectangle ++(2, -8) 
+    node[midway,align=center] {machine\\B};
+\draw[message] (2, -0.5) -- (13, -1) node[pos=0.35, above, sloped] {``The meeting is at 12pm.''};
+\draw[message] (13, -1.5) -- (6.5, -1.75) node[pos=0.5, sloped,below] {Got it!}
+    node[failure] {};
+\begin{visibleenv}<3->
+\draw[message] (2, -3.5) -- (13, -4) node[pos=0.35, above, sloped] {``The meeting is at 12pm.''};
+\draw[message] (13, -4.5) -- (2, -5) node[pos=0.5, sloped,below] {Got it!};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\node[draw=red,thick,fill=white,align=left] at (6.5, -6.5) {
+    A's going to need to resend this message! \\
+    Can't tell it really was received!
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red,thick,fill=white,align=left] at (6.5, -6.5) {
+    B needs to handle receiving message twice! \\
+    Sockets: you only get a copy of the data once.
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
