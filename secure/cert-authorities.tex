@@ -1,0 +1,92 @@
+\begin{frame}{getting public keys?}
+    \begin{itemize}
+    \item browser talking to websites \\
+    needs public keys of every single website?
+    \vspace{.5cm}
+    \item not really feasible, but\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{certificate authorities}
+    \begin{itemize}
+    \item instead, have public keys of trusted \textit{certificate authorities}
+    \item only 10s of them, probably
+    \vspace{.5cm}
+    \item websites go to certificates authorities with their public key
+    \item certificate authorities sign messages like: \\
+        ``The public key for foo.com is XXX.''
+    \item these signed messages called ``certificates''
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{example web certificate (1)}
+\begin{Verbatim}[fontsize=\scriptsize]
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            81:13:c9:49:90:8c:81:bf:94:35:22:cf:e0:25:20:33
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer:
+            commonName                = InCommon RSA Server CA
+            organizationalUnitName    = InCommon
+            organizationName          = Internet2
+            localityName              = Ann Arbor
+            stateOrProvinceName       = MI
+            countryName               = US
+        Validity
+            Not Before: Feb 28 00:00:00 2022 GMT
+            Not After : Feb 28 23:59:59 2023 GMT
+        Subject:
+            commonName                = collab.its.virginia.edu
+            organizationalUnitName    = Information Technology and Communication
+            organizationName          = University of Virginia
+            stateOrProvinceName       = Virginia
+            countryName               = US
+.....
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{example web certificate (1)}
+\begin{Verbatim}[fontsize=\scriptsize]
+Certificate:
+    Data:
+....
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:a2:fb:5a:fb:2d:d2:a7:75:7e:eb:f4:e4:d4:6c:
+                    94:be:91:a8:6a:21:43:b2:d5:9a:48:b0:64:d9:f7:
+                    f1:88:fa:50:cf:d0:f3:3d:8b:cc:95:f6:46:4b:42:
+....
+        X509v3 extensions:
+....
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+....
+            X509v3 Subject Alternative Name: 
+                DNS:collab.its.virginia.edu
+                DNS:collab-prod.its.virginia.edu
+                DNS:collab.itc.virginia.edu
+    Signature Algorithm: sha256WithRSAEncryption
+         39:70:70:77:2d:4d:0d:0a:6d:d5:d1:f5:0e:4c:e3:56:4e:31:
+....
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}{certificate chains}
+    \begin{itemize}
+    \item That certificate signed by ``InCommon RSA Server CA''
+    \item CA = certificate authority
+    \vspace{.5cm}
+    \item so their public key, comes with my OS/browser?
+        \begin{itemize}
+        \item not exactly\ldots
+        \end{itemize}
+    \item they have their own certificate signed by ``USERTrust RSA Certification Authority''
+    \item and their public key comes with your OS/browser?
+    \vspace{.5cm}
+    \item (but both CAs now operated by UK-based Sectigo)
+    \end{itemize}
+\end{frame}

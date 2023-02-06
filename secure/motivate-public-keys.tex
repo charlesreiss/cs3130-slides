@@ -1,0 +1,25 @@
+\begin{frame}[fragile,label=sharedSecretProblem]{shared secrets impractical}
+    \begin{itemize}
+    \item problem: shared secrets usually aren't practical
+    \vspace{.5cm}
+    \item need secure communication before I can do secure communication?
+    \item need to redo it every time I talk to new person?
+    \item scaling problem: millions of websites $\times$ billions of browsers = how many keys?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{bootstrapping keys?}
+    \begin{itemize}
+    \item will still need to have some sort of secure communication!
+    \item but will minimize:
+    \vspace{.5cm}
+    \item can be broadcast communication
+        \begin{itemize}
+        \item don't need full new sets of keys for each web browser
+        \end{itemize}
+    \item only with smaller number of trusted authorities
+        \begin{itemize}
+        \item don't need to have keys for every website in advance
+        \end{itemize}
+    \end{itemize}
+\end{frame}

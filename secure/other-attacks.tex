@@ -1,0 +1,34 @@
+\begin{frame}{TLS state machine attack}
+    \begin{itemize}
+    \item from \url{https://mitls.org/pages/attacks/SMACK}
+    \item protocol:
+        \begin{itemize}
+        \item step 1: verify server identity
+        \item step 2: receive messages from server
+        \end{itemize}
+    \item attack:
+        \begin{itemize}
+        \item if server sends ``here's your next message'', \\
+            instead of ``here's my identity'' \\
+        \item then broken client ignores verifying server's identity
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Matrix vulnerabilties}
+    \begin{itemize}
+    \item one example from \url{https://nebuchadnezzar-megolm.github.io/static/paper.pdf}
+    \item system for confidential multi-user chat
+    \vspace{.5cm}
+    \item protocol + goals:
+        \begin{itemize}
+        \item each device (my phone, my desktop) has public key
+        \item to talk to me, you verify one of my public keys
+        \item to add devices, my client can forward my other devices' public keys
+        \end{itemize}
+    \item bug:
+        \begin{itemize}
+        \item when receiving new keys, clients did not check who they were forwarded from correctly
+        \end{itemize}
+    \end{itemize}
+\end{frame}

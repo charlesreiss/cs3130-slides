@@ -1,0 +1,23 @@
+\begin{frame}{digital signatures}
+
+symmetric encryption : asymetric encryption :: \\
+message authentication codes : digital signatures
+\end{frame}
+
+\begin{frame}{digital signatures}
+    \begin{itemize}
+    \item pair of functions:
+        \begin{itemize}
+        \item sign: $S(\text{private key}, \text{message}) = \text{signature}$
+        \item verify: $V(\text{public key}, \text{signature}, \text{message}) = 1$ (``yes, correct signature'') 
+        \end{itemize}
+    \item (public key, private key) = key pair (like asymmetric encryption)
+        \begin{itemize}
+        \item public key can be shared with everyone
+        \item knowing $S$, $V$, $\text{public key}$, $\text{message}$, $\text{signature}$ \\
+            doesn't make it too easy to find another message + signature so that\\
+            $V(\text{public key}, \text{other message}, \text{other signature}) = 1$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

@@ -1,0 +1,33 @@
+\begin{frame}{symmetric encryption}
+    \begin{itemize}
+    \item some magic math!
+    \vspace{.5cm}
+    \item we'll be given two functions by expert:
+        \begin{itemize}
+        \item encrypt: $E(\text{key}, \text{message}) = \text{ciphertext}$
+        \item decrypt: $D(\text{key}, \text{ciphertext}) = \text{message}$
+        \end{itemize}
+    \item key = shared secret
+        \begin{itemize}
+        \item ideally chosen at random
+        \item should be small --- otherwise impractical to share
+        \item unsolved problem: how do A and B both know this?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{symmetric encryption properties}
+    \begin{itemize}
+    \item our functions:
+        \begin{itemize}
+        \item encrypt: $E(\text{key}, \text{message}) = \text{ciphertext}$
+        \item decrypt: $D(\text{key}, \text{ciphertext}) = \text{message}$
+        \end{itemize}
+    \item knowing $E$ and $D$, it should be hard to:
+        \begin{itemize}
+        \item learn about the message from the ciphertext without key; or
+        \item learn about the key from the ciphertext and message
+        \end{itemize}
+    \item ``hard'' $\approx$ would have to try every possible key
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,50 @@
+\begin{frame}{secure communication context}
+    \begin{itemize}
+    \item ``secure'' communication
+    \item mostly talk about on network
+    \item between \textit{principals} $\approx$ people/servers/programs
+    \vspace{.5cm}
+    \item but same ideas apply to, e.g., messages on disk
+        \begin{itemize}
+        \item communicating with yourself
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{A to B}
+    \begin{itemize}
+    \item running example: A talking with B
+        \begin{itemize}
+        \item maybe sometimes also with C
+        \end{itemize}
+    \item attacker E --- eavesdropper
+        \begin{itemize}
+        \item passive
+        \item gets to read all messages over network
+        \end{itemize}
+    \item attacker M (man-in-the-middle)
+        \begin{itemize}
+        \item active
+        \item gets to read and replace and add messages on the network
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{possible security properties?}
+    \begin{itemize}
+    \item what we'll talk about: 
+    \item confidentiality --- information shared only with those who should have it
+    \item authenticity --- message genuinely comes from right principal (and not manipulated)
+    \vspace{.5cm}
+    \item important ones we won't talk about\ldots:
+    \item repudiation --- if A sends message to B, B can't prove to C it came from A
+        \begin{itemize}
+        \item (takes extra effort to get along with authenticity)
+        \end{itemize}
+    \item forward-secrecy --- if A compromised now, E can't use that to decode past conversations with B
+    \item anonymity --- A can talk to B without B knowing who it is
+    \item \ldots
+    \end{itemize}
+\end{frame}
+
+

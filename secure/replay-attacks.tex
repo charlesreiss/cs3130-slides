@@ -1,0 +1,30 @@
+\begin{frame}{replay attacks}
+    \begin{itemize}
+    \item A$\rightarrow$B: Did you order lunch? [signed by A]
+    \item B$\rightarrow$A: Yes. [signed by B]
+    \item A$\rightarrow$B: Vegetarian? [signed by A]
+    \item B$\rightarrow$A: No, not this time. [signed by B]
+    \item \ldots
+    \item A$\rightarrow$B: There's a guy at the door, says he's here to repair the TV. Should I let him in? [signed by A]
+    \item how can attacker hijack the reponse to A's inquiry?
+    \vspace{.5cm}
+    \item<2-> as an attacker, I can copy/paste B's earlier message!
+        \begin{itemize}
+        \item it's still signed!
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{nonces}
+    \begin{itemize}
+    \item one solution to replay attacks:
+    \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signed by A]
+    \item B$\rightarrow$A: \myemph{\#1} Yes. [signed by B]
+    \item A$\rightarrow$B: \myemph{\#2} Vegetarian? [signed by A]
+    \item B$\rightarrow$A: \myemph{\#2} No, not this time. [signed by B]
+    \item \ldots
+    \item A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the TV. Should I let him in? [signed by A]
+    \vspace{.5cm}
+    \item (assuming A actually checks the numbers)
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,15 @@
+\begin{frame}{message authentication codes (MACs)}
+    \begin{itemize}
+    \item goal: use shared secret \textit{key} to verify message origin
+    \vspace{.5cm}
+    \item one function: $MAC(\text{key}, \text{message}) = \text{tag}$
+    \item knowing $MAC$ and the message and the tag, it should be hard to:
+        \begin{itemize}
+        \item find the value of $MAC(\text{key}, \text{other message})$
+            \begin{itemize}
+            \item ``forging the tag''
+            \end{itemize}
+        \item find the key
+        \end{itemize}
+    \end{itemize}
+\end{frame}
