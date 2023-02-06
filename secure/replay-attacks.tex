@@ -15,7 +15,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{nonces}
+\begin{frame}{nonces (1)}
     \begin{itemize}
     \item one solution to replay attacks:
     \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signed by A]
@@ -24,6 +24,19 @@
     \item B$\rightarrow$A: \myemph{\#2} No, not this time. [signed by B]
     \item \ldots
     \item A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the TV. Should I let him in? [signed by A]
+    \vspace{.5cm}
+    \item (assuming A actually checks the numbers)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{nonces (2)}
+    \begin{itemize}
+    \item another solution to replay attacks:
+    \item B$\rightarrow$A: [next number \myemph{\#91523}] [signed by B]
+    \item A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signed by A]
+    \item B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signed by B]
+    \item \ldots
+    \item A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the TV. Should I let him in? [next number \myemph{\#36129}][signed by A]
     \vspace{.5cm}
     \item (assuming A actually checks the numbers)
     \end{itemize}

@@ -1,0 +1,55 @@
+\begin{frame}{just asymmetric?}
+    \begin{itemize}
+    \item given public-key encryption + digital signatures\ldots
+    \item why bother with the symmetric stuff?
+    \vspace{.5cm}
+    \item symmetric stuff much faster
+    \item symmetric stuff much better at supporting larger messages
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{key agreement}
+    \begin{itemize}
+    \item problem: A has B's public encryption key \\
+        wants to choose shared secret 
+    \vspace{.5cm}
+    \item some ideas:
+        \begin{itemize}
+        \item A chooses a key, sends it encrypted to B
+        \item A sends a public key encrypted B, B chooses a key and sends it back
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Diffie-Hellman key agreement (2)}
+\begin{itemize}
+\item A and B want to agree on shared secret
+\vspace{.5cm}
+\item A chooses random value Y
+\item A sends public value derived from Y
+\item B chooses random value Z
+\item B sends public value derived from Z
+\item A combines Y with public value from B to get number
+\item B combines Z with public value from B to get number
+\vspace{.5cm}
+\item and if we choose way of getting public value + combining right,\\
+they end up with the same number
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diffie-Hellman key agreement (1)}
+    \begin{itemize}
+    \item math requirement:
+        \begin{itemize}
+        \item some $f$, so $f(f(X, Y), Z) = f(f(X, Z), Y)$
+        \item (that's hard to invert, etc.)
+        \end{itemize}
+    choose X in advance and:
+    \end{itemize}
+\begin{tabular}{l|l}
+A randomly chooses $Y$ & B randomly chooses $Z$ \\
+A sends $f(X, Y)$ to B & B sends $f(X, Z)$ to A \\
+A computes $f(f(X, Z), Y)$ & B computes $f(f(X, Y), Z)$ \\
+\end{tabular}
+\end{frame}
+
