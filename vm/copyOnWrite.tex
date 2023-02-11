@@ -1,13 +1,3 @@
-\begin{frame}{fast copies}
-\begin{itemize}
-    \item Unix mechanism for starting a new process: \texttt{fork()}
-    \item creates a \myemph{copy} of an entire program!
-    \item (usually, the copy then calls \texttt{execve} --- replaces itself with another program)
-    \vspace{.5cm}
-    \item how isn't this really slow?
-\end{itemize}
-\end{frame}
-
 \begin{frame}{do we really need a complete copy?}
 \begin{tikzpicture}
 \tikzset{
@@ -51,11 +41,16 @@
 
 \begin{frame}{trick for extra sharing}
 \begin{itemize}
-\item sharing writeable data is fine --- until either process modifies the copy
+\item sharing writeable data is fine --- until either process modifies it
+    \begin{itemize}
+    \item example: default value of global variables
+    \item might typically not change
+    \item (or OS might have preloaded executable's data anyways)
+    \end{itemize}
 \item can we detect modifications?
 \vspace{.5cm}
-\item trick: tell CPU (via page table) shared part is read-only
-\item processor will trigger a fault when it's written
+\item<2-> trick: tell CPU (via page table) shared part is read-only
+\item<2-> processor will trigger a fault when it's written
 \end{itemize}
 \end{frame}
 

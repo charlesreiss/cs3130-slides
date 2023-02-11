@@ -22,7 +22,7 @@
 \item precise exceptions: no side effects from faulting instruction or after
     \begin{itemize}
     \item e.g. {\tt pushq} that caused did not change {\tt \%rsp} before fault
-    \item e.g. instructions reordered after faulting instruction not visible
+    \item e.g. can't notice if instructions were executed in parallel
     \end{itemize}
 \end{itemize}
 \end{frame}

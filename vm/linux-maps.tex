@@ -40,6 +40,7 @@ $ cat /proc/self/maps
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 [vsyscall]
 \end{lstlisting}
 \begin{tikzpicture}[overlay,remember picture]
+    \begin{visibleenv}<2->
 \node[fill=white,draw=red,ultra thick,anchor=south,align=left] at ([yshift=1cm]current page.south) {
 OS tracks list of \texttt{struct vm\_area\_struct} with: \\
 (shown in this output): \\
@@ -52,5 +53,6 @@ OS tracks list of \texttt{struct vm\_area\_struct} with: \\
 \hspace{.5cm}info about sharing of non-file data
 \hspace{.5cm}\ldots
 };
+    \end{visibleenv}
 \end{tikzpicture}
 \end{frame}

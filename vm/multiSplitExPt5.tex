@@ -3,7 +3,7 @@
 \begin{frame}{2-level exercise (5)}
 \begin{itemize}
 \item \myemph<1>{10-bit} virtual addresses, 6-bit physical; 16 byte pages, 2 byte PTE
-\item page tables 1 page; PTE: 2 bit PPN (MSB of first byte), 1 valid bit, rest unused
+\item {\small page tables 1 page; PTE 1st byte: (MSB) 2-bit PPN, valid bit; rest unused}
 \item page table base register {\tt 0x10}; translate virtual address {\tt 0x376}
 \end{itemize}
 \begin{tikzpicture}
