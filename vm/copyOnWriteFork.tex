@@ -1,0 +1,11 @@
+
+\begin{frame}{fast copies}
+\begin{itemize}
+    \item Unix mechanism for starting a new process: \texttt{fork()}
+    \item creates a \myemph{copy} of an entire program!
+    \item (usually, the copy then calls \texttt{execve} --- replaces itself with another program)
+    \vspace{.5cm}
+    \item how isn't this really slow?
+\end{itemize}
+\end{frame}
+
