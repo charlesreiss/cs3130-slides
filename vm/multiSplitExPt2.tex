@@ -1,4 +1,4 @@
-\usetikzlibrary{matrix}
+\usetikzlibrary{matrix,positioning}
 
 \begin{frame}{2-level example}
 \begin{itemize}
@@ -30,8 +30,8 @@
     row 1/.style={nodes={draw=none,font=\normalfont\small}},
     ] (memB) at ([xshift=0cm]memA.north east) {
     physical addresses \& bytes \\
-    0x20-3 \& D0 D1 D2 D3 \\
-    0x24-7 \& \maybeEmph<2>{D4} D5 D6 D7 \\
+    0x20-3 \& 00 91 72 13 \\
+    0x24-7 \& \maybeEmph<2>{D4} F5 36 07 \\
     0x28-B \& 89 9A AB BC \\
     0x2C-F \& CD DE EF F0 \\
     0x30-3 \& BA \maybeEmph<6>{0A} BA 0A \\
