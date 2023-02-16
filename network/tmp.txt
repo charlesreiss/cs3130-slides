@@ -1,20 +1,198 @@
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 127.0.0.1:38537         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:36777         0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:41099           0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:45291           0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:51949         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:41071         0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:32881         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:38673         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:57393         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:43923         0.0.0.0:*               LISTEN     
-tcp        0      0 10.187.41.1:53          0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:5909          0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:33751         0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.1:50871         0.0.0.0:*               LISTEN     
+
+; <<>> DiG 9.11.3-1ubuntu1.15-Ubuntu <<>> +trace @1.1.1.1 www.cs.virginia.edu a
+; (1 server found)
+;; global options: +cmd
+.			517962	IN	NS	a.root-servers.net.
+.			517962	IN	NS	b.root-servers.net.
+.			517962	IN	NS	c.root-servers.net.
+.			517962	IN	NS	d.root-servers.net.
+.			517962	IN	NS	e.root-servers.net.
+.			517962	IN	NS	f.root-servers.net.
+.			517962	IN	NS	g.root-servers.net.
+.			517962	IN	NS	h.root-servers.net.
+.			517962	IN	NS	i.root-servers.net.
+.			517962	IN	NS	j.root-servers.net.
+.			517962	IN	NS	k.root-servers.net.
+.			517962	IN	NS	l.root-servers.net.
+.			517962	IN	NS	m.root-servers.net.
+.			517962	IN	RRSIG	NS 8 0 518400 20230228170000 20230215160000 951 . QWeq/9UPzSnCk17bQ8aFdsnZcj5/u4HVFk2WOBu6pXqHlIL/0VJbzvhr oLyaU8GuoSoNs3CIZfTZjeVsSf2NUhIHPXzmOtw+aBeG+1raF2ta+2Ag w0RSIxlPGB1FoToaDFiZpaxRN/nAv8pEbkz5Wxl1ESkjjIIlPGKZqx1X xBVxT4MgKjufflowM42rFydE6NmraIK0CbXnphLwSkplSWl8DDCyBh74 xROUmTl9TAjCbI2zbbqzCdW+lr2NRUpce57G34FJDQxjEaQvYB0O49p3 BHTRuc2sCMlWXdMVtxOr8aOKpFshFuEbs9L3Aul5N+EwlRPnOoB/f+Ds Q7TVDQ==
+;; Received 1097 bytes from 1.1.1.1#53(1.1.1.1) in 7 ms
+
+edu.			172800	IN	NS	a.edu-servers.net.
+edu.			172800	IN	NS	b.edu-servers.net.
+edu.			172800	IN	NS	c.edu-servers.net.
+edu.			172800	IN	NS	d.edu-servers.net.
+edu.			172800	IN	NS	e.edu-servers.net.
+edu.			172800	IN	NS	f.edu-servers.net.
+edu.			172800	IN	NS	g.edu-servers.net.
+edu.			172800	IN	NS	h.edu-servers.net.
+edu.			172800	IN	NS	i.edu-servers.net.
+edu.			172800	IN	NS	j.edu-servers.net.
+edu.			172800	IN	NS	k.edu-servers.net.
+edu.			172800	IN	NS	l.edu-servers.net.
+edu.			172800	IN	NS	m.edu-servers.net.
+edu.			86400	IN	DS	28065 8 2 4172496CDE85534E51129040355BD04B1FCFEBAE996DFDDE652006F6 F8B2CE76
+edu.			86400	IN	RRSIG	DS 8 1 86400 20230228170000 20230215160000 951 . sTPPPDpM6h8pKhiKZonUE6PpMnS+bYg6dp4LowlGMoYhFMuAb+veMk/a H+tHI4Q+N1mY2YdkM0R/7bjF8g0txIASn+BjoWB9R1Sw6uY+zYdsgEl6 PgktEjPLvgByRgW/HXebbMXMHp40+oQDAJdKjaRp9i0VjWPrl5kV4Q/X eTW8FpukZOoJIh2EevAnzC9z63vxDuYoYYgUBnOH0nBstyOvYLUG/os1 xr7eqgypYl6Gywaxe1f0GpgukrsWotiTM9YW++WLBB8CRtNCf1lWM/vv 0iGSov9W844nmT4yr36RvhhLyd148+UrN+bAKoUvfRFCOOU/3Ak1j07N tPgQcg==
+;; Received 1178 bytes from 198.97.190.53#53(h.root-servers.net) in 6 ms
+
+virginia.edu.		172800	IN	NS	nom.virginia.edu.
+virginia.edu.		172800	IN	NS	uvaarpa.virginia.edu.
+virginia.edu.		172800	IN	NS	eip-01-aws.net.virginia.edu.
+9DHS4EP5G85PF9NUFK06HEK0O48QGK77.edu. 86400 IN NSEC3 1 1 0 - 9DQL407IJB4JHADMF7CJMUFNQMR4DF7M  NS SOA RRSIG DNSKEY NSEC3PARAM
+9DHS4EP5G85PF9NUFK06HEK0O48QGK77.edu. 86400 IN RRSIG NSEC3 8 2 86400 20230221071956 20230214060956 34085 edu. ehbRLW3L38Tn86JFEwq86f5X5RICed5NWfNn87qpSaVNevH6tDMPOxr0 F3HjqJeDvsFCu6faC25tR+VuQmvnoyd7J5yxPUu8JOGg4fIUt8y5fqPj oj7h0ua0xotlsvxBDEwg0Uvxorrf/Ew2DYIbdsizNZqRr0cOruLO8ZDG FwCDP1lKqRi1htUug4r33D8V/Ng+8J4NhAtVLLeWVJfOUw==
+IV77SCSRNS6HFIKAU0BQGLJV3JSRHJ4N.edu. 86400 IN NSEC3 1 1 0 - J2LQK44AKNEU09S05UAPB15C9SGFEP5H  NS DS RRSIG
+IV77SCSRNS6HFIKAU0BQGLJV3JSRHJ4N.edu. 86400 IN RRSIG NSEC3 8 2 86400 20230219071739 20230212060739 34085 edu. UrQm4ENYcS+3iBGRrFmhOZynIBbWRMPE9mJnstrKJh/tjKfRExsSvtz0 nh8RJzdNzK7T3Xfub1IPPQNGKR37Mr2DeN2GgRD/SFLPBsNAHDvHYymM y7nKbO1rF2bk4uJPg+T6yBG6WV6mmtOF558+88rCfs3lPWnygnX7F85O fuKFePxmV/dshRvzz37SQccSSTDGsZhEH/Zc4YF+7UfJ4g==
+;; Received 714 bytes from 192.43.172.30#53(i.edu-servers.net) in 3 ms
+
+cs.virginia.edu.	3600	IN	NS	coresrv01.cs.virginia.edu.
+;; Received 116 bytes from 128.143.107.117#53(uvaarpa.virginia.edu) in 8 ms
+
+www.cs.Virginia.EDU.	172800	IN	A	128.143.67.11
+cs.Virginia.EDU.	172800	IN	NS	coresrv01.cs.Virginia.EDU.
+;; Received 151 bytes from 128.143.67.11#53(coresrv01.cs.virginia.edu) in 0 ms
+
+
+; <<>> DiG 9.11.3-1ubuntu1.15-Ubuntu <<>> @a.root-servers.net www.cs.virginia.edu
+; (2 servers found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7620
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 13, ADDITIONAL: 27
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.cs.virginia.edu.		IN	A
+
+;; AUTHORITY SECTION:
+edu.			172800	IN	NS	b.edu-servers.net.
+edu.			172800	IN	NS	f.edu-servers.net.
+edu.			172800	IN	NS	i.edu-servers.net.
+edu.			172800	IN	NS	a.edu-servers.net.
+edu.			172800	IN	NS	g.edu-servers.net.
+edu.			172800	IN	NS	j.edu-servers.net.
+edu.			172800	IN	NS	k.edu-servers.net.
+edu.			172800	IN	NS	m.edu-servers.net.
+edu.			172800	IN	NS	l.edu-servers.net.
+edu.			172800	IN	NS	h.edu-servers.net.
+edu.			172800	IN	NS	c.edu-servers.net.
+edu.			172800	IN	NS	e.edu-servers.net.
+edu.			172800	IN	NS	d.edu-servers.net.
+
+;; ADDITIONAL SECTION:
+b.edu-servers.net.	172800	IN	A	192.33.14.30
+b.edu-servers.net.	172800	IN	AAAA	2001:503:231d::2:30
+f.edu-servers.net.	172800	IN	A	192.35.51.30
+f.edu-servers.net.	172800	IN	AAAA	2001:503:d414::30
+i.edu-servers.net.	172800	IN	A	192.43.172.30
+i.edu-servers.net.	172800	IN	AAAA	2001:503:39c1::30
+a.edu-servers.net.	172800	IN	A	192.5.6.30
+a.edu-servers.net.	172800	IN	AAAA	2001:503:a83e::2:30
+g.edu-servers.net.	172800	IN	A	192.42.93.30
+g.edu-servers.net.	172800	IN	AAAA	2001:503:eea3::30
+j.edu-servers.net.	172800	IN	A	192.48.79.30
+j.edu-servers.net.	172800	IN	AAAA	2001:502:7094::30
+k.edu-servers.net.	172800	IN	A	192.52.178.30
+k.edu-servers.net.	172800	IN	AAAA	2001:503:d2d::30
+m.edu-servers.net.	172800	IN	A	192.55.83.30
+m.edu-servers.net.	172800	IN	AAAA	2001:501:b1f9::30
+l.edu-servers.net.	172800	IN	A	192.41.162.30
+l.edu-servers.net.	172800	IN	AAAA	2001:500:d937::30
+h.edu-servers.net.	172800	IN	A	192.54.112.30
+h.edu-servers.net.	172800	IN	AAAA	2001:502:8cc::30
+c.edu-servers.net.	172800	IN	A	192.26.92.30
+c.edu-servers.net.	172800	IN	AAAA	2001:503:83eb::30
+e.edu-servers.net.	172800	IN	A	192.12.94.30
+e.edu-servers.net.	172800	IN	AAAA	2001:502:1ca1::30
+d.edu-servers.net.	172800	IN	A	192.31.80.30
+d.edu-servers.net.	172800	IN	AAAA	2001:500:856e::30
+
+;; Query time: 2 msec
+;; SERVER: 198.41.0.4#53(198.41.0.4)
+;; WHEN: Wed Feb 15 23:12:54 EST 2023
+;; MSG SIZE  rcvd: 843
+
+
+; <<>> DiG 9.11.3-1ubuntu1.15-Ubuntu <<>> @b.edu-servers.net www.cs.virginia.edu
+; (2 servers found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10300
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 3, ADDITIONAL: 4
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.cs.virginia.edu.		IN	A
+
+;; AUTHORITY SECTION:
+virginia.edu.		172800	IN	NS	nom.virginia.edu.
+virginia.edu.		172800	IN	NS	uvaarpa.virginia.edu.
+virginia.edu.		172800	IN	NS	eip-01-aws.net.virginia.edu.
+
+;; ADDITIONAL SECTION:
+nom.virginia.edu.	172800	IN	A	128.143.107.101
+uvaarpa.virginia.edu.	172800	IN	A	128.143.107.117
+eip-01-aws.net.virginia.edu. 172800 IN	A	44.234.207.10
+
+;; Query time: 27 msec
+;; SERVER: 192.33.14.30#53(192.33.14.30)
+;; WHEN: Wed Feb 15 23:16:37 EST 2023
+;; MSG SIZE  rcvd: 165
+
+
+; <<>> DiG 9.11.3-1ubuntu1.15-Ubuntu <<>> @nom.virginia.edu www.cs.virginia.edu
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4393
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: b66a41f9fc7a0834f09b4a8c63edae5799ff0718d1399fdf (good)
+;; QUESTION SECTION:
+;www.cs.virginia.edu.		IN	A
+
+;; AUTHORITY SECTION:
+cs.virginia.edu.	3600	IN	NS	coresrv01.cs.virginia.edu.
+
+;; ADDITIONAL SECTION:
+coresrv01.cs.virginia.edu. 3600	IN	A	128.143.67.11
+
+;; Query time: 0 msec
+;; SERVER: 128.143.107.101#53(128.143.107.101)
+;; WHEN: Wed Feb 15 23:17:27 EST 2023
+;; MSG SIZE  rcvd: 116
+
+
+; <<>> DiG 9.11.3-1ubuntu1.15-Ubuntu <<>> @coresrv01.cs.virginia.edu www.cs.virginia.edu
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52484
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: ac901a087a86d927fc69499763edae81c1f392d9914ed59f (good)
+;; QUESTION SECTION:
+;www.cs.virginia.edu.		IN	A
+
+;; ANSWER SECTION:
+www.cs.Virginia.EDU.	172800	IN	A	128.143.67.11
+
+;; AUTHORITY SECTION:
+cs.Virginia.EDU.	172800	IN	NS	coresrv01.cs.Virginia.EDU.
+
+;; ADDITIONAL SECTION:
+coresrv01.cs.Virginia.EDU. 172800 IN	A	128.143.67.11
+
+;; Query time: 0 msec
+;; SERVER: 128.143.67.11#53(128.143.67.11)
+;; WHEN: Wed Feb 15 23:18:09 EST 2023
+;; MSG SIZE  rcvd: 151
+
