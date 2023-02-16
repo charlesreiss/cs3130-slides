@@ -1,6 +1,6 @@
 
 \begin{frame}[fragile]{querying the root}
-\begin{Verbatim}[fontsize=\small]
+\begin{Verbatim}[fontsize=\scriptsize]
 $ dig @a.root-servers.net www.cs.virginia.edu
 ...
 edu.			172800	IN	NS	b.edu-servers.net.
@@ -17,7 +17,7 @@ f.edu-servers.net.	172800	IN	AAAA	2001:503:d414::30
 \end{frame}
 
 \begin{frame}[fragile]{querying the edu}
-\begin{Verbatim}[fontsize=\small]
+\begin{Verbatim}[fontsize=\scriptsize]
 $ dig @b.edu-servers.net www.cs.virginia.edu
 ...
 ;; AUTHORITY SECTION:
@@ -32,7 +32,7 @@ eip-01-aws.net.virginia.edu. 172800 IN	A	44.234.207.10
 \end{Verbatim}
 \end{frame}
 \begin{frame}[fragile]{querying virginia.edu}
-\begin{Verbatim}[fontsize=\small]
+\begin{Verbatim}[fontsize=\scriptsize]
 $ dig @nom.virginia.edu www.cs.virginia.edu
 ...
 ;; AUTHORITY SECTION:
@@ -44,7 +44,7 @@ coresrv01.cs.virginia.edu. 3600	IN	A	128.143.67.11
 \end{frame}
 
 \begin{frame}[fragile]{querying cs.virginia.edu}
-\begin{Verbatim}[fontsize=\small]
+\begin{Verbatim}[fontsize=\scriptsize]
 $ dig @coresrv01.cs.virginia.edu
 ...
 ;; ANSWER SECTION:
@@ -57,7 +57,7 @@ cs.Virginia.EDU.	172800	IN	NS	coresrv01.cs.Virginia.EDU.
 \end{frame}
 
 \begin{frame}[fragile]{querying typical ISP's resolver}
-\begin{Verbatim}[fontsize=\small]
+\begin{Verbatim}[fontsize=\scriptsize]
 $ dig www.cs.virginia.edu
 ...
 ;; ANSWER SECTION:

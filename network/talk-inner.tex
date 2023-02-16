@@ -99,25 +99,33 @@
 \subsection{UDP v TCP}
 \input{../network/udp-v-tcp}
 
+\subsection{UDP sockets}
+\input{../network/udp-sockets}
+
 \subsection{OS tracking connections}
 \input{../network/conn-netstat}
 
 \subsection{aside: TCP state machine}
 \input{../network/tcp-state-machine} % FIXME: diagram
 
-\section{URLs and URIs}
-\input{../network/urls}
-
-% FIXME: HTTP request/response?
-\section{and HTTP? (exercise)}
-\input{../network/url-and-http}
-
 \section{DNS}
+\againframe<2>{nameAndAddr}
 \input{../network/dns}
 
 % FIXME: DNS dig example
 \subsection{DNS: dig +trace}
 \input{../network/dig-trace}
+
+\subsection{ARP / IPv6 ND}
+\againframe<3>{nameAndAddr}
+\input{../network/arp-nd}
+
+\subsection{URLs and URIs}
+\input{../network/urls}
+
+% FIXME: HTTP request/response?
+\section{and HTTP? (exercise)}
+\input{../network/url-and-http}
 
 \section{DHCP and IPv6 autoconfig}
 \input{../network/dhcp-etc}
@@ -126,3 +134,6 @@
 \section{firewalls} % FIXME: complete
 \input{../network/firewalls}
 % FIXME: update readings to mention IPv6 equivalent
+
+\section{spoofing?}
+\input{../network/spoofing}
