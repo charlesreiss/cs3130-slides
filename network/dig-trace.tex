@@ -1,0 +1,70 @@
+
+\begin{frame}[fragile]{querying the root}
+\begin{Verbatim}[fontsize=\small]
+$ dig @a.root-servers.net www.cs.virginia.edu
+...
+edu.			172800	IN	NS	b.edu-servers.net.
+edu.			172800	IN	NS	f.edu-servers.net.
+edu.			172800	IN	NS	i.edu-servers.net.
+edu.			172800	IN	NS	a.edu-servers.net.
+...
+b.edu-servers.net.	172800	IN	A	192.33.14.30
+b.edu-servers.net.	172800	IN	AAAA	2001:503:231d::2:30
+f.edu-servers.net.	172800	IN	A	192.35.51.30
+f.edu-servers.net.	172800	IN	AAAA	2001:503:d414::30
+...
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{querying the edu}
+\begin{Verbatim}[fontsize=\small]
+$ dig @b.edu-servers.net www.cs.virginia.edu
+...
+;; AUTHORITY SECTION:
+virginia.edu.		172800	IN	NS	nom.virginia.edu.
+virginia.edu.		172800	IN	NS	uvaarpa.virginia.edu.
+virginia.edu.		172800	IN	NS	eip-01-aws.net.virginia.edu.
+
+;; ADDITIONAL SECTION:
+nom.virginia.edu.	172800	IN	A	128.143.107.101
+uvaarpa.virginia.edu.	172800	IN	A	128.143.107.117
+eip-01-aws.net.virginia.edu. 172800 IN	A	44.234.207.10
+\end{Verbatim}
+\end{frame}
+\begin{frame}[fragile]{querying virginia.edu}
+\begin{Verbatim}[fontsize=\small]
+$ dig @nom.virginia.edu www.cs.virginia.edu
+...
+;; AUTHORITY SECTION:
+cs.virginia.edu.	3600	IN	NS	coresrv01.cs.virginia.edu.
+
+;; ADDITIONAL SECTION:
+coresrv01.cs.virginia.edu. 3600	IN	A	128.143.67.11
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{querying cs.virginia.edu}
+\begin{Verbatim}[fontsize=\small]
+$ dig @coresrv01.cs.virginia.edu
+...
+;; ANSWER SECTION:
+www.cs.Virginia.EDU.	172800	IN	A	128.143.67.11
+
+;; AUTHORITY SECTION:
+cs.Virginia.EDU.	172800	IN	NS	coresrv01.cs.Virginia.EDU.
+...
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{querying typicalISP's resolver}
+$ dig www.cs.virginia.edu
+...
+;; ANSWER SECTION:
+www.cs.Virginia.EDU.	  7183	IN	A	128.143.67.11
+..
+\end{Verbatim}
+\begin{itemize}
+\item valid for 7183  more seconds
+\item after that everyone needs to check again
+\end{itemize}
+\end{frame}
