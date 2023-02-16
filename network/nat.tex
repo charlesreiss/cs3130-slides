@@ -1,0 +1,24 @@
+\begin{frame}{network address translation}
+\begin{itemize}
+\item IPv4 addresses are kinda scarce
+\item solution: \textit{convert} many private addrs. to one public addr.
+\item locally: use private IP addresses for machines
+\item outside: private IP addresses become a single public one
+\item commonly how home networks work (and some ISPs)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{implementing NAT}
+\small
+\begin{tabular}{llll}
+remote host + port & outside local port number & inside IP & inside port number \\ \hrule
+128.148.17.3:443 & 54033 & 192.168.1.5 & 43222 \\
+11.7.17.3:443 & 53037 & 192.168.1.5 & 33212 \\
+128.148.31.2:22 & 54032 & 192.168.1.37 & 43010 \\
+128.148.17.3:443 & 63039 & 192.168.1.37 & 32132 \\
+\end{tabular}
+\begin{itemize}
+\item table of the translations
+\item need to update as new connections made
+\end{itemize}
+\end{frame}
