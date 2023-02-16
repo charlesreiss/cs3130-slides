@@ -56,7 +56,8 @@ cs.Virginia.EDU.	172800	IN	NS	coresrv01.cs.Virginia.EDU.
 \end{Verbatim}
 \end{frame}
 
-\begin{frame}[fragile]{querying typicalISP's resolver}
+\begin{frame}[fragile]{querying typical ISP's resolver}
+\begin{Verbatim}[fontsize=\small]
 $ dig www.cs.virginia.edu
 ...
 ;; ANSWER SECTION:
@@ -64,6 +65,7 @@ www.cs.Virginia.EDU.	  7183	IN	A	128.143.67.11
 ..
 \end{Verbatim}
 \begin{itemize}
+\item cached response
 \item valid for 7183  more seconds
 \item after that everyone needs to check again
 \end{itemize}
