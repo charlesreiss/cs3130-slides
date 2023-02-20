@@ -7,6 +7,23 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{certificate idea}
+    \begin{itemize}
+        \item let's say A has B's public key already.
+        \item if C wants B's public key and knows A's already:
+            \vspace{.5cm}
+        \item A can send C:
+            \begin{itemize}
+            \item ``B's public key is XXX'' AND
+            \item Sign(B's private key, ``B's public key is XXX'')
+            \end{itemize}
+        \item if C trusts A, now C has B's public key
+            \begin{itemize}
+            \item if C does not trust A, well, can't trust this either
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{certificate authorities}
     \begin{itemize}
     \item instead, have public keys of trusted \textit{certificate authorities}

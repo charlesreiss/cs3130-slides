@@ -2,7 +2,7 @@
     \begin{itemize}
     \item problem: shared secrets usually aren't practical
     \vspace{.5cm}
-    \item need secure communication before I can do secure communication?
+    \item \myemph<2>{need secure communication before I can do secure communication?}
     \item need to redo it every time I talk to new person?
     \item scaling problem: millions of websites $\times$ billions of browsers = how many keys?
     \end{itemize}
@@ -10,14 +10,14 @@
 
 \begin{frame}{bootstrapping keys?}
     \begin{itemize}
-    \item will still need to have some sort of secure communication!
+    \item will still need to have some sort of secure communication to setup!
     \item but will minimize:
     \vspace{.5cm}
-    \item can be broadcast communication
+    \item<2-> \myemph<3>{can be broadcast communication}
         \begin{itemize}
         \item don't need full new sets of keys for each web browser
         \end{itemize}
-    \item only with smaller number of trusted authorities
+    \item<2-> only with smaller number of trusted authorities
         \begin{itemize}
         \item don't need to have keys for every website in advance
         \end{itemize}

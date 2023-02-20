@@ -1,0 +1,31 @@
+\begin{frame}{exercise}
+    \begin{itemize}
+    \item exercise: how should certificates verify identity?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{how do certificate authorities verify}
+    \begin{itemize}
+        \item for web sites, set by CA/Browser Forum
+        \item organization of:
+            \begin{itemize}
+            \item everyone who ships code with list of valid certificate authorities
+                \begin{itemize}
+                \item Apple, Google, Microsoft, Mozilla, Opera, Cisco, Qihoo 360, Brave, \ldots
+                \end{itemize}
+            \item certificate authorities
+            \end{itemize}
+        \item decide on rules (``baseline requirements'') for what CAs do
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{BR identity validation}
+    \begin{itemize}
+        \item options involve CA choosing random value and:
+        \vspace{.5cm}
+        \item sending it to domain contact (with domain registrar) and receive response with it
+        \item observing it placed in DNS or website or sent from server in other specific way
+        \vspace{1cm}
+        \item exercise: problems this doesn't deal with?
+    \end{itemize}
+\end{frame}

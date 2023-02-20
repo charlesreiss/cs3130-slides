@@ -21,9 +21,10 @@
         \myemph<3>{bind(ss\_fd, addr, \ldots)} \\
         \myemph<3>{listen(ss\_fd, \ldots)}
     };
-    \draw[very thick,dotted,<-] (client.north) -- ++(0cm,2cm) node[above,xshift=1cm,font=\small\tt,align=left] {
+    \draw[very thick,dotted,<-] (client.north) -- ++(0cm,2.5cm) node[above,xshift=2.5cm,font=\small\tt,align=left] {
         client: \\
-        \myemph<2>{fd = socket(\ldots)}
+        \myemph<2>{fd = socket(\ldots)} \\
+        {\normalfont \small (optional)} bind(fd, addr, \ldots)
     };
     \begin{visibleenv}<2>
         \node[explain box,anchor=north] at ([yshift=-.5cm]ssocket.south) {

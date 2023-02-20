@@ -1,0 +1,44 @@
+\begin{frame}{motivation: summary for signature}
+    \begin{itemize}
+    \item mentioned that asymmetric encryption has size limit
+    \item same problem for digital signatures
+        \vspace{.5cm}
+    \item solution: sign ``summary'' of message
+    \item how to get summary?
+    \item hash function, but\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{cryptographic hash}
+    \begin{itemize}
+    \item hash(M) = X
+    \vspace{.5cm}
+    \item given X:
+        \begin{itemize}
+        \item hard to find message other than by guessing
+        \end{itemize}
+    \item given X, M:
+        \begin{itemize}
+        \item hard to find second message so that hash(second message) = H
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{cryptographic hash uses}
+    \begin{itemize}
+    \item find shorter `summary' to substitute for data
+        \begin{itemize}
+        \item what hashtables use them for, but\ldots
+        \item we care that adversaries can't cause collisions!
+        \end{itemize}
+    \vspace{.5cm}
+    \item<2-> deal with message limits in signatures/etc.
+    \item<2-> password hashing --- but be careful! [next slide]
+    \item<2-> constructing message authentication codes
+        \begin{itemize}
+        \item hash message + secret info (+ some other details)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+

@@ -10,11 +10,12 @@
 
 \begin{frame}{manipulating encrypted data?}
 \begin{itemize}
-\item common symmetric encryption approach:
+\item one example: common symmetric encryption approach:
     \begin{itemize}
+    \item use random number + shared secret to\ldots
     \item produce sequence of hard-to-guess bits $x_i$ as long as the message
     \item produce ciphertext with xor: $c_i = m_i \oplus x_i$
-        \item message = $m_0m_1m_2\ldots$; ciphertext = $c_0c_1c_2\ldots$
+    \item message = $m_0m_1m_2\ldots$; ciphertext = [random number]$c_0c_1c_2\ldots$
     \end{itemize}
 \item means that flipping $c_i$ flips bit $m_i$ 
 \item also means that we can shorten messages silently
@@ -34,6 +35,9 @@
     \begin{itemize}
     \item ``Pay \$100 to ABC Corp if they \ldots'' $\rightarrow$ ``Pay \$100 to ABC Corp''
     \end{itemize}
-\item we can corrupt and see how see what the response is
+\item we can corrupt and what the response is
+    \begin{itemize}
+    \item e.g. what changes don't make B reject message as malformed?
+    \end{itemize}
 \end{itemize}
 \end{frame}

@@ -1,16 +1,37 @@
 \begin{frame}{replay attacks}
     \begin{itemize}
-    \item A$\rightarrow$B: Did you order lunch? [signed by A]
-    \item B$\rightarrow$A: Yes. [signed by B]
-    \item A$\rightarrow$B: Vegetarian? [signed by A]
-    \item B$\rightarrow$A: No, not this time. [signed by B]
-    \item \ldots
-    \item A$\rightarrow$B: There's a guy at the door, says he's here to repair the TV. Should I let him in? [signed by A]
+    \item A$\rightarrow$B: Did you order lunch? [signature 1 by A]
+        \begin{itemize}
+            \item signature 1 by A = Sign(A's private signing key, ``Did you order lunch?'')
+            \item will check with Verify(A's public key, signature 1 by A, ``Did you order lunch?'')
+        \end{itemize}
+    \item B$\rightarrow$A: Yes. [signature 1 by B]  
+        \begin{itemize}
+            \item signature 1 by B = Sign(B's private key, ``Yes.'')
+            \item will check with Verify(B's public key, signature 1 by B, ``Yes.'')
+        \end{itemize}
+    \item  A$\rightarrow$B: Vegetarian? [signature 2 by A]  \\
+     B$\rightarrow$A: No, not this time. [signature 2 by B]  \\ \ldots \\
+     A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature by A]
+    \vspace{.5cm}
+    \item so attacker can't manipulate/forge messages, everything's okay?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{replay attacks}
+    \begin{itemize}
+    \item A$\rightarrow$B: Did you order lunch? [signature 1 by A] \\
+          B$\rightarrow$A: Yes. [signature 1 by B]  \\
+          A$\rightarrow$B: Vegetarian? [signature 2 by A] \\
+          B$\rightarrow$A: No, not this time. [signature 2 by B] \\
+          \ldots \\
+          A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? by A]
     \item how can attacker hijack the reponse to A's inquiry?
     \vspace{.5cm}
     \item<2-> as an attacker, I can copy/paste B's earlier message!
         \begin{itemize}
-        \item it's still signed!
+        \item just keep the same signature, so it can be verified!
+        \item Verify(B's public key, ``Yes.'', signature 2 from B) = 1
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -18,12 +39,15 @@
 \begin{frame}{nonces (1)}
     \begin{itemize}
     \item one solution to replay attacks:
-    \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signed by A]
-    \item B$\rightarrow$A: \myemph{\#1} Yes. [signed by B]
-    \item A$\rightarrow$B: \myemph{\#2} Vegetarian? [signed by A]
-    \item B$\rightarrow$A: \myemph{\#2} No, not this time. [signed by B]
-    \item \ldots
-    \item A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the TV. Should I let him in? [signed by A]
+    \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signature 1 from A] 
+        \begin{itemize}
+        \item signature from A = Sign(A's private key, ``\myemph{\#1} Did you order lunch?'')
+        \end{itemize}
+    \item B$\rightarrow$A: \myemph{\#1} Yes. [signature 1 from B] \\
+    A$\rightarrow$B: \myemph{\#2} Vegetarian? [signature 2 from A] \\
+    B$\rightarrow$A: \myemph{\#2} No, not this time. [signature 2 from B] \\
+    \ldots \\
+    A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? from A] \\
     \vspace{.5cm}
     \item (assuming A actually checks the numbers)
     \end{itemize}
@@ -32,11 +56,11 @@
 \begin{frame}{nonces (2)}
     \begin{itemize}
     \item another solution to replay attacks:
-    \item B$\rightarrow$A: [next number \myemph{\#91523}] [signed by B]
-    \item A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signed by A]
-    \item B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signed by B]
-    \item \ldots
-    \item A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the TV. Should I let him in? [next number \myemph{\#36129}][signed by A]
+    \item B$\rightarrow$A: [next number \myemph{\#91523}] [signature from B] \\
+    A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signature from A] \\
+    B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signature from B] \\
+    \ldots \\
+    A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number \myemph{\#36129}][signature from A] 
     \vspace{.5cm}
     \item (assuming A actually checks the numbers)
     \end{itemize}

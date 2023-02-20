@@ -4,16 +4,16 @@
     moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
     moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
     moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
-    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
-    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+    moredelim={**[is][\btHL<1,5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
 printf("Name: ");
 char input[1000];
-fgets(input, sizeof input, stdin);
+@2fgets(input, sizeof input, stdin);2@
 fprintf(logfile, "Got name %s\n", input);
 printf("Enter command: ");
-fgets(input, sizeof input, stdin);
+@2fgets(input, sizeof input, stdin);2@
 ...
 \end{lstlisting}
 \end{frame}
@@ -24,8 +24,8 @@ fgets(input, sizeof input, stdin);
     moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
     moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
     moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
-    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
-    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+    moredelim={**[is][\btHL<1,5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
 /* missing below: error handling */
@@ -36,13 +36,14 @@ int count = 0;
 do {
     count += fread(input + count, sizeof(char),
                    1000 - count, stdin);
-} while (input[count-1] != '\n');
+} while (input[count-1] != '\n' && count < 1000);
 fprintf(logfile, "Got name %*s\n", count, input);
 msg = "Enter command: ";
 fwrite(msg, 1, strlen(msg), stdout);
+count = 0;
 do {
-    count += fread(input, sizeof(char), 1000, stdin);
-} while (!feof(stdin) && !ferror(stdin));
+    count += fread(input + count, sizeof(char), 1000, stdin);
+} while (input[count-1] ! = '\n' && count < 1000);
 ...
 \end{lstlisting}
 \end{frame}
@@ -55,8 +56,8 @@ do {
     moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
     moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
     moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
-    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
-    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+    moredelim={**[is][\btHL<1,5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
 /* missing below: error handling */
@@ -67,13 +68,14 @@ char input[1000];
 int count = 0;
 do {
     count += @3read(socket_file, input + count, 1000 - count);3@
-} while (input[count-1] != '\n');
+} while (input[count-1] != '\n' && count < 1000);
 fprintf(logfile, "Got name %*s\n", count, input);
 msg = "Enter command: ";
 @4write(socket_file, msg,  strlen(msg));4@
+count = 0;
 do {
     count += @5read(socket_file, input + count, 1000 - count);5@
-} while (input[count-1] != '\n');
+} while (input[count-1] != '\n' && count < 1000);
 ...
 \end{lstlisting}
 \end{frame}

@@ -3,17 +3,21 @@
 \begin{lstlisting}[language=C++,style=smaller]
 int fd = socket(AF_INET, SOCK_DGRAM, 0);
 struct sockaddr_in my_addr= ...;
+/* set local IP address + port */
 bind(fd, &my_addr, sizeof(my_addr))
 struct sockaddr_in to_addr = ...;
-connect(fd, &to_addr);
+connect(fd, &to_addr); /* set remote IP address + port */
+    /* doesn't actually communicate with remote address yet */
 ...
 int count = write(fd, data, data_size);
 // OR
 int count = send(fd, data, data_size, 0 /* flags */);
+    /* single message -- sent ALL AT ONCE */
 
 int count = read(fd, buffer, buffer_size);
 // OR
 int count = recv(fd, buffer, buffer_size, 0 /* flags */);
+    /* receives whole single message ALL AT ONCE */
 \end{lstlisting}
 \end{frame}
 
@@ -21,14 +25,18 @@ int count = recv(fd, buffer, buffer_size, 0 /* flags */);
 \begin{lstlisting}[language=C++,style=smaller]
 int fd = socket(AF_INET, SOCK_DGRAM, 0);
 struct sockaddr_in my_addr= ...;
+/* set local IP address + port */
 if (0 != bind(fd, &my_addr, sizeof(my_addr)))
     handle_error();
 ...
 struct sockaddr_in to_addr = ...;
+    /* send a message to specific address */
 int bytes_sent = sendto(fd, data, data_size, 0 /* flags */,
     &to_addr, sizeof(to_addr));
+
 struct sockaddr_in from_addr = ...;
-iint bytes_recvd = recvfrom(fd, &buffer[0], buffer_size, 0,
+    /* receive a message + learn where it came from */
+int bytes_recvd = recvfrom(fd, &buffer[0], buffer_size, 0,
     &from_addr, sizeof(from_addr));
 ...
 \end{lstlisting}

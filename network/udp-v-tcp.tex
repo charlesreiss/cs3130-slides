@@ -1,20 +1,19 @@
 \begin{frame}[fragile]{UDP v TCP}
     \begin{itemize}
+    \item TCP: stream to other program
+        \begin{itemize}
+        \item need to connect to specific server
+        \item ``connecting'' fails if server not responding
+        \item (at least) one socket per remote program being talked to
+        \end{itemize}
     \item UDP: messages sent to program, but no reliablity/streams
         \begin{itemize}
         \item \texttt{SOCK\_DGRAM} with socket() instead of \texttt{SOCK\_STREAM}
         \item can sendto()/recvfrom() multiple other programs with one socket
             \begin{itemize}
-            \item (but don't have to)
+                \item (but don't have to)
             \end{itemize}
         \item send messages which are limited in size, unreliable
-        \end{itemize}
-    \item TCP: stream to other program
-        \begin{itemize}
-        \item need to bind() + listen() + accept() or connect() to setup connection
-        \item one socket per connection
-        \item read/write bytes --- divided into messages automatically
-        \item reliable --- acknowledgments/resending handled for you
         \end{itemize}
     \end{itemize}
 \end{frame}

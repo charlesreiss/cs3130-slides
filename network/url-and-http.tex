@@ -1,15 +1,16 @@
 \begin{frame}[fragile]{URLs and HTTP (1)}
 \begin{itemize}
-    \item \texttt{http://www.foo.com:80/foo/bar?quux\#q1}
+    \item \texttt{http://www.foo.com:80/foo/bar?quux\myemph<2>{\#q1}}
     \item lookup IP address of www.foo.com
     \item connect via TCP to port 80:
 \end{itemize}
-\begin{Verbatim}
+\providecommand{\emphThree}[1]{\myemph<3>{#1}}
+\begin{Verbatim}[commandchars=X()]
 GET /foo/bar?quux HTTP/1.1
-Host: www.foo.com:80
+Host: XemphThree(www.foo.com:80)
 \end{Verbatim}
 \begin{itemize}
-    \item exercise: why include the Host there?
+    \item<3-> exercise: why include the Host there?
 \end{itemize}
 \end{frame}
 
