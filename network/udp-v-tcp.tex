@@ -2,7 +2,6 @@
     \begin{itemize}
     \item UDP: messages sent to program, but no reliablity/streams
         \begin{itemize}
-        \item get assigned port number
         \item \texttt{SOCK\_DGRAM} with socket() instead of \texttt{SOCK\_STREAM}
         \item can sendto()/recvfrom() multiple other programs with one socket
             \begin{itemize}

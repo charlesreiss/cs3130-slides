@@ -1,0 +1,79 @@
+\begin{frame}[fragile]{talking with the terminal}
+\lstset{
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+}
+\begin{lstlisting}
+printf("Name: ");
+char input[1000];
+fgets(input, sizeof input, stdin);
+fprintf(logfile, "Got name %s\n", input);
+printf("Enter command: ");
+fgets(input, sizeof input, stdin);
+...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{talking with terminal w/ fread}
+\lstset{
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+}
+\begin{lstlisting}
+/* missing below: error handling */
+const char *msg = "Name: ";
+fwrite(msg, 1, strlen(msg), stdout);
+char input[1000];
+int count = 0;
+do {
+    count += fread(input + count, sizeof(char),
+                   1000 - count, stdin);
+} while (input[count-1] != '\n');
+fprintf(logfile, "Got name %*s\n", count, input);
+msg = "Enter command: ";
+fwrite(msg, 1, strlen(msg), stdout);
+do {
+    count += fread(input, sizeof(char), 1000, stdin);
+} while (!feof(stdin) && !ferror(stdin));
+...
+\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{using a connected socket}
+\lstset{
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+}
+\begin{lstlisting}
+/* missing below: error handling */
+int socket_file = GetSocketFileDescriptorSomehow();
+const char *msg = "Name: ";
+@2write(socket_file, msg,  strlen(msg));2@
+char input[1000];
+int count = 0;
+do {
+    count += @3read(socket_file, input + count, 1000 - count);3@
+} while (input[count-1] != '\n');
+fprintf(logfile, "Got name %*s\n", count, input);
+msg = "Enter command: ";
+@4write(socket_file, msg,  strlen(msg));4@
+do {
+    count += @5read(socket_file, input + count, 1000 - count);5@
+} while (input[count-1] != '\n');
+...
+\end{lstlisting}
+\end{frame}

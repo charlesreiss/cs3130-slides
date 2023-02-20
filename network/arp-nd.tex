@@ -54,4 +54,14 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 128.143.67.0    0.0.0.0         255.255.255.0   U     100    0        0 enp0s31f6
 169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 enp0s31f6
 \end{Verbatim}
+\begin{itemize}
+\item network configuration says:
+\vspace{.5cm}
+\item (line 2) to get to 128.143.67.0--128.143.67.255, send directly on local network
+    \begin{itemize}
+    \item ``genmask'' is mask (for bitwise operations) to specify how big range is
+    \end{itemize}
+\item (line 3) to get to 169.254.0.0--169.254.255.255, send directly on local network
+\item (line 1) to get anywhere else, use ``gateway'' 128.143.67.1
+\end{itemize}
 \end{frame}

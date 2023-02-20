@@ -1,0 +1,23 @@
+\begin{frame}{firewalls}
+    \begin{itemize}
+    \item don't want to expose network service to everyone?
+    \item solutions:
+        \begin{itemize}
+        \item service picky about who it accepts connections from
+        \item filters in OS on machine with services
+        \item filters on router
+        \end{itemize}
+    \item later two called ``firewalls''
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{firewall rules examples?}
+    \begin{itemize}
+    \item ALLOW tcp port 443 (https) FROM everyone
+    \item ALLOW tcp port 22 (ssh) FROM \myemph{my desktop's IP address}
+    \item BLOCK tcp port 22 (ssh) FROM everyone else
+    \item ALLOW from address X to address Y
+    \item \ldots
+    \end{itemize}
+\end{frame}
+

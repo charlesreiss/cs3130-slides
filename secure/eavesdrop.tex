@@ -30,21 +30,19 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{possible security properties?}
+\begin{frame}{privileged network position}
     \begin{itemize}
-    \item what we'll talk about: 
-    \item confidentiality --- information shared only with those who should have it
-    \item authenticity --- message genuinely comes from right principal (and not manipulated)
-    \vspace{.5cm}
-    \item important ones we won't talk about\ldots:
-    \item repudiation --- if A sends message to B, B can't prove to C it came from A
+    \item intercept radio signal?
+    \item control local wifi router?
         \begin{itemize}
-        \item (takes extra effort to get along with authenticity)
+        \item may doesn't just forward messages
         \end{itemize}
-    \item forward-secrecy --- if A compromised now, E can't use that to decode past conversations with B
-    \item anonymity --- A can talk to B without B knowing who it is
-    \item \ldots
+    \item compromise network equipment?
+    \item send packets with `wrong' source address
+        \begin{itemize}
+        \item called ``spoofing''
+        \end{itemize}
+    \item fool DNS servers to `steal 'name?
+    \item fool routers to send you other's data?
     \end{itemize}
 \end{frame}
-
-

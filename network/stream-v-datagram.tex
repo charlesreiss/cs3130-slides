@@ -1,0 +1,40 @@
+\begin{frame}[fragile]{writing files?}
+\lstset{language=C,style=small}
+\begin{lstlisting}
+write(file, "H", 1);
+write(file, "i", 1);
+write(file, "\n", 1);
+\end{lstlisting}
+\hrule
+\begin{lstlisting}
+write(file, "Hi\n", 3);
+\end{lstlisting}
+\hrule
+\begin{itemize}
+    \item with files/the terminal: both do the same thing
+        \begin{itemize}
+        \item can read back result in same way
+        \end{itemize}
+    \item also: don't need to worry about data being lost/reordered
+    \item stream sockets: same kind of interface
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{alternative: datagram}
+    \begin{itemize}
+    \item stream sockets: TCP
+        \begin{itemize}
+        \item underneath: implemented using sequence numbers + acks
+        \end{itemize}
+    \vspace{.5cm}
+    \item alternative: datagram sockets
+    \item send ``datagrams''
+        \begin{itemize}
+        \item individual messages
+        \item if too long --- too bad
+        \item can be lost/corrupted/etc.
+        \end{itemize}
+    \item interface for using UDP
+    \end{itemize}
+\end{frame}
