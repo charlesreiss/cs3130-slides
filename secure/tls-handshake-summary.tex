@@ -1,0 +1,47 @@
+\usetikzlibrary{arrows.meta,shapes.callouts,positioning}
+
+\begin{frame}{typical TLS handshake}
+\begin{tikzpicture}
+    \tikzset{
+        >=Latex,
+        comp box/.style={draw, thick, align=center, minimum width=1.5cm,minimum height=6.25cm},
+        explain box/.style={draw=red,very thick, align=left},
+        msg/.style={font=\small},
+        cmd/.style={font=\small},
+    }
+        \node[comp box] (client) at (-6.5, 0) {client};
+        \node[draw,cloud,line width=1pt,minimum width=4cm,minimum height=2cm,aspect=3,opacity=0.25] (network) at (0,0) {~~};
+        \node[comp box] (server) at (6.5, 0) {server};
+        \draw[very thick,->] ([yshift=-.5cm]client.north east) -- ([yshift=-.5cm]server.north west) 
+            node[midway,below,msg] (client key share) {ClientHello,KeyShare};
+        \draw[very thick,<-] ([yshift=-1.5cm]client.north east) -- ([yshift=-1.5cm]server.north west) 
+            node[midway,below,msg] (server key share) {ServerHello,KeyShare};
+        \draw[very thick,<-] ([yshift=-2.5cm]client.north east) -- ([yshift=-2.5cm]server.north west) 
+            node[midway,below,msg] (certificate) {Certificate,CertificateVerify};
+        \draw[very thick,<-] ([yshift=-3.5cm]client.north east) -- ([yshift=-3.5cm]server.north west) 
+            node[midway,below,msg] (finished1) {Finished};
+        \draw[very thick,->] ([yshift=-4.5cm]client.north east) -- ([yshift=-4.5cm]server.north west) 
+            node[midway,below,msg] (finished2) {Finished};
+    \begin{visibleenv}<2>
+        \node[my callout2=client key share,anchor=north] at ([yshift=-1cm]client key share) {
+            KeyShare = key parts for key exchange
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[my callout2=certificate,anchor=north,align=left] at ([yshift=-1cm]certificate) {
+            Certificate = certificate (``foo.com's public key is X'' + CA signature) \\
+            \myemph<3>{CertificateVerify = Sign(foo.com's private key, server's key share)}
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<4-5>
+        \node[my callout2=finished1,anchor=north,align=left] at ([yshift=-1cm]finished1) {
+            MAC(\myemph<4>{key made from key shares}, Hash(everything so far))
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<6>
+        \node[my callout2=finished2,anchor=north,align=left] at ([yshift=-1cm]finished2) {
+            MAC(\myemph<4>{key made from key shares}, Hash(everything so far))
+        };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
