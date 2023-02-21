@@ -21,28 +21,28 @@ printf("Enter command: ");
 \begin{frame}[fragile]{talking with terminal w/ fread}
 \lstset{
     language=C++,style=smaller,
-    moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
-    moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
-    moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
-    moredelim={**[is][\btHL<1,5|handout:5>]{@5}{5@}},
-    moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
 /* missing below: error checking */
 const char *msg = "Name: ";
-fwrite(msg, 1, strlen(msg), stdout);
+@3fwrite(msg, 1, strlen(msg), stdout);3@
 
 @2char input[1000] = ""; int count = 0;2@
 @2do {2@
-    @2count += fread(input + count, 1, 1000 - count, stdin);2@
+    @2count += @3fread(input + count, 1, 1000 - count, stdin);3@2@
 @2} while (!strchr(input, '\n') && count < 1000);2@
 fprintf(logfile, "Got name %s\n", @2first_line_of(input)2@);
 
-msg = "Enter command: "; fwrite(msg, 1, strlen(msg), stdout);
+msg = "Enter command: "; @3fwrite(msg, 1, strlen(msg), stdout);3@
 
 strcpy(input, after_first_line_of(input)); count = strlen(input);
 while (!strchr(input, '\n') && count < 1000) {
-    count += fread(input + count, 1, 1000 - count, stdin);
+    count += @3fread(input + count, 1, 1000 - count, stdin);3@
 }
 ...
 \end{lstlisting}
@@ -60,11 +60,11 @@ while (!strchr(input, '\n') && count < 1000) {
 \begin{frame}[fragile]{using a connected socket}
 \lstset{
     language=C++,style=smaller,
-    moredelim={**[is][\btHL<1,2|handout:2>]{@2}{2@}},
-    moredelim={**[is][\btHL<1,3|handout:3>]{@3}{3@}},
-    moredelim={**[is][\btHL<1,4|handout:4>]{@4}{4@}},
-    moredelim={**[is][\btHL<1,5|handout:5>]{@5}{5@}},
-    moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
+    moredelim={**[is][\btHL<2,4|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
 /* missing below: error checking */
@@ -78,11 +78,11 @@ do {
 } while (!strchr(input, '\n') && count < 1000);
 fprintf(logfile, "Got name %s\n", first_line_of(input));
 
-msg = "Enter command: "; write(socket_fd, msg, strlen(msg));
+msg = "Enter command: "; @3write(socket_fd, msg, strlen(msg));3@
 
 strcpy(input, after_first_line_of(input)); count = strlen(input);
 while (!strchr(input, '\n') && count < 1000) {
-    count += read(socket_fd, input + count, 1000 - count);
+    count += @3read(socket_fd, input + count, 1000 - count);3@
 } 
 ...
 \end{lstlisting}
