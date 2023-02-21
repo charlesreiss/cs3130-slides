@@ -36,6 +36,7 @@
     \end{itemize}
 \end{frame}
 
+
 \begin{frame}{nonces (1)}
     \begin{itemize}
     \item one solution to replay attacks:
@@ -63,5 +64,36 @@
     A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number \myemph{\#36129}][signature from A] 
     \vspace{.5cm}
     \item (assuming A actually checks the numbers)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{replay attacks (alt)}
+    \begin{itemize}
+    \item M$\rightarrow$B: \#50 Did you order lunch? [signature by M] \\
+          B$\rightarrow$M: \#50 Yes. [signature intended for M by B]  \\
+    \hrule
+    \item A$\rightarrow$B: \#50 There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? by A]
+    \item how can M hijack the reponse to A's inquiry?
+    \vspace{.5cm}
+    \item<2-> as an attacker, I can copy/paste B's earlier message!
+        \begin{itemize}
+        \item just keep the same signature, so it can be verified!
+        \item Verify(B's public key, ``\#50 Yes.'', signature intended for M by B) = 1
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{confusion about who's sending?}
+    \begin{itemize}
+    \item in addition to nonces, either
+        \begin{itemize}
+        \item write down more who is sending + other context so message can't be reused and/or
+        \item use unique set of keys for each principal you're talking to
+        \end{itemize}
+    \vspace{.5cm}
+    \item with symmetric encryption, also ``reflection attacks''
+        \begin{itemize}
+        \item A sends message to B, attacker sends A's message back to A as if it's from B
+        \end{itemize}
     \end{itemize}
 \end{frame}

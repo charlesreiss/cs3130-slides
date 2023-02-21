@@ -28,27 +28,34 @@ printf("Enter command: ");
     moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
-/* missing below: error handling */
+/* missing below: error checking */
 const char *msg = "Name: ";
 fwrite(msg, 1, strlen(msg), stdout);
-char input[1000];
-int count = 0;
-do {
-    count += fread(input + count, sizeof(char),
-                   1000 - count, stdin);
-} while (input[count-1] != '\n' && count < 1000);
-fprintf(logfile, "Got name %*s\n", count, input);
-msg = "Enter command: ";
-fwrite(msg, 1, strlen(msg), stdout);
-count = 0;
-do {
-    count += fread(input + count, sizeof(char), 1000, stdin);
-} while (input[count-1] ! = '\n' && count < 1000);
+
+@2char input[1000] = ""; int count = 0;2@
+@2do {2@
+    @2count += fread(input + count, 1, 1000 - count, stdin);2@
+@2} while (!strchr(input, '\n') && count < 1000);2@
+fprintf(logfile, "Got name %s\n", @2first_line_of(input)2@);
+
+msg = "Enter command: "; fwrite(msg, 1, strlen(msg), stdout);
+
+strcpy(input, after_first_line_of(input)); count = strlen(input);
+while (!strchr(input, '\n') && count < 1000) {
+    count += fread(input + count, 1, 1000 - count, stdin);
+}
 ...
 \end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[anchor=south,draw=red,ultra thick,align=center,fill=white] at ([yshift=1cm]current page.south) {
+    ugh, reading a line of input without fgets \\
+    and without doing 1 char at a time \\
+    is pretty annoying
+};
+\end{visibleenv}
+\end{tikzpicture}
 \end{frame}
-
-
 
 \begin{frame}[fragile]{using a connected socket}
 \lstset{
@@ -60,22 +67,23 @@ do {
     moredelim={**[is][\btHL<1,6|handout:6>]{@6}{6@}},
 }
 \begin{lstlisting}
-/* missing below: error handling */
-int socket_file = GetSocketFileDescriptorSomehow();
+/* missing below: error checking */
+@2int socket_fd = GetSocketFileDescriptorSomehow();2@
 const char *msg = "Name: ";
-@2write(socket_file, msg,  strlen(msg));2@
-char input[1000];
-int count = 0;
+@3write(socket_fd, msg, strlen(msg));3@
+
+char input[1000]; int count = 0;
 do {
-    count += @3read(socket_file, input + count, 1000 - count);3@
-} while (input[count-1] != '\n' && count < 1000);
-fprintf(logfile, "Got name %*s\n", count, input);
-msg = "Enter command: ";
-@4write(socket_file, msg,  strlen(msg));4@
-count = 0;
-do {
-    count += @5read(socket_file, input + count, 1000 - count);5@
-} while (input[count-1] != '\n' && count < 1000);
+    count += @3read(socket_fd, input + count, 1000 - count);3@
+} while (!strchr(input, '\n') && count < 1000);
+fprintf(logfile, "Got name %s\n", first_line_of(input));
+
+msg = "Enter command: "; write(socket_fd, msg, strlen(msg));
+
+strcpy(input, after_first_line_of(input)); count = strlen(input);
+while (!strchr(input, '\n') && count < 1000) {
+    count += read(socket_fd, input + count, 1000 - count);
+} 
 ...
 \end{lstlisting}
 \end{frame}

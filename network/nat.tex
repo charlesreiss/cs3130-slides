@@ -11,7 +11,7 @@
 \begin{frame}{implementing NAT}
 \small
 \begin{tabular}{llll}
-remote host + port & outside local port number & inside IP & inside port number \\ \hrule
+remote host + port & outside local port number & inside IP & inside port number \\ \hline
 128.148.17.3:443 & 54033 & 192.168.1.5 & 43222 \\
 11.7.17.3:443 & 53037 & 192.168.1.5 & 33212 \\
 128.148.31.2:22 & 54032 & 192.168.1.37 & 43010 \\
@@ -21,4 +21,18 @@ remote host + port & outside local port number & inside IP & inside port number 
 \item table of the translations
 \item need to update as new connections made
 \end{itemize}
+\end{frame}
+
+\begin{frame}{NAT and layers}
+    \begin{itemize}
+    \item previously: network layer responsible for get to right machine
+    \item now: network + transport layer
+        \begin{itemize}
+        \item because we use port numbers
+        \end{itemize}
+    \item also, NAT needs to know about connections (transport layer)
+        \begin{itemize}
+        \item to know how to setup/remove table entries
+        \end{itemize}
+    \end{itemize}
 \end{frame}

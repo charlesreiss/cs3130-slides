@@ -13,3 +13,43 @@
         \end{itemize}
     \end{itemize}
 \end{frame}
+
+\begin{frame}{contrast: MAC v checksum}
+    \begin{itemize}
+    \item message authentication code acts like checksum, but\ldots
+    \vspace{.5cm}
+    \item checksum can be recomputed without any key
+    \item checksum meant to protect against accidents, not malicious attacks
+        \begin{itemize}
+        \item checksum can be faster to compute + shorter
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{using?}
+    \begin{itemize}
+    \item in advance: choose + share encryption key and MAC key
+    \vspace{.5cm}
+    \item A prepares message:
+    \begin{itemize}
+    \item A computes $E$(encrypt key, `The secret formula is\ldots') = ***
+    \item A computes $MAC$(MAC key, ***) = @@@
+    \end{itemize}
+    \item A $\rightarrow$ B: *** @@@
+    \item B processes message:
+    \begin{itemize}
+        \item B recomputes $MAC$(MAC key, ***)
+            \begin{itemize}
+            \item rejects if it doesn't match @@@
+            \end{itemize}
+        \item B computes $D$(key, ***) = `The secret formula is \ldots'
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{``authenticated encryption''}
+    \begin{itemize}
+    \item often encryption + MAC packaged together 
+    \item name: authenticated encryption
+    \end{itemize}
+\end{frame}

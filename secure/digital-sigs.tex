@@ -11,7 +11,7 @@ message authentication codes : digital signatures
         \item sign: $S(\text{private key}, \text{message}) = \text{signature}$
         \item verify: $V(\text{public key}, \text{signature}, \text{message}) = 1$ (``yes, correct signature'') 
         \end{itemize}
-    \item (public key, private key) = key pair (like asymmetric encryption)
+    \item (public key, private key) = key pair (similar to asymmetric encryption)
         \begin{itemize}
         \item public key can be shared with everyone
         \item knowing $S$, $V$, $\text{public key}$, $\text{message}$, $\text{signature}$ \\
@@ -21,3 +21,14 @@ message authentication codes : digital signatures
     \end{itemize}
 \end{frame}
 
+\begin{frame}{using?}
+    \begin{itemize}
+    \item in advance: A generates private key + public key
+    \item in advance: A sends public key to B (and maybe others) securely
+    \vspace{.5cm}
+    \item A computes $S$(private key, `Please pay ...') = *******
+    \item send on network: \\
+    A $\rightarrow$ B: `I authorize the payment', ********
+    \item B computes $V$(private key, `Please pay ...', *******) = 1
+    \end{itemize}
+\end{frame}

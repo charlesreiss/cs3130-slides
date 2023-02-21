@@ -1,16 +1,29 @@
-\begin{frame}{DNS exercise}
+\begin{frame}{DNS exercise (1)}
     \begin{itemize}
     \item in DNS, records have a ``time-to-live''
         indicating how long they can be cached
             \begin{itemize}
             \item ``www.cs.virginia.edu is 128.148.67.11 for next 86400 seconds''
             \end{itemize}
-    \vspace{.5cm}
+    \item (given record above)
+    if sysadmin changes IP address DNS server returns for www.cs.virginia.edu,
+    then what will happen to machines accessing website?
+        \begin{itemize}
+        \item A. they'll start using the new address after 86400 seconds, and use the old one before then.
+        \item B. different machines will use the new address at different times, but no longer than 86400 seconds from when it changes
+        \item C. machines will start using the new address almost immediately, but after some small delay after it is changed
+        \item D. machines may keep using the old address until they are rebooted
+        \item E. something else?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{DNS exercise (2)}
+    \begin{itemize}
     \item if sysadmin wants to change the IP address of www.cs.virginia.edu,
             how do they do this without downtime?
-        \begin{itemize}
-        \item when do they change what DNS server outputs? how many times?
-        \item how long does it take?
-        \end{itemize}
+    \space{.5cm}
+    \item they can change the IP address the server returns and/or the time-to-live
+    \item what should they change and when to smoothly transition to a new address?
     \end{itemize}
 \end{frame}

@@ -2,18 +2,20 @@
     \begin{itemize}
     \item TCP: stream to other program
         \begin{itemize}
-        \item need to connect to specific server
+        \item reliable transmission of as much data as you want
         \item ``connecting'' fails if server not responding
+        \item write(fd, "a", 1); write(fd, "b", 1) = write(fd, "ab", 2)
         \item (at least) one socket per remote program being talked to
         \end{itemize}
     \item UDP: messages sent to program, but no reliablity/streams
         \begin{itemize}
-        \item \texttt{SOCK\_DGRAM} with socket() instead of \texttt{SOCK\_STREAM}
+        \item unreliable transmission of short messages
+        \item write(fd, "a", 1); write(fd, "b", 1) $\not=$ write(fd, "ab", 2)
+        \item ``connecting'' just sets default destination
         \item can sendto()/recvfrom() multiple other programs with one socket
             \begin{itemize}
                 \item (but don't have to)
             \end{itemize}
-        \item send messages which are limited in size, unreliable
         \end{itemize}
     \end{itemize}
 \end{frame}
