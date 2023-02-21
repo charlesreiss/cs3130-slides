@@ -1,10 +1,15 @@
+
+\begin{frame}{DNS time-to-live}
+    \begin{itemize}
+    \item don't want DNS entries cached forever
+    \item solution: time-to-live
+    \item ``www.cs.virginia.edu is 128.148.67.11 \myemph{for next 86400 seconds}''
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{DNS exercise (1)}
     \begin{itemize}
-    \item in DNS, records have a ``time-to-live''
-        indicating how long they can be cached
-            \begin{itemize}
-            \item ``www.cs.virginia.edu is 128.148.67.11 for next 86400 seconds''
-            \end{itemize}
+    \item ``www.cs.virginia.edu is 128.148.67.11 \myemph{for next 86400 seconds}''
     \item (given record above)
     if sysadmin changes IP address DNS server returns for www.cs.virginia.edu,
     then what will happen to machines accessing website?
@@ -22,8 +27,8 @@
     \begin{itemize}
     \item if sysadmin wants to change the IP address of www.cs.virginia.edu,
             how do they do this without downtime?
-    \space{.5cm}
-    \item they can change the IP address the server returns and/or the time-to-live
+    \vspace{.5cm}
+    \item they can change the IP address the server returns and/or the time-to-live?
     \item what should they change and when to smoothly transition to a new address?
     \end{itemize}
 \end{frame}
