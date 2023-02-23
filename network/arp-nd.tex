@@ -9,7 +9,7 @@
 
 \begin{frame}[fragile]{a table on my desktop}
 my desktop: \\
-\begin{Verbatim}[fontsize=\fontsize{10}{11}\selectfont]
+\begin{Verbatim}[fontsize=\fontsize{11}{12}\selectfont]
 $ arp -an
 ? (128.143.67.140) at 3c:e1:a1:18:bd:5f [ether] on enp0s31f6
 ? (128.143.67.236) at <incomplete> on enp0s31f6
@@ -18,11 +18,15 @@ $ arp -an
 ? (128.143.67.5) at d4:be:d9:b0:99:d1 [ether] on enp0s31f6
 \end{Verbatim}
 \ldots
+\begin{itemize}
+    \item network address to link-layer address + interface
+    \item only tracks things directly connected to my local network
+\end{itemize}
 \end{frame}
 
 \begin{frame}{how is that table made?}
     \begin{itemize}
-    \item ask machines on local network (same switch)
+    \item ask all machines on local network (same switch)
     \item ``Who has 128.148.67.140''
     \item the correct one replies
     \end{itemize}

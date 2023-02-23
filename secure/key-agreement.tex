@@ -18,6 +18,11 @@
         \item A chooses a key, sends it encrypted to B
         \item A sends a public key encrypted B, B chooses a key and sends it back
         \end{itemize}
+    \item alternate model:
+        \begin{itemize}
+        \item use public-key encryption like math to combine ``key shares''
+        \item kinda like A + B both sending each other public encryption keys
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
@@ -26,14 +31,14 @@
 \item A and B want to agree on shared secret
 \vspace{.5cm}
 \item A chooses random value Y
-\item A sends public value derived from Y
+\item A sends public value derived from Y (``key share'')
 \item B chooses random value Z
-\item B sends public value derived from Z
+\item B sends public value derived from Z (``key share'')
 \item A combines Y with public value from B to get number
 \item B combines Z with public value from B to get number
-\vspace{.5cm}
-\item and if we choose way of getting public value + combining right,\\
-they end up with the same number
+    \begin{itemize}
+    \item and b/c of math chosen, both get same number
+    \end{itemize}
 \end{itemize}
 \end{frame}
 

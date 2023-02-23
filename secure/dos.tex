@@ -26,3 +26,16 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{denial of service: reflection/amplification}
+    \begin{itemize}
+    \item instead of sending messages directly\ldots
+        attacker can send messages ``from'' you to third-party
+    \item third-party sends back replies that overwhelm network
+    \item example: short DNS query with lots of things in response
+    \vspace{.5cm}
+    \item ``amplification'' =
+        \begin{itemize}
+        \item third-party inadvertantly turns small attack into big one
+        \end{itemize}
+    \end{itemize}    
+\end{frame} 

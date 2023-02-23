@@ -1,0 +1,12 @@
+\begin{frame}{TLS: after handshake}
+    \begin{itemize}
+    \item use key shares results to get \textbf{several} keys
+        \begin{itemize}
+        \item take hash(something + shared secret) to derive each key
+        \end{itemize}
+    \item separate keys for each direction (server $\rightarrow$ client and vice-versa)
+    \item often separate keys for encryption and MAC
+    \vspace{.5cm}
+    \item later messages use encryption + MAC + nonces
+    \end{itemize}
+\end{frame}
