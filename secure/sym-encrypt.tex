@@ -9,26 +9,45 @@
         \end{itemize}
     \item key = shared secret
         \begin{itemize}
-        \item ideally chosen at random
-        \item should be small --- otherwise impractical to share
-        \item unsolved problem: how do A and B both know this?
+        \item ideally small (easy to share) and chosen at random
+        \item unsolved problem: how to share it?
         \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{symmetric encryption properties}
+\begin{frame}{symmetric encryption properties (1)}
     \begin{itemize}
     \item our functions:
         \begin{itemize}
         \item encrypt: $E(\text{key}, \text{message}) = \text{ciphertext}$
         \item decrypt: $D(\text{key}, \text{ciphertext}) = \text{message}$
         \end{itemize}
-    \item knowing $E$ and $D$, it should be hard to:
-        \begin{itemize}
-        \item learn about the message from the ciphertext without key; or
-        \item learn about the key from the ciphertext and message
-        \end{itemize}
+    \item knowing $E$ and $D$, it should be hard to \\
+         \myemph<2>{learn anything about the message} from the ciphertext without key
     \item ``hard'' $\approx$ would have to try every possible key
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{secrecy properties}
+    \begin{itemize}
+    \item actually that's not secret enough, usually want to resist \\
+        recovery of info about message \myemph{or key} even given\ldots
+    \vspace{.5cm}
+    \item partial info about the message, or
+    \item lots of other (message, ciphertext) pairs, or
+        \begin{itemize}
+        \item ``known plaintext''
+        \end{itemize}
+    \item lots of (message, ciphertext) pairs for \textit{other messages the attacker chooses}, or
+        \begin{itemize}
+        \item ``chosen plaintext''
+        \end{itemize}
+    \item lots of (message, ciphertext) pairs encrypted under similar keys, or
+        \begin{itemize}
+        \item ``related key''
+        \end{itemize}
+    \item [more?]
     \end{itemize}
 \end{frame}
 
@@ -39,6 +58,6 @@
     \item A computes $E$(key, `The secret formula is\ldots') = ***
     \item send on network: \\
     A $\rightarrow$ B: ***
-    \item B computes $D$(key, ***) = `The secret formula is \ldots'
+    \item<2-> B computes $D$(key, ***) = `The secret formula is \ldots'
     \end{itemize}
 \end{frame}

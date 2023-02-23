@@ -26,7 +26,25 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{using?}
+\begin{frame}{using without encryption?}
+    \begin{itemize}
+    \item in advance: choose + share MAC key
+    \vspace{.5cm}
+    \item A prepares message:
+    \begin{itemize}
+    \item A computes `Please pay \$100 to M.'
+    \item A computes $MAC$(MAC key, `Please pay \$100 to M.') = @@@
+    \end{itemize}
+    \item A $\rightarrow$ B: Please pay \$100 to M. @@@
+    \item<2-> B processes message:
+    \begin{itemize}
+        \item B recomputes $MAC$(MAC key, `Please pay \$100 to M.')
+        \item \myemph{rejects} if it doesn't match @@@
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{using with encryption?}
     \begin{itemize}
     \item in advance: choose + share encryption key and MAC key
     \vspace{.5cm}
@@ -36,12 +54,10 @@
     \item A computes $MAC$(MAC key, ***) = @@@
     \end{itemize}
     \item A $\rightarrow$ B: *** @@@
-    \item B processes message:
+    \item<2-> B processes message:
     \begin{itemize}
         \item B recomputes $MAC$(MAC key, ***)
-            \begin{itemize}
-            \item rejects if it doesn't match @@@
-            \end{itemize}
+        \item \myemph{rejects} if it doesn't match @@@
         \item B computes $D$(key, ***) = `The secret formula is \ldots'
     \end{itemize}
     \end{itemize}

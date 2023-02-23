@@ -6,12 +6,35 @@
     \item decrypt: $PD(\text{private key}, \text{ciphertext}) = \text{message}$
     \end{itemize}
 \item (public key, private key) = ``key pair''
+\end{itemize}
+\end{frame}
+
+\begin{frame}{key pairs}
     \begin{itemize}
-    \item generated together
-    \item public key can be shared with everyone
-    \item \myemph<2>{private key = unshared secret!}
-    \item knowing $PE$, $PD$, the public key, and ciphertext shouldn't make it too easy to find message \\
-        (or the private key)
+    \item `private key' = kept secret
+        \begin{itemize}
+        \item usually not shared with \textit{anyone}
+        \end{itemize}
+    \item `public key' = safe to give to everyone
+        \begin{itemize}
+        \item usually some hard-to-reverse function of public key
+        \end{itemize}
+    \vspace{.5cm}
+    \item concept will appear in some other cryptographic primitives
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{asymmetric encryption properties}
+\begin{itemize}
+\item functions:
+    \begin{itemize}
+    \item encrypt: $PE(\text{public key}, \text{message}) = \text{ciphertext}$
+    \item decrypt: $PD(\text{private key}, \text{ciphertext}) = \text{message}$
+    \end{itemize}
+\item should have:
+    \begin{itemize}
+    \item knowing $PE$, $PD$, the public key, and ciphertext shouldn't make it too easy to find message
+    \item knowing $PE$, $PD$, the public key, ciphertext, and message shouldn't help in finding private key
     \end{itemize}
 \end{itemize}
 \end{frame}
