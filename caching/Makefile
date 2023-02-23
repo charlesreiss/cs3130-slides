@@ -1,3 +1,1 @@
-BASENAME=caches
-LATEX=lualatex
-include ../Makefile.inc
+../common/Makefile
