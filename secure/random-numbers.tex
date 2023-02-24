@@ -1,0 +1,53 @@
+\begin{frame}{random numbers}
+    \begin{itemize}
+    \item need a lot of keys that no one else knows
+    \vspace{.5cm}
+    \item common task: choose a \textit{random} number
+    \item question: what does \textit{random} mean here?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{cryptographically secure random numbers}
+    \begin{itemize}
+        \item security properties we might want for random numbers:
+        \vspace{.5cm}
+    \item attacker cannot guess (part of) number better than chance
+    \item knowing prior `random' numbers shouldn't help predict next `random' numbers
+    \item compromising machine now shouldn't reveal older random numbers
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{exercise: how to generate?}
+\end{frame}
+
+\begin{frame}{/dev/urandom}
+    \begin{itemize}
+    \item Linux kernel random number generator
+    \vspace{.5cm}
+    \item collects ``entropy'' from hard-to-predict events
+        \begin{itemize}
+        \item e.g. exact timing of I/O interrupts
+        \item e.g. some processor's built-in random number circuit
+        \end{itemize}
+    \item turned into as many random bytes as you want
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{turning `entropy' into random bytes}
+    \begin{itemize}
+    \item lots of ways to do this; one (rough/incomplete) idea:
+    \item internal variable \textit{state}
+    \item to add `entropy'
+        \begin{itemize}
+        \item state $\leftarrow$ SecureHash(state + entropy)
+        \end{itemize}
+    \item to extract value:
+        \begin{itemize}
+        \item random bytes $\leftarrow$ SecureHash(1 + state) \\
+            \small give bytes that can't be reversed to compute state
+                \vspace{.5cm}
+        \item state $\leftarrow$ SecureHash(2 + state) \\
+            \small change state so attacker can't take us back to old state if compromised
+        \end{itemize}
+    \end{itemize}
+\end{frame}
