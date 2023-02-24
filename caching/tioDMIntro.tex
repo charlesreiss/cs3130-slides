@@ -114,15 +114,3 @@
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Tag-Index-Offset formulas (direct-mapped only)}
-\def\arraystretch{1.5}
-\begin{tabular}{ll}
-$m$ & memory addreses bits (Y86-64: 64) \\
-$S=2^s$ & number of sets \\
-$s$  & (set) index bits \\
-$B=2^b$ & block size \\
-$b$ & (block) offset bits \\
-$t = m - (s+b)$ & tag bits \\
-$C = B \times S$ & cache size (if direct-mapped) \\
-\end{tabular}
-\end{frame}

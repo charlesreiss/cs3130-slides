@@ -15,7 +15,7 @@
         \item A can send C:
             \begin{itemize}
             \item ``B's public key is XXX'' AND
-            \item Sign(B's private key, ``B's public key is XXX'')
+            \item Sign(A's private key, ``B's public key is XXX'')
             \end{itemize}
         \item if C trusts A, now C has B's public key
             \begin{itemize}
@@ -105,5 +105,22 @@ Certificate:
     \item and their public key comes with your OS/browser?
     \vspace{.5cm}
     \item (but both CAs now operated by UK-based Sectigo)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{public-key infrastructure}
+    \begin{itemize}
+    \item ecosystem with certificate authorities \\
+        and certificates for everyone
+    \item called ``public-key infrastructure''
+        \vspace{.5cm}
+    \item several of these:
+        \begin{itemize}
+        \item for verifying identity of websites 
+        \item for verifying origin of domain name records (kind-of)
+        \item for verifying origin of applications in some OSes/app stores/etc.
+        \item for encrypted email in some organizations
+        \item \ldots
+        \end{itemize}
     \end{itemize}
 \end{frame}

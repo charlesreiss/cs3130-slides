@@ -19,13 +19,34 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{BR identity validation}
+\begin{frame}{BR domain name identity validation}
     \begin{itemize}
         \item options involve CA choosing random value and:
         \vspace{.5cm}
-        \item sending it to domain contact (with domain registrar) and receive response with it
+        \item sending it to domain contact (with domain registrar) and receive response with it, or
         \item observing it placed in DNS or website or sent from server in other specific way
         \vspace{1cm}
         \item exercise: problems this doesn't deal with?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{some other things public CAs do}
+    \begin{itemize}
+    \item keep their private keys in tamper-resistant hardware
+    \item maintain publicly-accessible database of \textit{revoked} certificates
+        \begin{itemize}
+        \item some browsers check these
+        \end{itemize}
+    \item certificate transparency
+        \begin{itemize}
+            \item public logs of every certificate issued
+            \item some browsers reject non-logged certificates
+            \item so you can tell if bad certificate exists for your website
+        \end{itemize}
+    \item `CAA' records in the domain name system
+        \begin{itemize}
+        \item can indicate which CAs are allowed to issue certificates in DNS
+        \item (but CAs apparently not required to use DNSSEC (certificate infrastructure for signing domain name records) when looking this up)
+        \end{itemize}
     \end{itemize}
 \end{frame}
