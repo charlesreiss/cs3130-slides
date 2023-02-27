@@ -1,0 +1,23 @@
+
+\begin{frame}{address splitting exercise (3)}
+\begin{itemize}
+\item 384-entry, 3-way set-associative TLB
+\item 32-bit virtual address; 8KB pages
+\item 2-level page table; 4 byte PTEs
+    \begin{itemize}
+    \item \maybeEmph<5>{256} entries in first level; \maybeEmph<6>{2048} in second
+    \end{itemize}
+\item split the address {\tt 0x12345678}
+    \begin{itemize}
+    \item<2-> {\tt \maybeEmph<4>{\maybeEmph<5>{\maybeEmph<8>{0001 0010}} \maybeEmph<6>{\maybeEmph<8>{0011} \maybeEmph<7>{0100  010}}}\maybeEmph<3>{1 0110 0111 1000}}
+    \iftoggle{heldback}{}{
+    \item<3-> 13-bit page offset \myemph<3>{\tt 1 0110 0111 1000}
+    \item<4-> $32-13=19$-bit VPN \myemph<4>{\tt 0001 0010 0011 0100 010}
+    \item<5-> 8-bit first part of VPN \myemph<5>{\tt 0001 0010}
+    \item<6-> 11-bit second part of VPN \myemph<6>{\tt 0011 0100 010}
+    \item<7-> 7-bit TLB index \myemph<7>{0100 010}
+    \item<8-> $19-7=12$-bit TLB tag \myemph<8>{0001 0010 0011}
+    }
+    \end{itemize}
+\end{itemize}
+\end{frame}

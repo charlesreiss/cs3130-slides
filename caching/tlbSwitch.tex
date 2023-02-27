@@ -1,0 +1,40 @@
+\begin{frame}{changing page tables}
+\begin{itemize}
+\item what happens to TLB when page table base pointer is changed?
+    \begin{itemize}
+    \item e.g. context switch
+    \end{itemize}
+\item most entries in TLB refer to things from \myemph{wrong process}
+    \begin{itemize}
+    \item oops --- read from the wrong process's stack?
+    \end{itemize}
+\vspace{.5cm}
+\item<2-> option 1: \myemph{invalidate} all TLB entries
+    \begin{itemize}
+    \item side effect on ``change page table base register'' instruction
+    \end{itemize}
+\item<3-> option 2: TLB entries contain process ID
+    \begin{itemize}
+    \item set by OS (special register)
+    \item checked by TLB in addition to TLB tag, valid bit
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{editing page tables}
+\begin{itemize}
+\item what happens to TLB when OS changes a page table entry?
+\item most common choice: has to be handled \myemph{in software}
+\vspace{.5cm}
+\item<2-> invalid to valid --- nothing needed
+    \begin{itemize}
+    \item TLB doesn't contain invalid entries
+    \item MMU will check memory again
+    \end{itemize}
+\item<2-> valid to invalid --- \myemph{OS needs to tell processor} to invalidate it
+    \begin{itemize}
+    \item special instruction (x86: {\tt invlpg})
+    \end{itemize}
+\item<2-> valid to other valid --- \myemph{OS needs to tell processor} to invalidate it
+\end{itemize}
+\end{frame}

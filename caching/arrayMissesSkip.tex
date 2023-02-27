@@ -1,0 +1,41 @@
+\begin{frame}<1>[fragile,label=arrayMissesSkip]{misses with skipping}
+\begin{lstlisting}
+int array1[512]; int array2[512];
+...
+for (int i = 0; i < 512; i += 1)
+    sum += array1[i] * array2[i];
+}
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt array1}, {\tt array2} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+    \item
+About how many \textit{data cache misses} on a 2KB direct-mapped cache with 16B cache blocks? \\
+Hint: depends on relative placement of array1, array2
+\end{itemize}
+\end{frame}
+
+\begin{frame}{best/worst case}
+\begin{itemize}
+\item \texttt{array1[i]} and \texttt{array2[i]} always different sets:
+    \begin{itemize}
+    \item 2 misses every 4 \texttt{i}
+    \item = distance from array1 to array2 not multiple of \# sets $\times$ bytes/set
+    \end{itemize}
+\item \texttt{array1[i]} and \texttt{array2[i]} same sets:
+    \begin{itemize}
+    \item 2 misses every \texttt{i}
+    \item = distance from array1 to array2 is multiple of \# sets $\times$ bytes/set
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{worst case in practice?}
+    \begin{itemize}
+    \item two rows of matrix?
+    \item often sizeof(row) bytes apart
+    \item if the row size is multiple of number of sets $\times$ bytes per block, oops!
+    \end{itemize}
+\end{frame}

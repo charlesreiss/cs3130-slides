@@ -1,0 +1,99 @@
+\usetikzlibrary{calc,positioning,patterns,shapes.callouts}
+
+\begin{frame}{cache accesses and multi-level PTs}
+    \begin{itemize}
+    \item four-level page tables --- five cache accesses per program memory access
+    \item L1 cache hits --- typically a couple cycles each?
+    \item so add 8 cycles to each program memory access?
+    \vspace{.5cm}
+    \item not acceptable
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{program memory active sets}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\draw[fill=red] ([yshift=.1cm]stack.north west) rectangle ([yshift=-.15cm]stack.north east);
+\draw[fill=red] ([yshift=.1cm]sdata.north west) rectangle ([yshift=-.15cm]sdata.north east);
+\draw[fill=red] ([yshift=.1cm]heap.north west) rectangle ([yshift=-.15cm]heap.north east);
+
+\node[right=.5cm of stack,align=left,yshift=-1cm] {
+    small areas of memory active at a time \\
+    one or two pages in each area?
+};
+\end{tikzpicture}
+\end{frame}
+
+% FIXME: hilight program memory layout picture?
+\begin{frame}{page table entries and locality}
+    \begin{itemize}
+    \item page table entries have \myemph{excellent temporal locality}
+    \item typically one or two pages of the stack active
+    \item typically one or two pages of code active
+    \item typically one or two pages of heap/globals active
+    \vspace{.5cm}
+    \item each page contains \myemph{whole functions}, arrays, stack frames, etc.
+    \vspace{.5cm}
+    \item<2-> needed page table entries are \myemph{very small}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{page table entry cache}
+    \begin{itemize}
+    \item caled a \textbf{TLB} (translation lookaside buffer)
+    \item \myemph{very small cache of page table entries}
+    \vspace{.5cm}
+    \item
+    \begin{tabular}{l|l}
+    L1 cache & TLB \\ \hline
+        physical addresses & \myemph<2>{virtual\tikzmark{vpns} page numbers} \\
+        bytes from memory & \myemph<2>{page table\tikzmark{copyPTE} entries} \\
+        tens of bytes per block & \myemph<3>{one page table\tikzmark{onePerBlock} entry per block} \\
+    usually thousands of blocks & \myemph<4>{usually tens of entries}\tikzmark{entries} \\
+    \end{tabular}
+    \end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[my callout=copyPTE,align=left] at ([xshift=-6cm,yshift=-1cm]pic cs:copyPTE) {
+    only caches the page table lookup itself \\
+    (generally) just entries from the last-level page tables
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[my callout=onePerBlock,align=left] at ([xshift=-9cm,yshift=-1cm]pic cs:onePerBlock) {
+    not much spatial locality between page table entries \\
+    (they're used for kilobytes of data already) \\
+    (and if spatial locality, maybe use larger page size?)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[my callout=entries,align=left] at ([xshift=-6cm,yshift=-1cm]pic cs:entries) {
+    few active page table entries at a time \\
+    enables highly associative cache designs
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

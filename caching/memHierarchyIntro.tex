@@ -1,18 +1,3 @@
-\begin{frame}{recall: data/instruction memory}
-    \begin{itemize}
-    \item model in CPU: one cycle per access
-    \vspace{.5cm}
-    \item but earlier --- had to talk to memory on different chip
-    \item can't do that in one cycle
-    \vspace{.5cm}
-    \item solution: keep copies of part of memory (``cache'')
-        \begin{itemize}
-        \item copy can be accessed quickly
-        \item hope: almost always use copy?
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
 \usetikzlibrary{arrows.meta,calc,patterns,positioning}
 \begin{frame}{2004 CPU}
     \begin{tikzpicture}[scale=1.25]
@@ -69,21 +54,6 @@
 }
 \end{tikzpicture}
     \imagecredit{Image: approx 2004 AMD press image of Opteron die; \\ approx register location via chip-architect.org (Hans de Vries)}
-\end{frame}
-
-\begin{frame}{cache: real memory}
-\begin{tikzpicture}
-\node[draw,minimum width=3cm,minimum height=4cm,align=center] (cache) {Data Memory \\ AKA \\ \myemph{L1 Data Cache}};
-\draw[Latex-,thick] ([yshift=1cm]cache.west) -- ++(-1cm,0cm) node[left] {address};
-\draw[Latex-,thick] ([yshift=-1cm]cache.west) -- ++(-1cm,0cm) node[left] {input (if writing)};
-\draw[Latex-] ([yshift=-1.5cm]cache.west) -- ++(-1cm,0cm) node[left,font=\small] {write enable};
-\draw[-Latex,thick] ([yshift=1cm]cache.east) -- ++(1cm,0cm) node[right] {value};
-\draw[-Latex] ([yshift=-1cm]cache.east) -- ++(1cm,0cm) node[right,font=\small] {\myemph{ready?}};
-\begin{visibleenv}<2>
-\node[below=1.5cm of cache] (cache2) {L2 Cache};
-\draw[dashed,Latex-Latex,very thick] (cache.south) -- (cache2.north);
-\end{visibleenv}
-\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{the place of cache}

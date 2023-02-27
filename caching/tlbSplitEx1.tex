@@ -1,0 +1,17 @@
+\begin{frame}{address splitting for TLBs (1)}
+\begin{itemize}
+\item my desktop:
+\item 4KB ($2^{12}$ byte) pages; 48-bit virtual address
+\item 64-entry, 4-way L1 data TLB
+\vspace{.5cm}
+\item TLB index bits?
+\iftoggle{heldback}{}{
+    \begin{itemize}\item<2->$64/4 = 16$ sets --- 4 bits\end{itemize}
+}
+\item TLB tag bits?
+\iftoggle{heldback}{}{
+    \begin{itemize}\item<2->$48-12=36$ bit virtual page number ---  $36-4=32$ bit TLB tag\end{itemize}
+}
+\end{itemize}
+\end{frame}
+

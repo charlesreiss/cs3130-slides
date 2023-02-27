@@ -1,0 +1,116 @@
+\begin{frame}{TLB and multi-level page tables}
+    \begin{itemize}
+    \item TLB caches \myemph{valid last-level page table entries}
+    \item doesn't matter which last-level page table
+        \vspace{.5cm}
+    \item means TLB output can be used directly to form address
+    \end{itemize}
+\end{frame}
+
+\usetikzlibrary{arrows.meta,fit,positioning,calc}
+
+\begin{frame}<1-2>{TLB and two-level lookup}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    pageNumber/.style={fill=blue!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageNumberA/.style={fill=violet!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageNumberB/.style={fill=brown!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageOffset/.style={fill=green!20,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    comp/.style={fill=yellow!10,font=\fontsize{11}{12}\selectfont,draw},
+    memAccess/.style={alt=<all:0>{red, very thick}},
+    pageNumberExpand/.style={alt=<all:0>{draw=red,very thick}},
+    smallLabel/.style={fill=white,draw,thick,font=\fontsize{9}{10}\selectfont,inner sep=.5mm,align=center},
+    ifMiss/.style={draw=blue!50!black,alt={<1>{dashed,opacity=0.25}}},
+    ifHit/.style={draw=violet!50!black,alt={<2>{dashed,opacity=0.25}}},
+    ifHitNoSkip/.style={draw=violet!50!black},
+}
+\node[pageNumberA] (addrLeftA) {11 0101 01};
+\node[pageNumberB,anchor=west] (addrLeftB) at (addrLeftA.east) {00 1011 00};
+\node[anchor=west,pageOffset] (addrRight) at (addrLeftB.east) {00 1101 1111};
+\node[inner sep=0mm,draw=none,fit=(addrLeftA) (addrLeftB),alt=<1->{draw=violet,ultra thick}] (addrLeft) {};
+\begin{visibleenv}<all:1->
+\begin{scope}[ifMiss]
+\node[draw,comp,below=1cm of addrLeftA,align=center,xshift=-1cm] (timesPte) {$\times$ \\ PTE \\ size};
+\draw[->,thick] (addrLeftA) -- ++(0cm,-.5cm) -| (timesPte);
+\node[font=\tt\fontsize{10}{11}\selectfont,draw,very thick,left=0.25cm of addrLeft,label={[align=center,font=\small]north:page table\\base register}] (ptbr) {0x10000};
+\node[draw,comp] (plus) at ([yshift=-1cm]timesPte.south) {+};
+\draw[->,thick] (timesPte) -- (plus);
+\draw[->,thick] (ptbr) |- (plus);
+\end{scope}
+\end{visibleenv}
+
+\begin{visibleenv}<1>
+    \node[draw=red,ultra thick,font=\large,overlay,anchor=south west] at ([xshift=-1cm,yshift=.2cm]addrRight.north east) {TLB hit};
+\end{visibleenv}
+
+\begin{visibleenv}<2>
+    \node[draw=red,ultra thick,font=\large,overlay,anchor=south west] at ([xshift=-1cm,yshift=.2cm]addrRight.north east) {TLB miss};
+\end{visibleenv}
+
+\begin{visibleenv}<all:1->
+\node[below=1.5cm of plus,fill=violet!10,draw,very thick,minimum height=1cm,minimum width=15cm,xshift=5.5cm] (cache) {data or instruction cache};
+\end{visibleenv}
+\begin{visibleenv}<all:1->
+\node[pageNumber] (addrLeftFinal) at ([xshift=9.8cm,yshift=-1cm]plus) {1101 0011 11};
+\end{visibleenv}
+\begin{visibleenv}<all:1->
+\begin{scope}[ifMiss]
+\draw[->,thick,memAccess] (plus) -- (cache.north -| plus.south) node[midway,smallLabel] {1st PTE \\ addr.};
+\node[above right=.25cm and .5cm of plus,align=center,draw,comp,font=\fontsize{9}{10}\selectfont] (check) {valid, etc?};
+\node[below=.5cm of check,draw,comp,align=center] (splitA) {split  \\ PTE \\ parts};
+\draw[->,thick] (cache.north -| splitA.south) -- (splitA.south);
+\draw[->,thick] (splitA) -- (check);
+\draw[->,thick] (check.north) -- ++(0,.75cm) node[above,font=\fontsize{9}{10}\selectfont,inner sep=.5mm] {cause fault?};
+\end{scope}
+\end{visibleenv}
+
+\begin{visibleenv}<all:1->
+\begin{scope}[ifMiss]
+    \node[comp,align=center,right=.75cm of splitA,pageNumberExpand] (timesSize){$\times$ \\ page \\ size};
+    \node[comp,align=center,right=1.25cm of timesSize] (plusB) {+};
+    \draw[brown!60!black,->,thick,pageNumberExpand] (splitA) -- (timesSize);
+    \draw[dotted,black,thick] ($(splitA.east)!0.5!(timesSize.west)$) -- ++ (0cm, .5cm) node[above,font=\fontsize{10}{11}\selectfont,align=center] {phys\\page \#};
+    \draw[brown!60!black,->,thick,pageNumberExpand] (timesSize) -- (plusB);
+    \draw[dotted,black,thick] ($(plusB.east)!0.5!(timesSize.west)$) -- ++ (0cm, .5cm) node[above,font=\fontsize{10}{11}\selectfont,align=center] {phys\\addr};
+    \draw[memAccess,->,thick] (plusB) -- (plusB |- cache.north) node[midway,smallLabel]{2nd PTE \\ addr.};
+    \node[comp,align=center,above=.5cm of plusB] (timesPteB) {$\times$ \\ PTE \\ size};
+    \draw[brown!60!black,->,thick] (addrLeftB) -- ++(0cm,-.5cm) -| (timesPteB.north);
+    \draw[brown!60!black,->,thick] (timesPteB) -- (plusB);
+\end{scope}
+\end{visibleenv}
+
+\begin{visibleenv}<all:1->
+\node[right=1.0cm of plusB,yshift=1cm,draw,comp,align=center] (splitB) {split  \\ PTE \\ parts};
+\draw[->,thick] (cache.north -| splitB.south) -- (splitB.south);
+    \node[above=.75cm of splitB,align=center,draw,comp,font=\fontsize{9}{10}\selectfont] (checkB) {valid, etc?};
+\draw[->,thick] (splitB) -- (checkB);
+    \draw[->,thick] (checkB.north) -- ++(0cm, .75cm) node[above,font=\fontsize{9}{10}\selectfont,inner sep=.5mm] {cause fault?};
+    \draw[blue!50!black,->,thick] (splitB.east) -| (addrLeftFinal);
+\end{visibleenv}
+
+\node[draw,thick,fill=violet!10] (tlb) at ([yshift=-1.5cm,xshift=2.5cm]addrLeft.south) {TLB};
+
+\begin{visibleenv}<all:1->
+\node[anchor=west,pageOffset] (addrRightFinal) at (addrLeftFinal.east) {00 1101 1111};
+%\draw[very thick,green!50!black,densely dotted] (addrRight) |- ([xshift=-.5mm,yshift=.5cm]splitA.north);
+\draw[very thick,green!50!black,densely dotted,->] (addrRight) -| (addrRightFinal.north);
+\end{visibleenv}
+\begin{visibleenv}<all:1->
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]south:physical address},fit=(addrLeftFinal) (addrRightFinal)] (addrFinal) {};
+\end{visibleenv}
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]north:virtual address},fit=(addrLeft) (addrRight)] (addr) {};
+\begin{visibleenv}<all:1->
+    \draw[->,thick,memAccess] (addrFinal) -- (cache.north -| addrFinal.south);
+\end{visibleenv}
+
+\draw[ifHitNoSkip,draw,very thick,->] (addrLeft.south) |- ([yshift=.4cm]tlb.north) -- (tlb.north);
+\draw[ifHit,draw,very thick,->] ([yshift=.2cm]tlb.east) 
+    -| ([xshift=-.5cm]splitB.west) -- (splitB.west);
+\begin{scope}[ifMiss]
+    \draw[ultra thick,->,draw=red] (cache.north -| splitB.south) -- ++(0cm, .75cm) -| ([xshift=1.25cm]timesPteB.west) |- ([yshift=-.2cm]tlb.east);
+\end{scope}
+
+\end{tikzpicture}
+\end{frame}

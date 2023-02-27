@@ -1,0 +1,193 @@
+\usetikzlibrary{arrows.meta,circuits.logic.US,fit,matrix,patterns}
+
+\begin{frame}{TLBs and performance}
+\begin{tikzpicture}
+\tikzset{
+    stage/.style={thick,draw,minimum width=2cm,minimum height=2cm},
+    >=Latex,
+    connect/.style={->,very thick},
+}
+\node[stage] (tlb) {TLB};
+\node[right=1cm of tlb,stage] (l1d) {L1 cache};
+\draw[connect] ([xshift=-1cm]tlb.west) -- (tlb);
+\draw[connect] (tlb) -- (l1d);
+\draw[connect] (l1d) -- ([xshift=1cm]l1d.east);
+
+\draw[<->] ([yshift=-1mm]tlb.south east) -- ([yshift=-1mm]tlb.south west)
+    node[below,midway] { extra time? };
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{L1 caches and page numbers (Intel Skylake)}
+\begin{tikzpicture}
+\tikzset{
+    ht/.style={draw,thick,minimum height=1.2cm,align=center,inner sep=0mm},
+}
+
+\node[ht,minimum width=12cm] (addr) { physical address \\ (48 bits) };
+\node[ht,minimum width=7cm,anchor=north west,alt=<2>{red}] (ppn) at ([yshift=-.1cm]addr.south west){ PPN \\ (36 bit) };
+\node[ht,right=0cm of ppn,minimum width=5cm] {page offset \\  (12 bit)};
+\node[ht,minimum width=7cm,anchor=north west,alt=<2>{red}] (skylakeTag) at ([yshift=-.1cm]ppn.south west){ L1 cache tag \\ (36 bit) };
+\node[ht,minimum width=2.5cm,right=0cm of skylakeTag] (skylakeIndex) { L1 index \\ (6 bit) };
+\node[ht,minimum width=2.5cm,right=0cm of skylakeIndex] (skylakeOff) { L1 offset \\ (6 bit) };
+
+\end{tikzpicture}
+\begin{itemize}
+\item<2-> not a coincidence
+\item<2-> why did Intel make this decision?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{overlapping TLB and cache access}
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    vpnColor/.style={color=yellow!50!black},
+    tagColor/.style={color=green!60!black},
+    tagStoreFill/.style={fill=green!20},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    dataStoreFill/.style={fill=blue!20},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries}},
+        column 1/.style={nodes={text width=1cm,align=center}},
+        column 2/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 3/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        column 4/.style={nodes={text width=.1cm,draw=none}},
+        column 5/.style={nodes={text width=1cm,align=center}},
+        column 6/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 7/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        ] (cache) {
+    valid \& tag \&  data \& ~ \& valid \& tag \& data\\
+    1  \& 10 \& 00 11 \& ~ \& 1 \& 00 \& AA BB \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    1 \&  11 \& B4 B5 \& ~ \& 1 \& 01 \& 33 44 \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=.5cm,xshift=-.3cm]cache.north west){100};
+\node[left=0cm of idx,vpnColor] (vpn) {000111};
+\node[right=0cm of idx,offsetColor] (offset) {1};
+\end{scope}
+
+\node[draw,fill=orange!90!black,below=1.5cm of vpn] (tlb) {TLB};
+
+\node[draw,tagColor,below=1cm of tlb] (tag) {11};
+
+\draw[thick,dashed,-latex,vpnColor] (vpn) -- (tlb) node[near start,font=\small,fill=white]{VPN};
+\draw[thick,dashed,-latex,tagColor] (tlb) -- (tag);
+
+\draw[thick,dashed,-latex] (idx) |- (cache-6-1.west) node[near start,font=\small,fill=white,inner sep=2pt,xshift=-.3cm] {index};
+
+%\begin{visibleenv}<2->
+    \node[below=0.3cm of cache-9-2,draw,circle,inner sep=3pt] (comp1) {\small =};
+    \node[below=1.4cm of cache-9-6,draw,circle,inner sep=3pt] (comp2) {\small =};
+    %\coordinate(comp1Intersect) at ($(comp1) + (-.7cm,0.5cm)$);
+    %\node[draw,circle,tagColorFill,inner sep=0pt,minimum width=1mm] at (comp1Intersect) {};
+    \draw[tagColor,myline] (cache-9-2) -- (comp1);
+    \draw[tagColor,myline] (cache-9-6) -- (comp2);
+
+    %\draw[myline no arrow,tagColor] (tag) |- (comp1Intersect);
+    %\draw[myline,tagColor] (comp1Intersect) |- (comp1);
+    \draw[tagColor,myline] (tag) |- (comp2);
+    \draw[tagColor,myline] (tag) |- (comp1) node[near start,font=\small,fill=white] {tag=PPN};
+    %\draw[myline no arrow,tagColor] (comp1Intersect) |- (comp2Intersect);
+    %\draw[myline,tagColor] (comp2Intersect) |- (comp2);
+
+    \node[xshift=-.4cm,draw,below=1cm of cache-9-3,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck1) {};
+    \node[xshift=-.4cm,draw,below=2.0cm of cache-9-7,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck2) {};
+    \draw[myline] (comp1.south) |- (validCheck1.input 1);
+    \draw[myline] (cache-9-1.south) |- (validCheck1.input 2);
+    \draw[myline] (comp2.south) |- (validCheck2.input 1);
+    \draw[myline] (cache-9-5.south) |- (validCheck2.input 2);
+%\end{visibleenv}
+
+\begin{visibleenv}<3->
+\node[fit=(cache-6-1) (cache-6-7),inner sep=1pt,red,draw,line width=1pt] {};
+\end{visibleenv}
+
+%\node[draw,trapezium,inner xsep=0pt,outer sep=0pt,trapezium angle=75,below=.7cm of validCheck2,
+%text width=5cm,shape border rotate=180,xshift=1.5cm] (mux) {};
+%\draw[myline] (validCheck1.output) -| (buffer1.west);
+%\draw[myline] (cache-9-3.south) -- (buffer1);
+%\draw[myline] (buffer1.south) -- (bufEnd1);
+\coordinate (outputData) at ([xshift=1.5cm,yshift=-.5cm]cache-9-7.south east);
+\coordinate (beforeOutputData) at ([xshift=-.5cm]outputData);
+\coordinate (outputHit1) at ([xshift=-1.5cm] beforeOutputData |- validCheck1.output);
+\coordinate (outputHit2) at ([xshift=-1.5cm] beforeOutputData |- validCheck2.output);
+%\begin{visibleenv}<2->
+\node[or gate,logic gate inputs=nn,label={[font=\scriptsize]center:OR},anchor=output] (validCheckTotal)
+    at ([xshift=1cm]$(outputHit1)!0.5!(outputHit2)$) {};
+%\draw[myline] (validCheck1.output) -- (outputHit1) |- (validCheckTotal.input 1);
+    \draw[myline no arrow] (validCheck1.output) -- ([xshift=-1pt]validCheck1.output -| cache-9-5.south);
+    \draw[myline no arrow] ([xshift=1pt]validCheck1.output -| cache-9-5.south) -- 
+                  ([xshift=-2pt]validCheck1.output -| cache-9-6.south);
+    \draw[myline no arrow] ([xshift=2pt]validCheck1.output -| cache-9-6.south) -- (outputHit1);
+    \draw[myline] (outputHit1) |- (validCheckTotal.input 1);
+\draw[myline] (validCheck2.output) -- (outputHit2) |- (validCheckTotal.input 2);
+\draw[myline] (validCheckTotal.output) -- ++(.5cm,0cm) node[right] {is hit? ({\tt 1})};
+%\end{visibleenv}
+%\begin{visibleenv}<3->
+    \node[dataColor,draw,minimum width=.5cm,minimum height=1cm,mux,anchor=east,inputs=nn] (outputSelect) at ([xshift=-.2cm]beforeOutputData) {};
+    \draw[myline] (outputHit1) -| (outputSelect.south);
+    \fill[black] (outputHit1) circle (2pt);
+    %\draw[myline,dataColor] (cache-9-3.south) |- (outputSelect.input 2);
+        \draw[dataColor,myline no arrow] (cache-9-3.south) |- ([xshift=-1pt]cache-9-5.south |- outputSelect.input 2);
+        \draw[dataColor,myline no arrow] ([xshift=1pt]cache-9-5.south |- outputSelect.input 2) --
+                               ([xshift=-1pt]cache-9-6.south |- outputSelect.input 2);
+        \draw[dataColor,myline] ([xshift=1pt]cache-9-6.south |- outputSelect.input 2) --
+                               (outputSelect.input 2);
+    \draw[myline,dataColor] (cache-9-7.south) |- (outputSelect.input 1);
+    \draw[myline no arrow,dataColor] (outputSelect.output) -- (beforeOutputData);
+    \node[draw,minimum width=.5cm,minimum height=1cm,mux,anchor=west,inputs=nn] (selectByte) at (outputData) {};
+    \foreach \x in {1,2} {
+        \draw[dataColor,myline thin] (beforeOutputData) |- (selectByte.input \x);
+    };
+    \draw[offsetColor,myline] (offset.east) -| (selectByte.north) node[very near start,fill=white,font=\small] {offset};
+    \draw[dataColor,myline thin] (selectByte.output) -- ++(0.5cm,0cm) -- ++(0cm,0.5cm) node[above,align=center] {data\\({\tt B5})};
+%\end{visibleenv}
+
+\begin{visibleenv}<2>
+\node[fit=(tlb),draw,red, ultra thick] {};
+\node[my callout2=tlb.east] at ([xshift=1cm]tlb.east) {
+    perform TLB access \myemph{while cache access is happening}
+};
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{virtually-indexed, physically-tagged}
+\begin{itemize}
+    \item called virtually-indexed, physically-tagged cache
+    \item requirement: \myemph{index contained entirely in page offset}
+        \begin{itemize}
+        \item do not need to do translation to start cache access
+        \end{itemize}
+    \item tag overlaps with PPN
+        \begin{itemize}
+        \item example: tag=PPN
+        \item (but tag could include part of page offset, too)
+        \end{itemize}
+    \item do TLB access \myemph{while retrieving cache set}
+    \vspace{.5cm}
+    \item most common design in current processors
+    \item reason for highly associative (e.g. 8-way) L1 caches
+\end{itemize}
+\end{frame}

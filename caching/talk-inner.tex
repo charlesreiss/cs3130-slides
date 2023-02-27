@@ -30,6 +30,9 @@
 \subsection{exercise: direct-mapped cache access}
 \input{../caching/dmAccessExercise}
 
+\subsection{on split data/instruction caches and hierarchy}
+\input{../caching/cacheSplitID}
+
 % FIXME: direct-mapped and C code example
 \section{misses in C, and intuition behind conflicts}
 \input{../caching/conflictMissesAndC}
@@ -39,6 +42,12 @@
 
 \section{array misses and cache results}
 \input{../caching/arrayMissesEx}
+
+\section{cache misses on more complex code}
+\input{../caching/actMissesDM}
+
+\section{array misses and skipping around}
+\input{../caching/arrayMissesSkip}
 
 \subsection{adding associativity}
 \againframe<13>{pattern1}
@@ -56,6 +65,9 @@
 \input{../caching/tioExerciseIntro}
 \subsubsection{the exercise}
 \input{../caching/tioExercise}
+
+\section{fixing actual misses}
+\input{../caching/actMissesAssoc}
 
 \section{array misses warmup, round 2}
 \input{../caching/arrayMissesWarmupAssoc}
@@ -81,7 +93,35 @@
 \section{cache tradeoffs}
 \input{../caching/cacheTradeoffs}
 
+\section{TLB}
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrganization} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: splitting for TLBs}
+\subsubsection{1}
+\input{../caching/tlbSplitEx1}
+\subsubsection{2}
+\input{../caching/tlbSplitEx2}
+
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+
+\subsection{TLBs and context switches}
+\input{../caching/tlbSwitch}
+
 \section{backup slides --- general}
+
+\subsection{inclusive v exclusive}
+\input{../caching/exclVIncl}
 
 \subsection{tag/index/offset formulas}
 \input{../caching/tioDMFormulas}
@@ -194,9 +234,6 @@
 \subsection{benchmarking and cache results}
 \input{../caching/cacheBenchExample}
 
-\subsection{on split data/instruction caches and hierarchy}
-% FIXME: drop?
-\input{../caching/cacheSplitID}
 
 \section{varying parameters exercise}
     % FIXME: put back?
@@ -239,3 +276,7 @@
 
 \subsection{explicit counting}
 \input{../caching/explicitCounting}
+
+\subsection{how TLBs fit in the pipeline}
+\input{../caching/tlbPipeline}
+

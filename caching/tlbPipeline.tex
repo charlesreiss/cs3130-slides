@@ -1,0 +1,90 @@
+\usetikzlibrary{fit,positioning,shapes.callouts}
+
+\begin{frame}{TLB and the MMU (1)}
+\begin{tikzpicture}
+\tikzset{>=Latex}
+\node[minimum width=5cm,minimum height=2cm,draw,thick,align=center] (mmu) {MMU \\ \small (`page table walk' logic)};
+\node[right=1.5cm of mmu,minimum width=5cm,minimum height=2cm,draw,thick] (cache) {L1 Cache/Memory};
+\node[above=1.5cm of mmu,minimum width=5cm,minimum height=1cm,draw,thick] (tlb) {TLB};
+    \node[left=1.5cm of mmu,align=right] (fromProgram) {address\\ from\\ program};
+\draw[thick,<->] (mmu) -- (cache);
+\draw[thick,<->] (mmu) -- (tlb);
+    \draw[thick,->] (fromProgram) -- (mmu);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{TLB and the MMU (2)}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    pageNumber/.style={fill=blue!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageOffset/.style={fill=green!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    comp/.style={fill=yellow!10,font=\fontsize{12}{13}\selectfont},
+    memAccess/.style={},
+    ptMemAccess/.style={alt=<4>{red,very thick}},
+    ifMiss/.style={draw=blue!50!black,alt={<1-2,6>{dashed,opacity=0.5}}},
+    ifHit/.style={draw=violet!50!black,alt=<3-5>{dashed,opacity=0.5}},
+    ifHitNoSkip/.style={draw=violet!50!black},
+    checkValid/.style={alt=<6>{draw=red,very thick}},
+}
+\node[pageNumber] (addrLeft) {11 0101 01};
+\node[anchor=west,pageOffset] (addrRight) at (addrLeft.east) {00 1101 1111};
+\node[draw,comp,below=2cm of addrLeft,xshift=-.25cm,ifMiss] (timesPte) {$\times$ PTE size};
+\draw[->,thick,ifMiss] (addrLeft.south -| timesPte.north) -- (timesPte);
+\node[ifMiss,draw,very thick,below left=3cm and 1cm of addrLeft,label={[align=center,ifMiss,draw=none]north:page table\\base register}] (ptbr) {\tt 0x10000};
+\node[draw,thick,above right=.6cm and .25cm of timesPte,fill=violet!10] (tlb) {TLB};
+\draw[ifHitNoSkip,draw,very thick,->] (addrLeft) |- ([yshift=.4cm]tlb.north) -- (tlb.north);
+\node[ifMiss,draw,comp] (plus) at (timesPte.south |- ptbr.west) {+};
+\draw[->,thick,ifMiss] (timesPte) -- (plus);
+\draw[->,thick,ifMiss] (ptbr) -- (plus);
+
+\node[below=2cm of plus,fill=violet!10,draw,very thick,minimum height=1cm,minimum width=12cm,xshift=3cm] (cache) {data or instruction cache};
+\node[pageNumber] (addrLeftFinal) at ([yshift=-1cm,xshift=7cm]plus) {1101 0011 11};
+\draw[->,thick,memAccess,ifMiss,ptMemAccess] (plus) -- (cache.north -| plus.south);
+\node[above right=1cm and 4cm of plus,align=center,draw,comp,checkValid] (check) {check valid \\ and permission bit};
+\node[below=1cm of check,draw,comp] (split) {split PTE parts};
+\draw[->,thick] (split) -- (check);
+\draw[->,thick] ([xshift=1cm]check.north) -- ++(1cm, 1cm) node[above] {cause fault?};
+
+\draw[ifHit,draw,very thick,->] (tlb.south) |- (split);
+\draw[blue!50!black,->,thick] (split) -- (addrLeftFinal);
+
+\node[anchor=west,pageOffset] (addrRightFinal) at (addrLeftFinal.east) {00 1101 1111};
+\draw[very thick,green!50!black,densely dotted] ([xshift=1cm]addrRight.south) |- ([xshift=-.5mm,yshift=.5cm]split.north);
+\draw[very thick,green!50!black,densely dotted,->] ([xshift=.5mm,yshift=.5cm]split.north) -| (addrRightFinal.north);
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]south:physical address},fit=(addrLeftFinal) (addrRightFinal)] (addrFinal) {};
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]north:virtual address},fit=(addrLeft) (addrRight)] (addr) {};
+
+\draw[->,thick,memAccess] (addrFinal) -- (cache.north -| addrFinal.south);
+
+\draw[ifMiss,->,very thick] (cache.north -| split.south) -- ++(0cm, 1cm) -| ([yshift=-.5cm,xshift=-.1cm]tlb.west) 
+    -| ([xshift=-.4cm]tlb.west) -- (tlb.west);
+\draw[->,thick,ifMiss,ptMemAccess] (cache.north -| split.south) -- (split.south);
+
+%\begin{pgfonlayer}{bg}
+%\node [fill=black!5,fit=(timesPte) (split),draw,line width=0.5mm,dashed,label={south:memory management unit (MMU)}] (mmu) {};
+%\end{pgfonlayer}
+
+\begin{visibleenv}<2>
+\node[xshift=-4cm,above=0.5cm of cache,draw=red,ultra thick,fill=white,align=left] {TLB hit: TLB accesses replaces \\ page table access};
+\end{visibleenv}
+
+
+\begin{visibleenv}<4>
+\node[xshift=-3cm,above=6cm of cache,draw=red,ultra thick,fill=white] {TLB miss: page table access happens};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[xshift=-1cm,above=6cm of cache,draw=red,ultra thick,fill=white] {TLB miss: TLB gets a copy of the page table entry};
+\draw[red,->,very thick] (cache.north -| split.south) -- ++(0cm, 1cm) -| ([yshift=-.5cm,xshift=-.1cm]tlb.west) 
+    -| ([xshift=-.4cm]tlb.west) -- (tlb.west);
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[xshift=-3cm,above=2cm of cache,draw=red,ultra thick,fill=white,align=left] {on \textit{hit or miss} \\need to check permissions \\
+    (read/kernel/etc.) \\
+    but TLB only stores valid PTEs
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
