@@ -1,0 +1,20 @@
+\begin{frame}{key agreement and asym. encryption}
+    \begin{itemize}
+    \item can construct public-key encryption from key agreeement
+    \vspace{.5cm}
+    \item private key: generated random value Y
+    \item public key: key share generated from that Y
+    \item<2-> PE(public key, message) =
+        \begin{itemize}
+        \item generate random value Z
+        \item combine with public key to get shared secret
+        \item use symmetric encryption + MAC using shared secret as keys
+        \item output: (key share generated from Z) (sym. encrypted data) (mac tag)
+        \end{itemize}
+    \item<3-> PD(private key, message) =
+        \begin{itemize}
+        \item extract (key share generated from Z)
+        \item combine with private key to get shared secret, \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
