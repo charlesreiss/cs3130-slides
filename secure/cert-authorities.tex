@@ -107,6 +107,112 @@ Certificate:
     \item (but both CAs now operated by UK-based Sectigo)
     \end{itemize}
 \end{frame}
+\usetikzlibrary{fit}
+\begin{frame}{certificate hierarchy}
+\begin{tikzpicture}
+    \tikzset{
+        cert/.style={draw, very thick,align=left,font=\small},
+        root/.style={alt=<2>{fill=blue!10,line width=3pt}},
+        root weak/.style={alt=<2>{fill=blue!10,line width=3pt,dashed}},
+    }
+    \node[cert,root] (usertrust) at (-3, 0) {
+        USERTrust RSA \\ Certification Authority \\
+        \parbox{2.25in}{
+        \scriptsize originally operated by USERTrust, Inc.  \\
+        \scriptsize acquired by Comodo, Inc (2004) \\
+        \scriptsize Comodo's CA division renamed Sectigo (2018)
+        }
+    };
+    \node[cert] (incommon) at (-4, -3) {
+        InCommon \\ RSA Server CA \\
+        \parbox{2in}{
+        \scriptsize operated by Sectigo \\
+        \scriptsize on behalf of the Internet2 (not-for-profit)
+        }
+    };
+    \node[cert] (collab) at (-4, -5) {
+        collab.its.virginia.edu
+    };
+    \node[overlay] (other incommon) at (-7, -5) {
+        \ldots
+    };
+    \node[overlay] (other incommon 2) at (-1, -5) {
+        \ldots
+    };
+    \node (other usertrust) at (0, -3) {
+        \ldots
+    };
+    \begin{scope}[very thick,->]
+        \draw (usertrust) -- (incommon);
+        \draw (incommon) -- (collab);
+        \draw[overlay] (incommon) -- (other incommon);
+        \draw[overlay] (incommon) -- (other incommon 2);
+        \draw (usertrust) -- (other usertrust);
+    \end{scope}
+
+    \begin{scope}[xshift=5cm]
+        \node[cert,root] (globalsign) at (0, 0) {
+            GlobalSign Root CA \\
+            \parbox{2.25in}{
+                \scriptsize
+                operated by GlobalSign nv-sa \\
+                subsid. of GMO Internet Group since 2007
+            }
+        };
+        \node (globalsign other) at (3, -2) {\ldots};
+        \node [cert,root weak] (goog root ca) at (-1, -2) {
+            GTS Root R1 \\
+            \parbox{2.25in}{
+                \scriptsize
+                operated by Google Trust Services LLC
+            }
+        };
+        \node [cert] (goog subca) at (-1, -3.5) {
+            GTS CA 1C3
+        };
+        \node (goog subother) at (2, -3.5) {\ldots};
+        \node [cert] (goog) at (-1, -5) {
+            www.google.com
+        };
+        \node (goog other) at (-4, -5) {\ldots};
+        \begin{scope}[very thick,->]
+            \draw (globalsign) -- (goog root ca);
+            \draw (globalsign) -- (globalsign other);
+            \draw (goog root ca) -- (goog subca);
+            \draw (goog root ca) -- (goog subother);
+            \draw (goog subca) -- (goog);
+            \draw (goog subca) -- (goog other);
+        \end{scope}
+    \end{scope}
+
+    \begin{visibleenv}<2>
+        \begin{pgfonlayer}{fg}
+        \begin{visibleenv}<2>
+        \node[draw=yellow!50!black, fill=white, align=center,line width=3pt,fill=yellow!20] (over box) at (0, -5) {
+            some ``trust anchors'' included with browsers and OSes \\
+            (for GTS Root R1, only more recent browsers/OSes)
+        };
+        \end{visibleenv}
+        \end{pgfonlayer}
+        \node[fit=(over box),inner sep=.5cm,fill=white,fill opacity=0.5,overlay] {};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{how many trust anchors?}
+    \begin{itemize}
+    \item Mozilla Firefox (as of 27 Feb 2023)
+        \begin{itemize}
+            \item 155 trust anchors
+            \item operated by 55 distinct entities
+        \end{itemize}
+    \item Microsoft Windows (as of 27 Feb 2023)
+        \begin{itemize}
+            \item 237 trust anchors
+            \item operated by 86 distinct entities
+        \end{itemize}
+    \end{itemize}
+\end{frame}
 
 \begin{frame}{public-key infrastructure}
     \begin{itemize}

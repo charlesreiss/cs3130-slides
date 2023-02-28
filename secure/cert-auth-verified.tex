@@ -1,6 +1,6 @@
 \begin{frame}{exercise}
     \begin{itemize}
-    \item exercise: how should certificates verify identity?
+    \item exercise: how should website certificates verify identity?
     \end{itemize}
 \end{frame}
 
@@ -33,19 +33,19 @@
 \begin{frame}{some other things public CAs do}
     \begin{itemize}
     \item keep their private keys in tamper-resistant hardware
-    \item maintain publicly-accessible database of \textit{revoked} certificates
+    \item maintain publicly-accessible database of \myemph<2>{\textit{revoked} certificates}
         \begin{itemize}
-        \item some browsers check these
+        \item some browsers check these, sometimes
         \end{itemize}
-    \item certificate transparency
+    \item \myemph<3>{certificate transparency}
         \begin{itemize}
-            \item public logs of every certificate issued
+            \item \myemph<3>{public logs} of every certificate issued
             \item some browsers reject non-logged certificates
             \item so you can tell if bad certificate exists for your website
         \end{itemize}
     \item `CAA' records in the domain name system
         \begin{itemize}
-        \item can indicate which CAs are allowed to issue certificates in DNS
+            \item can indicate \myemph<4>{which CAs are allowed to issue certificates in DNS}
         \item (but CAs apparently not required to use DNSSEC (certificate infrastructure for signing domain name records) when looking this up)
         \end{itemize}
     \end{itemize}
