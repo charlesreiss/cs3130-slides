@@ -1,0 +1,26 @@
+\begin{frame}{network security summary (1)}
+    \begin{itemize}
+    \item communicating securely with math
+        \begin{itemize}
+        \item secret value (shared key, public key) that attacker can't have
+        \item symmetric: shared keys used for ed/encryption + auth/verify; fast
+        \item asymmetric: public key used by any for encrypt + verify; slower
+        \item asymmetric: private key used by holder for decrypt + sign; slower
+        \end{itemize}
+    \item protocol attacks --- repurposing encrypt/signed/etc. messages
+    \item certificates --- verifiable forwarded public keys 
+    \item key agreement --- for generated shared-secret ``in public''
+        \begin{itemize}
+        \item publish key shares from private data
+        \item combine private data with key share for shared secret
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{network security summary (2)}
+    \begin{itemize}
+    \item TLS: combine all cryptography stuff to make ``secure channel''
+    \item denial-of-service --- attacker just disrupts/overloads (not subtle)
+    \item firewalls
+    \end{itemize}
+\end{frame}

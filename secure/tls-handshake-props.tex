@@ -1,0 +1,20 @@
+\begin{frame}{things modern TLS usually does}
+    \begin{itemize}
+        \item (not all these properties provided by all TLS versions and modes)
+    \vspace{.5cm}
+    \item confidentiality/authenticity 
+        \begin{itemize}
+        \item server = one ID'd by certificate
+        \item client = same throughout whole connection
+        \end{itemize}
+    \item forward secrecy
+        \begin{itemize}
+        \item can't decrypt old conversations (data for KeyShares is temporary)
+        \end{itemize}
+    \item fast
+        \begin{itemize}
+        \item most communication done with more efficient symmetric ciphers
+        \item 1 set of messages back and forth to setup connection
+        \end{itemize}
+    \end{itemize}
+\end{frame}
