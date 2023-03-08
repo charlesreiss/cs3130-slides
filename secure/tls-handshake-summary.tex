@@ -35,12 +35,14 @@
     \end{visibleenv}
     \begin{visibleenv}<4-5>
         \node[my callout2=finished1,anchor=north,align=left] at ([yshift=-1cm]finished1) {
-            MAC(\myemph<4>{key made from key shares}, Hash(everything so far))
+            MAC(\myemph<4>{key made from key shares}, Hash(everything so far)) \\
+            (purpose: tie new key with rest of handshake)
         };
     \end{visibleenv}
     \begin{visibleenv}<6>
         \node[my callout2=finished2,anchor=north,align=left] at ([yshift=-1cm]finished2) {
-            MAC(\myemph<4>{key made from key shares}, Hash(everything so far))
+            MAC(\myemph<4>{key made from key shares}, Hash(everything so far)) \\
+            (purpose: tie new key with rest of handshake)
         };
     \end{visibleenv}
 \end{tikzpicture}

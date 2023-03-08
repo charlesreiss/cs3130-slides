@@ -21,13 +21,17 @@ Hint: depends on relative placement of array1, array2
 \begin{itemize}
 \item \texttt{array1[i]} and \texttt{array2[i]} always different sets:
     \begin{itemize}
-    \item 2 misses every 4 \texttt{i}
     \item = distance from array1 to array2 not multiple of \# sets $\times$ bytes/set
+    \item 2 misses every 4 \texttt{i}
+    \item blocks of 4 array1[X] values loaded, then used 4 times before loading next block
+    \item (and same for array2[X])
     \end{itemize}
 \item \texttt{array1[i]} and \texttt{array2[i]} same sets:
     \begin{itemize}
-    \item 2 misses every \texttt{i}
     \item = distance from array1 to array2 is multiple of \# sets $\times$ bytes/set
+    \item 2 misses every \texttt{i}
+    \item block of 4 array1[X] values loaded, one value used from it,
+    \item then, block of 4 array2[X] values replaces it, one value used from it, \ldots
     \end{itemize}
 \end{itemize}
 \end{frame}
