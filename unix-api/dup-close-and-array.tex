@@ -1,0 +1,23 @@
+\begin{frame}[fragile,label=openCloseAndFdArray]{open/dup/close/etc. and fd array}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+struct process_info {
+  ...
+  @1struct file *files;1@  
+};
+\end{lstlisting}
+\begin{itemize}
+\item open: \lstinline|files[new_fd] = ...;|
+\item dup2(from, to): \lstinline|files[to] = files[from];|
+\item close: \lstinline|files[fd] = NULL;|
+\item fork: 
+\begin{lstlisting}
+  for (int i = ...)
+      child->files[i] = parent->files[i];
+\end{lstlisting}
+\vspace{.25cm}
+\item (plus extra work to avoid leaking memory)
+\end{itemize}
+\end{frame}

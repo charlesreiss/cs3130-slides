@@ -1,0 +1,73 @@
+\usetikzlibrary{matrix,patterns,arrows.meta,decorations.pathreplacing,shapes.misc,fit}
+
+\begin{frame}{exec*}
+\begin{itemize}
+\item exec* --- \myemph{replace} current program with new program
+    \begin{itemize}
+    \item * --- multiple variants
+    \item same pid, new process image
+    \end{itemize}
+\item \texttt{int execv(const char *path, const char **argv)}
+    \begin{itemize}
+    \item path: new program to run
+    \item argv: array of arguments, termianted by null pointer
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=execExample1]{execv example}
+\begin{lstlisting}[
+    language=C++,
+    style=small,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+]
+  ...
+  child_pid = fork();
+  if (child_pid == 0) {
+    /* child process */
+    char *args[] = @2{"ls", "-l", NULL}2@;
+    execv(@3"/bin/ls"3@, @2args2@);
+    /* execv doesn't return when it works.
+       So, if we got here, it failed. */
+    perror("execv");
+    exit(1);
+  } else if (child_pid > 0) {
+    /* parent process */
+    ...
+  }
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (explain location) at ([xshift=-1cm,yshift=-5cm]current page.north east);
+\tikzset{
+    explain box/.style={
+        at={(explain location)},
+        anchor=north east,
+        draw=red,
+        very thick,
+        align=left,
+        fill=white
+    },
+}
+\begin{visibleenv}<2|handout:0>
+\node[explain box] {
+used to compute argv, argc \\
+when program's \texttt{main} is run \\
+~ \\
+convention: first argument is program name
+};
+\end{visibleenv}
+\begin{visibleenv}<3|handout:0>
+\node[explain box] {
+path of executable to run \\
+need not match first argument \\
+(but probably should match it) \\
+~  \\
+on Unix {\texttt /bin} is a directory \\
+containing many common programs, \\
+including \texttt{ls} (`list directory')
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

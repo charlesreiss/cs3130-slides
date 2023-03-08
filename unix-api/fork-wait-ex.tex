@@ -1,0 +1,55 @@
+\begin{frame}[fragile,label=fork-wait-ex1]{exercise (1)}
+\vspace{-.25cm}
+\begin{lstlisting}[basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+int main() {
+    pid_t pids[2]; const char *args[] = {"echo", "ARG", NULL};
+    const char *extra[] = {"L1", "L2"};
+    for (int i = 0; i < 2; ++i) {
+        pids[i] = fork();
+        if (pids[i] == 0) {
+            args[1] = extra[i];
+            execv("/bin/echo", args);
+        }
+    }
+    for (int i = 0; i < 2; ++i) {
+        waitpid(pids[i], NULL, 0);
+    }
+}
+\end{lstlisting}
+\newcommand{\shownewline}{ {\fontsize{9}{10}\selectfont(newline)} }
+Assuming fork and execv do not fail, which are possible outputs?
+\begin{tabular}{llll}
+\bfseries A. & \tt L1\shownewline L2 & \bfseries D. & A and B \\
+\bfseries B. & \tt L1\shownewline L2\shownewline L2 & \bfseries E. & A and C \\
+\bfseries C. & \tt L2\shownewline L1 & \bfseries F. & all of the above \\
+    ~ &  ~ & \bfseries G. & something else \\
+\end{tabular}
+\end{frame}
+
+\iftoggle{heldback}{\providecommand{\correct}[1]{#1}}{\providecommand{\correct}[1]{\myemph<2>{#1}}}
+
+\begin{frame}[fragile,label=fork-wait-ex2]{exercise (2)}
+\vspace{-.4cm}
+\begin{lstlisting}[basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+int main() {
+    pid_t pids[2]; const char *args[] = {"echo", "0", NULL};
+    for (int i = 0; i < 2; ++i) {
+        pids[i] = fork();
+        if (pids[i] == 0) { execv("/bin/echo", args); }
+    }
+    printf("1\n"); fflush(stdout);
+    for (int i = 0; i < 2; ++i) {
+        waitpid(pids[i], NULL, 0);
+    }
+    printf("2\n"); fflush(stdout);
+}
+\end{lstlisting}
+\newcommand{\shownewline}{ {\normalfont\fontsize{9}{10}\selectfont(newline)} }
+Assuming fork and execv do not fail, which are possible outputs?
+\begin{tabular}{llll}
+\bfseries A. & \tt 0\shownewline 0\shownewline 1\shownewline 2 & \bfseries E. & \correct{A, B, and C} \\
+\bfseries B. & \tt 0\shownewline 1\shownewline 0\shownewline 2 & \bfseries F. & C and D \\
+\bfseries C. & \tt 1\shownewline 0\shownewline 0\shownewline 2 & \bfseries G. & all of the above \\
+\bfseries D. & \tt 1\shownewline 0\shownewline 2\shownewline 0 & \bfseries H. & something else \\
+\end{tabular}
+\end{frame}

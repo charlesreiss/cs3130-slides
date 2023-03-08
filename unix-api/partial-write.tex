@@ -1,0 +1,35 @@
+
+\begin{frame}[fragile,label=writeExampleErrorChecking]{write example (with error checking)}
+\begin{lstlisting}[language=C++,style=small,morekeywords=ssize\_t]
+const char *ptr = "Hello, World!\n";
+ssize_t remaining = 14;
+while (remaining > 0) {
+    /* cast to void * optional in C */
+    ssize_t amount_written = write(STDOUT_FILENO,
+                                   ptr,
+                                   remaining);
+    if (amount_written < 0) {
+        perror("write"); /* print error message */
+        ... /* abort??? */
+    } else {
+        remaining -= amount_written;
+        ptr += amount_written;
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{partial writes}
+\begin{itemize}
+    \item usually only happen on error or interruption
+        \begin{itemize}
+        \item but can request ``non-blocking''
+        \item (interruption: via \textit{signal})
+        \end{itemize}
+    \item \textit{usually}: write \myemph{waits until it completes}
+        \begin{itemize}
+        \item = until remaining part fits in buffer in kernel
+        \item does not mean data was sent on network, shown to user yet, etc.
+        \end{itemize}
+\end{itemize}
+\end{frame}

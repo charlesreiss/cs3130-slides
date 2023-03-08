@@ -21,6 +21,9 @@
 \subsection{tag/index/offset for direct mapped caches}
 \input{../caching/tioDMIntro}
 
+\subsection{prelim. formulas}
+\input{../caching/tioDMFormulas}
+
 \subsection{tio for DM: exercise}
 \input{../caching/tioDmExercise}
 
@@ -50,9 +53,13 @@
 \input{../caching/arrayMissesSkip}
 
 \subsection{adding associativity}
-\againframe<13>{pattern1}
+%\againframe<13>{pattern1}
 
 \input{../caching/addAssoc}
+
+\subsection{options for replacement}
+\input{../caching/replacement}
+
 
 \subsection{associativity terms}
 \input{../caching/assocTerms}
@@ -74,9 +81,6 @@
 
 \againframe<2>{arrayMissesOddEven2}
 
-\subsection{options for replacement}
-\input{../caching/replacement}
-
 \subsection{options for handling writes}
 \input{../caching/writePolicy}
 % FIXME: writes and what counts as a miss
@@ -94,6 +98,13 @@
 \input{../caching/cacheTradeoffs}
 
 \section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPTLookup}
+
 \subsection{why cache page table entries?}
 \input{../caching/tlbWhy}
 
@@ -125,6 +136,7 @@
 
 \subsection{tag/index/offset formulas}
 \input{../caching/tioDMFormulas}
+
 
 \section{backup slides --- cache performance}
 \begin{frame}{backup slides --- cache performance}

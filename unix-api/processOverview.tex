@@ -1,0 +1,14 @@
+\begin{frame}<1>[label=posixProcessFunctions]{POSIX process management}
+\begin{itemize}
+\item essential operations
+\vspace{.5cm}
+\item process information: \myemph<2>{\texttt{getpid}}
+\item process creation: \myemph<3>{\texttt{fork}}
+\item running programs: \myemph<4>{\texttt{exec*}}
+\begin{itemize}
+\item {\fontsize{9}{10}\selectfont also \texttt{posix\_spawn} (not widely supported), \ldots}
+\end{itemize}
+\item waiting for processes to finish: \texttt{\myemph<5>{waitpid}} {\small (or \texttt{\myemph<5>{wait}})}
+\item process destruction, `signaling': \texttt{exit}, \texttt{kill}
+\end{itemize}
+\end{frame}

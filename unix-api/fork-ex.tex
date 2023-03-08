@@ -1,0 +1,55 @@
+
+\begin{frame}[fragile,label=forkQuestion]{a fork question}
+\vspace{-.3cm}
+\begin{lstlisting}[language=C++,style=size10]
+int main() {
+    pid_t pid = fork();
+    if (pid == 0) {
+        printf("In child\n");
+    } else {
+        printf("Child %d\n", pid);
+    }
+    printf("Done!\n");
+}
+\end{lstlisting}
+\tikzmark{question start}\small Exercise: Suppose the pid of the parent process is \texttt{99} and child is \texttt{100}. Give \textbf{two} possible outputs. (Assume no crashes, etc.)
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (timeline start) at ([yshift=-2cm]pic cs:question start);
+\tikzset{
+    prog1/.style={draw,fill=cyan},
+    prog2/.style={draw,fill=green},
+    proglabel/.style={font=\tt\scriptsize},
+    labelprog1/.style={execute at begin node={\strut parent}},
+    labelprog2/.style={execute at begin node={\strut child}},
+}
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2>
+\begin{scope}[shift={(timeline start)}]
+\begin{scope}[xscale=1.5,yscale=0.9]
+    % FIXME: more suggestive split
+\foreach \s/\e/\p [count=\x] in {0/1.5/1,1.5/3/2,3/4.5/1,4.5/5.5/2,5.5/7/1}{
+    \coordinate (s-\x) at (\s, 0);
+    \coordinate (e-\x) at (\e, 0);
+    \draw[prog\p] (\s, 0) rectangle (\e, 1) coordinate[midway] (mid-\x);
+    \node[anchor=center,proglabel,labelprog\p] at (mid-\x) {};
+    \draw[fill=white] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+    \draw[pattern=north west lines] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+}
+\node[overlay,anchor=west,font=\tt\fontsize{9}{10}\selectfont,align=left] at (7.5, .8) { Child 100 \\ In child \\ Done! \\ Done!};
+\begin{scope}[yshift=-1.5cm]
+\foreach \s/\e/\p [count=\x] in {0/1/1,1/4/2,4/7/1}{
+    \coordinate (s-\x) at (\s, 0);
+    \coordinate (e-\x) at (\e, 0);
+    \draw[prog\p] (\s, 0) rectangle (\e, 1) coordinate[midway] (mid-\x);
+    \node[anchor=center,proglabel,labelprog\p] at (mid-\x) {};
+    \draw[fill=white] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+    \draw[pattern=north west lines] ([xshift=-.05cm]e-\x) rectangle ([xshift=.05cm,yshift=1cm]e-\x);
+}
+\node[anchor=west,font=\tt\fontsize{9}{10}\selectfont,align=left] at (7.5, .5) { In child \\ Done! \\ Child 100 \\ Done! };
+\end{scope}
+\end{scope}
+\end{scope}
+\end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}

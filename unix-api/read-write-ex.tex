@@ -1,0 +1,19 @@
+\begin{frame}[fragile,label=ex]{exercise}
+\begin{lstlisting}[style=small]
+int fd = open("output.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666);
+write(fd, "A", 1);
+dup2(STDOUT_FILENO, 100);
+dup2(fd, STDOUT_FILENO);
+write(STDOUT_FILENO, "B", 1);
+write(fd, "C", 1);
+close(fd);
+write(STDOUT_FILENO, "D", 1);
+write(100, "E", 1);
+\end{lstlisting}
+Assume fd \texttt{100} is not what open returns.
+What is written to \texttt{output.txt}? \\
+\begin{tabular}{llllll}
+\textbf{A.} & ABCDE & \textbf{C.} & ABC & \textbf{E.} something else \\
+\textbf{B.} & ABCD & \textbf{D.} & ACD \\
+\end{tabular}
+\end{frame}

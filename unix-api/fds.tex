@@ -1,0 +1,22 @@
+\begin{frame}[fragile,label=fds]{file descriptors}
+\begin{lstlisting}[language=C,style=smaller]
+struct process_info {
+    ...
+    struct open_file *files;
+};
+...
+process->files[file_descriptor]
+\end{lstlisting}
+    \begin{itemize}
+    \item Unix: every process has \\
+        array (or similar) of \textit{open file descriptions}
+    \item ``open file'': \small terminal $\cdot$ socket $\cdot$ regular file $\cdot$ pipe
+    \item file descriptor = index into array
+        \begin{itemize}
+        \item usually what's used with system calls
+        \item stdio.h FILE*s usually have file descriptor + buffer
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+

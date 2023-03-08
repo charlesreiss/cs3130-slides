@@ -1,0 +1,56 @@
+
+\begin{frame}{fork example}
+\lstinputlisting[
+    language=C,
+    basicstyle=\sourcecodepro\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+]{../unix-api/fork1.c}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (explain location) at ([xshift=-1cm,yshift=-2cm]current page.north east);
+\tikzset{
+    explain box/.style={
+        at={(explain location)},
+        anchor=north east,
+        draw=red,
+        very thick,
+        align=left,
+        fill=white
+    },
+}
+\begin{visibleenv}<2|handout:0>
+\node[explain box] {
+\texttt{getpid} --- returns current process pid
+};
+\end{visibleenv}
+\begin{visibleenv}<3|handout:0>
+\node[explain box] {
+cast in case \texttt{pid\_t} isn't int \\
+POSIX doesn't specify (some systems it is, some not\ldots) \\
+(not necessary if you were using C++'s cout, etc.)
+};
+\end{visibleenv}
+\begin{visibleenv}<4|handout:0>
+\node[explain box] {
+prints out \texttt{Fork failed: \textit{error message}} \\
+(example \textit{error message}: ``Resource temporarily unavailable'') \\
+from error number stored in special global variable \texttt{errno} 
+};
+\end{visibleenv}
+\begin{visibleenv}<5|handout:2>
+\node[explain box] {
+Example output: \\
+\texttt{Parent pid: 100} \\
+\texttt{[100] parent of [432]} \\
+\texttt{[432] child}
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+
+% FIXME: fork_race.c?
+
+% Other process management
+

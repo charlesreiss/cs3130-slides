@@ -1,0 +1,91 @@
+
+\usetikzlibrary{arrows.meta,circuits.logic.US,fit,matrix,positioning,shapes.callouts}
+    
+\begin{frame}[fragile,label=cacheOp]{cache operation (read)}
+% FIXME: build for this
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries,draw=none}},
+        column 1/.style={nodes={text width=1cm}},
+        column 2/.style={nodes={text width=1cm,tagColor}},
+        column 3/.style={nodes={draw=none,text width=.5cm}},
+        column 4/.style={nodes={text width=3cm,dataColor}},
+        ] (cache) {
+        valid \& tag \& ~ \&  data \\
+    1  \& 10 \& ~ \& 00 11 22 33 \\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    1 \&  11 \& ~ \& B4 B5 B6 B7 \\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \& ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=1cm,xshift=-1cm]cache.north west){100};
+\node[left=0cm of idx,tagColor] (tag) {11};
+\node[draw=none,left=0cm of tag] {0b};
+\node[right=0cm of idx,offsetColor] (offset) {10};
+\end{scope}
+\draw[thick,dashed,-latex] (idx) |- (cache-6-1.west) node[near start,font=\small,fill=white] {index};
+
+\begin{visibleenv}<2->
+    \node[below=0.4cm of cache-9-2,draw,circle,inner sep=3pt] (comp1) {\small =};
+    %\coordinate(comp1Intersect) at ($(comp1) + (-.7cm,0.5cm)$);
+    %\node[draw,circle,tagColorFill,inner sep=0pt,minimum width=1mm] at (comp1Intersect) {};
+    \draw[tagColor,myline] (cache-9-2) -- (comp1);
+
+    %\draw[myline no arrow,tagColor] (tag) |- (comp1Intersect);
+    %\draw[myline,tagColor] (comp1Intersect) |- (comp1);
+    \draw[tagColor,myline] (tag) |- (comp1) node[near start,font=\small,fill=white] {tag};
+    %\draw[myline no arrow,tagColor] (comp1Intersect) |- (comp2Intersect);
+    %\draw[myline,tagColor] (comp2Intersect) |- (comp2);
+
+    \node[xshift=.4cm,draw,below=1cm of cache-9-4,and gate,logic gate inputs=nn,label={[font=\scriptsize]center:AND}] (validCheck1) {};
+
+    \draw[myline] (comp1.south) |- (validCheck1.input 1);
+    \draw[myline] (cache-9-1.south) |- (validCheck1.input 2);
+\end{visibleenv}
+
+\node[fit=(cache-6-1) (cache-6-4),inner sep=1pt,red,draw,line width=3pt] {};
+
+%\node[draw,trapezium,inner xsep=0pt,outer sep=0pt,trapezium angle=75,below=.7cm of validCheck2,
+%text width=5cm,shape border rotate=180,xshift=1.5cm] (mux) {};
+%\draw[myline] (validCheck1.output) -| (buffer1.west);
+%\draw[myline] (cache-9-3.south) -- (buffer1);
+%\draw[myline] (buffer1.south) -- (bufEnd1);
+\coordinate (outputData) at ([xshift=1cm,yshift=-.3cm]cache-9-4.south east);
+\coordinate (beforeOutputData) at ([xshift=-.5cm]outputData);
+\coordinate (outputHit) at (outputData |- validCheck1.output);
+\begin{visibleenv}<2->
+\draw[myline] (validCheck1.output) |- (outputHit) node[right] {is hit? ({\tt 1})};
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \draw[myline no arrow,dataColor] (cache-9-4.south) |- (beforeOutputData);
+    \node[draw,mux,anchor=west,inputs=nnnn] (selectByte) at (outputData) {};
+    \foreach \x in {1,2,3,4} {
+        \draw[dataColor,myline thin] (beforeOutputData) |- (selectByte.input \x);
+    };
+    \draw[offsetColor,myline] (offset.east) -| (selectByte.north) node[very near start,fill=white,font=\small] {offset};
+    \draw[dataColor,myline thin] (selectByte.output) -- ++(0.5cm,0cm) node[right] {data ({\tt B6})};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

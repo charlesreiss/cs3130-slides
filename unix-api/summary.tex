@@ -1,0 +1,24 @@
+\begin{frame}{Unix API summary}
+    \begin{itemize}
+    \item spawn and wait for program: \texttt{fork} (copy), then
+        \begin{itemize}
+        \item in child: setup, then \texttt{execv}, etc. (replace copy)
+        \item in parent: \texttt{waitpid}
+        \end{itemize}
+    \item files: open, read and/or write, close
+        \begin{itemize}
+        \item one interface for regular files, pipes, network, devices, \ldots
+        \end{itemize}
+    \item file descriptors are indices into per-process array
+        \begin{itemize}
+        \item index 0, 1, 2 = stdin, stdout, stderr
+        \item \texttt{dup2} --- assign one index to another
+        \item \texttt{close} --- deallocate index
+        \end{itemize}
+    \item redirection/pipelines
+        \begin{itemize}
+        \item open() or pipe() to create new file descriptors
+        \item dup2 in child to assign file descriptor to index 0, 1
+        \end{itemize}
+    \end{itemize}
+\end{frame}

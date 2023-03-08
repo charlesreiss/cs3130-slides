@@ -1,0 +1,85 @@
+\begin{frame}[fragile,label=xv6FDs]{implementing file descriptors in xv6 (1)}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+struct proc {
+  ...
+  @1struct file *ofile[NOFILE];1@  // Open files
+};
+\end{lstlisting}
+\begin{itemize}
+\item \texttt{ofile[0]} = file descriptor \texttt{0}
+\item pointer --- \textit{can be shared between proceses}
+    \begin{itemize}
+    \item not part of deep copy fork does
+    \end{itemize}
+\item null pointers --- no file open with that number
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=xv6FileStruct]{implementing file descriptors in xv6 (2)}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+]
+struct file {
+  @2enum { FD_NONE, FD_PIPE, FD_INODE } type2@;
+  @3int ref;3@ // reference count
+  @4char readable;4@
+  @4char writable;4@
+  struct pipe *pipe;
+  struct inode *ip;
+  @5uint off;5@
+};
+\end{lstlisting}
+
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (place) at ([yshift=-.5cm,xshift=-.5cm]current page.east);
+\tikzset{
+    box/.style={
+        at=(place),
+        anchor=east,
+        draw=red,very thick,
+        align=left,
+        fill=white,
+    }
+}
+\begin{visibleenv}<2>
+\node[box] {
+    FD\_PIPE = to talk to other process \\
+    FD\_INODE = other kind of file \\
+    ~ \\
+    alternate designs: \\
+    \hspace{.5cm} class + subclass per type \\
+    \hspace{.5cm} pointer to list of functions (Linux soln.)
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    number of pointers to this struct file \\
+    used to safely delete this struct \\
+    ~ \\
+    e.g. after \texttt{fork} same pointer \\ shared in parent, child
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    should read/write be allowed? \\
+    based on flags to open
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    \texttt{off} = location in file \\
+    (not meaningful for all files)
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+

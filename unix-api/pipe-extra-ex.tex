@@ -1,0 +1,28 @@
+\begin{frame}[fragile,label=pipeExtraEx1]{exercise}
+\begin{lstlisting}[language=C++,basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
+pid_t p = fork();
+int pipe_fds[2];
+pipe(pipe_fds);
+if (p == 0) { /* child */
+  close(pipe_fds[0]);
+  char c = 'A';
+  write(pipe_fds[1], &c, 1);
+  exit(0);
+} else { /* parent */
+  close(pipe_fds[1]);
+  char c;
+  int count = read(pipe_fds[0], &c, 1);
+  printf("read %d bytes\n", count);
+}
+\end{lstlisting}
+The child is trying to send the character \texttt{A} to the parent, but
+the above code outputs \texttt{read 0 bytes} instead of \texttt{read 1 bytes}.
+What happened?
+\end{frame}
+
+\begin{frame}{exercise solution}
+    \begin{itemize}
+        \item \iftoggle{heldback}{~}{pipe() is after fork --- two pipes, one in child, one in parent}
+    \end{itemize}
+\end{frame}
+

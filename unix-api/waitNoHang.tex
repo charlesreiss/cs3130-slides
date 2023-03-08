@@ -1,0 +1,20 @@
+
+
+\begin{frame}[fragile,label=waitNoHang]{`waiting' without waiting}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+]
+#include <sys/wait.h>
+...
+  pid_t return_value = waitpid(child_pid, &status, WNOHANG);
+  if (return_value == (pid_t) 0) {
+    /* child process not done yet */
+  } else if (child_pid == (pid_t) -1) {
+    /* error */
+  } else {
+    /* handle child_pid exiting */
+  }
+\end{lstlisting}
+\end{frame}

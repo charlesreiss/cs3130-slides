@@ -1,0 +1,18 @@
+
+
+\begin{frame}{special file descriptors}
+\begin{itemize}
+\item file descriptor 0 = standard input
+\item file descriptor 1 = standard output
+\item file descriptor 2 = standard error
+\vspace{.5cm}
+\item constants in \texttt{unistd.h}
+    \begin{itemize} \item \texttt{STDIN\_FILENO}, \texttt{STDOUT\_FILENO}, \texttt{STDERR\_FILENO} \end{itemize}
+\vspace{.5cm}
+\item<2-> but you can't choose which number \texttt{open} assigns\ldots?
+    \begin{itemize}
+    \item more on this later
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

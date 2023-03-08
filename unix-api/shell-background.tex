@@ -1,0 +1,18 @@
+\begin{frame}[fragile,label=background]{running in background}
+\begin{Verbatim}[fontsize=\small]
+$ ./long_computation >tmp.txt &
+[1] 4049
+$ ...
+[1]+    Done        ./long_computation > tmp.txt
+$ cat tmp.txt
+the result is ...
+\end{Verbatim}
+\begin{itemize}
+\item \verb|&| --- run a program in ``background''
+\item initially output PID (above: 4049)
+\item print out after terminated
+    \begin{itemize}
+    \item one way: use \texttt{waitpid} with option saying ``don't wait''
+    \end{itemize}
+\end{itemize}
+\end{frame}

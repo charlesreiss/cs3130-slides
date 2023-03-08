@@ -1,0 +1,24 @@
+\begin{frame}[fragile,label=dup2ex]{dup2 exercise}
+\begin{itemize}
+\item recall: \texttt{dup2(old\_fd, new\_fd)}
+\end{itemize}
+\begin{lstlisting}[language=C,style=small]
+int fd = open("output.txt", O_WRONLY | O_CREAT, 0666);
+write(STDOUT_FILENO, "A", 1);
+dup2(fd, STDOUT_FILENO);
+pid_t pid = fork();
+if (pid == 0) { /* child: */
+    dup2(STDOUT_FILENO, fd);
+    write(fd, "B", 1);
+} else {
+    write(STODUT_FILENO, "C", 1);
+    waitpid(pid, 0, WNOHANG);
+}
+\end{lstlisting}
+Which outputs are possible?\\\small
+\begin{tabular}{ll}
+A. stdout: ABC ; output.txt: empty & D. stdout: A ; output.txt: BC \\
+B. stdout: AC ; output.txt: B &  E. more? \\
+C. stdout: A ; output.txt: CB \\
+\end{tabular}
+\end{frame}

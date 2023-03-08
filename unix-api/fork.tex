@@ -1,0 +1,19 @@
+
+\usetikzlibrary{matrix,patterns,arrows.meta,decorations.pathreplacing}
+\begin{frame}{\texttt{fork}}
+\begin{itemize}
+\item \texttt{pid\_t fork()} --- copy the current process
+\item returns twice:
+    \begin{itemize}
+    \item in \textit{parent} (original process): pid of new \textit{child} process
+    \item in \textit{child} (new process): \texttt{0}
+    \end{itemize}
+\item \myemph{everything (but pid) duplicated} in parent, child:
+    \begin{itemize}
+    \item memory
+    \item file descriptors (later)
+    \item registers
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

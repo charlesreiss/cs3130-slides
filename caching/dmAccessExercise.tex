@@ -55,13 +55,13 @@
 \begin{visibleenv}<3-4>
 \iftoggle{heldback}{}{
     \node[anchor=north west,font=\small,align=left] (explain1) at ([yshift=-.5cm]pattern.south west) {
-        $m = 8$ bit addresses \\ 
+        $B=4=2^b$ byte block size \\
+        $b=\myemph<2>{2}$ (block) offset bits \\
         $S=4=2^s$ sets \\
         $s=\myemph<2>{2}$ (set) index bits \\
     };
     \node[anchor=north west,font=\small,align=left] (explain2) at ([xshift=.5cm]explain1.north east) {
-        $B=4=2^b$ byte block size \\
-        $b=\myemph<2>{2}$ (block) offset bits \\
+        $m=8$ bit addresses \\ 
         $t = m - (s+b) = \myemph<2>{4}$ tag bits\\
     };
 }

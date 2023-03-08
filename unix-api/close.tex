@@ -1,0 +1,19 @@
+\begin{frame}[fragile,label=close]{close}
+\begin{lstlisting}[language=C++]
+int close(int fd);
+\end{lstlisting}
+\begin{itemize}
+\item close the file descriptor, deallocating that array index
+    \begin{itemize}
+    \item does not affect other file descriptors \\ that refer to same ``open file description''
+    \item (e.g. in \texttt{fork()}ed child or created via (later) \texttt{dup2})
+    \end{itemize}
+\item if last file descriptor for open file description, resources deallocated
+\vspace{.5cm}
+\item returns 0 on success
+\item returns -1 on error
+    \begin{itemize}
+    \item e.g. ran out of disk space while finishing saving file
+    \end{itemize}
+\end{itemize}
+\end{frame}

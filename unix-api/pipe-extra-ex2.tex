@@ -1,0 +1,60 @@
+
+\begin{frame}<1>[fragile,label=pipeExtraEx2]{exercise}
+\vspace{-.25cm}
+\begin{lstlisting}[language=C++,basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
+int pipe_fds[2]; pipe(pipe_fds);
+pid_t p = fork();
+if (p == 0) {
+  close(pipe_fds[0]);
+  for (int i = 0; i < 10; ++i) {
+    char c = '0' + i;
+    write(pipe_fds[1], &c, 1);
+  }
+  exit(0);
+}
+close(pipe_fds[1]);
+char buffer[10];
+ssize_t count = read(pipe_fds[0], buffer, 10);
+for (int i = 0; i < count; ++i) {
+  printf("%c", buffer[i]);
+}
+\end{lstlisting}
+Which of these are possible outputs {\small (if pipe, read, write, fork don't fail)}?
+\begin{tabular}{lll}
+A. \texttt{0123456789} & B. \texttt{0} & C. (nothing) \\
+\myemph<2>{D.} A and B & E. A and C & F. A, B, and C \\
+\end{tabular}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<2>{pipeExtraEx2}}
+
+\begin{frame}<0>[fragile,label=pipeExtraEx2More]{empirical evidence}
+\begin{Verbatim}
+      8 0
+    374 01
+    210 012
+     30 0123
+     12 01234
+      3 012345
+      1 0123456
+      2 01234567
+      1 012345678
+    359 0123456789
+\end{Verbatim}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<2>{pipeExtraEx2More}}
+
+\begin{frame}{partial reads}
+\begin{itemize}
+\item read returning 0 always means end-of-file
+    \begin{itemize}
+    \item by default, read always waits \textit{if no input available yet}
+    \item but can set read to return \textit{error} instead of waiting
+    \end{itemize}
+\item read can return less than requested if not available
+    \begin{itemize}
+        \item e.g. child hasn't gotten far enough
+    \end{itemize}
+\end{itemize}
+\end{frame}

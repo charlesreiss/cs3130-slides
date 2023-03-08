@@ -1,0 +1,87 @@
+\begin{frame}{wait/waitpid}
+\begin{itemize}
+\item \texttt{pid\_t waitpid(pid\_t pid, int *status, \\
+              \hspace{5cm} int options)}
+\item wait for a child process (with pid=\texttt{pid}) to finish
+\item sets \texttt{*status} to its ``status information''
+\vspace{.5cm}
+\item \texttt{pid=-1} $\rightarrow$ wait for any child process instead
+\item options? see manual page (command \texttt{man waitpid})
+    \begin{itemize}
+        \item \texttt{0} --- no options
+        %\item \myemph<2>{\texttt{WNOHANG}} --- return 0 rather than hanging if process not yet done
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=exitStatuses]{exit statuses}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+int main() {
+    return @101@;  /* or exit(0);  */
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=waitpidExample]{waitpid example}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller
+]
+#include <sys/wait.h>
+...
+  child_pid = fork();
+  if (child_pid > 0) {
+      /* Parent process */
+      int status;
+      waitpid(child_pid, &status, 0);
+  } else if (child_pid == 0) {
+      /* Child process */
+      ...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=extractStatus]{the status}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+]
+#include <sys/wait.h>
+...
+  waitpid(child_pid, &status, 0);
+  if (@2WIFEXITED(status)2@) {
+    printf("main returned or exit called with %d\n",
+           @2WEXITSTATUS(status)2@);
+  } else if (WIFSIGNALED(status)) {
+    printf("killed by signal %d\n", WTERMSIG(status));
+  } else {
+      ...
+  }
+\end{lstlisting}
+``status code'' encodes \myemph{both return value and if exit was abnormal} \\
+W* macros to decode it
+\end{frame}
+
+\begin{frame}{aside: signals}
+    \begin{itemize}
+    \item signals are a way of communicating between processes
+    \item they are also how abnormal termination happens
+        \begin{itemize}
+        \item kernel communicating ``something bad happened'' $\rightarrow$ kills program by default
+        \end{itemize}
+    \item wait's status will tell you when and what signal killed a program
+        \begin{itemize}
+        \item constants in signal.h
+        \item SIGINT --- control-C
+        \item SIGTERM --- \texttt{kill} command (by default)
+        \item SIGSEGV --- segmentation fault
+        \item SIGBUS --- bus error
+        \item SIGABRT --- \texttt{abort()} library function
+        \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

@@ -1,0 +1,55 @@
+\begin{frame}[fragile,label=flagsExplain]{open: flags}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+int open(const char *path, int @1flags1@);
+int open(const char *path, int @1flags1@, int mode);
+\end{lstlisting}
+\begin{itemize}
+\item flags: bitwise or of:
+    \begin{itemize}
+    \item \texttt{O\_RDWR}, \texttt{O\_RDONLY}, or \texttt{O\_WRONLY}
+        \begin{itemize}
+        \item read/write, read-only, write-only
+        \end{itemize}
+    \item \texttt{O\_APPEND}
+        \begin{itemize}
+        \item append to end of file
+        \end{itemize}
+    \item \texttt{O\_TRUNC}
+        \begin{itemize}
+        \item truncate (set length to 0) file if it already exists
+        \end{itemize}
+    \item \texttt{O\_CREAT}
+        \begin{itemize}
+        \item create a new file if one doesn't exist
+        \item (default: file must already exist)
+        \end{itemize}
+    \item \ldots and more % FIXME: O_EXCL omitted
+    \end{itemize}
+\item \texttt{man 2 open}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=modeExplain]{open: mode}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+int open(const char *path, int flags);
+int open(const char *path, int flags, int @1mode1@);
+\end{lstlisting}
+\begin{itemize}
+\item mode: permissions of newly created file
+    \begin{itemize}
+    \item like numbers provided to \texttt{chmod} command
+    \item filtered by a ``umask''
+    \end{itemize}
+\item simple advice: always use \texttt{0666}
+    \begin{itemize}
+    \item = readable/writeable by everyone, except where umask prohibits
+    \item (typical umask: prohibit other/group writing)
+    \end{itemize}
+\end{itemize}
+\end{frame}

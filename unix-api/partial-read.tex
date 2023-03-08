@@ -1,0 +1,34 @@
+
+\begin{frame}[fragile,label=readExample2]{read'ing a fixed amount}
+\begin{lstlisting}[language=C++,style=small,morekeywords=ssize\_t]
+ssize_t offset = 0;
+const ssize_t amount_to_read = 1024;
+char result[amount_to_read];
+do {
+    /* cast to void * optional in C */
+    ssize_t amount_read = 
+        read(STDIN_FILENO,
+             (void *) (result + offset),
+             amount_to_read - offset);
+    if (amount_read < 0) {
+        perror("read"); /* print error message */
+        ... /* abort??? */
+    } else {
+        offset += amount_read;
+    }
+} while (offset != amount_to_read && amount_read != 0);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{partial reads}
+\begin{itemize}
+    \item on regular file: read reads what you request
+    \item but otherwise: usually gives you what's known to be available
+        \begin{itemize}
+            \item after waiting for something to be available
+        \end{itemize}
+    \vspace{.5cm}
+    \item<2-> reading from network --- what's been received
+    \item<2-> reading from keyboard --- what's been typed
+\end{itemize}
+\end{frame}

@@ -1,0 +1,21 @@
+\begin{frame}[fragile,label=execvConst]{execv and const}
+\begin{lstlisting}[language=C++,style=small]
+int execv(const char *path, char *const *argv);
+\end{lstlisting}
+\begin{itemize}
+    \item \texttt{argv} is a pointer to constant pointer to char
+    \item probably should be a pointer to constant pointer to \textit{constant} char
+    \item \ldots this causes some awkwardness:
+\end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+const char *array[] = { /* ... */ };
+execv(path, array); // ERROR
+\end{lstlisting}
+    \begin{itemize}
+    \item solution: cast
+    \end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+const char *array[] = { /* ... */ };
+execv(path, (char **) array); // or (char * const *)
+\end{lstlisting}
+\end{frame}

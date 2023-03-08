@@ -1,0 +1,18 @@
+
+
+\begin{frame}{mixing stdio/iostream and raw read/write}
+\begin{itemize}
+\item don't do it (unless you're very careful)
+\vspace{.5cm}
+\item \texttt{cin}/\texttt{scanf} read some extra characters into a buffer?
+    \begin{itemize}
+    \item you call \texttt{read} --- they disappear!
+    \end{itemize}
+\item \texttt{cout}/\texttt{printf} has output waiting in a buffer?
+    \begin{itemize}
+    \item you call \texttt{write} --- out-of-order output!
+    \end{itemize}
+\vspace{.5cm}
+\item (if you need to: some stdio calls specify that they clear out buffers)
+\end{itemize}
+\end{frame}

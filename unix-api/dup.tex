@@ -1,0 +1,52 @@
+\begin{frame}<1>[fragile,label=reassign]{reassigning file descriptors}
+\begin{itemize}
+\item redirection: \verb|./program >output.txt|
+\item step 1: open output.txt for writing, get new file descriptor
+\item step 2: \myemph<2>{make that new file descriptor stdout (number 1)}
+\vspace{.5cm}
+\item<2-> tool: \texttt{int dup2(int oldfd, int newfd)} \\
+        make \texttt{newfd} refer to same open file as \texttt{oldfd}
+    \begin{itemize}
+    \item same \textit{open file description}
+    \item shares the current location in the file
+    \item (even after more reads/writes)
+    \end{itemize}
+\item<2-> what if newfd already allocated --- closed, then reused
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=dup2AndTable]{reassigning and file table}
+\begin{lstlisting}[language=C,style=smaller]
+struct process_info {
+    ...
+    struct open_file *files;
+};
+...
+process->files[STDOUT_FILENO] = process->files[opened-fd];
+\end{lstlisting}
+\begin{itemize}
+\item syscall: \texttt{dup2(\textit{opened-fd}, STDOUT\_FILENO);}
+\end{itemize}
+\end{frame}
+
+\againframe<2>{reassign}
+
+\begin{frame}[fragile,label=dup2example]{dup2 example}
+redirects stdout to output to \texttt{output.txt}:
+\begin{lstlisting}[language=C++,style=small]
+fflush(stdout);  /* clear printf's buffer */
+int fd = open("output.txt",
+              O_WRONLY | O_CREAT | O_TRUNC);
+if (fd < 0)
+    do_something_about_error();
+
+dup2(fd, STDOUT_FILENO);
+/* now both write(fd, ...) and write(STDOUT_FILENO, ...) 
+   write to output.txt
+   */
+
+close(fd); /* only close original, copy still works! */
+
+printf("This will be sent to output.txt.\n");
+\end{lstlisting}
+\end{frame}

@@ -1,0 +1,71 @@
+\begin{frame}{filesystem abstraction}
+\begin{itemize}
+\item regular files --- named collection of bytes
+    \begin{itemize}
+    \item also: size, modification time, owner, access control info, \ldots
+    \end{itemize}
+\item directories --- folders containing files and directories
+    \begin{itemize}
+    \item hierarchical naming: \texttt{/net/zf14/cr4bd/fall2018/cs4414}
+    \item \textit{mostly} contains regular files or directories
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=openExample]{open}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+int open(const char *path, int flags);
+int open(const char *path, int flags, int mode);
+...
+
+int read_fd = open("dir/file1", O_RDONLY);
+int write_fd = open("/other/file2",
+        O_WRONLY | O_CREAT | O_TRUNC, 0666);
+int rdwr_fd = open("file3", O_RDWR);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=openExplainPath]{open}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+int open(const char *@1path1@, int flags);
+int open(const char *@1path1@, int flags, int mode);
+\end{lstlisting}
+\begin{itemize}
+\item path = filename
+\item e.g. \texttt{"/foo/bar/file.txt"}
+    \begin{itemize}
+    \item \texttt{file.txt} in 
+    \item directory \texttt{bar} in
+    \item directory \texttt{foo} in 
+    \item ``the root directory''
+    \end{itemize}
+\item e.g. \texttt{"quux/other.txt}
+    \begin{itemize}
+    \item \texttt{other.txt} in 
+    \item directory \texttt{quux} in
+    \item ``the current working directory'' (set with \texttt{chdir()})
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=openExplainFDs]{open: file descriptors}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+]
+@1int1@ open(const char *path, int flags);
+@1int1@ open(const char *path, int flags, int mode);
+\end{lstlisting}
+\begin{itemize}
+\item return value = \myemph{file descriptor} {\small (or -1 on error)}
+\item index into table of \textit{open file descriptions} for each process
+\item used by system calls that deal with open files
+\end{itemize}
+\end{frame}
+

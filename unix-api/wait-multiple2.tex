@@ -1,0 +1,20 @@
+
+
+\begin{frame}[fragile,label=typicalPatternMultiple2]{multiple processes?}
+\begin{lstlisting}[language=C++,style=small]
+while (...) {
+    pid = fork();
+    if (pid == 0) {
+        exec ...
+    } else if (pid > 0) {
+        pids.push_back(pid);
+    }
+}
+
+/* retrieve exit statuses as processes finish */
+while ((pid = waitpid(-1, ...)) != -1) {
+    handleProcessFinishing(pid);
+}
+\end{lstlisting}
+\end{frame}
+

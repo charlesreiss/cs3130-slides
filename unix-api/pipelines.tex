@@ -1,0 +1,28 @@
+\begin{frame}[fragile,label=pipelines]{pipelines}
+\begin{itemize}
+\item \verb!./program1 | ./program2!
+    \begin{itemize}
+    \item program2's input is program1's output
+    \end{itemize}
+\item example: \verb!ls -1 | grep foo!
+    \begin{itemize}
+    \item \verb!ls -1!: list files (one per line)
+    \item \verb!grep foo!: output all lines that contain ``foo''
+    \item \verb!ls -l | grep foo! list all files whose names contain ``foo''
+    \end{itemize}
+\item similar to \verb!ls -1 >temp1.txt! then \verb! grep foo <temp1.txt!
+\begin{itemize}
+\item but: no waiting
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pipeFileTypePreview]{pipes}
+\begin{itemize}
+\item in \verb!ls -1 | grep foo!, what is \verb!ls -1!'s output
+\item trick: in POSIX, there are many types of files
+    \begin{itemize}
+    \item special \textit{kind of file} called a \myemph{pipe}
+    \end{itemize}
+\end{itemize}
+\end{frame}

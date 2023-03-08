@@ -1,0 +1,14 @@
+\begin{frame}{pipe: closing?}
+    \begin{itemize}
+    \item if all write ends of pipe are closed
+        \begin{itemize}
+        \item can get end-of-file (read() returning 0) on read end
+        \item exit()ing closes them
+        \end{itemize}
+    \item $\rightarrow$ close write end when not using
+    \vspace{.5cm}
+    \item generally: limited number of file descriptors per process
+    \item $\rightarrow$ good habit to close file descriptors not being used
+    \item (but probably didn't matter for read end of pipes in example)
+    \end{itemize}
+\end{frame}

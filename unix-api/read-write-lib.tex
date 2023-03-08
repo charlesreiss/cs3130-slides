@@ -1,0 +1,18 @@
+\begin{frame}<0>[fragile,label=readWrite]{read/write}
+\begin{lstlisting}
+ssize_t read(int fd, void *buffer, size_t count);
+ssize_t write(int fd, void *buffer, size_t count);
+\end{lstlisting}
+\begin{itemize}
+\item read/write \myemph<2>{up to \textit{count}} bytes to/from \textit{buffer}
+\item returns number of bytes read/written or -1 on error
+    \begin{itemize}
+    \item ssize\_t is a signed integer type
+    \item error code in \texttt{errno}
+    \end{itemize}
+\item read returning 0 means end-of-file (\textit{not an error})
+\begin{itemize}
+\item can read/write less than requested (end of file, broken I/O device, \ldots)
+\end{itemize}
+\end{itemize}
+\end{frame}

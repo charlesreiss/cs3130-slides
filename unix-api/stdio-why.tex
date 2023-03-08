@@ -1,0 +1,21 @@
+\begin{frame}{stdio and iostreams}
+\begin{itemize}
+\item what about \texttt{cout}, \texttt{printf}, etc.?
+\item \ldots implemented in terms of \texttt{read}, \texttt{write}, \texttt{open}, \texttt{close}
+\vspace{.5cm}
+\item adds buffering in the process --- faster
+    \begin{itemize}
+    \item read/write typically system calls
+    \item running system call for approx. each character is slow!
+    \item \textit{in addition} to buffering that occurs in the kernel
+    \end{itemize}
+\item more convenient
+    \begin{itemize}
+    \item formatted I/O, partial reads/writes handled by library, etc.
+    \end{itemize}
+\item more portable
+    \begin{itemize}
+    \item stdio.h and iostreams defined by the C and C++ standards
+    \end{itemize}
+\end{itemize}
+\end{frame}

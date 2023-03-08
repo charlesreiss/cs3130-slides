@@ -1,0 +1,15 @@
+\begin{frame}[fragile,label=getpid]{getpid}
+\begin{lstlisting}[language=C++]
+pid_t my_pid = getpid();
+printf("my pid is %ld\n", (long) my_pid);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=ps]{process ids in ps}
+\begin{Verbatim}
+cr4bd@machine:~$ ps
+  PID TTY          TIME CMD
+14777 pts/3    00:00:00 bash
+14798 pts/3    00:00:00 ps
+\end{Verbatim}
+\end{frame}

@@ -1,0 +1,27 @@
+
+\begin{frame}[fragile,label=gettingFds]{getting file descriptors}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+    style=smaller
+]
+int read_fd = open("dir/file1", O_RDONLY);
+int write_fd = open("/other/file2", O_WRONLY | ...);
+int rdwr_fd = open("file3", O_RDWR);
+\end{lstlisting}
+\begin{itemize}
+\item used internally by fopen(), etc.
+\item also for files without normal filenames\ldots:
+\end{itemize}
+\begin{lstlisting}[
+    language=C++,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+    style=smaller,
+]
+int fd = shm_open("/shared_memory", O_RDWR, 0666); // shared memory
+int socket_fd = socket(AF_INET, SOCK_STREAM, 0); // TCP socket
+int term_fd = posix_openpt(O_RDWR); // pseudo-terminal
+int pipe_fds[2]; pipe(pipefds); // "pipes" (later)
+...
+\end{lstlisting}
+\end{frame}

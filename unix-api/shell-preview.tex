@@ -1,0 +1,18 @@
+\begin{frame}[fragile,label=shellAssign]{shell assignment}
+    \begin{itemize}
+    \item implement a simple shell that supports redirection and pipeline
+    \item for Linux or another POSIX system (not xv6)
+        \begin{itemize}
+        \item but our supplied tests assume specifically Linux (\textbf{not OS X})
+        \end{itemize}
+    \item \ldots and prints the exit code of programs
+    \vspace{.5cm}
+    \item simplified parsing: space-seperated:
+        \begin{itemize}
+        \item okay: \verb*|/bin/ls -1 > tmp.txt|
+        \item not okay: \verb*|/bin/ls -l >tmp.txt|
+        \item okay: \verb*!/bin/ls -1 | /bin/grep foo > tmp.txt!
+        \item not okay: \verb*!/bin/ls -1 |/bin/grep foo >tmp.txt!
+        \end{itemize}
+    \end{itemize}
+\end{frame}
