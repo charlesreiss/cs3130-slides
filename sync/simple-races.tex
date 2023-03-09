@@ -1,0 +1,59 @@
+\begin{frame}{thinking about race conditions (1)}
+\begin{itemize}
+\item what are the possible values of $x$? \\
+\item (initially $x = y = 0$) \\
+\begin{tabular}{cc}
+    \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
+    $x \leftarrow 1$ & $y \leftarrow 2$ \\
+\end{tabular}
+\iftoggle{heldback}{}{
+\item<2-> must be 1. Thread B can't do anything
+}
+\end{itemize}
+\end{frame}
+
+\begin{frame}<1-2>[label=thinkRace2]{thinking about race conditions (2)}
+\begin{itemize}
+\item what are some possible values of $x$? \\
+\item (initially $x = y = 0$) \\
+\begin{tabular}{cc}
+    \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
+    $x \leftarrow y + 1$ & $y \leftarrow 2$ \\
+                    ~ & $y \leftarrow y \times 2$ \\
+\end{tabular}
+\iftoggle{heldback}{}{
+\item<2-> if A goes first, then B: $1$
+\item<2-> if B goes first, then A: $5$
+\item<2-> if B line one, then A, then B line two: $3$
+\item<3-> \ldots and why not 7:
+    \begin{itemize}
+    \item B (start): $y \leftarrow 2 = 0010_{\text{TWO}}$; then y bit 3 $\leftarrow$ 0; y bit 2 $\leftarrow$ 1; then
+    \item A: x $\leftarrow 110_{\text{TWO}} + 1 = 7$; then
+    \item B (finish): y bit 1 $\leftarrow$ 0; y bit 0 $\leftarrow$ 0
+    \end{itemize}
+}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{thinking about race conditions (3)}
+\begin{itemize}
+\item what are the possible values of $x$? \\
+\item (initially $x = y = 0$) \\
+\begin{tabular}{cc}
+    \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
+    $x \leftarrow 1$ & $x \leftarrow 2$ \\
+\end{tabular}
+\iftoggle{heldback}{}{
+\item<2-> 1 or 2
+\item<3-> \ldots but why not 3?
+    \begin{itemize}
+    \item B: x bit 0 $\leftarrow 0$
+    \item A: x bit 0 $\leftarrow 1$
+    \item A: x bit 1 $\leftarrow 0$
+    \item B: x bit 1 $\leftarrow 1$
+    \end{itemize}
+}
+\end{itemize}
+\end{frame}
+
+\againframe<3>{thinkRace2}

@@ -1,0 +1,30 @@
+\begin{frame}{reader/writer locks}
+\begin{itemize}
+\item abstraction: lock that distinguishes readers/writers
+\item operations:
+    \begin{itemize}
+    \item read lock: wait until no writers
+    \item read unlock: stop being registered as reader
+    \item write lock: wait until \myemph<2>{no readers and no writers}
+    \item write unlock: stop being registered as writer
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadrwlock]{pthread rwlocks}
+\begin{lstlisting}[language=C++,style=smaller]
+pthread_rwlock_t rwlock;
+pthread_rwlock_init(&rwlock, NULL /* attributes */);
+...
+    pthread_rwlock_rdlock(&rwlock);
+    ...  /* read shared data */
+    pthread_rwlock_unlock(&rwlock);
+
+    pthread_rwlock_wrlock(&rwlock);
+    ...  /* read+write shared data */
+    pthread_rwlock_unlock(&rwlock);
+
+...
+pthread_rwlock_destroy(&rwlock);
+\end{lstlisting}
+\end{frame}

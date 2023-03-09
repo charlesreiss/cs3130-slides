@@ -1,0 +1,52 @@
+\begin{frame}[fragile,label=lockDefn]{the lock primitive}
+    \begin{itemize}
+    \item locks: an object with (at least) two operations:
+        \begin{itemize}
+        \item \textit{acquire} or \textit{lock} --- wait until lock is free, then ``grab'' it
+        \item \textit{release} or \textit{unlock} --- let others use lock, wakeup waiters
+        \end{itemize}
+    \item typical usage: everyone acquires lock before using shared resource
+        \begin{itemize}
+        \item forget to acquire lock? weird things happen
+        \end{itemize}
+    \end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+Lock(MilkLock);
+if (no milk) {
+    buy milk
+}
+Unlock(MilkLock);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadMutex]{pthread mutex}
+\begin{lstlisting}[language=C++,style=small]
+#include <pthread.h>
+
+pthread_mutex_t MilkLock;
+pthread_mutex_init(&MilkLock, NULL);
+    // or: pthread_mutex_t MilkLock =
+    //              PTHREAD_MUTEX_INITIALIZER;
+...
+pthread_mutex_lock(&MilkLock);
+if (no milk) {
+    buy milk
+}
+pthread_mutex_unlock(&MilkLock);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=xv6SpinlockUsage]{xv6 spinlocks}
+\begin{lstlisting}[language=C++,style=small]
+#include "spinlock.h"
+...
+struct spinlock MilkLock;
+initlock(&MilkLock, "name for debugging");
+...
+acquire(&MilkLock);
+if (no milk) {
+    buy milk
+}
+release(&MilkLock);
+\end{lstlisting}
+\end{frame}

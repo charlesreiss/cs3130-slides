@@ -1,0 +1,22 @@
+
+\begin{frame}[fragile,label=mutexAttrFeatures]{pthread mutexes: addt'l features}
+\begin{itemize}
+\item mutex attributes (\texttt{pthread\_mutexattr\_t}) allow:
+    \begin{itemize}
+    \item (reference: \texttt{man pthread.h})
+    \end{itemize}
+\vspace{.5cm}
+\item error-checking mutexes
+    \begin{itemize}
+    \item locking mutex twice in same thread?
+    \item unlocking already unlocked mutex?
+    \item \ldots
+    \end{itemize}
+\item mutexes shared between processes
+    \begin{itemize}
+    \item otherwise: must be only threads of same process
+    \item (unanswered question: where to store mutex?)
+    \end{itemize}
+\item \ldots
+\end{itemize}
+\end{frame}

@@ -1,0 +1,111 @@
+\begin{frame}[fragile,label=monitorOrderExercise]{monitor exercise: ordering}
+\begin{itemize}
+\item suppose we want producer/consumer, but\ldots
+\item but want to ensure first call to Consume() \textbf{always} returns first
+\item (no matter what ordering cond\_signal/cond\_broadcast use)
+\end{itemize}
+\begin{tikzpicture}
+\node (produce) {
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=UnboundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+  pthread_mutex_lock(&lock);
+  buffer.enqueue(item);
+  pthread_cond_signal(&data_ready);
+  pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[anchor=north west] at (produce.north east) {
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=UnboundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+Consume() {
+  pthread_mutex_lock(&lock);
+  while (buffer.empty()) {
+    pthread_cond_wait(&data_ready, &lock);
+  }
+  item = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return item;
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{\excludecomment{isheldback}}{\includecomment{isheldback}}
+\begin{isheldback}
+\begin{frame}[fragile,label=monitorOrderExerciseSln]{monitor ordering exercise: solution}
+\small (one of many possible solutions) \\
+\begin{tikzpicture}
+\node (produce) {
+\begin{lstlisting}[basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
+struct Waiter {
+    pthread_cond_t cv;
+    bool done;
+    T item;    
+}
+Queue<Waiter*> waiters;
+
+Produce(item) {
+ pthread_mutex_lock(&lock);
+ if (!waiters.empty()) {
+   Waiter *waiter = waiters.dequeue();
+   waiter->done = true;
+   waiter->item = item;
+   cond_signal(&waiter->cv);
+   ++num_pending;
+ } else {
+   buffer.enqueue(item);
+ }
+ pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[anchor=north west] (consume) at (produce.north east) {
+\begin{lstlisting}[basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
+Consume() {
+  pthread_mutex_lock(&lock);
+  if (buffer.empty()) {
+    Waiter waiter;
+    cond_init(&waiter.cv);
+    waiter.done = false;
+    waiters.enqueue(&waiter);
+    while (!waiter.done)
+      cond_wait(&waiter.cv, &lock);
+    item = waiter.item;
+  } else {
+    item = buffer.dequeue();
+  }
+  pthread_mutex_unlock(&lock):
+  return item;
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+\end{isheldback}

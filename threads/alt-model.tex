@@ -1,0 +1,13 @@
+
+
+\begin{frame}{aside: alternate threading models}
+\begin{itemize}
+\item we'll talk about \myemph{kernel threads}
+\item OS scheduler deals \textbf{directly} with threads
+\vspace{1cm}
+\item alternate idea: library code handles threads
+\item kernel doesn't know about threads w/in process
+\item \textit{hierarchy} of schedulers: one for processes, one within each process
+\item not currently common model --- awkward with multicore
+\end{itemize}
+\end{frame}

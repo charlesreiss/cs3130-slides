@@ -1,0 +1,185 @@
+\usetikzlibrary{arrows.meta,automata,fit,graphs,graphdrawing,matrix,quotes}
+\usegdlibrary{force}
+
+
+\begin{frame}{MSI complaints}
+    \begin{itemize}
+    \item \myemph{modifying} (read then write) a value often three messages:
+    \item initial read from memory
+    \item invalidate other caches (and maybe write to memory) on initial write
+    \item final writeback
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{scheme 2: MESI}
+\begin{tabular}{lp{7cm}}
+{\bfseries Modified} & value is \myemph{different than memory} \textit{and} I am the only one who has it \\
+~ & ~ \\
+{\bfseries \myemph{Exclusive}} & value is \myemph{same as memory} \textit{and} I am the only one who has it \\
+~ & ~ \\
+{\bfseries Shared} & value is the \myemph{same as memory}\\
+~ & ~ \\
+{\bfseries Invalid} & I don't have the value; I will need to ask for it \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{read for ownership}
+\begin{itemize}
+    \item reading to modify a value soon?
+    \item read into Exclusive state even if reading from cache
+    \item \myemph{invalidate} and read
+    \item second way to enter exclusive state
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MESI complaints}
+    \begin{itemize}
+    \item have to update memory to share a modified value
+        \ldots{} even though caches \myemph{read from other caches}
+    \item read from which cache?
+    \end{itemize}
+\end{frame}
+
+\tikzset{
+    own/.style={thick},
+    other/.style={thick,dashed},
+    action/.style={thick,blue},
+    hiOn/.style={alt=#1{line width=3pt}{}},
+    explainBox/.style={thick,fill=white,draw=red,text=black},
+    hiBox/.style={rounded corners,fill=green,opacity=0.2},
+}
+
+\begin{frame}<all:1-4>[label=moesiGraph]{scheme 3: MOESI}
+\begin{tikzpicture}
+    \graph [spring layout,nodes={font=\small,state},iterations=1000,
+            edge quotes={font=\small,midway,inner sep=1pt}] {
+        "Invalid"[desired at={(0,0)}] ->["read memory"{fill=white,text width=1.5cm},own,action] "Exclusive";
+        "Invalid" ->[{"read cache"{align=center,text width=1cm,fill=white,near start}},own,action] "Shared";
+        "Invalid" ->["write"{fill=white},own,action,bend left] "Modified";
+        "Exclusive"[desired at={(4,0)}] ->["write"{fill=white},own] "Modified";
+        "Exclusive" ->["read" below,own,loop,out=-120,in=-150,min distance=.5cm] "Exclusive";
+        "Exclusive" ->["hear any"{text width=1cm,fill=white},other] "Shared";
+        %"Exclusive" ->["hear write"{near end,fill=white},other,bend right] "Shared";
+        "Shared"[desired at={(4,-4)}]  ->["write"{fill=white},own,action] "Modified";
+        "Shared"  ->["read",own,loop below,min distance=.5cm] "Shared";
+        "Modified"[desired at={(8,0)}] ->["read or write"{text width=1.2cm},own,loop right,min distance=.5cm] "Modified";
+        %"Shared"  ->["hear write"{near end},bend left,other,left] "Invalid";
+        "Modified"  ->["hear read"{name=modifiedOtherRead,fill=white},other,below,hiOn=<all:2>] "Owned";
+        "Modified"  ->["hear write"{fill=white},other,bend right,above,action] "Shared";
+        "Owned"[desired at={(8,-4)}]   ->["hear write"{fill=white},other] "Shared";
+        "Owned"     ->["write"{name=ownedWrite},own,action,loop right,min distance=.5cm,hiOn=<all:3>] "Owned";
+        "Owned"     ->["read",own,loop below,min distance=.5cm] "Owned";
+    };
+    \node at (1,-5) {{\color{blue}blue} = message sent};
+    \begin{visibleenv}<all:2>
+        \node[explainBox,anchor=north] at ([xshift=-2cm,yshift=-.5cm]Exclusive.south)
+            {send value to caches, but not memory};
+        \node[hiBox,fit=(modifiedOtherRead)] {};
+    \end{visibleenv}
+    \begin{visibleenv}<all:3>
+        \node[explainBox,anchor=north,align=left] at ([xshift=-2cm,yshift=-.5cm]Exclusive.south)
+            {writing notifies other caches \\ (unlike Modified state)};
+        \node[hiBox,fit=(ownedWrite)] {};
+    \end{visibleenv}
+    \begin{visibleenv}<all:4>
+        \node[explainBox,anchor=north,align=left] at ([xshift=-1cm,yshift=-.5cm]Exclusive.south)
+            {invalidate only due to cache replacement};
+        \node[hiBox,fit=(Invalid)] {};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{MOESI example}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+      \& \& \\
+    CPU1 \& CPU2 \& MEM1 \\
+};
+\foreach \x in {1,2,3} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-3.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\small\ttfamily,text width=1.8cm,execute at begin node={\strut}},
+        row 1/.append style={nodes={font=\small\bfseries}},
+        column 3/.append style={nodes={font=\sffamily\small}},
+    },
+}
+\matrix[cache,anchor=north] (cache1) at (net-2-1.south east){
+    address \& value \& state\\
+    \only<2->{0xA300} \& 
+    \only<2-3>{\sout<3>{100}}\only<3->{\sout<7->{\myemph<3>{101}}} \&
+    \only<2>{\myemph{Exclusive}}\only<3-5>{\myemph<3>{Modified}}\only<6>{\myemph<6>{Owned}}\only<7>{\myemph{Invalid}} \\
+};
+\matrix[cache,anchor=north] (cache2) at ([xshift=1.5cm]net-2-2.south east){
+    address \& value \& state\\
+    \only<6->{0xA300} \& \only<6->{\sout<7>{\myemph<6>{101}}}\only<7->{\myemph<7>{102}} \& \only<6>{\myemph{Shared}}\only<7>{\myemph{Modified}} \\
+};
+\begin{visibleenv}<1>
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) 
+        node[above,xshift=2cm] {CPU1: ``What is 0xA300''} -- (net-1-3.center) --(net-2-3.north);
+    \draw[blue,very thick,dashed,-Latex]  (net-2-1.north) -- (net-1-1.center) 
+        -- (net-1-2.center) --(net-2-2.north);
+\end{visibleenv}
+
+\begin{visibleenv}<2>
+    \draw[blue,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) 
+        node[above,xshift=2cm] {Memory: ``0xA300 = 100''} -- (net-1-1.center) --(net-2-1.north);
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+    \draw[blue,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) 
+        node[above,xshift=2cm] {CPU2: ``What is 0xA300''} -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,dashed,-Latex]  (net-2-2.north) -- (net-1-2.center) 
+        -- (net-1-3.center) --(net-2-3.north);
+\end{visibleenv}
+
+\begin{visibleenv}<6>
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) 
+        node[above,xshift=2cm] {CPU1: ``0xA300 = 101''} -- (net-1-2.center) --(net-2-2.north);
+\end{visibleenv}
+
+\begin{visibleenv}<7>
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) 
+        node[above,xshift=2cm] {CPU2: ``I'm changing 0xA300''} -- (net-1-2.center) --(net-2-2.north);
+\end{visibleenv}
+
+\node[draw,thick,draw=blue,rectangle,anchor=north west,align=left] at ([yshift=-1cm]cache1.south west){
+    \myemph<1-2>{CPU1: read 0xA300} \\
+    \myemph<3>{CPU1: write 0xA300} \\
+    \myemph<4>{CPU1: read 0xA300} \\
+    \myemph<5-6>{CPU2: read 0xA300} \\
+    \myemph<7>{CPU2: write 0xA300} \\
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{MSI versus MESI versus MOESI}
+\begin{tabular}{lll}
+CPU1: read & 0xA300 & ~\\
+CPU1: write & 0xA300 & MSI: \myemph{invalidate} \\
+CPU1: read & 0xA300 & ~\\
+CPU2: read & 0xA300 & MSI/MESI: \myemph{memory write} \\
+CPU2: write & 0xA300 & MSI: \myemph{invalidate} \\
+\end{tabular}
+\end{frame}
+
+% FIXME: table for MOESI
+
+\begin{frame}{Other cache coherency options}
+    \begin{itemize}
+    \item can \myemph{invalidate} instead of updating other caches on write
+    \item invalidation message faster to send than new value
+    \item tradeoff: faster \myemph{if} other cache won't use value
+    \end{itemize}
+\end{frame}
+
+

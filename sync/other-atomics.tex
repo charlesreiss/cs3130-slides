@@ -1,0 +1,52 @@
+
+\begin{frame}[fragile,label=moreCommonAtomic1]{some common atomic operations (1)}
+\begin{lstlisting}[language=C++,style=smaller,deletekeywords=register]
+// x86: emulate with exchange
+test_and_set(address) {
+    old_value = memory[address];
+    memory[address] = 1;
+    return old_value != 0;  // e.g. set ZF flag
+}
+
+// x86: xchg REGISTER, (ADDRESS)
+exchange(register, address) {
+    temp = memory[address];
+    memory[address] = register;
+    register = temp;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=moreCommonAtomic2]{some common atomic operations (2)}
+\begin{lstlisting}[language=C++,style=smaller,deletekeywords=register]
+// x86: mov OLD_VALUE, %eax; lock cmpxchg NEW_VALUE, (ADDRESS)
+compare-and-swap(address, old_value, new_value) {
+    if (memory[address] == old_value) {
+        memory[address] = new_value;
+        return true;   // x86: set ZF flag
+    } else {
+        return false;  // x86: clear ZF flag
+    }
+}
+
+// x86: lock xaddl REGISTER, (ADDRESS)
+fetch-and-add(address, register) {
+    old_value = memory[address];
+    memory[address] += register;
+    register = old_value;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{common atomic operation pattern}
+    \begin{itemize}
+    \item try to do operation, \ldots
+    \item detect if it failed
+    \item if so, repeat
+    \vspace{.5cm}
+    \item atomic operation does ``try and see if it failed'' part
+    \end{itemize}
+\end{frame}
+
+
+

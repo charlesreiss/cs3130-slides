@@ -1,0 +1,62 @@
+
+\section{shells}
+
+\subsection{shells, the concept}
+
+\input{../unix-api/shell-concept}
+
+\subsection{I/O redirection: syntax, method preview}
+
+\againframe<4>{commandLineFeatures}
+
+\subsection{pipelines}
+
+\againframe<5>{commandLineFeatures}
+
+\section{files in POSIX, part 1}
+
+\subsection{interlude: file descriptors}
+
+\input{../unix-api/fds}
+
+\input{../unix-api/special-fds}
+
+\subsection{getting file descriptors}
+
+\input{../unix-api/open-quick}
+
+\subsection{close}
+
+\input{../unix-api/close}
+
+\subsection{Shell: redirection}
+
+\input{../unix-api/redirection}
+
+\subsection{dup2: redirection mechanism}
+
+\input{../unix-api/dup}
+
+\subsection{open/close/dup/fork and fd array}
+
+\input{../unix-api/dup-close-and-array}
+
+\subsection{exercise (read/write/dup2)}
+
+\input{../unix-api/read-write-ex}
+
+\section{pipelines}
+
+\subsection{pipe}
+
+\input{../unix-api/pipe}
+
+\subsection{pipe and pipelines}
+
+\input{../unix-api/pipe-pipelines}
+
+% FIXME: better understanding that this works without write()/read() specifically?
+
+\subsection{exercise (1)}
+
+\input{../unix-api/pipe-extra-ex} % FIXME: formatting

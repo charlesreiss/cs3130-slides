@@ -1,0 +1,49 @@
+\begin{frame}[fragile,label=sumToStack]{sum example (info struct)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+int @2values[1024];2@ Q\tikzmark{array}Q
+struct ThreadInfo {
+    int start, end, result;
+};
+void *sum_thread(void *argument) {
+    ThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (ThreadInfo *) argument;
+    int sum = 0;
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        sum += values[i];
+    }
+    @4my_info->result = sum;4@
+    return NULL;
+}
+int sum_all() {
+    pthread_t thread[2]; @3ThreadInfo info[2];3@
+    for (int i = 0; i < 2; ++i) {
+        info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, &info[i]);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=west] at (pic cs:array) {
+        values: global variable --- shared
+    };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \node[box,anchor=north west] at (pic cs:info) {
+        my\_info: pointer to sum\_all's stack \\
+        only okay because sum\_all waits!
+    };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}

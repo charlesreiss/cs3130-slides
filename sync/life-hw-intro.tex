@@ -1,0 +1,64 @@
+\begin{frame}[fragile,label=lifeHW]{life homework (pseudocode)}
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@4}{4@}},
+]
+for (int time = 0; time < MAX_ITERATIONS; ++time) {
+    for (int y = 0; y < size; ++y) {
+        for (int x = 0; x < size; ++x) {
+            to_grid(x, y) = computeValue(from_grid, x, y);
+        }
+    }
+    swap(from_grid, to_grid);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{life homework}
+\begin{itemize}
+\item compute grid of values for time $t$ from grid for time $t-1$
+    \begin{itemize}
+    \item compute new value at $i,j$ based on surrounding values
+    \end{itemize}
+\vspace{.5cm}
+\item parallel version: produce parts of grid in different threads
+\item use barriers to finish time $t$ before going to time $t+1$
+    \begin{itemize}
+    \item avoid trying to read things that aren't computed
+    \end{itemize}
+\vspace{.5cm}
+\item CoA2 (pilot new curriculum) students: additional requirement
+    \begin{itemize}
+    \item also additional on next pool assignment --- start early!
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=lifeEvenOdd]{life homework even/odd}
+naive way has an operation that needs locking:
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+]
+for (int time = 0; time < MAX_ITERATIONS; ++time) {
+    ... compute to_grid ...
+    @2swap(from_grid, to_grid);2@
+}
+\end{lstlisting}
+but this alternative needs less locking:
+\begin{lstlisting}[
+   language=C++,style=smaller,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+]
+Grid grids[2];
+for (int time = 0; time < MAX_ITERATIONS; ++time) {
+    from_grid = &grids[time % 2];
+    to_grid = &grids[(time % 2) + 1];
+    ... compute to_grid ...
+}
+\end{lstlisting}
+\end{frame}

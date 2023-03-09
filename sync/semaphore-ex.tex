@@ -1,0 +1,58 @@
+\begin{frame}[fragile,label=semEx]{semaphore exercise}
+\begin{lstlisting}[style=smaller]
+int value;  sem_t empty, ready;  // with some initial values
+
+void PutValue(int argument) {
+    sem_wait(&empty);
+    value = argument;
+    sem_post(&ready);
+}
+
+int GetValue() {
+    int result;
+    _________________
+    result = value;
+    _________________
+    return result;
+}
+\end{lstlisting}
+\small
+GetValue() waits for PutValue() to happen, retrieves value, then allows next PutValue(). \\
+PutValue() waits for prior GetValue(), places value, then allows next GetValue().
+\begin{tikzpicture}[overlay,remember picture]
+\node[draw,very thick,anchor=north east,font=\small,fill=white] at ([xshift=-.5cm,yshift=-3cm]current page.north east) {
+\begin{tabular}{l}
+What goes in the blanks? \\
+A: \texttt{sem\_post(\&empty)} / \texttt{sem\_wait(\&ready)} \\
+B: \texttt{sem\_wait(\&ready)} / \texttt{sem\_post(\&empty)} \\
+C: \texttt{sem\_post(\&ready)} / \texttt{sem\_wait(\&empty)} \\
+D: \texttt{sem\_post(\&ready)} / \texttt{sem\_post(\&empty)} \\
+E: \texttt{sem\_wait(\&empty)} / \texttt{sem\_post(\&ready)}  \\
+F: something else \\
+\end{tabular}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=semExSoln]{semaphore exercise [solution]}
+\begin{lstlisting}[style=small]
+int value;
+sem_t empty, ready;
+void PutValue(int argument) {
+    sem_wait(&empty);
+    value = argument;
+    sem_post(&ready);
+}
+int GetValue() {
+    int result;
+    sem_wait(&ready);
+    result = value;
+    sem_post(&empty);
+    return result;
+}
+\end{lstlisting}
+\end{frame}
+
+\iftoggle{heldback}{}{%
+\againframe<1>{semExSoln}
+}

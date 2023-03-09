@@ -1,0 +1,31 @@
+\begin{frame}[fragile,label=javaSynchronized]{Java synchronized primitive}
+\begin{lstlisting}[language=Java,style=small]
+Object MilkLock = new Object();
+
+/* lock implicity acquired/released on
+   entering/leaving this block */
+synchronized (MilkLock) {
+    if (no milk) {
+        buy milk
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=cppMutex]{C++11 mutexes}
+\begin{lstlisting}[language=C++,style=small]
+#include <mutex>
+
+std::mutex MilkLock;
+{
+    std::lock_guard nameDoesNotMatter(MilkLock);
+    /* nameDoesNotMatter's constructor acquires lock */
+    if (no milk) {
+        buy milk
+    }
+    /* nameDoesNotMatter's destructor called automatically
+       and releases lock
+     */
+}
+\end{lstlisting}
+\end{frame}

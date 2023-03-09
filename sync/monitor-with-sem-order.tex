@@ -1,0 +1,35 @@
+
+\begin{frame}[fragile,label=monitorWithSemaphoreCVA4]{monitors with semaphores: chosen order}
+\begin{itemize}
+    \item if we want to make sure threads woken up \myemph{in order}
+\end{itemize}
+\begin{tikzpicture}
+\node (part one) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+ThreadSafeQueue<sem_t> waiters;
+Wait(Lock lock) {
+  sem_t private_semaphore;
+  ... /* init semaphore
+         with count 0 */
+  waiters.Enqueue(&semaphore);
+  lock.Unlock();
+  sem_post(private_semaphore);
+  lock.Lock();
+}
+\end{lstlisting}
+};
+\node[anchor=south west] at (part one.south east) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+Signal() {
+  sem_t *next = waiters.DequeueOrNull();
+  if (next != NULL) {
+    sem_post(next);
+  }
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\begin{itemize}
+\item<2-> (but now implement queue with semaphores\ldots)
+\end{itemize}
+\end{frame}

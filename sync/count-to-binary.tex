@@ -1,0 +1,46 @@
+
+\begin{frame}[fragile,label=binToCount]{counting semaphores with binary semaphores}
+    {\tiny via Hemmendinger, ``Comments on `A correect and unrestrictive implementation of general semaphores' '' (1989); Barz, ``Implementing semaphores by binary semaphores'' (1983)}
+\begin{tikzpicture}
+\node (decls) {
+\begin{lstlisting}[language=C++,style=smaller]
+// assuming initialValue > 0
+BinarySemaphore mutex(1);
+int value = initialValue ;
+BinarySemaphore gate(1 /* if initialValue >= 1 */);
+    /* gate = # threads that can Down() now */
+\end{lstlisting}
+};
+\node[anchor=north west] (down) at (decls.south west) {
+\begin{lstlisting}[language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont]
+void Down() {
+  gate.Down(); 
+  // wait, if needed
+  mutex.Down();
+  value -= 1;
+  if (value > 0) {
+    gate.Up();
+    // because next down should finish
+    // now (but not marked to before)
+  }
+  mutex.Up();
+}
+\end{lstlisting}
+};
+\node[anchor=north west] (up) at (down.north east) {
+\begin{lstlisting}[language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont]
+void Up() {
+  mutex.Down();
+  value += 1;
+  if (value == 1) {
+    gate.Up(); 
+    // because down should finish now
+    // but could not before
+  }
+  mutex.Up();
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+

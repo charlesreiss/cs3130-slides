@@ -1,0 +1,18 @@
+\begin{frame}[fragile,label=semaphoreIntuition]{semaphore intuition}
+\begin{itemize}
+    \item What do you need to wait for?
+        \begin{itemize}
+            \item critical section to be finished
+            \item queue to be non-empty
+            \item array to have space for new items
+        \end{itemize}
+    \item what can you count that will be 0 when you need to wait?
+        \begin{itemize}
+            \item \# of threads that can start critical section now
+            \item \# of threads that can join another thread without waiting
+            \item \# of items in queue
+            \item \# of empty spaces in array
+        \end{itemize}
+    \item use up/down operations to maintain count
+\end{itemize}
+\end{frame}

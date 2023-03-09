@@ -1,0 +1,55 @@
+\begin{frame}[fragile,label=readerWriterSim]{simulation of reader/write lock (1)}
+\vspace{-.5cm}
+\begin{itemize}
+\item writer-priority version; 2 readers, then writer, then reader
+\item W = writers, R = readers, WW = waiting\_writers
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={
+        font=\lstset{
+            language=C++,
+            basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+            moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+            moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+        },
+    },
+    codebox/.style={
+        code,draw,thick,
+    },
+    timeline/.style {
+        tight matrix,
+        nodes={font=\small\tt},
+        row 1/.style={nodes{font=\small\bfseries}},
+    }
+    cA/.style={fill=blue!10,draw=blue},
+    cB/.style={fill=green!10,draw=green},
+    cC/.style={fill=yellow!10,draw=yellow!50!black},
+    cD/.style={fill=violet!10,draw=violet},
+    action box/.style={
+        draw,thick,align=center,
+    },
+    action box invis/.style={
+        align=center,
+    }
+}
+\matrix[timeline] (timeline) {
+    W \& R \& WW \\
+    0 \& 1 \& 0 \\
+    0 \& 2 \& 0 \\
+    0 \& 2 \& 1 \\
+    0 \& 1 \& 1 \\
+    0 \& 0 \& 1 \\
+    1 \& 0 \& 0 \\
+    1 \& 0 \& 0 \\
+    0 \& 0 \& 0 \\
+    0 \& 1 \& 0 \\
+};
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,64 @@
+\usetikzlibrary{arrows.meta,fit,matrix}
+
+\begin{frame}[fragile,label=boundedPC]{bounded buffer producer/consumer}
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=BoundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<2-3|handout:2-3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t @4data_ready4@; @2pthread_cond_t @4space_ready4@;2@
+BoundedQueue buffer;
+
+Produce(item) {
+    pthread_mutex_lock(&lock);
+    @2while (buffer.full()) { pthread_cond_wait(@4&space_ready4@, &lock); }2@
+    buffer.enqueue(item);
+    pthread_cond_signal(@4&data_ready4@);
+    pthread_mutex_unlock(&lock);
+}
+
+Consume() {
+    pthread_mutex_lock(&lock);
+    while (buffer.empty()) {
+        pthread_cond_wait(@4&data_ready4@, &lock);
+    }
+    item = buffer.dequeue();
+    @3pthread_cond_signal(@4&space_ready4@);3@X\tikzmark{signal}X
+    pthread_mutex_unlock(&lock);
+    return item;
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    >=Latex
+}
+\begin{visibleenv}<3>
+\draw[draw=red,thick,<-] ([xshift=-2cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
+    correct (but slow?) to replace with: \\
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{11}{12}\selectfont,
+]
+pthread_cond_broadcast(&space_ready);
+\end{lstlisting} \\
+(just more ``spurious wakeups'')
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[anchor=east,draw=red,thick,fill=white,font=\small,align=left] at ([yshift=-.5cm]current page.east) {
+correct but slow to replace \\
+\texttt{data\_ready} and \texttt{space\_ready} \\
+with `combined' condvar \texttt{ready} \\
+and use broadcast \\
+(just more ``spurious wakeups'')
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

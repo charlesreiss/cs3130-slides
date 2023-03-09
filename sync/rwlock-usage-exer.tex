@@ -1,0 +1,45 @@
+\begin{frame}[fragile,label=rwlockEffectsExer]{rwlock effects exercise}
+\begin{tikzpicture}
+\node (first) {
+\begin{lstlisting}[language=C++,style=smaller]
+pthread_rwlock_t lock;
+void ThreadA() {
+  pthread_rwlock_rdlock(&lock);
+  puts("a");
+  ...
+  puts("A");
+  pthread_rwlock_unlock(&lock);
+}
+void ThreadB() {
+  pthread_rwlock_rdlock(&lock);
+  puts("b");
+  ...
+  puts("B");
+  pthread_rwlock_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[anchor=north west] (second) at (first.north east) {
+\begin{lstlisting}[language=C++,style=smaller]
+void ThreadC() {
+  pthread_rwlock_wrlock(&lock);
+  puts("c");
+  ...
+  puts("C");
+  pthread_rwlock_unlock(&lock);
+}
+void ThreadD() {
+  pthread_rwlock_wrlock(&lock);
+  puts("d");
+  ...
+  puts("D");
+  pthread_rwlock_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+exercise: which of these outputs are possible? \\
+\begin{tabular}{lll}
+1. aAbBcCdD & 2. abABcdDC & 3. cCabBAdD \\ 4. cdCDaAbB & 5. caACdDbB \\
+\end{tabular}
+\end{frame}

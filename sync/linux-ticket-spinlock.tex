@@ -1,0 +1,72 @@
+\begin{frame}{fairer spinlocks}
+\begin{itemize}
+\item so far --- everything on spinlocks
+    \begin{itemize}
+    \item mutexes, condition variables --- built with spinlocks
+    \end{itemize}
+\item spinlocks are pretty `unfair'
+    \begin{itemize}
+    \item where fair = get lock if waiting longest
+    \end{itemize}
+\item last CPU that held spinlock more likely to get it again
+    \begin{itemize}
+    \item already has the lock in its cache\ldots
+    \end{itemize}
+\item but there are many other ways to spinlocks\ldots
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=ticketLock]{ticket spinlocks}
+\begin{lstlisting}
+unsigned int serving_number;
+unsigned int next_number;
+
+Lock() {
+    // "take a number"
+    unsigned int my_number = atomic_read_and_increment(&next_number);
+    // wait until "now serving" that number
+    while (atomic_read(&serving_number) != my_number) {
+        /* do nothing */
+    }
+    // MISSING: code to prevent reordering reads/writes
+}
+
+Unlock() {
+    // serve next number
+    serving_number += 1;
+    // MISSING: code to prevent reordering reads/writes
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{ticket spinlocks and cache contention}
+\begin{itemize}
+\item still have contention to write next\_number
+\item \ldots but no retrying writes!
+    \begin{itemize}
+    \item should limit `ping-ponging'?
+    \end{itemize}
+\item threads loop performing a read repeatedly while waiting
+    \begin{itemize}
+    \item value will be broadcasted to all processors
+    \item `free' if using a bus
+    \item not-so-free if another way of connecting CPUs
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{beyond ticket spinlocks}
+\begin{itemize}
+\item Linux kernel used to use ticket spinlocks
+\item now uses variant of MCS spinlocks --- locks have linked-list queue!
+    \begin{itemize}
+    \item careful use of atomic operations to modify queue
+    \end{itemize}
+\item still try 
+\item goal: even less contention
+    \begin{itemize}
+    \item unlocking value doesn't require broadcasting to all CPUs
+    \item each processor waits on its own cache block
+    \end{itemize}
+\end{itemize}
+\end{frame}

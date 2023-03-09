@@ -1,0 +1,18 @@
+\begin{frame}{Anderson-Dahlin and semaphores}
+    \begin{itemize}
+    \item Anderson/Dahlin complains about semaphores
+        \begin{itemize}
+        \item ``Our view is that programming with locks and condition variables is superior to programming
+                with semaphores.''
+        \end{itemize}
+    \item argument 1: clearer to have \myemph{separate constructs} for
+            \begin{itemize}
+            \item waiting for condition to be come true, and
+            \item allowing only one thread to manipulate a thing at a time
+            \end{itemize}
+    \item arugment 2: tricky to verify thread calls up exactly once for every down
+            \begin{itemize}
+                \item alternatives allow one to be sloppier (in a sense)
+            \end{itemize}
+    \end{itemize}
+\end{frame}

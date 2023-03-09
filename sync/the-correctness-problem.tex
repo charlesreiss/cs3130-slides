@@ -1,0 +1,23 @@
+\begin{frame}{the correctness problem}
+\begin{itemize}
+\item schedulers introduce non-determinism
+    \begin{itemize}
+    \item scheduler might run threads in \myemph{any order}
+    \item scheduler can switch threads at \myemph{any time}
+    \end{itemize}
+\item worse with threads on multiple cores
+    \begin{itemize}
+    \item cores \myemph{not precisely synchronized} (stalling for caches, etc., etc.)
+    \item different cores happen in different order each time
+    \end{itemize}
+\vspace{.5cm}
+\item allows for ``race condition'' bugs
+    \begin{itemize}
+    \item outcome depends on whether one thread can `race' ahead of another
+    \end{itemize}
+\item \ldots to be avoided by synchronization constructs
+    \begin{itemize}
+    \item what we'll talk about for a while\ldots
+    \end{itemize}
+\end{itemize}
+\end{frame}

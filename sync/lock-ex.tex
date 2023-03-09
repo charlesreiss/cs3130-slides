@@ -1,0 +1,77 @@
+\begin{frame}[fragile,label=lockEx]{exercise}
+    \vspace{-0.5cm}
+\begin{lstlisting}[style=smaller]
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_unlock(&lock1);
+}
+\end{lstlisting}
+possible values of one/two after A+B run?
+\end{frame}
+
+\begin{frame}[fragile,label=lockExAlt1]{exercise (alternate 1)}
+    \vspace{-0.5cm}
+\begin{lstlisting}[style=smaller]
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_unlock(&lock1);
+}
+\end{lstlisting}
+possible values of one/two after A+B run?
+\end{frame}
+
+\begin{frame}[fragile,label=lockExAlt2]{exercise (alternate 2)}
+    \vspace{-0.5cm}
+\begin{lstlisting}[style=smaller]
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_unlock(&lock1);
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+}
+\end{lstlisting}
+possible values of one/two after A+B run?
+\end{frame}

@@ -1,0 +1,90 @@
+\begin{frame}[fragile,label=PCSignal]{producer/consumer signal?}
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=BoundedQueue,
+    moredelim={**[is][\btHL<0|handout:0>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<0|handout:0>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<0|handout:0>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<0|handout:0>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+    @2pthread_mutex_lock(&lock);2@
+    buffer.enqueue(item);
+    /* GOOD CODE: pthread_cond_signal(&data_ready); */
+    /* BAD CODE: */
+    if (buffer.size() == 1)
+        pthread_cond_signal(&item);
+    @2pthread_mutex_unlock(&lock);2@
+}
+
+Consume() {
+    @2pthread_mutex_lock(&lock);2@
+    while (@5buffer.empty()5@) {X\tikzmark{empty}X
+        pthread_cond_wait(&data_ready, &lock);
+    }X\tikzmark{after loop}X
+    item = @3buffer.dequeue()3@;
+    @2pthread_mutex_unlock(&lock);2@
+    return item;
+}
+\end{lstlisting}
+\begin{itemize}
+    \item exercise: come up with scenario in which this doesn't work.
+        \begin{itemize}
+        \item hint 1: assume two waiting consume()s, and two produce() calls
+        \item hint 2: related to Mesa-style versus Hoare-style 
+            \begin{itemize}
+            \item signaling thread $\not\implies$ thread gets lock next
+            \end{itemize}
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=PCSignalBadSetup]{bad case (setup)}
+\fontsize{12}{13}\selectfont
+\begin{tabular}{l|l|l|l}
+thread 0 & 1 & 2 & 3 \\ \hline
+Consume(): & & \\
+lock & & \\
+empty? wait on cv & Consume(): \\
+     & lock & \\
+     & empty? wait on cv & & \\
+     & & Produce(): & \\
+     & & lock & Produce(): \\
+\end{tabular}
+\end{frame}
+
+\againframe<1>{PCSignalBadSetup}
+
+\begin{frame}<0>[fragile,label=PCSignalBad]{bad case}
+\fontsize{12}{13}\selectfont
+\begin{tabular}{l|l|l|l}
+thread 0 & 1 & 2 & 3 \\ \hline
+Consume(): & & \\
+lock & & \\
+empty? wait on cv & Consume(): \\
+     & lock & \\
+     & empty? wait on cv & & \\
+     & & Produce(): & \\
+     & & lock & Produce(): \\
+     & & & wait for lock \\
+     & & enqueue & \\
+wait for lock & & size = 1? signal \\
+              & & unlock & gets lock \\
+              & & & enqueue \\
+              & & & \myemph{size $\not=$ 1}: don't signal \\
+              & & & unlock \\
+gets lock & & & \\
+dequeue & & &\\
+& still waiting & &
+\end{tabular}
+\end{frame}
+
+\againframe<1>{PCSignalBad}

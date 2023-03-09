@@ -1,0 +1,80 @@
+\begin{frame}{pthreads}
+\begin{itemize}
+\item POSIX threading API --- ``pthreads''
+\item what we'll teach in this class
+\vspace{.5cm}
+\item not tied to specific implementation
+\end{itemize}
+\end{frame}
+
+\begin{frame}{pthreads reference (1)}
+\begin{itemize}
+\item Linux: manpages
+\item \texttt{man pthread\_create} --- Linux manpage
+    \begin{itemize}
+    \item (or \texttt{man 3 pthread\_create})
+    \end{itemize}
+\item \texttt{man 3posix pthread\_create} --- POSIX documentation
+    \begin{itemize}
+    \item authoritative: copy of the standard
+    \item won't cover Linux extensions
+    \item perhaps less readable?
+    \end{itemize}
+\vspace{.5cm}
+\item index: \texttt{man pthread.h}
+    \begin{itemize}
+    \item doesn't include Linux extensions
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{pthreads reference (2)}
+\begin{itemize}
+\item Arpaci-Dusseau textbook (online) covers pthreads API
+    \begin{itemize}
+    \item (but I like its description of threading topics less otherwise)
+    \end{itemize}
+\item LLNL's tutorial: \url{https://computing.llnl.gov/tutorials/pthreads/}
+\item \ldots
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadApi]{pthread API generally}
+\begin{lstlisting}
+#include <pthread.h>
+\end{lstlisting}
+\begin{itemize}
+\item defines types starting  with \texttt{pthread\_}
+    \begin{itemize}
+    \item all typenames end in \texttt{\_t}
+    \end{itemize}
+\item defines functions starting with \texttt{pthread\_}
+\item some macros (\texttt{\#define}s) starting with \texttt{PTHREAD\_}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadsWhat]{what the pthreads library provides}
+\begin{itemize}
+\item creating/starting/stopping/etc. threads
+\item coordinating between threads
+    \begin{itemize}
+    \item mutexes, locks, barriers, \ldots
+    \end{itemize}
+\item thread-local storage
+    \begin{itemize}
+    \item data that is unqiue for each thread
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadT]{pthread\_t}
+\begin{itemize}
+\item pthread\_t --- opaque type representing a thread ID
+    \begin{itemize}
+    \item opaque --- maybe a struct, but not allowed to look inside
+    \item thread ID --- copying pthread\_t doesn't copy thread itself
+    \end{itemize}
+\vspace{.5cm}
+\item<2-> almost all pthreads types are opaque
+\end{itemize}
+\end{frame}

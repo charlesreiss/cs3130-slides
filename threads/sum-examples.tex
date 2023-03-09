@@ -1,0 +1,233 @@
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,patterns,positioning}
+
+\begin{frame}[fragile,label=sumToStack]{sum example (to main stack, global values)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+int @2values[1024];2@ Q\tikzmark{array}Q
+struct ThreadInfo {
+    int start, end, result;
+};
+void *sum_thread(void *argument) {
+    ThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (ThreadInfo *) argument;
+    int sum = 0;
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        sum += values[i];
+    }
+    @4my_info->result = sum;4@
+    return NULL;
+}
+int sum_all() {
+    pthread_t thread[2]; @3ThreadInfo info[2];3@
+    for (int i = 0; i < 2; ++i) {
+        info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, &info[i]);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=west] at (pic cs:array) {
+        values: global variable --- shared
+    };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \node[box,anchor=north west] at (pic cs:info) {
+        my\_info: pointer to sum\_all's stack \\
+        only okay because sum\_all waits!
+    };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{program memory (to main stack, global values)}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+    hilite stack/.style={draw=red,ultra thick},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack 1) {main thread stack};
+    \node[anchor=west,blue!70!black] (info arr) at ([xshift=.5cm]stack 1.east) { info array };
+    \draw[very thick,blue] ([yshift=-0mm]stack 1.west) rectangle ([yshift=-1mm]stack 1.east);
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack 1.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=0.5cm of stack 1] (stack 2) {second thread stack};
+    \node[anchor=west] (my info ptr) at ([xshift=0cm]stack 2.east) { my\_info };
+    \draw[-Latex] (my info ptr.east) -- ++ (1cm, 0cm) |- ([yshift=-1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 2] (stack 3) {third thread stack};
+    \node[anchor=west] (my info ptr 2) at ([xshift=0cm]stack 3.east) { my\_info };
+    \draw[-Latex] (my info ptr 2.east) -- ++ (1.1cm, 0cm) |- ([yshift=1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 3] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (sdata) {Code / Data};
+    \draw[very thick,blue] ([yshift=-1mm]sdata.west) rectangle ([yshift=-2mm]sdata.east);
+    \node[anchor=west,blue!70!black] (sdata arr) at ([xshift=.5cm]sdata.east) { values (global) };
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sumNoGlobals]{sum example (to main stack)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+struct ThreadInfo { @2int *values;2@ int start; int end; int result };
+void *sum_thread(void *argument) {
+    ThreadInfo *@3my_info3@ = (ThreadInfo *) argument;Q\tikzmark{info}Q
+    int sum = 0;
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        sum += my_info->values[i];
+    }
+    @4my_info->result = sum;4@
+    return NULL;
+
+}
+int sum_all(int *values) {
+    ThreadInfo info[2]; pthread_t thread[2];
+    for (int i = 0; i < 2; ++i) {
+        @2info[i].values = values;2@ info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, (void *) &info[i]);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{program memory (to main stack)}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+    hilite stack/.style={draw=red,ultra thick},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack 1) {main thread stack};
+    \node[anchor=west,blue!70!black] (info arr) at ([xshift=.5cm]stack 1.east) { info array };
+    \draw[very thick,blue] ([yshift=-0mm]stack 1.west) rectangle ([yshift=1mm]stack 1.east);
+    \draw[-Latex] ([yshift=1.5mm]info arr.east) -- ++(3cm,0cm) node[right,yshift=-1mm] { values (stack? heap?)};
+    \draw[-Latex] ([yshift=-0.5mm]info arr.east) -- ++(3cm,0cm);
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack 1.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=0.5cm of stack 1] (stack 2) {second thread stack};
+    \node[anchor=west,font=\it] (my info ptr) at ([xshift=0cm]stack 2.east) { my\_info };
+    \draw[-Latex] (my info ptr.east) -- ++ (1.5cm, 0cm) |- ([yshift=1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 2] (stack 3) {third thread stack};
+    \node[anchor=west,font=\it] (my info ptr 2) at ([xshift=0cm]stack 3.east) { my\_info };
+    \draw[-Latex] (my info ptr 2.east) -- ++ (1.25cm, 0cm) |- ([yshift=-1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 3] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (sdata) {Code / Data};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile,label=sumAllHeap]{sum example (on heap)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+struct ThreadInfo { @3pthread_t thread;3@ int *values; int start; int end; int result };
+void *sum_thread(void *argument) {
+    ...
+}
+ThreadInfo *start_sum_all(int *values) {
+    ThreadInfo *info = @2new ThreadInfo[2];2@
+    for (int i = 0; i < 2; ++i) {
+        info[i].values = values; info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&info[i].thread, NULL, sum_thread, (void *) @2&info[i]2@);
+    }
+    return info;
+}
+void finish_sum_all(ThreadInfo *info) {
+    for (int i = 0; i < 2; ++i)
+        pthread_join(@3info[i].thread3@, NULL);
+    int result = info[0].result + info[1].result;
+    delete[] info;
+    return result;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{program memory (on heap)}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+    hilite stack/.style={draw=red,ultra thick},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack 1) {main thread stack};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack 1.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=0.5cm of stack 1] (stack 2) {second thread stack};
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 2] (stack 3) {third thread stack};
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 3] (heap) {Heap / other dynamic};
+    \node[anchor=west,blue!70!black] (info arr) at ([xshift=.5cm]heap.east) { info array };
+    \draw[very thick,blue] ([yshift=-0mm]heap.west) rectangle ([yshift=1mm]heap.east);
+    \draw[-Latex] ([yshift=1.5mm]info arr.east) -- ++(3cm,0cm) node[right,yshift=-1mm] { values (stack? heap?)};
+    \draw[-Latex] ([yshift=-0.5mm]info arr.east) -- ++(3cm,0cm);
+    \node[anchor=west,font=\it] (my info ptr 2) at ([xshift=0cm]stack 3.east) { my\_info };
+    \draw[-Latex] (my info ptr 2.east) -- ++ (1.25cm, 0cm) |- ([yshift=-1mm]info arr.east);
+    \node[anchor=west,font=\it] (my info ptr) at ([xshift=0cm]stack 2.east) { my\_info };
+    \draw[-Latex] (my info ptr.east) -- ++ (1.5cm, 0cm) |- ([yshift=1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0mm of heap] (sdata) {Code / Data};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{frame}
+

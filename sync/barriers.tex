@@ -1,0 +1,130 @@
+\begin{frame}{barriers}
+\begin{itemize}
+\item compute minimum of 100M element array with 2 processors
+\item algorithm:
+\vspace{.5cm}
+\item compute minimum of 50M of the elements on each CPU
+    \begin{itemize}
+    \item one thread for each CPU
+    \end{itemize}
+\item \myemph<2>{wait for all computations to finish}
+\item take minimum of all the minimums
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=barrierAPI]{barriers API}
+\begin{itemize}
+\item barrier.Initialize(NumberOfThreads)
+\item barrier.Wait() --- return after all threads have waited
+\vspace{.5cm}
+\item idea: multiple threads perform computations in parallel
+\item threads wait for \myemph{all other threads} to call Wait()
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=barrierWait]{barrier: waiting for finish}
+\begin{tikzpicture}
+\node[label={north:Thread 0}] (code one) {
+\begin{lstlisting}[language=C++,style=smaller]
+partial_mins[0] = 
+    /* min of first
+       50M elems */;
+
+barrier.Wait();
+
+
+total_min = min(
+    partial_mins[0],
+    partial_mins[1]
+);
+\end{lstlisting}
+};
+\node[anchor=south] (code zero) at ([yshift=1cm]code one.north) {
+\begin{lstlisting}[language=C++,style=smaller]
+barrier.Initialize(2);
+\end{lstlisting}
+};
+
+\node[label={north:Thread 1},anchor=north west] (code two) at ([xshift=1cm]code one.north east) {
+\begin{lstlisting}[language=C++,style=smaller]
+
+
+partial_mins[1] =
+    /* min of last
+       50M elems */
+barrier.Wait();
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=barrierReuse]{barriers: reuse}
+\begin{itemize}
+\item barriers are reusable:
+\end{itemize}
+\begin{tikzpicture}
+\node[label={north:Thread 0}] (code one) {
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@4}{4@}},
+]
+@2results[0][0]2@ = getInitial(0);
+barrier.Wait();
+
+@4results[1][0]4@ =
+    computeFrom(
+        results[0][0],
+        @3results[0][1]3@
+    );
+barrier.Wait();
+
+results[2][0] =
+    computeFrom(
+        results[1][0],
+        results[1][1]
+    );
+\end{lstlisting}
+};
+\node[label={north:Thread 1},anchor=north west] (code two) at ([xshift=1cm]code one.north east) {
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@4}{4@}},
+]
+@3results[0][1]3@ = getInitial(1);
+barrier.Wait();
+
+results[1][1] =
+    computeFrom(
+        @2results[0][0],2@
+        results[0][1]
+    );
+barrier.Wait();
+
+results[2][1] =
+    computeFrom(
+        @4results[1][0]4@,
+        results[1][1]
+    );
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadBarrier]{pthread barriers}
+\begin{lstlisting}[language=C++,style=smaller]
+pthread_barrier_t barrier;
+pthread_barrier_init(
+    &barrier,
+    NULL /* attributes */,
+    numberOfThreads
+);
+...
+...
+pthread_barrier_wait(&barrier);
+\end{lstlisting}
+\end{frame}
+

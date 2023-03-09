@@ -1,0 +1,58 @@
+\usetikzlibrary{graphs,graphdrawing}
+\usegdlibrary{trees}
+
+\begin{frame}{alternative to buses: crossbar}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    nodes={rectangle,minimum height=1cm,minimum width=2cm,text height=.5cm},
+    row 5/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=2cm}},
+    column 1/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=2cm}},
+    column sep=5mm,
+    row sep=5mm
+] (net) {
+    MEM1  \& \& \& \& \\
+    MEM2  \& \& \& \& \\
+    MEM3  \& \& \& \& \\
+    MEM4  \& \& \& \& \\
+    |[draw=none]|     \& CPU1 \& CPU2 \& CPU3 \& CPU4 \\
+};
+\foreach \y in {1,2,3,4} {
+    \draw[thick] (net-\y-1.east) -- (net-\y-5.center);
+}
+\foreach \x in {2,3,4,5} {
+    \draw[thick] (net-5-\x.north) -- (net-1-\x.center);
+    \foreach \y in {1,2,3,4} {
+        \draw[fill=red!50!white,draw=none] (net-\y-\x.center) circle (2mm);
+    }
+    \draw[thick,densely dotted] (net-5-\x.north) -- (net-1-\x.center);
+}
+\foreach \y in {1,2,3,4} {
+    \draw[thick,densely dotted] (net-\y-1.east) -- (net-\y-5.center);
+}
+\draw[fill=black,draw=none] (net-3-2.center) circle (1.5mm);
+\draw[fill=black,draw=none] (net-2-5.center) circle (1.5mm);
+\draw[fill=black,draw=none] (net-4-4.center) circle (1.5mm);
+\begin{visibleenv}<2->
+\draw[blue,ultra thick,Latex-Latex] ([xshift=1mm]net-5-2.north) |- ([yshift=1mm]net-3-1.east);
+\draw[blue,ultra thick,Latex-Latex] ([xshift=1mm]net-5-5.north) |- ([yshift=1mm]net-2-1.east);
+\draw[blue,ultra thick,Latex-Latex] ([xshift=1mm]net-5-4.north) |- ([yshift=1mm]net-4-1.east);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{alternatives to buses: trees}
+\begin{tikzpicture}
+\begin{scope}[every node/.style={draw,thin,rectangle,minimum width=2cm,text height=.5cm},
+              thick,>=Latex]
+\graph[tree layout,grow=down,fresh nodes,level distance=2cm,sibling distance=2cm] {
+    "CPU0" <->[ultra thick,red!50!black]
+    { "CPU1" <->[thick] { "CPU3" <->[thin] {"CPU8", "CPU9"}, "CPU4" },
+      "CPU2" <->[thick] { "CPU6", "CPU7" }
+    },
+};
+\end{scope}
+\end{tikzpicture}
+\end{frame}
+

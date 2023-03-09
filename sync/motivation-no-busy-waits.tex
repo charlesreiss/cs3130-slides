@@ -1,0 +1,19 @@
+\begin{frame}[fragile,label=problemBusyWaits]{problem: busy waits}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller,
+    morekeywords=mfence,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+]
+  @1while(xchg(&lk->locked, 1) != 0)1@
+    ; 
+\end{lstlisting}
+\begin{itemize}
+    \item what if it's going to be a while?
+    \item waiting for process that's waiting for I/O?
+    \item really would like to do something else with CPU instead\ldots
+\end{itemize}
+\end{frame}

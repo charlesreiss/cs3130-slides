@@ -1,0 +1,33 @@
+\begin{frame}<0>[label=cacheCoherenceExSoln]{cache coherency exercise solution}
+\tt
+\begin{tabular}{l|ccc|ccc}
+~ & \multicolumn{3}{c|}{\tt 0x1000-0x101f} & \multicolumn{3}{c}{\tt 0x2000-0x201f} \\
+\normalfont\bfseries action & \normalfont CPU 1 & \normalfont CPU 2 & \normalfont CPU 3 & \normalfont CPU 1 & \normalfont CPU 2 & \normalfont CPU 3 \\ \hline
+~   & I & I & I & I & I & I \\
+\normalfont CPU 1: read \tt 0x1000
+    & \myemph{S} & I & I & I & I & I \\
+\normalfont CPU 2: read \tt 0x1000
+    & S & \myemph{S} & I & I & I & I \\
+\normalfont CPU 1: write \tt 0x1000
+    & \myemph{M} & \myemph{I} & I & I & I & I \\
+\normalfont CPU 1: read \tt 0x2000
+    & M & I & I & \myemph{S} & I & I \\
+\normalfont CPU 2: read \tt 0x1000 
+    & \myemph{S} & \myemph{S} & I & S & I & I \\
+\normalfont CPU 2: write \tt 0x2008
+    & S & S & I & \myemph{I} & \myemph{M} & I \\
+\normalfont CPU 3: read \tt 0x1008
+    & S & S & \myemph{S} & I & M & I \\
+\end{tabular}
+%\item CPU 1: read 0x1000
+%\item CPU 2: read 0x1000
+%\item CPU 1: write 0x1000
+%\item CPU 1: read 0x2000
+%\item CPU 2: read 0x1000
+%\item CPU 2: write 0x2008
+%\item CPU 3: read 0x1008
+\end{frame}
+
+\iftoggle{heldback}{}{
+    \againframe<1->{cacheCoherenceExSoln}
+}

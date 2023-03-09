@@ -1,0 +1,166 @@
+\usetikzlibrary{calc,fit,matrix,shapes.callouts}
+
+\begin{frame}[fragile,label=readerWriterSim]{simulation of reader/write lock}
+\vspace{-.5cm}
+\begin{itemize}
+\item writer-priority version
+\item W = writers, R = readers, WW = waiting\_writers
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={
+        font=\lstset{
+            language=C++,
+            basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+            moredelim={**[is][\btHL<1->]{@1}{1@}},
+            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+        },
+    },
+    codebox/.style={
+        code,draw,thick,
+    },
+    event/.style={text width=2.75cm,font=\fontsize{9}{10}\selectfont\tt},
+    cA/.style={fill=blue!10,draw=blue!50!black},
+    cB/.style={fill=green!10,draw=green!50!black},
+    cC/.style={fill=yellow!10,draw=yellow!50!black},
+    cD/.style={fill=violet!10,draw=violet!50!black},
+    timeline/.style={
+        tight matrix,
+        nodes={font=\small\tt,text width=1cm,minimum height=0.5cm},
+        column 1/.style={nodes={cA,event}},
+        column 2/.style={nodes={cB,event}},
+        column 3/.style={nodes={cC,event}},
+        column 4/.style={nodes={cD,event}},
+        row 1/.style={nodes={font=\small\bfseries}},
+    },
+    action box/.style={
+        draw,thick,align=center,
+    },
+    action box invis/.style={
+        align=center,
+    },
+    my callout/.style={
+        draw,fill=white,
+        rectangle callout,
+        align=left,
+        code,
+        callout absolute pointer=(#1)
+    },
+    btHLbox/.style={rectangle,rounded corners,inner sep=0.1mm}
+}
+\matrix[timeline] (timeline) {
+    reader 1 \& reader 2 \& writer 1 \& reader 3 \& W \& R \& WW \\
+    \& \& \& \& 0 \& 0 \& 0 \\
+    ReadLock \& \& \& \& 0 \& 1 \& 0 \\
+    (reading) \& ReadLock \& \& \&0 \& 2 \& 0 \\
+    (reading) \& (reading) \& WriteLock wait \& \& 0 \& 2 \& 1 \\
+    (reading) \& (reading) \& WriteLock wait \& ReadLock wait \&
+    0 \& 2 \& 1 \\
+    ReadUnlock \& (reading) \& WriteLock wait \& ReadLock wait \&
+    0 \& 1 \& 1 \\
+    \& ReadUnlock \& WriteLock wait \& ReadLock wait\&
+    0 \& 0 \& 1 \\
+    \& \& WriteLock \& ReadLock wait \&
+    1 \& 0 \& 0 \\
+    \& \& (read+writing) \& ReadLock wait \&
+    1 \& 0 \& 0 \\
+    \& \& WriteUnlock \& ReadLock wait \&
+    0 \& 0 \& 0 \\
+    \& \& \& ReadLock \&
+    0 \& 1 \& 0 \\
+};
+\foreach \x in {2,3,...,11} {
+    \path[fill=white,visible on=<1-\x|handout:0>]
+        ($(timeline.north west) + \x*(0,-.5cm)$) rectangle (timeline.south east);
+}
+\begin{visibleenv}<3|handout:0>
+\tikzset{btHLbox/.append style={fill=blue!20}}
+\node[my callout=timeline-3-1.east,fill=white,anchor=north west] at ([yshift=-1cm,xshift=-2cm]timeline-3-1.south) {
+\begin{lstlisting}
+mutex_lock(&lock);
+while (@1writers != 0 || waiting_writers != 01@) {
+  cond_wait(&ok_to_read_cv, &lock);
+}
+@1++readers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<5|handout:0>
+\tikzset{btHLbox/.append style={fill=yellow!20}}
+\node[my callout=timeline-5-3.south,fill=white,anchor=north] at ([yshift=-1cm]timeline-5-3.south) {
+\begin{lstlisting}
+mutex_lock(&lock);
+++waiting_writers;
+while (@1readers + writers != 01@) {
+  @1cond_wait(&ok_to_write_cv, &lock);1@
+}
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<7|handout:0>
+\tikzset{btHLbox/.append style={fill=blue!20}}
+\node[my callout=timeline-7-1.east,fill=white,anchor=west] at ([xshift=1cm]timeline-7-1.east) {
+\begin{lstlisting}
+mutex_lock(&lock);
+@1--readers;1@
+if (readers == 0)
+  ...
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<8|handout:0>
+\tikzset{btHLbox/.append style={fill=green!20}}
+\node[my callout=timeline-8-2.east,fill=white,anchor=west] at ([xshift=1cm]timeline-8-2.east) {
+\begin{lstlisting}
+mutex_lock(&lock);
+--readers;
+if (readers == 0)
+  @1cond_signal(&ok_to_write_cv)1@
+mutex_unlock(&lock);
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<9|handout:0>
+\tikzset{btHLbox/.append style={fill=yellow!30}}
+\node[my callout=timeline-9-3.north,fill=white,anchor=south] at ([yshift=1cm]timeline-9-3.north) {
+\begin{lstlisting}
+while (@1readers + writers != 01@) {
+  cond_wait(&ok_to_write_cv, &lock);
+}
+@1--waiting_writers; ++writers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<11|handout:0>
+\tikzset{btHLbox/.append style={fill=yellow!30}}
+\node[my callout=timeline-11-3.north,fill=white,anchor=south] at ([yshift=1cm]timeline-11-3.north) {
+\begin{lstlisting}
+mutex_lock(&lock);
+if (waiting_writers != 0) {
+  cond_signal(&ok_to_write_cv);
+} else {
+  @1cond_broadcast(&ok_to_read_cv);1@
+}
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<12|handout:0>
+\tikzset{btHLbox/.append style={fill=violet!20}}
+\node[my callout=timeline-12-4.north,fill=white,anchor=south] at ([yshift=1cm]timeline-11-4.north) {
+\begin{lstlisting}
+while (writers != 0 && waiting_writers != 0) {
+  cond_wait(&ok_to_read_cv, &lock);
+}
+@1++readers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+};
+\end{visibleenv}
+\begin{visibleenv}<13|handout:0> \end{visibleenv}
+\end{tikzpicture}
+\end{frame}

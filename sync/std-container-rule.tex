@@ -1,0 +1,35 @@
+\begin{frame}{C++ containers and locking}
+    \begin{itemize}
+    \item can you use a vector from multiple threads?
+    \item \ldots question: how is it implemented?
+        \begin{itemize}
+        \item<2-> dynamically allocated array
+        \item<2-> reallocated on size changes
+        \end{itemize}
+    \vspace{.5cm}
+    \item<3-> can access from multiple threads \ldots \myemph{as long as not append/erase/etc.}?
+    \item<3-> assuming it's implemented like we expect\ldots
+        \begin{itemize}
+        \item but can we really depend on that?
+        \item e.g. could shrink internal array after a while with no expansion save memory?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cppStdRules]{C++ standard rules for containers}
+\begin{itemize}
+    \item multiple threads can \myemph{read anything at the same time}
+    \item can only read element \myemph{if no other thread is modifying it}
+    \vspace{.5cm}
+    \item can safely \myemph{add/remove elements if no other threads} are accessing container
+        \begin{itemize}
+            \item (sometimes can safely add/remove in extra cases)
+        \end{itemize}
+    \vspace{.5cm}
+    \item exception: vectors of bools --- can't safely read and write at same time
+        \begin{itemize}
+        \item might be implemented by putting multiple bools in one int
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

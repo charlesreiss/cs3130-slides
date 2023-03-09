@@ -1,0 +1,73 @@
+
+
+\begin{frame}{C++: preventing reordering}
+    \begin{itemize}
+        \item to help \myemph{implementing things like pthread\_mutex\_lock}
+        \vspace{.5cm}
+    \item C++ 2011 standard: \textit{atomic} header, \textit{std::atomic} class
+        \item prevent CPU reordering \textit{and} prevent compiler reordering
+        \item also provide other tools for implementing locks (more later)
+            \vspace{.5cm}
+        \item could also hand-write assembly code
+            \begin{itemize}
+                \item compiler can't know what assembly code is doing
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=prevReorderCpp1]{C++: preventing reordering example}
+\begin{lstlisting}[language=C++,style=smaller]
+#include <atomic>
+void Alice() {
+    note_from_alice = 1;
+    do {
+        std::atomic_thread_fence(std::memory_order_seq_cst);
+    } while (note_from_bob);
+    if (no_milk) {++milk;}
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=myasm,style=smaller,morekeywords=mfence]
+Alice:
+  movl $1, note_from_alice  // note_from_alice <- 1
+.L2:
+  mfence  // make sure store visible on/from other cores
+  cmpl $0, note_from_bob  // if (note_from_bob == 0) repeat fence
+  jne .L2
+  cmpl $0, no_milk
+  ...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=prevReorderCpp2]{C++ atomics: no reordering}
+\begin{lstlisting}[language=C++,style=smaller]
+std::atomic<int> note_from_alice, note_from_bob;
+void Alice() {
+    note_from_alice.store(1);
+    do {
+    } while (note_from_bob.load());
+    if (no_milk) {++milk;}
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=myasm,style=small,morekeywords=mfence]
+Alice:
+  movl $1, note_from_alice
+  mfence
+.L2:
+  movl note_from_bob, %eax
+  testl %eax, %eax
+  jne .L2
+  ...
+\end{lstlisting}
+\end{frame}
+\begin{frame}{GCC: built-in atomic functions}
+    \begin{itemize}
+    \item used to implement std::atomic, etc.
+    \item predate std::atomic
+        \vspace{.5cm}
+    \item builtin functions starting with \texttt{\_\_sync} and \texttt{\_\_atomic}
+    \item these are what xv6 uses
+    \end{itemize}
+\end{frame}
+

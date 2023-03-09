@@ -1,0 +1,74 @@
+\graphicspath{{./figures/}}
+\title{threads}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\section{threads}
+
+\subsection{why threads?}
+
+\input{../threads/why}
+
+\subsection{aside: alternate threading models}
+
+\input{../threads/alt-model.tex}
+
+\subsection{thread control block}
+
+\input{../threads/tcb.tex}
+
+\subsection{pthread create}
+
+\input{../threads/pthread-create}
+
+\subsection{exercise: pthread create race}
+
+\input{../threads/pthread-create-race}
+
+\subsection{pthread join and exit}
+
+\input{../threads/pthread-join-exit}
+
+\subsection{parallel calculations in threads}
+
+% FIXME: slide setting up the running example
+
+\input{../threads/thread-sum-no-passing}
+
+\input{../threads/thread-sum-stack-lib}
+\input{../threads/thread-sum-two-stacks}
+
+\subsection{passing info to threads}
+
+\subsubsection{thread ID as argument}
+% FIXME: show thread registers?
+\input{../threads/thread-sum-globals-and-id}
+
+\subsubsection{globals + info struct as argument}
+\input{../threads/thread-sum-globals-and-struct}
+\input{../threads/thread-sum-globals-and-struct-stacks}
+
+\subsubsection{no globals + info struct as argument}
+\input{../threads/thread-sum-struct-main}
+\input{../threads/thread-sum-struct-main-stacks}
+
+\subsubsection{everything on the heap}
+\input{../threads/thread-sum-structs-heap}
+\input{../threads/thread-sum-structs-heap-stacks}
+
+\subsection{on thread resources, detached threads}
+
+\subsubsection{exercise}
+\input{../threads/dangling-pointer-ex}
+
+\subsubsection{join, detach, etc.}
+\input{../threads/thread-resources}
+
+\subsection{on error checking}
+
+\input{../threads/error-checking}
+
+\end{document}

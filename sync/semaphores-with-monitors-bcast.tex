@@ -1,0 +1,185 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}[fragile,label=semaphoreWithMonitorsBCast]{building semaphore with monitors (version B)}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={anchor=north west,font=
+        \lstset{
+            language=C++,
+            basicstyle=\fontsize{9}{10}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+        },
+        inner sep=0mm,
+    },
+    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
+}
+\node[code,show at=0] (the lock) {
+\begin{lstlisting}
+pthread_mutex_t lock;
+\end{lstlisting}
+};
+\node[code,show at=0] (the count) at (the lock.south west){
+\begin{lstlisting}
+unsigned int count;
+\end{lstlisting}
+};
+\node[code,show at=0] (the condition) at (the count.south west){
+\begin{lstlisting}
+/* condition, broadcast when becomes count > 0 */
+pthread_cond_t count_is_positive_cv;
+\end{lstlisting}
+};
+\node[code,show at=0] (down code) at (the condition.south west){
+\begin{lstlisting}
+void down() {
+    pthread_mutex_lock(&lock);
+    while (!(count > 0)) {
+        pthread_cond_wait(
+            &count_is_positive_cv,
+            &lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[code,show at=1] (up code) at ([xshift=1cm]down code.north east){
+\begin{lstlisting}
+void up() {
+    pthread_mutex_lock(&lock);
+    count += 1;
+    /* condition *just* became true */
+    if (count == 1) {
+        pthread_cond_broadcast(
+            &count_is_positive_cv
+        );
+    }
+    pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\vspace{-.5cm}
+\begin{itemize}
+\item before: signal every time
+\item can check if condition just became true instead?
+\item<2-> but do we really need to \myemph{broadcast}?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=semaphoreMonitorBCastEx]{exercise: why broadcast?}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={anchor=north west,font=
+        \lstset{
+            language=C++,
+            basicstyle=\fontsize{9}{10}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+        },
+        inner sep=0mm,
+    },
+    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
+}
+\node[code,show at=0] (the lock) {
+\begin{lstlisting}
+pthread_mutex_t lock;
+\end{lstlisting}
+};
+\node[code,show at=0] (the count) at (the lock.south west){
+\begin{lstlisting}
+unsigned int count;
+\end{lstlisting}
+};
+\node[code,show at=0] (the condition) at (the count.south west){
+\begin{lstlisting}
+/* condition, broadcast when becomes count > 0 */
+pthread_cond_t count_is_positive_cv;
+\end{lstlisting}
+};
+\node[code,show at=0] (down code) at (the condition.south west){
+\begin{lstlisting}
+void down() {
+    pthread_mutex_lock(&lock);
+    while (!(count > 0)) {
+        pthread_cond_wait(
+            &count_is_positive_cv,
+            &lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[code,show at=0] (up code) at ([xshift=1cm]down code.north east){
+\begin{lstlisting}
+void up() {
+    pthread_mutex_lock(&lock);
+    count += 1;
+    if (count == 1) { /* became > 0 */
+        @1pthread_cond_broadcast1@(
+            &count_is_positive_cv
+        );
+    }
+    pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\begin{itemize}
+    \item exercise: why can't this be \texttt{pthread\_cond\_signal}?
+    \item hint: think of two threads calling down + two calling up?
+    \item brute force: only so many orders they can get the lock in
+\end{itemize}
+\end{frame}
+
+\begin{frame}{broadcast problem}
+    \iftoggle{heldback}{}{
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    timeline/.style={
+        tight matrix,fill=white,
+        nodes={text width=3.5cm,font=\fontsize{9.5}{10.5}\selectfont,fill=white,text depth=0.075cm,text height=0.25cm},
+        anchor=north east,
+        row 1/.style={nodes={font=\bfseries\fontsize{9.5}{10.5}\selectfont,draw=none,align=center}},
+    },
+}
+\matrix[timeline] (tl) {
+    Thread 1 \& Thread 2 \& Thread 3 \& Thread 4 \\
+    Down() \\
+    lock   \\
+    count == 0? yes \\
+    unlock/wait \\
+         \& Down() \& \\
+         \& lock \& \\
+         \& count == 0? yes \& \\
+         \& unlock/wait \\
+         \& \& Up() \\
+         \& \& lock \\
+         \& \& count += 1 (now 1) \& Up()\\
+    |[alias=waitCvDone]| stop waiting on CV \& \& |[alias=signalDone]| signal \& wait for lock\\
+    |[alt=<3>{fill=red!15}]| wait for lock \& \& unlock \& wait for lock \\
+    |[alt=<3>{fill=red!15}]| wait for lock \& \& \& |[alt=<3>{fill=blue!15},alias=actualLock]| lock \\
+    |[alt=<3>{fill=red!15}]| wait for lock \& \& \& count += 1 (now 2) \\
+    |[alt=<3>{fill=red!15}]| wait for lock \& \& \& count != 1: don't signal \\
+    lock \& \& \& unlock \\
+    count == 0? no \\
+    count -= 1 (becomes 1) \\
+    unlock \\
+    \& |[alt=<2>{fill=red!15}]| still waiting??? \\
+};
+\begin{visibleenv}<3>
+    \draw[red,very thick,->] (signalDone.west) -- (waitCvDone.east)
+        node[midway, below,align=center,font=\small] {
+            Mesa-style monitors \\
+            signalling doesn't \\
+            ``hand off'' lock
+        };
+\end{visibleenv}
+\end{tikzpicture}
+}
+\end{frame}
+

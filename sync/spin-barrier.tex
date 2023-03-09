@@ -1,0 +1,29 @@
+\begin{frame}[fragile,label=atomicAdd]{atomic add}
+    \begin{itemize}
+    \item x86-64 also has an atomic add operation
+    \end{itemize}
+\begin{lstlisting}[language=myasm,style=small]
+lock add %rax, (%rcx)
+\end{lstlisting}
+    \begin{itemize}
+    \item M[RCX] $\rightarrow$ M[RCX] + RAX
+        \begin{itemize}
+        \item but without being interrupted by other processors
+        \end{itemize}
+    \item next slide: represent as \verb|AtomicAdd(&dest, source)|
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{exercise: spin-barriers with atomic add}
+\begin{itemize}
+\item exercise: implementing one-use barrier with atomic adds
+\item finish the psuedocode
+\end{itemize}
+\begin{lstlisting}[langauge=C,style=smaller]
+struct Barrier { int value; }
+BarrierInit(Barrier *barrier, int numThreads) {
+    barrier->value = numThreads;
+}
+
+\end{stlisting}
+\end{frame}

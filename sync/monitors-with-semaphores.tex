@@ -1,0 +1,104 @@
+\begin{frame}[fragile,label=monitorWithSemaphoreLock]{monitors with semaphores: locks}
+\begin{lstlisting}[language=C++,style=small]
+sem_t semaphore;  // initial value 1
+
+Lock() {
+    sem_wait(&semaphore);
+}
+
+Unlock() {
+    sem_post(&semaphore);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=monitorWithSemaphoreCVA1]{monitors with semaphores: [broken] cvs}
+\begin{itemize}
+\item start with only wait/signal:
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+    lock.Unlock();
+    sem_wait(&threads_to_wakeup);
+    lock.Lock();
+}
+Signal() {
+    sem_post(&threads_to_wakeup);
+}
+\end{lstlisting}
+\begin{itemize}
+\item<2-> problem: \myemph{signal wakes up non-waiting threads (in the far future)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=monitorWithSemaphoreCVA2]{monitors with semaphores: cvs (better)}
+\begin{itemize}
+\item start with only wait/signal:
+\end{itemize}
+\begin{tikzpicture}
+\node (part one) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+sem_t private_lock;  // initially 1
+int num_waiters;
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+  sem_wait(&private_lock);
+  ++num_waiters;
+  sem_post(&private_lock);
+  lock.Unlock();
+  sem_wait(&threads_to_wakeup);
+  lock.Lock();
+}
+\end{lstlisting}
+};
+\node[anchor=south west] at (part one.south east) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+Signal() {
+  sem_wait(&private_lock);
+  if (num_waiters > 0) {
+    sem_post(&threads_to_wakeup);
+    --num_waiters;
+  }
+  sem_post(&private_lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=monitorWithSemaphoreCVA3]{monitors with semaphores: broadcast}
+\begin{itemize}
+\item now allows broadcast:
+\end{itemize}
+\begin{tikzpicture}
+\node (part one) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+sem_t private_lock;  // initially 1
+int num_waiters;
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+  sem_wait(&private_lock);
+  ++num_waiters;
+  sem_post(&private_lock);
+  lock.Unlock();
+  sem_wait(&threads_to_wakeup);
+  lock.Lock();
+}
+\end{lstlisting}
+};
+\node[anchor=south west] at (part one.south east) {
+\begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
+Broadcast() {
+  sem_wait(&private_lock);
+  while (num_waiters > 0) {
+    sem_post(&threads_to_wakeup);
+    --num_waiters;
+  }
+  sem_post(&private_lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+

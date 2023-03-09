@@ -1,0 +1,41 @@
+
+\begin{frame}[fragile,label=sumToGlobalWithId]{sum example (to global, with thread IDs)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+int @2values[1024]2@;
+int @2results[2]2@;
+void *sum_thread(void *argument) {
+    int id = (int) argument;
+    int sum = 0;
+    for (int i = id * 512; i < (id + 1) * 512; ++i) {
+        sum += values[i];
+    }
+    results[id] = sum;
+    return NULL;
+}
+int sum_all() {
+    pthread_t thread[2];
+    for (int i = 0; i < 2; ++i) {
+        pthread_create(&threads[i], NULL, sum_thread, (void *) i);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return results[0] + results[1];
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=east] at ([yshift=-2cm,xshift=-1cm]current page.north east) {
+        values, results: global variables --- shared
+    };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}

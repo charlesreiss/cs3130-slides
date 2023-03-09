@@ -1,0 +1,141 @@
+\begin{frame}[fragile,label=monitorExercise]{monitor exercise: ConsumeTwo}
+\begin{itemize}
+\item suppose we want producer/consumer, but\ldots
+\item but change Consume() to ConsumeTwo() which returns a \myemph{pair of values}
+    \begin{itemize}
+    \item and don't want two calls to ConsumeTwo() to wait\ldots
+    \item with each getting one item
+    \end{itemize}
+\item what should we change below?
+\end{itemize}
+\begin{tikzpicture}
+\node (produce) {
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=UnboundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+  pthread_mutex_lock(&lock);
+  buffer.enqueue(item);
+  pthread_cond_signal(&data_ready);
+  pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[anchor=north west] at (produce.north east) {
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=UnboundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+Consume() {
+  pthread_mutex_lock(&lock);
+  while (buffer.empty()) {
+    pthread_cond_wait(&data_ready, &lock);
+  }
+  item = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return item;
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{\excludecomment{isheldback}}{\includecomment{isheldback}}
+\begin{isheldback}
+\begin{frame}[fragile,label=monitorExerciseSln]{monitor exercise: solution (1)}
+\small (one of many possible solutions) \\
+Assuming ConsumeTwo \textbf{replaces} Consume:
+\begin{lstlisting}[basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
+Produce() {
+  pthread_mutex_lock(&lock);
+  buffer.enqueue(item);
+  if (buffer.size() > 1) { pthread_cond_signal(&data_ready); }
+  pthread_mutex_unlock(&lock);
+}
+ConsumeTwo() {
+    pthread_mutex_lock(&lock);
+    while (buffer.size() < 2) { pthread_cond_wait(&data_ready, &lock); }
+    item1 = buffer.dequeue(); item2 = buffer.dequeue();
+    pthread_mutex_unlock(&lock);
+    return Combine(item1, item2);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=monitorExerciseSln2]{monitor exercise: solution (2)}
+\small (one of many possible solutions) \\
+Assuming ConsumeTwo is \textbf{in addition to} Consume (using two CVs):
+\begin{lstlisting}[basicstyle=\tt\fontsize{9}{10}\selectfont]
+Produce() {
+  pthread_mutex_lock(&lock);
+  buffer.enqueue(item);
+  pthread_cond_signal(&one_ready);
+  if (buffer.size() > 1) { pthread_cond_signal(&two_ready); }
+  pthread_mutex_unlock(&lock);
+}
+Consume() {
+  pthread_mutex_lock(&lock);
+  while (buffer.size() < 1) { pthread_cond_wait(&one_ready, &lock); }
+  item = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return item;
+}
+ConsumeTwo() {
+  pthread_mutex_lock(&lock);
+  while (buffer.size() < 2) { pthread_cond_wait(&two_ready, &lock); }
+  item1 = buffer.dequeue(); item2 = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return Combine(item1, item2);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=monitorExerciseSln3]{monitor exercise: slower solution}
+\small (one of many possible solutions) \\
+Assuming ConsumeTwo is \textbf{in addition to} Consume (using one CV):
+\begin{lstlisting}[basicstyle=\tt\fontsize{9}{10}\selectfont]
+Produce() {
+  pthread_mutex_lock(&lock);
+  buffer.enqueue(item);
+  // broadcast and not signal, b/c we might wakeup only ConsumeTwo() otherwise
+  pthread_cond_broadcast(&data_ready);
+  pthread_mutex_unlock(&lock);
+}
+Consume() {
+  pthread_mutex_lock(&lock);
+  while (buffer.size() < 1) { pthread_cond_wait(&data_ready, &lock); }
+  item = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return item;
+}
+ConsumeTwo() {
+  pthread_mutex_lock(&lock);
+  while (buffer.size() < 2) { pthread_cond_wait(&data_ready, &lock); }
+  item1 = buffer.dequeue(); item2 = buffer.dequeue();
+  pthread_mutex_unlock(&lock);
+  return Combine(item1, item2);
+}
+\end{lstlisting}
+\end{frame}
+\end{isheldback}

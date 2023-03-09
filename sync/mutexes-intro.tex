@@ -1,0 +1,26 @@
+\begin{frame}{mutexes: intelligent waiting}
+\begin{itemize}
+    \item want: locks that wait better 
+        \begin{itemize}
+        \item example: POSIX mutexes
+        \end{itemize}
+    \item instead of running infinite loop, give away CPU
+    \vspace{.5cm}
+    \item \myemph<2>{lock = go to sleep}, add self to list
+        \begin{itemize}
+            \item sleep = scheduler runs something else
+        \end{itemize}
+    \item \myemph<2>{unlock = wake up sleeping thread}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{better lock implementation idea}
+\begin{itemize}
+    \item \textit{shared} list of waiters
+    \item \myemph<2>{spinlock protects list of waiters} from concurrent modification
+    \vspace{.5cm}
+    \item lock = use spinlock to add self to list, then wait without spinlock
+    \item unlock = use spinlock to remove item from list
+\end{itemize}
+\end{frame}
+

@@ -1,0 +1,38 @@
+\begin{frame}[fragile,label=fetchAndAddWithCASSetup]{fetch-and-add with CAS (1)}
+\begin{lstlisting}[language=C++,style=smaller,deletekeywords=register]
+compare-and-swap(address, old_value, new_value) {
+    if (memory[address] == old_value) {
+        memory[address] = new_value;
+        return true;
+    } else {
+        return false;
+    }
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=C++,style=smaller,deletekeywords=register]
+long my_fetch_and_add(long *pointer, long amount) { ... }
+\end{lstlisting}
+    \begin{itemize}
+    \item implementation sketch:
+        \begin{itemize}
+        \item fetch value from pointer \texttt{old}
+        \item compute in temporary value result of addition \texttt{new}
+        \item try to change value at pointer from \texttt{old} to \texttt{new} [\texttt{compare-and-swap}]
+        \item if not successful, repeat
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=fetchAndAddWithCASSoln]{fetch-and-add with CAS (2)}
+\begin{lstlisting}[language=C++,style=smaller,deletekeywords=register]
+long my_fetch_and_add(long *p, long amount) {
+    long old_value;
+    do {
+        old_value = *p;
+    } while (!compare_and_swap(p, old_value, old_value + amount);
+    return old_value;
+}
+\end{lstlisting}
+\end{frame}
+

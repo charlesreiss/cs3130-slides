@@ -1,0 +1,21 @@
+\begin{frame}{atomic operation}
+\begin{itemize}
+\item \textit{atomic operation} = operation that runs to completion or not at all
+\item we will use these to let threads work together
+\vspace{.5cm}
+\item most machines: loading/storing {\small (aligned)} words is atomic
+    \begin{itemize}
+    \item so can't get $3$ from $x \leftarrow 1$ and $x \leftarrow 2$ running in parallel
+    \item aligned $\approx$ address of word is multiple of word size (typically done by compilers)
+    \end{itemize}
+\item but some instructions are not atomic; examples:
+    \begin{itemize}
+    \item x86: integer \texttt{add} constant to memory location
+    \item many CPUs: loading/storing values that cross cache blocks
+        \begin{itemize}
+            \item e.g. if cache blocks \texttt{0x40} bytes, load/store 4 byte from addr. \texttt{0x3E} is not atomic
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

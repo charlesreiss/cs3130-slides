@@ -1,0 +1,65 @@
+\begin{frame}[fragile,label=falseSharingEx1]{exercise (1)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<0|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@4}{4@}},
+    escapeinside=QQ,
+]
+int @2values[1024]2@;
+int @2results[2]2@;
+void *sum_front(void *ignored_argument) {
+    results[0] = 0;
+    for (int i = @303@; i < @35123@; ++i)
+        results[0] += values[i];
+    return NULL;
+}
+void *sum_back(void *ignored_argument) {
+    results[1] = 0;
+    for (int i = @35123@; i < @310243@; ++i)
+        results[1] += values[i];
+    return NULL;
+}
+int sum_all() {
+    pthread_t sum_front_thread, sum_back_thread;
+    pthread_create(&sum_front_thread, NULL, sum_front, NULL);
+    pthread_create(&sum_back_thread, NULL, sum_back, NULL);
+    pthread_join(sum_front_thread, NULL);
+    pthread_join(sum_back_thread, NULL);
+    return @4results[0] + results[1]4@;
+}
+\end{lstlisting}
+Where is false sharing likely to occur? How to fix?
+\end{frame}
+
+\begin{frame}[fragile,label=falseSharingEx2]{exercise (2)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<0|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<0|handout:0>]{@4}{4@}},
+    escapeinside=QQ,
+]
+struct ThreadInfo { @2int *values;2@ int start; int end; int result };
+void *sum_thread(void *argument) {
+    ThreadInfo *@3my_info3@ = (ThreadInfo *) argument;Q\tikzmark{info}Q
+    int sum = 0;
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        my_info->result += my_info->values[i];
+    }
+    return NULL;
+
+}
+int sum_all(int *values) {
+    ThreadInfo info[2]; pthread_t thread[2];
+    for (int i = 0; i < 2; ++i) {
+        @2info[i].values = values;2@ info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, (void *) &info[i]);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
+}
+\end{lstlisting}
+Where is false sharing likely to occur?
+\end{frame}

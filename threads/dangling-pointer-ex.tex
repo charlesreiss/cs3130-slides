@@ -1,0 +1,62 @@
+
+\usetikzlibrary{calc,decorations.pathreplacing,patterns,positioning}
+\begin{frame}[fragile,label=stackLeak]{what's wrong with this?}
+\begin{lstlisting}[language=C++,style=small]
+/* omitted: headers */
+#include <string>
+using std::string;
+void *create_string(void *ignored_argument) {
+  string result;
+  result = ComputeString();
+  return &result;
+}
+int main() {
+  pthread_t the_thread;
+  pthread_create(&the_thread, NULL, create_string, NULL);
+  string *string_ptr;
+  pthread_join(the_thread, (void*) &string_ptr);
+  cout << "string is " << *string_ptr;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{program memory}
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+    hilite stack/.style={draw=red,ultra thick},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack 1) {main thread stack};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack 1.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=0.5cm of stack 1,hilite stack,alt=<2>{opacity=0.5}] (stack 2) {second thread stack};
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 2,hilite stack,alt=<2>{opacity=0.5}] (stack 3) {third thread stack};
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 3] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (sdata) {Code / Data};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\draw[decorate,decoration={brace},red,ultra thick] ([xshift=.25cm]stack 2.north east) -- ([xshift=.25cm]stack 3.south east) node[midway,right,align=left](dynamicStackBox) {
+    dynamically allocated stacks \\
+    \texttt{string result} allocated here  \\
+    \texttt{string\_ptr} pointed to here
+};
+\node[anchor=north,align=left] at ([yshift=-1cm]dynamicStackBox) {
+    \ldots stacks deallocated when \\ threads exit/are joined
+};
+\end{tikzpicture}
+\end{frame}
+
+

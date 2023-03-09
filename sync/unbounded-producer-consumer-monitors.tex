@@ -1,0 +1,180 @@
+\usetikzlibrary{arrows.meta,fit,matrix}
+
+\begin{frame}[fragile,label=unboundedPC]{unbounded buffer producer/consumer}
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{10}{11}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=UnboundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+    @2pthread_mutex_lock(&lock);2@
+    buffer.enqueue(item);
+    @4pthread_cond_signal(&data_ready);4@X\tikzmark{signal}X
+    @2pthread_mutex_unlock(&lock);2@
+}
+
+Consume() {
+    @2pthread_mutex_lock(&lock);2@
+    while (@5buffer.empty()5@) {X\tikzmark{empty}X
+        pthread_cond_wait(&data_ready, &lock);
+    }X\tikzmark{after loop}X
+    item = @3buffer.dequeue()3@;
+    @2pthread_mutex_unlock(&lock);2@
+    return item;
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+    \coordinate (place) at ([xshift=-.5cm,yshift=-1.5cm]current page.north east);
+    \coordinate (place lower) at ([xshift=-.5cm,yshift=-4.5cm]current page.north east);
+    \tikzset{
+        box base/.style={draw=red,ultra thick,align=left,anchor=north east,fill=white},
+        box/.style={box base,at={(place)}},
+        box lower/.style={box base,at={(place lower)}},
+        >=Latex,
+    }
+    \begin{visibleenv}<2>
+        \node [box] {
+            rule: never touch \texttt{buffer} \\
+            without acquiring lock \\
+            ~ \\
+            otherwise: what if two threads \\ simulatenously en/dequeue?  \\
+            {\small (both use same array/linked list entry?)} \\
+            {\small (both reallocate array?)} 
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node [box lower] {
+            check if empty \\
+            if so, dequeue \\
+            ~ \\
+            okay because have lock
+        };
+        \draw[<-,very thick,draw=red] (pic cs:after loop) -- ++(6cm,0cm) node[right,align=left] {
+            other threads can\textbf{not} dequeue here
+        }; 
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:signal) -- ++(2cm,0cm) node[right,align=left] {
+            wake one Consume thread \\ \textit{if any are waiting} \\
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<5->
+        \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:empty) -- ++(1cm,-2cm)
+        node[fill=white,draw=red,right,align=left,font=\small] {
+            \myemph<5>{0 iterations}: Produce() called before Consume() \\
+            \myemph<6>{1 iteration}: Produce() signalled, probably \\
+            \myemph<7-8>{2+ iterations}: spurious wakeup or \ldots?
+        };
+        \tikzset{
+            timeline/.style={
+                tight matrix,fill=white,
+                nodes={text width=3.5cm,font=\fontsize{11}{12}\selectfont,fill=white,text depth=0.075cm,text height=0.25cm},
+                at={([xshift=-0.75cm,yshift=-1.25cm]current page.north east)},
+                anchor=north east,
+                row 1/.style={nodes={font=\bfseries\small,draw=none,align=center}},
+            },
+            wait for lock/.style={
+                draw,inner sep=0mm,
+                text=black!70,
+                align=center,
+                fill=white,
+                font=\fontsize{11}{12}\selectfont,
+            }
+        }
+        \begin{visibleenv}<5>
+            \matrix[timeline] {
+                Thread 1 \& Thread 2 \\
+                Produce() \\
+                \ldots lock \\
+                \ldots enqueue \\
+                \ldots signal \\
+                \ldots unlock \\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=green!20]| \ldots empty? no \\
+                \& \ldots dequeue \\
+                \& \ldots unlock \\
+                \& return \\
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<6>
+            \matrix[timeline,column 1/.style={nodes={text width=2cm}}] (one wait timeline) {
+                Thread 1 \& Thread 2 \\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                 \& \ldots unlock/start wait \\
+                Produce() \& ~\\ 
+                \ldots lock \\ 
+                \ldots enqueue \& ~\\
+                \ldots signal \& stop wait \\
+                \ldots unlock \& lock \\
+                \& |[fill=green!20]| \ldots empty? no \\
+                \& \ldots dequeue \\
+                \& \ldots unlock \\
+                \& return \\
+            };
+            \node[wait for lock,fit=(one wait timeline-6-2) (one wait timeline-8-2)] {
+                waiting for \\
+                data\_ready
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<7-8>
+            \matrix[timeline,
+                    column 1/.style={nodes={text width=2cm}},
+                    column 3/.style={nodes={text width=2cm}},
+                    ] (two wait timeline) {
+                Thread 1 \& Thread 2 \& Thread 3\\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                 \& \ldots unlock/start wait \\
+                Produce() \& ~ \\ 
+                \ldots lock \& \& Consume() \\
+                \ldots enqueue \& ~ \& ~ \\
+                |[alias=two signal]| \ldots signal \& |[alias=two stop wait]| stop wait \& ~ \\
+                \ldots unlock \& ~ \& |[alt=<8>{draw=red}]| lock \\
+                \& \& \ldots empty? no \\
+                \& \& \ldots dequeue \\
+                \& ~ \& \ldots unlock \\
+                \& \ldots lock \& return  \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                \& \ldots unlock/start wait \\
+            };
+            \node[wait for lock,fit=(two wait timeline-6-2) (two wait timeline-8-2)] {
+                waiting for \\
+                data\_ready
+            };
+            \node[wait for lock,fit=(two wait timeline-10-2) (two wait timeline-13-2)] {
+                waiting for \\
+                lock
+            };
+            \node[wait for lock,fit=(two wait timeline-8-3) (two wait timeline-9-3),
+                  label={[font=\fontsize{11}{12}\selectfont,black!70,align=center]center:waiting for\\lock}] {};
+            \begin{visibleenv}<8>
+                \node[draw=red,thick,inner sep=0mm,fit=(two signal) (two stop wait)] (mark stop wait) {};
+                \draw[thick,red,<-] (mark stop wait.west) -- ++(-1cm,0cm) node[draw=red,text=black,font=\small,left,fill=white,align=right] {
+                    in pthreads: signalled thread not \\
+                    gaurenteed to hold lock next \\
+                    ~ \\
+                    alternate design: \\
+                    signalled thread gets lock next \\
+                    called ``Hoare scheduling'' \\
+                    not done by pthreads, Java, \ldots
+                };
+            \end{visibleenv}
+        \end{visibleenv}
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}

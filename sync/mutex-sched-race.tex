@@ -1,0 +1,23 @@
+\begin{frame}{mutex and scheduler subtly}
+\small
+\begin{tabular}{l|l|l}
+core 0 (thread A) & core 1 (thread B) \\ \hline
+    start LockMutex & \\
+    acquire spinlock & \\
+    discover lock taken & \\
+    enqueue thread A & \\
+    thread A set not runnable & \\
+    release spinlock & start UnlockMutex \\
+                 & thread A set runnable  \\
+                 & finish UnlockMutex \\
+                 & run scheduler \\
+                 & scheduler switches to A \\
+                 & \myemph<2>{\ldots with old verison of registers} \\
+    thread A runs scheduler & & \ldots\\
+    \ldots finally saving registers & &\ldots\\
+\end{tabular}
+\begin{itemize}
+\item Linux soln.: track `thread running' separately from `thread runnable'
+\item xv6 soln.: hold scheduler lock until thread A saves registers 
+\end{itemize}
+\end{frame}

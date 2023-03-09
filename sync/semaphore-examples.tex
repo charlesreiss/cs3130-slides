@@ -1,0 +1,38 @@
+\begin{frame}[fragile,label=mutexWithSemaphore]{implementing mutexes with semaphores}
+\begin{lstlisting}[language=C++,style=small]
+struct Mutex {
+    Semaphore s; /* with inital value 1 */
+    /* value = 1 --> mutex if free */
+    /* value = 0 --> mutex is busy */
+}
+
+MutexLock(Mutex *m) {
+    m->s.down();
+}
+
+MutexUnlock(Mutex *m) {
+    m->s.up();
+}
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile,label=threadJoinWithSemaphore]{implementing join with semaphores}
+\begin{lstlisting}[language=C++,style=smaller]
+struct Thread {
+    ...
+    Semaphore finish_semaphore; /* with initial value 0 */
+    /* value = 0: either thread not finished OR already joined */
+    /* value = 1: thread finished AND not joined */
+};
+thread_join(Thread *t) {
+    t->finish_semaphore->down();
+}
+
+/* assume called when thread finishes */
+thread_exit(Thread *t) {
+    t->finish_semaphore->up();
+    /* tricky part: deallocating struct Thread safely? */
+}
+\end{lstlisting}
+\end{frame}

@@ -1,0 +1,28 @@
+\begin{frame}[fragile,label=xv6IntDis1]{xv6 interrupt disabling (1)}
+\begin{lstlisting}[
+    language=C++,
+    style=small,
+]
+...
+acquire(struct spinlock *lk) {
+  pushcli(); // disable interrupts to avoid deadlock
+  ... /* this part basically just for multicore */
+}
+release(struct spinlock *lk)
+{
+  ... /* this part basically just for multicore */
+  popcli();
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{xv6 push/popcli}
+\begin{itemize}
+\item pushcli / popcli --- need to be in pairs
+\item pushcli --- disable interrupts if not already
+\item popcli --- enable interrupts if corresponding pushcli disabled them
+    \begin{itemize}
+    \item don't enable them if they were already disabled
+    \end{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,46 @@
+\begin{frame}[fragile,label=exerSpinWait]{exercise: spin wait}
+\begin{itemize}
+\item consider implementing `waiting' functionality of pthread\_join
+\vspace{.5cm}
+\item thread calls ThreadFinish() when done
+\item complete code below:
+\end{itemize}
+\begin{lstlisting}[language=myasm,style=smaller]
+finished: .quad 0
+ThreadFinish:
+    _________________________
+    ret
+ThreadWaitForFinish:
+    _________________________
+    lock xchg %eax, finished
+    cmp $0, %eax
+    ____ ThreadWaitForFinish
+    ret
+\end{lstlisting}
+\small
+\begin{tabular}{lll}
+A. \texttt{mfence; mov \$1, finished} & C. \texttt{mov \$0, \%eax} & E. je \\
+B. \texttt{mov \$1, finished; mfence} & D. \texttt{mov \$1, \%eax} & F. jne  \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=exerSpinWaitSoln]{exercise: spin wait}
+\begin{lstlisting}[language=myasm,style=smaller]
+finished: .quad 0
+ThreadFinish:
+    __________A______________
+    ret
+ThreadWaitForFinish:            /* or without using a writing instruction: */
+    _________B______________    mov %eax, finished
+    lock xchg %eax, finished    mfence
+    cmp $0, %eax                cmp $0, %eax
+    __C_ ThreadWaitForFinish    je ThreadWaitForFinish
+    ret                         ret
+\end{lstlisting}
+\small
+\begin{tabular}{lll}
+A. \texttt{mfence; mov \$1, finished} & C. \texttt{mov \$0, \%eax} & E. je \\
+B. \texttt{mov \$1, finished; mfence} & D. \texttt{mov \$1, \%eax} & F. jne  \\
+\end{tabular}
+\end{frame}
+\iftoggle{heldback}{}{\againframe<1>{exerSpinWaitSoln}}

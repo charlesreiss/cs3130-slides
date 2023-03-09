@@ -1,0 +1,92 @@
+\usetikzlibrary{arrows.meta}
+
+\begin{frame}<3>[fragile,label=boundedPCError]{bounded buffer producer/consumer}
+\vspace{-.5cm}
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    morekeywords=BoundedQueue,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<2-3|handout:2-3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    escapeinside=XX,
+]
+pthread_mutex_t lock;
+pthread_cond_t @4data_ready4@; @2pthread_cond_t @4space_ready4@;2@
+BoundedQueue buffer;
+
+Produce(item) {
+    pthread_mutex_lock(&lock);
+    @2while (buffer.full()) { pthread_cond_wait(@4&space_ready4@, &lock); }2@
+    buffer.enqueue(item);
+    pthread_cond_signal(@4&data_ready4@);
+    pthread_mutex_unlock(&lock);
+}
+
+Consume() {
+    pthread_mutex_lock(&lock);
+    while (buffer.empty()) {
+        pthread_cond_wait(@4&data_ready4@, &lock);
+    }
+    item = buffer.dequeue();
+    @3pthread_cond_signal(@4&space_ready4@);3@X\tikzmark{signal}X
+    pthread_mutex_unlock(&lock);
+    return item;
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    >=Latex
+}
+\begin{visibleenv}<3>
+\draw[draw=red,thick,<-] ([xshift=0cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
+CANNOT REPLACE WITH: \\
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{11}{12}\selectfont,
+]
+if (buffer.size() == buffer.capacity() - 1)
+    pthread_cond_signal(&space_ready);
+\end{lstlisting} \\
+what if two waiting producers and \\
+two consumers run right after each other \\
+problem: only one woken up
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{potential fixes}
+    \begin{itemize}
+    \item unconditionally signal
+        \begin{itemize}
+        \item each consume allows one produce to go
+        \item rely on condition variable knowing if no one is waiting
+        \end{itemize}
+    \item broadcast if buffer changed from full to not-full
+        \begin{itemize}
+        \item every thread waiting because it was full could go buffer it becomes full again
+        \end{itemize}
+    \item explicitly count number of waiting producers --- buffer not full and waiter
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{how could I have avoided this?}
+    \begin{itemize}
+    \item question: who might be waiting when condition changes
+    \item almost always multiple threads!
+    \item if not broadcasting, \myemph{explain why each waiting thread gets to go}
+    \item my implicit non-explanation: queue will be full again first
+        \begin{itemize}
+        \item not actually true: can keep consuming before producers go
+        \end{itemize}
+    \vspace{.5cm}
+    \item<2-> alternate view: consuming causes what threads to go? 
+        \begin{itemize}
+        \item not just when the buffer was full
+        \item since if I empty the buffer by consuming\ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}

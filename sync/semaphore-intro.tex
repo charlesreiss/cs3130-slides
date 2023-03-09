@@ -1,0 +1,110 @@
+\usetikzlibrary{arrows.meta,fit,matrix,shapes.misc}
+
+\begin{frame}{generalizing locks: semaphores}
+\begin{itemize}
+\item semaphore has a non-negative integer \textbf{value} and two operations:
+\item \textbf{P()} or \textbf{down} or \textbf{wait}:  \\
+wait for semaphore to become positive ($>0$), \\ then decerement by 1
+\item \textbf{V()} or \textbf{up} or \textbf{signal} or \textbf{post}: \\
+increment semaphore by 1 (waking up thread if needed)
+\vspace{1cm}
+\item {\small P, V from Dutch: \textit{proberen} (test), \textit{verhogen} (increment)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{semaphores are kinda integers}
+\begin{itemize}
+\item semaphore like an integer, but\ldots
+\item \myemph{cannot read/write directly}
+    \begin{itemize}
+    \item down/up operaion only way to access (typically)
+    \item exception: initialization
+    \end{itemize}
+\item \myemph{never negative} --- wait instead
+    \begin{itemize}
+    \item down operation wants to make negative? thread waits
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=reserveBooks]{reserving books}
+\begin{itemize}
+\item suppose tracking copies of library book\ldots
+\end{itemize}
+\begin{lstlisting}
+Semaphore free_copies = Semaphore(3);
+void ReserveBook() {
+    // wait for copy to be free
+    free_copies.down();
+    ... // ... then take reserved copy
+}
+
+void ReturnBook() {
+    ... // return reserved copy
+    free_copies.up();
+    // ... then wakekup waiting thread
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{counting resources: reserving books}
+\begin{tikzpicture}
+\node[align=left,font=\normalsize] (problem) {
+    suppose tracking copies of same library book \\
+    non-negative integer count = \# how many books used? \\
+    \textcolor{blue!70!black}{up} = give back book; \textcolor{green!70!black}{down} = take book
+};
+\tikzset{
+    reserved/.style={draw,red,very thick,cross out,label={west:taken out}},
+    my cross out/.style={draw,black,very thick,cross out},
+    semaphore value/.style={draw,thick},
+    >=Latex,
+}
+
+\matrix[tight matrix,anchor=north west,
+        nodes={minimum height=.75cm,text width=3cm,align=center,ultra thick}] (copies) at ([yshift=-.5cm]problem.south west) {
+    Copy 1 \\
+    Copy 2 \\
+    Copy 3 \\
+};
+\node[semaphore value,anchor=north west,label={west:free copies}] (semaphore) at ([xshift=4cm]copies.north east) {
+    \only<1-2>{3}\only<3>{2}\only<4->{0}
+};
+
+\begin{visibleenv}<2>
+    \node[reserved,fit=(copies-1-1)] {};
+    \node[my cross out,red,fit=(semaphore)] {};
+    \node[semaphore value,anchor=west] at ([xshift=.25cm]semaphore.east) {2};
+    \node[anchor=north] at ([xshift=.125cm]semaphore.south east) {after calling \textcolor{green!70!black}{down} to reserve};
+\end{visibleenv}
+
+\begin{visibleenv}<3>
+    \node[reserved,fit=(copies-1-1)] {};
+    \node[anchor=north] at ([xshift=.125cm]semaphore.south east) {after calling \textcolor{green!70!black}{down} to reserve};
+\end{visibleenv}
+
+\begin{visibleenv}<4>
+    \node[reserved,fit=(copies-1-1)] {};
+    \node[reserved,fit=(copies-2-1)] {};
+    \node[reserved,fit=(copies-3-1)] {};
+    \node[anchor=north,align=center] at ([xshift=.125cm]semaphore.south east) {after calling \textcolor{green!70!black}{down} three times \\ to reserve all copies};
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+    \node[reserved,fit=(copies-1-1)] {};
+    \node[reserved,fit=(copies-2-1)] {};
+    \node[reserved,fit=(copies-3-1)] {};
+    \draw[thick,green!70!black,<-] (semaphore.south) -- ++(.5cm,-.5cm) node[right,circle,fill=green,label={[align=left,yshift=-.5cm]south east:{\underline{\textbf{reserve book}}\\ call \textit{down} again \\ start waiting\ldots \\ ~}}] {};
+\end{visibleenv}
+
+\begin{visibleenv}<6>
+    \node[reserved,fit=(copies-1-1)] {};
+    \node[reserved,fit=(copies-2-1)] {};
+    \node[reserved,fit=(copies-3-1),dotted] {};
+    \draw[thick,blue,<-] (semaphore.south) -- ++(.5cm,-.5cm) node[right,circle,fill=blue,label={[align=left,text=blue!70!black]south east:{\underline{\textbf{reserve book}} \\ call \textit{down} \\ \sout{waiting} \\ done waiting}}] {};
+    \draw[thick,blue!70!black,<-] (semaphore.south) -- ++(-.5cm,-.5cm) node[left,circle,fill=blue,label={[align=right,text=blue!70!black]south west:{\underline{\textbf{return book}} \\ ~ \\ call \textit{up} \\ release waiter}}] {};
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}
+

@@ -1,0 +1,48 @@
+\begin{frame}[fragile,label=prevReorder2]{GCC: preventing reordering example (1)}
+\begin{lstlisting}[language=C++,style=smaller]
+void Alice() {
+    int one = 1;
+    __atomic_store(&note_from_alice, &one, __ATOMIC_SEQ_CST);
+    do {
+    } while (__atomic_load_n(&note_from_bob, __ATOMIC_SEQ_CST));
+    if (no_milk) {++milk;}
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=myasm,style=small,morekeywords=mfence]
+Alice:
+  movl $1, note_from_alice
+  mfence
+.L2:
+  movl note_from_bob, %eax
+  testl %eax, %eax
+  jne .L2
+  ...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=prevReorder1]{GCC: preventing reordering example (2)}
+\begin{lstlisting}[language=C++,style=small]
+void Alice() {
+    note_from_alice = 1;
+    do {
+        __atomic_thread_fence(__ATOMIC_SEQ_CST);
+    } while (note_from_bob);
+    if (no_milk) {++milk;}
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=myasm,style=small,morekeywords=mfence]
+Alice:
+  movl $1, note_from_alice  // note_from_alice <- 1
+.L3:
+  mfence  // make sure store is visible to other cores before loading
+          // on x86: not needed on second+ iteration of loop
+  cmpl $0, note_from_bob  // if (note_from_bob == 0) repeat fence
+  jne .L3
+  cmpl $0, no_milk
+  ...
+\end{lstlisting}
+\end{frame}
+
+

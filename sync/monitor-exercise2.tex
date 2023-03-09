@@ -1,0 +1,24 @@
+\begin{frame}[fragile,label=monitorExercise2]{monitor exercise: barrier}
+\begin{itemize}
+\item suppose we want to implement a one-use barrier; fill in blanks:
+\end{itemize}
+\begin{lstlisting}[style=smaller]
+struct BarrierInfo {
+    pthread_mutex_t lock;
+    int total_threads;  // initially total # of threads
+    int number_reached; // initially 0
+    ___________________
+};
+
+void BarrierWait(BarrierInfo *b) {
+    pthread_mutex_lock(&b->lock);
+    ++b->number_reached;
+    if (b->number_reached == b->total_threads) {
+        _____________________
+    } else {
+        _____________________
+    }
+    pthread_mutex_unlock(&b->lock);
+}
+\end{lstlisting}
+\end{frame}

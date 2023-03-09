@@ -1,0 +1,81 @@
+\begin{frame}{thread resources}
+\begin{itemize}
+\item to create a thread, allocate:
+\item new stack (how big???)
+\item thread control block
+\vspace{.5cm}
+\item deallocated when \ldots
+\item<2-> can deallocate stack when thread exits
+\item<2-> but need to allow collecting return value
+    \begin{itemize}
+    \item same problem as for processes and waitpid
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pthreadDetach]{pthread\_detach}
+\begin{lstlisting}[
+    style=smaller,
+    language=C++,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+]
+void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_create(&show_progress_thread, NULL, show_progress, NULL);
+
+    /* instead of keeping pthread_t around to join thread later: */
+    @1pthread_detach(show_progress_thread);1@
+}
+
+int main() {
+    spawn_show_progress_thread();
+    do_other_stuff();
+    ...
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (place) at ([yshift=1cm]current page.south);
+\node[align=left,draw=red,ultra thick,anchor=south,at={(place)}] {
+    detach = don't care about return value, etc.\\
+    system will deallocate when thread terminates
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=startThreadDetached]{starting threads detached}
+\begin{lstlisting}[
+    style=smaller,
+    language=C++,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+]
+void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_attr_t attrs;
+    pthread_attr_init(&attrs);
+    @1pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_DETACHED);1@
+    pthread_create(&show_progress_thread, attrs,
+                   show_progress, NULL);
+    pthread_attr_destroy(&attrs);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=setStackSize]{setting stack sizes}
+\begin{lstlisting}[
+    style=small,
+    language=C++,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+]
+void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_attr_t attrs;
+    pthread_attr_init(&attrs);
+    @1pthread_attr_setstacksize(&attrs, 32 * 1024 /* bytes */);1@
+    pthread_create(&show_progress_thread, attrs,
+                   show_progress, NULL);
+}
+\end{lstlisting}
+\end{frame}

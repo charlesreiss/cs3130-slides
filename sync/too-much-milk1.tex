@@ -1,0 +1,68 @@
+\usetikzlibrary{arrows.meta}
+\begin{frame}[fragile,label=solutionOne]{too much milk ``solution'' 1 (algorithm)}
+\begin{itemize}
+\item leave a note: ``I am buying milk''
+    \begin{itemize}
+    \item place before buying
+    \item remove after buying
+    \item don't try buying if there's a note
+    \end{itemize}
+\item $\approx$ setting/checking a variable (e.g. ``\texttt{note = 1}'')
+\begin{itemize}\item with atomic load/store of variable\end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+if (no milk) {
+    if (no note) {
+        leave note;
+        buy milk;
+        remove note;
+    }
+}
+\end{lstlisting}
+\begin{itemize}
+\item<2-> \myemph{exercise: why doesn't this work?}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=solutionOneTimeline]{too much milk ``solution'' 1 (timeline)}
+\begin{tikzpicture}
+\tikzset{
+    every label/.style={font=\bfseries},
+    every node/.style={inner sep=0.5mm},
+}
+\node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
+\begin{lstlisting}[language=C++,style=small]
+if (no milk) {
+    if (no note) {
+\end{lstlisting}
+};
+\node[label={north:Bob},anchor=north west] (thread B top) at ([xshift=2cm]thread A part 1.north east) {
+\hspace{5cm}
+};
+\node[align=left,anchor=north west] (thread B part 1) at (thread B top.west |- thread A part 1.south) {
+\begin{lstlisting}[language=C++,style=small]
+if (no milk) {
+    if (no note) {
+\end{lstlisting}
+};
+\node[align=left,anchor=north west] (thread A part 2) at (thread A part 1.west |- thread B part 1.south) {
+\begin{lstlisting}[language=C++,style=small]
+        leave note;
+        buy milk;
+        remove note;
+    }
+}
+\end{lstlisting}
+};
+\node[align=left,anchor=north west] (thread B part 2) at (thread B part 1.west |- thread A part 2.south) {
+\begin{lstlisting}[language=C++,style=small]
+        leave note;
+        buy milk;
+        remove note;
+    }
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+

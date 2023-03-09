@@ -1,0 +1,72 @@
+\begin{frame}[fragile,label=rwLockExercise]{rwlock exercise (1)}
+\begin{itemize}
+\item suppose there are multiple waiting writers
+\item which one gets waken up first?
+    \begin{itemize}
+    \item whichever gets signal'd or gets lock first
+    \end{itemize}
+\vspace{.5cm}
+\item could instead keep in order they started waiting
+\item exercise: what extra information should we track?
+    \begin{itemize}
+    \item hint: we might need an array
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+mutex_t lock; cond_t ok_to_read_cv, ok_to_write_cv;
+int readers, writers, waiting_writers;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=rwLockExerciseOpt1]{rwlock exercise solution?}
+\begin{itemize}
+\item list of waiting writes?
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+struct WaitingWriter {
+    cond_t cv;
+    bool ready;
+};
+Queue<WaitingWriter*> waiting_writers;
+
+WriteLock(...) {
+  ...
+  if (need to wait) {
+    WaitingWriter self;
+    self.ready = false;
+    ...
+    while(!self.ready) {
+        pthread_cond_wait(&self.cv, &lock);
+    }
+  }
+  ...
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=rwLockExerciseOpt2]{rwlock exercise solution?}
+\begin{itemize}
+\item dedicated writing thread with queue 
+    \begin{itemize}
+        \item (DoWrite$\sim$Produce; WritingThread$\sim$Consume)
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+ThreadSafeQueue<WritingTask*> waiting_writes;
+WritingThread() {
+    while (true) {
+        WritingTask* task = waiting_writer.Dequeue();
+        WriteLock();
+        DoWriteTask(task);
+        task.done = true;
+        cond_broadcast(&task.cv);
+    }
+}
+DoWrite(task) {
+    // instead of WriteLock(); DoWriteTask(...); WriteUnlock()
+    WritingTask task = ...;
+    waiting_writes.Enqueue(&task);
+    while (!task.done) { cond_wait(&task.cv); }
+}
+\end{lstlisting}
+\end{frame}

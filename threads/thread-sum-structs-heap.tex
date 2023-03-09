@@ -1,0 +1,32 @@
+\begin{frame}[fragile,label=sumAllHeap]{sum example (on heap)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+struct ThreadInfo { @3pthread_t thread;3@ int *values; int start; int end; int result };
+void *sum_thread(void *argument) {
+    ...
+}
+
+ThreadInfo *start_sum_all(int *values) {
+    ThreadInfo *info = @2new ThreadInfo[2];2@
+    for (int i = 0; i < 2; ++i) {
+        info[i].values = values; info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&info[i].thread, NULL, sum_thread, (void *) @2&info[i]2@);
+    }
+    return info;
+}
+
+int finish_sum_all(ThreadInfo *info) {
+    for (int i = 0; i < 2; ++i)
+        pthread_join(@3info[i].thread3@, NULL);
+    int result = info[0].result + info[1].result;
+    delete[] info;
+    return result;
+}
+\end{lstlisting}
+\end{frame}
+

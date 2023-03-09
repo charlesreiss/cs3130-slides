@@ -1,0 +1,29 @@
+\begin{frame}[fragile,label=xv6SpinlockDebug]{xv6 spinlock: debugging stuff}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller,
+    morekeywords=mfence,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+]
+void acquire(struct spinlock *lk) {
+  ...
+  @2if(holding(lk))2@
+    panic("acquire")
+  ...
+  // Record info about lock acquisition for debugging.
+  @3lk->cpu = mycpu();3@
+  @4getcallerpcs(&lk, lk->pcs);4@
+}
+void release(struct spinlock *lk) {
+  @2if(!holding(lk))2@
+    panic("release");
+
+  @4lk->pcs[0] = 0;4@
+  @3lk->cpu = 0;3@
+  ...
+}
+\end{lstlisting}
+\end{frame}

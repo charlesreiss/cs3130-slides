@@ -1,0 +1,17 @@
+\begin{frame}[fragile,label=createMonitors]{mutex/cond var init/destroy}
+\begin{lstlisting}[style=smaller]
+pthread_mutex_t mutex;
+pthread_cond_t cv;
+pthread_mutex_init(&mutex, NULL);
+pthread_cond_init(&cv, NULL);
+// --OR--
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cv = PTHREAD_COND_INITIALIZER;
+
+// and when done:
+...
+pthread_cond_destroy(&cv);
+pthread_mutex_destroy(&mutex);
+\end{lstlisting}
+\end{frame}
+

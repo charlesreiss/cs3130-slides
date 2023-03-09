@@ -1,0 +1,15 @@
+
+\begin{frame}{pthread\_join, pthread\_exit}
+\begin{itemize}
+\item \texttt{pthread\_join}: wait for thread, retrieves its return value
+    \begin{itemize}
+    \item like \texttt{waitpid}, but for a thread
+    \item return value is pointer to anything
+    \end{itemize}
+\item \texttt{pthread\_exit}: exit current thread, returning a value
+    \begin{itemize}
+    \item like \texttt{exit} or returning from main, but for a single thread
+    \item same effect as returning from function passed to pthread\_create
+    \end{itemize}
+\end{itemize}
+\end{frame}

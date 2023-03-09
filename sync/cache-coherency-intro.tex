@@ -1,0 +1,54 @@
+\usetikzlibrary{arrows.meta,matrix,positioning,shapes.callouts}
+
+\subsubsection{the cache coherency problem}
+
+\begin{frame}[label=cacheShared]{the cache coherency problem}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+      \& \& \\
+    CPU1 \& CPU2 \& MEM1 \\
+};
+\foreach \x in {1,2,3} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-3.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\small\ttfamily,text width=1.8cm},
+        row 1/.append style={nodes={font=\small\bfseries}},
+    },
+}
+\matrix[cache,anchor=north,label={[font=\small]south:CPU1's cache}] (cache1) at (net-2-1.south east){
+    address \& value \\
+    0xA300 \& \sout<2->{100}\only<2->{\myemph{101}} \\
+    0xC400 \& 200 \\
+    0xE500 \& 300 \\
+};
+\matrix[cache,anchor=north,label={[font=\small]south:CPU2's cache}] (cache2) at (net-2-2.south east){
+    address \& value \\
+    0x9300 \& 172 \\
+    0xA300 \& 100 \\
+    0xC500 \& 200 \\
+};
+\begin{visibleenv}<2->
+\node[draw,thick,draw=blue,rectangle,anchor=north west] (writeTo) at ([yshift=-2cm]cache1.south west){
+    \Large CPU1 writes 101 to 0xA300?
+};
+\node[my callout2=cache2-3-2,anchor=north] at ([yshift=-.5cm]cache2-3-2.south) {
+    When does this change?
+};
+\node[my callout2=net-2-3.center,anchor=north] at ([yshift=-.5cm]net-2-3.center) {
+    When does this change?
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+

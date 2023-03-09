@@ -1,0 +1,15 @@
+\begin{frame}{Hoare versus Mesa monitors}
+\begin{itemize}
+\item Hoare-style monitors
+    \begin{itemize}
+    \item signal `hands off' lock to awoken thread
+    \end{itemize}
+\item Mesa-style monitors
+    \begin{itemize}
+    \item any eligible thread gets lock next
+    \item (maybe some other idea of priority?)
+    \end{itemize}
+\vspace{.5cm}
+\item every current threading library I know of does Mesa-style
+\end{itemize}
+\end{frame}

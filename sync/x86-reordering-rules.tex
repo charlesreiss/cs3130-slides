@@ -1,0 +1,33 @@
+
+\begin{frame}{aside: some x86 reordering rules}
+\begin{itemize}
+\item each core sees its own loads/stores in order
+    \begin{itemize}
+    \item (if a core stores something, it can always load it back)
+    \end{itemize}
+\item stores \textit{from other cores} appear in a consistent order
+    \begin{itemize}
+    \item (but a core might observe its own stores too early)
+    \end{itemize}
+\item \textit{causality}: \\
+    \textit{if} a core reads X=a and (after reading X=a) writes Y=b, \\
+    \textit{then} a core that reads Y=b cannot later read X=older value than a
+\end{itemize}
+\imagecredit{Source: Intel 64 and IA-32 Software Developer's Manual, Volume 3A, Chapter 8}
+\end{frame}
+
+\begin{frame}{how do you do anything with this?}
+    \begin{itemize}
+    \item difficult to reason about what modern CPU's reordering rules do
+    \item typically: don't depend on details, instead:
+    \vspace{.5cm}
+    \item special instructions with stronger (and simpler) ordering rules
+        \begin{itemize}
+        \item often same instructions that help with implementing locks in other ways
+        \end{itemize}
+    \item special instructions that restrict ordering of instructions around them (``fences'')
+        \begin{itemize}
+        \item loads/stores can't cross the fence
+        \end{itemize}
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,14 @@
+\begin{frame}[fragile,label=posixSemaphores]{POSIX semaphores}
+\begin{lstlisting}[language=C++,style=small]
+#include <semaphore.h>
+...
+sem_t my_semaphore;
+int process_shared = /* 1 if sharing between processes */;
+sem_init(&my_semaphore, process_shared, initial_value);
+...
+sem_wait(&my_semaphore);  /* down */
+sem_post(&my_semaphore);  /* up */
+...
+sem_destroy(&my_semaphore);
+\end{lstlisting}
+\end{frame}

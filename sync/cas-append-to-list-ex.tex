@@ -1,0 +1,17 @@
+\begin{frame}[fragile,label=appendToListExercise]{exercise: append to singly-linked list}
+\begin{itemize}
+    \item ListNode is a singly-linked list
+    \item assume: threads \textit{only} append to list (no deletions, reordering)
+    \item use \texttt{compare-and-swap(pointer, old, new)}:
+        \begin{itemize}
+        \item atomically change \texttt{*pointer} from \texttt{old} to \texttt{new}
+        \item return true if successful
+        \item return false (and change nothing) if \texttt{*pointer} is not \texttt{old}
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+void append_to_list(ListNode *head, ListNode *new_last_node) {
+    ...
+}
+\end{lstlisting}
+\end{frame}

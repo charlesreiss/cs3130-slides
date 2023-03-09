@@ -1,0 +1,12 @@
+
+\begin{frame}{mutex efficiency}
+\begin{itemize}
+\item `normal' mutex \textbf{\myemph{uncontended}} case:
+    \begin{itemize}
+    \item lock: acquire + release spinlock, see lock is free
+    \item unlock: acquire + release spinlock, see queue is empty
+    \end{itemize}
+\vspace{.5cm}
+\item not much slower than spinlock
+\end{itemize}
+\end{frame}

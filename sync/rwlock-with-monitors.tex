@@ -1,0 +1,101 @@
+\begin{frame}[fragile,label=rwlockMonitors1]{rwlocks with monitors (attempt 1)}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={anchor=north west,font=
+        \lstset{
+            language=C++,
+            basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+            moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+            moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+        },
+        inner sep=0mm,
+    },
+    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
+}
+\node[code,show at=1] (the lock) {
+\begin{lstlisting}
+mutex_t lock;
+\end{lstlisting}
+};
+\node[code,show at=2] (the count) at (the lock.south west){
+\begin{lstlisting}
+unsigned int readers, writers;
+\end{lstlisting}
+};
+\node[code,show at=3] (the condition) at (the count.south west){
+\begin{lstlisting}
+/* condition, signal when writers becomes 0 */
+cond_t ok_to_read_cv;
+/* condition, signal when readers + writers becomes 0 */
+cond_t ok_to_write_cv;
+\end{lstlisting}
+};
+\node[code,show at=4] (down code) at (the condition.south west){
+\begin{lstlisting}
+ReadLock() {
+  mutex_lock(&lock);
+  while (writers != 0) {
+    @4cond_wait(&ok_to_read_cv, &lock);4@
+  }
+  ++readers;
+  mutex_unlock(&lock);
+}
+ReadUnlock() {
+  mutex_lock(&lock);
+  --readers;
+  if (readers == 0) {
+    @5cond_signal(&ok_to_write_cv);5@
+  }
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[code,show at=4] (up code) at ([xshift=.5cm]down code.north east){
+\begin{lstlisting}
+WriteLock() {
+  mutex_lock(&lock);
+  while (readers + writers != 0) {
+    cond_wait(&ok_to_write_cv);
+  }
+  ++writers;
+  mutex_unlock(&lock);
+}
+WriteUnlock() {
+  mutex_lock(&lock);
+  --writers;
+  @B5cond_signal(&ok_to_write_cv);5@
+  @B4cond_broadcast(&ok_to_read_cv);4@
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\vspace{-.25cm}
+
+\begin{onlyenv}<1>
+\myemph{lock to protect shared state}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\myemph{state: number of active readers, writers}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\myemph{conditions to wait for (no readers or writers, no writers)}
+\end{onlyenv}
+\begin{onlyenv}<4>
+\myemph{broadcast --- wakeup all readers when no writers}
+\end{onlyenv}
+\begin{onlyenv}<5>
+\myemph{wakeup a single writer when no readers or writers}
+\end{onlyenv}
+\begin{onlyenv}<6>
+\myemph{problem: wakeup readers first or writer first?} \\
+{\small this solution: wake them all up and they fight! inefficient!}
+\end{onlyenv}
+\end{frame}
+

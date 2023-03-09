@@ -1,0 +1,13 @@
+\begin{frame}{why spurious wakeups?}
+  \begin{itemize}
+    \item makes implementing condition variables simpler
+    \vspace{.5cm}
+    \item<2-> can be hard to avoid loop in more complicated scenarios
+      % FIXME: timeline?
+    \item<2-> e.g. signal() saying okay to remove item from queue \\ what if another thread sneaks in and does it first?
+        \begin{itemize}
+        \item maybe signal() could be redesigned to prevent this somehow?
+        \item \ldots but that's harder to implement
+        \end{itemize}
+    \end{itemize}
+\end{frame}

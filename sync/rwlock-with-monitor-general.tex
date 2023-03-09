@@ -1,0 +1,14 @@
+
+\begin{frame}{choosing orderings?}
+\begin{itemize}
+\item can use monitors to implement lots of lock policies
+\item want $X$ to go first/last --- add extra variables
+    \begin{itemize}
+    \item (number of waiters, even lists of items, etc.)
+    \end{itemize}
+\item need way to write condition ``you can go now''
+    \begin{itemize}
+    \item e.g. writer-priority: readers can go if no writer waiting
+    \end{itemize}
+\end{itemize}
+\end{frame}

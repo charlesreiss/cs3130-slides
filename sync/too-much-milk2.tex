@@ -1,0 +1,59 @@
+\begin{frame}[fragile,label=solutionTwo]{too much milk ``solution'' 2 (algorithm)}
+\begin{itemize}
+\item intuition: leave note when buying \myemph{or checking if need to buy}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+leave note;
+if (no milk) {
+    if (no note) {
+        buy milk;
+    }
+}
+remove note;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=solutionTwoTimeline]{too much milk: ``solution'' 2 (timeline)}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+}
+\begin{scope}
+\tikzset{
+    every label/.style={font=\bfseries},
+    every node/.style={inner sep=0.25mm},
+}
+\node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
+\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<2-|handout:2->]{@2}{2@}}]
+leave note;
+if (no milk) {
+    if (@2no note2@) {
+\end{lstlisting}
+};
+\node[anchor=north west] (thread A part 2) at (thread A part 1.south west) {
+\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<1-|handout:1->]{@2}{2@}}]
+        buy milk;
+\end{lstlisting}
+};
+\node[anchor=north west] (thread A part 3) at (thread A part 2.south west) {
+\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<1-|handout:1->]{@2}{2@}}]
+    }
+}
+remove note;
+\end{lstlisting}
+};
+\end{scope}
+\begin{visibleenv}<2->
+    \draw[black,very thick,<-] ([yshift=3mm]thread A part 1.south east) -- ++(1cm, 0cm) node[right] (always a note) {
+        but there's \myemph{always a note}
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \draw[ultra thick,black] ([xshift=2cm]thread A part 2.south west) -- (thread A part 2.north east);
+    \node[anchor=north west] at (always a note.south west) {
+        \ldots will never buy milk (twice \textit{or} once)
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

@@ -1,0 +1,31 @@
+\begin{frame}[fragile,label=sumNoGlobals]{sum example (to main stack)}
+\begin{lstlisting}[
+    language=C++,basicstyle=\tt\fontsize{9}{10}\selectfont,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    escapeinside=QQ,
+]
+struct ThreadInfo { @2int *values;2@ int start; int end; int result };
+void *sum_thread(void *argument) {
+    ThreadInfo *@3my_info3@ = (ThreadInfo *) argument;Q\tikzmark{info}Q
+    int sum = 0;
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        sum += my_info->values[i];
+    }
+    @4my_info->result = sum;4@
+    return NULL;
+
+}
+int sum_all(int *values) {
+    ThreadInfo info[2]; pthread_t thread[2];
+    for (int i = 0; i < 2; ++i) {
+        @2info[i].values = values;2@ info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, (void *) &info[i]);
+    }
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
+}
+\end{lstlisting}
+\end{frame}

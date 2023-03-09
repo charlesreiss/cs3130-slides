@@ -1,0 +1,18 @@
+
+\begin{frame}{mfence}
+    \begin{itemize}
+        \item x86 instruction \texttt{mfence}
+        \item make sure all loads/stores in progress finish
+        \item \ldots and make sure no loads/stores were started early
+            \vspace{.5cm}
+        \item fairly expensive 
+            \begin{itemize}
+            \item Intel `Skylake': order 33 cycles + time waiting for pending stores/loads
+            \end{itemize}
+        \vspace{.5cm}
+        \item<2-> aside: this instruction is did not exist in the original x86 \\
+                so xv6 uses something older that's equivalent
+    \end{itemize}
+\end{frame}
+
+

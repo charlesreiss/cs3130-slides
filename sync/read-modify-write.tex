@@ -1,0 +1,36 @@
+\begin{frame}{atomic read-modfiy-write}
+    \begin{itemize}
+    \item really hard to build locks for atomic load store
+        \begin{itemize}
+        \item and normal load/stores aren't even atomic\ldots
+        \end{itemize}
+    \item \ldots so processors provide \myemph{read/modify/write} operations
+        \vspace{.5cm}
+    \item one instruction that\\\textit{atomically}\\reads \textit{and} modifies \textit{and} writes back a value
+    \end{itemize}
+\end{frame}
+
+\subsection{x86 atomic exchange} 
+\begin{frame}[fragile,label=atomicXchg]{x86 atomic exchange}
+\begin{lstlisting}[language=myasm]
+lock xchg (%ecx), %eax
+\end{lstlisting}
+\begin{itemize}
+    \item atomic exchange
+    \item \texttt{temp $\leftarrow$ M[ECX]}
+    \item \texttt{M[ECX] $\leftarrow$ EAX}
+    \item \texttt{EAX $\leftarrow$ temp}
+    \item \ldots without being interrupted by other processors, etc.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{implementing atomic exchange}
+    \begin{itemize}
+    \item make sure other processors don't have cache block
+    \item do read+modify+write operation
+    \vspace{.5cm}
+    \item recall: Modified state = ``I am the only one with a copy''
+    \end{itemize}
+\end{frame}
+

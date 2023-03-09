@@ -1,0 +1,53 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}{connecting CPUs and memory}
+    \begin{itemize}
+    \item multiple processors, common memory
+    \item how do processors communicate with memory?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{shared bus}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=5mm,
+] (net) {
+      \& \& \& \& \&  \\
+    CPU1 \& CPU2 \& CPU3 \& CPU4 \& MEM1 \& MEM2\\
+};
+\foreach \x in {1,2,3,4,5,6} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-6.east);
+\end{tikzpicture}
+\begin{itemize}
+\item \myemph{tagged} messages --- everyone gets everything, filters
+\item contention if multiple communicators
+    \begin{itemize}
+    \item some hardware enforces only one at a time
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{shared buses and scaling}
+    \begin{itemize}
+    \item shared buses perform poorly with ``too many'' CPUs
+    \item so, there are other designs
+        \vspace{.5cm}
+    \item we'll gloss over these for now
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{shared buses and caches}
+    \begin{itemize}
+    \item remember caches?
+    \item memory is \myemph{pretty slow}
+    \item each CPU wants to keep local copies of memory
+        \vspace{.5cm}
+    \item what happens when multiple CPUs cache same memory?
+    \end{itemize}
+\end{frame}

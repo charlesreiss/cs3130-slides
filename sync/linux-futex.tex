@@ -1,0 +1,71 @@
+\begin{frame}{Linux futexes}
+\begin{itemize}
+\item \texttt{futex} --- \textbf{f}ast \textbf{u}serspace mu\textbf{tex}
+\item goal: implement waiting like `proper' mutexes, but\ldots
+\item don't enter kernel mode most of the time
+\vspace{.5cm}
+\item challenge: can't acquire lock to call scheduler from user mode
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=futexOp]{futex operations}
+\begin{lstlisting}[language=C++,style=small]
+futex(&lock_value, FUTEX_WAIT, expected_value, ...);
+\end{lstlisting}
+\begin{itemize}
+\item check if \texttt{lock\_value} is \texttt{expected\_value}
+    \begin{itemize}
+    \item if not --- return immediately
+    \item otherwise, sleep until it \texttt{futex(\ldots, FUTEX\_WAKE} is called
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[language=C++,style=small]
+futex(&lock_value, FUTEX_WAKE, num_processes);
+\end{lstlisting}
+\begin{itemize}
+\item wakeup up to \texttt{num\_processes} which called FUTEX\_WAIT
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=futexMutex]{mutexes with futexes}
+\begin{lstlisting}[language=C++,style=smaller]
+int lock_value; // UNLOCKED or LOCKED_NO_WAITERS or LOCKED_WAITERS
+Lock() {
+retry:
+    if (CompareAndSwap(&lock_value, UNLOCKED, LOCKED_NO_WAITERS) == SET) {
+        /* acquired lock */
+        return;
+    } else if (CompareAndSwap(&lock_value, LOCKED_NO_WAITERS, LOCKED_WAITERS) == SET) {
+        futex(&lock_value, FUTEX_WAIT, LOCKED_WAITERS, ...);
+    }
+    goto retry;
+}
+Unlock() {
+    if (CompareAndSwap(&lock_value, LOCKED_NO_WAITERS, UNLOCKED) == SET) {
+        return;
+    } else {
+        lock_value = UNLOCKED;
+        futex(&lock_value, FUTEX_WAKE, 1, ...);
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{implementing futex\_wait}
+\begin{itemize}
+\item hashtable: address $\rightarrow$ queue of waiting threads
+\vspace{.5cm}
+\item use hashtable to look-up queue
+\item lock queue
+\item check value hasn't changed
+    \begin{itemize}
+    \item if so abort, releasing lock
+    \end{itemize}
+\item add thread to queue
+\item set thread as WAITING (not runnable)
+\item unlock queue
+\item call scheduler
+\vspace{.5cm}
+\item woken up --- queue used to set RUNNABLE
+\end{itemize}
+\end{frame}

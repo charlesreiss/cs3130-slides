@@ -1,0 +1,216 @@
+% FIXME: what 3 CPUs, ping-pong between CPU2 and CPU3
+\usetikzlibrary{arrows.meta,matrix,positioning,shapes.callouts}
+
+\begin{frame}{ping-ponging}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+    \& \& \& \\
+    CPU1 \& CPU2 \& CPU3 \& MEM1 \\
+};
+\foreach \x in {1,2,3,4} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-4.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\fontsize{9}{10}\ttfamily\selectfont,text width=1.5cm,execute at begin node={\strut}},
+        row 1/.append style={nodes={font=\fontsize{9}{10}\bfseries\selectfont}},
+        column 3/.append style={nodes={font=\fontsize{9}{10}\sffamily\selectfont}},
+    },
+}
+\matrix[cache,anchor=north] (cache1) at (net-2-1.south east){
+    address \& value \& state\\
+    lock \& \only<1>{locked}\only<2-5,7>{\myemph<2,7>{---}}\only<6>{\myemph<6>{unlocked}} \& \only<1,6>{Modified}\only<2-5,7>{\myemph{Invalid}} \\
+};
+\matrix[cache,anchor=north] (cache2) at ([xshift=.75cm]net-2-2.south east){
+    address \& value \& state\\
+    lock \& \only<1,3,5-6>{---}\only<2,4,7>{\myemph{locked}} \& \only<1,3,5,6>{\myemph<2,4>{Invalid}}\only<2,4,7>{\myemph{Modified}} \\
+};
+\matrix[cache,anchor=north] (cache3) at ([xshift=1.5cm]net-2-3.south east){
+    address \& value \& state\\
+    lock \& \only<1-2,4>{---}\only<3,5>{\myemph{locked}} \& \only<1-2,4,6-7>{\myemph<4>{Invalid}}\only<3,5>{\myemph{Modified}} \\
+};
+\begin{visibleenv}<2,4>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) node[above] {``I want to modify \texttt{lock}?''} -- (net-1-4.center) --(net-2-4.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU2 read-modify-writes lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<3,5>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-2.center) --(net-2-2.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU3 read-modify-writes lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU1 sets lock to unlocked
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    some CPU (this example: CPU2) acquires lock
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{ping-ponging}
+    \begin{itemize}
+    \item test-and-set problem: cache block ``ping-pongs'' between caches
+        \begin{itemize}
+        \item each waiting processor reserves block to modify
+        \item could maybe wait until it determines modification needed --- but not typical implementation
+        \end{itemize}
+    \item each transfer of block sends messages on bus
+    \item \ldots so bus can't be used for real work
+        \begin{itemize}
+        \item like what the processor with the lock is doing
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=testAndTestAndSetC]{test-and-test-and-set (pseudo-C)}
+\begin{lstlisting}[language=C,style=smaller]
+acquire(int *the_lock) {
+    do {
+        while (ATOMIC-READ(the_lock) == 0) { /* try again */ }
+    } while (ATOMIC-TEST-AND-SET(the_lock) == ALREADY_SET);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile,label=testAndTestAndSetASM]{test-and-test-and-set (assembly)}
+\begin{lstlisting}[language=myasm,style=smaller]
+acquire:
+    cmp $0, the_lock         // test the lock non-atomically
+            // unlike lock xchg --- keeps lock in Shared state!
+    jne acquire              // try again (still locked)
+    // lock possibly free
+    // but another processor might lock
+    // before we get a chance to
+    // ... so try wtih atomic swap:
+    movl $1, %eax             // %eax <- 1
+    lock xchg %eax, the_lock  // swap %eax and the_lock
+           // sets the_lock to 1
+           // sets %eax to prior value of the_lock
+    test %eax, %eax           // if the_lock wasn't 0 (someone else got it first):
+    jne acquire               //   try again
+    ret
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{less ping-ponging}
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+    \& \& \& \\
+    CPU1 \& CPU2 \& CPU3 \& MEM1 \\
+};
+\foreach \x in {1,2,3,4} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-4.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\fontsize{9}{10}\ttfamily\selectfont,text width=1.5cm,execute at begin node={\strut}},
+        row 1/.append style={nodes={font=\fontsize{9}{10}\bfseries\selectfont}},
+        column 3/.append style={nodes={font=\fontsize{9}{10}\sffamily\selectfont}},
+    },
+}
+\matrix[cache,anchor=north] (cache1) at (net-2-1.south east){
+    address \& value \& state\\
+    lock \& \only<1-5>{locked}\only<6>{\myemph<6>{unlocked}} \& \only<1-2,6->{\myemph{Modified}}\only<3-5>{\myemph<3>{Shared}} \\
+};
+\matrix[cache,anchor=north] (cache2) at ([xshift=.75cm]net-2-2.south east){
+    address \& value \& state\\
+    lock \& \only<1,6>{---}\only<3-5>{\myemph<3,5>{locked}} \& \only<1-2>{Invalid}\only<3-5>{\myemph<3>{Shared}}\only<6->{\myemph<6>{Invalid}} \\
+};
+\matrix[cache,anchor=north] (cache3) at ([xshift=1.5cm]net-2-3.south east){
+    address \& value \& state\\
+    lock \& \only<1,6>{---}\only<4-5>{\myemph<4,5>{locked}} \& \only<1-3>{Invalid}\only<4-5>{\myemph<4>{Shared}}\only<6->{\myemph<6>{Invalid}} \\
+};
+\begin{visibleenv}<2>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) node[above] {``I want to read \texttt{lock}?''} -- (net-1-4.center) --(net-2-4.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU2 reads lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above] {``set lock to locked''} -- (net-1-4.center) --(net-2-4.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU1 writes back lock value, \\ then CPU2 reads it
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) node[above,xshift=1cm] {``I want to read \texttt{lock}''} -- (net-1-4.center) --(net-2-4.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU3 reads lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU2, CPU3 continue to read lock from cache \\
+    no messages on the bus
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU1 sets lock to unlocked
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    some CPU (this example: CPU2) acquires lock \\
+    (CPU1 writes back value, then CPU2 reads + modifies it)
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{couldn't the read-modify-write instruction\ldots}
+    \begin{itemize}
+    \item notice that the value of the lock isn't changing\ldots
+    \item and keep it in the shared state
+        \vspace{.5cm}
+    \item maybe --- but extra step in ``common'' case \\ (swapping different values)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{more room for improvement?}
+    \begin{itemize}
+    \item can still have a lot of attempts to modify locks after unlocked
+    \item there other spinlock designs that avoid this
+        \begin{itemize}
+        \item ticket locks
+        \item MCS locks
+        \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,9 @@
+\begin{frame}{reader/writer problem}
+    \begin{itemize}
+    \item some shared data 
+    \item only one thread modifying (read+write) at a time
+    \item read-only access \myemph{from multiple threads} is safe
+    \vspace{.5cm}
+    \item<2-> could use lock --- but doesn't allow multiple readers
+    \end{itemize}
+\end{frame}

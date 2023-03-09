@@ -1,0 +1,163 @@
+\begin{frame}[fragile,label=rwLockExercise2]{rwlock exercise}
+\begin{itemize}
+\item suppose we want something in-between reader and writer priority:
+\item reader-priority except if writers wait more than 1 second
+\item exercise: what do we change?
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={anchor=north west,font=
+        \lstset{
+            language=C++,
+            basicstyle=\fontsize{8}{9}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+            moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+            moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+        },
+        inner sep=0mm,
+    },
+    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0}},
+}
+\node[code,show at=1] (the lock) {
+\begin{lstlisting}
+...
+int waiting_readers = 0;
+\end{lstlisting}
+};
+\node[code,show at=1] (read code) at (the lock.south west){
+\begin{lstlisting}
+ReadLock() {
+  mutex_lock(&lock);
+  ++waiting_readers;
+  while (writers != 0) {
+    cond_wait(&ok_to_read_cv, &lock);
+  }
+  --waiting_readers;
+  ++readers;
+  mutex_unlock(&lock);
+}
+
+ReadUnlock() {
+  mutex_lock(&lock);
+  --readers;
+  if (waiting_readers == 0 &&
+      readers == 0) {
+    cond_signal(&ok_to_write_cv);
+  }
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[code,show at=1] (write code) at ([xshift=1cm]read code.north east){
+\begin{lstlisting}
+WriteLock() {
+  mutex_lock(&lock);
+  while (waiting_readers + readers + writers != 0) {
+    cond_wait(&ok_to_write_cv);
+  }
+  ++writers;
+  mutex_unlock(&lock);
+}
+WriteUnlock() {
+  mutex_lock(&lock);
+  --writers;
+  if (waiting_readers == 0) {
+    cond_signal(&ok_to_write_cv);
+  } else {
+    cond_broadcast(&ok_to_read_cv);
+  }
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=rwlockExercise2Soln]{rwlock exercise soln}
+\begin{tikzpicture}
+\tikzset{
+    code/.style={anchor=north west,font=
+        \lstset{
+            language=C++,
+            basicstyle=\fontsize{8}{9}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+            moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+            moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+        },
+        inner sep=0mm,
+    },
+    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0}},
+}
+\node[code,show at=1] (the lock) {
+\begin{lstlisting}
+...
+int waiting_readers = 0;
+\end{lstlisting}
+};
+\node[code,show at=1] (read code) at (the lock.south west){
+\begin{lstlisting}
+ReadLock() {
+  mutex_lock(&lock);
+  ++waiting_readers;
+  while (writers != 0
+  @2 || WritersWaitingTooLong()2@) {
+    cond_wait(&ok_to_read_cv, &lock);
+  }
+  --waiting_readers;
+  ++readers;
+  mutex_unlock(&lock);
+}
+
+ReadUnlock() {
+  mutex_lock(&lock);
+  --readers;
+  if ((waiting_readers == 0 
+       @2|| WritersWaitingTooLong()2@
+      ) && readers == 0)) {
+    cond_signal(&ok_to_write_cv);
+  }
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\node[code,show at=1] (write code) at ([xshift=1cm]read code.north east){
+\begin{lstlisting}
+WriteLock() {
+  mutex_lock(&lock);
+  @2RecordStartWaiting();2@
+  while (readers + writers != 0 ||
+         @2(waiting_readers != 0 &&2@
+         @2!WritersWaitingTooLong())2@) {
+    cond_wait(&ok_to_write_cv);
+  }
+  @2RecordStopWaiting();2@
+  ++writers;
+  mutex_unlock(&lock);
+}
+WriteUnlock() {
+  mutex_lock(&lock);
+  --writers;
+  if (waiting_readers == 0 
+   @2|| WritersWaitingTooLong()2@) {
+    cond_signal(&ok_to_write_cv);
+  } else {
+    cond_broadcast(&ok_to_read_cv);
+  }
+  mutex_unlock(&lock);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1->{rwlockExercise2Soln}}

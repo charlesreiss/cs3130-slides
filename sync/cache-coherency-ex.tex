@@ -1,0 +1,24 @@
+\begin{frame}{cache coherency exercise}
+\begin{itemize}
+\item modified/shared/invalid; all initially invalid; 32B blocks, 8B read/writes
+\begin{itemize}
+\item CPU 1: read 0x1000
+\item CPU 2: read 0x1000
+\item CPU 1: write 0x1000
+\item CPU 1: read 0x2000
+\item CPU 2: read 0x1000
+\item CPU 2: write 0x2008
+\item CPU 3: read 0x1008
+\end{itemize}
+\item Q1: final state of 0x1000 in caches? 
+    \begin{itemize}
+    \item Modified/Shared/Invalid for CPU 1/2/3
+    \item CPU 1: \hspace{2cm} CPU 2: \hspace{2cm} CPU 3: \hspace{2cm}
+    \end{itemize}
+\item Q2: final state of 0x2000 in caches? 
+    \begin{itemize}
+    \item Modified/Shared/Invalid for CPU 1/2/3
+    \item CPU 1: \hspace{2cm} CPU 2: \hspace{2cm} CPU 3: \hspace{2cm}
+    \end{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,23 @@
+\begin{frame}{pthreads and reordering}
+    \begin{itemize}
+    \item many pthreads functions \myemph{prevent reordering}
+        \begin{itemize}
+        \item everything before function call actually happens before 
+        \end{itemize}
+    \item includes \myemph{preventing some optimizations}
+        \begin{itemize}
+        \item e.g. keeping global variable in register for too long
+        \end{itemize}
+    \vspace{.5cm}
+    \item pthread\_mutex\_lock/unlock, pthread\_create, pthread\_join, \ldots
+        \begin{itemize}
+        \item basically: if pthreads is waiting for/starting something, no weird ordering
+        \end{itemize}
+    \item implementation part 1: prevent compiler reordering
+    \item implementation part 2: use special instructions
+        \begin{itemize}
+        \item example: x86 \texttt{mfence} instruction
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

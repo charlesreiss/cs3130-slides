@@ -1,0 +1,17 @@
+\begin{frame}{lock analogy}
+    \begin{itemize}
+    \item agreement: whoever holds the flag can access shared resource
+        \begin{itemize}
+        \item flag doesn't actually do anything by itself\ldots
+        \end{itemize}
+    \item acquire/lock $\approx$ wait for and grab flag from table
+    \item release/unlock $\approx$ put flag back on table
+    \vspace{.5cm}
+    \item<2-> agreement is \myemph{voluntary}
+        \begin{itemize}
+        \item thread tries to manipulate shared resource without lock? \\
+            lock won't stop it\ldots
+        \end{itemize}
+    \item<2-> lock is \textit{held} by particular thread
+    \end{itemize}
+\end{frame}

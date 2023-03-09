@@ -1,0 +1,19 @@
+\begin{frame}<1>[fragile,label=spinLockProblems]{spinlock problems}
+    \begin{itemize}
+    \item \myemph<4>{lock abstraction is not powerful enough}
+        \begin{itemize}
+        \item lock/unlock operations don't handle ``wait for event''
+        \item common thing we want to do with threads
+        \item solution: other synchronization abstractions
+        \end{itemize}
+    \item \myemph<3>{spinlocks waste CPU time more than needed}
+        \begin{itemize}
+        \item want to run another thread instead of infinite loop
+        \item solution: lock implementation integrated with scheduler
+        \end{itemize}
+    \item \myemph<2>{spinlocks can send a lot of messages on the shared bus}
+        \begin{itemize}
+        \item more efficient atomic operations to implement locks
+        \end{itemize}
+    \end{itemize}
+\end{frame}

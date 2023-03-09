@@ -1,0 +1,59 @@
+\usetikzlibrary{arrows.meta}
+\begin{frame}[fragile,label=bothFinishedEx]{wait for both finished}
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    morekeywords={pthread_mutex_t,pthread_cond_t},
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}}, 
+    escapeinside=QQ,
+]
+// MISSING: init calls, etc.
+pthread_mutex_t lock;
+bool finished[2];
+pthread_cond_t both_finished_cv;
+
+void WaitForBothFinished() {
+  pthread_mutex_lock(&lock);Q\tikzmark{lock for wait}Q
+  while (@2_____________________________2@) {Q\tikzmark{finished loop}Q
+    pthread_cond_wait(&both_finished_cv, &lock);Q\tikzmark{wait}Q
+  }
+  pthread_mutex_unlock(&lock);
+}
+
+void Finish(int index) {
+  pthread_mutex_lock(&lock);Q\tikzmark{lock for finish}Q
+  finished[index] = true;
+  @3_____________________________________3@
+  pthread_mutex_unlock(&lock);
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    >=Latex,
+    explain box/.style={draw=red,text=black,very thick,align=left,font=\small},
+    point line/.style={very thick,red},
+}
+\begin{visibleenv}<2>
+    \node[explain box,anchor=north east] (acquire text) at ([yshift=-1cm,xshift=-.25cm]current page.north east) {
+        A. \lstinline*finished[0] && finished[1]* \\
+        B. \lstinline*finished[0] || finished[1]* \\
+        C. \lstinline*!finished[0] || !finished[1]* \\
+        D. \lstinline*finished[0] != finished[1]* \\
+        E. something else
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[explain box,anchor=north east,font=\fontsize{9}{10}\selectfont,fill=white] (acquire text) at ([yshift=-2cm,xshift=-.25cm]current page.north east) {
+        A. \lstinline*pthread_cond_signal(&both_finished_cv)* \\
+        B. \lstinline*pthread_cond_broadcast(&both_finished_cv)* \\
+        C. \lstinline*if (finished[1-index])* \\
+        \hspace{1.5cm} \lstinline*pthread_cond_singal(&both_finished_cv);* \\
+        D. \lstinline*if (finished[1-index])* \\
+        \hspace{1.5cm} \lstinline*pthread_cond_broadcast(&both_finished_cv);* \\
+        E. something else
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,66 @@
+
+\begin{frame}[fragile,label=cvToSem]{semaphores/CV}
+\begin{tikzpicture}
+\node (sem) {
+\begin{lstlisting}[
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    moredelim={**[is][\btHL<1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+]
+int num_waiting = 0;
+bool finished = false;
+sem_t mutex; // initially 1
+sem_t gate;  // initially 0
+void WaitForFinished() {
+    sem_wait(&mutex);
+    if (finished) {
+        sem_post(&mutex);
+    } else {
+        @2num_waiting += 1;2@
+        @2sem_post(&mutex);2@
+        @2sem_wait(&gate);2@
+    }
+}
+
+void Finish() {
+    sem_wait(&mutex);
+    finished = true;
+    @1while (num_waiting > 0) {1@
+        @1num_waiting -= 1;1@
+        @1sem_post(&gate);1@
+    @1}1@
+}
+\end{lstlisting}
+};
+\node[anchor=north west] (cv) at ([xshift=2cm]sem.north east) {
+\begin{lstlisting}[
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    moredelim={**[is][\btHL<1>]{@1}{1@}},
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+]
+bool finished = false;
+pthread_mutex_t mutex;
+pthread_cond_t cv;
+
+
+void WaitForFinished() {
+    pthread_mutex_lock(&mutex);
+    while (!finished) {
+        @2pthread_cond_wait(&cv, &mutex);2@
+    }
+    pthread_mutex_unlock(&mutex);
+}
+
+
+
+
+void Finish() {
+    pthread_mutex_lock(&mutex);
+    finished = true;
+    @1pthread_cond_broadcast(&cv);1@
+    pthread_mutex_unlock(&mutex);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}

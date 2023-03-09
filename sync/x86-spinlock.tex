@@ -1,0 +1,52 @@
+\begin{frame}[fragile,label=spinlockXchg]{x86-64 spinlock with xchg}
+    \begin{itemize}
+        \item lock variable in shared memory: \texttt{the\_lock}
+        \item if 1: someone has the lock; if 0: lock is free to take
+    \end{itemize}
+\begin{lstlisting}[
+    language=myasm,
+    style=smaller,
+    morekeywords=mfence,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+]
+acquire:
+    @2movl $1, %eax2@             // %eax <- 1
+    @2@5lock5@ xchg %eax, the_lock2@  // swap %eax and the_lock
+                                    // sets the_lock to 1 (taken)
+                                    // sets %eax to prior val. of the_lock
+    @3test %eax, %eax3@           // if the_lock wasn't 0 before:
+    @3jne acquire3@               //   try again
+    ret
+
+release:
+    @5mfence5@                    // for memory order reasons
+    @4movl $0, the_lock4@         // then, set the_lock to 0 (not taken)
+    ret
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (place) at ([xshift=-1cm,yshift=-1cm]current page.east);
+\tikzset{
+    box/.style={draw=red,ultra thick,align=left,anchor=east,at={(place)},fill=white},
+    box lower/.style={draw=red,ultra thick,align=left,anchor=east,at={(place)},fill=white},
+}
+\begin{visibleenv}<2>
+    \node[box] { set lock variable to 1 (taken) \\ read old value };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[box] { if lock was already locked retry \\ ``spin'' until lock is released elsewhere };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[box] { release lock by setting it to 0 (not taken) \\ allows looping acquire to finish};
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[box lower] { Intel's manual says: \\
+                 no reordering of loads/stores across a \texttt{lock} \\
+                 or \texttt{mfence} instruction
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

@@ -1,0 +1,25 @@
+
+\begin{frame}[fragile,label=gatePattern]{gate intuition/pattern}
+    \begin{itemize}
+    \item pattern to allow one thread at a time:
+    \end{itemize}
+\begin{visibleenv}
+\begin{lstlisting}[style=small]
+sem_t gate; // 0 = closed; 1 = open
+ReleasingThread() {
+    ... // finish what the other thread is waiting for
+    while (another thread is waiting and can go) {
+        sem_post(&gate)  // allow EXACTLY ONE thread
+        ... // other bookkeeping
+    }
+    ...
+}
+WaitingThread() {
+    ... // indicate that we're waiting
+    sem_wait(&gate) // wait for gate to be open
+    ... // indicate that we're not waiting
+}
+\end{lstlisting}
+\end{visibleenv}
+\end{frame}
+

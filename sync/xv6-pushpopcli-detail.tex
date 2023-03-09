@@ -1,0 +1,67 @@
+
+
+\begin{frame}[fragile,label=xv6IntDis2]{xv6 interrupt disabling: detail (3)}
+\begin{lstlisting}[
+    language=C++,
+    style=smaller,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+]
+pushcli(void)
+{
+  int eflags;
+  eflags = readeflags();
+  @5cli();5@
+  if (@2mycpu()2@->ncli == 0)
+    @2mycpu()2@->@3intena = eflags & FL_IF3@;
+  @4@2mycpu()2@->ncli += 1;4@
+}
+
+popcli(void)
+{
+  if(readeflags()&FL_IF)
+    panic("popcli - interruptible");
+  if(@4--@2mycpu()2@->ncli4@ < 0)
+    panic("popcli");
+  @6if(@2mycpu()2@->ncli == 0 && @2mycpu()2@->@3intena3@)6@
+    @6sti();6@
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (place) at ([xshift=-.5cm,yshift=-.75cm]current page.east);
+\tikzset{
+    box/.style={at={(place)},draw=red,very thick,font=\small,align=left,anchor=east,fill=white},
+}
+\begin{visibleenv}<2>
+\node[box] {
+    \texttt{mycpu()} --- per-core information
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    \texttt{intena} --- were interrupts enabled before first pushcli()?
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    \texttt{ncli} --- \# calls to pushcli - \# calls to popcli \\
+    intended usage: each pushcli has matching popcli
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    pushcli --- always disable interrupts
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[box] {
+    popcli --- renable interrupts if last popcli \\
+    (and interrupts were enabled before) \\
+    (each pushcli had a matching popcli call)
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

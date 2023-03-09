@@ -1,0 +1,33 @@
+\begin{frame}{read-copy-update (high-level overview)}
+    \begin{itemize}
+    \item idea: read-mostly data structure
+    \item when reading:
+        \begin{itemize}
+        \item read normally \myemph{via shared pointer}
+        \end{itemize}
+    \item when writing:
+        \begin{itemize}
+        \item make a copy 
+        \item atomically update the \myemph{shared pointer}
+        \item delete the old version \myemph{eventually}
+        \end{itemize}
+    \item tricky part: when is it safe to delete old version
+        \begin{itemize}
+        \item implementation: \myemph{scheduler integration}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{RCU operations}
+    \begin{itemize}
+    \item read lock --- record: ``I am reading now''
+    \item read unlock --- record: ``I am done reading now''
+    \item publish --- atomically update pointer
+    \vspace{.5cm}
+    \item after publish: wait until
+        \begin{itemize}
+        \item all threads currently running have context switched
+        \item \ldots and none of them set the ``I am reading now'' bit
+        \end{itemize}
+    \end{itemize}
+\end{frame}

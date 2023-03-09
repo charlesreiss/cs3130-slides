@@ -47,10 +47,10 @@ write \& 0x7FFFDFF0 \& 0x5F8FF0 \& hit\& 0x664, 0x440\& 0x7FFFD \\
     row 1/.append style={nodes={font=\small}},
     anchor=north west,
 ] (tlb snap) at ([xshift=1cm,yshift=.5cm]tlb trace.north west){
-    set idx \&V \& tag \& physical page \& write? \& kernel? \& \ldots \& LRU? \\
-    |[alias=set zero top]| ~ \& 1 \& 0x00220 {\fontsize{8}{9}\selectfont (0x440 $\gg$ 1)} \& 0x554 \& 1 \& 0 \& \ldots \& no \\
-    |[alias=set zero bottom]| ~ \& 1 \& 0x00332 {\fontsize{8}{9}\selectfont (0x00664 $\gg$ 1)} \& 0x5F9 \& 1 \& 0 \& \ldots \& yes \\
-    |[alias=set one top]| ~ \& 1 \& 0x3FFFF {\fontsize{8}{9}\selectfont (0x7FFFD $\gg$ 1)} \& 0x5F8 \& 1 \& 0 \& \ldots \& no \\
+    set idx \&V \& tag \& physical page \& write? \& user? \& \ldots \& LRU? \\
+    |[alias=set zero top]| ~ \& 1 \& 0x00220 {\fontsize{8}{9}\selectfont (0x440 $\gg$ 1)} \& 0x554 \& 1 \& 1 \& \ldots \& no \\
+    |[alias=set zero bottom]| ~ \& 1 \& 0x00332 {\fontsize{8}{9}\selectfont (0x00664 $\gg$ 1)} \& 0x5F9 \& 1 \& 1 \& \ldots \& yes \\
+    |[alias=set one top]| ~ \& 1 \& 0x3FFFF {\fontsize{8}{9}\selectfont (0x7FFFD $\gg$ 1)} \& 0x5F8 \& 1 \& 1 \& \ldots \& no \\
     |[alias=set one bottom]|  \& 0 \& --- \& --- \& - \& - \& \ldots \& yes \\
 };
 \node[fit=(set zero top) (set zero bottom),label={center:\tt 0}] {};

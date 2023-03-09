@@ -1,0 +1,19 @@
+
+\begin{frame}{reader/writer-priority}
+\begin{itemize}
+\item policy question: writers first or readers first?
+\begin{itemize}
+    \item writers-first: no readers go when writer waiting
+    \item readers-first: no writers go when reader waiting
+\end{itemize}
+\item previous implementation: whatever randomly happens
+    \begin{itemize}
+    \item writers signalled first, maybe gets lock first?
+    \item \ldots but non-determinstic in pthreads
+    \end{itemize}
+\vspace{.5cm}
+\item can make \myemph{explicit decision}
+\item<2-> key method: \myemph{track number of waiting readers/writers}
+\end{itemize}
+\end{frame}
+

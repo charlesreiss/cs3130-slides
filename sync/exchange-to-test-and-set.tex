@@ -1,0 +1,11 @@
+
+\begin{frame}{test-and-set: using atomic exchange}
+\begin{itemize}
+\item one instruction that\ldots
+\item writes a fixed new value
+\item and reads the old value
+\vspace{.5cm}
+\item<2-> write: mark a locked as TAKEN (no matter what)
+\item<2-> read: see if it was already TAKEN (if so, only us)
+\end{itemize}
+\end{frame}

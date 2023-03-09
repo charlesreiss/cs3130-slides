@@ -1,0 +1,39 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}[fragile,label=threadSumMemoryGlobals]{thread\_sum memory layout}
+\begin{tikzpicture}
+\threadSumStackDecl
+\renewcommand{\threadSumFirstStack}{\small \texttt{sum\_front\_thread} stack}
+\renewcommand{\threadSumSecondStack}{\small \texttt{sum\_back\_thread} stack}
+\threadSumStackObjects
+\draw[very thick,blue] ([yshift=2mm]sdata.west) rectangle ([yshift=3mm]sdata.east);
+\node[anchor=west,blue!70!black] (sdata arr) at ([xshift=-1mm,yshift=4mm]sdata.east) { values, results (global) };
+\begin{visibleenv}<2->
+\matrix[draw,anchor=north east,tight matrix,nodes={font=\fontsize{9}{10}\selectfont,text width=2cm},
+    label={[font=\fontsize{9}{10}\selectfont]north:TCB for sum\_front thread}] at
+    ([xshift=8cm,yshift=4cm]sdata.east)
+{
+|[alias=front pc]| PC \\
+|[alias=front regs]| registers \\
+\ldots \\
+};
+\matrix[draw,anchor=north east,tight matrix,nodes={font=\fontsize{9}{10}\selectfont,text width=2cm},
+    label={[font=\fontsize{9}{10}\selectfont]north:TCB for sum\_back thread}] at
+    ([xshift=8cm,yshift=2cm]sdata.east)
+{
+|[alias=back pc]| PC \\
+|[alias=back regs]| registers \\
+\ldots \\
+};
+\draw[green!70!black,thick,<-] ([yshift=-2mm]sdata.east) -- ++(1, 0) node[right,yshift=-1mm,fill=white,font=\fontsize{10}{11}\selectfont,inner sep=0.1mm] {
+        sum\_front
+} -- ++(8, 0) |- ([xshift=-1cm]front pc.east);
+\draw[green!70!black,thick,<-] ([yshift=0mm]sdata.east) -- ++(5, 0) node[right,fill=white,font=\fontsize{10}{11}\selectfont,inner sep=0.1mm,yshift=1mm] {
+        sum\_back
+} -- ++(3.25, 0) |- ([xshift=-1cm]back pc.east);
+\draw[green!70!black,->] ([xshift=.5mm,yshift=1mm]front regs.west) -- ++(-3, 0) |- (stack 2.east);
+\draw[green!70!black,->] ([xshift=.5mm,yshift=1mm]back regs.west) -- ++(-3, 0) |- (stack 3.east);
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
