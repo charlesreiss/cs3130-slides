@@ -1,4 +1,42 @@
 \usetikzlibrary{arrows.meta,matrix,positioning,shapes.callouts,shapes.misc}
+
+\begin{frame}{handling writes}
+    \begin{itemize}
+    \item what about writing to the cache?
+    \item two decision points:
+    \vspace{.5cm}
+    \item if the value is not in cache, do we add it?
+        \begin{itemize}
+        \item if yes: need to load rest of block
+        \item if no: missing out on locality?
+        \end{itemize}   
+    \item if value is in cache, when do we update next level?
+        \begin{itemize}
+        \item if immediately: extra writing
+        \item if later: need to remember to do so
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{allocate on write?}
+\begin{itemize}
+\item processor writes \myemph{less than whole} cache block
+\item block not yet in cache
+\item two options:
+\vspace{0.5cm}
+\item \myemph{write-allocate}
+    \begin{itemize}
+    \item fetch rest of cache block, replace written part
+    \item (then follow write-through or write-back policy)
+    \end{itemize}
+\item \myemph{write-no-allocate}
+    \begin{itemize}
+    \item don't use cache at all (send write to memory \textit{instead})
+    \item guess: not read soon?
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
 \begin{frame}{write-through v. write-back}
 \begin{tikzpicture}
 \tikzset{
@@ -120,26 +158,7 @@ index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \&
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{allocate on write?}
-\begin{itemize}
-\item processor writes \myemph{less than whole} cache block
-\item block not yet in cache
-\item two options:
-\vspace{0.5cm}
-\item \myemph{write-allocate}
-    \begin{itemize}
-    \item fetch rest of cache block, replace written part
-    \item (then follow write-through or write-back policy)
-    \end{itemize}
-\item \myemph{write-no-allocate}
-    \begin{itemize}
-    \item don't use cache at all (send write to memory \textit{instead})
-    \item guess: not read soon?
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile,label=writeAllocateEx]{write-allocate}
+\begin{frame}[fragile,label=writeAllocateEx]{write-allocate + write-back}
 \begin{tikzpicture}
 \tikzset{
     v/.style={visible on=<#1->,alt=<#1>{red}},
@@ -211,7 +230,7 @@ index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \&
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile,label=writeNoAllocateEx]{write-no-allocate}
+\begin{frame}[fragile,label=writeNoAllocateEx]{write-no-allocate + write-back}
 \begin{tikzpicture}
 \tikzset{
     v/.style={visible on=<#1->,alt=<#1>{red}},

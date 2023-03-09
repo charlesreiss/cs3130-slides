@@ -43,6 +43,17 @@
 \section{array misses warmup}
 \input{../caching/arrayMissesWarmupEx}
 
+\section{array misses warmup, round 2}
+\input{../caching/arrayMissesWarmupAssoc}
+
+\section{aside: cache size}
+\begin{frame}{cache size}
+    \begin{itemize}
+    \item cache size = amount of \textit{data} in cache
+    \item not included metadata (tags, valid bits, etc.)
+    \end{itemize}
+\end{frame}
+
 \section{array misses and cache results}
 \input{../caching/arrayMissesEx}
 
@@ -73,17 +84,16 @@
 \subsubsection{the exercise}
 \input{../caching/tioExercise}
 
+\section{revisiting array misses and skips}
+\againframe<2>{arrayMissesSkip}
+\section{array misses and associative caches?}
+\againframe<2>{arrayMissesOddEven2}
+
 \section{fixing actual misses}
 \input{../caching/actMissesAssoc}
 
-\section{array misses warmup, round 2}
-\input{../caching/arrayMissesWarmupAssoc}
-
-\againframe<2>{arrayMissesOddEven2}
-
 \subsection{options for handling writes}
 \input{../caching/writePolicy}
-% FIXME: writes and what counts as a miss
 
 \subsection{exercise: write/replacement policies}
 \input{../caching/writeReplaceExercise}
@@ -103,7 +113,7 @@
 \input{../vm/twoLevelPTAlt}
 
 \subsection{review: page table lookup (2)}
-\againframe<7>{twoLevelPTLookup}
+\againframe<7>{twoLevelPtLookup}
 
 \subsection{why cache page table entries?}
 \input{../caching/tlbWhy}
