@@ -35,18 +35,3 @@ if (no milk) {
 pthread_mutex_unlock(&MilkLock);
 \end{lstlisting}
 \end{frame}
-
-\begin{frame}[fragile,label=xv6SpinlockUsage]{xv6 spinlocks}
-\begin{lstlisting}[language=C++,style=small]
-#include "spinlock.h"
-...
-struct spinlock MilkLock;
-initlock(&MilkLock, "name for debugging");
-...
-acquire(&MilkLock);
-if (no milk) {
-    buy milk
-}
-release(&MilkLock);
-\end{lstlisting}
-\end{frame}

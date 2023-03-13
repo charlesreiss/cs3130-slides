@@ -74,10 +74,11 @@
     },
 }
 \matrix[pcb,label={[font=\small]north:parent process info}] (proc one) {
-    |[very tall,draw=red]| thread infos \&
-    |[very tall,draw=red]| 
-    thread 0: \{PC = 0x123456, rax = 42, rbx = \ldots\} \\
-    thread 1: \{PC = 0x584390, rax = 32, rbx = \ldots\} \\
+    |[very tall,draw=red,very thick,fill=red!5]| thread infos \&
+    |[very tall,draw=red,very thick,fill=red!5]| 
+    {thread 0: \{PC = 0x123456, rax = 42, rbx = \ldots\} \\
+    thread 1: \{PC = 0x584390, rax = 32, rbx = \ldots\}\\
+    \ldots }\\
     \\
     page tables \& |[one pt]| ~ \\
     |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
