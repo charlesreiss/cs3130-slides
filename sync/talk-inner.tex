@@ -1,0 +1,333 @@
+
+\section{introduction: correctness}
+
+\input{../sync/the-correctness-problem}
+
+\section{the lost write}
+
+\subsection{motivation: threaded ATM server?}
+\input{../sync/lost-write-motivate-atm-server}
+
+\subsection{example}
+\input{../sync/lost-write}
+
+\section{race conditions and atomicity}
+\subsection{thinking about simple races} 
+\input{../sync/simple-races}
+
+\subsection{atomicity definition}
+
+\input{../sync/atomicity}
+
+\subsection{example: x86 add not atomic}
+
+\input{../sync/lost-add-example}
+
+\subsection{what is atomic?}
+
+\input{../sync/what-atomic}
+
+\section{too much milk: locks from load/store?}
+
+\subsection{setup: buying milk}
+\input{../sync/too-much-milk-scenario}
+
+\subsection{wrong solution 1: missed notes}
+\input{../sync/too-much-milk1}
+
+\subsection{wrong solution 2: read own note}
+\input{../sync/too-much-milk2}
+
+\subsection{wrong solution 3: too little milk}
+\input{../sync/too-much-milk3}
+
+\subsection{correct solution: Peterson's algorithm}
+\input{../sync/too-much-milk4}
+
+\section{definitions: mutual exclusion, critical section}
+
+\input{../sync/mutual-exclusion-defn}
+
+\section{locks}
+\input{../sync/locks}
+
+\subsection{exercise}
+\input{../sync/lock-ex}
+
+\section{aside: standard container rules}
+\input{../sync/std-container-rule}
+
+\section{preview: beyond locks}
+\input{../sync/locks-enoughp}
+
+\section{barriers}
+\input{../sync/barriers}
+
+\section{life HW}
+\input{../sync/life-hw-intro}
+
+\section{disabling interrupts for locks}
+\input{../sync/lock-by-disable-interrupts}
+
+%\subsection{xv6's push/popcli}
+%\input{../sync/xv6-pushpopcli}
+
+\section{compiler reordering}
+\input{../sync/compiler-reordering}
+
+\section{revisiting atomicity}
+\input{../sync/non-atomic-loadstore}
+
+\section{pthreads and load/store reordering}
+\input{../sync/no-reordering}
+
+\input{../sync/mfence}
+
+\section{cache coherency}
+\section{processor buses}
+\input{../sync/shared-bus}
+
+\subsection{problem setup / snooping}
+\input{../sync/cache-coherency-intro}
+
+\section{false sharing}
+\input{../sync/false-sharing}
+
+\subsection{exercise}
+\input{../sync/false-sharing-ex}
+
+\section{read-modify-write atomic operations}
+\input{../sync/read-modify-write}
+
+\section{x86-64 spinlock}
+\input{../sync/x86-spinlock}
+
+\section{exercise: spin-wait}
+\input{../sync/exer-spin-wait}
+
+\section{spinlock problems}
+\input{../sync/spinlock-problem}
+
+\section{locks that sleep}
+
+\againframe<3>{spinLockProblems}
+\input{../sync/mutexes-intro}
+
+\subsection{pseudocode}
+\input{../sync/mutex-pseudocode}
+
+\subsubsection{need for scheduler integration}
+\input{../sync/mutex-sched-race}
+
+\subsection{analysis: uncontended case}
+\input{../sync/mutex-uncontend}
+
+\section{recall: POSIX mutexes}
+\input{../sync/pthreads-mutex-review}
+
+\subsection{pthread\_mutex: lock where you unlock}
+\input{../sync/pthread-mutex-restriction}
+
+\section{producer/consumer problem}
+\input{../sync/producer-consumer-intro}
+
+\section{monitors}
+
+\subsection{introduction}
+\input{../sync/monitors-intro}  % FIXME: incomplete
+
+\subsection{example: WaitForFinished}
+\input{../sync/monitors-example-finished}
+
+\subsection{unbounded queue with monitors}
+\input{../sync/unbounded-producer-consumer-monitors}
+
+\subsection{Hoare scheduling note}
+\input{../sync/hoare-v-mesa}
+
+\subsection{bounded producer/consumer with monitors}
+\input{../sync/producer-consumer-monitors} 
+
+\subsection{general monitor pattern}
+\input{../sync/monitor-pattern}
+
+\subsection{monitor POSIX API details}
+\input{../sync/monitor-api}
+
+\subsection{exercise: wait for both finished}
+\input{../sync/monitor-ex-both-finishes}
+
+\subsection{exercise: barrier}
+\input{../sync/monitor-exercise2}
+
+\subsection{exercise: ConsumeTwo}
+\input{../sync/monitor-exercise}
+
+\subsection{exercise: ordering}
+\input{../sync/monitor-order-ex}
+
+\subsection{exercise: conditional signal in produce?}
+\input{../sync/monitor-ex-ps-cond-signal}
+
+\section{counting semaphores}
+
+\subsection{introduction}
+
+\input{../sync/semaphore-intro}
+
+\subsection{examples}
+
+\input{../sync/semaphore-examples}
+
+\subsection{POSIX semaphores}
+
+\input{../sync/posix-semaphores}
+
+\subsection{semaphore exercise}
+\input{../sync/semaphore-ex}
+
+\subsection{semaphore intuition}
+\input{../sync/semaphore-intuition}
+
+\section{producer/consumer with counting semaphores}
+\input{../sync/producer-consumer-semaphore}
+
+\section{aside: binary semaphores}
+\input{../sync/binary-semaphores}
+
+\section{semaphore gate pattern}
+\input{../sync/gate-pattern}
+
+\section{the textbook's complaint about semaphores}
+\input{../sync/textbook-semaphore-complaint}
+
+\section{reader-writer locks}
+
+\subsection{reader/writer problem}
+
+\input{../sync/reader-writer-problem}
+
+\subsection{reader/writer locks}
+
+\input{../sync/reader-writer-locks}
+
+\subsection{reader/writer lock usage exericse}
+
+\input{../sync/rwlock-usage-exer}
+
+\subsection{implementing rwlocks with monitors}
+
+\input{../sync/rwlock-with-monitors}
+
+\subsubsection{priority concept}
+
+\input{../sync/rwlock-with-monitor-prio-intro}
+
+\subsubsection{writer-priority}
+
+\input{../sync/rwlock-with-monitor-writer}
+
+\subsubsection{writer-priority walkthrough}
+
+\input{../sync/rwlock-monitor-walkthrough} % FIXME: need operations??
+
+\subsubsection{reader-priority}
+
+\input{../sync/rwlock-with-monitor-reader}
+
+\subsection{reader/writer lock exercise: timeout priority}
+\input{../sync/rwlock-exercise2}
+
+
+
+
+\section{backup sides}
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{backup slides}
+\end{frame}
+
+
+\subsection{GCC atomic/sync stuff}
+\input{../sync/no-reordering-gcc-ex}
+
+\subsection{xv6 spinlock debugging}
+\input{../sync/xv6-spinlock-debug}
+
+\subsection{exercise: atomic add}
+
+\input{../sync/atomic-cas-to-add-exercise}
+\subsection{xv6's spinlock debugging}
+
+\input{../sync/xv6-spinlock}
+
+\subsection{CAS for fetch-and-add}
+\input{../sync/atomic-cas-to-add-example}
+
+\subsection{exercise: CAS for appending to list}
+\input{../sync/cas-append-to-list-ex}
+\input{../sync/cas-append-to-list-sol}
+
+\subsection{more atomic operations}
+
+\input{../sync/other-atomics}
+
+\subsection{cache coherency detail}
+\subsection{adding more state: MSI}
+\input{../sync/cache-coherency-msi}
+
+\subsection{exercise}
+\input{../sync/cache-coherency-ex}
+\input{../sync/cache-coherency-ex-soln}
+
+\section{processor load/store reordering}
+% FIXME: instruction queue/etc. picture?
+\input{../sync/load-store-reordering}
+
+\subsection{GCC atomic/sync stuff}
+\input{../sync/no-reordering-gcc-ex}
+
+\subsection{C++atomic/sync stuff}
+\input{../sync/no-reordering-cpp}
+
+\subsection{x86-64 reordering rules}
+\input{../sync/x86-reordering-rules}
+
+\subsection{xv6 spinlock debugging}
+\input{../sync/xv6-spinlock-debug}
+
+
+\subsection{CAS for fetch-and-add}
+\input{../sync/atomic-cas-to-add-example}
+
+\subsection{exercise: CAS for appending to list}
+\input{../sync/cas-append-to-list-ex}
+\input{../sync/cas-append-to-list-sol}
+
+\subsection{test-and-test-and-set}
+
+\againframe<2>{spinLockProblems}
+\input{../sync/test-and-test-and-set}
+
+
+\subsection{beyond MSI}
+\input{../sync/cache-coherency-beyond-msi}
+
+\section{relating monitors and semaphores}
+
+\subsection{implementing monitors with semaphores}
+
+\input{../sync/monitors-with-semaphores} 
+
+\subsection{implementing semaphores with monitors}
+
+\input{../sync/semaphores-with-monitors}
+
+
+\subsection{counting to binary semaphores}
+\input{../sync/count-to-binary}
+
+\subsection{exercise: ordering}
+\input{../sync/monitor-order-ex}
+
