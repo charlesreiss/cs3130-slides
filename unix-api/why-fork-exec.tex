@@ -8,7 +8,9 @@
     \item some other OSs do this (e.g. Windows)
     \item needs to include API to set new program's state
         \begin{itemize}
-        \item e.g. without fork: need function to set new program's current directory
+        \item e.g. without fork: either: \\
+        need function to set new program's current directory, \textit{or} \\
+        need to change your directory, then start program, then change back
         \item e.g. with fork: just change your current directory before exec
         \end{itemize}
     \item but allows OS to avoid `copy everything' code
