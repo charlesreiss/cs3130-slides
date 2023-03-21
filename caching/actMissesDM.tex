@@ -1,22 +1,22 @@
 \begin{frame}{simulated misses: BST lookups}
 \includegraphics[width=\textwidth]{../caching/bst-one}
-(simulated 16KB direct-mapped data cache)
+(simulated 16KB direct-mapped data cache; excluding BST setup)
 \end{frame}
 
 \begin{frame}{actual misses: BST lookups}
 \includegraphics[width=\textwidth]{../caching/bst-act}
 (actual 32KB more complex data cache) \\
-\small (only one set of measurements + other things on machine)
+\small (only one set of measurements + other things on machine + excluding initial load)
 \end{frame}
 
 
 \begin{frame}{simulated misses: matrix multiplies}
 \includegraphics[width=\textwidth]{../caching/mm-one}
-(simulated 16KB direct-mapped data cache)
+(simulated 16KB direct-mapped data cache; excluding initial load)
 \end{frame}
 
 \begin{frame}{actual misses: matrix multiplies}
 \includegraphics[width=\textwidth]{../caching/mm-act}
-(actual 32KB more complex data cache) \\
+(actual 32KB more complex data cache; excluding matrix initial load) \\
 \small (only one set of measurements + other things on machine)
 \end{frame}
