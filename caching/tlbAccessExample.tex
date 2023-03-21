@@ -1,7 +1,7 @@
 \usetikzlibrary{fit,matrix,decorations.pathreplacing}
-\begin{frame}[label=tlbAccessExexample]{TLB access pattern example}
+\begin{frame}[label=tlbAccessExample]{TLB access pattern example}
 \small 2-entry, direct-mapped TLB, 4096 byte pages
-    \setlength\fboxsep{0.25mm}
+\setlength\fboxsep{0.25mm}
 \begin{tikzpicture}
 \matrix[tight matrix,
     nodes={font=\fontsize{9}{10}\selectfont\tt,minimum height=.45cm},
@@ -46,7 +46,7 @@
     row 2/.append style={nodes={font=\small}},
     row 3/.style={nodes={
         alt=<6-7>{fill=red!10},
-        alt=<9>{fill=yellow!10
+        alt=<9>{fill=yellow!10},
     }},
     row 4/.style={nodes={
         alt=<2-3>{fill=red!10},
