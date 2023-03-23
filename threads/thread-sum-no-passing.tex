@@ -10,15 +10,13 @@ int @2values[1024]2@;
 int @2results[2]2@;
 void *sum_front(void *ignored_argument) {
     int sum = 0;
-    for (int i = @303@; i < @35123@; ++i)
-        sum += values[i];
+    for (int i = @303@; i < @35123@; ++i) { sum += values[i]; }
     @4results[@303@] = sum;4@
     return NULL;
 }
 void *sum_back(void *ignored_argument) {
     int sum = 0;
-    for (int i = @35123@; i < @310243@; ++i)
-        sum += values[i];
+    for (int i = @35123@; i < @310243@; ++i) { sum += values[i]; }
     @4results[@313@] = sum;4@
     return NULL;
 }
@@ -26,8 +24,7 @@ int sum_all() {
     pthread_t sum_front_thread, sum_back_thread;
     pthread_create(&sum_front_thread, NULL, sum_front, NULL);
     pthread_create(&sum_back_thread, NULL, sum_back, NULL);
-    pthread_join(sum_front_thread, NULL);
-    pthread_join(sum_back_thread, NULL);
+    pthread_join(sum_front_thread, NULL); pthread_join(sum_back_thread, NULL);
     return @4results[0] + results[1]4@;
 }
 \end{lstlisting}
@@ -36,18 +33,18 @@ int sum_all() {
     box/.style={draw=red,very thick,fill=white,align=left}
 }
     \begin{visibleenv}<2>
-    \node[box,anchor=east] at ([yshift=-2cm,xshift=-1cm]current page.north east) {
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
         values, results: global variables --- shared
     };
     \end{visibleenv}
     \begin{visibleenv}<3>
-    \node[box,anchor=east] at ([yshift=-2cm,xshift=-1cm]current page.north east) {
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
         two different functions \\
         happen to be the same except for some numbers
     };
     \end{visibleenv}
     \begin{visibleenv}<4>
-    \node[box,anchor=east] at ([yshift=-2cm,xshift=-1cm]current page.north east) {
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
         values returned from threads \\
         via global array instead of return value \\
         (partly to illustrate that memory is shared, \\

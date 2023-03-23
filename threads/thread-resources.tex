@@ -22,7 +22,8 @@
 void *show_progress(void * ...) { ... }
 void spawn_show_progress_thread() {
     pthread_t show_progress_thread;
-    pthread_create(&show_progress_thread, NULL, show_progress, NULL);
+    pthread_create(&show_progress_thread, NULL,
+                   show_progress, NULL);
 
     /* instead of keeping pthread_t around to join thread later: */
     @1pthread_detach(show_progress_thread);1@

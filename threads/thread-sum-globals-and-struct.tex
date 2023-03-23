@@ -13,9 +13,7 @@ struct ThreadInfo {
 void *sum_thread(void *argument) {
     ThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (ThreadInfo *) argument;
     int sum = 0;
-    for (int i = my_info->start; i < my_info->end; ++i) {
-        sum += values[i];
-    }
+    for (int i = my_info->start; i < my_info->end; ++i) { sum += values[i]; }
     @4my_info->result = sum;4@
     return NULL;
 }
@@ -25,8 +23,7 @@ int sum_all() {
         info[i].start = i*512; info[i].end = (i+1)*512;
         pthread_create(&threads[i], NULL, sum_thread, &info[i]);
     }
-    for (int i = 0; i < 2; ++i)
-        pthread_join(threads[i], NULL);
+    for (int i = 0; i < 2; ++i) { pthread_join(threads[i], NULL); }
     return info[0].result + info[1].result;
 }
 \end{lstlisting}
