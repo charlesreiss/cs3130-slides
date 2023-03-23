@@ -1,0 +1,87 @@
+\begin{frame}[fragile,label=divideResourceNoDLockEx]{finding no deadlock (take free)}
+\begin{tikzpicture}
+    \newcommand{\mycircle}[1]{
+        \node[resource circle] (#1) {};
+    }
+\matrix[resource,row sep=2mm,label={south:resource A --- 3 units}] (resource A) {
+    \mycircle{A one} \\
+    \mycircle{A two} \\
+    \mycircle{A three} \\
+};
+\matrix[resource,label={north:resource B --- 1 unit}] (resource B) at ([yshift=-6cm]resource A) {
+    \mycircle{B one} \\
+};
+\node[thread,alt=<4>{draw=red,very thick,dotted},alt=<5->{opacity=0.4}] (thread one) at ([xshift=-4cm,yshift=-3cm]resource A) {
+  thread 1
+};
+\node[thread,alt=<7->{opacity=0.4}] (thread two) at ([xshift=4cm,yshift=-3cm]resource A) {
+  thread 2
+};
+
+    \path[dependency,double,alt=<2>{red,very thick},alt=<3->{invisible}] (thread one.north) ..  controls ([yshift=2cm]thread one.north) .. (resource A.west)
+    node[midway,dependency reason,left,xshift=-.5cm] {
+      waiting on \\two units
+    };
+    \path[dependency future,alt=<1-2>{invisible},alt=<3>{red,very thick},alt=<5->{opacity=0.4}] (A three.west) ..  controls ([yshift=2cm]thread one.north) .. (thread one.north);
+    \path[dependency future,alt=<1-2>{invisible},alt=<3>{red,very thick},alt=<5->{opacity=0.4}] (A two.west) ..  controls ([yshift=2cm]thread one.north) .. (thread one.north)
+    node[midway,dependency reason,left,xshift=-.5cm] {
+        owns 2 units \\
+        (was waiting on)
+    };
+    \path[dependency,alt=<6->{invisible}] (thread two.south) ..  controls ([yshift=-2cm]thread two.south) .. (resource B.east)
+    node[midway,dependency reason,right,xshift=.5cm] {
+        waiting on \\ one unit
+    };
+    \path[dependency future,alt=<1-5>{invisible},alt=<6>{red},alt=<7>{opacity=0.4}] (B one.east) ..  controls ([yshift=-2cm]thread two.south) .. (thread two.south)
+    node[midway,dependency reason,right,xshift=.5cm] {
+        owns \\ (was waiting)
+    };
+\path[dependency future] (A one.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north);
+%\path[dependency future] (A two.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north);
+    node[midway,dependency reason,right] {
+        owns \myemph{one} unit
+    };
+    \path[dependency future,alt=<5->{opacity=0.4}] (B one.west) .. controls ([yshift=-2cm]thread one.south) .. (thread one.south)
+    node[midway,dependency reason,left] {
+      owned by
+    };
+\begin{visibleenv}<2-3>
+    \coordinate (box place) at ([xshift=1cm,yshift=1cm]B one.north);
+    \node[draw=red,very thick,anchor=south,align=center,fill=white] at (box place) {
+        algorithm: if all resources \\
+        requested by thread free \\
+        simulate: it gets ownership of them
+    };
+\end{visibleenv}
+
+\begin{visibleenv}<4-5>
+    \coordinate (box place B) at ([xshift=1cm,yshift=1cm]B one.north);
+    \node[draw=red,very thick,anchor=south,align=center,fill=white] at (box place B) {
+        algorithm: if thread not \\
+        requesting more resources \\
+        simulate: it finishes
+    };
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \coordinate (box place D) at ([xshift=-2cm,yshift=1cm]B one.north);
+    \node[draw=red,very thick,anchor=south,align=center,fill=white] at (box place D) {
+        algorithm: if all resources \\
+        requested by thread free \\
+        simulate: it gets ownership of them
+    };
+\end{visibleenv}
+
+\begin{visibleenv}<7>
+    \node[draw=red,very thick,anchor=south,align=center,fill=white] at (box place D) {
+        algorithm: if thread not \\
+        requesting more resources \\
+        simulate: it finishes
+    };
+\end{visibleenv}
+\begin{visibleenv}<8>
+    \node[draw=red,very thick,anchor=south,align=center,fill=white] at (box place D) {
+        simulate all threads finishing? no deadlock
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,85 @@
+\begin{frame}{abort and retry limits?}
+\begin{itemize}
+\item abort-and-retry
+\item how many times will you retry?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=moveFileWithRetry]{moving two files: abort-and-retry}
+\begin{lstlisting}[language=C++,style=smaller]
+struct Dir {
+  mutex_t lock; map<string, DirEntry> entries;
+};
+void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
+  while (true) {
+    mutex_lock(&from_dir->lock);
+    if (mutex_trylock(&to_dir->lock) == LOCKED) break;
+    mutex_unlock(&from_dir->lock);
+  }
+    
+  to_dir->entries[filename] = from_dir->entries[filename];
+  from_dir->entries.erase(filename);
+
+  mutex_unlock(&to_dir->lock);
+  mutex_unlock(&from_dir->lock);
+}
+\end{lstlisting}
+Thread 1: \texttt{MoveFile(A, B, "foo")} \\
+Thread 2: \texttt{MoveFile(B, A, "bar")} 
+\end{frame}
+
+\begin{frame}[fragile,label=moveFileLivelockTimeline]{moving two files: lots of bad luck?}
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+    row 2/.style={nodes={font=\bfseries\tt}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  MoveFile(A, B, "foo") \Q MoveFile(B, A, "bar") \\
+  {lock(\&A->lock) $\rightarrow$ LOCKED} \Q \\
+  \Q {lock(\&B->lock) $\rightarrow$ LOCKED} \\
+  {trylock(\&B->lock) $\rightarrow$ FAILED} \Q \\
+  \Q {trylock(\&A->lock) $\rightarrow$ FAILED} \\
+  {unlock(\&A->lock)} \Q \\
+  \Q {unlock(\&B->lock)} \\
+  {lock(\&A->lock) $\rightarrow$ LOCKED} \Q \\
+  \Q {lock(\&B->lock) $\rightarrow$ LOCKED} \\
+  {trylock(\&B->lock) $\rightarrow$ FAILED} \Q \\
+  \Q {trylock(\&A->lock) $\rightarrow$ FAILED} \\
+  {unlock(\&A->lock)} \Q \\
+  \Q {unlock(\&B->lock)} \\
+};
+\draw[very thick] (timeline-2-1.south west) -- (timeline-2-2.south east);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{livelock}
+\begin{itemize}
+\item livelock: keep aborting and retrying without end
+\vspace{.5cm}
+\item like deadlock --- no one's making progress
+    \begin{itemize}
+    \item potentially forever
+    \end{itemize}
+\item unlike deadlock --- threads are not waiting
+\end{itemize}
+\end{frame}
+
+\begin{frame}{preventing livelock}
+    \begin{itemize}
+    \item make schedule random --- e.g. random waiting after abort
+    \item make threads run one-at-a-time if lots of aborting
+    \item other ideas?
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,36 @@
+\begin{frame}{AllocateOrFail}
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline,anchor=north] (timeline fail) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrFail(1 MB) \\
+  \Q  AllocateOrFail(1 MB) \\
+  AllocateOrFail(1 MB){ }\normalfont{\myemph{fails!}} \\ 
+  \Q AllocateOrFail(1 MB){ }\normalfont{\myemph{fails!}} \\
+  Free(1 MB){ }\normalfont{\myemph{(cleanup after failure)}} \\ 
+  \Q Free(1 MB){ }\normalfont{\myemph{(cleanup after failure)}} \\ 
+};
+\end{tikzpicture}
+\begin{itemize}
+\item okay, now what?
+\begin{itemize}
+\item give up?
+\item both try again? --- maybe this will keep happening? (called \myemph{livelock})
+\item try one-at-a-time? --- gaurenteed to work, but tricky to implement
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+

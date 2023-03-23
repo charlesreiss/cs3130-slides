@@ -1,0 +1,11 @@
+\usetikzlibrary{arrows.meta,shapes.geometric}
+\tikzset{
+    >=Latex,
+    resource/.style={draw,rectangle,very thick,align=center},
+    resource m/.style={draw,rectangle,very thick,align=center,row sep=2mm},
+    resource circle/.style={circle,fill=black,inner sep=0mm,minimum width=2.5mm},
+    thread/.style={draw,ellipse,very thick,align=center},
+    dependency/.style={draw,ultra thick,->},
+    dependency future/.style={dependency,dotted},
+    dependency reason/.style={align=center},
+}

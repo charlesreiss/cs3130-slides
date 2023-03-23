@@ -1,0 +1,28 @@
+\begin{frame}{stealing locks???}
+    \begin{itemize}
+    \item how do we make stealing locks possible
+    \vspace{.5cm}
+    \item unclean: just kill the thread
+        \begin{itemize}
+        \item problem: inconsistent state?
+        \end{itemize}
+    \item clean: have code to undo partial oepration
+        \begin{itemize}
+        \item some databases do this
+        \end{itemize}
+    \item won't go into detail in this class
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=revokeLock]{revokable locks?}
+\begin{lstlisting}[language=C++,style=small]
+try {
+    AcquireLock();
+    use shared data
+} catch (LockRevokedException le) {
+    undo operation hopefully?
+} finally {
+    ReleaseLock();
+}
+\end{lstlisting}
+\end{frame}

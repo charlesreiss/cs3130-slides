@@ -1,0 +1,111 @@
+\begin{frame}{deadlock with free space}
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrWaitFor(1 MB) \Q AllocateOrWaitFor(1 MB) \\
+  AllocateOrWaitFor(1 MB) \Q AllocateOrWaitFor(1 MB) \\
+  (do calculation) \Q (do calculation) \\
+  Free(1 MB) \Q Free(1 MB) \\
+  Free(1 MB) \Q Free(1 MB) \\
+};
+\node[anchor=north,align=center] at (timeline.south) { 
+  2 MB of space --- deadlock possible with unlucky order
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{deadlock with free space (unlucky case)}
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrWaitFor(1 MB) \\
+  \Q  AllocateOrWaitFor(1 MB) \\
+  AllocateOrWaitFor(1 MB\ldots{ }\normalfont{\myemph{stalled}} \\
+  \Q AllocateOrWaitFor(1 MB\ldots{ }\normalfont{\myemph{stalled}} \\
+};
+\node[anchor=north,align=center] at (timeline.south) { 
+
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=freeSpaceDepend]{free space: dependency graph}
+\begin{tikzpicture}
+    \newcommand{\mycircle}[1]{
+        \node[resource circle] (#1) {};
+    }
+    \matrix[resource,row sep=2mm,label={[align=left,xshift=-1cm]north east:{memory in \\2 (1MB) units}}] (resource A) {
+    \mycircle{A one} \\
+    \mycircle{A two} \\
+};
+\node[thread] (thread one) at ([xshift=-3cm,yshift=-3cm]resource A) {
+  thread 1
+};
+\node[thread] (thread two) at ([xshift=3cm,yshift=-3cm]resource A) {
+  thread 2
+};
+    \path[dependency future] (A one.west) .. controls ([xshift=-1cm]A one.west) .. (thread one.north)
+        node[pos=0.8,above] {allocated};
+    \path[dependency future] (A two.east) .. controls ([xshift=1cm]A two.east) .. (thread two.north);
+    \path[dependency] (thread one.east) .. controls ([xshift=1cm]thread one.east) .. (resource A.south)
+        node[midway,below=.5cm,xshift=1cm] {waiting for};
+    \path[dependency] (thread two.west) .. controls ([xshift=-1cm]thread two.west) .. (resource A.south);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{deadlock with free space (lucky case)}
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrWaitFor(1 MB) \\
+  AllocateOrWaitFor(1 MB) \\
+  (do calculation) \\
+  Free(1 MB); \\ 
+  Free(1 MB); \\
+  \Q AllocateOrWaitFor(1 MB) \\
+  \Q AllocateOrWaitFor(1 MB) \\
+  \Q (do calculation) \\
+  \Q Free(1 MB); \\ 
+  \Q Free(1 MB); \\
+};
+\end{tikzpicture}
+\end{frame}

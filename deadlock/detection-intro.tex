@@ -1,0 +1,47 @@
+
+\begin{frame}{deadlock detection}
+    \begin{itemize}
+    \item why? debugging or fix deadlock by aborting operations
+    \item idea: search for cyclic dependencies
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=detectLocks]{detecting deadlocks on locks}
+    \begin{itemize}
+    \item let's say I want to detect deadlocks that only involve mutexes
+        \begin{itemize}
+        \item goal: help programmers debug deadlocks
+        \end{itemize}
+    \item \ldots by modifying my threading library:
+    \end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+struct Thread {
+    ... /* stuff for implementing thread */
+    /* what extra fields go here? */
+
+
+};
+
+struct Mutex {
+    ... /* stuff for implementing mutex */
+    /* what extra fields go here? */
+
+
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{deadlock detection}
+    \begin{itemize}
+    \item why? debugging or fix deadlock by aborting operations
+    \item idea: search for cyclic dependencies
+    \item need:
+        \begin{itemize}
+        \item list of all contended resources
+        \item what thread is waiting for what?
+        \item what thread `owns' what?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+

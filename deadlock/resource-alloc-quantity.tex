@@ -1,0 +1,131 @@
+\begin{frame}{divided resources}
+    \begin{itemize}
+    \item what about resources like memory?
+        \vspace{.5cm}
+    \item allocating 1MB of memory:
+        \begin{itemize}
+        \item thread `owns' the 1MB, but\ldots
+        \item another thread can use can use any other 1MB
+        \end{itemize}
+    \vspace{.5cm}
+    \item want to track all of memory together
+    \item ``partial ownership'' 
+        \begin{itemize}
+        \item locked half the memory
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=divideResource]{dividable/interchangeable resources}
+\begin{tikzpicture}
+    \newcommand{\mycircle}[1]{
+        \node[resource circle] (#1) {};
+    }
+\matrix[resource,row sep=2mm,label={south:resource A --- 3 units}] (resource A) {
+    \mycircle{A one} \\
+    \mycircle{A two} \\
+    \mycircle{A three} \\
+};
+\matrix[resource,label={north:resource B --- 1 unit}] (resource B) at ([yshift=-6cm]resource A) {
+    \mycircle{B one} \\
+};
+\node[thread] (thread one) at ([xshift=-4cm,yshift=-3cm]resource A) {
+  thread 1
+};
+\node[thread] (thread two) at ([xshift=4cm,yshift=-3cm]resource A) {
+  thread 2
+};
+
+\path[dependency,double] (thread one.north) ..  controls ([yshift=2cm]thread one.north) .. (resource A.west)
+    node[midway,dependency reason,left,xshift=-.5cm] {
+      waiting on \\two units
+    };
+\path[dependency] (thread two.south) ..  controls ([yshift=-2cm]thread two.south) .. (resource B.east)
+    node[midway,dependency reason,right,xshift=.5cm] {
+        waiting on \\ one unit
+    };
+\path[dependency future] (A one.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north);
+\path[dependency future] (A two.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north);
+    node[midway,dependency reason,right] {
+      owns two units
+    };
+\path[dependency future] (B one.west) .. controls ([yshift=-2cm]thread one.south) .. (thread one.south)
+    node[midway,dependency reason,left] {
+      owned by
+    };
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{deadlock detection}
+    \begin{itemize}
+        \item cycle-finding not enough
+            \vspace{.5cm}
+        \item new idea: try to simulate progress
+            \begin{itemize}
+            \item anything not waiting releases resources (as it finishes)
+            \item anything waiting on only free resources no one else wants takes resources
+            \end{itemize}
+        \item see if everything gets resources eventually
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=deadlockDetectMulti]{deadlock detection (with variable resources)}
+\vspace{-.5cm}
+{\small (pseudocode)}
+\begin{onlyenv}<1->
+\begin{lstlisting}[language=C++,style=smaller]
+class Resources { map<ResourceType, int> amounts; ... };
+Resources free_resources;
+map<Thread, Resources> requested;
+map<Thread, Resources> owned;
+\end{lstlisting}
+\end{onlyenv}
+\begin{onlyenv}<2->
+\begin{lstlisting}[
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:0>]{@6}{6@}},
+    escapeinside=QQ,
+]
+...
+do { done = true;
+  for (Thread t : all threads with owned or requested resources) {
+    // if everything requested is free, finish
+    if (@3requested[t] <= free_resources3@Q\tikzmark{le}Q) {
+      @4requested[t] = no_resources;4@
+      @4free_resources += owned[t];4@
+      @4owned[t] = no_resources;4@
+      @5done = false;5@Q\tikzmark{done}Q
+    }
+  }
+} while (!done);
+if (owned.size() > 0) { DeadlockDetected() }
+\end{lstlisting}
+\end{onlyenv}
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={align=left,draw=red,thick,fill=white},
+}
+\begin{visibleenv}<3|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:le) {
+    $\le$ --- free resources include \textit{everything} being requested \\
+    (enough memory, disk, each lock requested, etc.) \\
+    note: not requesting anything right now? --- always true
+};
+\end{visibleenv}
+\begin{visibleenv}<4|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:le) {
+    assume requested resources taken\\
+    then everything taken released
+};
+\end{visibleenv}
+\begin{visibleenv}<5|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:done) {
+    keep going until nothing changes
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

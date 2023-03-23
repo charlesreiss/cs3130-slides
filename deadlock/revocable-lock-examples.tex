@@ -1,0 +1,33 @@
+\begin{frame}{Linux out-of-memory killer}
+\begin{itemize}
+\item Linux by default \textit{overcommits} memory
+    \begin{itemize}
+    \item tell processes they have \myemph{more memory than is available}
+    \item (some recommend disabling this feature)
+    \end{itemize}
+\item problem: what if wrong?
+    \begin{itemize}
+    \item could wait for program to finish, free memory\ldots
+    \item but could be waiting forever because of deadlock
+    \end{itemize}
+\item solution: kill a process
+    \begin{itemize}
+    \item (and try to choose one that's not important)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{database transactions}
+\begin{itemize}
+\item databases operations organized into \textit{\myemph{transactions}}
+    \begin{itemize}
+    \item happens \myemph{all at once or not at all}
+    \end{itemize}
+\item until transaction is \textit{committed}, not finalized
+\item code to \myemph{undo} transaction in case it's not okay
+\vspace{.5cm}
+\item database deadlock solution: invoke undo transaction code
+\item \ldots then rerun transaction later
+\end{itemize}
+\end{frame}
+

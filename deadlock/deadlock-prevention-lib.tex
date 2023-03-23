@@ -1,0 +1,47 @@
+\usetikzlibrary{matrix,positioning,shapes.callouts}
+
+\begin{frame}<0>[label=deadlockPrevent]{deadlock prevention techniques}
+\begin{tikzpicture}
+\matrix[
+  tight matrix no line,
+  column 1/.style={nodes={text width=10cm,align=left}},
+  column 2/.style={nodes={text width=5cm}},
+  row sep=1cm,
+] {
+{%
+  \textbf{\myemph<2>{infinite resources}} \\
+  \hspace{1cm}or at least enough that never run out
+} \& {no \textit{mutual exclusion}} \\
+{%
+  \textbf{\myemph<3>{no shared resources}}
+} \& {no \textit{mutual exclusion}} \\
+|[alias=no wait]| {%
+  \textbf{\myemph<4,7,8>{no waiting}} \\
+\hspace{1cm} ``\myemph<4,8>{busy signal}'' --- \myemph<4,8>{abort and (maybe) retry} \\
+\hspace{1cm} \myemph<7>{revoke/preempt resources}
+} \& {no \textit{hold and wait}/\\\textit{preemption}} \\
+{%
+  acquire resources in \textbf{\myemph<5>{consistent order}}
+} \& {no \textit{circular wait}} \\
+{%
+  request \textbf{\myemph<6>{all resources at once}}
+} \& {no \textit{hold and wait}} \\
+};
+\begin{visibleenv}<4>
+\coordinate (abort retry) at ([xshift=-3cm,yshift=-.7cm]no wait.north east);
+\node[my callout2=abort retry,anchor=south east,align=left,font=\small] at ([xshift=5cm,yshift=.9cm]abort retry) {
+    memory allocation: malloc() fails rather than waiting (no deadlock) \\
+    locks: \texttt{pthread\_mutex\_trylock} fails rather than waiting \\
+    \ldots
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+\coordinate (revoke) at ([xshift=-3cm,yshift=-1cm]no wait.north east);
+\node[my callout2=abort retry,anchor=south east,align=left,font=\small] at ([xshift=5cm,yshift=.5cm]revoke) {
+    requires some way to undo partial changes to avoid errors \\
+    common approach for databases \\
+    \ldots
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

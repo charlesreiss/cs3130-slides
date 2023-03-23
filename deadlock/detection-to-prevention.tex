@@ -1,0 +1,14 @@
+\begin{frame}{using deadlock detection for prevention}
+\begin{itemize}
+\item suppose you know the \textit{maximum resources} a process could request
+\item make decision \myemph{when starting process} (``\textit{admission control}'')
+\vspace{.5cm}
+\item<2-> ask ``what if every process was waiting for maximum resources''
+    \begin{itemize}
+    \item including the one we're starting
+    \end{itemize}
+\item<2-> would it cause deadlock? then \myemph{don't let it start}
+\vspace{.5cm}
+\item<2-> called Baker's algorithm
+\end{itemize}
+\end{frame}

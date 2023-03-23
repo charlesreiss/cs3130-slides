@@ -1,0 +1,27 @@
+\begin{frame}{deadlock requirements}
+\begin{itemize}
+\item \textbf{mutual exclusion}
+    \begin{itemize}
+    \item one thread at a time can use a resource
+    \end{itemize}
+\item \textbf{hold and wait}
+  \begin{itemize}
+  \item thread holding a resources waits to acquire \textit{another} resource
+  \end{itemize}
+\item \textbf{no preemption of resources}
+    \begin{itemize}
+    \item resources are only released voluntarily
+    \item thread trying to acquire resources can't `steal'
+    \end{itemize}
+\item \textbf{circular wait}
+    \begin{itemize}
+    \item there exists a set $\{T_1,\ldots,T_n\}$ of waiting threads such that
+        \begin{itemize}
+        \item $T_1$ is waiting for a resource held by $T_2$
+        \item $T_2$ is waiting for a resource held by $T_3$
+        \item \ldots
+        \item $T_n$ is waiting for a resource held by $T_1$
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}

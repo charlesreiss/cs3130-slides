@@ -1,0 +1,54 @@
+\begin{frame}{resource allocation graphs}
+\begin{itemize}
+\item nodes: resources or threads
+\item edge thread$\rightarrow$resource: thread waiting for resource
+\item edge resource$\rightarrow$thread: resource is ``owned'' by thread
+  \begin{itemize}
+  \item holds lock on
+  \item will be deallocated by
+  \item \ldots
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{resource allocate graphs}
+\begin{tikzpicture}
+\node[resource] (directory A) {
+  resource A
+};
+\node[resource] (directory B) at ([yshift=-6cm]directory A) {
+  resource B
+};
+\node[thread] (thread one) at ([xshift=-4cm,yshift=-3cm]directory A) {
+  thread 1
+};
+\node[thread] (thread two) at ([xshift=4cm,yshift=-3cm]directory A) {
+  thread 2
+};
+
+\path[dependency] (thread one.north) ..  controls ([yshift=2cm]thread one.north) .. (directory A.west)
+    node[midway,dependency reason,left] {
+      waiting on
+    };
+\path[dependency] (thread two.south) ..  controls ([yshift=-2cm]thread two.south) .. (directory B.east)
+    node[midway,dependency reason,right] {
+      waiting on
+    };
+\path[dependency future] (directory A.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north)
+    node[midway,dependency reason,right] {
+      owned by
+    };
+\path[dependency future] (directory B.west) .. controls ([yshift=-2cm]thread one.south) .. (thread one.south)
+    node[midway,dependency reason,left] {
+      owned by
+    };
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{searching for cycles}
+\begin{itemize}
+\item cycle $\rightarrow$ deadlock happened!
+\vspace{.5cm}
+\item finding cycles: recall 2150 topological sort (maybe???)
+\end{itemize}
+\end{frame}

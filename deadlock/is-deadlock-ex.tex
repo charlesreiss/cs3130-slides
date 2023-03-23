@@ -1,0 +1,36 @@
+\begin{frame}[fragile,label=isDeadlockP]{how is deadlock possible?}
+Given list: A, B, C, D, E
+\begin{lstlisting}[style=smaller]
+RemoveNode(LinkedListNode *node) {
+    pthread_mutex_lock(&node->lock);
+    pthread_mutex_lock(&node->prev->lock);
+    pthread_mutex_lock(&node->next->lock);
+    node->next->prev = node->prev;
+    node->prev->next = node->next;
+    pthread_mutex_unlock(&node->next->lock);
+    pthread_mutex_unlock(&node->prev->lock);
+    pthread_mutex_unlock(&node->lock);
+}
+\end{lstlisting}
+Which of these (all run in parallel) can deadlock? \\
+\begin{tabular}{l} 
+A. RemoveNode(B) and RemoveNode(C) \\
+B. RemoveNode(B) and RemoveNode(D) \\
+C. RemoveNode(B) and RemoveNode(C) and RemoveNode(D) \\
+D. A and C \hspace{3cm} E. B and C \\
+F. all of the above \hspace{1cm} G. none of the above \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}<0>[label=isDeadlockPTimeline1]{how is deadlock --- solution}
+\begin{tabular}{l|l}
+Remove B & Remove C \\
+lock B & lock C \\
+lock A (prev) & wait to lock B (prev) \\
+wait to lock C (next) &
+\end{tabular}
+\hrule
+With B and D --- only overlap in in node C --- no circular wait possible
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1>{isDeadlockPTimeline1}}

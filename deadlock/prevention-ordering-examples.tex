@@ -1,0 +1,56 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}[fragile,label=moveFileOrdering]{acquiring locks in consistent order (1)}
+\begin{lstlisting}[
+    language=C++,
+    style=small,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+]
+MoveFile(Dir* from_dir, Dir* to_dir, string filename) {
+  if @2(from_dir->path < to_dir->path)2@ {
+    lock(&from_dir->lock);
+    lock(&to_dir->lock);
+  } else {
+    lock(&to_dir->lock);
+    lock(&from_dir->lock);
+  }
+  ...
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[anchor=south,draw=red,thick,align=center] at ([yshift=1cm]current page.south) {
+  any ordering will do \\
+  e.g. compare pointers
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=linuxOrdering]{acquiring locks in consistent order (2)}
+\begin{itemize}
+\item often by convention, e.g. Linux kernel comments:
+\end{itemize}
+\begin{lstlisting}[language=C++,style=smaller]
+/*
+ * ...
+ * Lock order:
+ *	contex.ldt_usr_sem
+ *	  mmap_sem
+ *	    context.lock
+ */
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=C++,style=smaller]
+/*
+ * ...
+ * Lock order:
+ *   1. slab_mutex (Global Mutex)
+ *   2. node->list_lock
+ *   3. slab_lock(page) (Only on some arches and for debugging)
+ * ...
+ */
+ \end{lstlisting}
+\end{frame}
+
+

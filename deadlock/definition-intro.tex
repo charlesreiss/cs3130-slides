@@ -1,0 +1,33 @@
+\begin{frame}{deadlock}
+\begin{itemize}
+\item deadlock --- circular waiting for \myemph<2>{resources}
+\vspace{.5cm}
+\item resource = something needed by a thread to do work
+  \begin{itemize}
+  \item locks
+  \item CPU time
+  \item disk space
+  \item memory
+  \item \ldots
+  \end{itemize}
+\item often non-deterministic in practice
+\item most common example: \myemph{when acquiring multiple locks}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{deadlock versus starvation}
+\begin{itemize}
+\item starvation: one+ unlucky (no progress), 
+                  one+ lucky (yes progress)
+    \begin{itemize}
+    \item example: low priority threads versus high-priority threads
+    \end{itemize}
+\item deadlock: no one involved in deadlock makes progress
+\vspace{.5cm}
+\item<2-> starvation: once starvation happens, taking turns will resolve
+    \begin{itemize}
+    \item low priority thread just needed a chance\ldots
+    \end{itemize}
+\item<2-> deadlock: once it happens, taking turns won't fix
+\end{itemize}
+\end{frame}
