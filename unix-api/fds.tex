@@ -1,6 +1,6 @@
 \begin{frame}[fragile,label=fds]{file descriptors}
 \begin{lstlisting}[language=C,style=smaller]
-struct process_info {
+struct process_info {  /* <-- in the kernel somewhere */
     ...
     struct open_file *files;
 };
@@ -14,7 +14,7 @@ process->files[file_descriptor]
     \item file descriptor = index into array
         \begin{itemize}
         \item usually what's used with system calls
-        \item stdio.h FILE*s usually have file descriptor + buffer
+        \item stdio.h FILE*s usually have file descriptor index + buffer
         \end{itemize}
     \end{itemize}
 \end{frame}

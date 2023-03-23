@@ -1,0 +1,14 @@
+
+\begin{frame}[fragile,label=pipeAndBlocking]{pipe() and blocking}
+\myemph{BROKEN} example:
+\begin{lstlisting}[language=C++,style=small]
+int pipe_fd[2];
+if (pipe(pipe_fd) < 0)
+    handle_error();
+int read_fd = pipe_fd[0];
+int write_fd = pipe_fd[1];
+write(write_fd, some_buffer, some_big_size);
+read(read_fd, some_buffer, some_big_size);
+\end{lstlisting}
+This is likely to \myemph{not terminate}. What's the problem?
+\end{frame}
