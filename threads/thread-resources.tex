@@ -37,7 +37,7 @@ int main() {
 \end{lstlisting}
 \begin{tikzpicture}[overlay,remember picture]
 \coordinate (place) at ([yshift=1cm]current page.south);
-\node[align=left,draw=red,ultra thick,anchor=south,at={(place)}] {
+\node[align=left,draw=red,ultra thick,anchor=south,at={(place)},fill=white] {
     detach = don't care about return value, etc.\\
     system will deallocate when thread terminates
 };

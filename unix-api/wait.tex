@@ -14,17 +14,6 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=exitStatuses]{exit statuses}
-\begin{lstlisting}[
-    language=C++,
-    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
-]
-int main() {
-    return @101@;  /* or exit(0);  */
-}
-\end{lstlisting}
-\end{frame}
-
 \begin{frame}[fragile,label=waitpidExample]{waitpid example}
 \begin{lstlisting}[
     language=C++,
@@ -43,24 +32,3 @@ int main() {
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile,label=extractStatus]{the status}
-\begin{lstlisting}[
-    language=C++,
-    style=smaller,
-    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
-]
-#include <sys/wait.h>
-...
-  waitpid(child_pid, &status, 0);
-  if (@2WIFEXITED(status)2@) {
-    printf("main returned or exit called with %d\n",
-           @2WEXITSTATUS(status)2@);
-  } else if (WIFSIGNALED(status)) {
-    printf("killed by signal %d\n", WTERMSIG(status));
-  } else {
-      ...
-  }
-\end{lstlisting}
-``status code'' encodes \myemph{both return value and if exit was abnormal} \\
-W* macros to decode it
-\end{frame}
