@@ -15,6 +15,9 @@
     row 4/.style={nodes={alt=<5>{fill=yellow!10}}},
     row 5/.style={nodes={alt=<6>{fill=red!10}}},
     row 6/.style={nodes={alt=<8>{fill=yellow!10}}},
+    row 7/.style={nodes={alt=<9-10>{fill=yellow!10}}},
+    row 8/.style={nodes={alt=<11-12>{fill=red!10}}},
+    row 9/.style={nodes={alt=<13-14>{fill=red!10}}},
     row 2 column 4/.style={nodes={alt=<1>{invisible}}},
     row 3 column 4/.style={nodes={alt=<1-3>{invisible}}},
     row 4 column 4/.style={nodes={alt=<1-4>{invisible}}},
@@ -30,9 +33,9 @@
     0x11040 \& 0001$\;$000\colorbox{blue!20}{1} \& 0xFFF040 \& hit \\
     0x7CFF0 \& 0111$\;$110\colorbox{blue!20}{0} \& 0x3100F0 \& miss \\
     0x11048 \& 0001$\;$000\colorbox{blue!20}{1} \& 0xFFF048 \& hit \\
-    0x7CFE8 \& 0111$\;$110\colorbox{blue!20}{0} \& 0x3100E8 \& hit \\
+    0x7CFE8 \& 0111$\;$110\colorbox{blue!20}{0} \& 0x310FE8 \& hit \\
     0x30000 \& 0011$\;$000\colorbox{blue!20}{0} \& 0x8FF000 \& miss \\
-    0x7CFE0 \& 0111$\;$011\colorbox{blue!20}{0} \& 0xFFF048 \& miss  \\
+    0x7CFE0 \& 0111$\;$110\colorbox{blue!20}{0} \& 0x310FE0 \& miss  \\
 };
 \matrix[tight matrix,fill=white,
     nodes={font=\fontsize{10}{11}\selectfont\tt,minimum height=.4cm,thin,inner sep=0.5pt,outer sep=0pt},
@@ -46,7 +49,8 @@
     row 2/.append style={nodes={font=\small}},
     row 3/.style={nodes={
         alt=<6-7>{fill=red!10},
-        alt=<9>{fill=yellow!10},
+        alt=<9-10>{fill=yellow!10},
+        alt=<11-12>{fill=red!10},
     }},
     row 4/.style={nodes={
         alt=<2-3>{fill=red!10},
@@ -58,8 +62,8 @@
     ~ \& ~ \& ~ \& |[alias=pte label 1]| \& ~ \& ~ \& |[alias=pte label 2]| ~ \& ~ \\
     set idx \&V \& tag \& physical page \& write? \& user? \& \ldots \\
     0 \& \alt<1-6>{0}{1} \& 
-         \alt<1-6>{~}{0111110} \& 
-         \alt<1-6>{~}{0x310} \& 
+         \alt<1-13>{\alt<1-11>{\alt<1-6>{~}{0111110}}{\myemph<12>{0011000}}}{\myemph<14>{0111110}} \& 
+         \alt<1-13>{\alt<1-11>{\alt<1-6>{~}{0x310}}{\myemph<12>{0x8FF}}}{\myemph<14>{0x310}} \& 
          \alt<1-6>{~}{1} \& 
          \alt<1-6>{~}{1} \&
          \ldots \\
