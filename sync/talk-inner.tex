@@ -34,6 +34,8 @@
 \input{../sync/read-modify-write}
 
 \section{locks}
+\input{../sync/lock-analogy}
+% FIXME: lock analogy: hat
 \input{../sync/locks}
 
 \subsection{exercise}
@@ -48,16 +50,13 @@
 \section{life HW}
 \input{../sync/life-hw-intro}
 
-\section{cache coherency}
-\section{preview: processor buses}
-\input{../sync/shared-bus}
-
-\subsection{problem setup / snooping}
-\input{../sync/cache-coherency-intro}
 
 \section{aside: reordering}
 
 \section{revisiting atomicity}
+\subsection{compiler reordering}
+\input{../sync/compiler-reordering}
+
 \subsection{processor reordering}
 \input{../sync/non-atomic-loadstore}
 
@@ -65,17 +64,11 @@
 \input{../sync/load-store-reorder-spec}
 \input{../sync/load-store-reordering}
 
-\subsection{compiler reordering}
-\input{../sync/compiler-reordering}
 
 
 \section{pthreads and load/store reordering}
 \input{../sync/no-reordering}
 
-\input{../sync/mfence}
-
-\section{false sharing}
-\input{../sync/false-sharing}
 
 \subsection{exercise}
 \input{../sync/false-sharing-ex}
@@ -321,3 +314,15 @@
 \subsection{correct solution: Peterson's algorithm}
 \input{../sync/too-much-milk4}
 
+\subsection{mfence}
+\input{../sync/mfence}
+
+\subsection{false sharing}
+\input{../sync/false-sharing}
+
+\section{cache coherency}
+\section{preview: processor buses}
+\input{../sync/shared-bus}
+
+\subsection{problem setup / snooping}
+\input{../sync/cache-coherency-intro}
