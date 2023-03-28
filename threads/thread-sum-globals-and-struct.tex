@@ -11,14 +11,14 @@ struct ThreadInfo {
     int start, end, result;
 };
 void *sum_thread(void *argument) {
-    ThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (ThreadInfo *) argument;
+    struc tThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (struct ThreadInfo *) argument;
     int sum = 0;
     for (int i = my_info->start; i < my_info->end; ++i) { sum += values[i]; }
     @4my_info->result = sum;4@
     return NULL;
 }
 int sum_all() {
-    pthread_t thread[2]; @3ThreadInfo info[2];3@
+    pthread_t thread[2]; @3struct ThreadInfo info[2];3@
     for (int i = 0; i < 2; ++i) {
         info[i].start = i*512; info[i].end = (i+1)*512;
         pthread_create(&threads[i], NULL, sum_thread, &info[i]);

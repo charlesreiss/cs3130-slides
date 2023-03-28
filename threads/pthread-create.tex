@@ -1,6 +1,7 @@
 \usetikzlibrary{arrows.meta,decorations.pathmorphing,matrix}
 
 \begin{frame}<1>[fragile,label=pthreadCreateOver]{pthread\_create}
+\vspace{-.25cm}
 \begin{lstlisting}[
     style=smaller,
     language=C++,
@@ -23,6 +24,8 @@ int main() {
         thread/.style={very thick,draw,decorate,decoration=snake},
         split/.style={very thick,draw},
         marker/.style={thin,draw},
+        y=0.8cm,
+        every node/.style={inner sep=0.1mm}
     }
     \draw[thread] (0, 0) node[above] {main()}-- ++(0, -.75) node[below,font=\tt\small] (create pi) {pthread\_create};
     \draw[thread] (create pi) -- ++(0, -.75) node[below,font=\tt\small] (create list) {pthread\_create};

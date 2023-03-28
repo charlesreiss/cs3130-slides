@@ -3,19 +3,17 @@
 \begin{frame}[fragile,label=stackLeak]{what's wrong with this?}
 \begin{lstlisting}[language=C++,style=small]
 /* omitted: headers */
-#include <string>
-using std::string;
 void *create_string(void *ignored_argument) {
-  string result;
-  result = ComputeString();
-  return &result;
+  char string[1024];
+  ComputeString(string);
+  return string;
 }
 int main() {
   pthread_t the_thread;
   pthread_create(&the_thread, NULL, create_string, NULL);
-  string *string_ptr;
-  pthread_join(the_thread, (void*) &string_ptr);
-  cout << "string is " << *string_ptr;
+  char *string_ptr;
+  pthread_join(the_thread, (void**) &string_ptr);
+  printf("string is %s\n", string_ptr);
 }
 \end{lstlisting}
 \end{frame}
