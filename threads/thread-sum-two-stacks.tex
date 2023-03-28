@@ -10,7 +10,7 @@
 \node[anchor=west,blue!70!black] (sdata arr) at ([xshift=-1mm,yshift=4mm]sdata.east) { values, results (global) };
 \begin{visibleenv}<2->
 \matrix[draw,anchor=north east,tight matrix,nodes={font=\fontsize{9}{10}\selectfont,text width=2cm},
-    label={[font=\fontsize{9}{10}\selectfont]north:TCB for sum\_front thread}] at
+    label={[font=\fontsize{9}{10}\selectfont]north:sum\_front thread}] at
     ([xshift=8cm,yshift=4cm]sdata.east)
 {
 |[alias=front pc]| PC \\
@@ -18,7 +18,7 @@
 \ldots \\
 };
 \matrix[draw,anchor=north east,tight matrix,nodes={font=\fontsize{9}{10}\selectfont,text width=2cm},
-    label={[font=\fontsize{9}{10}\selectfont]north:TCB for sum\_back thread}] at
+    label={[font=\fontsize{9}{10}\selectfont]north:sum\_back thread}] at
     ([xshift=8cm,yshift=2cm]sdata.east)
 {
 |[alias=back pc]| PC \\

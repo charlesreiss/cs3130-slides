@@ -6,24 +6,11 @@
 
 \begin{frame}{example 1: pipes?}
 \begin{itemize}
-\item suppose we want to implement a pipe with threads
-\item \texttt{read} sometimes needs to wait for a \texttt{write}
-\item don't want busy-wait
-\begin{itemize}
-\item (and trick of having writer unlock() so reader can finish a lock() is illegal)
+\item pipes: one thread reads while other writes
+\vspace{.5cm}
+\item want write to complete immediately if buffer space
+\item want read operation to \textit{wait} for write operation
+\vspace{.5cm}
+\item not functionality provided by mutexes/barriers
 \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{more synchronization primitives}
-    \begin{itemize}
-    \item need other ways to wait for threads to finish
-    \item we'll introduce several synchronization ideas beyond locks:
-        \begin{itemize}
-        \item barriers --- (today)
-        \item condition variables / monitors
-        \item counting semaphores
-        \item reader/writer locks
-        \end{itemize}
-    \end{itemize}
 \end{frame}

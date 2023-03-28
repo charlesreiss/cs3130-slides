@@ -7,6 +7,8 @@
     \item \ldots so processors provide \myemph{read/modify/write} operations
         \vspace{.5cm}
     \item one instruction that\\\textit{atomically}\\reads \textit{and} modifies \textit{and} writes back a value
+    \vspace{.5cm}
+    \item used by OS to implement higher-level synchronization tools
     \end{itemize}
 \end{frame}
 
@@ -28,9 +30,10 @@ lock xchg (%ecx), %eax
 \begin{frame}{implementing atomic exchange}
     \begin{itemize}
     \item make sure other processors don't have cache block
+    \begin{itemize}
+        \item probably need to be able to do this to keep caches in sync
+    \end{itemize}
     \item do read+modify+write operation
-    \vspace{.5cm}
-    \item recall: Modified state = ``I am the only one with a copy''
     \end{itemize}
 \end{frame}
 

@@ -54,7 +54,7 @@ thread_B:
     ret
 \end{lstlisting}
 };
-\node[anchor=north] (driver code) at ([yshift=-.25cm,xshift=-.25cm]thread B code.south west) {
+\node[anchor=north] (driver code) at ([yshift=.1cm,xshift=-.25cm]thread B code.south west) {
 \begin{lstlisting}[language=C++,style=smaller]
 x = y = 0;
 pthread_create(&A, NULL, thread_A, NULL);
@@ -64,6 +64,7 @@ printf("A:%d B:%d\n", (int) A_result, (int) B_result);
 \end{lstlisting}
 };
 \end{tikzpicture} 
+\vspace{-.5cm}
 \begin{center}
 \small my desktop, 100M trials: \\
 \begin{tabular}{r|l|l}

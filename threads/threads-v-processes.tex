@@ -1,24 +1,5 @@
 \usetikzlibrary{chains,fit,matrix}
 
-\begin{frame}{threads versus processes}
-\begin{itemize}
-\item so far, was showing \myemph{each process has one thread}
-\vspace{.5cm}
-\item thread = part that gets run on CPU
-    \begin{itemize}
-    \item saved register values (including own stack pointer)
-    \item save program counter
-    \end{itemize}
-\item rest of process
-    \begin{itemize}
-    \item address space (accessible memory)
-    \item open files
-    \item current working directory
-    \item \ldots
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
 \begin{frame}[fragile,label=singleAndMulti]{single and multithread processes}
 \begin{tikzpicture}
 \tikzset{

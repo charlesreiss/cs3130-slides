@@ -1,31 +1,10 @@
 \usetikzlibrary{calc}
 
-\begin{frame}{load/store reordering}
-\begin{itemize}
-    \item load/stores atomic, but run \textit{out of order}
-    \vspace{.5cm}
-    \item recall?: out-of-order processors
-    \item processor optimization: sometimes execute instructions in non-program order
-        \begin{itemize}
-        \item hide delays from slow caches, variable computation rates, etc.
-        \item documneted limits on when this is/is not allowed
-        \end{itemize}
-    \item track side-effects \textit{within a thread} to make as if in-order
-        \begin{itemize}
-        \item but common choice: don't worry as much between cores/threads
-        \item design decision: if programmer cares, they worry about it
-        \end{itemize}
-    \item want to avoid this \textit{special instructions ensure strict ordering}
-\end{itemize}
-\end{frame}
-
 \begin{frame}{why load/store reordering?}
 \begin{itemize}
-\item prior example: load of x executing before store of y
-\item why do this? otherwise delay the load
-    \begin{itemize}
-    \item if x and y unrelated --- no benefit to waiting
-    \end{itemize}
+\item fast processor designs can execute instructions out of order
+\item goal: do something instead of waiting for slow memory accesses, etc.
+\item more on this later in the semester
 \end{itemize}
 \end{frame}
 

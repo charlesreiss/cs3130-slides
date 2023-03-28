@@ -1,6 +1,9 @@
 
 \section{introduction: correctness}
+\input{../threads/pthread-create-race-lib}
+\againframe<1>{pthreadCreateBrokenP}
 
+\againframe<1>{pthreadCreateRace}
 \input{../sync/the-correctness-problem}
 
 \section{the lost write}
@@ -16,15 +19,12 @@
 \input{../sync/simple-races}
 
 \subsection{atomicity definition}
-
 \input{../sync/atomicity}
 
 \subsection{example: x86 add not atomic}
-
 \input{../sync/lost-add-example}
 
 \subsection{what is atomic?}
-
 \input{../sync/what-atomic}
 
 \section{too much milk: locks from load/store?}
@@ -45,8 +45,10 @@
 \input{../sync/too-much-milk4}
 
 \section{definitions: mutual exclusion, critical section}
-
 \input{../sync/mutual-exclusion-defn}
+
+\section{read-modify-write atomic operations}
+\input{../sync/read-modify-write}
 
 \section{locks}
 \input{../sync/locks}
@@ -63,62 +65,37 @@
 \section{life HW}
 \input{../sync/life-hw-intro}
 
-\section{disabling interrupts for locks}
-\input{../sync/lock-by-disable-interrupts}
+\section{cache coherency}
+\section{preview: processor buses}
+\input{../sync/shared-bus}
 
-%\subsection{xv6's push/popcli}
-%\input{../sync/xv6-pushpopcli}
+\subsection{problem setup / snooping}
+\input{../sync/cache-coherency-intro}
 
-\section{compiler reordering}
-\input{../sync/compiler-reordering}
+\section{aside: reordering}
 
 \section{revisiting atomicity}
+\subsection{processor reordering}
 \input{../sync/non-atomic-loadstore}
+
+\subsection{why reorder?}
+\input{../sync/load-store-reorder-spec}
+\input{../sync/load-store-reordering}
+
+\subsection{compiler reordering}
+\input{../sync/compiler-reordering}
+
 
 \section{pthreads and load/store reordering}
 \input{../sync/no-reordering}
 
 \input{../sync/mfence}
 
-\section{cache coherency}
-\section{processor buses}
-\input{../sync/shared-bus}
-
-\subsection{problem setup / snooping}
-\input{../sync/cache-coherency-intro}
-
 \section{false sharing}
 \input{../sync/false-sharing}
 
 \subsection{exercise}
 \input{../sync/false-sharing-ex}
-
-\section{read-modify-write atomic operations}
-\input{../sync/read-modify-write}
-
-\section{x86-64 spinlock}
-\input{../sync/x86-spinlock}
-
-\section{exercise: spin-wait}
-\input{../sync/exer-spin-wait}
-
-\section{spinlock problems}
-\input{../sync/spinlock-problem}
-
-\section{locks that sleep}
-
-\againframe<3>{spinLockProblems}
-\input{../sync/mutexes-intro}
-
-\subsection{pseudocode}
-\input{../sync/mutex-pseudocode}
-
-\subsubsection{need for scheduler integration}
-\input{../sync/mutex-sched-race}
-
-\subsection{analysis: uncontended case}
-\input{../sync/mutex-uncontend}
-
 \section{recall: POSIX mutexes}
 \input{../sync/pthreads-mutex-review}
 
@@ -245,18 +222,46 @@
 \begin{frame}{backup slides}
 \end{frame}
 
+\subsection{even/odd idea for life hw}
+\input{../sync/life-even-odd}
 
-\section{aside: standard container rules}
+\subsection{x86-64 spinlock}
+\input{../sync/x86-spinlock}
+
+\subsection{exercise: spin-wait}
+\input{../sync/exer-spin-wait}
+
+\subsection{spinlock problems}
+\input{../sync/spinlock-problem}
+
+\subsection{locks that sleep}
+
+\againframe<3>{spinLockProblems}
+\input{../sync/mutexes-intro}
+
+\subsubsection{pseudocode}
+\input{../sync/mutex-pseudocode}
+
+\subsubsection{need for scheduler integration}
+\input{../sync/mutex-sched-race}
+
+\subsubsection{analysis: uncontended case}
+\input{../sync/mutex-uncontend}
+
+
+\subsection{disabling interrupts for locks}
+\input{../sync/lock-by-disable-interrupts}
+
+%\subsection{xv6's push/popcli}
+%\input{../sync/xv6-pushpopcli}
+
+\subsection{aside: standard container rules}
 \input{../sync/std-container-rule}
 
 \subsection{GCC atomic/sync stuff}
 \input{../sync/no-reordering-gcc-ex}
 
-\subsection{xv6 spinlock debugging}
-\input{../sync/xv6-spinlock-debug}
-
 \subsection{exercise: atomic add}
-
 \input{../sync/atomic-cas-to-add-exercise}
 \subsection{xv6's spinlock debugging}
 
@@ -285,25 +290,13 @@
 % FIXME: instruction queue/etc. picture?
 \input{../sync/load-store-reordering}
 
-\subsection{GCC atomic/sync stuff}
-\input{../sync/no-reordering-gcc-ex}
-
 \subsection{C++atomic/sync stuff}
 \input{../sync/no-reordering-cpp}
 
 \subsection{x86-64 reordering rules}
 \input{../sync/x86-reordering-rules}
 
-\subsection{xv6 spinlock debugging}
-\input{../sync/xv6-spinlock-debug}
 
-
-\subsection{CAS for fetch-and-add}
-\input{../sync/atomic-cas-to-add-example}
-
-\subsection{exercise: CAS for appending to list}
-\input{../sync/cas-append-to-list-ex}
-\input{../sync/cas-append-to-list-sol}
 
 \subsection{test-and-test-and-set}
 
@@ -327,7 +320,4 @@
 
 \subsection{counting to binary semaphores}
 \input{../sync/count-to-binary}
-
-\subsection{exercise: ordering}
-\input{../sync/monitor-order-ex}
 

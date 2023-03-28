@@ -1,0 +1,49 @@
+\usetikzlibrary{arrows.meta}
+\begin{frame}<0>[fragile,label=pthreadCreateBrokenP]{a threading race}
+\begin{lstlisting}[
+    style=small,
+    language=C++,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+]
+#include <pthread.h>
+#include <stdio.h>
+void *print_message(void *ignored_argument) {
+    @1printf("In the thread\n");1@ return NULL;
+}
+int main() {
+    printf("About to start thread\n");
+    pthread_t the_thread;
+    pthread_create(&the_thread, NULL, print_message, NULL);
+    printf("Done starting thread\n");
+    return 0;
+}
+\end{lstlisting}
+My machine: outputs \texttt{In the thread} \myemph{about 4\% of the time}. \\
+What happened?
+\end{frame}
+
+\begin{frame}<0>[fragile,label=pthreadCreateRace]{a race}
+\begin{itemize}
+\item returning from main \myemph{exits the entire process} (all its threads)
+    \begin{itemize}
+    \item same as calling exit; not like other threads
+    \end{itemize}
+\item race: main's return 0 or print\_message's printf first?
+\end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    box/.style={draw,thick},
+    main box/.style={fill=blue!30},
+    thread box/.style={fill=yellow!30},
+    my label/.style={font=\small},
+    >=Latex,
+}
+\draw[very thick,->] (0,1.25) -- (12,1.25) node[right] {time};
+\path[main box] (0, 0) rectangle (8, 1) node[midway,my label]{main: printf/pthread\_create/printf/return};
+\path[thread box] (5, -.5) rectangle (8, -1.5);
+\path[thread box,fill=yellow!10,dashed] (8, -.5) rectangle (12, -1.5);
+\path (5, -.5) rectangle (12, -1.5) node[midway,my label]{print\_message: printf/return};
+\path[draw,thick,red] (8, 1) -- (8,-1.5) node[below,align=center] {return from main \\ ends all threads \\ in the process};
+\end{tikzpicture}
+\end{frame}
+

@@ -1,7 +1,6 @@
 \begin{frame}{thinking about race conditions (1)}
 \begin{itemize}
-\item what are the possible values of $x$? \\
-\item (initially $x = y = 0$) \\
+\item what are the possible values of $x$? (initially $x = y = 0$)  \\
 \begin{tabular}{cc}
     \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
     $x \leftarrow 1$ & $y \leftarrow 2$ \\
@@ -14,8 +13,7 @@
 
 \begin{frame}<1-2>[label=thinkRace2]{thinking about race conditions (2)}
 \begin{itemize}
-\item what are some possible values of $x$? \\
-\item (initially $x = y = 0$) \\
+\item possible values of $x$? (initially $x = y = 0$) \\
 \begin{tabular}{cc}
     \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
     $x \leftarrow y + 1$ & $y \leftarrow 2$ \\
