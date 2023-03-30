@@ -26,14 +26,15 @@
 \subsection{what is atomic?}
 \input{../sync/what-atomic}
 
-\section{definitions: mutual exclusion, critical section}
-\input{../sync/mutual-exclusion-defn}
-
 \section{read-modify-write atomic operations}
 \input{../sync/read-modify-write}
 
+\section{definitions: mutual exclusion, critical section}
+\input{../sync/mutual-exclusion-defn}
+
 \section{locks}
 \input{../sync/lock-analogy}
+
 % FIXME: lock analogy: hat
 \input{../sync/locks}
 
@@ -54,11 +55,20 @@
 \input{../sync/life-hw-intro}
 
 
-\section{aside: reordering}
+\section{preview: more advance sync}
+\input{../sync/preview-dont-roll}
 
 \section{revisiting atomicity}
 \subsection{compiler reordering}
 \input{../sync/compiler-reordering}
+
+\subsection{fix compiler reordering}
+\begin{frame}{fixing compiler reordering?}
+    \begin{itemize}
+    \item isn't there a way to tell compiler not to do these optimizations?
+    \item yes, but that is not enough!
+    \end{itemize}
+\end{frame}
 
 \subsection{processor reordering}
 \input{../sync/non-atomic-loadstore}

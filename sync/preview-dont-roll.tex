@@ -1,0 +1,31 @@
+\begin{frame}{preview: general sync}
+    \begin{itemize}
+    \item lots of coordinating threads beyond locks/barriers
+    \item will talk about two general tools later:
+        \begin{itemize}
+        \item monitors/condition variables
+        \item semaphores
+        \end{itemize}
+    \item big added feature: wait for arbitrary thing to happen
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{a bad idea}
+\begin{itemize}
+\item one \myemph{bad} idea to wait for an event:
+\end{itemize}
+\begin{lstlisting}
+bool happened = false;
+void WaitForEvent() {
+    do {} while (!happened);
+}
+
+void EventHappened() {
+    happened = true;
+}
+\end{lstlisting}
+\begin{itemize}
+\item wastes processor time
+\item and also \myemph{doesn't work!}
+\end{itemize}
+\end{frame}
