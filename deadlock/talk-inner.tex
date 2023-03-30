@@ -1,0 +1,97 @@
+\input{../deadlock/dependency-lib}
+
+\section{deadlock examples}
+
+\subsection{a one-way bridge}
+\input{../deadlock/example-bridge}
+
+\subsection{with pipes}
+\input{../deadlock/example-pipe}
+
+\subsection{with locks}
+\input{../deadlock/example-rename}
+
+\subsection{with memory}
+\input{../deadlock/example-memory}
+ 
+\section{deadlock definition}
+
+\subsection{short intuition}
+
+\input{../deadlock/definition-intro}
+
+\subsection{conditions for deadlock}
+
+\input{../deadlock/deadlock-requirements}
+
+\section{exercise}
+
+\input{../deadlock/is-deadlock-ex}
+
+\section{deadlock prevention}
+
+\subsection{techniques overview}
+
+\input{../deadlock/deadlock-prevention-lib}
+
+% FIXME: cut down?
+
+\againframe<1>{deadlockPrevent}
+
+\againframe<2>{deadlockPrevent} % infinite resources
+
+\againframe<3>{deadlockPrevent} % no shared resources
+
+\subsection{example: no waiting}
+
+\againframe<4>{deadlockPrevent} % no waiting (abort and retry)
+
+\subsection{revocable locks}
+
+\againframe<7>{deadlockPrevent} % no waiting (revoke)
+
+\subsection{example: consistent order}
+
+\againframe<5>{deadlockPrevent}
+
+\input{../deadlock/prevention-ordering-examples}
+
+\againframe<6>{deadlockPrevent}
+
+
+\section{backup slides}
+\begin{frame}{}
+\end{frame}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{deadlock detection}
+
+\input{../deadlock/detection-intro}
+
+\subsubsection{problem with divisible resources?}
+\input{../deadlock/detection-divisible-brief}
+
+\subsection{dining philosophers}
+% FIXME: dining philosophers
+\input{../deadlock/dining-philosophers}
+\subsection{pre-requesting maximum resources}
+
+\input{../deadlock/prerequest-maximum}
+
+\subsection{aborting locks}
+\input{../deadlock/example-memory}
+
+\input{../deadlock/prevention-abort-examples} % FIXME: consider dropping
+
+\subsection{revokable locks}
+
+\input{../deadlock/revocable-locks}
+
+\subsection{example: livelock}
+
+\againframe<8>{deadlockPrevent} % no waiting (abort and retry)
+
+\input{../deadlock/livelock}
+
+
