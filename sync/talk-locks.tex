@@ -1,0 +1,74 @@
+\section{introduction: correctness}
+\input{../threads/pthread-create-race-lib}
+\againframe<1>{pthreadCreateBrokenP}
+
+\againframe<1>{pthreadCreateRace}
+\input{../sync/the-correctness-problem}
+
+\section{the lost write}
+
+\subsection{motivation: threaded ATM server?}
+\input{../sync/lost-write-motivate-atm-server}
+
+\subsection{example}
+\input{../sync/lost-write}
+
+\section{race conditions and atomicity}
+\subsection{thinking about simple races} 
+\input{../sync/simple-races}
+
+\subsection{atomicity definition}
+\input{../sync/atomicity}
+
+\subsection{example: x86 add not atomic}
+\input{../sync/lost-add-example}
+
+\subsection{what is atomic?}
+\input{../sync/what-atomic}
+
+\section{definitions: mutual exclusion, critical section}
+\input{../sync/mutual-exclusion-defn}
+
+\section{read-modify-write atomic operations}
+\input{../sync/read-modify-write}
+
+\section{locks}
+\input{../sync/lock-analogy}
+% FIXME: lock analogy: hat
+\input{../sync/locks}
+
+\subsection{exercise}
+\input{../sync/lock-ex}
+
+\subsection{pthread\_mutex: lock where you unlock}
+\input{../sync/pthread-mutex-restriction}
+
+\section{preview: beyond locks}
+\input{../sync/locks-enoughp}
+
+
+\section{barriers}
+\input{../sync/barriers}
+
+\section{life HW}
+\input{../sync/life-hw-intro}
+
+
+\section{aside: reordering}
+
+\section{revisiting atomicity}
+\subsection{compiler reordering}
+\input{../sync/compiler-reordering}
+
+\subsection{processor reordering}
+\input{../sync/non-atomic-loadstore}
+
+\subsection{why reorder?}
+\input{../sync/load-store-reorder-spec}
+\input{../sync/load-store-reordering}
+
+
+
+\section{pthreads and load/store reordering}
+\input{../sync/no-reordering}
+

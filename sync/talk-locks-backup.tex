@@ -1,0 +1,126 @@
+
+
+\section{backup sides}
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{backup slides}
+\end{frame}
+\section{recall: POSIX mutexes}
+\input{../sync/pthreads-mutex-review}
+
+\subsection{even/odd idea for life hw}
+\input{../sync/life-even-odd}
+
+\subsection{x86-64 spinlock}
+\input{../sync/x86-spinlock}
+
+\subsection{exercise: spin-wait}
+\input{../sync/exer-spin-wait}
+
+\subsection{spinlock problems}
+\input{../sync/spinlock-problem}
+
+\subsection{locks that sleep}
+
+\againframe<3>{spinLockProblems}
+\input{../sync/mutexes-intro}
+
+\subsubsection{pseudocode}
+\input{../sync/mutex-pseudocode}
+
+\subsubsection{need for scheduler integration}
+\input{../sync/mutex-sched-race}
+
+\subsubsection{analysis: uncontended case}
+\input{../sync/mutex-uncontend}
+
+
+\subsection{disabling interrupts for locks}
+\input{../sync/lock-by-disable-interrupts}
+
+%\subsection{xv6's push/popcli}
+%\input{../sync/xv6-pushpopcli}
+
+\subsection{aside: standard container rules}
+\input{../sync/std-container-rule}
+
+\subsection{GCC atomic/sync stuff}
+\input{../sync/no-reordering-gcc-ex}
+
+\subsection{exercise: atomic add}
+\input{../sync/atomic-cas-to-add-exercise}
+\subsection{xv6's spinlock debugging}
+
+\input{../sync/xv6-spinlock}
+
+\subsection{CAS for fetch-and-add}
+\input{../sync/atomic-cas-to-add-example}
+
+\subsection{exercise: CAS for appending to list}
+\input{../sync/cas-append-to-list-ex}
+\input{../sync/cas-append-to-list-sol}
+
+\subsection{more atomic operations}
+
+\input{../sync/other-atomics}
+
+\subsection{cache coherency detail}
+\subsection{adding more state: MSI}
+\input{../sync/cache-coherency-msi}
+
+\subsection{exercise}
+\input{../sync/cache-coherency-ex}
+\input{../sync/cache-coherency-ex-soln}
+
+\section{processor load/store reordering}
+% FIXME: instruction queue/etc. picture?
+\input{../sync/load-store-reordering}
+
+\subsection{C++atomic/sync stuff}
+\input{../sync/no-reordering-cpp}
+
+\subsection{x86-64 reordering rules}
+\input{../sync/x86-reordering-rules}
+
+
+
+\subsection{test-and-test-and-set}
+
+\againframe<2>{spinLockProblems}
+\input{../sync/test-and-test-and-set}
+
+
+\subsection{beyond MSI}
+\input{../sync/cache-coherency-beyond-msi}
+\section{too much milk: locks from load/store?}
+
+\subsection{setup: buying milk}
+\input{../sync/too-much-milk-scenario}
+
+\subsection{wrong solution 1: missed notes}
+\input{../sync/too-much-milk1}
+
+\subsection{wrong solution 2: read own note}
+\input{../sync/too-much-milk2}
+
+\subsection{wrong solution 3: too little milk}
+\input{../sync/too-much-milk3}
+
+\subsection{correct solution: Peterson's algorithm}
+\input{../sync/too-much-milk4}
+
+\subsection{mfence}
+\input{../sync/mfence}
+
+\subsection{false sharing}
+\input{../sync/false-sharing}
+\subsubsection{exercise}
+\input{../sync/false-sharing-ex}
+
+\section{cache coherency}
+\section{preview: processor buses}
+\input{../sync/shared-bus}
+
+\subsection{problem setup / snooping}
+\input{../sync/cache-coherency-intro}
