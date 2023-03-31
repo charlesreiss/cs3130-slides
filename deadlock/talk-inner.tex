@@ -10,6 +10,9 @@
 
 \subsection{with memory}
 \input{../deadlock/example-memory}
+
+\subsection{dining philosophers}
+\input{../deadlock/dining-philosophers}
  
 \section{deadlock definition}
 
@@ -43,7 +46,21 @@
 
 \againframe<4>{deadlockPrevent} % no waiting (abort and retry)
 
-\subsection{revocable locks}
+\subsubsection{aborting locks}
+\input{../deadlock/example-memory}
+
+\input{../deadlock/prevention-abort-examples} % FIXME: consider dropping
+
+
+\subsubsection{revokable locks}
+
+\input{../deadlock/revocable-locks}
+
+\subsection{example: livelock}
+
+\againframe<8>{deadlockPrevent} % no waiting (abort and retry)
+
+\input{../deadlock/livelock}
 
 \againframe<7>{deadlockPrevent} % no waiting (revoke)
 
@@ -62,13 +79,8 @@
 \subsubsection{problem with divisible resources?}
 \input{../deadlock/detection-divisible-brief}
 
+\subsubsection{real detection?}
+\input{../deadlock/detection-real}
 
-\subsection{revokable locks}
-
-\input{../deadlock/revocable-locks}
-
-\subsection{example: livelock}
-
-\againframe<8>{deadlockPrevent} % no waiting (abort and retry)
-
-\input{../deadlock/livelock}
+\subsubsection{detection to prevention}
+\input{../deadlock/detection-to-prevention}

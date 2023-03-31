@@ -3,14 +3,14 @@
 \begin{frame}[fragile,label=moveFileDeadlock]{moving two files}
 \begin{lstlisting}[language=C++,style=smaller]
 struct Dir {
-  mutex_t lock; map<string, DirEntry> entries;
+  mutex_t lock; HashMap entries;
 };
 void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
   mutex_lock(&from_dir->lock);
   mutex_lock(&to_dir->lock);
     
-  to_dir->entries[filename] = from_dir->entries[filename];
-  from_dir->entries.erase(filename);
+  HashMap_put(to_dir->entries, filename, HashMap_get(from_dir->entries, filename));
+  HashMap_erase(from_dir->entries, filename);
 
   mutex_unlock(&to_dir->lock);
   mutex_unlock(&from_dir->lock);

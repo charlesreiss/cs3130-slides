@@ -5,8 +5,8 @@
     moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
     moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
 ]
-void WaitForOther() {
-    @2do {} while (!other_ready);2@
+void WaitForReady() {
+    @2do {} while (!ready);2@
 }
 \end{lstlisting}
 \hrule
@@ -17,7 +17,7 @@ void WaitForOther() {
     moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
 ]
 WaitForOther:
-  movl other_ready, %eax  // eax <- other_ready
+  movl ready, %eax  // eax <- other_ready
 .L2:
   @2testl %eax, %eax2@
   @2je .L22@                   // while (eax == 0) repeat

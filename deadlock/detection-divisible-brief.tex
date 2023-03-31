@@ -201,18 +201,15 @@
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{deadlock detection with divisibe resources}
+\begin{frame}{deadlock detection with divisible resources}
     \begin{itemize}
-    \item can't rely on cycles in graphs in this case
-    \item alternate algorithm exists
+    \item for each resource: track which threads have those resources
+    \item for each thread: resources they are waiting for
+    \item repeatedly:
         \begin{itemize}
-        \item similar technique to how we showed no deadlock
+        \item find a thread where all the resources it needs are available
+        \item remove that thread and mark the resources it has as free --- it can complete now!
         \end{itemize}
-    \item high-level intuition: simulate what could happen
-        \begin{itemize}
-        \item find threads that could finish based on resources available now
-        \end{itemize}
-    \vspace{.5cm}
-    \item full details: look up Baker's algorithm
+    \item either: all threads eliminated \textit{or} found deadlock
     \end{itemize}
 \end{frame}

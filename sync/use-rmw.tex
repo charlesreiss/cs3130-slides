@@ -1,0 +1,34 @@
+\begin{frame}[fragile]{using atomic exchange?}
+    \begin{itemize}
+    \item example: OS wants something done by whichever core tries first
+    \item does not want it started twice!
+    \item if two cores try at once, only one should do it
+    \end{itemize}
+\begin{lstlisting}[language=C,style=smaller]
+int global_flag = 0;
+void DoThingIfFirstToTry() {
+    int my_value = 1;
+    AtomicExchange(&my_value, &global_flag);
+    if (my_value == 0) {
+        /* flag was zero before, so I was first!*/
+        DoThing();
+    } else {
+        /* flag was already 1 when we exchanged */
+        /* I was second, so some other core is handling it */
+    }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{higher level tools}
+    \begin{itemize}
+        \item usually we won't use atomic operations directly
+        \item instead rely on OS/standard libraries using them
+        \item (along with context switching, disabling interrupts, \ldots)
+        \item OS/standard libraries will provide higher-level tools like\ldots
+            \vspace{.5cm}
+        \item pthread\_join
+        \item locks (pthread\_mutex)
+        \item \ldots and more
+    \end{itemize}
+\end{frame}

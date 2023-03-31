@@ -2,7 +2,7 @@
     \begin{itemize}
     \item locks: an object with (at least) two operations:
         \begin{itemize}
-        \item \textit{acquire} or \textit{lock} --- wait until lock is free, then ``grab'' it
+            \item \textit{acquire} or \textit{lock} --- \myemph<2>{wait} until lock is free, then ``grab'' it
         \item \textit{release} or \textit{unlock} --- let others use lock, wakeup waiters
         \end{itemize}
     \item typical usage: everyone acquires lock before using shared resource
@@ -17,6 +17,15 @@ Unlock(account_lock);
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}{waiting for lock?}
+    \begin{itemize}
+    \item when waiting --- ideally:
+        \vspace{.5cm}
+    \item not using processor (at least if waiting a while)
+    \item OS can context switch to other programs
+    \end{itemize}
+\end{frame}
+
 
 \begin{frame}[fragile,label=pthreadMutex]{pthread mutex}
 \begin{lstlisting}[language=C++,style=small]
@@ -29,7 +38,7 @@ pthread_mutex_init(&account_lock, NULL);
 ...
 pthread_mutex_lock(&account_lock);
 balance += ...;
-pthread_mutex_unlock(&account_lock;
+pthread_mutex_unlock(&account_lock);
 \end{lstlisting}
 \end{frame}
 

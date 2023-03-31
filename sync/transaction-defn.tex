@@ -1,0 +1,26 @@
+\begin{frame}[fragile]{transactions}
+    \begin{itemize}
+    \item transaction: set of operations that occurs atomically
+    \item idea: something higher-level handles locking, etc.:
+   \end{itemize}
+\begin{Verbatim}
+BeginTransaction();
+int FromOldBalance = GetBalance(FromAccount);
+int ToOldBalance = GetBalance(ToAccount);
+SetBalance(FromAccount, FromOldBalance - 100);
+SetBalance(ToAccount, FromOldBalance + 100);
+EndTransaction();
+\end{Verbatim}
+    \begin{itemize}
+    \item idea: library/database/etc. makes ``transaction'' happens all at once
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{consistency / durability}
+    \begin{itemize}
+    \item ``happens all at once'' = 
+    \vspace{.5cm}
+    \item locking to make sure no other operations interfere (consistency)
+    \item making sure on crash, no partial transaction seen (durability)
+    \end{itemize}
+\end{frame}

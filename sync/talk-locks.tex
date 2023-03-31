@@ -29,6 +29,9 @@
 \section{read-modify-write atomic operations}
 \input{../sync/read-modify-write}
 
+\section{higher-level tools from RMW}
+\input{../sync/use-rmw}
+
 \section{definitions: mutual exclusion, critical section}
 \input{../sync/mutual-exclusion-defn}
 
@@ -46,7 +49,6 @@
 
 \section{preview: beyond locks}
 \input{../sync/locks-enoughp}
-
 
 \section{barriers}
 \input{../sync/barriers}
@@ -66,7 +68,7 @@
 \begin{frame}{fixing compiler reordering?}
     \begin{itemize}
     \item isn't there a way to tell compiler not to do these optimizations?
-    \item yes, but that is not enough!
+    \item yes, but that is \myemph{still not enough}!
     \end{itemize}
 \end{frame}
 

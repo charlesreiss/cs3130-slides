@@ -15,13 +15,13 @@
 \item one \myemph{bad} idea to wait for an event:
 \end{itemize}
 \begin{lstlisting}
-bool happened = false;
-void WaitForEvent() {
-    do {} while (!happened);
+bool ready = false;
+void WaitForReady() {
+    do {} while (!ready);
 }
 
-void EventHappened() {
-    happened = true;
+void MarkReady() {
+    ready = true;
 }
 \end{lstlisting}
 \begin{itemize}
