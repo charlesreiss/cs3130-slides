@@ -1,0 +1,99 @@
+\usetikzlibrary{shapes.misc,chains}
+\usepgfplotslibrary{fillbetween}
+
+\begin{frame}<0>[label=deeperPipeline]{deeper pipeline}
+\countStyles
+\circuitStyles
+\begin{tikzpicture}
+    \renewcommand{\plusTwo}{+4}
+    \renewcommand{\plusOne}{+2}
+    \timesThreePipeStuff
+    \begin{pgfonlayer}{fg}
+        \begin{scope}[every node/.style={color=red!70!black,ultra thick}]
+        \node[hRegSmall={$A$ ($t+3$)},fill=white] at ([yshift=-.2cm]alu1.center |- alu2.-130) {};
+            \node[hReg={$2\times A$ \\ partial results},fill=white] (split1) at (alu1.center) {};
+            \alt<5-6|handout:2>{
+                \node[opacity=0.2,hReg={},fill=white] (ghostSplit2) at (alu2.center) {};
+                \node[color=red,hReg={$3\times A$ \\ partial results},fill=white] (split2) at ([xshift=.25cm]alu2.center) {};
+            }{
+                \node[hReg={$3\times A$ \\ partial results},fill=white] (split2) at (alu2.center) {};
+            }
+        \end{scope}
+    \end{pgfonlayer}
+    \coordinate (timelineBase) at ($(aInput.south)+(0cm,-2.5cm)$);
+    \foreach \basis/\ref in {OneReg/aInput,OneHalfReg/split1,TwoReg/twoTimesReg,TwoHalfReg/split2,ThreeReg/threeTimesReg} {
+        \coordinate (before\basis) at ([xshift=-.25cm]\ref.west);
+        \coordinate (after\basis) at ([xshift=.25cm]\ref.east);
+    }
+
+    \foreach \basis/\alu/\reg in {OneAdd/alu1/OneHalfReg,TwoAdd/alu2/TwoHalfReg} {
+        \coordinate (beforeHalf\basis) at ([xshift=-1cm]\alu.west);
+        \coordinate (afterHalf\basis) at (before\reg);
+        \coordinate (before\basis) at (after\reg);
+        \coordinate (after\basis) at ([xshift=1cm]\alu.east);
+    }
+    \coordinate (timelineBaseLow) at ($(aInput.south)+(0cm,-3.5cm)$);
+    \begin{visibleenv}<2-|handout:1>
+    \foreach \basis/\len in {OneReg/$10$ ps,HalfOneAdd/$25$ ps,OneAdd/$25$ ps,OneHalfReg/$10$ ps,TwoReg/$10$ ps,HalfTwoAdd/$25$ ps,TwoHalfReg/$10$ ps,TwoAdd/$25$ ps,ThreeReg/$10$ ps} {
+        \begin{scope}[very thick,Latex-Latex]
+            \draw (before\basis |- timelineBase) -- (after\basis |- timelineBase)
+                node[midway,below,font=\scriptsize] (timeline-\basis) {\len};
+        \end{scope}
+    }
+    \end{visibleenv}
+    \begin{visibleenv}<3|handout:1>
+        \begin{scope}[overlay]
+       \node[anchor=west] at ([yshift=-1cm]beforeOneReg |- timelineBaseLow) {exercise: throughput now?};
+        \end{scope}
+    \end{visibleenv}
+    \begin{visibleenv}<4|handout:2>
+        \begin{scope}[overlay]
+       \node[anchor=west,align=left] at ([yshift=-1cm]beforeOneReg |- timelineBaseLow) {exercise: throughput now? \\
+        A. 1/(25 ps) \hspace{1cm} B. 1/(30 ps) \hspace{1cm} \\ C. 1/(35 ps) \hspace{1cm} D. something else};
+        \end{scope}
+    \end{visibleenv}
+    \begin{visibleenv}<5|handout:2>
+        \iftoggle{heldback}{}{
+        \begin{scope}[overlay]
+        \draw[very thick,red,Latex-Latex] (beforeOneReg |- timelineBaseLow) -- (afterHalfOneAdd |- timelineBaseLow)
+            node[below right, xshift=-2.5cm]{throughput: $\frac{1}{35 \text{ ps}} \approx 28$ G ops/sec};
+        \end{scope}
+        }
+    \end{visibleenv}
+    \begin{visibleenv}<6-8|handout:3>
+        \begin{scope}[overlay]
+        \node[cross out,red,thick,draw] (crossOut1) at (timeline-HalfTwoAdd.center) {};
+        \node[below=0cm of crossOut1,red,font=\small] {30 ps};
+        \node[cross out,red,thick,draw] (crossOut2) at (timeline-TwoAdd.center) {};
+        \node[below=0cm of crossOut2,red,font=\small] {20 ps};
+        \end{scope}
+    \end{visibleenv}
+    \begin{visibleenv}<6|handout:3>
+        \begin{scope}[overlay]
+            \node[anchor=west] at ([yshift=-1cm]beforeOneReg |- timelineBaseLow) {exercise: throughput now? (didn't split second add evenly)};
+        \end{scope}
+    \end{visibleenv}
+    \begin{visibleenv}<7|handout:4>
+        \begin{scope}[overlay]
+            \node[anchor=west,align=left] at ([yshift=-1cm]beforeOneReg |- timelineBaseLow) {exercise: throughput now? (didn't split second add evenly) \\
+            A. 1/(25 ps) \hspace{1cm} B. 1/(30 ps) \hspace{1cm} \\
+            C. 1/(35 ps) \hspace{1cm} D. 1/(40 ps) \hspace{1cm} E. something else};
+        \end{scope}
+    \end{visibleenv}
+    \begin{visibleenv}<8|handout:5>
+        \iftoggle{heldback}{}{
+        \begin{scope}[overlay]
+        \draw[very thick,red,Latex-Latex] (beforeTwoReg |- timelineBaseLow) -- (afterHalfTwoAdd |- timelineBaseLow)
+            node[below right, xshift=-2.5cm]{throughput: $\frac{1}{40 \text{ ps}} \approx 25$ G ops/sec};
+        \end{scope}
+        }
+    \end{visibleenv}
+\end{tikzpicture}
+\begin{visibleenv}<9->
+    \vspace{0cm}
+    \begin{itemize}
+        \item Problem: \myemph<10|handout:3>{How much faster can we get?}
+        \item Problem: \myemph<11|handout:4>{Can we even do this?}
+    \end{itemize}
+\end{visibleenv}
+\end{frame}

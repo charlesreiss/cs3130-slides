@@ -1,0 +1,45 @@
+\begin{frame}{simple CPU}
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{running instructions}
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\node[draw,font=\tt\small,ultra thick,anchor=north west,align=left] (code) at ([yshift=-3cm]pc.south west) {
+    0x100: \myemph<2>{addq \%r8, \%r9} \\
+    0x108: \myemph<3>{movq 0x1234(\%r10), \%r11} 
+};
+\node[fill=blue!20,draw,font=\tt\small,ultra thick,anchor=north west,align=left] at ([xshift=.5cm,yshift=.5cm]code.north east) {
+    \ldots \\
+    \%r8: 0x800 \\
+    \%r9: \alt<1>{0x900}{\myemph<2>{0x1700}} \\
+    \%r10: 0x1000 \\
+    \%r11: \alt<1-2>{0x1100}{\myemph<3>{M[0x2234]}} \\
+    \ldots
+};
+\tikzset{
+    hilite/.style={font=\small\tt,red,fill=white,fill opacity=0.8,inner sep=0.05mm,align=center},
+};
+\begin{visibleenv}<2>
+\node[hilite] at ([yshift=.5cm]pc) {0x100};
+\node[hilite] at (pre pc) {0x108};
+\node[hilite,anchor=east,align=left] at (regfile read in) {8\\9};
+\node[hilite,anchor=west,align=left] at (regfile read out) {0x800\\0x900};
+\node[hilite,anchor=west,align=left] at (math out 1) {0x1100};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[hilite] at ([yshift=.5cm]pc) {0x108};
+\node[hilite] at (pre pc) {0x110};
+\node[hilite,anchor=east,align=left] at (regfile read in) {10};
+\node[hilite,anchor=west,align=left] at (regfile read out) {0x1000};
+\node[hilite,anchor=west,align=left] at (math out 2) {0x2234};
+\node[hilite,anchor=west,align=left] at (regfile write in) {M[0x2234]};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

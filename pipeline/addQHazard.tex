@@ -1,0 +1,107 @@
+\usetikzlibrary{matrix,fit}
+\begin{frame}[fragile,label=addqDataHazard]{addq processor: data hazard}
+\vspace{-1cm}
+\lstset{
+    style=small,
+    moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
+    moredelim=**[is][\btHL<3|handout:0>]{@3@}{@},
+    moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
+    moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
+}
+\begin{lstlisting}
+// initially %r8 = 800,
+//           %r9 = 900, etc.
+addq %r8, %r9 
+addq %r9, %r8
+addq ...
+addq ...        
+\end{lstlisting}
+\begin{tikzpicture}
+\matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
+        column 8/.append style={nodes={text width=2cm}},
+        row 1/.append style={nodes={font=\scriptsize}},
+        row 2/.append style={nodes={font=\scriptsize}},
+        ] (tbl) {
+ \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB \& R[rA] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
+cycle \& PC \& rA \& rB \& R[rB \& R[rB] \& rB \& sum \& rB \& sum rB \\
+0 \& 0x0 \\
+1 \& 0x2 \& 8  \& 9    \\ 
+2 \&     \& 9  \& 8   \& 800  \& 900 \& 9 \\
+3 \&     \&    \&     \& 900 \&  800 \& 8  \& 1700 \& 9 \\
+4 \&     \&    \&     \&      \&      \&    \& 1700 \& 8  \& 1700 \& 9 \\
+5 \&     \&    \&     \&      \&       \&    \&      \&   \& 1700 \& 8 \\
+};
+\begin{scope}[every node/.style={draw,inner sep=0pt},
+              every label/.style={font=\scriptsize,draw=none}]
+    \node[fit=(tbl-1-3) (tbl-1-4),fill=yellow!50!orange!10!white,label={center:fetch/decode}] {};
+    \node[fit=(tbl-1-5) (tbl-1-7),fill=orange!50!green!10!white,label={center:decode/execute}] {};
+    \node[fit=(tbl-1-8) (tbl-1-9),fill=green!50!blue!10!white,label={center:execute/memory}] {};
+    \node[fit=(tbl-1-8) (tbl-1-9),fill=blue!50!violet!10!white,label={center:memory/writeback}] {};
+\end{scope}
+
+\begin{visibleenv}<2->
+\node[red,draw,thick,label={[red]-90:should be 1700},fit=(tbl-6-5)] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=DataHazardTime]{data hazard}
+\begin{lstlisting}
+addq %r8, %r9  // (1)
+addq %r9, %r8  // (2)
+\end{lstlisting}
+\begin{tikzpicture}
+\matrix[tight matrix,
+    nodes={execute at begin node={\strut}},
+    column 1/.append style={nodes={text width=1.4cm}},
+    column 2/.append style={nodes={text width=6cm}},
+    column 3/.append style={nodes={text width=4cm}},
+    ] {
+step\# \& pipeline implementation \& ISA specification\\
+1      \& read r8, r9 for (1) \& read r8, r9 for (1) \\
+2      \& read r9, r8 for (2) \& write r9 for (1) \\
+3      \& write r9 for (1) \& read r9, r8 for (2) \\
+4      \& write r8 for (2) \& write r8 ror (2) \\
+};
+\end{tikzpicture}
+\begin{itemize}
+\item pipeline reads \myemph{older value}\ldots
+\item instead of value ISA says was just written
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=dataHazardNoop]{data hazard compiler solution}
+\begin{lstlisting}[style=small]
+addq %r8, %r9
+nop
+nop
+addq %r9, %r8
+\end{lstlisting}
+\begin{itemize}
+\item one solution: \myemph{change the ISA}
+    \begin{itemize}
+    \item all \lstinline|addq|s take effect \myemph{three instructions later}
+    \end{itemize}
+\item make it \myemph{compiler's  job}
+\item problem: recompile everytime processor changes?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=dataHazardStall]{data hazard hardware solution}
+\begin{lstlisting}[style=small]
+addq %r8, %r9
+// hardware inserts: nop
+// hardware inserts: nop
+addq %r9, %r8
+\end{lstlisting}
+\begin{itemize}
+    \item how about hardware add nops?
+    \item called \myemph{stalling}
+    \item extra logic:
+        \begin{itemize}
+        \item sometimes don't change PC
+        \item sometimes put do-nothing values in pipeline registers
+        \end{itemize}
+\end{itemize}
+% FIXME: picture of MUX in front of PC, in front of fetch/decode
+\end{frame}

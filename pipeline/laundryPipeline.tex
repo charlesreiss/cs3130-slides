@@ -1,0 +1,99 @@
+\usetikzlibrary{positioning,calc,shapes.callouts}
+
+\begin{frame}{Human pipeline: laundry}
+\small
+\begin{tikzpicture}
+\laundryLabels{0}
+\begin{visibleenv}<2-|handout:1>\laundryLabels{-4}\end{visibleenv}
+\laundryLoadNoPipeDefault{0}{1}{whites}
+\laundryLoadNoPipeDefault{0}{5.5}{colors}
+
+\laundryLoadNoPipeDefault<2-|handout:1->{-4}{1}{whites}
+\laundryLoadPipeDefault<2-|handout:1->{-4}{1+1.5}{colors}
+\laundryLoadPipeDefault<2-|handout:1->{-4}{1+1.5+1.7}{sheets}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Waste (1)}
+\begin{tikzpicture}
+\laundryLabels{0}
+\laundryLoadNoPipeDefault{0}{1}{whites}
+\laundryLoadPipeDefault{0}{1+1.5}{colors}
+\laundryLoadPipeDefault{0}{1+1.5+1.7}{sheets}
+\node[minimum width=0.2cm,wasted] at ({1+1.5+1.5},-1) (waste1) {};
+\node[minimum width=0.2cm,wasted] at ({1+1.5+1.7+1.5},-1) (waste2) {};
+\begin{visibleenv}<2->
+\node[my callout2=waste2.north,fill=red!30!white] at ([yshift=2cm]waste1.north) {wasted time!};
+\node[my callout2=waste1.north,fill=red!30!white] at ([yshift=2cm]waste1.north) {wasted time!};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Waste (2)}
+\begin{tikzpicture}
+\laundryLabels{0}
+\laundryLoadNoPipeLong{0}{1}{whites}
+\laundryLoadPipeLong{0}{1+1.5}{colors}
+\laundryLoadPipeLong{0}{1+1.5+2.5}{sheets}
+\node[minimum width=1cm,wasted] at ({1+1.5+1.5},-1) (waste1) {};
+\node[minimum width=1cm,wasted] at ({1+1.5+2.5+1.5},-1) (waste2) {};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Latency --- Time for One}
+\begin{tikzpicture}
+\laundryLabels{0}
+\laundryLoadNoPipeLong{0}{1}{whites,fade}
+\laundryLoadPipeLong{0}{1+1.5}{colors}
+\laundryLoadPipeLong{0}{1+1.5+2.5}{sheets,fade}
+\node[minimum width=1cm,wasted] at ({1+1.5+1.5},-1) (waste1) {};
+\begin{visibleenv}<2->
+\coordinate (colorsStart) at ({1+1.5},-3.5);
+\coordinate (colorsEnd) at ({1+1.5+2.5+2.5+1.3},-3.5);
+\draw[very thick,red] (colorsStart) -- ++(0,3);
+\draw[very thick,red] (colorsEnd) -- ++(0,3);
+\draw[very thick,red,Latex-Latex] ([yshift=-.1cm]colorsStart) -- ([yshift=-.1cm]colorsEnd)
+    node[midway,below] {pipelined latency (2.1 h)};
+\end{visibleenv}
+\begin{visibleenv}<3->
+\laundryLoadStraightLong{-5}{1+1.5}{colors}
+\node[minimum width=1cm,wasted,anchor=east] at ([yshift=-1.5cm]colorsEnd) {};
+\draw[very thick,blue,Latex-Latex] ([yshift=-2.2cm]colorsStart) -- ([yshift=-2.2cm,xshift=-1cm]colorsEnd)
+    node[midway,below] {normal latency (1.8 h)};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Throughput --- Rate of Many}
+\begin{tikzpicture}
+\laundryLabels{0}
+\begin{pgfonlayer}{bg}
+\laundryLoadNoPipeLong{0}{1-1.5}{extra,fadeWeak}
+\end{pgfonlayer}
+\laundryLoadPipeLong{0}{1}{whites}
+\laundryLoadPipeLong{0}{1+2.5}{colors}
+\laundryLoadPipeLong{0}{1+2.5+2.5}{sheets}
+\laundryLoadPipeLong{0}{1+2.5+2.5+2.5}{extra}
+\laundryLoadPipeLong{0}{1+2.5+2.5+2.5+2.5}{extra2}
+\coordinate (whitesEnd) at ({1+2.5+2.5+1.3},-3.5);
+\coordinate (colorsEnd) at ({1+2.5+2.5+2.5+1.3},-3.5);
+\draw[very thick,red] ([yshift=-1cm]whitesEnd) -- ++(0,2);
+\draw[very thick,red] ([yshift=-1cm]colorsEnd) -- ++(0,2);
+\draw[very thick,red,Latex-Latex] ([yshift=-1.1cm]whitesEnd) -- ([yshift=-1.1cm]colorsEnd)
+    node[xshift=-1cm,midway,below,black] (timeBetweenE){time between finishes (0.83 h)};
+\begin{visibleenv}<2->
+    \node[below=.2cm of timeBetweenE] {
+        $\frac{1 \text{ load}}{0.83 \text{h}} = \color{red}1.2 \text{ loads/h}$
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \coordinate (colorsStart) at ({1+2.5},-3.5);
+    \coordinate (sheetsStart) at ({1+2.5+2.5},-3.5);
+    \draw[very thick,red] (colorsStart) -- ++(0,3);
+    \draw[very thick,red] (sheetsStart) -- ++(0,3);
+    \draw[very thick,red,Latex-Latex] ([yshift=-.1cm]colorsStart) -- ([yshift=-.1cm]sheetsStart)
+        node[xshift=-1cm,midway,below,black] (timeBetweenS){time between starts (0.83 h)};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

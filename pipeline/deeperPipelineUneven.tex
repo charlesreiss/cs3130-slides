@@ -1,0 +1,44 @@
+\begin{frame}[fragile,label=diminishSplit]{diminishing returns: uneven split}
+\begin{itemize}
+    \item Can we split up some logic (e.g. adder) arbitrarily?
+    \item Probably not...
+\end{itemize}
+\begin{tikzpicture}
+    \tikzset{
+        logic/.style 2 args={draw,rectangle,align=center,anchor=north west,minimum width=#1,on chain,
+                      inner sep=4pt,outer sep=1pt,minimum height=0.75cm,
+                      label={[font=\small]-90:#2},fill=blue!30,font=\scriptsize},
+        myl/.style 2 args={label={[align=right]180:#2 ps\\per cycle}},
+        myReg/.style={hReg={10 ps},minimum height=0.75cm,on chain},
+        every join/.style={-Latex,very thick},
+        my chain/.style={start chain,node distance=0mm},
+    }
+    \matrix {
+    \begin{scope}[my chain]
+        \node[logic={5cm}{100 ps},myl={1 stage}{110}] {logic (all)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain]
+        \node[logic={3cm}{\myemph<2>{60 ps}},myl={2 stage}{70}] {logic (1/2)};
+        \node[myReg] {};
+        \node[logic={2.5cm}{\myemph<2>{45 ps}}] {logic (2/2)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain]
+        \node[logic={2cm}{\myemph<3>{40 ps}},myl={3 stage}{50}] {logic\\(1/3)};
+        \node[myReg] {};
+        \node[logic={2cm}{\myemph<3>{40 ps}}] {logic\\(2/3)};
+        \node[myReg] {};
+        \node[logic={1.5cm}{\myemph<3>{30 ps}}] {logic\\(3/3)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain, node distance=20mm, every node/.style={inner sep=0pt}]
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+    \end{scope}
+    \\
+    };
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,58 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\section{review: single-cycle procesor}
+
+\input{../pipeline/register-lib}
+
+% FIXME: CPU design, example execution
+\input{../pipeline/single-cycle-cpu}
+
+\section{pipelining idea}
+
+\subsection{laundry idea}
+\input{../pipeline/laundryTools}
+\input{../pipeline/laundryPipeline}
+
+\subsection{applying to single-cycle processor}
+\input{../pipeline/cpu-to-stages}
+
+\subsubsection{slowest stage matters}
+\input{../pipeline/deeperPipelineLib}
+\input{../pipeline/deeperPipelineDiminish}
+\input{../pipeline/deeperPipelineUneven}
+
+\section{challenge: hazards}
+
+\subsection{data hazards}
+
+\subsubsection{example execution: wrong result, resolution}
+\input{../pipeline/addqHazard}
+
+\subsubsection{example execution: with stalling}
+
+\subsubsection{exercise: how much stalling?}
+
+\subsubsection{example execution: with forwarding}
+
+\subsubsection{example execution: stalling + forwarding}
+
+\subsection{control hazards}
+
+\subsubsection{example execution: with stalling}
+
+\subsubsection{example execution: with prediction}
+
+\section{exercise: alt pipelines --- how much stalling?}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}

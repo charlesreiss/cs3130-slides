@@ -1,0 +1,69 @@
+\usetikzlibrary{arrows.meta}
+
+\providecommand{\cpuset}{
+\tikzset{
+    box/.style={draw,very thick,align=center},
+    cache/.style={box,fill=yellow!20,minimum width=2cm,minimum height=1.5cm},
+    regfile/.style={box,fill=blue!20,minimum height=3cm,align=center},
+    alu/.style={box,fill=violet!20,minimum height=1.5cm,minimum width=2cm},
+    pc/.style={box,myregister,label={center:PC},minimum height=2cm,minimum width=.75cm,fill=yellow!30},
+    connect/.style={draw,ultra thick,-Latex},
+}
+}
+\providecommand{\cpucomponent}{
+\node[pc] (pc) {};
+\node[cache,anchor=west] (icache) at ([xshift=1cm]pc.east) {I\$};
+\node[anchor=north,box,font=\small] (ilen) at ([yshift=-.25cm]icache.south) {+ instr\\len};
+\node[regfile,anchor=north west] (regfile) at ([yshift=.5cm,xshift=1cm]icache.east) {register\\file};
+\node[alu,anchor=west] (math) at ([xshift=1cm]regfile.east |- pc.east) {math};
+\node[cache,anchor=west] (dcache) at ([xshift=1cm,yshift=-1cm]math.east) {D\$};
+\node[anchor=north,font=\small] at ([yshift=-.1cm]regfile.north) {read};
+\node[anchor=south east,font=\small] at ([yshift=.25cm]regfile.south east) {write};
+}
+\providecommand{\cpuconnect}{
+\draw[connect] (pc) -- (icache);
+\draw[connect] (pc.east) -- ++(0.5cm,0cm) |- (ilen.west);
+\draw[connect] (ilen.east) -- ++(0.25cm,0cm) |- ([yshift=-1.5cm,xshift=-.5cm]pc.south west) |- (pc.west);
+\coordinate (pre pc) at ([xshift=-.5cm,yshift=-1.5cm]pc.west);
+
+\draw[connect] ([yshift=-.25cm]icache.north east) -- ([yshift=-.25cm]math.north west)
+    coordinate[midway] (decode middle top) coordinate (math in top);
+\draw[connect] ([yshift=-1cm]icache.north east) |- ([yshift=-1cm]icache.north east -| regfile.west) coordinate (regfile read in);
+
+\draw[connect] ([yshift=-1cm]icache.north east -| regfile.east) coordinate (regfile read out) -- ([yshift=-1cm]math.north west) coordinate (reg to math);
+\draw[connect] ([yshift=.5cm]math.south east) coordinate (math out 2) -- ([yshift=.5cm]math.south east -| dcache.west) coordinate (math to cache);
+\draw[connect] ([yshift=-.5cm]math.north east) coordinate (math out 1) -- ([yshift=-.5cm,xshift=.75cm]math.north east -| dcache.east)
+    |- ([xshift=.75cm,yshift=-.5cm]dcache.south east) -- ([yshift=-.5cm]dcache.south -| regfile.east);
+\coordinate (memory top) at ([yshift=1cm]dcache.north);
+\draw[connect] (dcache.east) -- ++(0.35cm,0cm) |- ([yshift=-.25cm]dcache.south -| regfile.east)
+    coordinate (regfile write in);
+\coordinate (regfile write in opposite) at (regfile write in -| regfile.west);
+}
+
+\providecommand{\stagestyles}{
+\tikzset{
+    stage/.style={draw,line width=1mm,opacity=0.7,fill opacity=0.2},
+    fetch/.style={draw=yellow,fill=yellow},
+    decode/.style={draw=orange,fill=orange},
+    execute/.style={draw=green,fill=green},
+    memory/.style={draw=blue,fill=blue},
+    writeback/.style={draw=violet,fill=violet},
+    fd reg/.style={draw=yellow!50!orange,fill=yellow!30!orange!30},
+    de reg/.style={draw=orange!50!green,fill=orange!30!green!30},
+    em reg/.style={draw=green!50!blue,fill=green!30!blue!30},
+    mw reg/.style={draw=blue!50!violet,fill=blue!30!violet!30},
+}
+}
+\providecommand{\stageboxes}{
+    \node[stage,fetch,fit=(icache) (ilen),label={north:fetch}] (fetch) {};
+    \node[stage,decode,fit=(regfile read in) (regfile read out) (decode middle top),label={north:decode}] (decode) {};
+    \node[stage,execute,fit=(math in top) (math),label={north:execute}] (execute) {};
+    \node[stage,memory,fit=(dcache) (memory top),label={north:memory}] (memory) {};
+    \node[stage,writeback,fit=(regfile write in) (regfile write in opposite) (regfile.south),label={south:writeback}] (writeback) {};
+}
+\providecommand{\stageregs}{
+    \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=2cm,fd reg] (fd reg) at ([xshift=.25cm,yshift=0.25cm]fetch.north east) {};
+    \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=2cm,de reg] (de reg) at ([xshift=.25cm,yshift=0.25cm]decode.north east) {};
+    \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=3cm,em reg] (em reg) at ([xshift=.25cm,yshift=0.25cm]execute.north east) {};
+    \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=1cm,mw reg] (mw reg) at ([xshift=.5cm,yshift=0.25cm]writeback.north east) {};
+}

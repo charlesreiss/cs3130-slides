@@ -1,0 +1,95 @@
+\usetikzlibrary{fit,matrix}
+
+\begin{frame}{adding stages (one way)}
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\stagestyles
+\begin{pgfonlayer}{fg}
+    \stageboxes
+\end{pgfonlayer}
+\begin{visibleenv}<1>
+\node[draw=red,line width=.5mm,anchor=north,align=left] at ([yshift=-1cm]regfile.south) {
+    divide running instruction into steps \\
+    one way: fetch / decode / execute / memory / writeback
+};
+\end{visibleenv}
+\begin{pgfonlayer}{fg}
+    \begin{visibleenv}<2->
+    \stageregs
+    \end{visibleenv}
+\end{pgfonlayer}
+\begin{visibleenv}<2>
+\node[draw=red,line width=.5mm,anchor=north,align=left] at ([yshift=-1cm]regfile.south) {
+    add `pipeline registers' to hold values from instruction
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\begin{frame}{running some instructions}
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\stagestyles
+\begin{pgfonlayer}{fg}
+    \stageboxes
+    \stageregs
+    \begin{visibleenv}<2->
+        \matrix[tight matrix no line,
+                nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+                column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl) 
+                    at ([xshift=-1cm,yshift=-2cm]pc.south){
+        |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                            \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+        0x100: add \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+        0x108: mov 0x1234(\%r10), \%r11  \& ~ \fdemw \& ~ \& ~\\
+        0x110: xor \%r12, \%r13  \& ~ \& ~ \fdemw \& ~ \& ~\\
+        };
+    \end{visibleenv}
+    \tikzset{
+        hilite/.style={font=\fontsize{10}{11}\selectfont\tt,red,fill=white,fill opacity=0.8,inner sep=0.05mm,align=center},
+    };
+    \begin{visibleenv}<2>
+        \node[inner sep=0mm,draw=red,ultra thick,fit=(tbl-1-2) (tbl-4-2)] {};
+        \node[hilite] at ([yshift=.5cm]pc) {0x100\\(add)};
+        \node[hilite] at (pre pc) {0x108};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[inner sep=0mm,draw=red,ultra thick,fit=(tbl-1-3) (tbl-4-3)] {};
+        \node[hilite,anchor=west,align=left] at ([xshift=-.25cm]regfile read in) {8 (for add)\\9 (for add)};
+        \node[hilite] at ([yshift=.5cm]pc) {0x108\\(mov)};
+        \node[hilite] at (pre pc) {0x110};
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \node[inner sep=0mm,draw=red,ultra thick,fit=(tbl-1-4) (tbl-4-4)] {};
+        \node[hilite] at ([yshift=.5cm]pc) {0x110\\(xor)};
+        \node[hilite,anchor=west,align=left] at ([xshift=-.25cm]regfile read in) {10 (for mov)};
+        \node[hilite,anchor=west,align=left] at ([xshift=1cm]regfile read out) {0x800 (r8)\\0x900 (r9)};
+    \end{visibleenv}
+    \begin{visibleenv}<5>
+        \node[inner sep=0mm,draw=red,ultra thick,fit=(tbl-1-5) (tbl-4-5)] {};
+        \node[hilite,anchor=west,align=left] at ([xshift=-.25cm]regfile read in) {12 (for xor)\\13 (for xor)};
+        \node[hilite,anchor=west,align=left] at ([xshift=1cm]regfile read out) {0x1234 \\ 0x1000 (r10)};
+        \node[hilite,anchor=west,align=left] at ([xshift=1cm]math out 1) {0x1100 (sum)};
+    \end{visibleenv}
+    \begin{visibleenv}<6>
+        \node[inner sep=0mm,draw=red,ultra thick,fit=(tbl-1-6) (tbl-4-6)] {};
+        \node[hilite,anchor=east,align=left] at ([xshift=0cm]regfile write in) {0x1100 (sum)};
+        \node[hilite,anchor=west,align=left] at ([xshift=1cm]regfile read out) {0x1200 (r12)\\0x1300 (r13)};
+        \node[hilite,anchor=west,align=left] at ([xshift=1cm]math out 2) {0x2234 (mov addr)};
+    \end{visibleenv}
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{why registers?}
+    \begin{itemize}
+    \item example: fetch/decode
+    \item need to store current instruction somewhere \ldots while fetching next one
+    \end{itemize}
+\end{frame}
+
