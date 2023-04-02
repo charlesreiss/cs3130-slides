@@ -6,6 +6,8 @@
     \titlepage
 \end{frame}
 
+\input{../common/listingsLib}
+
 \section{review: single-cycle procesor}
 
 \input{../pipeline/register-lib}
@@ -31,14 +33,13 @@
 
 \subsection{data hazards}
 
-\subsubsection{example execution: wrong result, resolution}
+\subsubsection{example execution: wrong result, stalling resolution}
 \input{../pipeline/addqHazard}
 
-\subsubsection{example execution: with stalling}
+\subsubsection{example execution: with forwarding}
 
 \subsubsection{exercise: how much stalling?}
 
-\subsubsection{example execution: with forwarding}
 
 \subsubsection{example execution: stalling + forwarding}
 

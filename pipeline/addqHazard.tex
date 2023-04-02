@@ -1,6 +1,5 @@
 \usetikzlibrary{matrix,fit}
 \begin{frame}[fragile,label=addqDataHazard]{addq processor: data hazard}
-\vspace{-1cm}
 \lstset{
     style=small,
     moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
@@ -18,12 +17,13 @@ addq ...
 \end{lstlisting}
 \begin{tikzpicture}
 \matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
-        column 8/.append style={nodes={text width=2cm}},
+        column 8/.append style={nodes={text width=1.2cm}},
+        column 10/.append style={nodes={text width=1.2cm}},
         row 1/.append style={nodes={font=\scriptsize}},
         row 2/.append style={nodes={font=\scriptsize}},
         ] (tbl) {
  \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB \& R[rA] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
-cycle \& PC \& rA \& rB \& R[rB \& R[rB] \& rB \& sum \& rB \& sum rB \\
+cycle \& PC \& rA \& rB \& R[rB \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
 0 \& 0x0 \\
 1 \& 0x2 \& 8  \& 9    \\ 
 2 \&     \& 9  \& 8   \& 800  \& 900 \& 9 \\
@@ -36,7 +36,7 @@ cycle \& PC \& rA \& rB \& R[rB \& R[rB] \& rB \& sum \& rB \& sum rB \\
     \node[fit=(tbl-1-3) (tbl-1-4),fill=yellow!50!orange!10!white,label={center:fetch/decode}] {};
     \node[fit=(tbl-1-5) (tbl-1-7),fill=orange!50!green!10!white,label={center:decode/execute}] {};
     \node[fit=(tbl-1-8) (tbl-1-9),fill=green!50!blue!10!white,label={center:execute/memory}] {};
-    \node[fit=(tbl-1-8) (tbl-1-9),fill=blue!50!violet!10!white,label={center:memory/writeback}] {};
+    \node[fit=(tbl-1-10) (tbl-1-11),fill=blue!50!violet!10!white,label={center:memory/writeback}] {};
 \end{scope}
 
 \begin{visibleenv}<2->
