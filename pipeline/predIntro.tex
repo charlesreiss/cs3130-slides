@@ -1,0 +1,120 @@
+
+\begin{frame}[fragile,label=makingGuesses]{making guesses}
+\begin{lstlisting}
+        subq   %rcx, %rax
+        jne    LABEL
+        xorq   %r10, %r11
+        xorq   %r12, %r13
+        ...
+LABEL:  addq   %r8, %r9
+        rmmovq %r10, 0(%r11)
+\end{lstlisting}
+\begin{itemize}
+    \item speculate: \myemph{jne} will goto LABEL
+    \item right: 2 cycles faster!
+    \item wrong: forget before execute finishes
+\end{itemize}
+\end{frame}
+
+\begin{frame}{when do instructions change things?}
+\begin{itemize}
+\item \ldots{} other than pipeline registers/PC: \\
+\fbox{\begin{tabular}{ll}
+stage & changes \\ \hline
+fetch & \myemph{(none)} \\
+decode & \myemph{(none)} \\
+execute & condition codes \\
+memory & memory writes \\
+writeback & register writes/stat changes \\
+\end{tabular}
+}
+\item<2-> to ``undo'' instruction during fetch/decode:
+    \begin{itemize}
+    \item forget everything in \myemph{pipeline registers}
+    \end{itemize}
+\end{itemize}
+% FIXME: effects of instruction not until memory/writeback
+\end{frame}
+
+\begin{frame}[fragile,label=jCCYes]{jXX: speculating right}
+\begin{tikzpicture}
+    \matrix[tight matrix,matrix stages,
+        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
+        column 1/.append style={nodes={text width=.8cm}},
+        column 2/.append style={nodes={text width=2.2cm}},
+        column 3/.append style={nodes={text width=1.8cm}},
+        column 4/.append style={nodes={text width=2.6cm}},
+        column 5/.append style={nodes={text width=2.0cm}},
+        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
+        time \& fetch \& decode \& execute \& memory \& writeback \\
+        1    \& subq   \\
+        2    \& jne \& subq \\
+        3    \& addq [?] \& jne \& subq (set ZF) \\
+        4    \& rmmovq [?] \& addq [?] \& jne (use ZF) \& OPq \\
+        5    \& irmovq \& rmmovq \& addq \& jne (done) \& OPq \\
+    };
+    \node[anchor=south west] at ([yshift=.25cm]timeline.north west) {
+\begin{lstlisting}[style=small]
+        subq %r8, %r8
+        jne LABEL
+        ...
+
+LABEL:  addq %r8, %r9
+        rmmovq %r10, 0(%r11)
+        irmovq $1, %r11
+\end{lstlisting}
+    };
+    \tikzset{every label/.style={opacity=1.0,fill=white,inner sep=2pt}}
+    \begin{visibleenv}<2>
+        \node[fit=(timeline-4-2),hiBox] {};
+        \node[fit=(timeline-5-2) (timeline-5-3),hiBox,label={[fill=white,draw,thick]east:were waiting/nothing}] {};
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=jCCNo]{jXX: speculating wrong}
+\begin{tikzpicture}
+    \matrix[tight matrix,matrix stages,
+        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
+        column 1/.append style={nodes={text width=.8cm}},
+        column 2/.append style={nodes={text width=2.2cm}},
+        column 3/.append style={nodes={text width=1.8cm}},
+        column 4/.append style={nodes={text width=2.6cm}},
+        column 5/.append style={nodes={text width=2.0cm}},
+        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
+        time \& fetch \& decode \& execute \& memory \& writeback \\
+        1    \& subq   \\
+        2    \& jne \& subq \\
+        3    \& addq [?] \& jne \& subq (set ZF) \\
+        4    \& rmmovq [?] \& addq [?] \& jne (use ZF) \& OPq \\
+        5    \& xorq  \& nothing \& nothing \& jne (done) \& OPq \\
+    };
+    \node[anchor=south west] at ([yshift=.25cm]timeline.north west) {
+\begin{lstlisting}[style=small]
+        subq %r8, %r8
+        jne LABEL
+        xorq %r10, %r11
+        ...
+
+LABEL:  addq %r8, %r9
+        rmmovq %r10, 0(%r11)
+\end{lstlisting}
+    };
+    \tikzset{every label/.style={opacity=1.0,black}}
+    \begin{visibleenv}<2>
+        \node[fit=(timeline-5-2) (timeline-5-3),hiBox] {};
+        \node[fit=(timeline-6-3) (timeline-6-4),hiBox,label={[fill=white,draw,thick,label distance=0.75cm]north:``squash'' wrong guesses}] {};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[fit=(timeline-6-2),hiBox,label={[fill=white,draw]north east:fetch correct next instruction}] {};
+    \end{visibleenv}
+\end{tikzpicture}
+% FIXME: 
+    % show earlier logic
+    % case 1: replace stall PC with set PC to target of Jcc
+    % case 2: gone, don't pause on Jcc
+    % case 3: finishing jCC
+        % extra logic to `squash' instructions
+\end{frame}
+
+

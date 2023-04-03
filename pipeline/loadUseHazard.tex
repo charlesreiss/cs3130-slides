@@ -1,0 +1,62 @@
+\begin{frame}[fragile,label=loadUse]{unsolved problem}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+\providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 3/.style={alt=<2->{opacity=0.25}{}},
+        row 4/.style={visible on=<2->}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|movq 0(%rax), %rbx|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|subq %rbx, %rcx|        \& ~ \fdemw \& ~ \& ~ \& ~ \\
+\lstinline|subq %rbx, %rcx|        \& ~ \& |[fetch]| F \& |[decode]| D \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W \& ~ \& ~ \\
+};
+\foreach \x in {1,...,10} {
+    \draw (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwdNo{4}{2}{3}
+\begin{visibleenv}<2->
+    %\draw[thick,black!40] ([yshift=.1cm]tbl-3-1.west) -- ([yshift=-.1cm]tbl-3-10.east);
+    \fwd{4}{2}{4}{<0|handout:0>}
+\end{visibleenv}
+\begin{visibleenv}<2->
+    \node[draw,thick,red,fit=(tbl-4-4) (tbl-4-5)] {};
+    \node [red,below=0cm of tbl-4-4] {stall};
+\end{visibleenv}
+\end{tikzpicture}
+\begin{itemize}
+    \item \textbf{combine} stalling and forwarding to resolve hazard
+    \item assumption in diagram: hazard detected in \texttt{subq}'s decode stage
+        \begin{itemize}
+        \item (since easier than detecting it in fetch stage)
+        \end{itemize}
+\end{itemize}
+\end{frame}

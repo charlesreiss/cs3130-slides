@@ -1,0 +1,94 @@
+\usetikzlibrary{fit,matrix}
+
+\begin{frame}[fragile,label=ControlFlowExample]{control hazard}
+\begin{lstlisting}
+cmpq %r8, %r9
+je   0xFFFF
+addq %r10, %r11
+\end{lstlisting}
+\begin{tikzpicture}
+\matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
+        column 9/.append style={nodes={text width=1.8cm}},
+        column 5/.append style={nodes={text width=0.8cm}},
+        column 8/.append style={nodes={text width=0.8cm}},
+        row 1/.append style={nodes={font=\scriptsize}},
+        row 2/.append style={nodes={font=\scriptsize}},
+        ] (tbl) {
+ \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB  \& R[rA] \& R[rB] \& result \& \ldots \& \ldots \&\ldots  \\
+cycle \& PC \& rA \& rB \& R[rA] \& R[rB] \& result \& \ldots \& \ldots \& \ldots \\
+0 \& 0x0  \\
+1 \& 0x2 \& 8  \& 9   \\ 
+2 \& ??? \& --- \& --- \& 800  \& 900 \\
+2 \& ??? \& --- \& --- \& --- \& --- \& less than \& ~ \& ~ \& ~ \\
+};
+\begin{scope}[every node/.style={draw,inner sep=0pt},
+              every label/.style={font=\scriptsize,draw=none}]
+    \node[fit=(tbl-1-3) (tbl-1-4),fill=yellow!50!orange!10!white,label={center:fetch$\rightarrow$decode}] {};
+    \node[fit=(tbl-1-5) (tbl-1-6),fill=orange!50!green!10!white,label={center:decode$\rightarrow$execute}] {};
+    \node[fit=(tbl-1-7) (tbl-1-8),fill=green!50!blue!10!white,label={center:execute$\rightarrow$writeback}] {};
+    \node[fit=(tbl-1-8) (tbl-1-9),fill=blue!50!violet!10!white,label={center:execute$\rightarrow$writeback}] {};
+\end{scope}
+\begin{visibleenv}<2->
+    \node[line width=2pt,draw,red,fit=(tbl-5-2),
+          label={-45:{\tt 0xFFFF} if R[8] = R[9]; {\tt 0x12} otherwise}] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+%\begin{frame}[fragile,label=ControlFlowExampleStall]{control hazard: stall}
+%\begin{lstlisting}
+%cmpq %r8, %r9
+%// insert two nops
+%je   0xFFFF
+%addq %r10, %r11
+%\end{lstlisting}
+%\begin{tikzpicture}
+%\matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
+%        column 9/.append style={nodes={text width=1.8cm}},
+%        column 5/.append style={nodes={text width=0.8cm}},
+%        column 8/.append style={nodes={text width=0.8cm}},
+%        row 1/.append style={nodes={font=\scriptsize}},
+%        row 2/.append style={nodes={font=\scriptsize}},
+%        ] (tbl) {
+% \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB  \& R[srcA] \& R[srcB] \& dstE \& next R[dstE] \& dstE \\
+%cycle \& PC \& rA \& rB \& R[rA] \& R[rB] \& rB \& result \& rB \& result \& rB \\
+%0 \& 0x0   \\
+%1 \& 0x2*  \& 8  \& 9   \\ 
+%2 \& 0x2*  \& 0xF  \& 0xF   \& 800  \& 900 \& 9 \\
+%3 \& 0x2   \& 0xF  \& 0xF   \& --- \&  --- \& 0xF  \& 1700 \& 9 \\
+%4 \& 0x10  \& 0xF  \& 0xF   \& --- \&  --- \& 0xF  \& ---  \& 0xF \\
+%5 \&       \& 10  \& 11   \& --- \&  --- \& 0xF  \& ---  \& 0xF \\
+%6 \&       \&     \&   \& 1000 \&  1100 \& 11 \& ---  \& 0xF \\
+%};
+%\begin{scope}[every node/.style={draw,inner sep=0pt},
+%              every label/.style={font=\scriptsize,draw=none}]
+%    \node[fit=(tbl-1-4) (tbl-1-5),fill=yellow!50!orange!10!white,label={center:fetch$\rightarrow$decode}] {};
+%    \node[fit=(tbl-1-6) (tbl-1-8),fill=orange!50!green!10!white,label={center:decode$\rightarrow$execute}] {};
+%    \node[fit=(tbl-1-9) (tbl-1-10),fill=green!50!blue!10!white,label={center:execute$\rightarrow$writeback}] {};
+%\end{scope}
+%\foreach \x/\base in {all:2/4,all:2/5,all:3/6} {
+%    \begin{pgfonlayer}{bg}
+%    \begin{visibleenv}<\x>
+%        \pgfmathtruncatemacro{\fetchR}{\base}
+%        \pgfmathtruncatemacro{\decodeR}{\base+1}
+%        \pgfmathtruncatemacro{\executeR}{\base+2}
+%        \pgfmathtruncatemacro{\writebackR}{\base+3}
+%        \foreach \nd in {tbl-\decodeR-4,tbl-\decodeR-5,
+%                         tbl-\executeR-6,tbl-\executeR-7,tbl-\executeR-8,
+%                         tbl-\writebackR-9,tbl-\writebackR-10} {
+%            \node[fit=(\nd),inner sep=0pt,fill=green,opacity=0.3] {};
+%         }
+%    \end{visibleenv}
+%    \end{pgfonlayer}
+%}
+%\begin{visibleenv}<all:2>
+%\node [fit=(tbl-4-2) (tbl-5-2), red, line width=2pt, draw, rounded corners,
+%    label={[draw,fill=white,inner sep=1pt,line width=2pt]45:wait for two cycles for addq to update SF/ZF}] {};
+%\end{visibleenv}
+%\begin{visibleenv}<all:3>
+%\node [fit=(tbl-6-2), red, line width=2pt, draw, rounded corners,
+%    label={[draw,fill=white,inner sep=1pt,line width=2pt]45:execute je instruction (use SF/ZF)}] {};
+%\end{visibleenv}
+%\end{tikzpicture}
+%\end{frame}
+%

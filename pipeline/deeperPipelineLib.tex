@@ -1,5 +1,9 @@
-\usetikzlibrary{shapes.misc,chains}
+\usetikzlibrary{arrows.meta,shapes.misc,chains}
 \usepgfplotslibrary{fillbetween}
+
+\tikzset{
+    hReg/.style={draw,myregister,minimum width=.4cm,minimum height=2cm,label={[font=\small,align=center]-90:#1}},
+}
 
 \begin{frame}<0>[label=deeperPipeline]{deeper pipeline}
 \countStyles

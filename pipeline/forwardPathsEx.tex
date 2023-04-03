@@ -1,0 +1,33 @@
+\usetikzlibrary{matrix}
+\begin{frame}[fragile,label=forwardPaths]{exercise: forwarding paths}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+}
+\vspace{-.25cm}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    \lstinline|addq %r8, %r9|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    \lstinline|subq %r8, %r10|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|xorq %r8, %r9|   ~\&  ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|andq %r9, %r8|   ~\&  ~ \& ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
+};
+\end{tikzpicture}
+\begin{itemize}
+\item in subq, \%r8 is \rule{3cm}{2pt} addq.
+\item in xorq, \%r9 is \rule{3cm}{2pt} addq.
+\item in andq, \%r9 is \rule{3cm}{2pt} addq.
+\item in andq, \%r9 is \rule{3cm}{2pt} xorq.
+    \begin{itemize}
+    \item A: not forwarded from
+    \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
+    \end{itemize}
+\end{itemize}
+\end{frame}
