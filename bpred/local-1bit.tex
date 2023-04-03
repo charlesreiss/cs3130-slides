@@ -1,0 +1,204 @@
+\usetikzlibrary{arrows.meta,fit,matrix,positioning,shapes.callouts}
+
+\begin{frame}{predict: repeat last}
+\newcommand\showSelectionFrame{3-}
+\newcommand\beforeShowSelectFrame{1-2}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+% FIXME: PC --> hash function --> table
+\node[draw,very thick,label={north:PC of branch},font=\tt] (pc) {0x4004\myemph<\showSelectionFrame>{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west] (hash)
+    at ([xshift=-.5cm,yshift=-1cm]pc.south east) {hash function};
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+    }},
+    column 2/.style={nodes={text width=3.5cm,font=\small,alt=<\showSelectionFrame>{text=black!50,draw=black!50}}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<\showSelectionFrame>{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<\showSelectionFrame>{draw=black,very thick}}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm]pc.north east) {
+    index \& {prediction/\\last result?} \\
+    0 \& taken (1)\\
+    1 \& not taken (0)\\
+    2 \& taken (1) \\
+    3 \& taken (1) \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& not taken (0) \\
+    15 \& taken (1) \\
+};
+\draw[connect,ultra thick,->] (pc.south) |- (hash.west);
+\begin{visibleenv}<\beforeShowSelectFrame>
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-2-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-3-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-5-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-7-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-8-1.west);
+\end{visibleenv}
+\begin{visibleenv}<\showSelectionFrame>
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+\begin{visibleenv}<2>
+\coordinate (callout hash loc) at ([xshift=-.5cm]hash.south);
+\node[my callout2=callout hash loc,align=left,anchor=north] at ([xshift=2cm,yshift=-2cm]hash.south) {
+    typical choice: some bits of branch address \\
+    for our example: will use bits 4-7
+};
+\end{visibleenv}
+\begin{visibleenv}<4->
+\draw[connect,->,alt=<4>{red}] ([yshift=-.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,-3cm) node[below,align=center] {
+    prediction \\
+    to fetch stage
+};
+\end{visibleenv}
+\begin{visibleenv}<5->
+\draw[connect,<-,alt=<5>{red}] ([yshift=.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,1.5cm) node[above,align=center] {
+    actual outcome \\
+    from commit(?) stage
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=1bitPredExample]{example}
+\newcommand\showSelectionFrame{1-}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+\node[draw,very thick,label={north:PC of branch},font=\tt] (pc) {0x4004\myemph<\showSelectionFrame>{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west] (hash)
+    at ([xshift=-.5cm,yshift=-1cm]pc.south east) {hash function};
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+        text width=0.5cm
+    }},
+    column 2/.style={nodes={text width=4cm,font=\small,alt=<\showSelectionFrame>{text=black!50,draw=black!50}}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<\showSelectionFrame>{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<\showSelectionFrame>{draw=black,very thick}}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm]pc.north east) {
+    idx \& {prediction/\\last result?} \\
+    0 \& taken (1)\\
+    1 \& not taken (0)\\
+    2 \& \alt<1-4>{not taken (0)}{\sout{not taken}~\myemph<5>{taken (1)}} \\
+    3 \& taken (1) \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& not taken (0) \\
+    15 \& taken (1) \\
+};
+\draw[connect,ultra thick,->] (pc.south) |- (hash.west);
+\begin{visibleenv}<\showSelectionFrame>
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+\matrix[tight matrix,anchor=north west,
+    column 1/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=2cm}},
+    column 2/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=3cm}},
+] (code) at ([yshift=-.5cm,xshift=-3cm]hash.south west) {
+0x40041B \& movq \$4, \%rax \\
+|[alias=the target]| 0x400423 \& ... \\
+0x400429 \& decq \%rax \\
+|[alias=the branch]| 0x40042A \& jz 0x400423 \\
+0x40042B \& ... \\
+};
+\draw[dotted,thick,->] (the branch.west) -- ++(-.2cm,0cm) |- (the target.west);
+\draw[connect,->,alt={<4,6,8>{red}}] ([yshift=-.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,-3cm) node[below,align=center] {
+    prediction \\
+    to fetch stage
+};
+\draw[connect,<-,alt={<5,7,9>{red}}] ([yshift=.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,1.5cm) node[above,align=center] {
+    actual outcome \\
+    from commit(?) stage
+};
+\begin{visibleenv}<2>
+\node[fit=(code),inner sep=0mm,draw=red,ultra thick,
+    label={[draw=red,align=left,fill=white,font=\small,xshift=2cm]south:%
+    {assembly version of:\\\texttt{i = 4; do \{ ...; i -= 1; \} while (i)}}}] {};
+\end{visibleenv}
+\begin{visibleenv}<3->
+% FIXME: chart of iteration #: prediction | outcome
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=1.8cm,font=\small}},
+    column 2/.style={nodes={text width=2cm,font=\small}},
+    column 3/.style={nodes={text width=2cm,font=\small}},
+    row 3/.style={nodes={alt=<1-5>{invisible}}},
+    row 4/.style={nodes={alt=<1-7>{invisible}}},
+    row 5/.style={nodes={alt=<1-7>{invisible}}},
+    row 6/.style={nodes={alt=<1-7>{invisible}}},
+    row 7/.style={nodes={alt=<1-7>{invisible}}},
+    row 8/.style={nodes={alt=<1-7>{invisible}}},
+    anchor=north west
+] at (code.east) {
+iteration \& prediction \& outcome \\
+1 \& |[alt=<4>{fill=red!15}]|not taken \& |[alt=<5>{fill=red!15}]| taken \\
+2 \& |[alt=<6>{fill=red!15}]| taken \& |[alt=<7>{fill=red!15}]| taken \\
+3 \& taken \& taken \\
+4 \& |[alt=<8>{fill=red!15}]| taken \& |[alt=<9>{fill=red!15}]| not taken \\
+1 \& |[alt=<10>{fill=red!15}]| not taken \& |[alt=<10>{fill=red!15}]| taken \\
+2 \& taken \& taken \\
+\ldots \& \ldots \& \ldots \\
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+% FIXME: show predicting and updating prediction
+
+\begin{frame}{collisions?}
+\begin{itemize}
+\item two branches could have same hashed PC
+\item nothing in table tells us about this
+    \begin{itemize}
+    \item versus direct-mapped cache: had \textit{tag bits} to tell
+    \end{itemize}
+\vspace{.5cm}
+\item is it worth it?
+\item adding tag bits makes table \textit{much} smaller and/or slower
+\item but does anything go wrong when there's a collision?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{collision results}
+\begin{itemize}
+\item possibility 1: both branches usually taken
+    \begin{itemize}
+    \item no actual conflict --- prediction is better(!)
+    \end{itemize}
+\item possibility 2: both branches usually not taken
+    \begin{itemize}
+    \item no actual conflict --- prediction is better(!)
+    \end{itemize}
+\item possibility 3: one  branch taken, one not taken
+    \begin{itemize}
+    \item performance probably worse
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{1-bit predictor for loops}
+\begin{itemize}
+\item predicts first and last iteration wrong
+    \begin{itemize}
+    \item example: branch to beginning --- but same for branch from beginning to end
+    \end{itemize}
+\item everything else correct
+\vspace{.5cm}
+\item later: we'll find a way to do better
+\end{itemize}
+\end{frame}
+

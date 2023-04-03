@@ -1,0 +1,42 @@
+
+\section{review: single-cycle proccesor}
+
+% FIXME: CPU design, example execution
+\input{../pipeline/single-cycle-cpu}
+
+\section{pipelining idea}
+
+\subsection{laundry idea}
+\input{../pipeline/laundryTools}
+\input{../pipeline/laundryPipeline}
+
+\subsection{applying to single-cycle processor}
+\input{../pipeline/cpu-to-stages}
+
+\subsubsection{slowest stage matters}
+\input{../pipeline/deeperPipelineLib}
+\input{../pipeline/deeperPipelineDiminish}
+\input{../pipeline/deeperPipelineUneven}
+
+\section{challenge: hazards}
+
+\subsection{data hazards}
+
+\subsubsection{example execution: wrong result, stalling resolution}
+\input{../pipeline/addqHazard}
+
+\subsubsection{better fix: forwarding}
+\input{../pipeline/addqForward}
+
+\subsubsection{exercise: what forwarding}
+% FIXME
+\input{../pipeline/forwardPathsEx}
+
+\subsubsection{can't always forward: load-use}
+\input{../pipeline/loadUseHazard}
+
+\subsection{control hazards}
+\input{../pipeline/controlHazard} % FIXME: correct
+
+\subsubsection{idea: branch prediction}
+\input{../pipeline/predIntro}
