@@ -15,7 +15,6 @@
 pthread_mutex_t lock;
 pthread_cond_t @4data_ready4@; @2pthread_cond_t @4space_ready4@;2@
 BoundedQueue buffer;
-
 Produce(item) {
     pthread_mutex_lock(&lock);
     @2while (buffer.full()) { pthread_cond_wait(@4&space_ready4@, &lock); }2@
@@ -23,7 +22,6 @@ Produce(item) {
     pthread_cond_signal(@4&data_ready4@);
     pthread_mutex_unlock(&lock);
 }
-
 Consume() {
     pthread_mutex_lock(&lock);
     while (buffer.empty()) {
