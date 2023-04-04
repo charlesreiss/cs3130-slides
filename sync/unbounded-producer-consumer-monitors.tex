@@ -23,7 +23,6 @@ Produce(item) {
     @4pthread_cond_signal(&data_ready);4@X\tikzmark{signal}X
     @2pthread_mutex_unlock(&lock);2@
 }
-
 Consume() {
     @2pthread_mutex_lock(&lock);2@
     while (@5buffer.empty()5@) {X\tikzmark{empty}X
@@ -71,7 +70,7 @@ Consume() {
     \end{visibleenv}
     \begin{visibleenv}<5->
         \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:empty) -- ++(1cm,-2cm)
-        node[fill=white,draw=red,right,align=left,font=\small] {
+        node[fill=white,draw=red,right,align=left,font=\fontsize{10.5}{10}\selectfont,inner sep=0.1mm] {
             \myemph<5>{0 iterations}: Produce() called before Consume() \\
             \myemph<6>{1 iteration}: Produce() signalled, probably \\
             \myemph<7-8>{2+ iterations}: spurious wakeup or \ldots?
@@ -79,7 +78,7 @@ Consume() {
         \tikzset{
             timeline/.style={
                 tight matrix,fill=white,
-                nodes={text width=3.5cm,font=\fontsize{11}{12}\selectfont,fill=white,text depth=0.075cm,text height=0.25cm},
+                nodes={text width=3.5cm,font=\fontsize{10.5}{11}\selectfont,fill=white,text depth=0.075cm,text height=0.25cm},
                 at={([xshift=-0.75cm,yshift=-1.25cm]current page.north east)},
                 anchor=north east,
                 row 1/.style={nodes={font=\bfseries\small,draw=none,align=center}},

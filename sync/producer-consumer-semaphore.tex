@@ -18,7 +18,7 @@ FixedSizedQueue buffer;
 \begin{frame}<1-5>[fragile,label=pcSemaphoreCode]{producer/consumer pseudocode}
 \begin{lstlisting}[
     language=C++,
-    basicstyle=\fontsize{10.5}{11}\tt\selectfont,
+    basicstyle=\fontsize{10}{10.5}\tt\selectfont,
     moredelim={**[is][\btHL<2-3|handout:2-3>]{@2}{2@}},
     moredelim={**[is][\btHL<4-5|handout:4-5>]{@4}{4@}},
     moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
@@ -30,7 +30,6 @@ sem_init(&@2empty_slots2@, ..., BUFFER_CAPACITY);
 sem_init(&mutex, ..., 1 /* # thread that can use buffer at once */);
 buffer.set_size(BUFFER_CAPACITY);
 ...
-
 Produce(item) {
     @4sem_wait(&empty_slots);4@Q\tikzmark{empty}Q  // wait until free slot, reserve it
     @4sem_wait(&mutex);4@

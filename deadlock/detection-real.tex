@@ -1,22 +1,20 @@
 
 \begin{frame}{aside: deadlock detection in reality}
     \begin{itemize}
-    \item instrument all contended resources?
+    \item requires:
         \begin{itemize}
-        \item add tracking of who locked what
-        \item modify every lock implementation --- no simple spinlocks?
-        \item some tricky cases: e.g. what about counting semaphores?
+        \item instrumenting contended resources
+        \item ``undo'' to get out of deadlock
         \end{itemize}
-    \item doing something useful on deadlock?
-        \begin{itemize}
-        \item want way to ``undo'' partially done operations
-        \end{itemize}
-    \item \ldots but done for some applications
         \vspace{.5cm}
     \item common example: for locks in a database
         \begin{itemize}
         \item database typically has customized locking code
         \item ``undo'' exists as side-effect of code for handling power/disk failures
+        \end{itemize}
+    \item related idea: \textit{avoid} deadlock with detection on ``what if''  scenario
+        \begin{itemize}
+        \item see Banker's algorithm
         \end{itemize}
     \end{itemize}
 \end{frame}

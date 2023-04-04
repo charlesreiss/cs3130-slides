@@ -18,9 +18,11 @@ EndTransaction();
 
 \begin{frame}{consistency / durability}
     \begin{itemize}
-    \item ``happens all at once'' = 
+    \item ``happens all at once'' = could mean:
     \vspace{.5cm}
     \item locking to make sure no other operations interfere (consistency)
     \item making sure on crash, no partial transaction seen (durability)
+    \vspace{.5cm}
+    \item \small (some systems provide both, some provide only one)
     \end{itemize}
 \end{frame}
