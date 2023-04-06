@@ -1,0 +1,21 @@
+\begin{frame}{Intel Skylake OOO design}
+\begin{itemize}
+\item 2015 Intel design --- codename `Skylake'
+\item 94-entry instruction queue-equivalent
+\item 168 physical integer registers
+\item 168 physical floating point registers
+\item 4 ALU functional units
+    \begin{itemize}
+    \item but some can handle more/different types of operations than others
+    \end{itemize}
+\item 2 load functional units
+    \begin{itemize}
+    \item but pipelined: supports multiple pending cache misses in parallel
+    \end{itemize}
+\item 1 store functional unit
+\item 224-entry reorder buffer
+    \begin{itemize}
+    \item determines how far ahead branch mispredictions, etc. can happen
+    \end{itemize}
+\end{itemize}
+\end{frame}

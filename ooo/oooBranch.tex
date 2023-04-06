@@ -1,0 +1,80 @@
+\begin{frame}{condition codes and OOO}
+    \begin{itemize}
+    \item need to handle reading condition codes in OOO processor
+    \item option 1: rename like a normal register
+    \item option 2: handle in reorder buffer
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=pushqOption1]{renaming and condition codes}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|subq %r8, %r9| \& \lstinline|subq %x13, %x17| $\rightarrow$ \lstinline|%x18|, \lstinline|%cc5| \\
+    \lstinkine|jle D| \& \lstinline|jle %cc5, D| \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-1cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%rsp \& \xAfter{2}{\%x11}\showAfter{2}{\%x18} \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\ldots \& \ldots \\
+    cond codes \& \xAfter{2}{\%cc3}\showAfter{2}{\%cc2} \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{1}{\%x18} \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\matrix[tight matrix,label={[align=center]free\\cond code\\ regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%cc5} \\
+\%cc6 \\
+\%cc9 \\
+\ldots \\
+};
+\begin{visibleenv}<2>
+\node[box] {
+    need to handle condition codes: \\
+    one strategy: turn them into explicit registers \\
+    and use register renaming on them 
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

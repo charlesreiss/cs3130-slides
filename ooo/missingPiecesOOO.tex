@@ -1,0 +1,62 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}[fragile,label=oooIntro]{beyond pipelining: out-of-order}
+    \begin{itemize}
+    \item find \myemph{later instructions to do} instead of stalling
+    \item lists of available instructions in pipeline registers
+        \begin{itemize}
+        \item take any instruction with available values
+        \end{itemize}
+    \item provide \myemph{illusion that work is still done in order}
+        \begin{itemize}
+        \item much more complicated hazard handling logic
+        \end{itemize}
+    \end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15},commit/.style={fill=magenta!20}}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\fdem}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M }
+\newcommand{\m}{ \& |[memory]| M }
+\newcommand{\w}{ \& |[writeback]| W }
+\newcommand{\cmt}{ \& |[commit]| C }
+\newcommand{\dec}{ \& |[decode]| D } % conflicts with existing \d macro
+\newcommand{\e}{ \& |[execute]| E }
+\newcommand{\f}{ \& |[fetch]| F }
+\matrix[tight matrix no line,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5.8cm,align=left}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11\\
+    \lstinline|mrmovq 0(%rbx), %r8| \fdem                  \m   \m   \w \cmt\\
+    \lstinline|subq %r8, %r9|       \& ~   \f \& ~ \& ~ \& ~  \& ~  \dec \e \w \cmt\\
+    \lstinline|addq %r10, %r11|     \& ~ \& ~    \f   \dec  \e  \w \& ~ \& ~ \& ~ \& \cmt \\
+    \lstinline|xorq %r12, %r13|     \& ~ \& ~ \& ~     \f   \dec \e \w  \& ~ \& ~ \& ~ \& \cmt \\
+\ldots \\
+};
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdO}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.05cm]tbl-#2-\idx.west) -- ([xshift=+.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\end{tikzpicture}
+\end{frame}

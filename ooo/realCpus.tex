@@ -1,0 +1,228 @@
+\begin{frame}<1-5>[fragile,label=realCpus]{modern CPU design (instruction flow)}
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.75cm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    every label/.style={align=center,red!50!black},
+}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stage,on chain] (fetch1) {Fetch};
+\node[stage,on chain,join] (decode1) {Decode};
+\end{scope}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[iqueue,on chain,join,anchor=north west] (instrQueue) at ([xshift=.5cm,yshift=.5cm]decode1.east) {Instr\\ Queue};
+\end{scope}
+
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[below=1.25cm of fetch1,on chain,stage] (fetch2) {Fetch};
+\node[stage,on chain,join] (decode2) {Decode};
+\end{scope}
+\draw[->,thick] (decode1) -- (instrQueue.west |- decode1);
+\draw[->,thick] (decode2) -- (instrQueue.west |- decode2);
+\node[stageSmall,anchor=north west] (intAdd) at ([xshift=.5cm]instrQueue.north east) {ALU 1};
+\node[stageSmall,anchor=north] (intAddB) at ([yshift=-.5cm]intAdd) {ALU 2};
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stageSmall,on chain,anchor=north] (mult1) at ([yshift=-.5cm]intAddB) {ALU 3 \\ (stage 1)};
+\node[stageSmall,on chain] (mult2) {ALU 3 \\ (stage 2)};
+\end{scope}
+\node[stageSmall,anchor=north west] (ls) at ([yshift=-2.5cm]intAdd.south west) {load/store};
+\node[anchor=north west] (extraExec) at ([yshift=-.1cm]ls.south west) {\ldots};
+
+\draw[->,thick] (instrQueue.east |- intAdd) -- (intAdd);
+\draw[->,thick] (instrQueue.east |- intAddB) -- (intAddB);
+\draw[->,thick] (instrQueue.east |- mult1) -- (mult1);
+\draw[->,thick] (instrQueue.east |- ls) -- (ls);
+\draw[->,thick] (mult1) -- (mult2);
+\node[iqueue] (reorder) at ([xshift=8cm]instrQueue.west) {Reorder \\ Buffer};
+\node[stageTall,anchor=west] (writeback) at ([xshift=.5cm]reorder.east) {Write-\\back};
+\draw[->,thick] (intAdd) -- (reorder.west |- intAdd);
+\draw[->,thick] (intAddB) -- (reorder.west |- intAddB);
+\draw[->,thick] (mult2) -- (reorder.west |- mult2);
+\draw[->,thick] (ls) -- (reorder.west |- ls);
+\draw[->,thick] (reorder) -- (writeback);
+
+\tikzset{info/.style={align=left,font=\fontsize{14}{15}\selectfont}}
+\begin{visibleenv}<all:2>
+\node[fit=(fetch1) (fetch2),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    fetch  multiple instructions/cycle
+};
+\end{visibleenv}
+\begin{visibleenv}<all:3>
+\node[fit=(instrQueue),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    keep list of \myemph{pending instructions} \\
+    ~ \\
+    run instructions from list \myemph{when operands available}  \\
+    ~ \\
+    forwarding handled here
+};
+\end{visibleenv}
+\begin{visibleenv}<all:4,6>
+\node[fit=(intAdd) (mult1) (mult2) (ls) (extraExec),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    multiple ``execution units'' to run instructions \\
+    e.g. possibly many ALUs \\
+    ~ \\
+    sometimes pipelined, sometimes not
+};
+\end{visibleenv}
+\begin{visibleenv}<all:5>
+\node[fit=(reorder),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    collect results of finished instructions \\
+    ~ \\
+    helps with forwarding, squashing \\
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=iQueueOp]{instruction queue operation}
+\lstset{language=myasm}
+\newcommand<>{\ready}{\only#1{\myemph{ready}}}
+\newcommand<>{\done}{\only#1{done}}
+\newcommand<>{\run}{\only#1{\myemph{\it running}}}
+\newcommand<>{\wait}[1]{\only#2{waiting for #1}}
+\begin{tikzpicture}
+\matrix[tight matrix,
+    nodes={font=\small,minimum height=.5cm},
+    row 1/.style={nodes={font=\small\it}},
+    column 1/.style={nodes={text width=.5cm}},
+    column 2/.style={nodes={text width=4cm}},
+    column 3/.style={nodes={text width=3cm}},
+    ] (iQueue) {
+    \# \&  instruction \& status \\
+    1 \& \lstinline|addq %rax, %rdx| \& \ready<1>\run<2>\done<3->\\
+    2 \& \lstinline|addq %rbx, %rdx| \& \wait<1-2>{1}\ready<3>\run<4>\done<5-> \\
+    3 \& \lstinline|addq %rcx, %rdx| \& \wait<1-4>{2}\run<5>\done<6-> \\
+    4 \& \lstinline|cmpq %r8, %rdx| \& \wait<1-5>{3}\ready<6>\run<7>\done<8->\\
+    5 \& \lstinline|jne ...| \& \wait<1-7>{4}\ready<8>\run<9>\done<10-> \\
+    6 \& \lstinline|addq %rax, %rdx| \& \wait<1-5>{3}\ready<6>\run<7>\done<8-> \\
+    7 \& \lstinline|addq %rbx, %rdx| \& \wait<1-7>{6}\ready<8>\run<9>\done<10-> \\
+    8 \& \lstinline|addq %rcx, %rdx| \& \wait<1-9>{7}\run<10>\done<11-> \\
+    9 \& \lstinline|cmpq %r8, %rdx| \& \wait<1-10>{8}\run<11>\done<12-> \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+};
+
+\tikzset{
+    x/.style={visible on=<all:#1->,alt=<all:#1>{red,font=\small\bfseries}{}}
+}
+
+\matrix[tight matrix no line,
+    nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
+    column 1/.style={nodes={text width=4cm}},
+    column 2/.style={nodes={text width=2cm,x=2}},
+    column 3/.style={nodes={x=4}},
+    column 4/.style={nodes={x=5}},
+    column 5/.style={nodes={x=7}},
+    column 6/.style={nodes={x=9}},
+    column 7/.style={nodes={x=10}},
+    column 8/.style={nodes={x=11}},
+    row 1/.style={nodes={font=\small\it}},
+    anchor=north west
+    ] (time) at ([yshift=-.5cm]iQueue.south west) {
+    execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
+    ALU 1         \& 1          \& 2 \& 3  \& 4 \& 5 \& 8 \& 9 \\
+    ALU 2         \& ---        \& ---\& ---\& 6 \& 7 \& --- \& \ldots \\
+    };
+\draw (time-1-1.south west) -- (time-1-9.south east);
+\draw (time-1-1.north east) -- (time-3-1.south east);
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=iQueueFlow]{data flow}
+\lstset{language=myasm}
+\newcommand<>{\ready}{\only#1{\myemph{ready}}}
+\newcommand<>{\done}{\only#1{done}}
+\newcommand<>{\run}{\only#1{\myemph{\it running}}}
+\newcommand<>{\wait}[1]{\only#2{waiting for #1}}
+\begin{tikzpicture}
+\matrix[tight matrix,
+    nodes={font=\small,minimum height=.5cm},
+    row 1/.style={nodes={font=\small\it}},
+    column 1/.style={nodes={text width=.5cm}},
+    column 2/.style={nodes={text width=4cm}},
+    column 3/.style={nodes={text width=3cm}},
+    ] (iQueue) {
+    \# \&  instruction \& status \\
+    1 \& \lstinline|addq %rax, %rdx| \& done \\
+    2 \& \lstinline|addq %rbx, %rdx| \& done \\
+    3 \& \lstinline|addq %rcx, %rdx| \& done \\
+    4 \& \lstinline|cmpq %r8, %rdx| \& done\\
+    5 \& \lstinline|jne ...| \& done \\
+    6 \& \lstinline|addq %rax, %rdx| \& done \\
+    7 \& \lstinline|addq %rbx, %rdx| \& done \\
+    8 \& \lstinline|addq %rcx, %rdx| \& done \\
+    9 \& \lstinline|cmpq %r8, %rdx| \& done \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+};
+
+\tikzset{
+    x/.style={}
+}
+
+\matrix[tight matrix no line,
+    nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
+    column 1/.style={nodes={text width=4cm}},
+    column 2/.style={nodes={text width=2cm,x=2}},
+    column 3/.style={nodes={x=4}},
+    column 4/.style={nodes={x=5}},
+    column 5/.style={nodes={x=7}},
+    column 6/.style={nodes={x=9}},
+    column 7/.style={nodes={x=10}},
+    column 8/.style={nodes={x=11}},
+    row 1/.style={nodes={font=\small\it}},
+    anchor=north west
+    ] (time) at ([yshift=-.5cm]iQueue.south west) {
+    execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
+    ALU 1         \& 1          \& 2 \& 3  \& 4 \& 5 \& 8 \& 9 \\
+    ALU 2         \& ---        \& ---\& ---\& 6 \& 7 \& --- \& \ldots \\
+    };
+\draw (time-1-1.south west) -- (time-1-9.south east);
+\draw (time-1-1.north east) -- (time-3-1.south east);
+
+\tikzset{c/.style={draw,font=\small\it,inner sep=.25mm},g/.style={draw,font=\small,inner sep=.25mm}}
+\tikzset{mark/.style={alt=<3>{red}{}}}
+%\node[c,above right=.25cm of iQueue-2-3] (aX) {\%rax};
+%\node[c,right=.5cm of aX] (bX) {\%rbx};
+%\node[c,right=.5cm of bX] (cX) {\%rcx};
+\node[g,right=1cm of iQueue-2-3] (i1) {1: add};
+\node[g,right=2.25cm of iQueue-3-3] (i2) {2: add};
+\node[g,right=3.5cm of iQueue-4-3] (i3) {3: add};
+\node[g,right=4.75cm of iQueue-5-3] (i4) {4: cmp};
+\node[g,right=6cm of iQueue-6-3] (i5) {5: jne};
+\node[g,right=1cm of iQueue-7-3] (i6) {6: add};
+\node[g,right=2.25cm of iQueue-8-3] (i7) {7: add};
+\node[g,right=3.5cm of iQueue-9-3] (i8) {8: add};
+\node[g,right=4.75cm of iQueue-10-3] (i9) {9: cmp};
+\begin{scope}[>=Latex,->,thick]
+%\draw (aX) |- (i1);
+%\draw (aX) |- (i6);
+\draw (i1) -- (i2);
+\draw (i2) -- (i3);
+\draw (i3) -- (i6);
+\draw (i6) -- (i7);
+\draw (i7) -- (i8);
+\draw (i8) -- (i9);
+
+\draw (i3) -- (i4);
+\draw (i4) -- (i5);
+\end{scope}
+\begin{visibleenv}<2>
+\node[draw=red,very thick,fill=white] at ([xshift=-9cm]i5) {rule: arrows must go forward in time};
+\end{visibleenv}
+
+\begin{visibleenv}<3>
+\node[draw=red,very thick, fill=white] at ([xshift=-5cm]i6) {longest path determines speed};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

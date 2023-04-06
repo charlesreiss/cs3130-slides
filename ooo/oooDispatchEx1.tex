@@ -1,0 +1,92 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}<1>[fragile,label=iqueueDisEx]{instruction queue and dispatch}
+\newcommand{\readyAfter}[1]{%
+    \alt<#1->{\sout{pending} \myemph<#1>{ready}}{pending}%
+}
+\lstset{language=myasm}
+\begin{tikzpicture}
+\tikzset{
+    x/.style={visible on=<all:#1->,alt=<all:#1>{red,font=\small\bfseries}{}},
+    h/.style={alt=<#1>{fill=red!15}},
+    crossedout/.style={append after command={\pgfextra{%
+            \draw[black!80,draw,thick] ([yshift=-.1cm,xshift=.1cm]\tikzlastnode.west) -- ([yshift=.1cm,xshift=-.1cm]\tikzlastnode.east);
+            \draw[black!80,draw,thick] ([yshift=.1cm,xshift=.1cm]\tikzlastnode.west) -- ([yshift=-.1cm,xshift=-.1cm]\tikzlastnode.east);
+        }}},
+    d/.style={alt=<#1->{crossedout}},
+}
+\matrix[tight matrix,
+    nodes={font=\fontsize{9}{10}\selectfont,minimum height=.375cm},
+    row 1/.style={nodes={font=\small\it,minimum height=.5cm}},
+    row 2/.append style={nodes={}},
+    row 3/.append style={nodes={}},
+    row 4/.append style={nodes={}},
+    row 5/.append style={nodes={}},
+    column 1/.style={nodes={text width=.5cm}},
+    column 2/.style={nodes={text width=7cm}},
+    label={north:instruction queue},
+    ] (iqueue) {
+    \# \&  instruction \\
+    1 \& \lstinline|mrmovq (%x04)| $\rightarrow$ \lstinline|%x06| \\
+    2 \& \lstinline|mrmovq (%x05)| $\rightarrow$ \lstinline|%x07|  \\
+    3 \& \lstinline|addq %x01, %x02| $\rightarrow$ \lstinline|%x08| \\
+    4 \& \lstinline|addq %x01, %x06| $\rightarrow$ \lstinline|%x09| \\
+    5 \& \lstinline|addq %x01, %x07| $\rightarrow$ \lstinline|%x10| \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+};
+\matrix[tight matrix,
+    nodes={font=\fontsize{9}{10}\selectfont,minimum height=.375cm},
+    column 1/.style={nodes={text width=1cm,font=\fontsize{9}{10}\selectfont\tt,text depth=.1cm}},
+    column 2/.style={nodes={text width=3cm}},
+    row 1/.append style={nodes={font=\small\it,minimum height=.5cm}},
+    row 2/.append style={nodes={}},
+    row 3/.append style={nodes={}},
+    row 6/.append style={nodes={}},
+    row 7/.append style={nodes={}},
+    anchor=north west,
+    label={north:scoreboard},
+] (scoreboard) at ([xshift=2.5cm]iqueue.north east){
+    reg \& status \\
+    \%x01 \& ready \\
+    \%x02 \& ready \\
+    \%x03 \& ready \\
+    \%x04 \& ready \\
+    \%x05 \& ready \\
+    \%x06 \& ~\\
+    \%x07 \& ~\\
+    \%x08 \& ~\\
+    \%x09 \& ~\\
+    \%x10 \& ~\\
+    \ldots \& \ldots \\
+};
+\begin{visibleenv}<1>
+\matrix[tight matrix no line,
+    nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
+    column 1/.style={nodes={text width=3cm}},
+    column 2/.style={nodes={text width=2cm}},
+    row 1/.style={nodes={font=\small\it}},
+    anchor=north west
+    ] (time) at ([yshift=-2cm]iqueue.south west) {
+    execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
+    ALU         \& ~ \\
+    |[alias=dcachelabel]| data cache  \&  ~ \\
+    };
+    \draw[thick,Latex-] (dcachelabel.south) -- ++(0cm,-.5cm) node[below,font=\small,align=center] {assume \\ 1 cycle/access};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\matrix[tight matrix no line,
+    nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
+    column 1/.style={nodes={text width=4cm}},
+    column 2/.style={nodes={text width=2cm}},
+    row 1/.style={nodes={font=\small\it}},
+    anchor=north west
+    ] (time alt) at ([yshift=-2cm]iqueue.south west) {
+    execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
+    ALU         \& ~ \\
+    data cache (stage 1) \&  ~ \\
+    data cache (stage 2) \&  ~ \\
+    data cache (stage 3) \&  ~ \\
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,79 @@
+\usetikzlibrary{shapes}
+
+\begin{frame}[fragile,label=dfLimit]{data flow model and limits}
+    \begin{tikzpicture}
+        \tikzset{
+            var/.style={draw,rectangle,fill=blue!30},
+            op/.style={draw,ellipse,fill=yellow!40},
+            node distance=4mm,
+        }
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (sn1) at (0,1) {sum};
+            \node[join] (s0)  {+};
+            \node[join] (s1) {+};
+            \node[join] (s2) {+};
+            \node[join] (s3) {+};
+        \end{scope}
+        \node[var,right=2cm of s3] (sumFinal) {sum (final)};
+        \draw[thick,-Latex] (s3) -- (sumFinal);
+        \begin{scope}[
+                start chain=going below,
+                every node/.style={on chain,op},
+            ]
+            \node (l0) at (2,1) {load};
+            \node (l1) {load};
+            \node (l2) {load};
+            \node (l3) {load};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op,join},
+            ]
+            \node[var] (a0) at (4,2.2) {A + i};
+            \node (a1) {+ 1};
+            \node (a2) {+ 1};
+            \node (a3) {+ 1};
+        \end{scope}
+        \begin{visibleenv}<all:4>
+        \node[op] (c1) at (7,1) {> A + N?};
+        \draw[thick,-Latex] (a0) -- (c1);
+        \node[op] (c3) at (7,-3) {> A + N?};
+        \draw[thick,-Latex] (a3) -- (c3);
+        \end{visibleenv}
+        \begin{scope}[thick,-Latex]
+            \foreach \x in {0,1,2,3} {
+                \draw (a\x) -- (l\x) -- (s\x);
+            }
+        \end{scope}
+        \begin{visibleenv}<all:1>
+            \node[anchor=west] at ([xshift=1cm,yshift=-.5cm]a2.east) {
+\begin{lstlisting}[language=C,style=small]
+for (int i = 0; i < N; i += K) {
+    sum += A[i];
+    sum += A[i+1];
+    ...
+}
+\end{lstlisting}
+};
+        \end{visibleenv}
+        \begin{visibleenv}<all:2>
+            \node[draw,very thick,red,fit=(s0) (l1) (a2),label={east:three ops/cycle (\myemph{if} each one cycle)}] {};
+        \end{visibleenv}
+        \begin{visibleenv}<all:3>
+            \node[draw,very thick,red,fit=(s0) (s3)] {};
+            \node[align=left,anchor=west] at (5, -1) {
+                need to do additions \\
+                \myemph{one-at-a-time} \\
+                book's name: critical path \\
+                time needed: \myemph{sum of latencies}
+            };
+        \end{visibleenv}
+    \end{tikzpicture}
+\end{frame}
+
+

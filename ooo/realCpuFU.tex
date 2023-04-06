@@ -1,0 +1,71 @@
+
+\begin{frame}{execution units AKA functional units (1)}
+    \begin{itemize}
+    \item where actual work of instruction is done
+    \item e.g. the actual ALU, or data cache
+    \item sometimes pipelined:
+        \begin{itemize}
+        \item (here: 1 op/cycle; 3 cycle latency)
+        \end{itemize}
+    \end{itemize}
+    \begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.75cm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    every label/.style={align=center,red!50!black},
+}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stageSmall,on chain,anchor=north] (mult1) {ALU \\ (stage 1)};
+\node[stageSmall,on chain] (mult2) {ALU \\ (stage 2)};
+\node[stageSmall,on chain] (mult3) {ALU \\ (stage 3)};
+\end{scope}
+        \node [left=1cm of mult1,align=right] (valueInput) {input values \\ (one/cycle)};
+        \node [right=1cm of mult3,align=left] (valueOutput) {output values \\ (one/cycle)};
+        \draw[->,thick] (valueInput) -- (mult1);
+        \draw[->,thick] (mult3) -- (valueOutput);
+    \end{tikzpicture}
+    \begin{itemize}
+    \item<2-> exercise: how long to compute $A\times (B\times (C\times D))$?
+        \iftoggle{heldback}{
+        }{
+            \begin{itemize}
+            \item<3-> $3\times 3$ cycles + any time to forward values
+            \item<3-> no parallelism!
+            \end{itemize}
+        }
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{execution units AKA functional units (2)}
+    \begin{itemize}
+    \item where actual work of instruction is done
+    \item e.g. the actual ALU, or data cache
+    \item sometimes unpipelined:
+    \end{itemize}
+    \begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.75cm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    every label/.style={align=center,red!50!black},
+}
+\node[stageSmall,on chain,anchor=north,minimum height=2cm] (div) {divide};
+        \draw[<-] ([yshift=-.5cm]div.north west) -- ++(-1cm,0cm) node[left,align=right] {input values \\ (when ready)};
+        \draw[->] ([yshift=.5cm]div.south west) -- ++(-1cm,0cm) node[left] {ready for next input?};
+        \draw[->] ([yshift=-.5cm]div.north east) -- ++(1cm,0cm) node[right,align=left] {output value \\ (when done)};
+        \draw[->] ([yshift=.5cm]div.south east) -- ++(1cm,0cm) node[right] {done?};
+    \end{tikzpicture}
+\end{frame}

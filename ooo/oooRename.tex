@@ -1,0 +1,210 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}{register renaming}
+    \begin{itemize}
+    \item rename \textit{architectural registers} to \textit{physical registers}
+        \begin{itemize}
+        \item architectural = part of instruction set architecture
+        \end{itemize}
+    \item different name for each version of architectural register
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=rrState]{register renaming state}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=3.5cm}},
+    column 2/.style={nodes={text width=6cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|add %r10, %r8| \& \ldots \\
+    \lstinline|add %r11, %r8| \& \ldots \\
+    \lstinline|add %r12, %r8| \& \ldots \\
+};
+\matrix[tight matrix,label={[align=center,alias=rmap label]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=4cm}},
+    anchor=north west,
+    alt=<2>{fill=red!10}
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \%x07 \\
+\%r12 \& \%x05 \\
+\ldots \& \ldots \\
+};
+\matrix[tight matrix,label={[alias=free label]free reg list},anchor=west,nodes={font=\tt\small},
+        alt=<3>{fill=red!10}] (free) at ([xshift=1cm]rmap.east) {
+\%x18 \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\tikzset{
+    box/.style={draw=red,very thick,at={([yshift=1cm,xshift=-1cm]free.north)},anchor=south west,align=left},
+    hilite fit/.style={fit=#1,draw=red,ultra thick,inner sep=.5mm},
+}
+\begin{visibleenv}<2>
+    \node[hilite fit=(rmap) (rmap label)] {};
+    \node[box] {
+        table for architectural (external) \\
+        and physical (internal) name \\
+        (for next instr. to process)
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[hilite fit=(free) (free label)] {};
+    \node[box] {
+        list of available physical registers \\
+        added to as instructions finish
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}<1-5>[fragile,label=rrExample1]{register renaming example (1)}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=3.5cm}},
+    column 2/.style={nodes={text width=6cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|add %r10, %r8| \& |[appear on=2]| \lstinline|add %x19, %x13| $\rightarrow$ \lstinline|%x18| \\
+    \lstinline|add %r11, %r8| \& |[appear on=3]| \lstinline|add %x07, %x18| $\rightarrow$ \lstinline|%x20| \\
+    \lstinline|add %r12, %r8| \& |[appear on=4]| \lstinline|add %x05, %x20| $\rightarrow$ \lstinline|%x21| \\
+};
+    \matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=4cm}},
+    anchor=north west,
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+    \%r8 \& \xAfter{2}{\%x13}\showAfter{2}{\xAfter{3}{\%x18}}\showAfter{3}{\xAfter{4}{\%x20}}\showAfter{4}{\%x21}\\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \%x07 \\
+\%r12 \& \%x05 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={free reg list},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\xAfter{3}{\%x20} \\
+\xAfter{4}{\%x21} \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=rrExample2]{register renaming example (2)}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|addq %r10, %r8| \& |[appear on=2]| \lstinline|addq %x19, %x13| $\rightarrow$ \lstinline|%x18| \\
+    |[alt=<4>{draw=red,ultra thick}]| \lstinline|rmmovq %r8, (%rax)| \& |[appear on=3]| \lstinline|rmmovq %x18, (%x04)| $\rightarrow$ \myemph<4>{(memory)}\\
+    \lstinline|subq %r8, %r11|     \& |[appear on=5]| \lstinline|subq %x18, %x07| $\rightarrow$ \lstinline|%x20| \\
+|[alt=<4>{draw=red,ultra thick}]| \lstinline|mrmovq 8(%r11), %r11| \&
+    |[appear on=6]|  \lstinline|mrmovq 8(%x20)|, (memory) $\rightarrow$ \lstinline|%x21|   \\
+    \lstinline|irmovq $100, %r8|  \& 
+            |[appear on=7]| \lstinline|irmovq $100| $\rightarrow$ \lstinline|%x23|\\
+    \lstinline|addq %r11, %r8| \&
+            |[appear on=8]| \lstinline|addq %x21, %x23| $\rightarrow$ \lstinline|%x24| 
+        \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-1.25cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west,
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%r8 \& \xAfter{2}{\%x13}\showAfter{2}{\xAfter{7}{\%x18}}\showAfter{7}{\xAfter{8}{\%x23}}\showAfter{8}{\%x24}\\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \xAfter{5}{\%x07}\showAfter{5}{\xAfter{6}{\%x20}}\showAfter{6}{\%x21} \\
+\%r12 \& \%x05 \\
+\%r13 \& \%x02 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\xAfter{5}{\%x20} \\
+\xAfter{6}{\%x21} \\
+\xAfter{7}{\%x23} \\
+\xAfter{8}{\%x24} \\
+\ldots \\
+};
+\begin{visibleenv}<4>
+\node[box] {
+    could be that \%rax = 8+\%r11 \\
+    could load before value written! \\
+    possible data hazard! \\
+    \myemph{not handled via register renaming} \\
+    option 1: run load+stores in order \\
+    option 2: compare load/store addresses
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

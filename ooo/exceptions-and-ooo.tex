@@ -1,0 +1,186 @@
+\usetikzlibrary{arrows.meta,chains,fit,matrix,shapes.multipart}
+
+\begin{frame}{exceptions and OOO (one strategy)}
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.5cm,inner sep=0.5mm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm,font=\fontsize{9.5}{10.5}\selectfont},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    register map/.style={
+        tight matrix,
+        nodes={font=\fontsize{8.5}{9.5}\tt\selectfont},
+        row 1/.style={nodes={font=\bfseries\small}},
+        column 2/.append style={nodes={text width=1.5cm}}
+    },
+}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stageTall,on chain] (fetch1) {Fetch};
+\node[stageTall,on chain,join] (decode1) {Decode};
+\node[stageTall,on chain,join] (rename1) {Rename};
+\node[iqueue,on chain,join] (instrQueue) {Instr\\ Queue};
+\end{scope}
+\node[stageSmall,anchor=north west] (exec 1) at ([xshift=.5cm]instrQueue.north east) {execute unit 1};
+\node[stageSmall,anchor=north] (exec 2) at ([yshift=-.2cm]exec 1.south) {execute unit 2};
+\node[stageSmall,anchor=north] (exec 3) at ([yshift=-.2cm]exec 2.south) {execute unit 3};
+\node[stageSmall,anchor=north] (exec 4) at ([yshift=-.2cm]exec 3.south) {execute unit 4};
+\node[anchor=north west,font=\large] (extraExec) at ([yshift=-.1cm]exec 4.south west) {\ldots};
+
+\node[iqueue] (reorder) at ([xshift=6.5cm]instrQueue.west) {Reorder \\ Buffer};
+\foreach \x in {1,2,3,4} {
+\draw[->,thick] (instrQueue.east |- exec \x) -- (exec \x);
+\draw[->,thick] (exec \x) -- (reorder.west |- exec \x);
+}
+
+\begin{visibleenv}<2->
+\matrix[
+    anchor=north,
+    register map,
+    label={[alias=rename map label,align=center]north:for new instrs},
+] (rename map) at ([xshift=-1.75cm,yshift=-1.75cm]rename1.south){
+    arch. reg \& phys. reg \\
+    RAX       \& X15 \\
+    RCX       \& X17 \\
+    RBX       \& X13 \\
+    RBX       \& X07 \\
+    \ldots    \& \ldots \\
+};
+\matrix[tight matrix,anchor=north east,
+    label={[alias=free label]north:free regs}]
+    (free list) at ([xshift=-.25cm]rename map.north west)
+{
+    X19 \\
+    X23 \\
+    \ldots \\
+};
+\draw[ultra thick,dotted] (free label.north west) -- (rename1.south west);
+\draw[ultra thick,dotted] (rename map label.north east) -- (rename1.south east);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\matrix[
+    anchor=north,
+    tight matrix,
+    nodes={font=\fontsize{9}{10}\selectfont},
+    row 1/.style={nodes={font=\bfseries\fontsize{8}{9}\selectfont,minimum height=.6cm}},
+    column 1/.append style={nodes={text width=.75cm}},
+    column 2/.append style={nodes={text width=1cm,font=\fontsize{8}{9}\tt\selectfont}},
+    column 3/.append style={nodes={text width=2cm,font=\fontsize{8}{9}\tt\selectfont}},
+    column 4/.append style={nodes={text width=.75cm}},
+    column 5/.append style={nodes={text width=1cm}},
+] (rob) at ([yshift=-.5cm]reorder.south){
+    instr num. \& PC \& dest. reg \& done? \& except? \\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \\
+    17 \& 0x1244 \& RCX / X32 \& \only<4->{\myemph<4>{\checkmark}} \& ~ \\
+    18 \& 0x1248 \& RDX / X34 \& \only<7->{\myemph<7>{\checkmark}} ~ \& ~ \\
+    19 \& 0x1249 \& RAX / X38 \& \myemph<7>{\checkmark} \& ~ \\
+    20 \& 0x1254 \& R8~ / X05 \& \only<6->{\myemph<6>{\checkmark}} \& \only<6->{\myemph<6>{\checkmark}} \\
+    21 \& 0x1260 \& R8~ / X06 \& ~ \& ~ \\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \\
+};
+\coordinate (explain loc) at ([yshift=1cm]rob.north west);
+\end{visibleenv}
+\begin{visibleenv}<3>
+\draw[->,red,dotted,very thick] (rename1.east) -- ++(.125cm, 0) |- (rob-8-1.south west)
+    node[midway,above right] {new instrs added};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\draw[->,red] ([xshift=-.1cm]rob-2-1.north west) -- ([xshift=-.1cm]rob-3-1.north west)
+    node[midway,left,align=right] {done instrs \\ committed in order};
+\end{visibleenv}
+\begin{visibleenv}<4->
+\matrix[
+    anchor=north east,
+    register map,
+    label={[alias=rename map label,align=center]north:for complete instrs},
+] (reorder map) at ([xshift=-2cm]rob-1-1.west){
+    arch. reg \& phys. reg \\
+    RAX       \& \only<1-6>{X21}\only<7->{\sout{X21} \myemph<7>{X38}} \\
+    RCX       \& \only<1-3>{X2}\only<4->{\sout{X2} \myemph<4>{X32}} \\
+    RBX       \& X48 \\
+    RDX       \& \only<1-6>{X37}\only<7->{\sout{X37} \myemph<7>{X34}} \\
+    \ldots    \& \ldots \\
+};
+\draw[->] ([xshift=-.1cm]rob-2-1.north west) -- ([xshift=-.1cm]rob-3-1.north west);
+\end{visibleenv}
+\begin{visibleenv}<4>
+\draw[->,very thick,dotted] (rob-3-1.west) -- (reorder map-3-2.east);
+\end{visibleenv}
+\begin{visibleenv}<5->
+\draw[alt=<5>{red},thick] (rob-3-1.west) -- (rob-3-5.east);
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[draw=red,very thick,fill=white,align=center] at (explain loc) {
+    instr 20 has exception \\
+    first, recorded in reorder-buffer
+};
+\node[fit=(rob-6-1) (rob-6-5),draw=red,ultra thick,inner sep=0mm] {};
+\end{visibleenv}
+\begin{visibleenv}<7>
+\node[draw=red,very thick,fill=white,align=center] at (explain loc) {
+    wait for earlier instructions to finish \\
+    and update registers for them
+};
+\node[fit=(rob-4-1) (rob-5-5),draw=red,ultra thick,inner sep=0mm] {};
+\draw[dotted,thick] (rob-4-1.west) -- (rob-4-5.east);
+\draw[dotted,thick] (rob-5-1.west) -- (rob-5-5.east);
+\end{visibleenv}
+\begin{visibleenv}<8-9>
+\draw[thick] (rob-4-1.west) -- (rob-4-5.east);
+\draw[thick] (rob-5-1.west) -- (rob-5-5.east);
+\node[draw=red,very thick,fill=white,align=center] at (explain loc) {
+    then use completed registers \\
+    as registers for new instructions \\
+    \myemph<9>{+ record PC from reorder buffer} \\
+    \myemph<9>{+ jump to exception handler}
+};
+\matrix[
+    anchor=north,
+    register map,
+    label={[alias=rename map label,align=center]north:for new instrs},
+    fill=white,
+    alt=<8->{draw=red},
+] (rename map alt) at ([xshift=-1.75cm,yshift=-1.75cm]rename1.south){
+    arch. reg \& phys. reg \\
+    RAX       \& X38 \\
+    RCX       \& X32 \\
+    RBX       \& X48 \\
+    RBX       \& X34 \\
+    \ldots    \& \ldots \\
+};
+\draw[very thick,red,->] (reorder map) -- (rename map alt);
+\end{visibleenv}
+\begin{visibleenv}<10>
+\node[draw=red,very thick,fill=white,align=center] at (explain loc) {
+    variation: could store architectual reg. values \\
+    instead of mapping for completed instrs. \\
+    (and copy values instead of mapping on exception)
+};
+\matrix[
+    fill=white,
+    draw=red,
+    anchor=north east,
+    register map,
+    row 1/.append style={nodes={minimum height=1cm}},
+    column 2/.append style={nodes={draw=red}},
+] (reorder map) at ([xshift=-2cm]rob-1-1.west){
+    arch. reg \& value \\
+    RAX       \& 0x12343 \\
+    RCX       \& 0x234543 \\
+    RBX       \& 0x56782 \\
+    RDX       \& 0xF83A4 \\
+    \ldots    \& \ldots \\
+};
+\end{visibleenv}
+\begin{visibleenv}<11>
+\node[draw=red,very thick,fill=white,align=center] at (explain loc) {
+    stopping instructions in progress for exception \\
+    similar to how `squashing' mispredicted instructions
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,18 @@
+\begin{frame}{OOO limitations}
+    \begin{itemize}
+        \item \myemph<2>{can't always find instructions to run}
+            \begin{itemize}
+            \item plenty of instructions, but all depend on unfinished ones
+            \item \myemph<2>{programmer can adjust program to help this}
+            \end{itemize}
+        \item need to track all uncommitted instructions
+            \begin{itemize}
+            \item can only go so far ahead
+            \item e.g. Intel Skylake: 224-entry reorder buffer, 168 physical registers
+            \end{itemize}
+        \item branch misprediction has a big cost (relative to pipelined)
+            \begin{itemize}
+            \item e.g. Intel Skylake: approx 16 cycles (v. 2 for pipehw2 CPU)
+            \end{itemize}
+    \end{itemize}
+\end{frame}

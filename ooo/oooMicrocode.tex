@@ -1,0 +1,169 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}[fragile,label=pushqMicrocode]{renaming with microcode}
+\lstset{language=myasm,style=small,morekeywords=iaddq}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|pushq %r8| \& |[appear on=2]| \lstinline|iaddq $8, %x11| $\rightarrow$ \lstinline|%x18| \\
+    ~ \& |[appear on=2]| \lstinline|rmmovq %x13, 0(%x18)| $\rightarrow$ (memory) \\
+    ~ \& ~ \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-2cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm,minimum height=0.45cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%rsp \& \xAfter{2}{\%x11}\showAfter{2}{\%x18} \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\begin{visibleenv}<2>
+\node[box] {
+    pushq is really complicated \\
+    one implementation option: \\
+    split into simpler ``microinstructions'' \\
+    also exposes \%rsp to register renmaing
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile,label=renameCC]{renaming and condition codes}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|cmpq %r8, %r9| \& |[appear on=2]| \lstinline|cmpq %x13, %x17| $\rightarrow$ \lstinline|%x18.cc| \\
+    \lstinline|jle D| \& |[appear on=2]| \lstinline|jle %x18.cc, D| \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-2cm,yshift=1.5cm]free.north east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm,minimum height=0.45cm},
+    column 2/.style={nodes={text width=4.5cm}},
+    anchor=north west
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%rsp \& \%x18 \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\ % \xAfter{2}{\%x17}\showAfter{2}{\%x18} \\
+\%r10 \& \%x19 \\
+\ldots \& \ldots \\
+|[alt=<1-3>{fill=red!10}]| CC\& |[alt=<1-3>{fill=red!10}]| \xAfter{2}{\%x04.cc}\showAfter{2}{\%x18.cc} \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=south west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.south east) {
+\xAfter{1}{\%x18} \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\begin{visibleenv}<2>
+\node[box] {
+    one option for condition codes: \\
+    map to physical registers and track with renaming \\
+    not sure if real CPUs do this option \\
+    (complicates the commit stage? \\
+    more area for regs than alternative?)
+    ~ \\
+    alternative 1: entirely separate cond. code registers \\
+    (with separate free register list) \\
+    alternative 2: handle in `in-order' part of pipeline?
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=renamingTrickiness1]{renaming trickiness (1)}
+    \begin{itemize}
+    \item need to expose input + outputs
+    \item hidden dependencies on stack pointer, condition codes, memory, etc.
+    \item stack pointer + condition codes
+        \begin{itemize}
+        \item turn into visible register somehow
+        \item alternative: force to execute in-order
+        \end{itemize}
+    \item memory: complex techniques we won't discuss
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=renamingTrickiness2]{renaming trickiness (2)}
+    \begin{itemize}
+    \item opportunity to translate complex instructions into simpler
+    \item commonly used for memory operands, probably some stack instructions
+        \begin{itemize}
+        \item \lstinline|popq %rcx| $\rightarrow$ addq, store
+        \item \lstinline|addq %rax, (%rbx)| $\rightarrow$ load, addq, store
+        \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

@@ -1,0 +1,65 @@
+
+\usetikzlibrary{matrix}
+
+\begin{frame}[fragile,label=rrExercise]{register renaming exercise}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|addq %r8, %r9| \& ~ \\
+    \lstinline|movq $100, %r10| \& ~ \\
+    \lstinline|subq %r10, %r8|   \& ~ \\
+    \lstinline|xorq %r8, %r9| \& ~ \\
+    \lstinline|andq %rax, %r9|   \& ~ \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-1.25cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west,
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%r8 \& \%x13\\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \%x21 \\
+\%r12 \& \%x05 \\
+\%r13 \& \%x02 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\%x18 \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\end{tikzpicture}
+\end{frame}

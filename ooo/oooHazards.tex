@@ -1,0 +1,222 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}<1>[fragile,label=oooHazardIndex]{out-of-order and hazards}
+    \begin{itemize}
+    \item out-of-order execution makes hazards harder to handle
+    \vspace{.5cm}
+    \item problems for forwarding:
+    \begin{itemize}
+        \item \myemph<3>{value in last stage may not be most up-to-date}
+        \item older value may be written back before newer value?
+    \end{itemize}
+    \item problems for branch prediction:
+    \begin{itemize}
+        \item mispredicted instructions may complete execution before squashing
+    \end{itemize}
+    \item which instructions to dispatch?
+        \begin{itemize}
+        \item how to quickly find instructions that are ready?
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\againframe<2>{oooHazardIndex}
+
+\begin{frame}[fragile,label=rawExamples1]{read-after-write examples (1)}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    %hiForwardOn/.style={alt=#1{blue}{}},
+    hiForwardOn/.style={},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15},commit/.style={fill=magenta!20}}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\F}{ \& |[fetch]| F}
+\newcommand{\fd}{ \& |[fetch]| F \& |[decode]| D}
+\newcommand{\demw}{ \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\emw}{ \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mw}{  \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mem}{  \& |[memory]| M}
+\newcommand{\cmt}{ \& |[commit]| C }
+\begin{tikzpicture}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %r10, ~2~%r8~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|addq %r11, ~2~%r8~end~|   \& ~ \fdemw \\
+\lstinline|addq %r12, ~2~%r8~end~|   \& ~ \& ~ \fdemw \& ~ \& ~ \\
+};
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwd{4}{3}{4}{<0>}
+\foreach \x in {1,...,10} {
+    \draw (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+}
+\end{tikzpicture}
+\hrule
+\begin{onlyenv}<1>
+normal pipeline: two options for \%r8? \\
+choose the one from \textit{earliest stage} \\
+because it's from the most recent instruction
+\end{onlyenv}
+\begin{onlyenv}<2->
+\begin{tikzpicture}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 3/.append style={nodes={opacity=0.4}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %r10, ~2~%r8~end~|   \F \& ~ \& ~ \& ~ \&\demw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|rmmovq %r8, (%rax)|        \& \F \&  ~ \& ~ \& ~ \&\demw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|irmovq $100, ~2~%r8~end~|   \& ~  \& \fdemw \\
+\lstinline|addq %r13, ~2~%r8~end~|   \& ~ \& ~  \& \F \& ~ \& \demw \& ~ \& ~ \\
+};
+\newcommand{\fwdB}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwdB{7}{2}{5}{<0>}
+\end{tikzpicture}
+\begin{tikzpicture}[overlay,remember picture]
+\node[align=left,draw=red,very thick,fill=white,anchor=north] at ([yshift=-1cm]current page.north) {
+out-of-order execution: \\
+\%r8 from earliest stage might be from \textit{delayed instruction} \\
+can't use same forwarding logic
+};
+\end{tikzpicture}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}{register version tracking}
+\begin{itemize}
+\item goal: track \myemph{different versions of registers}
+\item out-of-order execution: may compute versions at different times
+\item only forward the \myemph{correct version}
+\vspace{.5cm}
+\item strategy for doing this: preprocess instructions represent version info
+\item makes forwarding, etc. lookup easier
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=rawRewriting1]{rewriting hazard examples (1)}
+\begin{tabular}{l|l}
+\texttt{addq \%r10, \%r8} &
+\texttt{addq \%r10, \%r8\textsubscript{v1} $\rightarrow$ \%r8\textsubscript{v2}} \\
+\texttt{addq \%r11, \%r8} &
+\texttt{addq \%r11, \%r8\textsubscript{v2} $\rightarrow$ \%r8\textsubscript{v3}} \\
+\texttt{addq \%r12, \%r8} &
+\texttt{addq \%r12, \%r8\textsubscript{v3} $\rightarrow$ \%r8\textsubscript{v4}} \\
+\end{tabular}
+\hrule
+\begin{itemize}
+\item read different version than the one written
+    \begin{itemize}
+    \item represent with three argument psuedo-instructions
+    \end{itemize}
+\item forwarding a value? must match version \textit{exactly}
+\vspace{.5cm}
+\item for now: version numbers
+\item later: something simpler to implement
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile,label=wawExamples]{write-after-write example}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    %hiForwardOn/.style={alt=#1{blue}{}},
+    hiForwardOn/.style={},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15},commit/.style={fill=magenta!20}}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\fdem}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M }
+\newcommand{\F}{ \& |[fetch]| F}
+\newcommand{\fd}{ \& |[fetch]| F \& |[decode]| D}
+\newcommand{\demw}{ \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\dem}{ \& |[decode]| D \& |[execute]| E \& |[memory]| M}
+\newcommand{\emw}{ \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mw}{  \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mem}{  \& |[memory]| M}
+\newcommand{\cmt}{ \& |[commit]| C }
+\begin{tikzpicture}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 3/.append style={nodes={alt=<1-2>{opacity=0.4}}},
+        row 5/.append style={nodes={alt=<1-2>{opacity=0.4}}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %r10, ~2~%r8~end~|   \F \& ~ \& ~ \& ~ \&\dem \& |[writeback,draw=red,very thick]| W \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|rmmovq ~3~%r8~end~, (%rax)|        \F \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&\demw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|rrmovq %r11, ~2~%r8~end~|   \& ~ \fdemw \\
+\lstinline|rmmovq ~3~%r8~end~, 8(%rax)|     \& ~ \F \& ~ \& ~ \& ~ \& ~ \& ~ \demw \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|irmovq $100, ~2~%r8~end~|   \& \& \fdem \& |[writeback,draw=red,very thick]| W  \\
+\lstinline|addq %r13, ~2~%r8~end~|   \& ~ \& ~  \F \& ~ \& ~ \& ~ \& ~ \& ~ \& \demw \& ~ \& ~ \\
+};
+\newcommand{\fwdB}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\end{tikzpicture}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[align=left,draw=red,very thick,fill=white,anchor=south] at ([yshift=.5cm]current page.south) {
+out-of-order execution: \\
+if we don't do something, newest value could be overwritten!
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[align=left,draw=red,very thick,fill=white,anchor=south] at ([yshift=.5cm]current page.south) {
+two instructions that haven't been started \\
+could need \textit{different versions} of \%r8!
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{keeping multiple versions}
+    \begin{itemize}
+    \item for write-after-write problem: need to keep copies of multiple versions
+        \begin{itemize}
+        \item both the new version and the old version needed by delayed instructions
+        \end{itemize}
+    \item for read-after-write problem: need to distinguish different versions
+    \item solution: \myemph{have lots of extra registers}
+    \item \myemph{\ldots and assign each version a new `real' register}
+    \vspace{.5cm}
+    \item called \myemph{register renaming}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{register renaming}
+    \begin{itemize}
+    \item rename \textit{architectural registers} to \textit{physical registers}
+    \item different physical register for each version of architectural
+    \item track which physical registers are ready
+    \item compare physical register numbers to do forwarding
+    \end{itemize}
+\end{frame}

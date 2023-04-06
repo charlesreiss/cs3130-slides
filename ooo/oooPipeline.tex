@@ -1,0 +1,161 @@
+\usetikzlibrary{arrows.meta,calc,chains,shapes.multipart}
+
+\begin{frame}<0>[fragile,label=oooPipe]{an OOO pipeline}
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\fontsize{8.5}{9.5}\selectfont},
+    every label/.style={font=\fontsize{8.5}{9.5}\selectfont,align=center,overlay},
+    node distance=4mm,
+    >=Latex,
+    iqueue/.style={very thick,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.25mm,minimum height=2.5cm,minimum width=2cm},
+    cache/.style={align=center,draw,very thick,minimum height=1cm,
+        inner sep=.25mm,minimum width=1cm},
+    register/.style={fill=white,myregister,draw,thick,minimum height=5cm,yshift=-1cm,inner sep=0mm,minimum width=2mm},
+    register short/.style={myregister,draw,thick,minimum height=3cm,yshift=0cm,inner sep=0mm,minimum width=2mm},
+    register very short/.style={fill=white,myregister,draw,thick,minimum height=1cm,yshift=0cm,inner sep=0mm,minimum width=2mm},
+    compute/.style={minimum height=3cm,rounded corners,draw,align=center,very thick,inner sep=.5mm},
+    compute short/.style={minimum height=2cm,rounded corners,draw,align=center,very thick,inner sep=.5mm},
+    compute very short/.style={minimum height=1cm,rounded corners,draw,align=center,very thick,inner sep=.5mm,
+        font=\fontsize{8}{9}\selectfont},
+    connect/.style={very thick,-{Latex[length=2mm]},black!70},
+    connect both/.style={very thick,{Latex[length=2mm]}-{Latex[length=2mm]},black!70},
+    hi on/.style={alt=<#1>{fill=red!20,draw=red}},
+    predict/.style={hi on=2,hi on=14},
+    rename/.style={hi on=3,hi on=12},
+    issue/.style={hi on=4,hi on=10},
+    regread/.style={hi on=5},
+    execute/.style={hi on=6,hi on=11},
+    writeback/.style={hi on=7},
+    commit/.style={hi on=8,hi on=9,hi on=13,hi on=15},
+}
+\coordinate (main start) at (0,0);
+\coordinate (low start) at (0, -3);
+\coordinate (high start) at (0, 2);
+\begin{scope}[start chain=going right]
+\coordinate[on chain] (pc loc) at (main start);
+\node[register short,anchor=center] (pc) at (pc loc) {};
+\begin{scope}[node distance=6mm]
+\node[cache,on chain,label={center:instr.\\cache}] (icache){};
+\end{scope}
+\node[compute short,anchor=center,predict] (bpEarly) at (icache.south |- low start) {branch\\predict};
+\coordinate[on chain] (fetch 1 reg loc);
+\node[register] (fetch 1 reg) at (fetch 1 reg loc) {};
+\node[compute,on chain] (decode) {decode};
+\node[compute short,anchor=center,predict] (bpLate) at (decode.south |- low start) {more\\branch\\predict};
+\coordinate[on chain] (decode 1 reg loc);
+\node[register] (decode 1 reg) at (decode 1 reg loc) {};
+\node[compute,on chain,rename] (rename) {rename};
+\coordinate[on chain] (rename 1 reg loc);
+\node[register] (rename 1 reg) at (rename 1 reg loc) {};
+\node[issue,iqueue,on chain,label={north:instr.\\queue(s)}] (iqueue) {};
+\node[cache,anchor=north,issue] (regready) at ([yshift=-.5cm]iqueue.south) {reg.\\ready\\info};
+\coordinate[on chain] (iqueue reg loc);
+\node[register] (iqueue reg) at (iqueue reg loc) {};
+\node[compute,on chain,regread] (regread) {register \\read\\and\\forward};
+\coordinate[on chain] (post read reg loc);
+\node[register] (post read reg) at (post read reg loc) {};
+\begin{scope}[node distance=0.7cm]
+\coordinate[on chain] (execute loc);
+\end{scope}
+\begin{scope}[every node/.style={execute}]
+\node[compute very short] (alu 1) at ([yshift=1cm]execute loc) {ALU\\1};
+\node[compute very short] (alu 2) at ([yshift=-0.3cm]execute loc) {ALU\\2};
+\node[compute very short] (alu 3a) at ([yshift=-1.7cm]execute loc) {ALU\\3\\pt 1};
+\node[register very short,anchor=west] (alu 3a reg) at ([xshift=.1cm]alu 3a.east) {};
+\node[compute very short,anchor=west] (alu 3b) at ([xshift=.1cm]alu 3a reg.east) {ALU\\3\\pt 2};
+\node[compute very short] (loadstore) at ([yshift=-3cm]execute loc) {load\\store};
+\end{scope}
+\begin{scope}[node distance=1.9cm]
+\coordinate[on chain] (prewriteback reg loc);
+\end{scope}
+\node[register] (prewriteback reg) at (prewriteback reg loc) {};
+\node[compute,on chain,writeback] (wb) {write\\back};
+\coordinate[on chain] (postwriteback reg loc);
+\node[register] (postwriteback reg) at (postwriteback reg loc) {};
+\node[compute,on chain,commit] (commit) {commit};
+\end{scope}
+\draw[connect] (pc.east) -- (icache.west);
+\draw[connect] (pc.east) -- ++(1.5mm,0mm) |- (bpEarly.west);
+\begin{pgfonlayer}{bg}
+\draw[connect] (icache.east) -- (decode.west);
+\draw[connect] (bpEarly) -- (bpLate);
+\draw[connect] (bpEarly.south) -- ++(0mm,-1.5mm) -| ([xshift=-3mm]pc.west) -- (pc);
+\draw[connect] (bpLate.south) -- ++(0mm,-1.5mm) -| ([xshift=-3mm]pc.west) -- (pc);
+\draw[connect] (decode.south) -- (bpLate);
+\draw[connect] (decode) -- (rename);
+\draw[connect] (rename) -- (iqueue);
+\draw[connect] (iqueue) -- (regread);
+\draw[connect] (regread.east |- alu 1.east) -- (alu 1);
+\draw[connect] (regread.east |- alu 2.east) -- (alu 2);
+\draw[connect] (regread.east |- alu 2.east) -- ++(1mm,0mm) |- (alu 3a.west);
+\draw[connect] (regread.east |- alu 2.east) -- ++(1mm,0mm) |- (loadstore.west);
+\draw[connect] (alu 1) -- (alu 1 -| prewriteback reg.west);
+\draw[connect] (alu 2) -- (alu 2 -| prewriteback reg.west);
+\draw[connect] (alu 3b) -- (alu 3b -| prewriteback reg.west);
+\draw[connect] (loadstore) -- (loadstore -| prewriteback reg.west);
+\draw[connect] (prewriteback reg.east |- wb.west) -- (wb);
+\draw[connect] (wb) -- (commit);
+\node[cache,anchor=north,label={center:register\\file}] (regfile) at ([yshift=-.5cm]regread.south) {};
+\draw[connect both] (regread) -- (regfile);
+\draw[connect] (wb.south) -- ++(0mm,-2.25cm) -| (regfile.south);
+\node[commit,cache,anchor=north,label={center:reorder\\buffer}] (rob) at ([yshift=-1cm]commit.south) {};
+\draw[connect both] (commit) -- (rob);
+\draw[connect both] (rename.south) -- ++(0mm,-2.5cm) -| (rob.south);
+\end{pgfonlayer}
+\tikzset{
+    box/.style={at={(7.5,-4.5)},anchor=north,draw=red,ultra thick,font=\normalfont,align=left},
+}
+\begin{visibleenv}<2>
+\node[box] {
+    branch prediction needs to happen before instructions decoded \\
+    done with cache-like tables of information about recent branches
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    register renaming done here \\
+    stage needs to keep mapping from architectural to physical names
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    instruction queue holds pending renamed instructions \\
+    combined with register-ready info to \textit{issue} instructions \\
+    (issue = start executing)
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    read from much larger register file and handle forwarding \\
+    register file: typically read 6+ registers at a time \\
+    (extra data paths wires for forwarding not shown)
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[box] {
+    many \textit{execution units} actually do math or memory load/store \\
+    some may have multiple pipeline stages \\
+    some may take variable time (data cache, integer divide, \ldots)
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+\node[box] {
+    writeback results to physical registers \\
+    register file: typically support writing 3+ registers at a time
+};
+\end{visibleenv}
+\begin{visibleenv}<8>
+\node[box] {
+    new commit (sometimes \textit{retire}) stage finalizes instruction \\
+    figures out when physical registers can be reused again
+};
+\end{visibleenv}
+\begin{visibleenv}<9>
+\node[box] {
+    commit stage also handles branch misprediction \\
+    \textit{reorder buffer} tracks enough information to undo mispredicted instrs.
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
