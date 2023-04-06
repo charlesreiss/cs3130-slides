@@ -7,7 +7,7 @@
         xorq   %r12, %r13
         ...
 LABEL:  addq   %r8, %r9
-        rmmovq %r10, 0(%r11)
+        movq %r10, 0(%r11)
 \end{lstlisting}
 \begin{itemize}
     \item speculate: \myemph{jne} will goto LABEL
@@ -15,27 +15,6 @@ LABEL:  addq   %r8, %r9
     \item wrong: forget before execute finishes
 \end{itemize}
 \end{frame}
-
-\begin{frame}{when do instructions change things?}
-\begin{itemize}
-\item \ldots{} other than pipeline registers/PC: \\
-\fbox{\begin{tabular}{ll}
-stage & changes \\ \hline
-fetch & \myemph{(none)} \\
-decode & \myemph{(none)} \\
-execute & condition codes \\
-memory & memory writes \\
-writeback & register writes/stat changes \\
-\end{tabular}
-}
-\item<2-> to ``undo'' instruction during fetch/decode:
-    \begin{itemize}
-    \item forget everything in \myemph{pipeline registers}
-    \end{itemize}
-\end{itemize}
-% FIXME: effects of instruction not until memory/writeback
-\end{frame}
-
 \begin{frame}[fragile,label=jCCYes]{jXX: speculating right}
 \begin{tikzpicture}
     \matrix[tight matrix,matrix stages,
@@ -50,8 +29,8 @@ writeback & register writes/stat changes \\
         1    \& subq   \\
         2    \& jne \& subq \\
         3    \& addq [?] \& jne \& subq (set ZF) \\
-        4    \& rmmovq [?] \& addq [?] \& jne (use ZF) \& OPq \\
-        5    \& irmovq \& rmmovq \& addq \& jne (done) \& OPq \\
+        4    \& movq [?] \& addq [?] \& jne (use ZF) \& OPq \\
+        5    \& movq \& movq \& addq \& jne (done) \& OPq \\
     };
     \node[anchor=south west] at ([yshift=.25cm]timeline.north west) {
 \begin{lstlisting}[style=small]
@@ -60,8 +39,8 @@ writeback & register writes/stat changes \\
         ...
 
 LABEL:  addq %r8, %r9
-        rmmovq %r10, 0(%r11)
-        irmovq $1, %r11
+        movq %r10, 0(%r11)
+        movq $1, %r11
 \end{lstlisting}
     };
     \tikzset{every label/.style={opacity=1.0,fill=white,inner sep=2pt}}

@@ -26,12 +26,12 @@ struct Thread {
     /* value = 1: thread finished AND not joined */
 };
 thread_join(Thread *t) {
-    t->finish_semaphore->down();
+    t->finish_semaphore.down();
 }
 
 /* assume called when thread finishes */
 thread_exit(Thread *t) {
-    t->finish_semaphore->up();
+    t->finish_semaphore.up();
     /* tricky part: deallocating struct Thread safely? */
 }
 \end{lstlisting}

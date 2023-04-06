@@ -1,0 +1,15 @@
+
+
+\begin{frame}{implementing durability}
+    \begin{itemize}
+    \item what if there's a crash
+    \item we might have written some things but not others
+    \item most common approach: write-ahead logging
+    \vspace{.5cm}
+    \item write list of intended operations + marker that list is complete
+    \item then do operations
+    \vspace{.5cm}
+    \item after crash: check for intended operations
+    \item redo them \textit{only if list is complete}
+    \end{itemize}
+\end{frame}

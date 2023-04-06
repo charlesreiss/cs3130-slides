@@ -1,0 +1,28 @@
+\begin{frame}<1-2>[label=noForwardLoadUseCirc]{why can't we\ldots}
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\stagestyles
+\begin{pgfonlayer}{fg}
+    \stageboxes
+    \stageregs
+    \draw[red,dotted,very thick,-Latex] ([xshift=.25cm]dcache.east) -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out);
+    \begin{visibleenv}<2->
+    \draw[line width=0.75mm,red,-Latex] ([xshift=.5cm]math out 2) -- (dcache.east) -- ([xshift=.25cm]dcache.east)
+        -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out) -- ([xshift=0.125cm]math out 2);
+    \end{visibleenv}
+    \node[align=center,overlay,draw=red,ultra thick,fill=white,anchor=north] at ([xshift=-4cm,yshift=-1cm]dcache.south) {
+        clock cycle needs to be long enough \\
+        to go through data cache AND \\
+        to go through math circuits! \\
+        (which we were trying to avoid by putting them in separate stages)
+    };
+\end{pgfonlayer}
+\end{tikzpicture}
+\begin{tikzpicture}[remember picture,overlay]
+        \node[font=\fontsize{64}{72}\selectfont,opacity=0.2,rotate=30] at (current page.center) { 
+            INVALID
+        };
+\end{tikzpicture}
+\end{frame}

@@ -1,0 +1,15 @@
+
+\begin{frame}{hazards versus dependencies}
+    \begin{itemize}
+        \item dependency --- X needs result of instruction Y?
+            \begin{itemize}
+                \item has potential for being messed up by pipeline
+                \item (since part of X may run before Y finishes)
+            \end{itemize}
+        \item hazard --- will it not work in some pipeline?
+            \begin{itemize}
+                \item \myemph{before} extra work is done to ``resolve'' hazards
+                \item multiple kinds: so far, \textit{data hazards}
+            \end{itemize}
+    \end{itemize}
+\end{frame}

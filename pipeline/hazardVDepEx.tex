@@ -1,0 +1,42 @@
+\begin{frame}[fragile,label=nonHazard]{ex.: dependencies and hazards (1)}
+\begin{tikzpicture}
+    \matrix[tight matrix no line,
+            row sep=4mm,
+            nodes={font=\tt,
+                   text width=1.5cm,minimum width=2.5cm,text depth=.5ex},
+            column 1/.style={nodes={text width=1.9cm,font=\tt\bfseries}},
+    ] (instrs){
+        addq \& \%rax, \& \%rbx \\
+        subq \& \%rax, \& \%rcx \\
+        irmovq \& \$100, \& \%rcx \\
+        addq \& \%rcx, \& \%r10 \\
+        addq \& \%rbx, \& \%r10 \\
+    };
+    \node[draw,below=.4cm of instrs,align=left] {
+        where are dependencies? \\
+        which are hazards in our pipeline? \\
+        which are resolved wiht forwarding?
+    };
+    \tikzset{
+        depHi/.style={draw,blue,thick,inner sep=0mm,inner xsep=-5mm,rounded corners},
+        depLine/.style={blue,very thick,-Latex},
+        hazHi/.style={draw,red,thick,inner sep=0mm,inner xsep=-5mm,rounded corners},
+        hazLine/.style={red,very thick,-Latex},
+    }
+    \begin{visibleenv}<2->
+        \node[fit=(instrs-1-3),depHi] (hiRBXWrite) {};
+        \node[fit=(instrs-5-2),depHi] (hiRBXRead) {};
+        \draw[depLine] (hiRBXWrite) -- (hiRBXRead);
+    \end{visibleenv}
+    \begin{visibleenv}<3->
+        \node[fit=(instrs-3-3),hazHi] (hiRCXWrite) {};
+        \node[fit=(instrs-4-2),hazHi] (hiRCXRead) {};
+        \draw[hazLine] (hiRCXWrite) -- (hiRCXRead);
+    \end{visibleenv}
+    \begin{visibleenv}<4->
+        \node[fit=(instrs-4-3),hazHi] (hiRTenWrite) {};
+        \node[fit=(instrs-5-3),hazHi] (hiRTenRead) {};
+        \draw[hazLine] (hiRTenWrite) -- (hiRTenRead);
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}

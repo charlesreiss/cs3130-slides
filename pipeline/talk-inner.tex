@@ -35,8 +35,24 @@
 \subsubsection{can't always forward: load-use}
 \input{../pipeline/loadUseHazard}
 
+\subsubsection{can forward: load-to-store}
+\input{../pipeline/loadToStoreFwd}
+
+\input{../pipeline/loadUseNoForward}
+
+\subsection{dependency v hazard}
+\input{../pipeline/hazardVDep}
+
+\input{../pipeline/hazardVDepEx}
+
+\subsection{with different pipeline?}
+\input{../pipeline/diffHazardEx}
+
 \subsection{control hazards}
 \input{../pipeline/controlHazard} % FIXME: correct
 
 \subsubsection{idea: branch prediction}
 \input{../pipeline/predIntro}
+
+\subsubsection{why so good?}
+\input{../pipeline/predEffect}
