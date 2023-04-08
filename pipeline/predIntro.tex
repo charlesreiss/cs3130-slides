@@ -1,99 +1,121 @@
-
-\begin{frame}[fragile,label=makingGuesses]{making guesses}
-\begin{lstlisting}
-        subq   %rcx, %rax
-        jne    LABEL
-        xorq   %r10, %r11
-        xorq   %r12, %r13
-        ...
-LABEL:  addq   %r8, %r9
-        movq %r10, 0(%r11)
-\end{lstlisting}
-\begin{itemize}
-    \item speculate: \myemph{jne} will goto LABEL
-    \item right: 2 cycles faster!
-    \item wrong: forget before execute finishes
-\end{itemize}
-\end{frame}
-\begin{frame}[fragile,label=jCCYes]{jXX: speculating right}
+\usetikzlibrary{matrix, fit}
+\begin{frame}[fragile,label=jCCYes]{jXX: stalling?}
 \begin{tikzpicture}
-    \matrix[tight matrix,matrix stages,
-        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
-        column 1/.append style={nodes={text width=.8cm}},
-        column 2/.append style={nodes={text width=2.2cm}},
-        column 3/.append style={nodes={text width=1.8cm}},
-        column 4/.append style={nodes={text width=2.6cm}},
-        column 5/.append style={nodes={text width=2.0cm}},
-        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
-        time \& fetch \& decode \& execute \& memory \& writeback \\
-        1    \& subq   \\
-        2    \& jne \& subq \\
-        3    \& addq [?] \& jne \& subq (set ZF) \\
-        4    \& movq [?] \& addq [?] \& jne (use ZF) \& OPq \\
-        5    \& movq \& movq \& addq \& jne (done) \& OPq \\
+    \stagestyles
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+    \matrix[tight matrix no line,
+            nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (timeline) {
+    |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                        \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    jne LABEL  \& ~ \fdemw \& ~ \& ~\\
+    (do nothing) \& ~ \& ~ \fdemw \\
+    (do nothing) \& ~ \& ~ \& ~ \fdemw \\
+    xorq \%r10, \%r11 \& ~ \& ~\& ~ \& ~ \fdemw \& ~ \& ~\\
+    movq \%r11, 0(\%r12) \&~ \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
+    \ldots \\
     };
-    \node[anchor=south west] at ([yshift=.25cm]timeline.north west) {
-\begin{lstlisting}[style=small]
-        subq %r8, %r8
+    \node[anchor=south west] at ([yshift=-0.5cm]timeline.north west) {
+\begin{lstlisting}[style=size10]
+        subq %r8, %r9
         jne LABEL
+        xorq %r10, %r11
+        movq %r11, 0(%r12)
         ...
 
 LABEL:  addq %r8, %r9
-        movq %r10, 0(%r11)
-        movq $1, %r11
+        imul %r13, %r14
+        ...
 \end{lstlisting}
     };
-    \tikzset{every label/.style={opacity=1.0,fill=white,inner sep=2pt}}
-    \begin{visibleenv}<2>
-        \node[fit=(timeline-4-2),hiBox] {};
-        \node[fit=(timeline-5-2) (timeline-5-3),hiBox,label={[fill=white,draw,thick]east:were waiting/nothing}] {};
-    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+\begin{frame}[fragile,label=makingGuesses]{making guesses}
+\begin{lstlisting}
+        subq %r8, %r9
+        jne LABEL
+        xorq %r10, %r11
+        movq %r11, 0(%r12)
+        ...
+
+LABEL:  addq %r8, %r9
+        imul %r13, %r14
+        ...
+\end{lstlisting}
+\begin{itemize}
+    \item speculate (guess): \myemph{jne} won't go to LABEL
+    \item right: 2 cycles faster!; wrong: undo guess before too late
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=jCCYes]{jXX: speculating right (1)}
+\begin{tikzpicture}
+    \stagestyles
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+    \matrix[tight matrix no line,
+            nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (timeline) {
+    |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                        \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    jne LABEL  \& ~ \fdemw \& ~ \& ~\\
+    xorq \%r10, \%r11 \& ~ \& ~ \fdemw \& ~ \& ~\\
+    movq \%r11, 0(\%r12) \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
+    \ldots \\
+    };
+    \node[anchor=south west] at ([yshift=-0.5cm]timeline.north west) {
+\begin{lstlisting}[style=size10]
+        subq %r8, %r9
+        jne LABEL
+        xorq %r10, %r11
+        movq %r11, 0(%r12)
+        ...
+
+LABEL:  addq %r8, %r9
+        imul %r13, %r14
+        ...
+\end{lstlisting}
+    };
 \end{tikzpicture}
 \end{frame}
 
 \begin{frame}[fragile,label=jCCNo]{jXX: speculating wrong}
 \begin{tikzpicture}
-    \matrix[tight matrix,matrix stages,
-        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
-        column 1/.append style={nodes={text width=.8cm}},
-        column 2/.append style={nodes={text width=2.2cm}},
-        column 3/.append style={nodes={text width=1.8cm}},
-        column 4/.append style={nodes={text width=2.6cm}},
-        column 5/.append style={nodes={text width=2.0cm}},
-        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
-        time \& fetch \& decode \& execute \& memory \& writeback \\
-        1    \& subq   \\
-        2    \& jne \& subq \\
-        3    \& addq [?] \& jne \& subq (set ZF) \\
-        4    \& rmmovq [?] \& addq [?] \& jne (use ZF) \& OPq \\
-        5    \& xorq  \& nothing \& nothing \& jne (done) \& OPq \\
+    \stagestyles
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+    \matrix[tight matrix no line,
+            nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+            column 1/.style={nodes={text width=6cm,align=left}},anchor=north west] (timeline) {
+    |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                        \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    jne LABEL  \& ~ \fdemw \& ~ \& ~\\
+    xorq \%r10, \%r11 \& ~ \& ~ \& |[fetch]| F \& |[decode,alias=squashTop]| D \\
+    (inserted nop) \& ~ \& ~ \& ~ \& ~ \& |[execute]| E \& |[memory]| M \& |[writeback]| W \\
+    movq \%r11, 0(\%r12) \& ~ \& ~ \& ~ \& |[fetch,alias=squashBottom]| F  \\
+    (inserted nop) \& ~ \& ~ \& ~ \& ~ \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W \\
+    LABEL: addq \%r8, \%r9 \& ~ \& ~ \& ~ \& ~ \fdemw \\
+    imul \%r13, \%r14 \& ~ \& ~ \& ~ \& ~ \& ~ \fdemw \\
+    \ldots \\
     };
-    \node[anchor=south west] at ([yshift=.25cm]timeline.north west) {
-\begin{lstlisting}[style=small]
-        subq %r8, %r8
-        jne LABEL
-        xorq %r10, %r11
-        ...
-
-LABEL:  addq %r8, %r9
-        rmmovq %r10, 0(%r11)
-\end{lstlisting}
-    };
-    \tikzset{every label/.style={opacity=1.0,black}}
     \begin{visibleenv}<2>
-        \node[fit=(timeline-5-2) (timeline-5-3),hiBox] {};
-        \node[fit=(timeline-6-3) (timeline-6-4),hiBox,label={[fill=white,draw,thick,label distance=0.75cm]north:``squash'' wrong guesses}] {};
-    \end{visibleenv}
-    \begin{visibleenv}<3>
-        \node[fit=(timeline-6-2),hiBox,label={[fill=white,draw]north east:fetch correct next instruction}] {};
+    \node[draw=red,ultra thick,inner sep=0mm,fit=(squashTop)] {};
+    \node[draw=red,ultra thick,inner sep=0mm,fit=(squashBottom)] {};
+    \node[align=left,fill=white,fill opacity=0.6,text opacity=1,anchor=north west] at ([xshift=0cm]squashTop.north east) {
+        instruction ``squashed''
+    };
+    \node[align=left,fill=white,fill opacity=0.6,text opacity=1,anchor=north west] at ([xshift=0cm]squashBottom.north east) {
+        instruction ``squashed''
+    };
     \end{visibleenv}
 \end{tikzpicture}
-% FIXME: 
-    % show earlier logic
-    % case 1: replace stall PC with set PC to target of Jcc
-    % case 2: gone, don't pause on Jcc
-    % case 3: finishing jCC
-        % extra logic to `squash' instructions
 \end{frame}
 
-
+\begin{frame}{``squashed'' instructions}
+    \begin{itemize}
+    \item on misprediction need to undo partially executed instructions
+    \item mostly: remove from pipeline registers
+    \item more complicated pipelines: replace written values in cache/registers/etc.
+    \end{itemize}
+\end{frame}

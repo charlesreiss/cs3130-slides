@@ -2,8 +2,11 @@
 
 \begin{frame}{branch target buffer}
     \begin{itemize}
-    \item can take several cycles to fetch+decode jumps, calls, returns
-    \item still want \myemph{1-cycle prediction of next thing to fetch}
+    \item what can we do to predict \texttt{jmp *(\%rax)}?
+    \item what if we can't decode LABEL from machine code for \texttt{jmp LABEL} fast?
+        \begin{itemize}
+        \item will happen in more complex pipelines
+        \end{itemize}
     \end{itemize}
 \end{frame}
 

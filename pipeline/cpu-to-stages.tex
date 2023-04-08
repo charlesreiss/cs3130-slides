@@ -28,7 +28,6 @@
 \end{tikzpicture}
 \end{frame}
 
-\providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
 \begin{frame}{running some instructions}
 \begin{tikzpicture}
 \cpuset
@@ -38,6 +37,7 @@
 \begin{pgfonlayer}{fg}
     \stageboxes
     \stageregs
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
     \begin{visibleenv}<2->
         \matrix[tight matrix no line,
                 nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},

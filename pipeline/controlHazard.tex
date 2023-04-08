@@ -2,15 +2,15 @@
 
 \begin{frame}[fragile,label=ControlFlowExample]{control hazard}
 \begin{lstlisting}
-cmpq %r8, %r9
-je   0xFFFF
-addq %r10, %r11
+0x00: cmpq %r8, %r9
+0x08: je   0xFFFF
+0x10: addq %r10, %r11
 \end{lstlisting}
 \begin{tikzpicture}
 \matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
         column 9/.append style={nodes={text width=1.8cm}},
         column 5/.append style={nodes={text width=0.8cm}},
-        column 6/.append style={nodes={text width=2.2cm}},
+        column 7/.append style={nodes={text width=2.2cm}},
         column 8/.append style={nodes={text width=0.8cm}},
         row 1/.append style={nodes={font=\scriptsize}},
         row 2/.append style={nodes={font=\scriptsize}},
@@ -18,9 +18,9 @@ addq %r10, %r11
  \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB  \& R[rA] \& R[rB] \& result \& \ldots \& \ldots \&\ldots  \\
 cycle \& PC \& rA \& rB \& R[rA] \& R[rB] \& result \& \ldots \& \ldots \& \ldots \\
 0 \& 0x0  \\
-1 \& 0x2 \& 8  \& 9   \\ 
+1 \& 0x8 \& 8  \& 9   \\ 
 2 \& ??? \& --- \& --- \& 800  \& 900 \\
-2 \& ??? \& --- \& --- \& --- \& --- \& less than \& ~ \& ~ \& ~ \\
+3 \& ??? \& --- \& --- \& --- \& --- \& |[fill=red!10]| less than \& ~ \& ~ \& ~ \\
 };
 \begin{scope}[every node/.style={draw,inner sep=0pt},
               every label/.style={font=\scriptsize,draw=none}]
@@ -31,7 +31,7 @@ cycle \& PC \& rA \& rB \& R[rA] \& R[rB] \& result \& \ldots \& \ldots \& \ldot
 \end{scope}
 \begin{visibleenv}<2->
     \node[line width=2pt,draw,red,fit=(tbl-5-2),
-          label={-45:{\tt 0xFFFF} if R[8] = R[9]; {\tt 0x12} otherwise}] {};
+          label={[label distance=5mm]-45:{\tt 0xFFFF} if R[8] = R[9]; {\tt 0x10} otherwise}] {};
 \end{visibleenv}
 \end{tikzpicture}
 \end{frame}

@@ -1,0 +1,21 @@
+\begin{frame}[fragile,label=staticPredictEx]{exercise: static prediction}
+\begin{lstlisting}[language=myasm]
+.global foo
+foo:
+    xor %eax, %eax // eax <- 0
+foo_loop_top:
+    test $0x1, %edi
+    je foo_loop_bottom  // if (edi & 1 == 0) goto .Lskip
+    add %edi, %eax 
+foo_loop_bottom:
+    dec %edi            // edi = edi - 1
+    jl .Lend_loop       // if (edi < 0) goto .Lend_loop
+    ret
+\end{lstlisting}
+\begin{itemize}
+\item suppose \%edi = 3 (initially)
+\item and using forward-taken, backwards-not-taken strategy:
+\item how many mispreditions for je?
+\item how many mispreditions for jl?
+\end{itemize}
+\end{frame}
