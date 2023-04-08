@@ -1,0 +1,51 @@
+\usetikzlibrary{arrows.meta,matrix,circuits.logic.US}
+
+\begin{frame}{mixing predictors}
+    \begin{itemize}
+    \item different predictors good at different times
+    \item one idea: have two predictors, + predictor to predict which is right
+    \end{itemize}
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+\node[draw,very thick,label={north:PC of branch},font=\small\tt] (pc) {0x40042A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west,font=\small] (hash)
+    at ([xshift=.5cm,yshift=0cm]pc.south east) {hash function};
+    \draw[connect,ultra thick,->] (pc.south) |- ([yshift=.1cm]hash.west);
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+    }},
+    column 2/.style={nodes={text width=1.5cm,font=\small\tt}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    anchor=north west,
+    label={[align=center,font=\small]north:{predictor for \\``was predictor 1 right''}},
+] (tbl) at ([xshift=4cm]pc.north east) {
+    index \& {counter} \\
+    0 \& 11\\
+    1 \& 01 \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    1022 \& 00 \\
+    1023 \& 00 \\
+};
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-2-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-3-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-5-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-6-1.west);
+\node[draw,very thick,mux,font=\scriptsize,minimum width=.5cm,minimum height=2cm,anchor=north west,inputs=nn,rotate=-90] (bpSelect) at ([xshift=4cm,yshift=.1cm]tbl-6-2.south east) {MUX};
+    \node[draw,fill=yellow!10,font=\small,thick] (bp1) at ([xshift=-1.5cm,yshift=2cm]bpSelect.input 1){predictor 1};
+    \node[draw,fill=yellow!10,font=\small,thick] (bp2) at ([xshift=1.5cm,yshift=2cm]bpSelect.input 2){predictor 2};
+\draw[connect,ultra thick,->] (bp1.south) -- ++(0cm, -.5cm) -| (bpSelect.input 2);
+\draw[connect, ultra thick,->](bp2.south) -- ++(0cm, -.5cm) -| (bpSelect.input 1);
+\foreach \x in {2,3,4,5,6} {
+    \draw[connect,dotted,black!50,ultra thick] (tbl-\x-2.east) -- ++ (.3cm,0cm);
+}
+    \draw[connect,dotted,black!50,ultra thick,->] (tbl-2-2.east) ++ (.3cm,0cm) |- (bpSelect.south);
+    \draw[connect,ultra thick,->] (bpSelect.output) -- ++(0cm, -.5cm) -- ++(-1cm, 0cm) node[left] {prediction for fetch};
+\end{tikzpicture}
+\end{frame}

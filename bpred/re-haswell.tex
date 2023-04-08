@@ -1,0 +1,33 @@
+\begin{frame}{real BP?}
+\begin{itemize}
+\item details of modern CPU's branch predictors often not public
+\item but\ldots
+\vspace{.5cm}
+\item Google Project Zero blog post with reverse engineered details
+\item \scriptsize \url{https://googleprojectzero.blogspot.com/2018/01/reading-privileged-memory-with-side.html}
+\item for RE'd BTB size:
+\item \scriptsize \url{https://xania.org/201602/haswell-and-ivy-btb}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{reverse engineering Haswell BPs}
+\begin{itemize}
+\item branch target buffer
+    \begin{itemize}
+    \item 4-way, 4096 entries
+    \item ignores bottom 4 bits of PC?
+    \item hashes PC to index by shifting + XOR
+    \item seems to store 32 bit offset from PC (not all 48+ bits of virtual addr)
+    \end{itemize}
+\item indirect branch predictor
+    \begin{itemize}
+    \item like the global history + PC predictor we showed, but\ldots
+    \item uses history of recent branch addresses instead of taken/not taken
+    \item keeps some info about last 29 branches
+    \end{itemize}
+\item what about conditional branches??? loops???
+    \begin{itemize}
+    \item couldn't find a reasonable source
+    \end{itemize}
+\end{itemize}
+\end{frame}

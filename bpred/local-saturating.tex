@@ -1,0 +1,155 @@
+\usetikzlibrary{arrows.meta,chains,decorations,decorations.pathreplacing,matrix}
+
+\begin{frame}{beyond 1-bit predictor}
+    \begin{itemize}
+    \item devote \textit{more space} to storing history
+    \item main goal: \myemph{rare exceptions don't immediately change prediction}
+    \vspace{.5cm}
+    \item example: branch taken 99\% of the time
+    \item 1-bit predictor: wrong about 2\% of the time
+        \begin{itemize}
+        \item 1\% when branch not taken
+        \item 1\% of taken branches right after branch not taken
+        \end{itemize}
+    \item new predictor: wrong about 1\% of the time
+        \begin{itemize}
+        \item 1\% when branch not taken
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{2-bit saturating counter}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+    c00-to-c01/.style={},
+    c01-to-c00/.style={},
+    c01-to-c10/.style={},
+    c10-to-c01/.style={},
+    c10-to-c11/.style={},
+    c11-to-c10/.style={alt=<3>{red}},
+}
+\begin{scope}[start chain=going right,
+    every node/.style={draw,very thick,circle,font=\large\tt,alt=<1>{text=red}},
+        node distance=3cm]
+\node[on chain] (c00) {00};
+\node[on chain] (c01) {01};
+\node[on chain,alt=<3>{fill=red!10}] (c10) {10};
+\node[on chain,alt=<2>{fill=red!10}] (c11) {11};
+\end{scope}
+    \foreach \f/\t in {c00/c01,c01/c10,c10/c11} {
+    \draw[->,thick,alt=<2>{red},\f-to-\t] (\f.50) -- (\t.130) node[midway,above,font=\small] {+1 (taken)};
+    \draw[<-,thick,\t-to-\f] (\f.-50) -- (\t.-130) node[midway,below,font=\small] {-1 (not taken)};
+}
+    \draw[->,thick,out=130,in=-130,looseness=4] (c00.150) to (c00.-150) node[below,font=\small] {-1};
+    \draw[->,thick,out=50,in=-50,looseness=4,alt=<2>{red}] (c11.30) to (c11.-30) node[below=5pt,font=\small] {+1};
+
+    \draw[ultra thick,decorate,decoration={brace,mirror}]
+        ([yshift=-1cm]c00.south west) -- ([yshift=-1cm]c01.south east)
+        node[midway,below] {predict not taken};
+    \draw[ultra thick,decorate,decoration={brace,mirror}]
+        ([yshift=-1cm]c10.south west) -- ([yshift=-1cm]c11.south east)
+        node[midway,below] {predict taken};
+\tikzset{
+    explain box/.style={
+        draw=red,ultra thick,
+        fill=white,
+        at={([yshift=-2cm]c00.south west)},
+        anchor=north west,
+        align=left
+    },
+}
+\begin{visibleenv}<1>
+\newcommand{\showSelectionFrame}{1}
+\node[draw,very thick,label={north:PC of branch},font=\tt] (pc)
+    at ([yshift=-3cm]c00.south) {0x4004\textbf{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west] (hash)
+    at ([xshift=-.5cm,yshift=-.5cm]pc.south east) {hash function};
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+    }},
+    column 2/.style={nodes={text width=1.5cm,font=\small\tt,alt=<\showSelectionFrame>{text=black!50,draw=black!50},text=red}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<\showSelectionFrame>{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<\showSelectionFrame>{draw=black,very thick},text=red}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm]pc.north east) {
+    index \& {counter} \\
+    0 \& 11\\
+    1 \& 01 \\
+    2 \& 11 \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& 10 \\
+    15 \& 00 \\
+};
+\draw[connect,ultra thick,->] (pc.south) |- (hash.west);
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+\begin{visibleenv}<2>
+    \node[explain box] {
+        branch always taken: \\value increases to `strongest' taken value
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[explain box] {
+        branch almost always taken, then not taken once: \\
+        still predicted as taken
+    };
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{example}
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={minimum height=0.5cm,text depth=.15cm},
+    column 1/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=1.8cm}},
+    column 2/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=3cm}},
+] (code) {
+0x40041B \& movq \$4, \%rax \\
+|[alias=the target]| 0x400423 \& ... \\
+0x400429 \& decq \%rax \\
+|[alias=the branch,fill=blue!15]| 0x40042A \& |[fill=blue!15]| jz 0x400423 \\
+0x40042B \& ... \\
+};
+\draw[dotted,thick,->] (the branch.west) -- ++(-.2cm,0cm) |- (the target.west);
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=1cm,font=\small}},
+    column 2/.style={nodes={text width=1.5cm,font=\small\tt}},
+    column 3/.style={nodes={text width=2cm,font=\small}},
+    column 4/.style={nodes={text width=2cm,font=\small}},
+    column 5/.style={nodes={text width=1.5cm,font=\small\tt}},
+    row 1/.style={nodes={align=left,minimum height=1cm,font=\small}},
+    anchor=north west
+] (results) at ([xshift=1cm]code.north east) {
+iter. \& {table \\before} \& prediction \& outcome \& {table\\after} \\
+1 \& 01 \& not taken \& taken \& 10\\
+2 \& 10 \& taken \& taken \& 11 \\
+3 \& 11 \& taken \& taken \& 11 \\
+4 \& 11 \& taken \& not taken \& 10 \\
+1 \& 10 \& taken \& taken \& 11 \\
+2 \& 11 \& taken \& taken \& 11 \\
+3 \& 11 \& taken \& taken \& 11 \\
+4 \& 11 \& taken \& not taken \& 10 \\
+1 \& 10 \& taken \& taken \& 11 \\
+    \ldots \& |[font=\small]| \ldots \& \ldots \& \ldots \& |[font=\small]| \ldots\\
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{generalizing saturating counters}
+    \begin{itemize}
+    \item 2-bit counter: ignore one exception to taken/not taken
+    \vspace{.5cm}
+    \item 3-bit counter: ignore more exceptions
+    \item \texttt{000}$\;\leftrightarrow\;$\texttt{001}$\;\leftrightarrow\;$\texttt{010}$\;\leftrightarrow\;$\texttt{011}$\;\leftrightarrow\;$\texttt{100}$\;\leftrightarrow\;$\texttt{101}$\;\leftrightarrow\;$\texttt{110}$\;\leftrightarrow\;$\texttt{111}
+    \item \texttt{000}-\texttt{011}: not taken
+    \item \texttt{100}-\texttt{111}: taken
+    \end{itemize}
+\end{frame}

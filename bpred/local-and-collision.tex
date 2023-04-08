@@ -1,0 +1,60 @@
+\begin{frame}[fragile,label=localAndCollision1]{local patterns and collisions (1)}
+\begin{lstlisting}[language=C,style=small]
+i = 10000;
+do {
+    p = malloc(...);
+    if (p == NULL) goto error;  // BRANCH 1
+    ...
+} while (i-- != 0); // BRANCH 2
+\end{lstlisting}
+\hrule
+\begin{itemize}
+\item what if branch 1 and branch 2 hash to same table entry?
+\item<2-> pattern: TNTNTNTNTNTNTNTNT\ldots
+\item<2-> actually no problem to predict!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=localAndCollision2]{local patterns and collisions (2)}
+\begin{lstlisting}[language=C,style=small]
+i = 10000;
+do {
+    if (i % 2 == 0) goto skip; // BRANCH 1
+    ...
+    p = malloc(...);
+    if (p == NULL) goto error;  // BRANCH 2
+skip: ...
+} while (i-- != 0); // BRANCH 3
+\end{lstlisting}
+\hrule
+\begin{itemize}
+\item what if branch 1 and branch 2 and branch 3 hash to same table entry?
+\item<2-> pattern: TTNNTTNNTTNNTTNNTT
+\item<2-> also no problem to predict!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=localAndCollision3]{local patterns and collisions (3)}
+\begin{lstlisting}[language=C,style=smaller]
+i = 10000;
+do {
+    if (A) goto one  // BRANCH 1
+    ...
+one:
+    if (B) goto two  // BRANCH 2
+    ...
+two:
+    if (A or B) goto three // BRANCH 3
+    ...
+    if (A and B) goto three // BRANCH 4
+    ...
+three:
+    ... // changes A, B
+} while (i-- != 0); 
+\end{lstlisting}
+\hrule
+\begin{itemize}
+\item what if branch 1-4 hash to same table entry?
+\item \myemph{better for prediction of branch 3 and 4}
+\end{itemize}
+\end{frame}

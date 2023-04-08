@@ -1,0 +1,26 @@
+\begin{frame}[fragile,label=loopCntPred]{loop count predictors (1)}
+\begin{lstlisting}[language=C,style=small]
+for (int i = 0; i < 64; ++i)
+    ...
+\end{lstlisting}
+\begin{itemize}
+\item can we predict this perfectly with predictors we've seen
+\item yes --- local or global history with 64 entries
+\vspace{.5cm}
+\item but this is very important --- more efficient way?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=loopCntPred2]{loop count predictors (2)}
+\begin{itemize}
+\item loop count predictor idea: look for NNNNNNT+repeat (or TTTTTTN+repeat)
+\item track for each possible loop branch:
+    \begin{itemize}
+    \item how many repeated Ns (or Ts) so far
+    \item how many repeated Ns (or Ts) last time before one T (or N)
+    \item something to indicate this pattern is useful?
+    \end{itemize}
+\item known to be used on Intel
+\end{itemize}
+\end{frame}
+

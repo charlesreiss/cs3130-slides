@@ -1,0 +1,47 @@
+\usetikzlibrary{arrows.meta,matrix}
+
+\begin{frame}{correlating predictor}
+    \begin{itemize}
+    \item global history \textit{and} local info good together
+    \item one idea: \myemph{combine history register + PC} (``gshare'')
+    \end{itemize}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+% FIXME: PC --> hash function --> table
+\node[draw,very thick,label={north:PC of branch},font=\small\tt] (pc) {0x40042A};
+    \node[anchor=north,draw,very thick,label={south:branch history register},font=\small\tt] (bh) at ([yshift=-1cm]pc.south) {TTTNTTNTNT\ldots};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west,font=\small] (hash)
+    at ([xshift=.5cm,yshift=0cm]pc.south east) {hash function};
+    \draw[connect,ultra thick,->] (pc.south) |- ([yshift=.1cm]hash.west);
+    \draw[connect,ultra thick,->] (bh.north) |- ([yshift=-.1cm]hash.west);
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+    }},
+    column 2/.style={nodes={text width=1.5cm,font=\small\tt}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm]pc.north east) {
+    index \& {counter} \\
+    0 \& 11\\
+    1 \& 01 \\
+    2 \& 11 \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    1021 \& 10 \\
+    1022 \& 00 \\
+    1023 \& 00 \\
+};
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-2-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-3-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-5-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-6-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-7-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-8-1.west);;
+\end{tikzpicture}
+\end{frame}

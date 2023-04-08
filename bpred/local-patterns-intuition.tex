@@ -1,0 +1,21 @@
+\usetikzlibrary{arrows.meta,fit,matrix,positioning,shapes.callouts}
+
+\begin{frame}[fragile,label=branchPattern]{branch patterns}
+\begin{lstlisting}[language=C]
+i = 4;
+do {
+    ...
+    i -= 1;
+} while (i != 0);
+\end{lstlisting}
+\hrule
+\begin{itemize}
+\item typical pattern for jump to top of do-while above: 
+\item \texttt{TTTN TTTN TTTN TTTN TTTN\ldots}{\small (T = taken, N = not taken)}
+\item goal: take advantage of recent pattern to make predictions
+\item just saw 'NTTTNT'? predict T next
+\item 'TNTTTN'? predict T; 'TTNTTT'? predict N next
+\item \ldots
+\end{itemize}
+\end{frame}
+

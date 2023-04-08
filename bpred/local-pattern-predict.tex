@@ -1,0 +1,279 @@
+
+\begin{frame}{local pattern predictor (incomplete)}
+\newcommand{\showSelectionFrame}{1-}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+% FIXME: PC --> hash function --> table
+\node[draw,very thick,label={north:PC of branch},font=\small\tt] (pc) {0x4004\myemph<\showSelectionFrame>{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west,font=\small] (hash)
+    at ([xshift=.5cm,yshift=0cm]pc.south east) {hash function};
+\draw[connect,ultra thick,->] (pc.south) |- (hash.west);
+\matrix[tight matrix,
+    nodes={minimum height=.5cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+        text width=0.5cm
+    }},
+    column 2/.style={nodes={text width=3cm,font=\fontsize{10}{11}\selectfont,alt=<\showSelectionFrame>{text=black!50,draw=black!50}}},
+    row 1/.style={nodes={draw=none,text=black,font=\fontsize{10}{11}\selectfont\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<\showSelectionFrame>{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<\showSelectionFrame>{draw=black,very thick}}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm,yshift=.5cm]pc.north east) {
+    idx \& {recent\\pattern} \\
+    0 \& NNNNNN \\
+    1 \& NNTNTT \\
+    2 \& \sout<3->{T}\sout<5->{T}TTNT\alt<3->{\myemph<3>{T}\alt<5->{\myemph<5>{T}}{}}{}\alt<6->{}{} \\
+    3 \& TTTTTT \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& NTNTTN \\
+    15 \& NNTTTT \\
+};
+\begin{visibleenv}<\showSelectionFrame>
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+\matrix[tight matrix,anchor=north west,
+    column 1/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=2cm}},
+    column 2/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=3cm}},
+    label={[font=\fontsize{10}{11}\selectfont]south:4-iter loop: TTTN TTTN TTTN \ldots},
+] (code) at ([yshift=-.25cm,xshift=-3cm]hash.south west) {
+0x40041B \& movq \$4, \%rax \\
+|[alias=the target]| 0x400423 \& ... \\
+0x400429 \& decq \%rax \\
+|[alias=the branch]| 0x40042A \& jz 0x400423 \\
+0x40042B \& ... \\
+};
+\draw[dotted,thick,->] (the branch.west) -- ++(-.2cm,0cm) |- (the target.west);
+\draw[connect,->,alt=<2>{red}] ([yshift=-.2cm]tbl-4-2.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm) 
+    node[draw,below,align=center] (convert predict)  {
+        ??? \\ convert to \\ prediction \\ ???
+    };
+\draw[connect,->,alt=<2>{red}] (convert predict.south) -- ++(0cm, -.5cm) node[below,align=center] {
+    prediction \\
+    to fetch stage
+};
+\draw[connect,<-,alt=<3>{red}] ([yshift=.2cm]tbl-4-2.east) -- ++(2cm,0cm) -- ++(0cm,.25cm) node[above,align=center] {
+    actual outcome \\
+    from commit(?) stage
+};
+\begin{visibleenv}<2->
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=1cm,font=\fontsize{10}{11}\selectfont}},
+    column 2/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 3/.style={nodes={text width=2cm,font=\fontsize{10}{11}\selectfont}},
+    column 4/.style={nodes={text width=2cm,font=\fontsize{10}{11}\selectfont}},
+    column 5/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    row 1/.style={nodes={align=left,minimum height=1cm,font=\fontsize{10}{11}\selectfont}},
+    row 3/.style={nodes={alt=<1-3>{invisible}}},
+    row 4/.style={nodes={alt=<1-4>{invisible}}},
+    row 5/.style={nodes={alt=<1-5>{invisible}}},
+    row 6/.style={nodes={alt=<1-5>{invisible}}},
+    row 7/.style={nodes={alt=<1-5>{invisible}}},
+    row 8/.style={nodes={alt=<1-5>{invisible}}},
+    row 9/.style={nodes={alt=<1-5>{invisible}}},
+    row 2 column 2/.style={nodes={alt=<2>{fill=red!15}}},
+    row 2 column 3/.style={nodes={alt=<2>{fill=red!15}}},
+    row 2 column 4/.style={nodes={alt=<3-4>{fill=red!15}}},
+    row 2 column 5/.style={nodes={alt=<3-4>{fill=red!15}}},
+    row 3 column 2/.style={nodes={alt=<3-4>{fill=red!15}}},
+    row 3 column 3/.style={nodes={alt=<3-4>{fill=red!15}}},
+    row 3 column 4/.style={nodes={alt=<5>{fill=red!15}}},
+    row 3 column 5/.style={nodes={alt=<5>{fill=red!15}}},
+    row 4 column 2/.style={nodes={alt=<5>{fill=red!15}}},
+    row 4 column 3/.style={nodes={alt=<5>{fill=red!15}}},
+    anchor=north west
+] (results) at ([yshift=-.5cm]code.south west) {
+iter. \& {pattern\\tbl before} \& predicted \& outcome \& {pattern \\tbl after} \\
+1 \& TTTTNT \& ??? \& taken \& TTTNTT \\
+2 \& TTTNTT \& ??? \& taken \& TTNTTT \\
+3 \& TTNTTT \& ??? \& taken \& TNTTTT \\
+4 \& TNTTTT \& ??? \& not taken \& NTTTTN \\
+1 \& NTTTTN \& ??? \& taken \& TTTTNT \\
+2 \& TTTTNT \& ??? \& taken \& TTTNTT \\
+3 \& TTTNTT \& ??? \& taken \& TTNTTT \\
+4 \& TTNTTT \& ??? \& taken \& TNTTTT \\
+\ldots \& |[font=\small]| \ldots \& \ldots \& \ldots \& |[font=\small]| \ldots\\
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{recent pattern to prediction?}
+    \begin{itemize}
+    \item easy cases:
+    \item just saw TTTTTT: predict T
+    \item just saw NNNNNN: predict N
+    \item just saw TNTNTN: predict T
+    \vspace{.5cm}
+    \item hard cases:
+    \item TTNTTTT
+        \begin{itemize}
+        \item predict T? loop with many iterations (NTTTTTTTNTTTTTTTNTTTTTT\ldots)
+        \item predict T? if statement mostly taken (TTTTNTTNTTTTTTTTTTNTTTT\ldots)
+        \item predict N? loop with 5 iterations    (NTTTTNTTTTNTTTTNTTTTNTT\ldots)
+        \end{itemize}
+    \item (many more)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{history of history}
+\newcommand{\showSelectionFrame}{1-}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+% FIXME: PC --> hash function --> table
+\node[draw,very thick,label={north:PC of branch},font=\small\tt] (pc) {0x4004\myemph<\showSelectionFrame>{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north,font=\small] (hash)
+    at ([yshift=-1cm,xshift=-.5cm]pc.south east) {hash};
+\draw[connect,ultra thick,->] ([xshift=-1cm]pc.south) |- (hash.west);
+\matrix[tight matrix,
+    nodes={minimum height=.5cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+        text width=0.5cm
+    }},
+    column 2/.style={nodes={text width=2cm,font=\fontsize{10}{11}\selectfont,alt=<\showSelectionFrame>{text=black!50,draw=black!50}}},
+    row 1/.style={nodes={draw=none,text=black,font=\fontsize{10}{11}\selectfont\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<1->{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<1->{draw=black,very thick}}},
+    anchor=north west,
+] (tbl) at ([xshift=1cm,yshift=.5cm]pc.north east) {
+    idx \& {recent\\pattern} \\
+    0 \& NNNN \\
+    1 \& TNTT \\
+    2 \& \sout<2->{T}\sout<4->{T}\sout<6->{T}N\alt<2->{\myemph<2>{T}}{}\alt<4->{\myemph<4>{T}}{}\alt<6->{\myemph<6>{T}}{} \\
+    3 \& TTTT \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& NTTN \\
+    15 \& TTTT \\
+};
+\begin{visibleenv}<\showSelectionFrame>
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+%\draw[connect,->,alt=<2>{red}] ([yshift=-.2cm]tbl-4-2.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm) 
+%    node[draw,below,align=center] (convert predict)  {
+%        ??? \\ convert to \\ prediction \\ ???
+%    };
+%\draw[connect,->] (convert predict.south) -- ++(0cm, -.5cm) node[below,align=center] {
+%    prediction \\
+%    to fetch stage
+%};
+\draw[connect,<-,overlay,alt={<2,4,6,8>{red}}] ([yshift=.2cm]tbl-4-2.east) -- ++(2cm,0cm) -- ++(0cm,1.5cm) node[above,align=center] (act out){
+    actual outcome \\
+    from commit(?) stage
+};
+\matrix[tight matrix,
+    nodes={minimum height=.425cm},
+    column 1/.style={nodes={text width=2cm,font=\fontsize{10}{11}\selectfont,draw=none}},
+    column 2/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    row 1/.style={nodes={draw=none,text=black,font=\fontsize{10}{11}\selectfont\it,draw=none,minimum height=0.1cm}},
+    anchor=north west,
+] (pat tbl) at ([xshift=2.5cm,yshift=-.5cm]tbl.north east) {
+    {pattern} \& {counter} \\
+    NNNN \& 00 \\
+    NNNT \& 00 \\
+    |[minimum height=.25cm]| \ldots \& |[minimum height=.25cm]| \ldots \\
+    |[alias=fourth pat,alt=<7-8>{fill=blue!10}]| NTTT \& |[alias=fourth pat val,alt=<7-8>{fill=blue!10}]| \sout<8->{10}\alt<8->{~\myemph<8>{11}}{} \\
+    |[minimum height=.25cm]| \ldots \& |[minimum height=.25cm]| \ldots \\
+    |[alias=third pat,alt=<5-6>{fill=blue!10}]| TNTT \& |[alias=third pat val,alt=<5-6>{fill=blue!10}]| 11 \\
+    |[minimum height=.25cm]| \ldots \& |[minimum height=.25cm]| \ldots \\
+    |[alias=second pat,alt=<3-4>{fill=blue!10}]| TTNT \& |[alias=second pat val,alt=<3-4>{fill=blue!10}]| \sout<4->{01}\alt<4->{~\myemph<4>{10}}{} \\
+    |[alias=first pat,alt=<1-2>{fill=blue!10}]| TTTN \& |[alias=first pat val,alt={<1-2,9-10>{very thick,fill=blue!10}},alt=<11>{fill=red!10}]| \sout<2->{01}\alt<2->{~\myemph<2>{\sout<10->{10}}}{}\alt<10->{~\myemph<10>{11}}{} \\
+    TTTT \& 11 \\
+};
+\begin{visibleenv}<1-2,9-10>
+\draw[connect,->,alt={<1,9>{red}}] (tbl-4-2.east) -- ++(1cm,0cm) |- (first pat.west);
+\draw[connect,->,alt={<2,10>{red}}] (act out.east) -- ++(3cm,0cm) |- ([yshift=.2cm]first pat val.east);
+\draw[connect,->,alt={<1>{red}}] ([yshift=-.2cm]first pat val.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm) 
+    coordinate (where predict);
+\end{visibleenv}
+\begin{visibleenv}<3-4>
+\draw[connect,->,alt=<3>{red}] (tbl-4-2.east) -- ++(1cm,0cm) |- (second pat.west);
+\draw[connect,->,alt=<4>{red}] (act out.east) -- ++(3cm,0cm) |- ([yshift=.2cm]second pat val.east);
+\draw[connect,->,alt={<3>{red}}] ([yshift=-.2cm]second pat val.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm);
+\end{visibleenv}
+\begin{visibleenv}<5-6>
+\draw[connect,->,alt=<5>{red}] (tbl-4-2.east) -- ++(1cm,0cm) |- (third pat.west);
+\draw[connect,->,alt=<6>{red}] (act out.east) -- ++(3cm,0cm) |- ([yshift=.2cm]third pat val.east);
+\draw[connect,->,alt={<5>{red}}] ([yshift=-.2cm]third pat val.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm);
+\end{visibleenv}
+\begin{visibleenv}<7-8>
+\draw[connect,->,alt=<7>{red}] (tbl-4-2.east) -- ++(1cm,0cm) |- (third pat.west);
+\draw[connect,->,alt=<8>{red}] (act out.east) -- ++(3cm,0cm) |- ([yshift=.2cm]third pat val.east);
+\draw[connect,->,alt={<7>{red}}] ([yshift=-.2cm]third pat val.east) -- ++(2cm,0cm) -- ++(0cm,-.5cm);
+\end{visibleenv}
+\node[anchor=north,align=center,alt={<1,3>{red}}] at (where predict){
+        prediction \\
+        to fetch stage
+    };
+\begin{visibleenv}<1->
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=.8cm,font=\fontsize{10}{11}\selectfont}},
+    column 2/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 3/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 4/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    column 5/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    column 6/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 7/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\tt\selectfont}},
+    row 1/.style={nodes={align=left,minimum height=1.1cm,font=\fontsize{10}{11}\selectfont}},
+    row 3/.style={nodes={alt=<1-2>{invisible}}},
+    row 4/.style={nodes={alt=<1-4>{invisible}}},
+    row 5/.style={nodes={alt=<1-6>{invisible}}},
+    row 6/.style={nodes={alt=<1-8>{invisible}}},
+    row 7/.style={nodes={alt=<1-5>{invisible}}},
+    row 8/.style={nodes={alt=<1-5>{invisible}}},
+    row 9/.style={nodes={alt=<1-5>{invisible}}},
+    row 2 column 2/.style={nodes={alt=<1>{fill=red!15}}},
+    row 2 column 3/.style={nodes={alt=<1>{fill=red!15}}},
+    row 2 column 4/.style={nodes={alt=<1>{fill=red!15}}},
+    row 2 column 5/.style={nodes={alt=<2>{fill=red!15}}},
+    row 2 column 6/.style={nodes={alt=<2>{fill=red!15}}},
+    row 2 column 7/.style={nodes={alt=<2>{fill=red!15}}},
+    row 3 column 2/.style={nodes={alt=<3>{fill=red!15}}},
+    row 3 column 3/.style={nodes={alt=<3>{fill=red!15}}},
+    row 3 column 4/.style={nodes={alt=<3>{fill=red!15}}},
+    row 3 column 5/.style={nodes={alt=<4>{fill=red!15}}},
+    row 3 column 6/.style={nodes={alt=<4>{fill=red!15}}},
+    row 3 column 7/.style={nodes={alt=<4>{fill=red!15}}},
+    row 4 column 2/.style={nodes={alt=<5>{fill=red!15}}},
+    row 4 column 3/.style={nodes={alt=<5>{fill=red!15}}},
+    row 4 column 4/.style={nodes={alt=<5>{fill=red!15}}},
+    row 4 column 5/.style={nodes={alt=<6>{fill=red!15}}},
+    row 4 column 6/.style={nodes={alt=<6>{fill=red!15}}},
+    row 4 column 7/.style={nodes={alt=<6>{fill=red!15}}},
+    row 5 column 2/.style={nodes={alt=<7>{fill=red!15}}},
+    row 5 column 3/.style={nodes={alt=<7>{fill=red!15}}},
+    row 5 column 4/.style={nodes={alt=<7>{fill=red!15}}},
+    row 5 column 5/.style={nodes={alt=<8>{fill=red!15}}},
+    row 5 column 6/.style={nodes={alt=<8>{fill=red!15}}},
+    row 5 column 7/.style={nodes={alt=<8>{fill=red!15}}},
+    row 6 column 2/.style={nodes={alt=<9>{fill=red!15}}},
+    row 6 column 3/.style={nodes={alt=<9>{fill=red!15}}},
+    row 6 column 4/.style={nodes={alt=<9>{fill=red!15}}},
+    row 6 column 5/.style={nodes={alt=<10>{fill=red!15}}},
+    row 6 column 6/.style={nodes={alt=<10>{fill=red!15}}},
+    row 6 column 7/.style={nodes={alt=<10>{fill=red!15}}},
+    anchor=north west
+] (results) at ([yshift=-.5cm]code.south west) {
+iter. \& {branch \\ to pat.\\tbl before} \&  {pat. to \\counter\\before} \&
+    predict \& actual \&  {pat. to\\counter\\after} \& {branch \\ to pat.\\tbl after} \\
+1 \& |[alt=<11>{fill=red!10}]| TTTN \& |[alt=<11>{fill=red!10}]| 01 \& not taken \& taken  \& 10 \& TTNT\\
+2 \& TTNT \& 01 \& not taken \& taken\& 10  \& TNTT  \\
+3 \& TNTT \& 11 \& taken \& taken  \& 11 \& NTTT\\
+4 \& NTTT \& 01 \& not taken \& taken  \& 10 \& TTTT\\
+1 \& |[alt=<11>{fill=red!10}]| TTTN \& |[alt=<11>{fill=red!10}]| 10 \& taken \& taken  \& 11 \& TTNT\\
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

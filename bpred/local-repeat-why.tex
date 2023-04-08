@@ -1,0 +1,37 @@
+\begin{frame}[fragile,label=branchSameError]{branches are consistent (1)}
+\begin{lstlisting}[language=C,style=small]
+array = malloc(1024);
+if (array == NULL) ...
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[
+    language=myasm,style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+]
+call malloc
+cmpq $0, %rax
+@2je handle_error2@
+\end{lstlisting}
+\hrule
+almost never taken
+\end{frame}
+
+\begin{frame}[fragile,label=branchSameLoop]{branches are consistent (2)}
+\begin{lstlisting}[language=C,style=small]
+for (int i = 0; i != 1024; ++i)
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[
+    language=myasm,style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+]
+    xorq %rax, %rax
+top_of_loop:
+    ...
+    incq %rax
+    cmpq $1024, %rax
+    @2jne top_of_loop2@
+\end{lstlisting}
+\hrule
+almost always taken
+\end{frame}

@@ -1,0 +1,25 @@
+
+\begin{frame}{benchmark results}
+\begin{itemize}
+\item from 1993 paper
+\item (not representative of modern workloads?)
+\item rate for conditional branches on benchmark
+\item variable table sizes
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2-bit ctr + local history}
+from McFarling, ``Combining Branch Predictors'' (1993)
+\includegraphics[height=0.8\textheight]{../bpred/mcf-local-bimodal}
+\end{frame}
+
+\begin{frame}{2-bit (bimodal) + local + global hist}
+from McFarling, ``Combining Branch Predictors'' (1993)
+\includegraphics[height=0.8\textheight]{../bpred/mcf-local-bimodal-global}
+\end{frame}
+
+\begin{frame}{global + hash(global+PC) (gshare/gselect)}
+from McFarling, ``Combining Branch Predictors'' (1993)
+\includegraphics[height=0.8\textheight]{../bpred/mcf-global-gshare}
+\end{frame}
+

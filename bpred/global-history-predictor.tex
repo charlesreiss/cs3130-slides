@@ -1,0 +1,84 @@
+\usetikzlibrary{arrows.meta,matrix}
+\begin{frame}{global history predictor: idea}
+\begin{itemize}
+\item one predictor idea: ignore the PC
+\item just record taken/not-taken pattern for all branches
+\item lookup in big table like for local patterns
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=ghExample1]{global history predictor (1)}
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+\node[minimum width=3cm,draw,very thick,label={north:branch history register}] (gh) {NTTT};
+\matrix[tight matrix,
+nodes={minimum height=.5cm},
+column 1/.style={nodes={
+    draw=none,
+    font=\small\tt,
+    text width=1.25cm
+}},
+column 2/.style={nodes={text width=1cm,font=\fontsize{10}{11}\selectfont}},
+row 1/.style={nodes={draw=none,text=black,font=\fontsize{10}{11}\selectfont\it,draw=none,minimum height=0.1cm}},
+anchor=north west,
+] (tbl) at ([xshift=3cm,yshift=.5cm]gh.north east) {
+pat \& {counter} \\
+NNNN \& 00 \\
+NNNT \& 00 \\
+|[minimum height=.1cm,draw=none]| \ldots \& |[minimum height=.1cm,draw=none]| \ldots \\
+    |[alias=first loc,alt=<1-2>{fill=blue!10}]| NTTT \& |[alias=first loc value,alt=<1-2>{fill=blue!10}]| 10 \\
+TNNN \& 01 \\
+TNNT \& 10 \\
+TNTN \& 11 \\
+|[minimum height=.1cm,draw=none]| \ldots \& |[minimum height=.1cm,draw=none]| \ldots \\
+TTTN \& 10 \\
+TTTT \& 11 \\
+};
+\draw[connect,->] (gh.east) -- ++(1cm,0cm) |- (first loc.west);
+\begin{visibleenv}<1-2>
+\draw[connect,->] ([yshift=-.1cm]first loc value.east) -- ++(1.5cm,0cm) -- ++(0cm,-2cm) coordinate (predict loc);
+\draw[connect,<-] ([yshift=.1cm]first loc value.east) -- ++(1.5cm,0cm) -- ++(0cm,1cm) coordinate (outcome loc);
+\end{visibleenv}
+\node[anchor=north,align=center] at (predict loc) {prediction \\ to fetch stage};
+\node[anchor=south,align=center,overlay] at (outcome loc) {outcome \\ from \\ commit(?)};
+\begin{visibleenv}<2->
+\node[anchor=north east] (code) at ([yshift=0cm,xshift=3cm]gh.north west) {
+\begin{lstlisting}[language=C,style=smaller]
+i = 10000;
+do {
+  if (i % 2 == 0) goto skip;
+  ...
+  if (p == NULL) goto error;
+skip:
+  ...
+} while (i-- != 0);
+\end{lstlisting}
+};
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    column 2/.style={nodes={text width=1.25cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 3/.style={nodes={text width=1.25cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 4/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    column 5/.style={nodes={text width=1.5cm,font=\fontsize{10}{11}\selectfont}},
+    column 6/.style={nodes={text width=1.25cm,font=\fontsize{10}{11}\tt\selectfont}},
+    column 7/.style={nodes={text width=1.25cm,font=\fontsize{10}{11}\tt\selectfont}},
+    row 1/.style={nodes={align=left,minimum height=0.9cm,font=\fontsize{10}{11}\selectfont}},
+    anchor=north west
+] (results) at ([yshift=-.1cm]code.south west) {
+{iter./\\branch} \& {history \\ before} \& {counter \\ before} \&predict \& outcome \& {counter \\ after} \& {history \\ after} \\
+0/mod 2 \& NTTT \& 10 \& taken \& taken \& 11 \& TTTT \\
+0/loop \& TTTT \& ~ \& ~ \& taken \& ~ \& TTTT \\
+1/mod 2 \& TTTT \& ~ \&  ~ \& not taken \& ~ \& TTTN \\
+1/error \& TTTN \& ~ \&  ~ \& not taken \& ~ \& TTNN \\
+1/loop \& TNNT \& ~ \& ~ \& taken \& ~ \& NNTT  \\
+2/mod 2 \& NNTT \& ~ \& ~ \& taken \& ~ \& NTTT \\
+2/loop \& TTTT \& ~ \& ~ \& taken \& ~ \& TTTT \\
+3/mod 2 \& TTTT \& ~ \& ~ \& not taken \& ~ \& TTTN \\
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}

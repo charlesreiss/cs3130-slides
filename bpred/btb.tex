@@ -1,0 +1,56 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}{branch target buffer}
+    \begin{itemize}
+    \item can take several cycles to fetch+decode jumps, calls, returns
+    \item still want \myemph{1-cycle prediction of next thing to fetch}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=btbStructure]{BTB: cache for branches}
+\begin{tikzpicture}
+\tikzset{
+    marked idx/.style={fill=blue!15},
+    marked tag/.style={fill=green!15},
+    marked target/.style={fill=cyan!15},
+}
+\matrix[
+    tight matrix,
+    nodes={font=\fontsize{9}{10}\tt\selectfont},
+    row 1/.append style={nodes={font=\bfseries\fontsize{9}{10}\selectfont}},
+    column 1/.style={nodes={text width=1cm,draw=none}},
+    column 2/.style={nodes={text width=0.8cm}},
+    column 3/.style={nodes={text width=1.5cm}},
+    column 4/.style={nodes={text width=0.8cm}},
+    column 5/.style={nodes={text width=2cm}},
+    column 6/.style={nodes={text width=3cm}},
+    column 7/.style={nodes={text width=2cm}},
+    column 8/.style={nodes={text width=0.25cm,draw=none}},
+    column 9/.style={nodes={text width=0.8cm}},
+] (btb) at (0, 0) {
+    idx \& valid \& tag \& ofst \& type \& target \& (more info?) \& ~ \& valid \& \ldots\\
+    |[alt=<3>{marked idx}]| 0x00 \& 1 \& |[alt=<3>{marked tag}]| 0x400 \& |[alt=<3>{marked tag}]| 5 \& Jxx \& |[alt=<3>{marked target}]| 0x3FFFF3 \& \ldots \& ~ \& 1 \& \ldots\\
+    0x01 \& 1 \& 0x401 \& C \& JMP \& 0x401035 \& --- \& ~ \& 0 \& \ldots \\
+    0x02 \& 0 \& --- \& ---\& --- \& --- \& ---  \& ~ \& 0 \&\ldots \\
+    0x03 \& 1 \&  0x400 \& 9 \& RET \& --- \& \ldots \& ~ \& 0 \&\ldots\\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \& \ldots \& \ldots \& ~ \& \ldots \& \ldots \\
+    |[alt=<2>{marked idx}]| 0xFF \& 1 \& |[alt=<2>{marked tag}]| 0x3FF \& |[alt=<2>{marked tag}]| 8 \& CALL \& |[alt=<2>{marked target}]| 0x404033 \& \ldots \& ~ \& 0 \& \ldots \\
+};
+\matrix[tight matrix,
+    nodes={font=\fontsize{9}{10}\tt\selectfont},
+    column 1/.style={nodes={text width=2cm,draw=none}},
+    column 2/.style={nodes={text width=8cm,draw=none}},
+    anchor=north west,
+] at ([yshift=-1cm]btb.south west) {
+    0x3FFFF3: \& movq \%rax, \%rsi \\
+    0x3FFFF7: \& pushq \%rbx\\
+    \alt<2>{\fboxsep=0pt0x\colorbox{green!15}{3FF}\colorbox{blue!15}{FF}\colorbox{green!15}{8}}{0x3FFFF8}: \& call \alt<2>{\fboxsep0pt\colorbox{cyan!15}{0x404033}}{0x404033} \\
+    0x400001: \& popq \%rbx \\
+    0x400003: \& cmpq \%rbx, \%rax \\
+    \alt<3>{\fboxsep=0pt0x\colorbox{green!15}{400}\colorbox{blue!15}{00}\colorbox{green!15}{5}}{0x400005}: \& jle \alt<3>{\fboxsep0pt\colorbox{cyan!15}{0x3FFFF3}}{0x3FFFF3} \\
+    \ldots \& \ldots \\
+    0x400031:  \& ret \\
+    \ldots \& \ldots \\
+};
+\end{tikzpicture}
+\end{frame}
