@@ -1,5 +1,5 @@
 \begin{frame}[fragile,label=staticPredictEx]{exercise: static prediction}
-\begin{lstlisting}[language=myasm]
+\begin{lstlisting}[language=myasm,style=smaller]
 .global foo
 foo:
     xor %eax, %eax // eax <- 0
@@ -15,7 +15,6 @@ foo_loop_bottom:
 \begin{itemize}
 \item suppose \%edi = 3 (initially)
 \item and using forward-taken, backwards-not-taken strategy:
-\item how many mispreditions for je?
-\item how many mispreditions for jl?
+\item how many mispreditions for je? for jl?
 \end{itemize}
 \end{frame}

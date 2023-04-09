@@ -45,14 +45,18 @@
 \node[compute short,anchor=center,predict] (bpLate) at (decode.south |- low start) {more\\branch\\predict};
 \coordinate[on chain] (decode 1 reg loc);
 \node[register] (decode 1 reg) at (decode 1 reg loc) {};
-\node[compute,on chain,rename] (rename) {rename};
+\node[compute,on chain,rename] (rename) {rename\\and\\dispatch};
 \coordinate[on chain] (rename 1 reg loc);
 \node[register] (rename 1 reg) at (rename 1 reg loc) {};
 \node[issue,iqueue,on chain,label={north:instr.\\queue(s)}] (iqueue) {};
-\node[cache,anchor=north,issue] (regready) at ([yshift=-.5cm]iqueue.south) {reg.\\ready\\info};
+\begin{scope}[node distance=0.0cm]
 \coordinate[on chain] (iqueue reg loc);
-\node[register] (iqueue reg) at (iqueue reg loc) {};
-\node[compute,on chain,regread] (regread) {register \\read\\and\\forward};
+\end{scope}
+%\node[register] (iqueue reg) at (iqueue reg loc) {};
+\node[compute,on chain,regread] (regread) {issue \\ and \\ register \\ read \\ or \\ forward};
+\node[cache,anchor=north,label={center:register\\file}] (regfile) at ([yshift=-.5cm]regread.south) {};
+\node[cache,anchor=east,issue] (regready) at ([xshift=.025cm]regfile.west) {reg.\\ready\\info};
+\draw[connect both] (regready.north) -- ++(0cm, .25cm) -| (regread.south);
 \coordinate[on chain] (post read reg loc);
 \node[register] (post read reg) at (post read reg loc) {};
 \begin{scope}[node distance=0.7cm]
@@ -96,9 +100,9 @@
 \draw[connect] (loadstore) -- (loadstore -| prewriteback reg.west);
 \draw[connect] (prewriteback reg.east |- wb.west) -- (wb);
 \draw[connect] (wb) -- (commit);
-\node[cache,anchor=north,label={center:register\\file}] (regfile) at ([yshift=-.5cm]regread.south) {};
 \draw[connect both] (regread) -- (regfile);
 \draw[connect] (wb.south) -- ++(0mm,-2.25cm) -| (regfile.south);
+\draw[connect] (wb.south) -- ++(0mm,-2.25cm) -| (regready.south);
 \node[commit,cache,anchor=north,label={center:reorder\\buffer}] (rob) at ([yshift=-1cm]commit.south) {};
 \draw[connect both] (commit) -- (rob);
 \draw[connect both] (rename.south) -- ++(0mm,-2.5cm) -| (rob.south);

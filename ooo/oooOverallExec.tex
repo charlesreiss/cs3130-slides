@@ -1,0 +1,86 @@
+\usetikzlibrary{matrix}
+
+\begin{frame}[fragile,label=pipeDiag]{an OOO pipeline diagram}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\tikzset{
+    fetch/.style={fill=red!15},
+    decode/.style={fill=orange!15},
+    rename/.style={fill=yellow!15},
+    issue/.style={fill=yellow!15!green!15,alt=<3>{draw=red,line width=0.5mm,inner sep=-0.5mm}},
+    execute/.style={fill=blue!15},
+    memory/.style={fill=blue!15},
+    writeback/.style={fill=violet!15},
+    commit/.style={fill=magenta!20,alt=<4>{draw=red,line width=0.5mm,outer sep=-0.5mm}}
+}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\fdew}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdr}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R}
+\newcommand{\issw}{ \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdem}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M }
+\newcommand{\m}{ \& |[memory]| M }
+\newcommand{\w}{ \& |[writeback]| W }
+\newcommand{\rn}{ \& |[rename]| R }
+\newcommand{\iss}{ \& |[issue]| I }
+\newcommand{\cmt}{ \& |[commit]| C }
+\newcommand{\dec}{ \& |[decode]| D } % conflicts with existing \d macro
+\newcommand{\e}{ \& |[execute]| E }
+\newcommand{\f}{ \& |[fetch]| F }
+\matrix[tight matrix no line,
+        row sep=0mm,
+        nodes={text width=.7cm,font=\tt,minimum height=.7cm,inner sep=0mm,outer sep=0mm,
+            draw=none,line width=0mm,
+            text height=.3cm,align=center},
+        column sep={.7cm,between origins},
+        row sep={.7cm,between origins},
+        column 1/.style={nodes={text width=5cm,align=left},column sep=0cm},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11\\
+\lstinline|addq %r01, %r05|      \fdew \cmt \\
+\lstinline|addq %r02, %r05|      \fdr \& ~ \issw \cmt\\
+\lstinline|addq %r03, %r04|      \& ~ \fdew \cmt \\
+\lstinline|cmpq %r04, %r08|      \& ~ \fdr \& ~ \issw \cmt \\
+\lstinline|jne ...|              \& ~ \& ~ \fdr \& ~ \issw \cmt \\
+\lstinline|addq %r01, %r05|      \& ~ \& ~ \fdr \issw \& ~ \cmt\\
+\lstinline|addq %r02, %r05|      \& ~ \& ~ \& ~ \fdr \issw \& ~ \cmt \\
+\lstinline|addq %r03, %r04|      \& ~ \& ~ \& ~ \fdr \& ~ \issw \cmt \\
+\lstinline|cmpq %r04, %r08|      \& ~ \& ~ \& ~ \& ~ \fdr \&~ \issw \cmt \\
+};
+% FIXME: hilite in-order and out-of-order parts of pipeline
+\tikzset{
+    hibox/.style={draw=red,ultra thick,inner sep=0mm},
+    text box/.style={fill=white,draw=red, ultra thick,align=left},
+}
+\begin{visibleenv}<2>
+\node[hibox,fit=(tbl-2-2) (tbl-3-2)] {};
+\node[hibox,fit=(tbl-4-3) (tbl-5-3)] {};
+\node[hibox,fit=(tbl-6-4) (tbl-7-4)] {};
+\node[hibox,fit=(tbl-8-5) (tbl-9-5)] {};
+\node[hibox,fit=(tbl-10-6)] {};
+\node[text box,anchor=west] at ([xshift=1cm]tbl-5-4) {
+    fetch instructions in order, \\
+    several per cycle \\
+    unless instruction queue full
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[text box,anchor=west] at ([xshift=1cm]tbl-5-6) {
+    issue instructions \\
+    (to ``execution units'') \\
+    when operands ready
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[text box,anchor=east] at ([xshift=-1cm]tbl-5-8) {
+    commit instructions in order \\
+    waiting until next complete
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
