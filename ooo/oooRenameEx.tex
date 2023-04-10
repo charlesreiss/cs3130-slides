@@ -37,11 +37,11 @@
         at={([xshift=-1.25cm,yshift=2cm]free.east)},
     }
 }
-\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys},
     nodes={font=\tt\small,text width=1.5cm},
     column 2/.style={nodes={text width=6cm}},
     anchor=north west,
-    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+    ] (rmap) at ([yshift=-.5cm]instrs.south west) {
 \%rax \& \%x04 \\
 \%rcx \& \%x09 \\
 \ldots \& \ldots \\

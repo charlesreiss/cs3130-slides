@@ -62,15 +62,19 @@ for (int i = 0; i < N; i += K) {
 };
         \end{visibleenv}
         \begin{visibleenv}<all:2>
-            \node[draw,very thick,red,fit=(s0) (l1) (a2),label={east:three ops/cycle (\myemph{if} each one cycle)}] {};
+            \node[align=left,anchor=west] at (5, -1) {
+                each yellow box = instruction\\
+                arrows = dependences\\
+                instructions only executed when dependencies ready
+            };
         \end{visibleenv}
         \begin{visibleenv}<all:3>
+            \node[draw,very thick,red,fit=(s0) (l1) (a2),label={east:three ops/cycle (\myemph{if} each one cycle)}] {};
+        \end{visibleenv}
+        \begin{visibleenv}<all:4>
             \node[draw,very thick,red,fit=(s0) (s3)] {};
             \node[align=left,anchor=west] at (5, -1) {
-                need to do additions \\
-                \myemph{one-at-a-time} \\
-                book's name: critical path \\
-                time needed: \myemph{sum of latencies}
+                can only do sums one at a time
             };
         \end{visibleenv}
     \end{tikzpicture}

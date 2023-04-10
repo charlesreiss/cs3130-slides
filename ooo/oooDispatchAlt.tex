@@ -57,8 +57,8 @@
     column 2/.style={nodes={text width=3cm}},
     row 1/.append style={nodes={font=\small\it,minimum height=.5cm}},
     anchor=north west,
-    label={north:scoreboard},
-] (scoreboard) at ([xshift=2.5cm]iqueue.north east){
+    label={[overlay]north:scoreboard},
+] (scoreboard) at ([yshift=.5cm,xshift=2.5cm]iqueue.north east){
     reg \& status \\
     \%x01 \& ready \\
     \%x02 \& ready \\
@@ -129,7 +129,7 @@
     row 3 column 8/.style={nodes={x=10}},
     row 1/.style={nodes={font=\small\it}},
     anchor=north west
-    ] (time) at ([yshift=-1cm]iqueue.south west) {
+    ] (time) at ([yshift=-0.5cm]iqueue.south west) {
     execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
     ALU 1 (add, cmp, jxx)       \& 1  \& 6 \& -- \& 4 \& 5\& 9\& 10\\
     ALU 2 (add, cmp, jxx)       \& -- \& --\& --\& -- \& --\& --\& --\\

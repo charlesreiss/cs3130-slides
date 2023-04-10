@@ -74,7 +74,7 @@
 \draw[very thick,<-,alt=<4>{draw=red}] (new instr loc) -- ++(-1cm,0cm) node[left,align=right] {add here \\ on rename};
 \end{visibleenv}
 \begin{visibleenv}<3-5>
-\draw[very thick,<-] (last instr loc) -- ++(-1cm,0cm) node[left,align=right] {remove here \\ when committed};
+\draw[very thick,<-] (last instr loc) -- ++(-1cm,0cm) node[left,align=right] {remove \\ here \\ on commit};
 \end{visibleenv}
 \begin{visibleenv}<5>
 \draw[very thick,<-,alt=<5>{draw=red}] (new instr loc after) -- ++(-1cm,0cm) node[left,align=right] {add here \\ on rename};
@@ -181,20 +181,19 @@
     |[alias=new instr loc after]|~ \& ~ \& ~ \& ~ \& ~ \\
 };
 \begin{visibleenv}<1-4>
-\draw[very thick,<-] (last instr loc) -- ++(-1cm,0cm) node[left,align=right] {remove here \\ when committed};
+\draw[very thick,<-] (last instr loc) -- ++(-1cm,0cm) node[left,align=right] {remove \\ here \\ on commit};
 \end{visibleenv}
 \begin{visibleenv}<5->
 \draw[very thick,<-] (last instr loc after) -- ++(-1cm,0cm) node[font=\small,left,align=right] {remove here \\ when committed};
 \end{visibleenv}
-\coordinate (message loc) at ([xshift=1cm]free list.south east);
+\coordinate (message loc) at ([xshift=.5cm,yshift=.7cm]free list.south east);
 \tikzset{
-    box/.style={draw=red,very thick,at={(message loc)},anchor=north west,align=left},
+    box/.style={draw=red,very thick,at={(message loc)},anchor=north west,align=left,fill=white},
 }
 \begin{visibleenv}<2>
 \node[box] {
-    instructions marked done in reorder buffer \\
-    when result is computed \\
-    but not removed from reorder buffer (`committed') yet 
+    instructions marked done in reorder buffer when computed \\
+    but not removed (`committed') yet 
 };
 \end{visibleenv}
 \begin{visibleenv}<3>
@@ -302,7 +301,7 @@
     \draw[very thick] ([yshift=-.05cm]rob-\x-1.west) -- ([yshift=.05cm]rob-\x-5.east);
 }
 \draw[red,very thick,<-] (last instr loc) -- ++(-1cm,0cm);
-\coordinate (message loc) at ([xshift=1cm]free list.south east);
+\coordinate (message loc) at ([xshift=.5cm,yshift=.7cm]free list.south east);
 \tikzset{
     box/.style={draw=red,very thick,at={(message loc)},anchor=north west,align=left},
 }

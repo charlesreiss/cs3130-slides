@@ -31,10 +31,6 @@
 \subsection{renaming exercise?}
 \input{../ooo/oooRenameEx.tex}
 
-
-\subsection{complex instructions and condition codes}
-\input{../ooo/oooMicrocodeSummary.tex}
-
 \subsection{instruction dispatch}
 \againframe<10>{oooPipe}
 \input{../ooo/oooDispatch}
@@ -42,6 +38,9 @@
 % FIXME: EXERCISE
 \subsection{dispatch exercise 1}
 \input{../ooo/oooDispatchEx1}
+
+\subsection{complex instructions and condition codes}
+\input{../ooo/oooMicrocodeSummary.tex}
 
 \subsection{functional units}
 \againframe<11>{oooPipe}
@@ -56,15 +55,29 @@
 % FIXME: examples of each bottleneck
 
 \subsection{the data flow limit}
+\input{../intro/multi-core-time}
+
 \input{../ooo/dataFlowLimit}
+
+
+\subsection{reassociation and data float}
+\input{../ooo/reassocDataFlow}
+
+\subsection{multiple accumulator transformation}
+\input{../ooo/dataFlowMult}
 
 \subsection{real OOO sizes}
 \input{../ooo/oooSkylakeSizes}
 
-
-\subsection{OOO: handling branch misprediction}
+\subsection{handling branch misprediction}
 \againframe<15>{oooPipe}
 \input{../ooo/branch-mispred}
+
+\subsection{handling exceptions}
+\input{../ooo/exceptions-and-ooo} 
+
+\subsection{briefly, load/store queues}
+\input{../ooo/load-store-queue} %FIXME
 
 \section{backup slides}
 \begin{frame}{backup slides}
@@ -74,9 +87,6 @@
 \input{../ooo/broomPipeline}
 
 
-\subsection{exceptions and OOO}
-
-\input{../ooo/exceptions-and-ooo} % FIXME: move to later?
     % FIXME: remove or explain free list
     % FIXME: possibly use or mention two register files instead of mappings?
 
