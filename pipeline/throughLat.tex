@@ -49,7 +49,7 @@ A. 1 instr/100 ps & B. 1 instr/500 ps & C. 1 instr/2000ps & D. 1 instr/2500 ps \
                                \& |[writeback]| W1 \& |[writeback]| W2}
     \matrix[tight matrix no line,anchor=north,
             nodes={text width=0.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
-            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl2) at ([yshift=-0.2cm]tbl1) {
+            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl2) at ([yshift=-0.2cm]tbl1.south west) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
     0x100: add \%r8, \%r9    \ffdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\

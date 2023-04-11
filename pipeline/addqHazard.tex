@@ -80,7 +80,8 @@ addq %r9, %r8
 \begin{itemize}
 \item one solution: \myemph{change the ISA}
     \begin{itemize}
-    \item all \lstinline|addq|s take effect \myemph{three instructions later}
+    \item all \lstinline|addq|s take effect \myemph{three instructions later} \\
+        (assuming can read register value while it is being written back)
     \end{itemize}
 \item make it \myemph{compiler's  job}
 \item problem: recompile everytime processor changes?
