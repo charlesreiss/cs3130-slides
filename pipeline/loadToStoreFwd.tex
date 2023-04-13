@@ -21,8 +21,8 @@ memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
         column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
-\lstinline|mrmovq 0(%rax), ~begin~%rbx~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
-\lstinline|rmmovq ~begin~%rbx~end~, 0(%rcx)|        \& ~ \fdemw \& ~ \& ~ \& ~ \\
+\lstinline|movq 0(%rax), ~begin~%rbx~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|movq ~begin~%rbx~end~, 0(%rcx)|        \& ~ \fdemw \& ~ \& ~ \& ~ \\
 };
 \foreach \x in {1,...,10} {
    \draw (tbl-1-\x.north east) -- (tbl-3-\x.south east);
@@ -41,9 +41,5 @@ memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
     \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
 }
 \fwd{4}{2}{3}{<0>}
-    \node[below=1cm of tbl,draw=red,very thick,align=left] {
-        common for real processors to do this \\
-        but our textbook only forwards to the end of decode
-    };
 \end{tikzpicture}
 \end{frame}
