@@ -1,0 +1,81 @@
+\usetikzlibrary{shapes}
+
+\begin{frame}[fragile,label=reassoc]{reassociation}
+    \lstset{language=myasm,style=small}
+    \begin{itemize}
+    \item with pipelined, 5-cycle latency multiplier; how long does each take to compute?
+    \end{itemize}
+\begin{tikzpicture}
+\iftoggle{heldback}{
+\tikzset{
+    answer/.style={}
+}
+}{
+\tikzset{
+    answer/.style={alt=<5->{red,very thick}}
+}
+}
+\tikzset{
+    >=Latex,
+    var/.style={draw,rectangle,fill=blue!30},
+    op/.style={draw,ellipse,fill=yellow!40},
+    wire/.style={->,draw,very thick},
+}
+\node[draw,label={north:$((a\times b)\times c)\times d$}] (first) {
+\begin{lstlisting}
+imulq %rbx, %rax
+imulq %rcx, %rax
+imulq %rdx, %rax
+\end{lstlisting}
+};
+\begin{visibleenv}<2->
+\node[var] (firstRax) at ([yshift=-.5cm]first.south west) {\%rax};
+\node[var,anchor=west] (firstRbx) at ([xshift=.4cm]firstRax.east) {\%rbx};
+\node[var,anchor=west] (firstRcx) at ([xshift=.4cm]firstRbx.east) {\%rcx};
+\node[var,anchor=west] (firstRdx) at ([xshift=.4cm]firstRcx.east) {\%rdx};
+\node[op] (firstAddB) at ([yshift=-.75cm]$(firstRax.south)!.5!(firstRbx.south)$) {$\times$};
+\node[op] (firstAddC) at ([yshift=-1.5cm]$(firstRax.south)!.7!(firstRcx.south)$) {$\times$};
+\node[op] (firstAddD) at ([yshift=-2.25cm]$(firstRax.south)!.7!(firstRdx.south)$) {$\times$};
+    \draw[wire] (firstRax.south) |- (firstAddB.west);
+    \draw[wire] (firstRbx.south) |- (firstAddB.east);
+    \draw[wire] (firstAddB.south) |- (firstAddC.west);
+    \draw[wire] (firstRcx.south) |- (firstAddC.east);
+    \draw[wire] (firstAddC.south) |- (firstAddD.west);
+    \draw[wire] (firstRdx.south) |- (firstAddD.east);
+    \draw[wire] (firstAddD.south) |- ++(.5cm, -.25cm);
+\end{visibleenv}
+
+\node[draw,answer,label={north:$(a\times b)\times (c\times d)$},right=2.75cm of first] (second) {
+\begin{lstlisting}
+imulq %rbx, %rax
+imulq %rcx, %rdx
+imulq %rdx, %rax
+\end{lstlisting}
+};
+
+\begin{visibleenv}<2->
+\node[var] (secondRax) at ([yshift=-.5cm]second.south west) {\%rax};
+\node[var,anchor=west] (secondRbx) at ([xshift=.4cm]secondRax.east) {\%rbx};
+\node[var,anchor=west] (secondRcx) at ([xshift=.4cm]secondRbx.east) {\%rcx};
+\node[var,anchor=west] (secondRdx) at ([xshift=.4cm]secondRcx.east) {\%rdx};
+\node[op] (secondAddB) at ([yshift=-.75cm]$(secondRax.south)!.5!(secondRbx.south)$) {$\times$};
+\node[op] (secondAddD) at ([yshift=-.75cm]$(secondRcx.south)!.5!(secondRdx.south)$) {$\times$};
+\node[op] (secondAddLast) at ([yshift=-1.5cm]$(secondRax.south)!.5!(secondRdx.south)$) {$\times$};
+    \draw[wire] (secondRax.south) |- (secondAddB.west);
+    \draw[wire] (secondRbx.south) |- (secondAddB.east);
+    \draw[wire] (secondRcx.south) |- (secondAddD.west);
+    \draw[wire] (secondRdx.south) |- (secondAddD.east);
+    \draw[wire] (secondAddB.south) |- (secondAddLast.west);
+    \draw[wire] (secondAddD.south) |- (secondAddLast.east);
+    \draw[wire] (secondAddLast.south) |- ++(.5cm, -.25cm);
+\end{visibleenv}
+
+\iftoggle{heldback}{
+}{
+    \begin{visibleenv}<4>
+        \node[right=0cm of first,align=left] {$15$\\cycles};
+        \node[right=0cm of second,align=left] {$11$\\cycles};
+    \end{visibleenv}
+}
+\end{tikzpicture}
+\end{frame}

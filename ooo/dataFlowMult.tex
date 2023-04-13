@@ -1,0 +1,85 @@
+\usetikzlibrary{chains,fit,shapes}
+
+\begin{frame}{better data-flow}
+    \begin{tikzpicture}
+        \tikzset{
+            var/.style={draw,rectangle,fill=blue!30},
+            op/.style={draw,ellipse,fill=yellow!40},
+            node distance=5mm,
+        }
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (sn1) at (0,1) {sum1};
+            \node[join] (s0)  {+};
+            \node[join] (s1) {+};
+            \node[join] (s2) {+};
+        \end{scope}
+
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (tn1) at (10,1) {sum2};
+            \node[join] (t0) {+};
+            \node[join] (t1) {+};
+            \node[join] (t2) {+};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every node/.style={on chain,op},
+            ]
+            \node (l0) at (2,1) {load};
+            \node (l1) {load};
+            \node (l2) {load};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every node/.style={on chain,op},
+            ]
+            \node (m0) at (8,1) {load};
+            \node (m1) {load};
+            \node (m2) {load};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op,join},
+            ]
+            \node[var] (a0) at (4,2.2) {A + i};
+            \node (a1) {+ 2};
+            \node (a2) {+ 2};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op,join},
+            ]
+            \node[var] (b0) at (6,2.2) {A + i + 1};
+            \node (b1) {+ 2};
+            \node (b2) {+ 2};
+        \end{scope}
+        \node[op] (combine) at (5, -4) {+};
+        \node[below=.2cm of combine,var] (final) {sum (final)};
+        \begin{scope}[thick,-Latex]
+            \foreach \x in {0,1,2} {
+                \draw (a\x) -- (l\x) -- (s\x);
+                \draw (b\x) -- (m\x) -- (t\x);
+            }
+            \draw (s2) -- (combine);
+            \draw (t2) -- (combine);
+            \draw (combine) -- (final);
+        \end{scope}
+        \begin{visibleenv}<2>
+            \node[draw,red, ultra thick,fit=(a2) (s0) (b2) (t0),label={[red!70!black,font=\bfseries,align=center]south: 6 ops/time \\ two sum adds/time}] {};
+        \end{visibleenv}
+        \begin{visibleenv}<3>
+            \node[draw,red, ultra thick,fit=(s0) (s2)] {};
+            \node[draw,red, ultra thick,fit=(t0) (t2)] {};
+            \node[draw,red, ultra thick,fit=(combine),label={[red!70!black,font=\bfseries,align=center]north:4 adds of time --- 7 adds}] {};
+        \end{visibleenv}
+    \end{tikzpicture}
+\end{frame}

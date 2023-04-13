@@ -1,0 +1,17 @@
+\begin{frame}{handling memory accesses?}
+    \begin{itemize}
+    \item one idea:
+    \item list of done + uncommited loads+stores
+    \vspace{.5cm}
+    \item execute load early + double-check on commit
+        \begin{itemize}
+        \item have data cache watch for changes to addresses on list
+        \item if changed, treat like branch misprediction
+        \end{itemize}
+    \item loads check list of stores so you read back own values
+    \item actually finish store on commit
+        \begin{itemize}
+        \item maybe treat like branch misprediction if conflict?
+        \end{itemize}
+    \end{itemize}
+\end{frame}

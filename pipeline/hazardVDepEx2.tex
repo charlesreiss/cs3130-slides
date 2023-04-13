@@ -2,17 +2,18 @@
 
 \begin{frame}[fragile,label=nonHazardB]{ex.: dependencies and hazards (2)}
 \begin{tikzpicture}
+    \stagestyles
     \matrix[tight matrix no line,
             row sep=4mm,
             nodes={font=\tt,
                    text width=1.5cm,minimum width=2.5cm,text depth=.5ex},
             column 1/.style={nodes={text width=1.9cm,font=\tt\bfseries}},
     ] (instrs){
-        mrmovq \& 0(\%rax) \& \%rbx \\
+        movq \& 0(\%rax) \& \%rbx \\
         addq \& \%rbx \& \%rcx \\
         jne \& foo \\
         addq \& \%rcx \& \%rdx \\
-        mrmovq \& (\%rdx) \& \%rcx \\
+        movq \& (\%rdx) \& \%rcx \\
     };
     \node[left=.1cm of instrs-4-1,font=\tt] {foo:};
     \node[draw,below=.5cm of instrs,align=left] {

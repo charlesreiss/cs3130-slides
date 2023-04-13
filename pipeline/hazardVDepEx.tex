@@ -1,5 +1,6 @@
 \begin{frame}[fragile,label=nonHazard]{ex.: dependencies and hazards (1)}
 \begin{tikzpicture}
+\stagestyles
     \matrix[tight matrix no line,
             row sep=4mm,
             nodes={font=\tt,
@@ -8,14 +9,14 @@
     ] (instrs){
         addq \& \%rax, \& \%rbx \\
         subq \& \%rax, \& \%rcx \\
-        irmovq \& \$100, \& \%rcx \\
+        movq \& \$100, \& \%rcx \\
         addq \& \%rcx, \& \%r10 \\
         addq \& \%rbx, \& \%r10 \\
     };
     \node[draw,below=.4cm of instrs,align=left] {
         where are dependencies? \\
         which are hazards in our pipeline? \\
-        which are resolved wiht forwarding?
+        which are resolved with forwarding?
     };
     \tikzset{
         depHi/.style={draw,blue,thick,inner sep=0mm,inner xsep=-5mm,rounded corners},
