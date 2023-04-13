@@ -7,7 +7,7 @@
 \begin{pgfonlayer}{fg}
     \stageboxes
     \stageregs
-    \draw[red,dotted,very thick,-Latex] ([xshift=.25cm]dcache.east) -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out);
+    \draw[red,dotted,line width=.5mm,-Latex] ([xshift=.25cm]dcache.east) -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out);
     \begin{visibleenv}<2->
     \draw[line width=0.75mm,red,-Latex] ([xshift=.5cm]math out 2) -- (dcache.east) -- ([xshift=.25cm]dcache.east)
         -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out) -- ([xshift=0.125cm]math out 2);

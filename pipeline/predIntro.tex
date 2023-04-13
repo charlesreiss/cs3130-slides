@@ -1,5 +1,5 @@
 \usetikzlibrary{matrix, fit}
-\begin{frame}[fragile,label=jCCYes]{jXX: stalling?}
+\begin{frame}[fragile,label=jCCStall]{jXX: stalling?}
 \begin{tikzpicture}
     \stagestyles
     \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
@@ -8,7 +8,7 @@
             column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (timeline) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
-    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    cmpq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
     jne LABEL  \& ~ \fdemw \& ~ \& ~\\
     (do nothing) \& ~ \& ~ \fdemw \\
     (do nothing) \& ~ \& ~ \& ~ \fdemw \\
@@ -16,24 +16,32 @@
     movq \%r11, 0(\%r12) \&~ \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
     \ldots \\
     };
-    \node[anchor=south west] at ([yshift=-0.5cm]timeline.north west) {
+    \node[anchor=south west] at ([yshift=-1cm]timeline.north west) {
 \begin{lstlisting}[style=size10]
-        subq %r8, %r9
-        jne LABEL
+        cmpq %r8, %r9
+        jne LABEL       // not taken
         xorq %r10, %r11
         movq %r11, 0(%r12)
         ...
-
-LABEL:  addq %r8, %r9
-        imul %r13, %r14
-        ...
 \end{lstlisting}
     };
+    \begin{visibleenv}<2>
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-2-4),
+            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compare sets flags}] {};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-3-5),
+            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compute jump goes to LABEL}] {};
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-6-6),
+            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:use computed result}] {};
+    \end{visibleenv}
 \end{tikzpicture}
 \end{frame}
 \begin{frame}[fragile,label=makingGuesses]{making guesses}
 \begin{lstlisting}
-        subq %r8, %r9
+        cmpq %r8, %r9
         jne LABEL
         xorq %r10, %r11
         movq %r11, 0(%r12)
@@ -58,7 +66,7 @@ LABEL:  addq %r8, %r9
             column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (timeline) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
-    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    cmpq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
     jne LABEL  \& ~ \fdemw \& ~ \& ~\\
     xorq \%r10, \%r11 \& ~ \& ~ \fdemw \& ~ \& ~\\
     movq \%r11, 0(\%r12) \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
@@ -66,7 +74,7 @@ LABEL:  addq %r8, %r9
     };
     \node[anchor=south west] at ([yshift=-0.5cm]timeline.north west) {
 \begin{lstlisting}[style=size10]
-        subq %r8, %r9
+        cmpq %r8, %r9
         jne LABEL
         xorq %r10, %r11
         movq %r11, 0(%r12)
@@ -89,7 +97,7 @@ LABEL:  addq %r8, %r9
             column 1/.style={nodes={text width=6cm,align=left}},anchor=north west] (timeline) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
-    subq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    cmpq \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
     jne LABEL  \& ~ \fdemw \& ~ \& ~\\
     xorq \%r10, \%r11 \& ~ \& ~ \& |[fetch]| F \& |[decode,alias=squashTop]| D \\
     (inserted nop) \& ~ \& ~ \& ~ \& ~ \& |[execute]| E \& |[memory]| M \& |[writeback]| W \\

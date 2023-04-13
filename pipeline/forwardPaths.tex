@@ -1,0 +1,182 @@
+\usetikzlibrary{matrix}
+\begin{frame}<1-9>[fragile,label=forwardTime]{some forwarding paths}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<2-3|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<2-4|handout:0>]{~23~}{~end~},
+    moredelim={**[is][\btHL<2-4,8|handout:0>]{~237~}{~end~}},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+    moredelim=**[is][\btHL<5|handout:0>]{~4~}{~end~},
+    moredelim=**[is][\btHL<5-6|handout:0>]{~45~}{~end~},
+    moredelim=**[is][\btHL<6|handout:0>]{~5~}{~end~},
+    moredelim=**[is][\btHL<7|handout:0>]{~6~}{~end~},
+    moredelim=**[is][\btHL<8|handout:0>]{~7~}{~end~},
+}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    \lstinline|addq %r8, ~237~%r9~end~|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|subq ~2~%r9~end~, ~45~%r11~end~|  \& ~ \fdemw \& ~ \& ~\\
+\lstinline|movq 4(~4~%r11~end~), ~6~%r10~end~|    \& ~ \& ~ \fdemw \& ~\\
+\lstinline|movq ~3~%r9~end~, 8(~5~%r11~end~)|    \& ~ \& ~ \& ~ \fdemw \\
+\lstinline|xorq ~6~%r10~end~, ~7~%r9~end~|          \& ~ \& ~ \& ~ \& ~ \fdemw  \& ~ \& ~\\
+};
+
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={densely dotted,thick},
+};
+\foreach \x in {1,...,10} {
+    \draw[sepLine] (tbl-1-\x.north east) -- (tbl-6-\x.south east);
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=.05cm]tbl-#2-\idx.east) -- ([xshift=.15cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+
+\begin{visibleenv}<2->
+    \fwd{3}{2}{3}{<2-3|handout:0>}
+\end{visibleenv}
+
+\begin{visibleenv}<0>
+    \fwdA{2}{2}{3}{<3|handout:0>}
+\end{visibleenv}
+
+\begin{visibleenv}<4->
+    %\fwdNo{6}{2}{5}{<0|handout:0>}
+    \fwd{5}{2}{5}{<4|handout:0>}
+    %\fwdNo{4}{2}{5}
+\end{visibleenv}
+
+\begin{visibleenv}<5->
+    \fwd{4}{3}{4}{<5|handout:0>}
+\end{visibleenv}
+
+\begin{visibleenv}<6->
+    \fwd{5}{3}{5}{<6|handout:0>}
+\end{visibleenv}
+
+\begin{visibleenv}<7->
+    \fwd{6}{4}{6}{<7|handout:0>}
+\end{visibleenv}
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=multForwardA]{multiple forwarding paths (1)}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %r10, ~2~%r8~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|addq %r11, ~2~%r8~end~|   \& ~ \fdemw \\
+\lstinline|addq %r12, ~2~%r8~end~|   \& ~ \& ~ \fdemw \& ~ \& ~ \\
+};
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\foreach \x in {1,...,10} {
+    \draw (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+}
+\begin{visibleenv}<1-2>
+    \fwdNo{4}{2}{4}
+\end{visibleenv}
+\begin{visibleenv}<2>
+    \fwd{4}{3}{4}{<0>}
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}[fragile,label=multForwardB]{multiple forwarding paths (2)}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<3|handout:0>]{~3~}{~end~},
+}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+\lstinline|addq %r10, ~2~%r8~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
+\lstinline|addq %r11, ~3~%r12~end~|   \& ~ \fdemw \\
+\lstinline|addq ~3~%r12~end~, ~2~%r8~end~|   \& ~ \& ~ \fdemw \\
+};
+\foreach \x in {1,...,10} {
+    \draw (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+    \fwd{4}{2}{4}{<0>}
+    \fwd{4}{3}{4}{<0>}
+\end{tikzpicture}
+\end{frame}
+
