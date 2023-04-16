@@ -1,0 +1,16 @@
+\begin{frame}[fragile]{inferring cache accesses: shortcut}
+\begin{lstlisting}[language=C,style=smaller]
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+array[index] = 1;
+if (mystery) {
+    *pointer = 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+\end{lstlisting}
+\begin{itemize}
+\item if looking for \texttt{array[index]} to be evicted, don't need others loaded
+\end{itemize}
+\end{frame}

@@ -1,0 +1,21 @@
+\begin{frame}{revisiting an earlier example}
+\begin{lstlisting}[language=C,style=smaller]
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) {
+    *pointer = 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+\end{lstlisting}
+\begin{itemize}
+\item what if mystery is false \textit{but} branch mispredicted?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{pipeline?}
+\end{frame}
+
+

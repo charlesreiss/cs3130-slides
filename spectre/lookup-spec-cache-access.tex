@@ -1,0 +1,90 @@
+\usetikzlibrary{matrix}
+\begin{frame}[fragile]{revisiting an earlier example (1)}
+\begin{lstlisting}[language=C,style=smaller]
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) {
+    *pointer += 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+\end{lstlisting}
+\begin{itemize}
+\item what if mystery is false \textit{but} branch mispredicted?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{revisiting an earlier example (2)}
+\lstset{language=myasm}
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\tikzset{
+    fetch/.style={fill=red!15},
+    decode/.style={fill=orange!15},
+    rename/.style={fill=yellow!15},
+    issue/.style={fill=yellow!15!green!15,alt=<3>{draw=red,line width=0.5mm,inner sep=-0.5mm}},
+    execute/.style={fill=blue!15},
+    memory/.style={fill=blue!15},
+    writeback/.style={fill=violet!15},
+    commit/.style={fill=magenta!20,alt=<4>{draw=red,line width=0.5mm,outer sep=-0.5mm}}
+}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\fdew}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdr}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R}
+\newcommand{\issw}{ \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdem}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M }
+\newcommand{\m}{ \& |[memory]| M }
+\newcommand{\w}{ \& |[writeback]| W }
+\newcommand{\rn}{ \& |[rename]| R }
+\newcommand{\iss}{ \& |[issue]| I }
+\newcommand{\cmt}{ \& |[commit]| C }
+\newcommand{\dec}{ \& |[decode]| D } % conflicts with existing \d macro
+\newcommand{\e}{ \& |[execute]| E }
+\newcommand{\f}{ \& |[fetch]| F }
+\matrix[tight matrix no line,
+        row sep=0mm,
+        nodes={text width=.7cm,font=\tt,minimum height=.7cm,inner sep=0mm,outer sep=0mm,
+            draw=none,line width=0mm,
+            text height=.3cm,align=center},
+        column sep={.7cm,between origins},
+        row sep={.7cm,between origins},
+        column 1/.style={nodes={text width=5cm,align=left},column sep=0cm},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11\\
+\lstinline|movq mystery, %rax|   \fdr\e\e\e \w \cmt \\
+\lstinline|test %rax, %rax|      \fdr \& ~ \& ~ \& \issw \cmt\\
+\lstinline|jz skip| (mispredicted)     \& ~ \fdr \& ~ \& ~ \& ~ \issw \cmt \\
+\lstinline|mov pointer, %rax|      \& ~ \fdr \e\e\e \w \& 
+\lstinline|mov (%rax), %r8| \& ~ \& ~ \fdr \& ~ \& ~ \& ~ \issw  \\
+\lstinline|add $1, %r8|     \& ~ \& ~ \fdr \\
+\lstinline|mov %r8, %rax|   \& ~ \& ~ \& ~ \fdr \\
+\ldots \\
+\lstinline|skip: ...|       \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&~ \fdr \\
+};
+% FIXME: hilite in-order and out-of-order parts of pipeline
+\tikzset{
+    hibox/.style={draw=red,ultra thick,inner sep=0mm},
+    text box/.style={fill=white,draw=red, ultra thick,align=left},
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{avoiding/triggering this problem}
+\begin{lstlisting}[language=C,style=smaller]
+if (something false) {
+    access *pointer;
+}
+\end{lstlisting}
+\begin{itemize}
+\item what can we do to make access more/less likely to happen?
+\end{itemize}
+\end{frame}
+

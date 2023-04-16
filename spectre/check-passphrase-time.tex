@@ -1,0 +1,45 @@
+\begin{frame}[fragile]{check\_passphrase}
+\begin{lstlisting}[style=smaller,language=C]
+int check_passphrase(const char *versus) {
+    int i = 0;
+    while (passphrase[i] == versus[i] &&
+           passphrase[i]) { 
+        i += 1; 
+    }
+    return (passphrase[i] == versus[i]);
+}
+\end{lstlisting}
+\begin{itemize}
+\item number of iterations = number matching characters
+\item leaks information about passphrase, oops!
+\end{itemize}
+\end{frame}
+
+\begin{frame}{exploiting check\_passphrase (1)}
+\begin{tabular}{ll}
+guess & measured time \\ \hline
+aaaa & $100\pm5$ \\
+baaa & $103\pm4$ \\
+caaa & $102\pm6$ \\
+\myemph{daaa} & \myemph{$111\pm5$} \\
+eaaa & $99 \pm6$ \\
+faaa & $101\pm7$ \\
+gaaa & $104\pm4$ \\
+\ldots & \ldots \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{exploiting check\_passphrase (2)}
+\begin{tabular}{ll}
+guess & measured time \\ \hline
+daaa & $102\pm5$ \\
+dbaa & $ 99\pm4$ \\
+dcaa & $104\pm4$ \\
+ddaa & $100\pm6$ \\
+deaa & $102\pm4$ \\
+\myemph{dfaa} & \myemph{$109\pm7$} \\
+dgaa & $103\pm4$ \\
+\ldots & \ldots \\
+\end{tabular}
+\end{frame}
+

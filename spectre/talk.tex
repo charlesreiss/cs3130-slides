@@ -1,20 +1,59 @@
 \date{}
 \title{}
 \date{}
+\usepackage{algorithmic}
 \begin{document}
 \begin{frame}
     \titlepage
 \end{frame}
 
-\section{timing side channels}
+\input{../common/listingsLib}
+\input{../pipeline/cpu-lib}
 
-\subsection{cache contents}
+\section{some side channel examples}
 
-\subsection{other examples?}
+\subsection{example: check\_passphrase}
+
+\input{../spectre/check-passphrase-time}
+
+\subsection{timing and ciphers}
+
+\input{../spectre/timing-and-ciphers}
+
+\subsection{example: which website}
+
+\input{../spectre/which-website}
+
+% FIXME: \subsection{example: RF leaks}
+
+% FIXME: \subsection{example: power analysis}
+
+% FIXME: based on https://search.iczhiku.com/paper/U27SsPw1R1KrhDKc.pdf % Crypto'99 DPA paper
+
+\section{cache side channels}
+
+\subsection{introduction: observing cache evictions}
+
+\input{../spectre/cache-measure}
+    % FIXME:
+        % setup example 1:
+            % fill cache; do something that accesses var part; time accessing everything --- slower if ___
+
+\subsection{exercise: detect this access? (DM)}
+\input{../spectre/ex-detect-access}
+\subsection{exercise: detect this access? (2-way)}
+\input{../spectre/ex-detect-access-2way}
+
+\subsection{PRIME+PROBE, AES example}
+\input{../spectre/prime-probe}
 
 \section{seeing speculation via side channels}
 
-\subsection{example with array access pattern}
+\subsection{revising array lookup}
+
+\input{../spectre/lookup-spec-cache-access} 
+
+% FIXME: piepline
 
 \section{meltdown}
 

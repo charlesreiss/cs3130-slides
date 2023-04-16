@@ -1,0 +1,53 @@
+\begin{frame}{inferring cache accesses (1)}
+\begin{itemize}
+\item suppose I time accesses to array of chars:
+    \begin{itemize}
+    \item reading array[0]: 3 cycles
+    \item reading array[64]: 4 cycles
+    \item reading array[128]: 4 cycles
+    \item reading array[192]: 20 cycles
+    \item reading array[256]: 4 cycles
+    \item reading array[288]: 4 cycles
+    \item \ldots
+    \end{itemize}
+\item what could cause this difference?
+    \begin{itemize}
+    \item array[192] not in some cache, but others were
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=cacheAccess]{inferring cache accesses (2)}
+some psuedocode:
+\begin{lstlisting}[language=C,style=smaller]
+char array[CACHE_SIZE];
+AccessAllOf(array);
+*other_address += 1;
+TimeAccessingArray();
+\end{lstlisting}
+\begin{itemize}
+\item suppose during these accesses I discover that
+    \texttt{array[128]} is slower to access
+\item probably because \texttt{*other\_address} loaded into cache + evicted it
+\item what do we know about \texttt{other\_address}? (select all that apply)
+\end{itemize}
+\small
+\begin{tabular}{lll}
+A. same cache tag & B. same cache index & C. same cache offset \\
+D. diff. cache tag & E. diff. cache index & F. diff. cache offset \\
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}{some complications}
+    \begin{itemize}
+    \item caches often use physical, not virtual addresses
+        \begin{itemize}
+        \item (and need to know about physical address to compare index bits)
+        \end{itemize}
+    \item storing/processing timings evicts things in the cache
+    \item processor ``pre-fetching'' may load things into cache before access is timed
+    \item some L3 caches use a simple hash function to select index instead of  index bits
+    \end{itemize}
+\end{frame}
+
