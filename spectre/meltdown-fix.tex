@@ -1,0 +1,17 @@
+
+\begin{frame}{Meltdown fix}
+\begin{itemize}
+\item HW: permissions check done with/before physical address lookup
+    \begin{itemize}
+    \item was already done by AMD, ARM apparently?
+    \item now done by Intel
+    \end{itemize}
+\item SW: separate page tables for kernel and user space
+    \begin{itemize}
+    \item don't have sensitive kernel memory pointed to by page table \\
+        when user-mode code running
+    \item unfortunate performance problem
+    \item exceptions start with code that switches page tables
+    \end{itemize}
+\end{itemize}
+\end{frame}

@@ -1,0 +1,53 @@
+\begin{frame}[fragile]{other misprediction}
+\begin{itemize}
+\item so far: talking about mispredicting direction of branch
+\item what about mispredicting target of branch in, e.g.:
+\end{itemize}
+\begin{lstlisting}
+// possibly from C code like:
+//   (*function_pointer)();
+jmp *%rax           
+
+// possibly from C code like:
+//      switch(rcx) { ... }
+jmp *(%rax,%rcx,8)  
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{an idea for predicting indirect jumps}
+
+for jmps like \lstinline|jmp *%rax| predict target with cache: \\
+\begin{tabular}{ll}
+bottom 12 bits of jmp address & last seen target \\ \hline
+0x0--0x7 & 0x200000 \\
+0x8--0xF & 0x440004 \\
+0x10-0x18 & 0x4CD894 \\
+0x18-0x20 & 0x510194 \\
+0x20-0x28 & 0x4FF194 \\
+\ldots & \ldots \\
+0xFF8--0xFFF & 0x3F8403 \\
+\end{tabular}
+\begin{itemize}
+\item Intel Haswell CPU did something similar to this
+    \begin{itemize}
+    \item uses bits of last several jumps, not just last one
+    \end{itemize}
+\item can mistrain this branch predictor
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{using mispredicted jump}
+\begin{itemize}
+\item 1: find some kernel function with \lstinline|jmp *%rax|
+\item 2: mistrain branch target predictor for it to jump to chosen code
+    \begin{itemize}
+    \item use code at address that conflicts in ``recent jumps cache''
+    \end{itemize}
+\item 3: have chosen code be attack code (e.g. array access)
+    \begin{itemize}
+    \item either write special code OR
+    \item find suitable instructions (e.g. array access) in existing kernel code
+    \end{itemize}
+\end{itemize}
+\end{frame}
+

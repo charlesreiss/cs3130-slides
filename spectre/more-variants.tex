@@ -1,0 +1,25 @@
+\begin{frame}{Spectre variants}
+    \begin{itemize}
+    \item showed Spectre variant 1 (array bounds), 2 (indirect jump)
+        \begin{itemize}
+        \item from original paper
+        \end{itemize}
+    \vspace{.5cm}
+    \item other possible variations:
+        \begin{itemize}
+        \item could cause other things to be mispredicted
+            \begin{itemize}
+            \item prediction of where functions return to?
+            \item values instead of which code is executed?
+            \end{itemize}
+        \item could use side-channel other than data cache changes
+            \begin{itemize}
+            \item instruction cache
+            \item cache of pending stores not yet committed
+            \item contention for resources on multi-threaded CPU core
+            \item branch prediction changes
+            \item \ldots
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{frame}

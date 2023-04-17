@@ -1,0 +1,15 @@
+\begin{frame}[fragile]{mistraining branch predictor?}
+\begin{lstlisting}[language=C]
+if (something) {
+    CodeToRunSpeculatively()
+}
+\end{lstlisting}
+\begin{itemize}
+\item how can we have `something' be false, but predicted
+    as true
+\vspace{.5cm}
+\item run lots of times with something true
+\item then do actually run with something false
+\end{itemize}
+\end{frame}
+

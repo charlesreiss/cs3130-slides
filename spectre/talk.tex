@@ -45,7 +45,10 @@
 \input{../spectre/ex-detect-access-2way}
 
 \subsection{PRIME+PROBE, AES example}
-\input{../spectre/prime-probe}
+\input{../spectre/prime-probe} % FIXME: lfence-using example
+
+\subsection{reading a value (1)}
+\input{../spectre/read-value-pattern}
 
 \section{seeing speculation via side channels}
 
@@ -54,20 +57,43 @@
 \input{../spectre/lookup-spec-cache-access} 
 
 % FIXME: piepline
+\subsection{reading a value (2)}
+\input{../spectre/read-value-pattern-spec}
 
 \section{meltdown}
 
+\subsection{well, what else gets speculated?}
+\input{../spectre/spec-past-segfault}
+
 \subsection{vulnerability}
+\input{../spectre/meltdown-code}
 
-\subsection{software fix}
-
-\subsection{hardware fix}
+\subsection{fix}
+\input{../spectre/meltdown-fix}
 
 \section{spectre}
 
-\subsection{vulnerable privileged code}
+\subsection{concept: forcing branch misprediction}
+\againframe<2>{readWithoutRead}
+\input{../spectre/mistrain-bp}
+
+\subsection{contrived? vulnerable code}
+\input{../spectre/contrivedp-vuln}
+
+\subsection{array bounds check}
+\input{../spectre/bounds-check-kernel}
+
+\subsection{JavaScript exploit}
+\input{../spectre/js-vuln}
+
+\subsection{mispredicted indirect}
+\input{../spectre/mispred-indirect}
+
+\subsection{more variants?}
+\input{../spectre/more-variants}
 
 \subsection{software fix}
+\input{../spectre/spectre-linux-fix}
 
 \subsection{more variants}
 

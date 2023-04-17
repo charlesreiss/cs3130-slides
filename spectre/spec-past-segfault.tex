@@ -1,0 +1,36 @@
+\begin{frame}[fragile]{seeing past a segfault? (1)}
+\begin{lstlisting}[language=C,style=small]
+Prime();
+if (something false) {
+    triggerSegfault();
+    Use(*pointer);
+}
+Probe();
+\end{lstlisting}
+\begin{itemize}
+\item could cache access for \texttt{*pointer} still happen?
+\item yes, if:
+    \begin{itemize}
+    \item branch for if statement mispredicted, and
+    \item \texttt{*pointer} starts before segfault detected
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{seeing past a segfault? (2)}
+\begin{itemize}
+\item operations in virtual memory lookup:
+    \begin{itemize}
+    \item translate virtual to physical address
+    \item check if access is permitted by permission bits
+    \end{itemize}
+\item Intel processors: looks like these were separate steps, so...
+\end{itemize}
+\begin{lstlisting}[language=C,style=small]
+Prime();
+if (something false) {
+    int value = ReadMemory();
+}
+Probe();
+\end{lstlisting}
+\end{frame}

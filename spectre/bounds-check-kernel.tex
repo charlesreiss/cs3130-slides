@@ -1,0 +1,42 @@
+\begin{frame}[fragile]{really contrived?}
+\begin{lstlisting}[language=C,style=smaller]
+char *array1; char *array2;
+if (x < array1_size)
+    y = array2[array1[x] * 4096];
+\end{lstlisting}
+\begin{itemize}
+\item times 4096 shifts so we can get lower bits of target value
+    \begin{itemize}
+    \item so all bits effect what cache block is used
+    \end{itemize}
+\end{itemize}
+\hrule
+\begin{visibleenv}<2->
+\begin{lstlisting}[language=C,style=smaller]
+int *array1; int *array2;
+if (x < array1_size)
+    y = array2[array1[x]];
+\end{lstlisting}
+\begin{itemize}
+\item will still get \textit{upper} bits of array1[x] (can tell from cache set)
+\item<2-> can still read arbitrary memory!
+    \begin{itemize}
+    \item want memory at 0x10000?
+    \item upper bits of 4-byte integer at 0x3FFFE
+    \end{itemize}
+\end{itemize}
+\end{visibleenv}
+\end{frame}
+
+\begin{frame}[fragile]{bounds check in kernel}
+\begin{lstlisting}
+void SomeSystemCallHandler(int index) {
+    if (index > some_table_size) 
+        return ERROR;
+    int x = table[some_table];
+    switch (other_table[x].foo) {
+        ...
+    }
+}
+\end{lstlisting}
+\end{frame}

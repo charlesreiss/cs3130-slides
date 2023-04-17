@@ -1,0 +1,52 @@
+\begin{frame}[fragile]{some Linux kernel mitigations (1)}
+\begin{itemize}
+\item replace \lstinline|array[x]| with \lstinline|array[x & ComputeMask(x, size)]|
+\item \ldots where ComputeMask() returns
+    \begin{itemize}
+    \item 0 if x $>$ size
+    \item \texttt{0xFFFF..F} if x $\le$ size
+    \end{itemize}
+\item \ldots and ComputeMask() does not use jumps:
+\end{itemize}
+\begin{lstlisting}[style=small,language=myasm]
+mov x, %r8
+mov size, %r9
+cmp %r9, %r8
+sbb %rax, %rax  // sbb = subtract with borrow
+    // either 0 or -1
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{some Linux kernel mitigations (2)}
+\begin{itemize}
+\item for indirect branches:
+\vspace{.5cm}
+\item with hardware help:
+    \begin{itemize}
+    \item special operations to reset branch predictors
+    \end{itemize}
+\item without hardware help:
+    \begin{itemize}
+    \item transform \lstinline|jmp *(%rax)|, etc. into code that \\
+        will only predicted to jump to safe locations \\
+        (by writing assembly very carefully)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{only safe prediction}
+\begin{itemize}
+\item as replacement for \lstinline|jmp *(%rax)|
+\item code from Intel's ``Retpoline: A Branch Target Injection Mitigation''
+\end{itemize}
+\begin{lstlisting}[language=myasm,style=small]
+        call load_label
+    capture_ret_spec:       /* <-- want prediction to go here */
+        pause
+        lfence
+        jmp capture_ret_spec
+    load_label:
+        mov %rax, (%rsp)
+        ret
+\end{lstlisting}
+\end{frame}

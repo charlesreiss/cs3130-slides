@@ -1,0 +1,73 @@
+\begin{frame}[fragile]{contrived(?) vulnerable code (1)}
+\begin{itemize}
+\item suppose this C code is run with extra privileges
+    \begin{itemize}
+    \item (e.g. in system call handler, library called from JavaScript in webpage, etc.)
+    \end{itemize}
+\item assume \texttt{x} chosen by attacker
+\item (example from original Spectre paper)
+\end{itemize}
+\begin{lstlisting}
+if (x < array1_size)
+        y = array2[array1[x] * 4096];
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{the out-of-bounds access (1)}
+\begin{lstlisting}
+char array1[...];
+...
+int secret;
+...
+y = array2[array1[x] * 4096];
+\end{lstlisting}
+\begin{itemize}
+\item suppose array1 is at \texttt{0x1000000} and
+\item secret is at \texttt{0x103F0003};
+\item what x do we choose to make \lstinline|array1[x]| access first byte of secret?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{the out-of-bounds access (2)}
+\begin{lstlisting}
+char array1[...];
+...
+int secret;
+...
+y = array2[array1[x] * 4096];
+\end{lstlisting}
+\begin{itemize}
+\item suppose our cache has 64-byte blocks and 8192 sets
+\item and \lstinline|array2[0]| is stored in cache set 0
+\vspace{.5cm}
+\item if the above evicts something in cache set 128, \\
+      then what do we know about \texttt{array1[x]}?
+    \begin{itemize}
+    \item<2-> is 2 or 254
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{exploit with contrived(?) code}
+\begin{lstlisting}[language=C,style=smaller]
+/* in kernel: */
+int systemCallHandler(int x) {
+    if (x < array1_size)
+        y = array2[array1[x] * 4096];
+    return y;
+}
+\end{lstlisting}
+\hrule
+\begin{lstlisting}[language=C,style=smaller]
+/* exploiting code */
+    /* step 1: mistrain branch predictor */
+for (a lot) {
+    systemCallHandler(0 /* less than array1_size */);
+}
+    /* step 2: evict from cache using misprediction */
+Prime();
+systemCallHandler(targetAddress - array1Address);
+int evictedSet = ProbeAndFindEviction();
+int targetValue = (evictedSet - array2StartSet) / setsPer4K;
+\end{lstlisting}
+\end{frame}

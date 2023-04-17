@@ -1,0 +1,20 @@
+\begin{frame}[fragile]{context: Java script}
+\begin{itemize}
+\item JavaScript: scripts in webpages
+\item for performance, compiled to assembly, run in browser
+\item not supposed to be access arbitrary browser memory
+\item example JavaScript code from paper:
+\end{itemize}
+\begin{lstlisting}[language=JavaScript,style=small]
+if (index < simpleByteArray.length) {
+    index = simpleByteArray[index | 0];
+    index = (((index * 4096)|0) & (32*1024*1024-1))|0;
+    localJunk ˆ= probeTable[index|0]|0;
+}
+\end{lstlisting}
+\begin{itemize}
+\item web page runs a lot to train branch predictor
+\item then does run with out-of-bounds index
+\item examines what's evicted by probeTable access
+\end{itemize}
+\end{frame}
