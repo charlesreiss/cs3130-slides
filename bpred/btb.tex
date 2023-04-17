@@ -2,15 +2,15 @@
 
 \begin{frame}{branch target buffer}
     \begin{itemize}
-    \item what can we do to predict \texttt{jmp *(\%rax)}?
-    \item what if we can't decode LABEL from machine code for \texttt{jmp LABEL} fast?
+    \item what if we can't decode LABEL from machine code for \texttt{jmp LABEL} or \texttt{jle LABEL} fast?
         \begin{itemize}
         \item will happen in more complex pipelines
         \end{itemize}
+    \item what if we can't decode that there's a RET, CALL, etc. fast?
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=btbStructure]{BTB: cache for branches}
+\begin{frame}[fragile,label=btbStructure]{BTB: cache for branch targets}
 \begin{tikzpicture}
 \tikzset{
     marked idx/.style={fill=blue!15},
@@ -56,4 +56,16 @@
     \ldots \& \ldots \\
 };
 \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{indirect branch prediction}
+    \begin{itemize}
+        \item for instructions like: \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
+        \item simple idea: record what happened last time, predict the same
+        \item example: Intel's Haswell strategy:
+        \vspace{.5cm}
+        \item maintain hash of last several jump instruction addresses
+        \item lookup hash in table of targets
+        \item use result as prediction, update if prediction wrong
+    \end{itemize}
 \end{frame}
