@@ -1,0 +1,13 @@
+\begin{frame}[fragile]{computed jumps?}
+\begin{lstlisting}
+jmp *%rax
+\end{lstlisting}
+    \begin{itemize}
+        \item how do we predict target of this?
+        \item simple idea: BTB stores last-seen target
+        \item one of several strategies:
+        \vspace{.5cm}
+        \item construct hash of addresses of last several jumps
+        \item lookup hash in table of last target for that jump
+    \end{itemize}
+\end{frame}

@@ -1,0 +1,15 @@
+\begin{frame}{beyond local 1-bit predictor}
+    \begin{itemize}
+        \item can predict using more historical info
+        \vspace{.5cm}
+        \item whether taken last several times
+            \begin{itemize}
+            \item example: taken 3 out of 4 last times $\rightarrow$ predict taken
+            \end{itemize}
+        \item outcomes of last N conditional jumps
+            \begin{itemize}
+            \item take into account conditional jumps in surrounding code
+            \item example: loops with if statements will have regular patterns
+            \end{itemize}
+    \end{itemize}
+\end{frame}
