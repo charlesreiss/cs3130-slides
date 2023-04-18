@@ -1,13 +1,13 @@
 \begin{frame}{indirect branch prediction}
     \begin{itemize}
-        \item for instructions like: \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
-        \item simple idea: record what happened last time, predict the same
-        \vspace{.5cm}
-        \item Intel Haswell extension:
-            \begin{itemize}
-            \item lookup in based on hash of \textit{last several jump addresses}
-            \item allows different predictions based on context of \texttt{jmp *\%rax}
-            \item really useful for polymorphism
-            \end{itemize}
+    \item for instructions like: \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
+    \item simple idea: lookup jmp in cache table to see what happened last time
+    \vspace{.5cm}
+    \item extension: table of (last few jmp instructions, target address)
+        \begin{itemize}
+        \item can predict even when \%rax, etc. vary
+        \item example: polymorphic method call
+        \item idea implemented by Intel's Haswell chips
+        \end{itemize}
     \end{itemize}
 \end{frame}
