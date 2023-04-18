@@ -8,9 +8,9 @@
         column 4/.append style={nodes={text width=3cm}},
         label={hypothetical instruction mix},
         ] (table) {
-kind \& portion \& cycles (predict) \& cycles (stall) \\
-not-taken jXX \& 3\% \& 3 \& 3 \\
-taken jXX \& 5\% \& 1 \& 3\\
+kind \& portion \& cycles (predict not-taken) \& cycles (stall) \\
+taken jXX \& 3\% \& 3 \& 3 \\
+non-taken jXX \& 5\% \& 1 \& 3\\
 others \& 92\% \& 1* \& 1* \\
 };
 \begin{visibleenv}<2->
