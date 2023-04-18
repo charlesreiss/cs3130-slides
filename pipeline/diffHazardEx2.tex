@@ -24,12 +24,11 @@
                                  \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \\
 (1) \lstinline|addq %rcx, %r9|       \\
 ~ \\
-(2) \lstinline|jne foo| {\normalfont \small (not taken)}   \\
+(2) \lstinline|jne foo| {\normalfont \small (predicted taken, actually not)}   \\
 ~ \\
 (3) \lstinline|subq %rax, %r9|       \\
 ~ \\
 (4) \lstinline|call bar| \\
-~ \\
 (5) \lstinline|bar: pushq %r9| \\
 };
 \end{tikzpicture}
@@ -62,13 +61,13 @@
                              \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \\
 (1) \lstinline|addq %rcx, %r9|  \&  F  \& D \& E \& M \& W\\
 ~ \\
-    (2) \lstinline|jne foo| {\normalfont \small (not taken)}   \& ~ \& F \& D \& E \& M \& W \\
+    (2) \lstinline|jne foo| {\normalfont \small (predicted taken, actually not)}   \& ~ \& F \& D \& E \& M \& W \\
     (2b) \lstinline|foo: ...| {\normalfont \small (mispred.)} \& ~ \& ~ \& F \& D \& |[isNop,alias=nopTL]| E \& |[isNop]| M \& |[isNop]| W \\
     (2c) \lstinline| ...| {\normalfont \small (mispred.)} \& ~ \& ~ \& ~ \& F \& |[isNop]| D \& |[isNop]| E \& |[isNop]| M \& |[isNop,alias=nopBR]| W \\
     (3) \lstinline|subq %rax, %r9|       \& ~ \& ~ \& ~ \& ~ \& F \& D \& E \& M \& W \\
-~ \\
+~ \\[-1em]
     (4) \lstinline|call bar| \& ~ \& ~ \& ~ \& ~ \& ~ \& F \& D \& E \& M \& W \\ 
-~ \\
+~ \\[-1.5em]
     (5) \lstinline|bar: pushq %r9| \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \& F \& D \& E \& M \& W \\
 };
 \newcommand{\fwd}[4]{

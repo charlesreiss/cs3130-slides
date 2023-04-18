@@ -1,0 +1,89 @@
+
+\section{some side channel examples}
+
+\subsection{example: check\_passphrase}
+
+\input{../spectre/check-passphrase-time}
+
+\subsection{timing and ciphers}
+
+\input{../spectre/timing-and-ciphers}
+
+\subsection{example: which website}
+
+\input{../spectre/which-website}
+
+% FIXME: \subsection{example: RF leaks}
+
+% FIXME: \subsection{example: power analysis}
+
+% FIXME: based on https://search.iczhiku.com/paper/U27SsPw1R1KrhDKc.pdf % Crypto'99 DPA paper
+
+\section{cache side channels}
+
+\subsection{introduction: observing cache evictions}
+
+\input{../spectre/cache-measure}
+    % FIXME:
+        % setup example 1:
+            % fill cache; do something that accesses var part; time accessing everything --- slower if ___
+
+\subsection{exercise: detect this access? (DM)}
+\input{../spectre/ex-detect-access}
+\subsection{exercise: detect this access? (2-way)}
+\input{../spectre/ex-detect-access-2way}
+
+\subsection{PRIME+PROBE, AES example}
+\input{../spectre/prime-probe} % FIXME: lfence-using example
+
+\subsection{reading a value (1)}
+\input{../spectre/read-value-pattern}
+
+\section{seeing speculation via side channels}
+
+\subsection{revising array lookup}
+
+\input{../spectre/lookup-spec-cache-access} 
+
+% FIXME: piepline
+\subsection{reading a value (2)}
+\input{../spectre/read-value-pattern-spec}
+
+\section{meltdown}
+
+\subsection{well, what else gets speculated?}
+\input{../spectre/spec-past-segfault}
+
+\subsection{vulnerability}
+\input{../spectre/meltdown-code}
+
+\subsection{fix}
+\input{../spectre/meltdown-fix}
+
+\section{spectre}
+
+\subsection{concept: forcing branch misprediction}
+\againframe<2>{readWithoutRead}
+\input{../spectre/mistrain-bp}
+
+\subsection{contrived? vulnerable code}
+\input{../spectre/contrivedp-vuln}
+
+\subsection{array bounds check}
+\input{../spectre/bounds-check-kernel}
+
+\subsection{JavaScript exploit}
+\input{../spectre/js-vuln}
+
+\subsection{mispredicted indirect}
+\input{../spectre/mispred-indirect}
+
+\subsection{more variants?}
+\input{../spectre/more-variants}
+
+\subsection{software fix}
+\input{../spectre/spectre-linux-fix}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}

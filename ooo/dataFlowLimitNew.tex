@@ -1,0 +1,90 @@
+\usetikzlibrary{shapes,fit,arrows.meta,chains}
+
+\begin{frame}[fragile,label=dfLimit]{data flow model and limits (1)}
+    \begin{tikzpicture}
+        \tikzset{
+            var/.style={draw,rectangle,fill=blue!30},
+            op/.style={draw,ellipse,fill=yellow!40},
+            node distance=4mm,
+        }
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (sn1) at (0,1) {\%rcx};
+            \node[join] (s0) {+};
+            \node[join] (s1) {+};
+            \node[join] (s2) {+};
+            \node[join] (s3) {+};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (sn2) at (3.5,1) {\%r9};
+            \node[join] (t0) {+};
+            \node[join] (t1) {+};
+            \node[join] (t2) {+};
+            \node[join] (t3) {+};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op},
+            ]
+            \node[var] (sn3) at (7,1) {\%rax};
+            \node[join] (i0) {- 1};
+            \node[join] (i1) {- 1};
+            \node[join] (i2) {- 1};
+            \node[join] (i3) {- 1};
+        \end{scope}
+        \node[var,below=.5cm of s3] (sumFinal) {\%rcx (final)};
+        \draw[thick,-Latex] (s3) -- (sumFinal);
+        \node[var,below=.5cm of t3] (sumFinal2) {\%r9 (final)};
+        \draw[thick,-Latex] (t3) -- (sumFinal2);
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op,join},
+            ]
+            \node[var] (a0) at (2,1) {\%rbx};
+        \end{scope}
+        \begin{scope}[
+                start chain=going below,
+                every join/.style={thick,-Latex},
+                every node/.style={on chain,op,join},
+            ]
+            \node[var] (b0) at (5,1) {\%r8};
+        \end{scope}
+        \begin{scope}[thick,-Latex]
+            \foreach \x in {0,1,2,3} {
+                \draw (a0)  --(s\x);
+                \draw (b0)  --(t\x);
+                \node[op] (c\x) at ([xshift=-1.5cm,yshift=-1cm]i\x) { >0? };
+                \draw (i\x) --(c\x);
+            }
+        \end{scope}
+        \begin{visibleenv}<all:1>
+            \node[anchor=west] at ([xshift=1cm,yshift=-.5cm]i0.east) {
+\begin{lstlisting}[language=myasm,style=small]
+loop2:
+    addq %rbx, %rcx
+    addq %r8, %r9
+    decq %rax
+    jge loop2
+\end{lstlisting}
+};
+        \end{visibleenv}
+        \begin{visibleenv}<all:2>
+            \node[align=left,anchor=west] at (5, -1) {
+                each yellow box = instruction\\
+                arrows = dependences\\
+                instructions only executed when dependencies ready
+            };
+        \end{visibleenv}
+    \end{tikzpicture}
+\end{frame}
+
+

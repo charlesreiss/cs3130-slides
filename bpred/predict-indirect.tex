@@ -2,13 +2,12 @@
     \begin{itemize}
         \item for instructions like: \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
         \item simple idea: record what happened last time, predict the same
-        \item example: Intel's Haswell strategy:
         \vspace{.5cm}
-        \item maintain hash of last several jump/call/etc. instruction addresses
+        \item Intel Haswell extension:
             \begin{itemize}
-            \item address of jump + how we got there
+            \item lookup in based on hash of \textit{last several jump addresses}
+            \item allows different predictions based on context of \texttt{jmp *\%rax}
+            \item really useful for polymorphism
             \end{itemize}
-        \item lookup hash in table of targets
-        \item use result as prediction, update if prediction wrong
     \end{itemize}
 \end{frame}

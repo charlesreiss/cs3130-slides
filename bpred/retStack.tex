@@ -1,9 +1,11 @@
 \usetikzlibrary{arrows.meta,matrix,positioning}
 
-\begin{frame}{predicting ret: extra copy of stack}
+\begin{frame}{predicting ret: ministack of return addresses}
 \begin{itemize}
     \item predicting ret --- ministack in processor registers
-    \item push on ministack on call; pop on ret
+        \begin{itemize}
+        \item push on ministack on call; pop on ret
+        \end{itemize}
     \item ministack overflows? discard oldest, mispredict it later
 \end{itemize}
 \begin{tikzpicture}

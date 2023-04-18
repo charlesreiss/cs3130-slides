@@ -6,7 +6,12 @@
             \begin{itemize}
             \item example: taken 3 out of 4 last times $\rightarrow$ predict taken
             \end{itemize}
-        \item outcomes of last N conditional jumps
+        \item pattern of how taken recently
+            \begin{itemize}
+            \item example: if last few are T, N, T, N, T, N; next is probably T
+            \item makes two branches hashing to same entry not so bad
+            \end{itemize}
+        \item outcomes of last N conditional jumps (``global history'')
             \begin{itemize}
             \item take into account conditional jumps in surrounding code
             \item example: loops with if statements will have regular patterns

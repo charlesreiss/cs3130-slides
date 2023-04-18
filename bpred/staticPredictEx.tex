@@ -9,7 +9,7 @@ foo_loop_top:
     add %edi, %eax 
 foo_loop_bottom:
     dec %edi            // edi = edi - 1
-    jl .Lend_loop       // if (edi < 0) goto .Lend_loop
+    jg for_loop_top // if (edi > 0) goto for_loop_top
     ret
 \end{lstlisting}
 \begin{itemize}
