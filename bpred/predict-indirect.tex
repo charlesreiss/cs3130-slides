@@ -1,13 +1,14 @@
 \begin{frame}{indirect branch prediction}
     \begin{itemize}
-    \item for instructions like: \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
-    \item simple idea: lookup jmp in cache table to see what happened last time
-    \vspace{.5cm}
-    \item extension: table of (last few jmp instructions, target address)
+    \item \texttt{jmp *\%rax} or \texttt{jmp *(\%rax, \%rcx, 8)}
+    \item BTB can provide a prediction
+    \item but can do better with more context
+    \item example---predict based on other recent computed jumps
         \begin{itemize}
-        \item can predict even when \%rax, etc. vary
-        \item example: polymorphic method call
-        \item idea implemented by Intel's Haswell chips
+        \item good for polymophic method calls
         \end{itemize}
+    \vspace{.5cm}
+    \item table lookup with Hash(last few jmps) \\
+        instead of Hash(this jmp)
     \end{itemize}
 \end{frame}
