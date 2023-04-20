@@ -60,7 +60,13 @@
 \busStuff
 \draw[line width=.5mm,red,->] ([xshift=-2mm]core 1.north) |- (7.5, .4) node[above,overlay] {``place data at \texttt{0xABCD}''} -| ([xshift=1mm]hdd.north);
 \begin{visibleenv}<2->
-\draw[line width=2mm,blue,<-,dotted] ([xshift=2mm]memory.north) |- (9.5, -.1) node[below] {``write to \texttt{0xABCD}''} -| ([xshift=-1mm]hdd.north);
+\draw[line width=2mm,red,<-,dotted] ([xshift=2mm]memory.north) |- (9.5, -.1) node[below] {``write to \texttt{0xABCD}''} -| ([xshift=-1mm]hdd.north);
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \node[draw=red,line width=1mm,anchor=north west,align=left,fill=white] at ([yshift=-1cm]core 1.south west) {
+        ``direct memory access'' \\
+        controller communicates with memory itself
+    };
 \end{visibleenv}
 \end{tikzpicture}
 \end{frame}

@@ -21,7 +21,7 @@
 ] (instrs) {
     |[align=center]| original \& |[align=center]| renamed \\
     \lstinline|pushq %r8| \& |[appear on=2]| \lstinline|iaddq $8, %x11| $\rightarrow$ \lstinline|%x18| \\
-    ~ \& |[appear on=2]| \lstinline|rmmovq %x13, 0(%x18)| $\rightarrow$ (memory) \\
+    ~ \& |[appear on=2]| \lstinline|movq %x13, 0(%x18)| $\rightarrow$ (memory) \\
     ~ \& ~ \\
 };
 \tikzset{

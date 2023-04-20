@@ -34,12 +34,12 @@
     \lstinline|add %r11, %r8| \& \ldots \\
     \lstinline|add %r12, %r8| \& \ldots \\
 };
-\matrix[tight matrix,label={[align=center,alias=rmap label]north:arch $\rightarrow$ phys \\ register map},
+\matrix[tight matrix,label={[align=center,alias=rmap label,inner sep=0.4mm]north:arch $\rightarrow$ phys register map},
     nodes={font=\tt\small,text width=1.5cm},
     column 2/.style={nodes={text width=4cm}},
     anchor=north west,
     alt=<2>{fill=red!10}
-    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+    ] (rmap) at ([yshift=-.75cm]instrs.south west) {
 \%rax \& \%x04 \\
 \%rcx \& \%x09 \\
 \ldots \& \ldots \\
@@ -105,7 +105,7 @@
     \lstinline|add %r11, %r8| \& |[appear on=3]| \lstinline|add %x07, %x18| $\rightarrow$ \lstinline|%x20| \\
     \lstinline|add %r12, %r8| \& |[appear on=4]| \lstinline|add %x05, %x20| $\rightarrow$ \lstinline|%x21| \\
 };
-    \matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    \matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys register map},
     nodes={font=\tt\small,text width=1.5cm},
     column 2/.style={nodes={text width=4cm}},
     anchor=north west,
@@ -152,12 +152,12 @@
 ] (instrs) {
     |[align=center]| original \& |[align=center]| renamed \\
     \lstinline|addq %r10, %r8| \& |[appear on=2]| \lstinline|addq %x19, %x13| $\rightarrow$ \lstinline|%x18| \\
-    |[alt=<4>{draw=red,ultra thick}]| \lstinline|rmmovq %r8, (%rax)| \& |[appear on=3]| \lstinline|rmmovq %x18, (%x04)| $\rightarrow$ \myemph<4>{(memory)}\\
+    |[alt=<4>{draw=red,ultra thick}]| \lstinline|movq %r8, (%rax)| \& |[appear on=3]| \lstinline|movq %x18, (%x04)| $\rightarrow$ \myemph<4>{(memory)}\\
     \lstinline|subq %r8, %r11|     \& |[appear on=5]| \lstinline|subq %x18, %x07| $\rightarrow$ \lstinline|%x20| \\
-|[alt=<4>{draw=red,ultra thick}]| \lstinline|mrmovq 8(%r11), %r11| \&
-    |[appear on=6]|  \lstinline|mrmovq 8(%x20)|, (memory) $\rightarrow$ \lstinline|%x21|   \\
-    \lstinline|irmovq $100, %r8|  \& 
-            |[appear on=7]| \lstinline|irmovq $100| $\rightarrow$ \lstinline|%x23|\\
+|[alt=<4>{draw=red,ultra thick}]| \lstinline|movq 8(%r11), %r11| \&
+    |[appear on=6]|  \lstinline|movq 8(%x20)|, (memory) $\rightarrow$ \lstinline|%x21|   \\
+    \lstinline|movq $100, %r8|  \& 
+            |[appear on=7]| \lstinline|movq $100| $\rightarrow$ \lstinline|%x23|\\
     \lstinline|addq %r11, %r8| \&
             |[appear on=8]| \lstinline|addq %x21, %x23| $\rightarrow$ \lstinline|%x24| 
         \\
@@ -172,11 +172,11 @@
         at={([xshift=-1.25cm,yshift=2cm]free.east)},
     }
 }
-\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys register map},
     nodes={font=\tt\small,text width=1.5cm},
     column 2/.style={nodes={text width=6cm}},
     anchor=north west,
-    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+    ] (rmap) at ([yshift=-1cm]instrs.south west) {
 \%rax \& \%x04 \\
 \%rcx \& \%x09 \\
 \ldots \& \ldots \\
