@@ -23,7 +23,8 @@ sbb %rax, %rax  // sbb = subtract with borrow
 \vspace{.5cm}
 \item with hardware help:
     \begin{itemize}
-    \item special operations to reset branch predictors
+    \item separate indirect (computed) branch prediction for kernel v user mode
+    \item other branch predictor isolation changes
     \end{itemize}
 \item without hardware help:
     \begin{itemize}

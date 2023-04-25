@@ -36,7 +36,7 @@
     row 11/.append style={nodes={h=9,d=10}},
     column 1/.style={nodes={text width=.5cm}},
     column 2/.style={nodes={text width=7cm}},
-    label={north:instruction queue},
+    label={[inner sep=0.1mm]north:instruction queue},
     ] (iqueue) {
     \# \&  instruction \\
     1 \& \lstinline|add %x01, %x02| $\rightarrow$ \lstinline|%x03| \\
@@ -78,7 +78,7 @@
 };
 \matrix[tight matrix no line,
     nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
-    column 1/.style={nodes={text width=5cm}},
+    column 1/.style={nodes={text width=4cm}},
     column 2/.style={nodes={text width=2cm}},
     row 1 column 2/.style={nodes={x=3}},
     row 2 column 2/.style={nodes={x=3}},
@@ -129,7 +129,7 @@
     row 3 column 8/.style={nodes={x=10}},
     row 1/.style={nodes={font=\small\it}},
     anchor=north west
-    ] (time) at ([yshift=-0.5cm]iqueue.south west) {
+    ] (time) at ([xshift=-1cm,yshift=-0.1cm]iqueue.south west) {
     execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
     ALU 1 (add, cmp, jxx)       \& 1  \& 6 \& -- \& 4 \& 5\& 9\& 10\\
     ALU 2 (add, cmp, jxx)       \& -- \& --\& --\& -- \& --\& --\& --\\
