@@ -26,10 +26,19 @@ Probe();
     \end{itemize}
 \item Intel processors: looks like these were separate steps, so...
 \end{itemize}
+\lstset{
+    language=C,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
 \begin{lstlisting}[language=C,style=small]
 Prime();
-if (something false) {
-    int value = ReadMemory();
+if (@2something false@) {
+    int value = @3ReadMemoryMarkedNonReadbleInPageTable();@
+    access other_array[value @4* ...@];
 }
 Probe();
 \end{lstlisting}

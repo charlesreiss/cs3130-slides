@@ -1,7 +1,7 @@
-\begin{frame}[fragile]{exericse: inferring cache accesses (1)}
+\begin{frame}[fragile]{exercise: inferring cache accesses (1)}
 \begin{lstlisting}[language=C,style=smaller]
 char *array;
-posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 if (mystery) {
     *pointer = 1;
@@ -21,7 +21,7 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
 \begin{lstlisting}[language=C,style=smaller]
 char *other_array = ...;
 char *array;
-posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 other_array[mystery] += 1;
 for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
@@ -31,7 +31,7 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 }
 \end{lstlisting}
 \begin{itemize}
-\item other\_array at 0x200400, and interesting index is 0x800,
+\item other\_array at 0x200400, and interesting index is i=0x800,
     then what was mystery?
 \end{itemize}
 \end{frame}
