@@ -22,7 +22,7 @@
 \matrix[
     anchor=north,
     register map,
-    label={[alias=rename map label,align=center]north:phys $\rightarrow$ arch. reg \\ for new instrs},
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys reg \\ for new instrs},
 ] (rename map) {
     arch. reg \& phys. reg \\
     \%rax       \& \%x12 \\
@@ -79,7 +79,7 @@
 \begin{visibleenv}<5>
 \draw[very thick,<-,alt=<5>{draw=red}] (new instr loc after) -- ++(-1cm,0cm) node[left,align=right] {add here \\ on rename};
 \end{visibleenv}
-\coordinate (message loc) at ([xshift=1cm]free list.south east);
+\coordinate (message loc) at ([xshift=1cm,yshift=.25cm]free list.south east);
 \tikzset{
     box/.style={draw=red,very thick,at={(message loc)},anchor=north west,align=left},
 }
@@ -134,7 +134,7 @@
 \matrix[
     anchor=north,
     register map,
-    label={[alias=rename map label,align=center]north:phys $\rightarrow$ arch. reg \\ for new instrs},
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys. reg \\ for new instrs},
 ] (rename map) {
     arch. reg \& phys. reg \\
     \%rax       \& \%x12 \\
@@ -216,7 +216,7 @@
 \matrix[
     anchor=north east,
     register map,
-    label={[alias=rename map label,align=center]north:phys $\rightarrow$ arch. reg\\for committed},
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys reg\\for committed},
 ] (rename map) at ([xshift=-3cm,yshift=-2cm]rob.north west){
     arch. reg \& phys. reg \\
     \%rax       \& \%x30 \\
@@ -251,7 +251,7 @@
 \matrix[
     anchor=north,
     register map,
-    label={[alias=rename map label,align=center]north:phys $\rightarrow$ arch. reg \\ for new instrs},
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys reg \\ for new instrs},
     alt=<3>{nodes={fill=red!15}}
 ] (rename map) {
     arch. reg \& phys. reg \\
@@ -332,7 +332,7 @@
 \matrix[
     anchor=north east,
     register map,
-    label={[alias=commit map label,align=center]north:phys $\rightarrow$ arch. reg\\for committed},
+    label={[alias=commit map label,align=center]north:arch $\rightarrow$ phys reg\\for committed},
 ] (commit map) at ([xshift=-1.5cm,yshift=0cm]rob.north west){
     arch. reg \& phys. reg \\
     \%rax       \& \sout{\%x30}~\%x38 \\
