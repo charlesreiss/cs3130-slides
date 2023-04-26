@@ -4,18 +4,54 @@ char *array;
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 if (mystery) {
-    *pointer = 1;
+    *pointer += 1;
 }
 if (TimeAccessTo(&array[index]) > THRESHOLD) {
     /* pointer accessed */
 }
 \end{lstlisting}
 \begin{itemize}
-\item suppose \texttt{pointer} is 0x1000188
+    \item suppose \texttt{pointer} is \texttt{0x1000188}
 \item and cache (of interest) is direct-mapped, 32768 ($2^{15}$) byte, 64-byte blocks
 \item what array index should we check?
 \end{itemize}
 \end{frame}
+
+\begin{frame}<0>[label=inferCache1Soln,fragile]{solution}
+\begin{lstlisting}[language=C,style=script]
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) { *pointer = 1; }
+if (TimeAccessTo(&array[index]) > THRESHOLD) { /* pointer accessed */ }
+\end{lstlisting}
+\begin{itemize}
+    \item $2^{15}$ byte direct mapped cache, $64=2^{6}$ byte blocks
+    \item \myemph<2>{9 index bits}, 6 offset bits
+    \item \texttt{0x1000188}: \texttt{\ldots 0\myemph<2>{\textit{000 0001 10}}00 1000}
+    \vspace{.5cm}
+    \item \texttt{array[0]} starts at multiple of cache size --- index 0, offset 0
+    \item to get index 6, offset 0 array[\texttt{0b\myemph{\textit{1 10}}00 0000}] = array[\texttt{0x180}]
+\end{itemize}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1->{inferCache1Soln}}
+
+\begin{frame}[label=inferCache1Aside,fragile]{aside}
+\begin{lstlisting}[language=C,style=smaller]
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) { *pointer += 1; }
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+\end{lstlisting}
+\begin{itemize}
+    \item will this detect when pointer accessed? yes
+    \item will this detect if mystery is true? not quite
+    \item \ldots because branch prediction could started cache access
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}[fragile]{exercise: inferring cache accesses (2)}
 \begin{lstlisting}[language=C,style=smaller]
@@ -36,3 +72,27 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 \end{itemize}
 \end{frame}
 
+\begin{frame}<0>[label=inferCache2Soln,fragile]{solution}
+\begin{lstlisting}[language=C,style=script]
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+other_array[mystery] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (TimeAccessTo(&array[i]) > THRESHOLD) { ... }
+}
+\end{lstlisting}
+\begin{itemize}
+    \item at i=0x800: \texttt{\ldots 0\myemph{000 1000 00}00 0000} (cache index = 0x20)
+    \item other\_array at \texttt{0x200400}
+    \item Q: \texttt{0x200400 + X} has cache index 0x20? 
+\end{itemize}
+{\tt\small
+\begin{tabular}{l|lll}
+0x200400 & \ldots 0 & \myemph{000 0000 01} & 00 0000 \\
++ X      & \ldots ? & \myemph{000 0111 11} & ?? ???? \\ \hline
+    0x200400+X & \ldots ? & \myemph{000 1000 00} & ?? ???? \\
+\end{tabular}
+}
+\end{frame}
+
+\iftoggle{heldback}{}{\againframe<1->{inferCache2Soln}}
