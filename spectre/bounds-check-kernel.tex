@@ -29,14 +29,33 @@ if (x < array1_size)
 \end{frame}
 
 \begin{frame}[fragile]{bounds check in kernel}
+\lstset{
+    language=C,
+    style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5>]{@5}{5@}},
+}
+\begin{tikzpicture}
+\node[draw,very thick,text width=10cm,label={east:actual code}] (syscall) {
 \begin{lstlisting}
 void SomeSystemCallHandler(int index) {
-    if (index > some_table_size) 
+    if (@2index > some_table_size2@) 
         return ERROR;
-    int x = table[some_table];
-    switch (other_table[x].foo) {
+    int kind = @3table[index]3@;
+    switch (@4other_table[kind].foo4@) {
         ...
     }
 }
 \end{lstlisting}
+};
+\node[draw,very thick,anchor=south west,text width=10cm,label={east:our template}] (template) at (syscall.north west) {
+\begin{lstlisting}
+if (@2x < array1_size2@) {
+    y = @4array2[@3array1[x]3@]4@);
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
 \end{frame}

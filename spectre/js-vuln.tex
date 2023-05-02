@@ -1,7 +1,27 @@
-\begin{frame}[fragile]{context: Java script}
+\begin{frame}{privilege levels?}
+    \begin{itemize}
+    \item vulnerable code runs with higher privileges
+    \item so far: higher privileges = kernel mode
+    \vspace{.5cm}
+    \item but other common cases of higher privileges
+    \item example: scripts in web browsers
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{JavaScript}
 \begin{itemize}
 \item JavaScript: scripts in webpages
-\item for performance, compiled to assembly, run in browser
+\item not supposed to be able to read arbitrary memory, but\ldots
+\item can access arrays to examine caches
+\item and could take advantage of some browser function being vulnerable
+\vspace{.5cm}
+\item<2-> or --- \myemph<2>{doesn't even need browser to supply vulnerable code itself!}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{just-in-time compilation?}
+\begin{itemize}
+\item for performance, compiled to machine code, run in browser
 \item not supposed to be access arbitrary browser memory
 \item example JavaScript code from paper:
 \end{itemize}

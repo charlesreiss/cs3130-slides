@@ -1,3 +1,13 @@
+\begin{frame}{supplying own attack code?}
+    \begin{itemize}
+    \item JavaScript: could supply own attack code
+    \vspace{.5cm}
+    \item turns out also possible with kernel mode scenario
+    \item trick: don't need to \textit{actually run} code
+    \item \ldots just need branch predictor to fetch it!
+    \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{other misprediction}
 \begin{itemize}
 \item so far: talking about mispredicting direction of branch
