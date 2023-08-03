@@ -1,7 +1,7 @@
 \begin{frame}[fragile]{some performance examples}
 \begin{tikzpicture}
 \node[draw,very thick,align=left] (v1) {
-\lstset{language=myasm,style=smaller}
+\lstset{language=myasm,style=smaller,morekeywords={decq}}
 \begin{lstlisting}
 example1:
     movq $10000000000, %rax
@@ -17,7 +17,7 @@ loop1:
 my desktop: approx \myemph<2>{2.65 sec}
 };
 \node[align=left,draw,very thick,anchor=north west] (v2) at ([xshift=1cm]v1.north east) {
-\lstset{language=myasm,style=smaller}
+\lstset{language=myasm,style=smaller,morekeywords={decq}}
 \begin{lstlisting}
 example2:
     movq $10000000000, %rax
