@@ -2,3 +2,4 @@ latex.out
 talk-slides.pdf
 test.tex
 test.pdf
+dist/*.pdf
