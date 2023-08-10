@@ -1,25 +1,61 @@
-\begin{frame}{privileged instructions}
+\begin{frame}{privileged operation: problem}
 \begin{itemize}
-\item can't let \myemph{any program} run some instructions
-\item example: talk to I/O device
-\item allows machines to be shared between users (e.g. lab servers)
-\vspace{.5cm}
-\item processor has two modes:
-\begin{itemize}
-    \item kernel mode --- privileged instructions work
-    \item user mode --- privileged instructions cause exception instead
-\end{itemize}
-\item only \textit{trusted} OS code runs in kernel mode
+\item how can hardware (HW) plus operating system (OS) allow:
+    \begin{itemize}
+    \item read your own files from hard drive
+    \end{itemize}
+\item but disallow:
+    \begin{itemize}
+    \item read others files from hard drive
+    \end{itemize}
 \end{itemize}
 \end{frame}
+
+\begin{frame}{some ideas}
+\begin{itemize}
+\item<1-> OS tells HW `okay' parts of hard drive before running program code
+    \begin{itemize}
+    \item complex for hardware and for OS
+    \end{itemize}
+\item<2-> OS verifies your program's code can't do bad hard drive access 
+    \begin{itemize}
+    \item no work for HW, but complex for OS
+    \item may require compiling differently to allow analysis
+    \end{itemize}
+\item<3-> \myemph<3>{OS tells HW to only allow OS-written code to access hard drive}
+    \begin{itemize}
+    \item that code can enforce only `good' accesses
+    \item requires program code to call OS routines to access hard drive
+    \item relatively simple for hardware 
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}{kernel mode}
 \begin{itemize}
-\item extra one-bit register: ``are we in kernel mode''
+\item extra one-bit register: ``are we in \textit{kernel mode}''
+    \begin{itemize}
+    \item other names: privileged mode, supervisor mode, \ldots
+    \end{itemize}
+\item not in kernel mode = \textit{user mode}
 \vspace{.5cm}
-\item processor switches to kernel mode to run OS
-\item OS switches processor back to use mode when running normal code
+\item certain operations only allowed in kernel mode
+    \begin{itemize}
+    \item \textit{privileged instructions}
+    \end{itemize}
+\item example: talking to any I/O device
 \end{itemize}
 \end{frame}
 
-
+\begin{frame}{what runs in kernel mode?}
+\begin{itemize}
+\item system boots in kernel mode
+\item OS switches to user mode to run program code
+\vspace{.5cm}
+\item next topic: when does system switch back to kernel mode?
+    \begin{itemize}
+    \item how does OS tell HW where the (trusted) OS code is?
+    \end{itemize}
+\end{itemize}
+\end{frame}

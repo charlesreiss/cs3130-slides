@@ -8,7 +8,7 @@ $ strace -o trace.txt ./hello_world
 $ cat trace.txt
 execve("./hello_world", ["./hello_world"],
         0x7ffeedafd0a0 /* 28 vars */) = 0
-write(1, "Hello, World!\n\0", 15)       = 15
+write(1, "Hello, World!\n\0", 14)       = 14
 exit(0)                                 = ?
 +++ exited with 0 +++
 \end{Verbatim}

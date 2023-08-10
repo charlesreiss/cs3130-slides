@@ -1,13 +1,17 @@
-
 \section{some malicious things we'd like to stop}
 
 \input{../kernel/malicious-p}
 
 \section{privileged instruction idea}
 \againframe<2>{portalShouldnt}
+% FIXME: diagram showing ``protection rings''
 \input{../kernel/priv-instr-intro}
 
-\subsection{diagram with OS code in memory}
+\subsection{preview: unix design}
+\input{../kernel/unix-design-build-lib}
+\againframe<1->{unixDesignHWNoLib}
+
+\subsection{OS code in memory}
 \input{../kernel/calling-the-OS-naive}
 
 \subsection{exception entry point}
@@ -25,10 +29,8 @@
 \input{../kernel/strace-hello}
 
 \section{kernel + standard library}
-% FIXME: diagram of kernel + standard library from whatisos
-\input{../kernel/unix-design-build}
-
-\input{../kernel/unix-design}
+\againframe<2>{unixDesignHWNoLib}
+\againframe<1->{unixDesignHWLib}
 
 \section{memory protection}
 \againframe<3>{portalShouldnt}

@@ -1,5 +1,5 @@
 \usetikzlibrary{matrix}
-\begin{frame}{hardware + system call interface}
+\begin{frame}<0>[label=unixDesignHWNoLib]{hardware + system call interface}
 \begin{tikzpicture}
 \tikzset{
     user/.style={fill=blue!10},
@@ -16,7 +16,7 @@
         ] {
     |[minimum height=1cm,alias=apps,user]| applications + libraries \\
     |[minimum height=0.5cm,alias=syscalls,iface,text width=10cm,xshift=2cm]| system call interface \\
-    |[minimum height=1cm,alias=kernel,kernel,text width=10cm,xshift=2cm,font=\Large]| kernel \\
+    |[minimum height=1cm,alias=kernel,kernel,text width=10cm,xshift=2cm,font=\Large]| kernel {\small part of OS that runs in kernel mode}\\
     |[minimum height=2cm,alias=hwIface,iface]| ~ \\
     |[minimum height=1cm,alias=hw,hardware,font=\Large]| hardware \\
 };
@@ -36,7 +36,7 @@
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{hardware + system call + library interface}
+\begin{frame}<0>[label=unixDesignHWLib]{hardware + system call + library interface}
 \begin{tikzpicture}
 \tikzset{
     user/.style={fill=blue!10},
@@ -55,7 +55,7 @@
     |[minimum height=1cm,alias=syslibiface,iface,text width=10cm,xshift=2cm]| library interface \\
     |[minimum height=1cm,alias=stdlib,user,text width=10cm,xshift=2cm]| system libraries \\
     |[minimum height=0.5cm,alias=syscalls,iface,text width=10cm,xshift=2cm]| system call interface \\
-    |[minimum height=1cm,alias=kernel,kernel,text width=10cm,xshift=2cm,font=\Large]| kernel \\
+    |[minimum height=1cm,alias=kernel,kernel,text width=10cm,xshift=2cm,font=\Large]| kernel {\small part of OS that runs in kernel mode}\\
     |[minimum height=2cm,alias=hwIface,iface]| ~ \\
     |[minimum height=1cm,alias=hw,hardware,font=\Large]| hardware \\
 };
