@@ -8,6 +8,9 @@
     \item some sort of exception
     \end{itemize}
 \item saves old registers + program counter
+    \begin{itemize}
+    \item (optimization: could omit when program crashing/exiting)
+    \end{itemize}
 \item sets new registers, jumps to new program counter
 \item called \myemph{context switch}
     \begin{itemize}
