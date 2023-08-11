@@ -44,40 +44,47 @@
 \subsubsection{preview: shared memory}
 \input{../kernel/previewSharedMemory}
 
+% FIXME: talk about ``crash'' in mem protect Q case
+\section{extending system calls: exception idea}
+\againframe<5>{memProtectQ}
+\input{../kernel/exceptIdea}
+
+\subsection{reasons for exceptions, generally}
+\input{../kernel/exceptKindInfoLib}
+\againframe<1-4>{exceptTypesN}
+
+
 \section{infinite loop}
 \againframe<4>{portalShouldnt}
-
 \input{../kernel/doNothing}
+
+\againframe<5>{exceptTypesN}
 
 \section{time multiplexing}
 \input{../kernel/timeMulti}
 
-\subsection{context switching idea}
+\subsection{operating system runs}
 \input{../kernel/contextSwitchIntro}
 
-\subsection{thread idea}
-\input{../kernel/thread}
-
-\subsection{context switches} 
-\againframe<3>{timeMultiReally}
-\input{../kernel/contextSwitch}
-
-\section{not just timers}
+\subsection{not just timers}
+\againframe<6>{exceptTypesN}
 \input{../kernel/keyInTimeline}
 
-\section{reasons for exceptions, generally}
-\input{../kernel/exceptKindInfoLib}
-\againframe<1>{exceptTypesN}
+\input{../kernel/crashTimeline}
 
-\subsection{aside: terms}
-\input{../kernel/exceptTerms}
+\section{thread idea}
+\input{../kernel/thread}
 
-\section{exception table + dispatch}
-\input{../kernel/exceptImplHW}
+\section{context switches} 
+\input{../kernel/contextSwitch}
 
 
 \section{exercise}
 \input{../kernel/howManyEx}
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
 
 \section{process}
 \input{../kernel/processIdea}

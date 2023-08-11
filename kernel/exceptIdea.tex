@@ -1,0 +1,26 @@
+\begin{frame}{program crashing?}
+\begin{itemize}
+\item what happens on processor when program crashes?
+\vspace{.5cm}
+\item other program informed of crash to display message
+\item use processor to run some other program
+\vspace{.5cm}
+\item<2-> how does hardware do this?
+\item<2-> would be complicated to tell about other programs, etc.
+\item<2-> instead: hardware runs designated OS routine
+\end{itemize}
+\end{frame}
+
+\begin{frame}{exceptions}
+\begin{itemize}
+\item recall: system calls --- software asks OS for help
+\vspace{.5cm}
+\item also cases where hardware asks OS for help
+\item different triggers than system calls
+\item but same mechanism as system calls:
+    \begin{itemize}
+    \item switch to kernel mode (if not already)
+    \item call OS-designated function
+    \end{itemize}
+\end{itemize}
+\end{frame}

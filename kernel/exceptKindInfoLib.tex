@@ -2,22 +2,23 @@
 
 \begin{frame}<0>[label=exceptTypesN]{types of exceptions}
 \begin{itemize}
-\item \tikzmark{int bot}\myemph<3>{externally-triggered}
+\item \tikzmark{trap bot}\myemph<2>{system calls}
     \begin{itemize}
-    \item \myemph<3>{timer} --- keep program from hogging CPU
-    \item \myemph<4>{I/O devices} --- key presses, hard drives, networks, \ldots
+    \item intentional --- ask OS to do something
+    \end{itemize}
+\item \tikzmark{fault bot}\myemph<3>{errors/events in programs}
+    \begin{itemize}
+    \item \myemph<8>{memory not in address space} (``Segmentation fault'')
+    \item \myemph<9>{privileged instruction}
+    \item \myemph<10>{divide by zero, invalid instruction}
+    \item \tikzmark{invalid bot}\ldots
+    \end{itemize}
+\only<1-4>{(and more we'll talk about later)}
+\item<5-> \tikzmark{int bot}\myemph<5>{external --- I/O, etc.}
+    \begin{itemize}
+    \item \myemph<6>{timer} --- configured by OS to run OS at certain time
+    \item \myemph<7>{I/O devices} --- key presses, hard drives, networks, \ldots
     \item \tikzmark{abort bot}hardware is broken (e.g. memory parity error)
-    \end{itemize}
-\item \tikzmark{trap bot}intentionally triggered exceptions
-    \begin{itemize}
-    \item \myemph<5>{system calls} --- ask OS to do something
-    \end{itemize}
-\item \tikzmark{fault bot}\myemph<6>{errors/events in programs}
-    \begin{itemize}
-        \item \myemph<7>{memory not in address space} (``Segmentation fault'')
-        \item \myemph<8>{privileged instruction}
-    \item divide by zero
-    \item invalid instruction\tikzmark{invalid}
     \end{itemize}
 \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
@@ -28,17 +29,21 @@
     \coordinate (over) at ([xshift=-4.5cm]current page.east);
     \coordinate (abort bot)  at (pic cs:abort bot);
     \coordinate (invalid bot)  at ([yshift=.6cm]pic cs:invalid bot);
+    \begin{visibleenv}<5->
     \draw[very thick,decorate,decoration={brace}] (int top -| over) -- (abort bot -| over) 
-        node[midway,right,font=\large] (async label) {\myemph<2>{asynchronous}};
+        node[midway,right,font=\large] (async label) {\myemph<5>{asynchronous}};
         \node[anchor=north west,font=\small,align=left] at ([xshift=.15cm,yshift=.3cm]async label.south west) {
             not triggered by \\
             running program
         };
+    \end{visibleenv}
+    \begin{visibleenv}<4->
     \draw[very thick,decorate,decoration={brace}] (trap top -| over) -- (invalid bot -| over) 
-        node[midway,right,font=\large] (sync label) {\myemph<2>{synchronous}};
+        node[midway,right,font=\large] (sync label) {\myemph<4>{synchronous}};
         \node[anchor=north west,font=\small,align=left] at ([xshift=.15cm,yshift=.3cm]sync label.south west) {
             triggered by \\
             current program
         };
+    \end{visibleenv}
 \end{tikzpicture}
 \end{frame}

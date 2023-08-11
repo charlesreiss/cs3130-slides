@@ -1,14 +1,13 @@
 \usetikzlibrary{arrows.meta,calc,positioning,matrix,patterns}
 
-
-\begin{frame}{OS and time multiplexing}
+\begin{frame}{switching programs}
 % FIXME: picture showing zoom of timeline
 \begin{itemize}
-\item starts running instead of normal program
+\item OS starts running somehow
     \begin{itemize}
-    \item mechanism for this: \myemph{exceptions} (later)
+    \item some sort of exception
     \end{itemize}
-\item saves old program counter, registers somewhere
+\item saves old registers + program counter
 \item sets new registers, jumps to new program counter
 \item called \myemph{context switch}
     \begin{itemize}
