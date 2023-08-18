@@ -1,99 +1,52 @@
-\input{../unix-api/fork-exec-wait}
+
+\section{process creation and management}
+
+\input{../unix-api/processOverview}
+
+
+\againframe<3>{posixProcessFunctions}
+
+\input{../unix-api/fork}
+\input{../unix-api/fork-pcb}
+\input{../unix-api/fork-cow}
+\input{../unix-api/fork-example}
+
+\input{../unix-api/fork-ex}
+
+\subsection{exec}
+
+\againframe<4>{posixProcessFunctions}
+
+\input{../unix-api/exec}
+
+\input{../unix-api/exec-pcb}
+
+\subsection{aside: fork+exec, really?}
+
+\input{../unix-api/why-fork-exec}
+
+\subsection{wait}
+
+\againframe<5>{posixProcessFunctions}
+
+\input{../unix-api/wait}
+
+\section{aside: TLB invalidation}
+\input{../caching/tlbSwitch}
+
+\subsection{summary diagram}
+
+\input{../unix-api/fork-exec-wait-diag}
+
+\againframe<6>{posixProcessFunctions}
+
+\subsection{exercises (fork+exec+wait)}
+
+\input{../unix-api/fork-wait-ex}
+
+\subsection{fd management}
 
 \input{../unix-api/fd-management}
 
-
 \section{POSIX api summary}
 \input{../unix-api/summary}
-
-\section{backup slides}
-\begin{frame}{}
-\end{frame}
-
-\begin{frame}{backup slides}
-\end{frame}
-
-\subsection{POSIX and Unix}
-
-\input{../unix-api/posixAndUnix}
-
-\subsection{getpid}
-
-\againframe<2>{posixProcessFunctions}
-
-\input{../unix-api/getpid}
-
-\subsection{read, write}
-
-% FIXME: work through examples more
-
-\input{../unix-api/read-write}
-
-\section{partial reads and writes}
-\againframe<2>{readWrite}
-\subsection{partial reads and read error checking}
-\input{../unix-api/partial-read}
-\subsection{partial writes and write error checking}
-\input{../unix-api/partial-write}
-
-
-\subsection{aside: environment variables}
-\input{../unix-api/envVarAside}
-
-\subsection{wait for mutliple}
-\input{../unix-api/wait-multiple1} 
-
-\subsection{wait for all}
-\input{../unix-api/wait-all}
-
-\subsection{wait for all (alt)}
-\input{../unix-api/wait-multiple2}
-
-\subsection{waitpid WNOHANG}
-\input{../unix-api/waitNoHang}
-
-\subsection{shell: background programs}
-
-\input{../unix-api/shell-background}
-
-\subsection{aside: on casting}
-
-\input{../unix-api/shell-cast-note}
-
-
-\subsection{layers of file interfaces}
-
-\input{../unix-api/file-layers}
-
-\subsection{parent and child}
-
-\input{../unix-api/parentAndChild}
-
-\subsection{kernel buffering}
-
-\input{../unix-api/kernel-buffering}
-
-\subsection{open}
-
-\input{../unix-api/open}
-
-\subsection{Unix: everything is a file}
-
-\input{../unix-api/everything-is-a-file}
-
-\section{pipe exercise (partial reads)}
-
-\input{../unix-api/pipe-extra-ex2} % FIXME: cut?
-
-\section{pipe: closing?}
-\input{../unix-api/pipe-close}
-
-\subsection{pipe exercise}
-
-\input{../unix-api/pipe-extra-ex} % FIXME: formatting
-
-\subsection{pipe example}
-\input{../unix-api/pipe-example}
-
-\subsection{pipe blocking}
-\input{../unix-api/pipe-blocking}
