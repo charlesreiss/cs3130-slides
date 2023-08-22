@@ -37,34 +37,34 @@ F. \texttt{buildX} then \texttt{buildW} & G. something else \\
 
 \begin{frame}<0>[fragile,label=makeWhatRunExplain]{explanation}
 \begin{tikzpicture}
-\begin{scope}[every node/.style={draw,very thick}]
-\node (W) {W (1 min old)};
-\node (X) at ([yshift=-1cm]W.south) {X (3 h old)};
-\node (Y) at ([yshift=-1cm,xshift=4cm]W.south) {Y (not existant)};
+\begin{scope}[every node/.style={draw,very thick,minimum width=4cm}]
+\node[alt={<2>{fill=red!10}},alt=<5>{fill=red!10}] (W) {W (1 min old)};
+\node[alt=<3>{fill=red!10}] (X) at ([yshift=-1cm]W.south) {X (\alt<4->{\myemph<5>{just updated}}{3 h old})};
+    \node[alt=<4>{fill=red!10}] (Y) at ([yshift=-1cm,xshift=6cm]W.south) {Y (\alt<5->{\myemph{just updated}}{not existant})};
 \node (Q) at ([yshift=-1cm]X.south)  {Q (2 h old)};
 \node (Z) at ([yshift=-1cm]Y.south)  {Z (3 h old)};
 \end{scope}
 \begin{scope}[-Latex,thick]
-\draw[alt=<3->{red},alt=<3>{ultra thick}] (W) -- (X);
-\draw[alt=<2->{red}] (W) -- (Y);
-\draw[alt=<2->{red},alt=<3>{ultra thick}] (X) -- (Q);
-\draw (Y) -- (X);
-\draw (Y) -- (Z);
+\draw[alt=<2>{red,dotted},alt=<5>{red,ultra thick}] (W) -- (X);
+\draw[alt=<2>{red,dotted},alt=<5>{red,ultra thick}] (W) -- (Y);
+\draw[alt=<3>{red,ultra thick}] (X) -- (Q);
+\draw[alt=<4>{red,dotted}] (Y) -- (X);
+\draw[alt=<4>{red,dotted}] (Y) -- (Z);
 \end{scope}
 \end{tikzpicture}
 \begin{itemize}
-    \item first: to make W, need X, Y up to date
+    \item first: to make W, \myemph<2>{need X, Y up to date}
         \begin{itemize}
         \item to make X up to date: \\
               need Q up to date $\checkmark$ \\
-                then build X if less recent than Q (yes) $\checkmark$
+            \myemph<3>{then build X if less recent than Q (yes)} $\checkmark$
         \hrule
         \item to make Y up to date:
               need X up to date $\checkmark$ \\
               need Z up to date $\checkmark$ \\
-                then build Y if less recent than X (yes) or Z (yes) $\checkmark$
+            \myemph<4>{then build Y if less recent than X (yes) or Z (yes)} $\checkmark$
         \end{itemize}
-    \item then build W if less recent than X (no) or Y (yes) $\checkmark$
+    \item \myemph<5>{then build W if less recent than X (yes, now) or Y (yes)} $\checkmark$
 \end{itemize}
 \end{frame}
 

@@ -3,8 +3,9 @@
     \item Unix-like \textit{static} libraries: libfoo.a
     \item internally: archive of .o files with index
     \item create: \texttt{ar rcs libfoo.a file1.o file2.o \ldots}
-    \item use: \texttt{\textit{cc} \ldots~-o program -L/path/to/lib \ldots -lfoo}
+    \item use: \texttt{\textit{cc} \ldots~-o program -L/path/to/lib \ldots~-lfoo}
         \begin{itemize}
+        \item no space between \texttt{-l} and library name
         \item \texttt{\textit{cc}} could be clang, gcc, clang++, g++, etc.
         \item \texttt{-L/path/to/lib} not needed if in standard location
         \end{itemize}
@@ -23,7 +24,37 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{finding shared libraries}
+\begin{frame}[fragile,label=sharedLib]{finding shared libraries (1)}
+\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+$ ls
+libexample.so  main.c
+$ clang -o main main.c -lexample
+/usr/bin/ld: cannot find -lexample
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+$ clang -o main main.c -L. -lexample
+$ ./main
+./main: error while loading shared libraries:
+    libexample.so: cannot open shared object file: No such file or directory
+\end{Verbatim}
+\begin{visibleenv}<2->
+\hrule
+\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+$ LD_LIBRARY_PATH=. ./main
+\end{Verbatim}
+\textit{or}
+\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+$ export LD_LIBRARY_PATH=.
+$ ./main
+\end{Verbatim}
+\textit{or}
+\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+$ clang -o main main.c -L. -lexample -Wl,-rpath .
+$ ./main
+\end{Verbatim}
+\end{visibleenv}
+\end{frame}
+
+\begin{frame}{finding shared libraries (1)}
     \begin{itemize}
     \item \texttt{\textit{cc} \ldots -o program -L/path/to/lib \ldots -lfoo}
         \begin{itemize}
@@ -38,3 +69,4 @@
         \end{itemize}
     \end{itemize}
 \end{frame}
+

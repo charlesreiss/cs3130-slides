@@ -3,13 +3,13 @@
 {\tt
 \begin{tabular}{l}
 program: main.o extra.o \\
-▶\hspace{2.5cm}clang -o program main.o extra.o \\
+▶\hspace{1.5cm}clang -o program main.o extra.o \\
 ~ \\
 extra.o: extra.c extra.h \\
-▶\hspace{2.5cm}clang -o extra.o -c extra.c \\
+▶\hspace{1.5cm}clang -o extra.o -c extra.c \\
 main.o: main.c main.h extra.h \\
 ~ \\
-▶\hspace{2.5cm}clang -o main.o -c main.c \\
+▶\hspace{1.5cm}clang -o main.o -c main.c \\
 \end{tabular}
 }
 \begin{itemize}
@@ -28,13 +28,13 @@ main.o: main.c main.h extra.h \\
 \myemph{LDLIBS = -lm} \\
 ~ \\
 program: main.o extra.o \\
-▶\hspace{2cm}\$(CC) \$(LDFLAGS) -o program main.o extra.o \$(LDLIBS) \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o program main.o extra.o \$(LDLIBS) \\
 ~ \\
 extra.o: extra.c extra.h \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o extra.o -c extra.c \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o extra.o -c extra.c \\
 ~ \\
 main.o: main.c main.h extra.h \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o main.o -c main.c \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o main.o -c main.c \\
 \end{tabular}
 }
 \end{frame}
@@ -49,13 +49,13 @@ LDFLAGS = -Wall \\
 LDLIBS = -lm \\
 ~ \\
 program: main.o extra.o \\
-▶\hspace{2cm}\$(CC) \$(LDFLAGS) -o \myemph{\$@} \myemph{\$\textasciicircum} \$(LDLIBS) \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o \myemph{\$@} \myemph{\$\textasciicircum} \$(LDLIBS) \\
 ~ \\
 extra.o: extra.c extra.h \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
 ~ \\
 main.o: main.c main.h extra.h \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o \myemph{\$@} -c \myemph{\$<} \\
 \end{tabular}
 }
 
@@ -71,10 +71,10 @@ CFLAGS = -Wall \\
 LDFLAGS = -Wall \\
 ~ \\
 program: main.o extra.o \\
-▶\hspace{2cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
 ~ \\
 \myemph{.c.o:} \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
 ~ \\
 extra.o: extra.c extra.h \\
 main.o: main.c main.h extra.h \\
@@ -94,10 +94,10 @@ LDFLAGS = -Wall \\
 LDLIBS = -lm \\
 ~ \\
 program: main.o extra.o \\
-▶\hspace{2cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
 ~ \\
 \myemph{\%.o: \%.c} \\
-▶\hspace{2cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
 ~ \\
 extra.o: extra.c extra.h \\
 main.o: main.c main.h extra.h \\
@@ -118,7 +118,7 @@ LDFLAGS = -Wall \\
 LDLIBS = -lm \\
 ~ \\
 program: main.o extra.o \\
-▶\hspace{2cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
 ~ \\
 extra.o: extra.c extra.h \\
 main.o: main.c main.h extra.h \\
