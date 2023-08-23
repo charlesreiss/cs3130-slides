@@ -40,7 +40,7 @@ F. \texttt{buildX} then \texttt{buildW} & G. something else \\
 \begin{scope}[every node/.style={draw,very thick,minimum width=4cm}]
 \node[alt={<2>{fill=red!10}},alt=<5>{fill=red!10}] (W) {W (1 min old)};
 \node[alt=<3>{fill=red!10}] (X) at ([yshift=-1cm]W.south) {X (\alt<4->{\myemph<5>{just updated}}{3 h old})};
-    \node[alt=<4>{fill=red!10}] (Y) at ([yshift=-1cm,xshift=6cm]W.south) {Y (\alt<5->{\myemph{just updated}}{not existant})};
+\node[alt=<4>{fill=red!10}] (Y) at ([yshift=-1cm,xshift=6cm]W.south) {Y (\alt<5->{\myemph{just updated}{not existant})};
 \node (Q) at ([yshift=-1cm]X.south)  {Q (2 h old)};
 \node (Z) at ([yshift=-1cm]Y.south)  {Z (3 h old)};
 \end{scope}
