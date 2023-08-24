@@ -21,7 +21,7 @@
 \item after colon: \myemph<3>{prerequisite(s)}
 \item following lines prefixed by a \myemph<4>{tab} character: \myemph<5>{command(s) to run}
 \vspace{.5cm}
-\item \texttt{make} will run the commands \myemph<6>{if any prerequisite is newer than the target}
+\item \texttt{make} runs commands \myemph<6>{if any prereq modified date after target}
 \item<7-> \ldots \myemph{after making sure prerequisites up to date}
 \end{itemize}
 \end{frame}
@@ -35,8 +35,8 @@ program: main.o extra.o \\
 ~ \\
 extra.o: extra.c extra.h \\
 ▶\hspace{3cm}clang -c extra.c \\
-main.o: main.c main.h extra.h \\
 ~ \\
+main.o: main.c main.h extra.h \\
 ▶\hspace{3cm}clang -c main.c \\
 \end{tabular}
 }

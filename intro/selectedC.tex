@@ -24,7 +24,7 @@
     \node[font=\tt,anchor=east] at (0, -\x) {\v};
 }
 \node[anchor=north west, overlay,font=\tt,align=left] (decl p) at (4.2, 1) {
-\texttt{int array[2]=}\texttt{\{0x12,0x45,0x67\};} \\
+\texttt{int array[3]=}\texttt{\{0x12,0x45,0x67\};} \\
 \texttt{int single = 0x78;} \\
 \texttt{int *ptr;} \\
 \alt<6>{ptr = \&single; \\ }{\alt<9>{ptr = \&array[0]; \\}{}}
