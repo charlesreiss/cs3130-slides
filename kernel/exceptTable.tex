@@ -48,14 +48,3 @@ handle_timer_interrupt:
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile,label=exceptHandlerRun]{running the exception handler}
-\begin{itemize}
-    \item hardware saves the \myemph{old program counter} (and maybe more)
-    \item identifies location of exception handler via table
-    \item then jumps to that location
-    \vspace{.5cm}
-    \item OS code can save anything else it wants to , etc.
-\end{itemize}
-\end{frame}
-
-
