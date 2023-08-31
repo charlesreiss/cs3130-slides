@@ -1,7 +1,7 @@
 
 \begin{frame}{SA\_RESTART}
     \begin{itemize}
-    \item \texttt{sa.sa\_flags = SA\_RESTART;}
+    \item \texttt{struct sigaction sa; \ldots} \\\texttt{sa.sa\_flags = SA\_RESTART;}
         \begin{itemize}
         \item general version:
         \item \texttt{sa.sa\_flags = SA\_NAME | SA\_NAME | SA\_NAME;} (or \texttt{0})
