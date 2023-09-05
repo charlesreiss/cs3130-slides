@@ -3,7 +3,7 @@
 \begin{tikzpicture}
 \node[draw,very thick,label={north:pid 1000}] (left) {
 \begin{lstlisting}
-void handle_sigusr1(int num) {
+void handle_usr1(int num) {
     write(1, "X", 1);
     kill(2000, SIGUSR1);
     _exit(0);
@@ -11,7 +11,7 @@ void handle_sigusr1(int num) {
 
 int main() {
     struct sigaction act;
-    act.sa_handler = &handler_usr1;
+    act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
     kill(1000, SIGUSR1);
 }
@@ -19,14 +19,14 @@ int main() {
 };
 \node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
 \begin{lstlisting}
-void handle_sigusr1(int num) {
+void handle_usr1(int num) {
     write(1, "Y", 1);
     _exit(0);
 }
 
 int main() {
     struct sigaction act;
-    act.sa_handler = &handler_usr1;
+    act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
 }
 \end{lstlisting}
@@ -50,7 +50,7 @@ G. (nothing) & H. something else \\
 \begin{tikzpicture}
     \node[draw,very thick,label={[inner sep=0mm]north:pid 1000}] (left) {
 \begin{lstlisting}
-void handle_sigusr1(int num) {
+void handle_usr1(int num) {
     write(1, "X", 1);
     kill(2000, SIGUSR1);
     _exit(0);
@@ -58,7 +58,7 @@ void handle_sigusr1(int num) {
 
 int main() {
     struct sigaction act;
-    act.sa_handler = &handler_usr1;
+    act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
     kill(1000, SIGUSR1);
     @1while (1) pause();@
@@ -67,14 +67,14 @@ int main() {
 };
 \node[anchor=north west,draw,very thick,label={[inner sep=0mm]north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
 \begin{lstlisting}
-void handle_sigusr1(int num) {
+void handle_usr1(int num) {
     write(1, "Y", 1);
     _exit(0);
 }
 
 int main() {
     struct sigaction act;
-    act.sa_handler = &handler_usr1;
+    act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
     @1while (1) pause();@
 }
