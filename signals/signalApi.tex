@@ -3,6 +3,9 @@
 \begin{itemize}
     \item {\tt sigaction} --- register handler for signal
     \item {\tt kill} --- send signal to process
+        \begin{itemize}
+        \item uses \myemph{process ID} (integer, retrieve from \texttt{getpid()})
+        \end{itemize}
     \item {\tt pause} --- put process to sleep until signal received
     \item {\tt sigprocmask} --- temporarily block/unblock some signals from being received
         \begin{itemize}
@@ -16,6 +19,12 @@
     \begin{itemize}
     \item \textit{kill} command-line command : calls the kill() function
     \item \texttt{kill 1234} --- sends SIGTERM to pid 1234
+        \begin{itemize}
+        \item in C: \texttt{kill(1234, SIGTERM)}
+        \end{itemize}
     \item \texttt{kill -USR1 1234} --- sends SIGUSR1 to pid 1234
+        \begin{itemize}
+        \item in C: \texttt{kill(1234, SIGUSR1)}
+        \end{itemize}
     \end{itemize}
 \end{frame}

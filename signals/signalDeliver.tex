@@ -1,7 +1,19 @@
 \usetikzlibrary{arrows.meta,matrix}
 \begin{frame}{x86-64 Linux signal delivery (1)}
 \begin{itemize}
-\item suppose: signal happens while {\tt foo()} is running
+\item suppose: signal (with handler) happens while {\tt foo()} is running
+\vspace{.5cm}
+\item should stop in the middle of foo()
+\item do signal handler
+\item go back to foo() \myemph<2>{without}\ldots
+\item \myemph<2>{changing local variables (possibly in registers)}
+\item \myemph<2>{(and foo() doesn't have code to do that)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{x86-64 Linux signal delivery (2)}
+\begin{itemize}
+\item suppose: signal (with handler) happens while {\tt foo()} is running
 \item OS saves registers \myemph{to user stack}
 \item OS modifies user registers, PC to call signal handler
 \end{itemize}
@@ -19,7 +31,7 @@
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile,label=sigReturn]{x86-64 Linux signal delivery (2)}
+\begin{frame}[fragile,label=sigReturn]{x86-64 Linux signal delivery (3)}
 \lstset{
     language=myasm,
     style=small,

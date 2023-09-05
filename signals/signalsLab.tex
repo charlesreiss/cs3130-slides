@@ -1,0 +1,20 @@
+\begin{frame}{signals lab}
+    \begin{itemize}
+    \item local chat program with:
+        \begin{itemize}
+        \item shared memory (one ``inbox'' for each end)
+        \item signals to notify when there is a new message
+        \end{itemize}
+    \item to send message:
+        \begin{itemize}
+        \item modify other program's inbox
+        \item send signal
+        \item wait for acknowledgment (probably via inbox being reset)
+        \end{itemize}
+    \item to receive message:
+        \begin{itemize}
+        \item signal handler reads inbox
+        \item signal handler acks (probably via resetting inbox)
+        \end{itemize}
+    \end{itemize}
+\end{frame}

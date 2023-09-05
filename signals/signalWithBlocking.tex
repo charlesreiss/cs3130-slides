@@ -2,22 +2,25 @@
 \begin{itemize}
 \item avoid having signal handlers anywhere:
 \item can instead \myemph{block signals}
-\vspace{.5cm}
-\item can be done with {\tt sigprocmask} or {\tt pthread\_sigmask} 
-\item signal will become ``pending'' instead
-\item OS will not deliver unless unblocked
     \begin{itemize}
-    \item similar mechanism provided by CPU for interrupts (``disabling interrupts'')
+    \item \texttt{sigprocmask()}, \texttt{pthread\_sigmask()}
     \end{itemize}
+\vspace{.5cm}
+\item blocked = signal handled doesn't run
+    \begin{itemize}
+    \item signal not \textit{delivered}
+    \end{itemize}
+\item instead, signal becomes \textit{pending}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{controlling when signals are handled}
 \begin{itemize}
 \item first, block a signal
-\item then use system calls to inspect pending signals
+\item then use API for inspecting pending signals
     \begin{itemize}
     \item example: {\tt sigwait}
+    \item typically \myemph{instead of having signal handler}
     \end{itemize}
 \item and/or unblock signals only at certain times
     \begin{itemize}
