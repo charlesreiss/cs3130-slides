@@ -1,0 +1,24 @@
+
+\begin{frame}{uses for setuid programs}
+\begin{itemize}
+    \item mount USB stick
+        \begin{itemize}
+        \item setuid program controls option to kernel mount syscall
+        \item make sure user can't replace sensitive directories
+        \item make sure user can't mess up filesystems on normal hard disks
+        \item make sure user can't mount new setuid root files
+        \end{itemize}
+    \item control access to device --- printer, monitor, etc.
+        \begin{itemize}
+        \item setuid program talks to device + decides who can
+        \end{itemize}
+    \item write to secure log file
+        \begin{itemize}
+        \item setuid program ensures that log is append-only for normal users
+        \end{itemize}
+    \item bind to a particular port number $<$ 1024
+        \begin{itemize}
+        \item setuid program creates socket, then becomes not root
+        \end{itemize}
+\end{itemize}
+\end{frame}
