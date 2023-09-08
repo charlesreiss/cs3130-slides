@@ -1,4 +1,35 @@
-\begin{frame}[fragile]{sending signals}
+\begin{frame}[fragile]{sending signals (1)}
+\lstset{language=C,style=script,
+    moredelim=**[is][]{@1}{1@},
+    moredelim=**[is][]{@2}{2@},
+    moredelim=**[is][]{@3}{3@},
+    moredelim=**[is][]{@4}{4@},
+    moredelim=**[is][]{@5}{5@},
+    moredelim=**[is][]{@6}{6@},
+}
+\begin{tikzpicture}
+\node[draw,very thick,label={north:pid 1000}] (left) {
+\begin{lstlisting}
+void @6handle_usr1(int num)6@ {
+    write(1, "Y", 1);
+    kill(2000, SIGUSR2);
+}
+
+int main() {
+    @1struct sigaction act;1@
+    @1...1@ // initialize act
+    @1act.sa_handler = &handle_usr1;1@
+    @1sigaction(SIGUSR1, &act, NULL);1@
+    @2sleep(60);2@ // wait for pid 2000 to start
+    @4@3kill(2000, SIGUSR1);3@4@
+    @5@4while (1) pause();4@5@
+}
+\end{lstlisting}
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{sending signals (2)}
 \lstset{language=C,style=script,
     moredelim=**[is][\btHL<1|handout:1>]{@1}{1@},
     moredelim=**[is][\btHL<2|handout:2>]{@2}{2@},

@@ -21,7 +21,13 @@ Password: *********
 \begin{itemize}
 \item extra metadata bit on \textit{executables}: set-user-ID
 \item if set: \texttt{exec()} syscall changes effective user ID to owner's ID
+    \begin{itemize}
+    \item ``extra'' user IDs track what original user was
+    \end{itemize}
 \item \texttt{sudo} program: owned by root, marked set-user-ID
+    \begin{itemize}
+    \item sudo's code: if (original user allowed) ...; else print error
+    \end{itemize}
 \vspace{.5cm}
 \item marking setuid: \texttt{chmod u+s}
 \end{itemize}
