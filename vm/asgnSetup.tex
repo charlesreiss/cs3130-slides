@@ -62,24 +62,26 @@ void page_allocate(size_t va)
     \node[anchor=west] (ptbrparen) at (tbl.east) {)};
     \node[align=left,
     anchor=north west] at (tbl.south -| ptbreq.west) {
-        translate(0x0\myemph<2>{FFF}) == (void*) \~0L \\
+        translate(0x0\myemph<2>{FFF}) == (void*) \~~0L \\
         translate(0x1\myemph<2>{000}) == (void*) 0x9999\myemph<2>{000} \\
         translate(0x1\myemph<2>{001}) == (void*) 0x9999\myemph<2>{001} \\
-        translate(0x2\myemph<2>{000}) == (void*) \~0L \\
-        translate(0x2\myemph<2>{001}) == (void*) \~0L \\
+        translate(0x2\myemph<2>{000}) == (void*) \~~0L \\
+        translate(0x2\myemph<2>{001}) == (void*) \~~0L \\
         translate(0x3\myemph<2>{000}) == (void*) 0x3333\myemph<2>{000} \\
     };
+    \node[anchor=west] (ptbrparen2) at (tbl.east) {)};
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{allocate()}
-    with POBITS=\myemph<2>{12}, LEVELS=1: \\
+\begin{frame}{page\_allocate()}
+with POBITS=\myemph<3>{12}, LEVELS=1: \\
 \begin{tikzpicture}
-    \node (ptbrzero) {ptbr == 0}
-    \node (pgalloc) {page\_allocate(0x1000) \textit{or} page\_allocate(0x1001) \textit{or} \ldots}
-    \node (ptbreq) {ptbr \textit{now points to} GetPointerToTable(};
+    \node (ptbrzero) {ptbr == 0};
+    \node[anchor=north west] (pgalloc) at (ptbrzero.south west){page\_allocate(0x1\myemph<3>{000}) \textit{or} page\_allocate(0x1\myemph<3>{001}) \textit{or} \ldots};
+    \begin{visibleenv}<2->
+    \node[anchor=north west] (ptbreq) at ([yshift=-2cm]pgalloc.south  west) {ptbr \textit{now ==} GetPointerToTable(};
     \matrix[tight matrix,anchor=west,
-        nodes={minimum height=0.5cm},
+        nodes={minimum height=0.6cm},
         row 1/.style={
             nodes={draw=none},
         },
@@ -92,10 +94,15 @@ void page_allocate(size_t va)
     ] (tbl) at (ptbreq.east) {
         VPN \& valid? \& physical \\
         0 \& 0 \& --- \\
-        1 \& 1 \& \myemph{page number of newly allocated memory} \\ 
+        1 \& 1 \& |[fill=red!10,alias=new]| \myemph<2>{(new)} \\
         2 \& 0 \& --- \\
         3 \& 1 \& --- \\
         \ldots \& \ldots \& \ldots \\
     };
+    \node[anchor=west] (ptbrparen2) at (tbl.east) {)};
+    \draw[very thick,red,<-] (new) -- ++(0cm, -2cm) node[below] {
+        allocated with \texttt{posix\_memalign}
+    };
+    \end{visibleenv}
 \end{tikzpicture}
 \end{frame}
