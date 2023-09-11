@@ -39,7 +39,11 @@ int main(void) {
     sigprocmask(SIG_BLOCK, &set, NULL);
     
     printf("Waiting for SIGINT (control-C)\n"); 
-    if (sigwait(&set, NULL) == SIGINT) {
+    int num;
+    if (sigwait(&set, &num) != 0) {
+        printf("sigwait failed!\n");
+    }
+    if (num == SIGINT);
         printf("Got SIGINT\n");
     }
 }
