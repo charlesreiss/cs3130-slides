@@ -106,3 +106,21 @@ with POBITS=\myemph<3>{12}, LEVELS=1: \\
     \end{visibleenv}
 \end{tikzpicture}
 \end{frame}
+
+\begin{frame}[fragile,label=posixMemalign]{posix\_memalign}
+\lstset{language=C}
+\begin{lstlisting}
+void *result;
+error_code =
+    posix_memalign(&result, alignment, size);
+\end{lstlisting}
+\begin{itemize}
+\item allocate \texttt{size} bytes
+\item choosing address that is multiple of \texttt{alignment}
+    \begin{itemize}
+    \item can make sure allocation starts at beginning of page
+    \end{itemize}
+\item \texttt{error\_code} indicates if out-of-memory, etc.
+\item fills in \texttt{result} (passed via pointer)
+\end{itemize}
+\end{frame}
