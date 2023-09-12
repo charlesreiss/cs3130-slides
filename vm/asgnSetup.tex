@@ -108,7 +108,9 @@ with POBITS=\myemph<3>{12}, LEVELS=1: \\
 \end{frame}
 
 \begin{frame}[fragile,label=posixMemalign]{posix\_memalign}
-\lstset{language=C}
+\lstset{
+    language=C
+}
 \begin{lstlisting}
 void *result;
 error_code =
@@ -116,11 +118,34 @@ error_code =
 \end{lstlisting}
 \begin{itemize}
 \item allocate \texttt{size} bytes
-\item choosing address that is multiple of \texttt{alignment}
+\item choosing address that is multiple of \myemph<2>{\texttt{alignment}}
     \begin{itemize}
     \item can make sure allocation starts at beginning of page
     \end{itemize}
 \item \texttt{error\_code} indicates if out-of-memory, etc.
-\item fills in \texttt{result} (passed via pointer)
+\item fills in \myemph<3>{\texttt{result} (passed via pointer)}
 \end{itemize}
+\end{frame}
+
+\begin{frame}{parts}
+    \begin{itemize}
+    \item part 1 (next week): LEVELS=1, POBITS=12 and
+        \begin{itemize}
+        \item translate() OR
+        \item page\_allocate()
+        \end{itemize}
+    \item part 2: all LEVELS, both functions
+        \begin{itemize}
+        \item in preparation for code review
+        \item originally scheduled for lab on the 27th
+        \item will move to lab just after reading day
+        \item (might mean I need to cancel lab one week)
+        \end{itemize}
+    \item part 3: final submission
+        \begin{itemize}
+        \item Friday after code review
+        \item \myemph{most of grade} based on this
+        \item \myemph{will test previous parts again}
+        \end{itemize}
+    \end{itemize}
 \end{frame}
