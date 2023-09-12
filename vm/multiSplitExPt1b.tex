@@ -30,11 +30,11 @@
     row 1/.style={nodes={draw=none,font=\normalfont\small}},
     ] (memB) at ([xshift=0cm]memA.north east) {
     physical addresses \& bytes \\
-    0x20-3 \& D0 \maybeEmph<2>{D1} D2 D3 \\
-    0x24-7 \& F4 F5 F6 F7 \\
+    0x20-3 \& A0 \maybeEmph<2>{D1} E2 F3 \\
+    0x24-7 \& E4 E5 F6 07 \\
     0x28-B \& 89 9A \maybeEmph<3-4>{AB} BC \\
     0x2C-F \& CD DE EF F0 \\
-    0x30-3 \& BA 0A BA 0A \\
+    0x30-3 \& BA 0A \myemph<5>{BA} 0A \\
     0x34-7 \& CB 0B CB 0B \\
     0x38-B \& DC 0C DC 0C \\
     0x3C-F \& EC 0C EC 0C \\
@@ -46,9 +46,9 @@
     \textit{PTE addr:} \\
     \texttt{0x20} + 2 \times 1 = {\tt \myemph<2>{0x22}} \\
     \textit{PTE value:} \\
-    {\tt \myemph<2>{0xD2}} = {\tt \myemph<3>{110}1 0010} \\
+    {\tt \myemph<2>{0xD1}} = {\tt \myemph<3>{110}1 0001} \\
     PPN {\tt \myemph<3>{110}}, valid {\tt 1} \\
-    M[{\tt \myemph<3>{110} \myemph<4>{010}}] = \textbf{M[\tt{0x32}]}\\ $\rightarrow$ {\tt 0xBA}
+    M[{\tt \myemph<3>{110} \myemph<4>{001}}] = \textbf{M[\myemph<5>{\tt{0x32}}]}\\ $\rightarrow$ {\tt 0xBA}
 };
 \end{visibleenv}
 %}
