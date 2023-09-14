@@ -9,7 +9,7 @@
 }
 \begin{scope}[name prefix=A-]
 \node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
-\node[above=0cm of kernel] {Some program}
+\node[above=0cm of kernel] {Some program};
 \node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
