@@ -1,0 +1,20 @@
+\begin{frame}{splitting addresses}
+\begin{itemize}
+\item if:
+    \begin{itemize}
+    \item 256-byte ($2^8$ byte) pages
+    \item 4-byte page table entries
+    \item 3 levels of page tables
+    \item page tables take up 1 page
+    \end{itemize}
+\item Q1: page offset size (bits)
+\begin{tabular}{lllll}
+A. <=4 & B. 5--7 & C. 8--11 & D. 12--15 & E. >15
+\end{tabular}
+\item Q2: virtual page number size (bits)
+\begin{tabular}{lllll}
+A. <=4 & B. 5--7 & C. 8--11 & D. 12--15 & E. >15
+\end{tabular}
+\item Q3: split address \texttt{0x1234}
+\end{itemize}
+\end{frame}

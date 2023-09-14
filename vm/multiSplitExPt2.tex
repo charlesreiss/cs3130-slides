@@ -4,7 +4,7 @@
 \begin{itemize}
 \item {}\myemph<1>{9-bit} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
 \item page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
-\item page table base register {\tt 0x20}; translate virtual address {\tt 0x131}
+\item page table base register {\tt 0x20}; translate virtual address {\tt 0x129}
 \end{itemize}
 \begin{tikzpicture}
 \matrix[tight matrix,anchor=north west,
@@ -31,25 +31,25 @@
     ] (memB) at ([xshift=0cm]memA.north east) {
     physical addresses \& bytes \\
     0x20-3 \& 00 91 72 13 \\
-    0x24-7 \& \maybeEmph<2>{D4} F5 36 07 \\
+    0x24-7 \& \maybeEmph<2>{F4} A5 36 07 \\
     0x28-B \& 89 9A AB BC \\
     0x2C-F \& CD DE EF F0 \\
-    0x30-3 \& BA \maybeEmph<6>{0A} BA 0A \\
-    0x34-7 \& DB 0B \maybeEmph<3>{DB} 0B \\
+    0x30-3 \& BA \maybeEmph<5>{0A} BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
     0x38-B \& EC 0C EC 0C \\
-    0x3C-F \& FC 0C FC 0C \\
+    0x3C-F \& AC \maybeEmph<3>{DC} DC 0C \\
 };
 \iftoggle{heldback}{}{
 \begin{visibleenv}<2->
 \node[right=0cm of memB,align=left,font=\small] {
-    {\tt 0x131} = {\tt \myemph<2>{\color<6>{blue}1 00}\myemph<3>{\color<6>{violet}11 0}\myemph<5>{\color<6>{orange}001}} \\
+    {\tt 0x129} = {\tt \myemph<2>{\color<6>{blue}1 00}\myemph<3>{\color<6>{violet}10 1}\myemph<5>{\color<6>{orange}001}} \\
     \texttt{0x20} + {\color<6>{blue}\tt 0x4}~\times 1 = {\tt 0x24} \\
     \textit{PTE 1 value:} \\
-    {\tt 0xD4} = {\tt 1101 0100} \\
-    PPN {\tt {\color<6>{green} 110}}, valid {\tt 1} \\
+    {\tt 0xF4} = {\tt 1111 0100} \\
+    PPN {\tt {\color<6>{green} 111}}, valid {\tt 1} \\
     \only<3->{\textit{PTE 2 addr:}} \\
-    \only<3->{\texttt{{\color<6>{green} 110} 000} +  \texttt{\myemph<3>{\color<6>{violet} 110}} $\times$ 1 = {\tt 0x36}}\\
-    \only<3->{\textit{PTE 2 value:} {\tt 0xDB}} \\
+    \only<3->{\texttt{{\color<6>{green} 111} 000} +  \texttt{\myemph<3>{\color<6>{violet} 101}} $\times$ 1 = {\tt 0x3D}}\\
+    \only<3->{\textit{PTE 2 value:} {\tt 0xDC}} \\
     \only<4->{PPN {\tt \myemph<4>{\color<6>{red}110}}; valid {\tt 1}} \\
     \only<4->{M[\texttt{\myemph<4>{\color<6>{red}110} \myemph<5>{\color<6>{orange}001}} (\texttt{0x31})] = \texttt{0x0A}}
 };

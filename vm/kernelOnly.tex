@@ -1,6 +1,6 @@
 \usetikzlibrary{calc,patterns,positioning}
 
-\begin{frame}[label=progMem]{emacs.exe}
+\begin{frame}[label=progMem]{running a program}
 \begin{tikzpicture}
 \tikzset{
     mylabel/.style={font=\ttfamily},
@@ -9,11 +9,11 @@
 }
 \begin{scope}[name prefix=A-]
 \node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
-\node[above=0cm of kernel] {Emacs (run by user mst3k)};
+\node[above=0cm of kernel] {Some program}
 \node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
-\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {emacs.exe (Code + Constants)};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {Code + Constants};
 \coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
 \begin{pgfonlayer}{bg}
 \draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);

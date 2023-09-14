@@ -42,13 +42,13 @@
 %\iftoggle{heldback}{}{
 \begin{visibleenv}<2->
 \node[right=0cm of memB,align=left] {
-    {\tt 0x31} = {\tt \myemph<2>{11 0}\myemph<4>{001}} \\
+    {\tt 0x31} = {\tt \myemph<2>{\color<5>{blue}11 0}\myemph<4>{\color<5>{orange}001}} \\
     \textit{PTE addr:} \\
-    \texttt{0x20} + 6 \times 1 = {\tt \myemph<2>{0x26}} \\
+    \texttt{0x20} + \myemph<2>{\color<5>{blue}\tt110} \times 1 = {\tt \myemph<2>{0x26}} \\
     \textit{PTE value:} \\
-    {\tt \myemph<2>{0xF6}} = {\tt \myemph<3>{111}1 0110} \\
-    PPN {\tt \myemph<3>{111}}, valid {\tt 1} \\
-    M[{\tt \myemph<3>{111} \myemph<4>{001}}] = M[\tt{0x39}]\\ $\rightarrow$ {\tt 0x0C}
+    {\tt \myemph<2>{0xF6}} = {\tt \myemph<3>{\color<5>{red}111}1 0110} \\
+    PPN {\tt \myemph<3>{\color<5>{red}111}}, valid {\tt 1} \\
+    M[{\tt \myemph<3>{\color<5>{red}111} \myemph<4>{\color<5>{orange}001}}] = M[\tt{0x39}]\\ $\rightarrow$ {\tt 0x0C}
 };
 \end{visibleenv}
 %}

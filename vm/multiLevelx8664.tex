@@ -1,0 +1,12 @@
+
+\begin{frame}{x86-64 page table splitting}
+    \begin{itemize}
+    \item 48-bit virtual address
+    \item 12-bit page offset (4KB pages)
+    \item 36-bit virtual page number, split into four 9-bit parts
+    \item page tables at each level: $2^9$ entries, 8 bytes/entry
+        \begin{itemize}
+        \item page tables take up 4KB (1 page)
+        \end{itemize}
+    \end{itemize}
+\end{frame}

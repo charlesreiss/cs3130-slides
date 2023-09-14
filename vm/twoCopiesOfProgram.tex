@@ -1,6 +1,6 @@
 \usetikzlibrary{calc,patterns,positioning}
 
-\begin{frame}[label=progMem]{emacs (two copies)}
+\begin{frame}[label=progMem]{vim (two copies)}
 \begin{tikzpicture}
 \tikzset{
     mylabel/.style={font=\ttfamily},
@@ -13,7 +13,7 @@
 \node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
-\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {emacs.exe (Code + Constants)};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {vim (Code + Constants)};
 \coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
 \begin{pgfonlayer}{bg}
 \draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
@@ -26,7 +26,7 @@
 \node[mybox, minimum height=.6cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=1.4cm, below=.3cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
-\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {emacs.exe (Code + Constants)};
+\node[mybox, minimum height=.5cm, below=0mm of data] (sdata) {vim (Code + Constants)};
 \coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
 \begin{pgfonlayer}{bg}
 \draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
@@ -44,7 +44,7 @@
 \begin{itemize}
 \item would like to only have one copy of program
 \vspace{.5cm}
-\item what if {\tt mst3k}'s emacs tries to modify its code?
+\item what if {\tt mst3k}'s vim tries to modify its code?
 \item would break process abstraction:
     \begin{itemize}
         \item ``illusion of own memory''

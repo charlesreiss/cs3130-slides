@@ -6,8 +6,15 @@
 
 \againframe<3>{posixProcessFunctions}
 
+\subsection{fork}
 \input{../unix-api/fork}
 \input{../unix-api/fork-pcb}
+
+\subsection{aside: copy-on-write}
+\input{../vm/copyOnWrite}
+
+\subsection{fork with copy-on-write}
+
 \input{../unix-api/fork-cow}
 \input{../unix-api/fork-example}
 
@@ -30,9 +37,6 @@
 \againframe<5>{posixProcessFunctions}
 
 \input{../unix-api/wait}
-
-\section{aside: TLB invalidation}
-\input{../caching/tlbSwitch}
 
 \subsection{summary diagram}
 
