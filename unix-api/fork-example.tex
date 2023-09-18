@@ -1,3 +1,4 @@
+\usetikzlibrary{decorations.pathmorphing}
 
 \begin{frame}{fork example}
 \lstinputlisting[
@@ -9,9 +10,19 @@
 ]{../unix-api/fork1.c}
 \begin{tikzpicture}[overlay,remember picture]
 \coordinate (explain location) at ([xshift=-1cm,yshift=-2cm]current page.north east);
+\coordinate (explain location 2) at ([xshift=-1cm,yshift=-6cm]current page.north east);
 \tikzset{
+    thread/.style={decoration={snake},decorate,thick},
     explain box/.style={
         at={(explain location)},
+        anchor=north east,
+        draw=red,
+        very thick,
+        align=left,
+        fill=white
+    },
+    explain box 2/.style={
+        at={(explain location 2)},
         anchor=north east,
         draw=red,
         very thick,
@@ -39,7 +50,12 @@ from error number stored in special global variable \texttt{errno}
 };
 \end{visibleenv}
 \begin{visibleenv}<5|handout:2>
-\node[explain box] {
+\coordinate (thread start) at ([xshift=-6cm,yshift=5cm]explain location 2);
+\draw[overlay,thread] (thread start) -- ++(0, -2) node[below] (fork) {fork()} node[midway,right] {parent pid: \ldots};
+\draw[thread] (fork) -- ++ (0, -1.5) node[right]{parent of \ldots};
+\draw[thick,dotted] (fork) -- ++(4, -.5) coordinate (new thread start);
+\draw[thread] (new thread start) -- ++(0, -1.5) node[right] {child \ldots};
+\node[explain box 2] {
 Example output: \\
 \texttt{Parent pid: 100} \\
 \texttt{[100] parent of [432]} \\
