@@ -21,21 +21,3 @@ data[100] = 'x';
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{swapping almost mmap}
-\begin{itemize}
-    \item access mapped file for first time, read from disk
-        \begin{itemize}
-        \item (like swapping when memory was swapped out)
-        \end{itemize}
-    \item write ``mapped'' memory, write to disk eventually
-        \begin{itemize}
-        \item (like writeback policy in swapping)
-        \item use ``dirty'' bit
-        \end{itemize}
-    \vspace{.5cm}
-    \item extra detail: other processes should see changes
-        \begin{itemize}
-        \item all accesses to file use \myemph{same physical memory}
-        \end{itemize}
-\end{itemize}
-\end{frame}
