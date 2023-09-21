@@ -9,7 +9,7 @@
 }
 \begin{scope}[name prefix=A-]
 \node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
-\node[above=0cm of kernel] {Emacs (run by user mst3k)};
+\node[above=0cm of kernel] {Vim (run by user mst3k)};
 \node[mybox, minimum height=.5cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=.5cm, below=1cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
@@ -22,7 +22,7 @@
 
 \begin{scope}[name prefix=B-,xshift=8cm]
 \node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
-\node[above=0cm of kernel] {Emacs (run by user xyz4w)};
+\node[above=0cm of kernel] {Vim (run by user xyz4w)};
 \node[mybox, minimum height=.6cm, below=1cm of kernel] (stack) {Stack};
 \node[mybox, minimum height=1.4cm, below=.3cm of stack] (heap) {Heap / other dynamic};
 \node[mybox, minimum height=.5cm, below=0mm of heap] (data) {Writable data};
