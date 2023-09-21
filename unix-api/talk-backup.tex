@@ -3,6 +3,16 @@
 \subsection{wait statuses}
 \input{../unix-api/wait-exit-status}
 
+\section{shells}
+
+\subsection{shells, the concept}
+
+\input{../unix-api/shell-concept}
+
+\subsection{searching for programs}
+\againframe<2>{commandLineFeatures}
+\input{../unix-api/shell-search}
+
 \subsection{kernel buffering}
 
 \input{../unix-api/kernel-buffering}
@@ -38,12 +48,6 @@
 
 \input{../unix-api/read-write}
 
-\section{partial reads and writes}
-\againframe<2>{readWrite}
-\subsection{partial reads and read error checking}
-\input{../unix-api/partial-read}
-\subsection{partial writes and write error checking}
-\input{../unix-api/partial-write}
 
 
 \subsection{aside: environment variables}
@@ -65,6 +69,17 @@
 
 \input{../unix-api/parentAndChild}
 
+
+\subsection{exercise (read/write/dup2)}
+
+\input{../unix-api/read-write-ex}
+
+\section{partial reads and writes}
+\subsection{partial reads and read error checking}
+\input{../unix-api/partial-read}
+\subsection{partial writes and write error checking}
+\input{../unix-api/partial-write}
+
 \subsection{kernel buffering}
 
 \input{../unix-api/kernel-buffering}
@@ -83,3 +98,4 @@
 
 \section{pipe: closing?}
 \input{../unix-api/pipe-close}
+

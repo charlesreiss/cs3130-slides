@@ -1,0 +1,68 @@
+\usetikzlibrary{arrows.meta,circuits.logic.US,fit,matrix,positioning,shapes.callouts}
+
+\begin{frame}[fragile,label=buildOneCache]{one-block cache}
+\begin{tikzpicture}[remember picture]
+\tikzset{
+    hi/.style={fill=#1,opacity=0.3,inner sep=1pt}
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text width=1.2cm,minimum height=.5cm,inner sep=3pt,inner xsep=0pt},
+        row 1/.append style={nodes={font=\small\bfseries,draw=none}},
+        column 1/.append style={nodes={visible on=<all:4->,align=center,
+            text width=1cm}},
+        column 2/.append style={nodes={visible on=<all:5->,align=center}},
+        column 3/.append style={nodes={text width=1.5cm,align=center}},
+        label={Cache}] (cacheEntries) {
+    valid \& tag \& value \\
+    \alt<5->{\myemph<5>{1}}{0} \& \alt<5->{\myemph<6>{0101}}{0000} \& \alt<5->{\myemph<5>{AA BB}}{00 00} \\
+};
+\matrix[tight matrix,label={Memory},
+    nodes={font=\small\tt\addfontfeatures{Ligatures=TeX},inner sep=3pt, inner xsep=0pt},
+    row 1/.append style={nodes={draw=none,font=\small\bfseries}},
+    column 1/.append style={nodes={draw=none,text width=3cm}},
+    column 2/.append style={nodes={text width=1.2cm}},
+    anchor=north west,
+    ] (memory) at ([xshift=1cm]cacheEntries.north east) {
+    addresses \& bytes \\
+    00000--00001 \& 00 11\\
+    00010--00011 \& 22 33 \\
+    00100--00101 \& 55 55\\
+    00110--00111 \& 66 77 \\
+    01000--01001 \& 88 99 \\
+    \myemph<6>{0101}0--\myemph<6>{0101}1 \& AA \myemph<7>{BB} \\
+    01100--01101 \& CC DD \\
+    01110--01111 \& EE FF \\
+    10000--10001 \& F0 F1 \\
+    \ldots \& |[draw=none]| \ldots\\
+};
+\begin{visibleenv}<3-9>
+    \node[anchor=south west,inner sep=0pt] (readOp1) at ([yshift=2cm]cacheEntries.north west) {read byte at \myemph<6>{0101}\myemph<7>{1}?};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\node[draw=red,anchor=north west,align=left] at ([xshift=.5cm]readOp1.north east){
+    decision: divide memory into two-byte blocks \\
+    put exactly one of these blocks in the cache
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \coordinate (theEntryTop) at ([yshift=-1mm]cacheEntries-2-3.north);
+    \node[my callout2=theEntryTop,anchor=west] at ([xshift=1cm]cacheEntries-2-3) {
+        is this even a value?
+    };
+    \node[my callout2=cacheEntries-2-1.center,anchor=west] at ([yshift=-1cm,xshift=0.2cm]cacheEntries-2-1) {
+        need \myemph{extra bit} to know
+    };
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \coordinate (theEntryTop) at ([yshift=-1mm]cacheEntries-3-4.north);
+    \node[my callout2=theEntryTop,anchor=west] at ([yshift=1cm,xshift=1cm]cacheEntries-2-3) {
+        value from {\tt 00000, 00010, 00100, \ldots}, or \ldots?
+    };
+    \node[my callout2=cacheEntries-3-3.south,anchor=west] at ([yshift=-1cm,xshift=-1cm]cacheEntries-2-2) {
+        need \myemph{tag} to know
+    };
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[anchor=north west,inner sep=0pt] at ([yshift=-1mm]readOp1.south west) {invalid, fetch};
+\end{visibleenv}
+\end{frame}

@@ -1,0 +1,20 @@
+
+\begin{frame}[fragile,label=searchForPrograms]{searching for programs}
+\begin{itemize}
+    \item POSIX convention: PATH \textit{environment variable}
+        \begin{itemize}
+        \item example: \texttt{/home/cr4bd/bin:/usr/bin:/bin} 
+        \item list of directories to check in order
+        \end{itemize}
+    \item environment variables = key/value pairs stored with process
+        \begin{itemize}
+        \item by default, left unchanged on execve, fork, etc.
+        \end{itemize}
+    \item one way to implement:  [pseudocode]
+\begin{lstlisting}
+for (directory in path) {
+    execv(directory + "/" + program_name, argv);
+}
+\end{lstlisting}
+\end{itemize}
+\end{frame}

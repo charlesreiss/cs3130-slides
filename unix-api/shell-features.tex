@@ -1,0 +1,24 @@
+\begin{frame}<1>[fragile,label=commandLineFeatures]{some POSIX command-line features}
+\begin{itemize}
+\item \myemph<2>{searching for programs}
+    \begin{itemize}
+    \item \verb|ls -l| $\approx$ \verb|/bin/ls -l|
+    \item \verb|make| $\approx$ \verb|/usr/bin/make|
+    \end{itemize}
+\item running in background
+    \begin{itemize}
+    \item \verb|./someprogram &|
+    \end{itemize}
+\item \myemph<4>{redirection}:
+    \begin{itemize}
+    \item \verb|./someprogram >output.txt|
+    \item \verb|./someprogram <input.txt|
+    \end{itemize}
+\item \myemph<5>{pipelines}:
+    \begin{itemize}
+    \item \verb!./someprogram | ./somefilter!
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
