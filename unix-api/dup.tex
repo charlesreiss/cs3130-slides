@@ -17,9 +17,11 @@
 
 \begin{frame}[fragile,label=dup2AndTable]{reassigning and file table}
 \begin{lstlisting}[language=C,style=smaller]
-struct process_info {
+// something like this in OS code
+struct process_info { 
     ...
-    struct open_file *files;
+    struct open_file_description *files[SIZE];
+    ....
 };
 ...
 process->files[STDOUT_FILENO] = process->files[opened-fd];

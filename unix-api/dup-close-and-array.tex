@@ -2,10 +2,12 @@
 \begin{lstlisting}[
     language=C++,
     moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
+    style=smaller
 ]
+// something like this in OS code
 struct process_info {
   ...
-  @1struct file *files;1@  
+  @1struct open_file_description *files[NUM];1@  
 };
 \end{lstlisting}
 \begin{itemize}

@@ -31,7 +31,7 @@ int error_code = posix_spawn(
             if not null, do something else */,
     NULL /* null = no special settings for new process */,
     argv,
-    NULL /* null = copy current process's "environment variables", 
+    NULL /* null = copy current "environment variables", 
             if not null, do something else */
 );
 if (error_code == 0) {

@@ -11,6 +11,21 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}{example page table tricks}
+    \begin{itemize}
+    \item allocating space on demand
+    \item loading code/data from files on disk on demand
+    \item saving data temporarily to disk, reloading to memory on demand
+        \begin{itemize}
+        \item ``swapping''
+        \end{itemize}
+    \item stopping in a debugger when a variable is modified
+    \item detecting whether memory was read/written recently
+    \item sharing memory between programs on two different machines
+    \item ``copy-on-write'' (later)
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{hardware help for page table tricks}
 \begin{itemize}
 \item information about the address causing the fault
