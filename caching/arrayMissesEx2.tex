@@ -1,0 +1,22 @@
+
+\begin{frame}[fragile,label=arrayMisses4]{arrays and cache misses (3)}
+\begin{lstlisting}
+int sum; int array[1024]; // 4KB array
+for (int i = 8; i < 1016; i += 1) {
+    int local_sum = 0;
+    for (int j = i - 8; j < i + 8; j += 1) {
+        local_sum += array[i] * (j - i);
+    }
+    sum += (local_sum - array[i]);
+}
+\end{lstlisting}
+    \begin{itemize}
+        \item {\small
+    Assume everything but {\tt array} is kept in registers (and the compiler does not do
+    anything funny).
+        }
+    \item
+        How many \textit{data cache misses} on initially empty \myemph{2KB} direct-mapped cache with 16B cache blocks?
+    \end{itemize}
+\end{frame}
+
