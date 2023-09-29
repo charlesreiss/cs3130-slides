@@ -1,10 +1,13 @@
-\section{caching}
+\section{caching intro}
 
 \subsection{memory hierarchy intro}
 \input{../caching/memHierarchyIntro}
 
 \subsection{locality}
 \input{../caching/localityBasics}
+
+\subsection{typical cache hierarchy}
+\input{../caching/cacheSplitID}
 
 \subsection{one-block cache}
 \input{../caching/oneBlockCache}
@@ -24,6 +27,14 @@
 \subsection{tag/index/offset for direct mapped caches}
 \input{../caching/tioDMIntro}
 
+\subsubsection{aside: cache size}
+\begin{frame}{cache size}
+    \begin{itemize}
+    \item cache size = amount of \textit{data} in cache
+    \item not included metadata (tags, valid bits, etc.)
+    \end{itemize}
+\end{frame}
+
 \subsection{prelim. formulas}
 \input{../caching/tioDMFormulas}
 
@@ -36,17 +47,14 @@
 \subsection{exercise: direct-mapped cache access}
 \input{../caching/dmAccessExercise}
 
-\subsection{on split data/instruction caches and hierarchy}
-\input{../caching/cacheSplitID}
-
 % FIXME: direct-mapped and C code example
 \section{misses in C, and intuition behind conflicts}
 \input{../caching/conflictMissesAndC}
 
-\section{array misses warmup}
+\subsection{array misses warmup}
 \input{../caching/arrayMissesWarmupEx}
 
-\section{array misses warmup, round 2}
+\subsection{array misses warmup (2 set)}
 \input{../caching/arrayMissesWarmupAssoc}
 
 \subsection{mapping misses to sets (DM)}
@@ -55,13 +63,13 @@
 \subsection{array misses and cache results}
 \input{../caching/arrayMissesWarmupBigEx}
 
-\section{cache misses on more complex code}
-\input{../caching/actMissesDM}
-
-\section{array misses and skipping around}
+\subsection{array misses and skipping around}
 \input{../caching/arrayMissesSkip}
 
-\subsection{adding associativity}
+\subsection{cache misses on more complex code}
+\input{../caching/actMissesDM}
+
+\section{adding associativity}
 %\againframe<13>{pattern1}
 
 \input{../caching/addAssoc}
@@ -76,23 +84,19 @@
 \subsection{tag/index/offset for set-assoc. caches}
 \input{../caching/tioFormulas}
 
-\subsection{tag/index/offset exercise}
-\subsubsection{setup}
-\input{../caching/tioExerciseIntro}
-\subsubsection{the exercise}
-\input{../caching/tioExercise}
-
 \subsection{mapping misses to sets (DM)}
 \input{../caching/setMappingDiag3}
 
+\section{revisiting array misses and skips}
+\againframe<2>{arrayMissesSkip}
 
 \section{array misses and associative caches?}
 \input{../caching/arrayMissesWarmupBigExSA}
 
-\section{fixing actual misses}
+\section{simulated misses with set-assoc. caches}
 \input{../caching/actMissesAssoc}
 
-\subsection{options for handling writes}
+\section{options for handling cache writes}
 \input{../caching/writePolicy}
 
 \subsection{exercise: write/replacement policies}
@@ -124,18 +128,7 @@
 \subsection{how TLBs are organized}
 \input{../caching/tlbOrganization} % FIXME: emphasize that AFTER this is normal cache access
 
-\subsection{exercise: splitting for TLBs}
-\subsubsection{1}
-\input{../caching/tlbSplitEx1}
-\subsubsection{2}
-\input{../caching/tlbSplitEx2}
-
-
 \subsection{exercise: TLB access pattern}
 \input{../caching/tlbAccessExPrep}
 \input{../caching/tlbAccessEx}
-
-
-\subsection{TLBs and context switches}
-\input{../caching/tlbSwitch}
 

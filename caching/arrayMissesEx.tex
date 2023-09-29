@@ -32,8 +32,20 @@ for (int i = 0; i < 1024; i += 2)
         }
     \item
 How many \textit{data cache misses} on initially empty 2KB direct-mapped cache with 16B cache blocks?
-            \only<2->{Would a set-associtiave cache be better?}
+            \only<2->{\myemph<2>{Would a set-associative cache be better?}}
     \end{itemize}
+\end{frame}
+
+\begin{frame}<0>[fragile,label=arrayMissesOddEven2SAExplain]{explanation}
+\begin{itemize}
+\item 2-way, 2KB set associative cache, 16B blocks
+\item 4 offset bits, 6 index bits
+\item so addresses multiples $2^{10}$ bytes apart differ only in tag bits
+\item example: array[0$\rightarrow$3], array[256$\rightarrow$259], array[512$\rightarrow$515], array[768$\rightarrow$771]
+\item those all use the same set
+\item but sets only holds 2 things
+\item all misses
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,label=arrayMissesOddEven3]{arrays and cache misses (2b)}
@@ -52,27 +64,6 @@ for (int i = 0; i < 1024; i += 2)
         }
     \item
         How many \textit{data cache misses} on initially empty \myemph{4KB} direct-mapped cache with 16B cache blocks?
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile,label=arrayMisses4]{arrays and cache misses (3)}
-\begin{lstlisting}
-int sum; int array[1024]; // 4KB array
-for (int i = 8; i < 1016; i += 1) {
-    int local_sum = 0;
-    for (int j = i - 8; j < i + 8; j += 1) {
-        local_sum += array[i] * (j - i);
-    }
-    sum += (local_sum - array[i]);
-}
-\end{lstlisting}
-    \begin{itemize}
-        \item {\small
-    Assume everything but {\tt array} is kept in registers (and the compiler does not do
-    anything funny).
-        }
-    \item
-        How many \textit{data cache misses} on initially empty \myemph{2KB} direct-mapped cache with 16B cache blocks?
     \end{itemize}
 \end{frame}
 
