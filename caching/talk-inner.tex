@@ -49,16 +49,11 @@
 \section{array misses warmup, round 2}
 \input{../caching/arrayMissesWarmupAssoc}
 
-\section{aside: cache size}
-\begin{frame}{cache size}
-    \begin{itemize}
-    \item cache size = amount of \textit{data} in cache
-    \item not included metadata (tags, valid bits, etc.)
-    \end{itemize}
-\end{frame}
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
 
-\section{array misses and cache results}
-\input{../caching/arrayMissesEx}
+\subsection{array misses and cache results}
+\input{../caching/arrayMissesWarmupBigEx}
 
 \section{cache misses on more complex code}
 \input{../caching/actMissesDM}
@@ -87,10 +82,12 @@
 \subsubsection{the exercise}
 \input{../caching/tioExercise}
 
-\section{revisiting array misses and skips}
-\againframe<2>{arrayMissesSkip}
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiag3}
+
+
 \section{array misses and associative caches?}
-\againframe<2>{arrayMissesOddEven2}
+\input{../caching/arrayMissesWarmupBigExSA}
 
 \section{fixing actual misses}
 \input{../caching/actMissesAssoc}

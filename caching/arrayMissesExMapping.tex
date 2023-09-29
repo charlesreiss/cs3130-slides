@@ -1,0 +1,14 @@
+\begin{frame}{mapping arrays to cache sets}
+\begin{itemize}
+\item 2KB direct-mapped cache w/ 16B blocks
+\item $\rightarrow$ values 2KB apart map to same set
+    \begin{itemize}
+    \item mapping wraps around to beginning of cache
+    \item 2K = $2^(\text{index bits} + \text{offset bits})$ s
+    \end{itemize}
+\vspace{.5cm}
+\item<2-> array[0--3] and array[512--515] map to same set
+\item<2-> array[4--7] and array[516--519] map to same set
+\item<2-> \ldots
+\end{itemize}
+\end{frame}

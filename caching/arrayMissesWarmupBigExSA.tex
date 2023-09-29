@@ -1,0 +1,43 @@
+\begin{frame}[fragile,label=arrayMissesAssoc4]{C and cache misses (assoc)}
+\begin{lstlisting}[style=smaller]
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+even_sum += array[512];
+even_sum += array[514];
+odd_sum += array[1];
+odd_sum += array[3];
+odd_sum += array[511];
+odd_sum += array[513];
+\end{lstlisting}
+\begin{itemize}
+\item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+anything funny).}
+\item observation: array[0] and array[512] exactly 2KB apart
+item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesWarmup4]{C and cache misses (assoc)}
+\begin{lstlisting}[style=smaller]
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[256];
+even_sum += array[512];
+even_sum += array[768];
+odd_sum += array[1];
+odd_sum += array[257];
+odd_sum += array[513];
+odd_sum += array[769];
+\end{lstlisting}
+\begin{itemize}
+\item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+anything funny).}
+\item observation: array[0] and array[256] and array[512] and array[768] exactly 1KB apart
+\item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks
+\end{itemize}
+\end{frame}

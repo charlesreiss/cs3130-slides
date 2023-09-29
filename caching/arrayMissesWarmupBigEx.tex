@@ -1,0 +1,43 @@
+\begin{frame}[fragile,label=arrayMissesWarmup5]{C and cache misses (warmup 5)}
+\begin{lstlisting}[style=smaller]
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+even_sum += array[512];
+even_sum += array[514];
+odd_sum += array[1];
+odd_sum += array[3];
+odd_sum += array[511];
+odd_sum += array[513];
+\end{lstlisting}
+\begin{itemize}
+\item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+anything funny).}
+\item observation: array[0] and array[512] exactly 2KB apart
+\item How many data cache misses on a 2KB direct mapped cache with 16B blocks
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=arrayMissesWarmup6]{C and cache misses (warmup 6)}
+\begin{lstlisting}[style=smaller]
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+even_sum += array[500];
+even_sum += array[502];
+odd_sum += array[1];
+odd_sum += array[3];
+odd_sum += array[501];
+odd_sum += array[503];
+\end{lstlisting}
+\begin{itemize}
+\item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+anything funny).}
+\item observation: array[0] and array[500] exactly 2KB apart
+\item How many data cache misses on a 2KB direct mapped cache with 16B blocks
+\end{itemize}
+\end{frame}

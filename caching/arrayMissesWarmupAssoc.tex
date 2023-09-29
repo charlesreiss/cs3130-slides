@@ -1,7 +1,7 @@
 
 \begin{frame}[fragile,label=arrayMissesWarmup4]{C and cache misses (warmup 4)}
 \begin{lstlisting}[style=smaller]
-int array[8];
+int array[8]; /* assume aligned */
 ...
 int even_sum = 0, odd_sum = 0;
 even_sum += array[0];
