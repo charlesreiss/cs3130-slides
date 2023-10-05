@@ -11,12 +11,12 @@ odd_sum += array[3];
 odd_sum += array[511];
 odd_sum += array[513];
 \end{lstlisting}
-\begin{itemize}
-\item {\small
+{\small
 Assume everything but {\tt array} is kept in registers (and the compiler does not do
-anything funny).}
-\item observation: array[0] and array[512] exactly 2KB apart
-item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks
+anything funny).\\
+opbservation: array[0], array[256], array[512], array[768] in same set}
+\begin{itemize}
+\item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks
 \end{itemize}
 \end{frame}
 
@@ -33,11 +33,11 @@ odd_sum += array[257];
 odd_sum += array[513];
 odd_sum += array[769];
 \end{lstlisting}
-\begin{itemize}
-\item {\small
+{\small
 Assume everything but {\tt array} is kept in registers (and the compiler does not do
-anything funny).}
-\item observation: array[0] and array[256] and array[512] and array[768] exactly 1KB apart
-\item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks
+anything funny).\\
+observation: array[0], array[256], array[512], array[768] in same set}
+\begin{itemize}
+\item How many data cache misses on a 2KB 2-way set associative cache with 16B blocks?
 \end{itemize}
 \end{frame}
