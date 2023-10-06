@@ -69,10 +69,10 @@
     \item
     \begin{tabular}{l|l}
     L1 cache & TLB \\ \hline
-        physical addresses & \myemph<2>{virtual\tikzmark{vpns} page numbers} \\
-        bytes from memory & \myemph<2>{page table\tikzmark{copyPTE} entries} \\
-        tens of bytes per block & \myemph<3>{one page table\tikzmark{onePerBlock} entry per block} \\
-    usually thousands of blocks & \myemph<4>{usually tens of entries}\tikzmark{entries} \\
+        physical addresses & \myemph<2-3>{virtual\tikzmark{vpns} page numbers} \\
+        bytes from memory & \myemph<2-3>{page table\tikzmark{copyPTE} entries} \\
+        tens of bytes per block & \myemph<4-5>{one page table\tikzmark{onePerBlock} entry per block} \\
+    usually thousands of blocks & \myemph<6>{usually tens of entries}\tikzmark{entries} \\
     \end{tabular}
     \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
@@ -83,13 +83,23 @@
 };
 \end{visibleenv}
 \begin{visibleenv}<3>
-\node[my callout=onePerBlock,align=left] at ([xshift=-9cm,yshift=-1cm]pic cs:onePerBlock) {
-    not much spatial locality between page table entries \\
-    (they're used for kilobytes of data already) \\
-    (and if spatial locality, maybe use larger page size?)
+\node[my callout=copyPTE,align=left] at ([xshift=-6cm,yshift=-1cm]pic cs:copyPTE) {
+    virtual page number divided into \\
+    index + tag
 };
 \end{visibleenv}
 \begin{visibleenv}<4>
+\node[my callout=onePerBlock,align=left] at ([xshift=-9cm,yshift=-1cm]pic cs:onePerBlock) {
+    not much spatial locality between page table entries \\
+    (they're used for kilobytes of data already)
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[my callout=onePerBlock,align=left] at ([xshift=-9cm,yshift=-1cm]pic cs:onePerBlock) {
+    {\tt 0} block offset bits
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
 \node[my callout=entries,align=left] at ([xshift=-6cm,yshift=-1cm]pic cs:entries) {
     few active page table entries at a time \\
     enables highly associative cache designs
