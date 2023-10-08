@@ -7,13 +7,13 @@
     \vspace{.5cm}
     \item if the value is not in cache, do we add it?
         \begin{itemize}
-        \item if yes: need to load rest of block
-        \item if no: missing out on locality?
+        \item if yes: need to load rest of block --- \textit{write-allocate}
+        \item if no: missing out on locality? \textit{write-no-allocate}
         \end{itemize}   
     \item if value is in cache, when do we update next level?
         \begin{itemize}
-        \item if immediately: extra writing
-        \item if later: need to remember to do so
+        \item if immediately: extra writing \textit{write-through}
+        \item if later: need to remember to do so \textit{write-back}
         \end{itemize}
     \end{itemize}
 \end{frame}

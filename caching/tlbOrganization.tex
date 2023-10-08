@@ -103,6 +103,7 @@
 \coordinate (outputHit1) at ([xshift=-3.5cm] beforeOutputData |- validCheck1.output);
 \coordinate (outputHit2) at ([xshift=-3.5cm] beforeOutputData |- validCheck2.output);
 %\begin{visibleenv}<2->
+\begin{visibleenv}<0>
 \node[or gate,logic gate inputs=nn,label={[font=\scriptsize]center:OR},anchor=output] (validCheckTotal)
     at ([xshift=1cm]$(outputHit1)!0.5!(outputHit2)$) {};
 %\draw[myline] (validCheck1.output) -- (outputHit1) |- (validCheckTotal.input 1);
@@ -113,9 +114,10 @@
     \draw[myline] (outputHit1) |- (validCheckTotal.input 1);
 \draw[myline] (validCheck2.output) -- (outputHit2) |- (validCheckTotal.input 2);
 \draw[myline] (validCheckTotal.output) -| ++(.5cm,-.5cm) node[below] {is hit?};
+\end{visibleenv}
 %\end{visibleenv}
 %\begin{visibleenv}<3->
-    \node[dataColor,draw,minimum width=.3cm,minimum height=.5cm,mux,anchor=east,inputs=nn] (outputSelect) at ([xshift=-.2cm]beforeOutputData) {};
+    \node[dataColor,draw,minimum width=.2cm,minimum height=.4cm,mux,anchor=east,inputs=nn] (outputSelect) at ([xshift=-.2cm]beforeOutputData) {};
     \draw[myline] (outputHit1) -| (outputSelect.south);
     \fill[black] (outputHit1) circle (2pt);
     %\draw[myline,dataColor] (cache-9-3.south) |- (outputSelect.input 2);
