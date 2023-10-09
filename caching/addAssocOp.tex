@@ -1,0 +1,69 @@
+\usetikzlibrary{decorations,decorations.pathreplacing,circuits.logic.US,matrix,positioning,fit}
+\usetikzlibrary{circuits.logic.mux}
+
+\begin{frame}{cache operation (associative)}
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagStoreFill/.style={fill=green!20},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    dataStoreFill/.style={fill=blue!20},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries}},
+        column 1/.style={nodes={text width=1cm,align=center}},
+        column 2/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 3/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        column 4/.style={nodes={text width=.1cm,draw=none}},
+        column 5/.style={nodes={text width=1cm,align=center}},
+        column 6/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 7/.style={nodes={text width=1.3cm,dataColor,dataStoreFill}},
+        ] (cache) {
+    valid \& tag \&  data \& ~ \& valid \& tag \& data\\
+    1  \& 10 \& 00 11 \& ~ \& 1 \& 00 \& AA BB \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    1 \&  11 \& B4 B5 \& ~ \& 1 \& 01 \& 33 44 \\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+    ~ \& ~ \& ~ \&   ~ \&  ~ \& ~ \& ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=1cm,xshift=-.3cm]cache.north west){100};
+\node[left=0cm of idx,tagColor] (tag) {11};
+\node[right=0cm of idx,offsetColor] (offset) {1};
+\end{scope}
+\draw[thick,dashed,-latex] (idx) |- ([xshift=-.2cm]cache-6-1.north west) node[near start,font=\small,fill=white,inner sep=2pt,xshift=-.3cm] {index};
+\draw[very thick,decorate,decoration={brace,mirror},overlay] ([xshift=-.1cm]cache-2-1.north west) -- ([xshift=-.1cm]cache-9-1.south west);
+
+\node[fit=(cache-6-1) (cache-6-7),inner sep=1pt,red,draw,line width=3pt] {};
+
+\draw[thick,dashed,-latex,tagColor] (tag) |- ([yshift=-.5cm]cache-9-2.south) coordinate (tag cmp 1);
+\draw[thick,dashed,-latex,tagColor] (cache-9-2.south) -- (tag cmp 1);
+\draw[thick,dashed,-latex,tagColor] (tag) |- ([yshift=-1cm]cache-9-6.south) coordinate (tag cmp 2)
+    node[pos=0.25,fill=white] {tag};
+\draw[thick,dashed,-latex,tagColor] (cache-9-6.south) -- (tag cmp 2);
+
+\draw[thick,dashed,-latex,offsetColor] (offset.south) -- ++(0cm, -.1cm) -| ([yshift=.2cm]cache-1-3.north);
+\draw[thick,dashed,-latex,offsetColor] (offset.south) -- ++(0cm, -.1cm) -| ([yshift=.2cm]cache-1-7.north);
+
+\draw[very thick,decorate,decoration={brace,mirror},overlay] ([yshift=.1cm]cache-1-3.north east) -- ([yshift=.1cm]cache-1-3.north west);
+\draw[very thick,decorate,decoration={brace,mirror},overlay] ([yshift=.1cm]cache-1-7.north east) -- ([yshift=.1cm]cache-1-7.north west);
+
+\end{tikzpicture}
+% FIXME: place diagram here
+\end{frame}
