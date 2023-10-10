@@ -1,15 +1,11 @@
-\begin{frame}{thread resources}
+\begin{frame}{thread joining}
 \begin{itemize}
-\item to create a thread, allocate:
-\item new stack (how big???)
-\item thread control block
-\vspace{.5cm}
-\item deallocated when \ldots
-\item<2-> can deallocate stack when thread exits
-\item<2-> but need to allow collecting return value
-    \begin{itemize}
-    \item same problem as for processes and waitpid
-    \end{itemize}
+    \item pthread\_join allows collecting thread return value
+    \item if you don't join joinable thread, then \myemph{memory leak}!
+    \vspace{.5cm}
+    \item<2-> avoiding memory leak?
+    \item<2-> always join\ldots or
+    \item<2-> ``detach'' thread to make it not joinable
 \end{itemize}
 \end{frame}
 
