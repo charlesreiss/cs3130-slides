@@ -1,10 +1,12 @@
+LATEXRUN=latexrun
+
 all: talk-slides.pdf
 
 %.pdf: %.tex .FORCE
-	latexrun -W no-overfull --latex-cmd=$(LATEX) --latex-args=-shell-escape $<
+	$(LATEXRUN) -W no-overfull --latex-cmd=$(LATEX) --latex-args=-shell-escape $<
 
 clean:
-	latexrun --clean-all
+	$(LATEXRUN) --clean-all
 
 .FORCE:
 
