@@ -26,11 +26,21 @@
 \subsection{what is atomic?}
 \input{../sync/what-atomic}
 
-\section{read-modify-write atomic operations}
-\input{../sync/read-modify-write}
+\section{revisiting atomicity}
+\subsection{compiler reordering}
+\input{../sync/compiler-reordering}
 
-\subsection{but higher-level tools}
-\input{../sync/atomic-to-higher}
+\subsection{fix compiler reordering}
+\begin{frame}{fixing compiler reordering?}
+    \begin{itemize}
+    \item isn't there a way to tell compiler not to do these optimizations?
+    \item yes, but that is \myemph{still not enough}!
+    \item \textbf{processors} sometimes do this kind of reordering too (between cores)
+    \end{itemize}
+\end{frame}
+
+\section{pthreads and load/store reordering}
+\input{../sync/no-reordering}
 
 \section{definitions: mutual exclusion, critical section}
 \input{../sync/mutual-exclusion-defn}
@@ -47,6 +57,9 @@
 \subsection{pthread\_mutex: lock where you unlock}
 \input{../sync/pthread-mutex-restriction}
 
+\section{preview: more advance sync}
+\input{../sync/preview-dont-roll}
+
 \subsection{beyond locks}
 \input{../sync/beyond-lock}
 
@@ -56,31 +69,4 @@
 \section{life HW}
 \input{../sync/life-hw-intro}
 
-
-\section{preview: more advance sync}
-\input{../sync/preview-dont-roll}
-
-\section{revisiting atomicity}
-\subsection{compiler reordering}
-\input{../sync/compiler-reordering}
-
-\subsection{fix compiler reordering}
-\begin{frame}{fixing compiler reordering?}
-    \begin{itemize}
-    \item isn't there a way to tell compiler not to do these optimizations?
-    \item yes, but that is \myemph{still not enough}!
-    \end{itemize}
-\end{frame}
-
-\subsection{processor reordering}
-\input{../sync/non-atomic-loadstore}
-
-\subsection{why reorder?}
-\input{../sync/load-store-reorder-spec}
-\input{../sync/load-store-reordering}
-
-
-
-\section{pthreads and load/store reordering}
-\input{../sync/no-reordering}
 
