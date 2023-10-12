@@ -22,9 +22,9 @@
             node[pos=0.0,above right,cmd] {Send(Conn, ``2 + 2 = ?'')}
             node[pos=1.0,below left,cmd,yshift=-.5cm] {``2 + 2 = ?'' = Recv(Conn)};
         \draw[very thick,<-] ([yshift=-5.7cm]machine A.north east) -- ([yshift=-5.7cm]machine B.north west) 
-            node[midway,below,msg] {A: Send(B, ``4'')}
+            node[pos=1.0,above left,cmd] {Send(B, ``4'')}
             %node[pos=1.0,above left,cmd] {Send(Conn, ``4'')}
-            node[pos=0.0,below right,cmd,yshift=-.5cm] {``4'' = Recv(Conn)};
+            node[pos=0.0,below right,cmd,yshift=0cm] {``4'' = Recv(Conn)};
     \end{tikzpicture}
 \end{frame}
 

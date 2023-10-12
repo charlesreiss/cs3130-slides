@@ -17,16 +17,23 @@
                 alt=<2>{red,thick}] (network) at (0,0) {the network};
         \node[comp box] (machine B) at (6.5, 0) {machine \\ B};
         \draw[very thick,->] (machine A) -- (network) 
-            node[midway,above,msg] {B: ``Hello''}
+            node[alt=<1>{red},midway,above,msg] {B: ``Hello''}
             node[pos=0.0,below right,cmd] {Send(B, ``Hello'')};
         \draw[very thick,<-] (machine B) -- (network) 
             node[midway,above,msg] {B: ``Hello''}
             node[pos=0.0,below left,cmd] {Recv() = ``Hello''};
         % FIXME: hilite network: knows how to get message to particular place
             % note/show buffering at A/B
+        \begin{visibleenv}<1>
+            \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
+                A sends ``letter'' to B \\
+                ``envelope'' tells network it's addressed to B \\
+                data in this example: ``Hello''
+            };
+        \end{visibleenv}
         \begin{visibleenv}<2>
             \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
-                network knows how to get message to B
+                network does its \myemph{best} to get message to B
             };
         \end{visibleenv}
         \begin{visibleenv}<3->
@@ -36,7 +43,7 @@
         \end{visibleenv}
         \begin{visibleenv}<3>
             \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
-                queue of messages \\
+                queue (`outgoing mailbox') of messages \\
                 from sending program \\
                 waiting to be sent
             };
@@ -48,7 +55,7 @@
         \end{visibleenv}
         \begin{visibleenv}<4>
             \node[explain box,anchor=north] at ([yshift=-.25cm]network.south) {
-                queue of messages \\
+                queue (`incoming mailbox') of messages \\
                 not yet received by \\
                 receiving program
             };
@@ -59,10 +66,12 @@
 \begin{frame}{connections over mailboxes}
     \begin{itemize}
     \item real Internet: mailbox-style communication
-        \begin{itemize}
-        \item send packets to particular mailboxes
-        \item no gaurentee on order, when received
-        \end{itemize}
+    \item send ``letters'' (packets) to particular mailboxes
+    \item have ``envelope'' (header) saying where they go
+    \vspace{.5cm}
+    \item ``best-effort''
+    \item no gaurentee on order, when received
+    \item no gaurentee on \textit{if} received
     \item sockets implemented on top of this
     \end{itemize}
 \end{frame}
