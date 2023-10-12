@@ -36,7 +36,7 @@ void Finish() {
 }
 
 \begin{visibleenv}<2>
-    \node[explain box,anchor=east] (acquire text) at ([yshift=-1cm,xshift=-.5cm]current page.east) {
+    \node[explain box,anchor=east,fill=white] (acquire text) at ([yshift=-1cm,xshift=-.5cm]current page.east) {
         acquire lock before \\ reading or writing \texttt{finished}
     };
     \draw[point line,<-] ([yshift=1.5mm]pic cs:lock for wait) -- (acquire text);
