@@ -2,14 +2,13 @@
 \begin{itemize}
 \item suppose we want to implement a one-use barrier; fill in blanks:
 \end{itemize}
-\begin{lstlisting}[style=smallerer]
+\begin{lstlisting}[style=size105]
 struct BarrierInfo {
     pthread_mutex_t lock;
     int total_threads;  // initially total # of threads
     int number_reached; // initially 0
     ___________________
 };
-
 void BarrierWait(BarrierInfo *b) {
     pthread_mutex_lock(&b->lock);
     ++b->number_reached;
