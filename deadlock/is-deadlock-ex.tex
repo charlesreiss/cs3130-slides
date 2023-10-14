@@ -28,7 +28,8 @@ lock A (prev) & wait to lock B (prev) \\
 wait to lock C (next) &
 \end{tabular}
 \hrule
-With B and D --- only overlap in in node C --- no circular wait possible
+With B and D --- only overlap in in node C --- no circular wait possible \\
+(thread can't be waiting while holding something other thread wants)
 \end{frame}
 
 \iftoggle{heldback}{}{\againframe<1>{isDeadlockPTimeline1}}

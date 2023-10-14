@@ -78,10 +78,3 @@ Thread 1: \texttt{MoveFile(A, B, "foo")}; Thread 2: \texttt{MoveFile(B, A, "bar"
 \end{itemize}
 \end{frame}
 
-\begin{frame}{preventing livelock}
-    \begin{itemize}
-    \item make schedule random --- e.g. random waiting after abort
-    \item make threads run one-at-a-time if lots of aborting
-    \item other ideas?
-    \end{itemize}
-\end{frame}
