@@ -1,8 +1,7 @@
 \begin{frame}[fragile]{exercise}
 \lstset{language=C,style=smaller}
 \begin{lstlisting}
-pthread_barrier_t barrier;
-int x = 0, y = 0;
+pthread_barrier_t barrier; int x = 0, y = 0;
 void thread_one() {
     y = 10;
     pthread_barrier_wait(&barrier);
@@ -11,7 +10,6 @@ void thread_one() {
     pthread_barrier_wait(&barrier);
     printf("%d %d\n", x, y);
 }
-
 void thread_two() {
     x = 20;
     pthread_barrier_wait(&barrier);
@@ -21,7 +19,6 @@ void thread_two() {
 }
 \end{lstlisting}
 \begin{itemize}
-\item if both thread\_one, thread\_two run at once
-\item output? 
+\item output?  (if both run at once, barrier set for 2 threads)
 \end{itemize}
 \end{frame}
