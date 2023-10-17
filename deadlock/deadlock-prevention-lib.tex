@@ -32,6 +32,7 @@
 \node[my callout2=abort retry,anchor=south east,align=left,font=\small] at ([xshift=5cm,yshift=.9cm]abort retry) {
     memory allocation: malloc() fails rather than waiting (no deadlock) \\
     locks: \texttt{pthread\_mutex\_trylock} fails rather than waiting \\
+    problem: retry how many times? \myemph{no bound on number of tries needed} \\
     \ldots
 };
 \end{visibleenv}
