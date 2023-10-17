@@ -1,0 +1,105 @@
+\documentclass[aspectratio=169]{mytalk}
+\title{}
+\date{}
+\begin{document}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item sync tools avoid compiler optimizations
+    \item locks --- tool for taking turns
+        \begin{itemize}
+        \item lock() --- wait for any thread ``holding'' lock, then hold lock
+        \item unlock()
+        \end{itemize}
+    \item barriers --- wait for everyone else
+        \begin{itemize}
+        \item initialize with number of involved threads
+        \item every do a step; then every do next step
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{deadlock definition}
+
+
+\subsection{conditions for deadlock}
+
+\input{../deadlock/deadlock-requirements}
+
+\section{exercise}
+
+\input{../deadlock/is-deadlock-ex}
+
+\section{deadlock prevention}
+
+\subsection{techniques overview}
+
+\input{../deadlock/deadlock-prevention-lib}
+
+% FIXME: cut down?
+
+\againframe<1>{deadlockPrevent}
+
+\againframe<2>{deadlockPrevent} % infinite resources
+
+\againframe<3>{deadlockPrevent} % no shared resources
+
+\subsection{example: no waiting}
+
+\againframe<4>{deadlockPrevent} % no waiting ABORT
+
+\subsection{example: livelock}
+
+\againframe<8>{deadlockPrevent} % no waiting RETRY
+
+\subsection{example: revoke}
+
+\againframe<7>{deadlockPrevent} % no waiting REVOKE
+
+\subsection{example: consistent order}
+
+\againframe<5>{deadlockPrevent}
+
+\input{../deadlock/prevention-ordering-examples}
+
+\againframe<6>{deadlockPrevent}
+
+
+\section{beyond locks}
+\input{../sync/beyond-lock}
+
+\section{beyond locks (revisited)}
+\againframe<2>{beyondLock}
+
+\section{producer/consumer problem}
+\input{../sync/producer-consumer-intro}
+
+\input{../sync/talk-monitor}
+
+\section{aside: transactions}
+\input{../sync/talk-xact}
+
+\begin{frame}
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{short intuition for deadlock}
+
+\input{../deadlock/definition-intro}
+
+\input{../sync/talk-semaphore}
+
+\input{../sync/talk-backup}
+
+\end{document}
