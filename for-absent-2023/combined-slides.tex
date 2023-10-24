@@ -7,7 +7,7 @@
 
 \begin{frame}{last time}
     \begin{itemize}
-    \item sync tools avoid compiler optimizations
+    \item sync tools avoid compiler optimizations that don't know about threads
     \item locks --- tool for taking turns
         \begin{itemize}
         \item lock() --- wait for any thread ``holding'' lock, then hold lock
@@ -17,6 +17,11 @@
         \begin{itemize}
         \item initialize with number of involved threads
         \item every do a step; then every do next step
+        \end{itemize}
+    \item deadlock --- circular infinite waiting
+        \begin{itemize}
+        \item one thread waits for another thread to finish, but\ldots
+        \item that thread can't finish until first thread finishes
         \end{itemize}
     \end{itemize}
 \end{frame}
