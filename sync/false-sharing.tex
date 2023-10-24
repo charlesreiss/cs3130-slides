@@ -1,7 +1,6 @@
 \begin{frame}{modifying cache blocks in parallel}
 \begin{itemize}
-\item cache coherency works on \myemph{cache blocks}
-\item but typical memory access --- less than cache block
+\item typical memory access --- less than cache block
     \begin{itemize}
     \item e.g. one 4-byte array element in 64-byte cache block
     \end{itemize}
@@ -10,7 +9,7 @@
     \begin{itemize}
     \item 4-byte writes to 64-byte cache block
     \end{itemize}
-\item cache coherency --- write instructions happen one at a time:
+\item typically how caches work --- write instructions happen one at a time:
     \begin{itemize}
     \item processor `locks' 64-byte cache block, fetching latest version
     \item processor updates 4 bytes of 64-byte cache block
