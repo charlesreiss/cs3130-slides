@@ -2,7 +2,7 @@
 \begin{itemize}
 \item Ethernet, Wi-Fi, Bluetooth, DOCSIS (cable modems), \ldots
 \vspace{.5cm}
-\item allows send/recv messages to machines on ``same'' network segment
+\item allows send/recv messages to machines on \myemph<2>{``same'' network segment}
     \begin{itemize}
     \item typically: wireless range+channel or connected to a single switch/router
     \item could be larger (if \textit{bridging} multiple network segments)
@@ -19,18 +19,14 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{link layer quality of service}
-if frame gets\ldots \\
-\small
-\begin{tabular}{l|l|l}
-event & on Ethernet & on WiFi \\\hline
-collides with another & detected + may resend & resend\\
-not received & lose silently & resent \\
-header corrupted & usually discard silently & usually resend \\
-data corrupted & usually discard silently & usually resend \\
-too long & not allowed to send & not allowed to send \\
-reordered (v. other messages)  & received out of order & received out of order \\
-destination unknown & lose silently & usually resend?? \\
-too much being sent & discard excess? & discard excess? \\
-\end{tabular}
+\begin{frame}{link layer jobs}
+    \begin{itemize}
+    \item divide raw bits into messages
+    \item identify who message is for on shared radio/wire
+    \item handle if two+ machines use radio/wire at same time
+    \item drop/resend messages if corruption detected
+        \begin{itemize}
+        \item resending more common in radio schemes (wifi, etc.)
+        \end{itemize}
+    \end{itemize}
 \end{frame}

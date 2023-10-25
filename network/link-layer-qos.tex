@@ -1,0 +1,16 @@
+
+\begin{frame}{link layer quality of service}
+if frame gets\ldots \\
+\small
+\begin{tabular}{l|l|l}
+event & on Ethernet & on WiFi \\\hline
+collides with another & detected + may resend & resend\\
+not received & lose silently & resent \\
+header corrupted & usually discard silently & usually resend \\
+data corrupted & usually discard silently & usually resend \\
+too long & not allowed to send & not allowed to send \\
+reordered (v. other messages)  & received out of order & received out of order \\
+destination unknown & lose silently & usually resend?? \\
+too much being sent & discard excess? & discard excess? \\
+\end{tabular}
+\end{frame}

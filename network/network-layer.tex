@@ -13,27 +13,3 @@
 \item messages usually called ``packets''
 \end{itemize}
 \end{frame}
-
-\begin{frame}[fragile]{network layer quality of service}
-if packet \ldots \\
-\small
-\begin{tabular}{l|p{12cm}}
-event & on IPv4/v6 \\\hline
-collides with another & out of scope --- handled by link layer \\
-\myemph<2>{not received}\tikzmark{not recv} & lost silently \\
-header corrupted & usually discarded silently \\
-data corrupted & received corrupted \\
-too long & dropped with notice or ``fragmented'' + recombined \\
-reordered (v. other messages) & received out of order \\
-destination unknown & usually dropped with notice \\
-too much being sent & discard excess \\
-\end{tabular}
-\begin{tikzpicture}[overlay,remember picture]
-\begin{visibleenv}<2>
-\node[align=left,my callout=not recv,anchor=north west] at ([xshift=0cm,yshift=-3cm]pic cs:not recv) {
-    includes dropped by link layer \\
-    (e.g. if detected corrupted there)
-};
-\end{visibleenv}
-\end{tikzpicture}
-\end{frame}
