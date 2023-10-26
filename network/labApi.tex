@@ -1,0 +1,68 @@
+\begin{frame}{upcoming lab}
+    \begin{itemize}
+    \item receive message split into pieces
+    \item you are responsible for:
+        \begin{itemize}
+        \item requesting parts in order
+        \item resending requests if messages lost/corrupted
+        \end{itemize}
+    \item ``acknowledge'' receiving part X to request part X+1
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{protocol}
+    \begin{itemize}
+    \item GET0 --- start
+        \begin{itemize}
+        \item other end acknowledges by giving data
+        \item if they don't acknowledge, you need to send again
+        \end{itemize}
+    \item ACKn 
+        \begin{itemize}
+        \item request message n + 1 by acknowledging message n
+        \item not quite same purpose as acknowledgments in lecture examples
+        \item (in lab, the respoonse is your `acknowledgment' of your request; \\
+            you retry if you don't get it)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{callback-based programming (1)}
+\begin{Verbatim}[fontsize=\small]
+/* library code you don't write */
+void mainLoop() {
+    while (true) {
+        Event event = getNextEvent();
+        if (event.type == RECIEVED) {
+            recvd(...);
+        } else if (event.type == TIMEOUT) {
+            (event.timeout_function)(...);
+        }
+        ...
+    }
+}
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{callback-based programming (2)}
+\begin{Verbatim}[fontsize=\small]
+/* your code, called by library */
+void recvd(...) {
+    ...
+    setTimeout(..., timerCallback, ...);
+}
+
+void timerCalback(...) {
+    ...
+}
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}{callback-based programming}
+    \begin{itemize}
+    \item writing scripts in a webpage
+    \item many graphical user interface libraries
+    \item sometimes servers that handle lots of connections
+    \end{itemize}
+\end{frame}
