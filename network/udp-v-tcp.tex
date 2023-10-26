@@ -2,15 +2,15 @@
     \begin{itemize}
     \item TCP: stream to other program
         \begin{itemize}
-        \item reliable transmission of as much data as you want
+        \item \myemph<2>{reliable} transmission of \myemph<3>{as much data as you want}
         \item ``connecting'' fails if server not responding
-        \item write(fd, "a", 1); write(fd, "b", 1) = write(fd, "ab", 2)
+        \item \myemph<3>{write(fd, "a", 1); write(fd, "b", 1) = write(fd, "ab", 2)}
         \item (at least) one socket per remote program being talked to
         \end{itemize}
     \item UDP: messages sent to program, but no reliablity/streams
         \begin{itemize}
-        \item unreliable transmission of short messages
-        \item write(fd, "a", 1); write(fd, "b", 1) $\not=$ write(fd, "ab", 2)
+        \item \myemph<2>{unreliable} transmission of \myemph<3>{short messages}
+        \item \myemph<3>{write(fd, "a", 1); write(fd, "b", 1) $\not=$ write(fd, "ab", 2)}
         \item ``connecting'' just sets default destination
         \item can sendto()/recvfrom() multiple other programs with one socket
             \begin{itemize}
