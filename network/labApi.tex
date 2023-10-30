@@ -1,10 +1,10 @@
 \begin{frame}{upcoming lab}
     \begin{itemize}
-    \item receive message split into pieces
+    \item request + receive message split into pieces
     \item you are responsible for:
         \begin{itemize}
         \item requesting parts in order
-        \item resending requests if messages lost/corrupted
+        \item \myemph<2>{resending requests if messages lost/corrupted}
         \end{itemize}
     \item ``acknowledge'' receiving part X to request part X+1
     \end{itemize}
@@ -12,16 +12,16 @@
 
 \begin{frame}{protocol}
     \begin{itemize}
-    \item GET0 --- start
+    \item {\tt GET0} --- start
         \begin{itemize}
         \item other end acknowledges by giving data
         \item if they don't acknowledge, you need to send again
         \end{itemize}
-    \item ACKn 
+    \item {\tt ACK$n$ }
         \begin{itemize}
-        \item request message n + 1 by acknowledging message n
-        \item not quite same purpose as acknowledgments in lecture examples
-        \item (in lab, the respoonse is your `acknowledgment' of your request; \\
+        \item request message $n + 1$ by acknowledging message $n$
+        \item not quite same purpose as acknowledgments in prior examples
+        \item (in lab, the response is your `acknowledgment' of your request; \\
             you retry if you don't get it)
         \end{itemize}
     \end{itemize}
@@ -31,9 +31,10 @@
 \begin{frame}[fragile]{callback-based programming (1)}
 \begin{Verbatim}[fontsize=\small]
 /* library code you don't write */
+/* in the lab: part of waitForAllTimeouts() */
 void mainLoop() {
     while (true) {
-        Event event = getNextEvent();
+        Event event = waitForAndGetNextEvent();
         if (event.type == RECIEVED) {
             recvd(...);
         } else if (event.type == TIMEOUT) {
@@ -53,11 +54,18 @@ void recvd(...) {
     setTimeout(..., timerCallback, ...);
 }
 
-void timerCalback(...) {
+void timerCallback(...) {
     ...
+}
+
+int main() {
+    send(.../* first message */);
+    ... /* other initial setup */
+    waitForAllTimeouts(); // runs mainLoop()
 }
 \end{Verbatim}
 \end{frame}
+
 
 \begin{frame}{callback-based programming}
     \begin{itemize}
