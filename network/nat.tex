@@ -22,17 +22,3 @@ remote host + port & outside local port number & inside IP & inside port number 
 \item need to update as new connections made
 \end{itemize}
 \end{frame}
-
-\begin{frame}{NAT and layers}
-    \begin{itemize}
-    \item previously: network layer responsible for get to right machine
-    \item now: network + transport layer
-        \begin{itemize}
-        \item because we use port numbers
-        \end{itemize}
-    \item also, NAT needs to know about connections (transport layer)
-        \begin{itemize}
-        \item to know how to setup/remove table entries
-        \end{itemize}
-    \end{itemize}
-\end{frame}

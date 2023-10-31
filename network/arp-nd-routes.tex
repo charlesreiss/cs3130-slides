@@ -1,0 +1,38 @@
+
+\begin{frame}{what about non-local machines?}
+    \begin{itemize}
+    \item when configuring network specify:
+    \vspace{.5cm}
+    \item range of addresses to expect on local network 
+        \begin{itemize}
+        \item 128.148.67.0-128.148.67.255 on my desktop
+        \item ``netmask''
+        \end{itemize}
+    \item \textit{gateway} machine to send to for things outside my local network
+        \begin{itemize}
+        \item 128.143.67.1 on my desktop
+        \item my desktop looks up the corresponding MAC address
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{routes on my desktop}
+\begin{Verbatim}[fontsize=\fontsize{9}{10}\selectfont]
+$ /sbin/route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         128.143.67.1    0.0.0.0         UG    100    0        0 enp0s31f6
+128.143.67.0    0.0.0.0         255.255.255.0   U     100    0        0 enp0s31f6
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 enp0s31f6
+\end{Verbatim}
+\begin{itemize}
+\item network configuration says:
+\vspace{.5cm}
+\item (line 2) to get to 128.143.67.0--128.143.67.255, send directly on local network
+    \begin{itemize}
+    \item ``genmask'' is mask (for bitwise operations) to specify how big range is
+    \end{itemize}
+\item (line 3) to get to 169.254.0.0--169.254.255.255, send directly on local network
+\item (line 1) to get anywhere else, use ``gateway'' 128.143.67.1
+\end{itemize}
+\end{frame}
