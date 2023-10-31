@@ -12,10 +12,11 @@
 
 \begin{frame}{protocol}
     \begin{itemize}
-    \item {\tt GET0} --- start
+    \item {\tt GET$x$} --- retrieve message $x$ (x = 0, 1, 2, or 3)
         \begin{itemize}
         \item other end acknowledges by giving data
         \item if they don't acknowledge, you need to send again
+        \item higher numbered messages have errors/etc. that are harder to handle
         \end{itemize}
     \item {\tt ACK$n$ }
         \begin{itemize}
