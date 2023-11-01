@@ -1,9 +1,14 @@
 \begin{frame}{password hashing}
     \begin{itemize}
         \item cryptographic hash functions are good at requiring guesses to `reverse'
+        \item idea: store cryptographic hash of password instead of password
+            \begin{itemize}
+            \item attacker who gets hash doesn't get password
+            \item can still check entered password is correct
+            \end{itemize}
             \vspace{.5cm}
-        \item problem: guessing passwords is very fast
-        \item solution: slow/resource-intensive cryptographic hash functions
+        \item<2-> problem: with fast hash function, can try lots of guesses fast
+        \item<3-> solution: special slow/resource-intensive cryptographic hash functions
             \begin{itemize}
             \item Argon2i
             \item scrypt
