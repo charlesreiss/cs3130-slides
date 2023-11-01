@@ -1,0 +1,94 @@
+\begin{frame}{putting it altogether (1)}
+    \begin{itemize}
+    \item \myemph<2>{connect to local wifi network}
+        \begin{itemize}
+        \item<2-> \myemph<2>{ask local network for configuration}
+        \end{itemize}
+    \item \myemph<3>{open http://foo.com/bar in web browser}
+        \begin{itemize}
+        \item<3-> \myemph<3>{lookup foo.com}
+        \item<3-> \myemph<3>{start connection to foo.com + correct port}
+        \item<3-> \myemph<3>{translate URL into HTTP message + read response}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% FIXME: network diagram
+
+\begin{frame}{putting it altogether (2)}
+    \begin{itemize}
+    \item \myemph<2-3>{connect to local wifi network}
+        \begin{itemize}
+        \item<2-> (DHCP) machine -> all on local network: give me an address
+        \item<2-> (DHCP) local router -> machine: use the following: 
+            \begin{itemize}
+            \item your IP: w.x.y.z
+            \item local network: w.x.y.0 through w.x.y.255
+            \item gateway to other networks: w.x.y.1
+            \item DNS server: a.b.c.d
+            \item valid for 8 hours --- ask later to renew
+            \end{itemize}
+        \item<3-> find out MAC address of gateway + other machines on wifi
+            \begin{itemize}
+            \item need to send using MAC address on wifi
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{putting it altogether (3)}
+    \begin{itemize}
+    \item \myemph<2-3>{open http://foo.com/bar in web browser}
+        \begin{itemize}
+        \item \myemph<2>{lookup foo.com}
+        \end{itemize}
+    \vspace{.5cm}
+    \item<2-> send ``what is foo.com's IP address?'' to ISP's DNS server
+    % FIXME: tikzpicture of frame
+        \begin{itemize}
+        \item wifi frame: from: [machine MAC address] to: [gateway MAC address]
+        \item contents of wifi frame = IP packet: \\
+              from: [machine IP address] to: [DNS server address]
+        \item contents of IP packet = UDP datagram: \\
+              destination port: 53 (DNS) \\
+              message: foo.com address = ?
+        \end{itemize}
+    \item<2-> gateway machine copies IP packet to new frame sent to next router \\
+              then next router copies to next router \ldots \\
+              until IP packet arrives at DNS server
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{putting it altogether (4)}
+    \begin{itemize}
+    \item \myemph<2-3>{open http://foo.com/bar in web browser}
+        \begin{itemize}
+        \item \myemph<2>{start connection to foo.com + correct port}
+        \end{itemize}
+    \vspace{.5cm}
+    \item web browser creates socket, asks to connect to foo.com
+    \item OS assigns new local port number to web browser
+    \item send message to foo.com to initiate connection to port 80 (http port)
+        \begin{itemize}
+        \item (and message sent by sending it first to gateway on wifi)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{putting it altogether (5)}
+    \begin{itemize}
+    \item \myemph<2-3>{open http://foo.com/bar in web browser}
+        \begin{itemize}
+        \item \myemph<2>{translate URL to HTTP message + read response}
+        \end{itemize}
+    \vspace{.5cm}
+    \item send request for /bar over TCP socket
+    \item read response from socket
+        \begin{itemize}
+        \item received in many chunks
+        \item OS handles sending back acknowledgements each chunk
+        \item OS combines chunks to allow them to be read together
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
