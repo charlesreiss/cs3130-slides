@@ -1,13 +1,14 @@
-\begin{frame}{putting it altogether (1)}
+\usetikzlibrary{arrows.meta,matrix,fit}
+\begin{frame}{putting it all together (1)}
     \begin{itemize}
     \item 1. \myemph<2>{connect to local wifi network}
         \begin{itemize}
-        \item<2-> a. \myemph<2>{ask local network for configuration}
+        \item<2-> a. \myemph<2>{ask local network for configuration} --- DHCP
         \item<2-> a. \myemph<2>{find out MAC addresses on local network}
         \end{itemize}
     \item 2. \myemph<3>{open http://foo.com/bar in web browser}
         \begin{itemize}
-        \item<3-> a. \myemph<3>{lookup foo.com}
+        \item<3-> a. \myemph<3>{lookup foo.com} --- DNS
         \item<3-> b. \myemph<3>{start connection to foo.com + correct port}
         \item<3-> c. \myemph<3>{translate URL into HTTP message + read response}
         \end{itemize}
@@ -16,112 +17,110 @@
 
 % FIXME: network diagram
 
-\begin{frame}{putting it altogether (2)}
+\begin{frame}{putting it all together (2)}
     \begin{itemize}
     \item 1. connect to local wifi network
         \begin{itemize}
         \item a. \myemph<2>{ask local network for configuration}
         \end{itemize}
     \vspace{.5cm}
-    \item<2-> (DHCP) machine -> all on local network: give me an address
-    \item<2-> (DHCP) local router -> machine: use the following: 
-        \begin{itemize}
-        \item your IP: w.x.y.z
-        \item local network: w.x.y.0 through w.x.y.255
-        \item gateway to other networks: w.x.y.1
-        \item DNS server: a.b.c.d
-        \item valid for X hours --- ask later to renew
-        \end{itemize}
+    \item<2-> (DHCP) us -> all on local network: give me an address
+    \item<2-> (DHCP) local router -> us: use the following: 
+    \begin{tabular}{l|l}
+    your IP & 192.0.2.43 \\
+    local network & 192.0.2.0 through 192.0.2.255 \\
+    gateway to other networks & 192.0.2.1 \\
+    DNS server & 198.51.100.34 \\
+    valid for & 8 hours (ask later to renew) \\
+    \end{tabular}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{putting it altogether (3)}
+\begin{frame}{putting it all together (3)}
     \begin{itemize}
     \item 1. connect to local wifi network
         \begin{itemize}
         \item b. \myemph<2>{find out MAC addresses on local network}
         \end{itemize}
     \vspace{.5cm}
-    \item<2-> machine -> all: who has w.x.y.1 (geteway's IP address)?
-    \item<2-> gateway -> machine: I am w.x.y.1, my MAC address \ldots
+    \item<2-> us -> all local: who has 192.0.2.1 (geteway's IP address)?
+    \item<2-> gateway -> us: I am 192.0.2.1, my MAC address is 00:00:5E:00:53:03
     \end{itemize}
 \end{frame}
 
-\begin{comment}
-\begin{frame}{putting it altogether (4')}
+\begin{frame}{putting it all together (4a)}
     \begin{itemize}
-    \item 2. \myemph<2-3>{open http://foo.com/bar in web browser}
+    \item 2. open http://foo.com/bar in web browser
         \begin{itemize}
         \item a. \myemph<2>{lookup foo.com}
         \end{itemize}
     \end{itemize}
+\begin{visibleenv}<2->
 \begin{tikzpicture}
-\matrix[draw, ultra thick,label={[label distance=-5mm,draw,fill=white]north:wifi frame}] {
-    \node {from: (machine MAC address) | to: (gateway MAC address)}; \\
-    \matrix[very thick,draw,label={[label distance=-5mm,draw,fill=white]north:IP packet}] {
-        \node {from: (machine IP address) | to: (machine MAC address)}; \\
-        \matrix[very thick, draw, label={[label distance=-5mm,draw,fill=white]north:UDP datagram}] {
-            \node {destination port: 53 (DNS) | message: foo.com address = ???};
-        };
-    }; \\
+\matrix[draw,alt=<2>{draw=red},ultra thick,label={[label distance=-2mm,draw,fill=white]north:wifi frame}] {
+    \node {from: (us)  | to: (gateway) 00:00:5E:00:53:03}; \\[1.2em]
+    \node (ip) {from: (us) 192.0.2.24 | to: (DNS server) 198.51.100.34 }; \\[1.2em]
+    \node (udp) {to port: 53 (DNS) | \ldots | message: foo.com address = ???}; \\
 };
+\begin{pgfonlayer}{bg}
+\node[inner sep=-1mm,fit=(ip) (udp),draw,very thick,label={[label distance=-.5mm,inner sep=1mm,draw,fill=white]north:IP packet},fill=yellow!10,alt=<3>{red,fill=red!10}] (ip box) {};
+\node[inner sep=-1.5mm,fit=(udp),draw,thick,label={[label distance=-.5mm,inner sep=1mm,draw,fill=white]north:UDP packet},fill=blue!10] {};
+\end{pgfonlayer}
+\draw[ultra thick,red,Latex-] ([xshift=-3cm]ip box.north east) -- ++(.5cm, 1cm) node[above,align=left,fill=white,fill opacity=0.95,draw=red] {copied + forwarded \\ by several routers \\ to get to DNS server};
 \end{tikzpicture}
+\end{visibleenv}
 \end{frame}
-\end{comment}
 
-\begin{frame}{putting it altogether (4)}
+\begin{frame}{putting it all together (4b)}
     \begin{itemize}
-    \item 2. \myemph<2-3>{open http://foo.com/bar in web browser}
+    \item 2. open http://foo.com/bar in web browser
         \begin{itemize}
-        \item a. \myemph<2>{lookup foo.com}
+        \item a. \myemph<1>{lookup foo.com}
         \end{itemize}
     \vspace{.5cm}
-    \item<2-> send ``what is foo.com's IP address?'' to ISP's DNS server
-        \begin{itemize}
-        \item wifi frame: from: [machine MAC address] to: [gateway MAC address]
-        \item contents of wifi frame = IP packet: \\
-              from: [machine IP address] to: [DNS server address]
-        \item contents of IP packet = UDP datagram: \\
-              destination port: 53 (DNS) \\
-              message: foo.com address = ?
-        \end{itemize}
-    \item<2-> message forwarded by gateway (+ other routers) to DNS server
-    \item<2-> DNS server sends message back with foo.com's address
+    \item DNS server receives request
+    \item either sends back cached response (if recent, valid one)
+    \item or looks up in hierarchy of DNS servers
     \end{itemize}
 \end{frame}
 
-\begin{frame}{putting it altogether (4)}
+\begin{frame}{putting it all together (5)}
     \begin{itemize}
     \item 2. \myemph<2>{open http://foo.com/bar in web browser}
         \begin{itemize}
         \item b. \myemph<2>{start connection to foo.com + correct port}
         \end{itemize}
     \vspace{.5cm}
-    \item<2-> web browser creates socket, asks to connect to foo.com
-    \item<2-> OS assigns new local port number to web browser
-    \item<2-> send message to foo.com to initiate connection to port 80 (http port)
-        \begin{itemize}
-        \item<2-> (which is forwarded to foo.com through gateway + several routers)
-        \end{itemize}
+\begin{tikzpicture}
+\end{tikzpicture}
+    \item<2-> web browser creates socket, asks to connect to foo.com \\
+    In OS:
+\small
+\begin{tabular}{llll}
+source port & destination IP & dest port & program/fd \\ \hline
+\ldots & \ldots & \ldots & \ldots \\
+(OS assigned) & 203.0.113.44 (foo.com) & 80 (http) & browser/41 \\
+\ldots & \ldots & \ldots & \ldots \\
+\end{tabular}
+    \item<2-> OS sends message (via multiple routers) to start connection
     \end{itemize}
 \end{frame}
 
-\begin{frame}{putting it altogether (5)}
+\begin{frame}{putting it all together (6)}
     \begin{itemize}
     \item 2. \myemph<2-3>{open http://foo.com/bar in web browser}
         \begin{itemize}
         \item c. \myemph<2>{translate URL to HTTP message + read response}
         \end{itemize}
     \vspace{.5cm}
-    \item send request for /bar over TCP socket
-    \item read response from socket
+    \item browser: \texttt{write(fd, "GET /bar HTTP/1.1\ldots", \ldots)}
+    \item browser: read response
     \vspace{.5cm}
-    \item each sent/received in multiple chunks
+    \item message is split into multiple chunks
         \begin{itemize}
-        \item (and forwarded through gateway + several routers)
+        \item (and forwarded through gateway)
         \end{itemize}
-    \item OSes handles sending back acknowledgements each chunk
-    \item OSes combines chunks to allow them to be read together
+    \item acknowledgments, resending, etc. done by OSes at both ends
     \end{itemize}
 \end{frame}
 

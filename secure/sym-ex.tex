@@ -1,0 +1,17 @@
+\begin{frame}{exercise}
+    \begin{itemize}
+    \item suppose A, B have shared keys $K_1,K_2$
+        \begin{itemize}
+        \item assume attackers do not have keys
+        \end{itemize}
+    \item E/D = encrypt/decrypt function
+    \item A asks B to pay Sue \$100 by sending message with these parts:
+        \begin{itemize}
+        \item ``2023-11-03: pay \$100''
+        \item $E(K_1, \text{``2023-11-03 Sue''})$
+        \item $MAC(K_2, \text{``2023-11-03 \$100''})$
+        \end{itemize}
+    \item 1. can eavesdropper learn: (a) who is being paid, (b) how much?
+    \item 2. can machine-in-middle change: (a) who is being paid, (b) how much?
+    \end{itemize}
+\end{frame}
