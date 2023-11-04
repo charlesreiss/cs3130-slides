@@ -4,8 +4,15 @@
     \vspace{.5cm}
     \item solution: random numbers
     \item but: many random number functions are not cryptographically secure!
+        \begin{itemize}
+        \item example NOT SECURE: \sout{C \texttt{rand()}; Python's \texttt{random.random}}
+        \item better: Python's \texttt{secrets}, \texttt{os.urandom}; Linux \texttt{getrandom()}, \texttt{/dev/urandom}
+        \end{itemize}
     \vspace{.5cm}
     \item extra effort to ensure \myemph{not guessable}
     \item need to incorporate ``entropy'' from unpredictable sources
+        \begin{itemize}
+        \item deliberately unstable circuit; exact timing of input/output; etc.
+        \end{itemize}
     \end{itemize}
 \end{frame}
