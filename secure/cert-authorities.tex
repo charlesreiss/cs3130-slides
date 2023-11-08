@@ -42,29 +42,28 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number:
-            81:13:c9:49:90:8c:81:bf:94:35:22:cf:e0:25:20:33
+            7b:df:f6:ae:2e:d7:db:74:d3:c5:77:ac:bc:44:bf:1b
         Signature Algorithm: sha256WithRSAEncryption
         Issuer:
-            commonName                = InCommon RSA Server CA
-            organizationalUnitName    = InCommon
-            organizationName          = Internet2
-            localityName              = Ann Arbor
+            countryName               = US
             stateOrProvinceName       = MI
-            countryName               = US
+            localityName              = Ann Arbor
+            organizationName          = Internet2
+            organizationalUnitName    = InCommon
+            commonName                = InCommon RSA Server CA
         Validity
-            Not Before: Feb 28 00:00:00 2022 GMT
-            Not After : Feb 28 23:59:59 2023 GMT
+            Not Before: Apr 25 00:00:00 2023 GMT
+            Not After : Apr 24 23:59:59 2024 GMT
         Subject:
-            commonName                = collab.its.virginia.edu
-            organizationalUnitName    = Information Technology and Communication
-            organizationName          = University of Virginia
-            stateOrProvinceName       = Virginia
             countryName               = US
-.....
+            stateOrProvinceName       = Virginia
+            organizationName          = University of Virginia
+            commonName                = canvas.its.virginia.edu
+....
 \end{Verbatim}
 \end{frame}
 
-\begin{frame}[fragile]{example web certificate (1)}
+\begin{frame}[fragile]{example web certificate (2)}
 \begin{Verbatim}[fontsize=\scriptsize]
 Certificate:
     Data:
@@ -83,11 +82,12 @@ Certificate:
                 TLS Web Server Authentication, TLS Web Client Authentication
 ....
             X509v3 Subject Alternative Name: 
-                DNS:collab.its.virginia.edu
-                DNS:collab-prod.its.virginia.edu
-                DNS:collab.itc.virginia.edu
+                DNS:canvas.its.virginia.edu
+....
     Signature Algorithm: sha256WithRSAEncryption
-         39:70:70:77:2d:4d:0d:0a:6d:d5:d1:f5:0e:4c:e3:56:4e:31:
+    Signature Value:
+        24:3a:67:c8:0d:ef:eb:8c:eb:ba:8f:d5:11:d2:1e:ea:44:eb:
+        fe:af:93:7d:d9:4a:2b:44:a3:7f:47:50:aa:d1:b3:9c:a8:a8:
 ....
 \end{Verbatim}
 \end{frame}
