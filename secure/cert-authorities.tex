@@ -12,11 +12,12 @@
         \item let's say A has B's public key already.
         \item if C wants B's public key and knows A's already:
             \vspace{.5cm}
-        \item A can send C:
+        \item \myemph<2>{A can generate ``certificate'' for B}:
             \begin{itemize}
             \item ``B's public key is XXX'' AND
             \item Sign(A's private key, ``B's public key is XXX'')
             \end{itemize}
+        \item \myemph<3>{B send copy of their ``certificate'' to C} (most common idea)
         \item if C trusts A, now C has B's public key
             \begin{itemize}
             \item if C does not trust A, well, can't trust this either
@@ -38,56 +39,47 @@
 
 \begin{frame}[fragile]{example web certificate (1)}
 \begin{Verbatim}[fontsize=\scriptsize]
-Certificate:
-    Data:
-        Version: 3 (0x2)
-        Serial Number:
-            7b:df:f6:ae:2e:d7:db:74:d3:c5:77:ac:bc:44:bf:1b
-        Signature Algorithm: sha256WithRSAEncryption
-        Issuer:
-            countryName               = US
-            stateOrProvinceName       = MI
-            localityName              = Ann Arbor
-            organizationName          = Internet2
-            organizationalUnitName    = InCommon
-            commonName                = InCommon RSA Server CA
-        Validity
-            Not Before: Apr 25 00:00:00 2023 GMT
-            Not After : Apr 24 23:59:59 2024 GMT
-        Subject:
-            countryName               = US
-            stateOrProvinceName       = Virginia
-            organizationName          = University of Virginia
-            commonName                = canvas.its.virginia.edu
+    Version: 3 (0x2)
+    Serial Number: 7b:df:f6:ae:2e:d7:db:74:d3:c5:77:ac:bc:44:bf:1b
+    Signature Algorithm: sha256WithRSAEncryption
+    Issuer:
+        countryName               = US
+        stateOrProvinceName       = MI
+        localityName              = Ann Arbor
+        organizationName          = Internet2
+        organizationalUnitName    = InCommon
+        commonName                = InCommon RSA Server CA
+    Validity
+        Not Before: Apr 25 00:00:00 2023 GMT
+        Not After : Apr 24 23:59:59 2024 GMT
+    Subject:
+        countryName               = US
+        stateOrProvinceName       = Virginia
+        organizationName          = University of Virginia
+        commonName                = canvas.its.virginia.edu
 ....
+    X509v3 extensions:
+....
+        X509v3 Subject Alternative Name: DNS:canvas.its.virginia.edu
 \end{Verbatim}
 \end{frame}
 
 \begin{frame}[fragile]{example web certificate (2)}
 \begin{Verbatim}[fontsize=\scriptsize]
-Certificate:
-    Data:
 ....
-        Subject Public Key Info:
-            Public Key Algorithm: rsaEncryption
-                RSA Public-Key: (2048 bit)
-                Modulus:
-                    00:a2:fb:5a:fb:2d:d2:a7:75:7e:eb:f4:e4:d4:6c:
-                    94:be:91:a8:6a:21:43:b2:d5:9a:48:b0:64:d9:f7:
-                    f1:88:fa:50:cf:d0:f3:3d:8b:cc:95:f6:46:4b:42:
+    Subject Public Key Info:
+        Public Key Algorithm: rsaEncryption
+            RSA Public-Key: (2048 bit)
+            Modulus:
+                00:a2:fb:5a:fb:2d:d2:a7:75:7e:eb:f4:e4:d4:6c:
+                94:be:91:a8:6a:21:43:b2:d5:9a:48:b0:64:d9:f7:
+                f1:88:fa:50:cf:d0:f3:3d:8b:cc:95:f6:46:4b:42:
+
 ....
-        X509v3 extensions:
-....
-            X509v3 Extended Key Usage: 
-                TLS Web Server Authentication, TLS Web Client Authentication
-....
-            X509v3 Subject Alternative Name: 
-                DNS:canvas.its.virginia.edu
-....
-    Signature Algorithm: sha256WithRSAEncryption
-    Signature Value:
-        24:3a:67:c8:0d:ef:eb:8c:eb:ba:8f:d5:11:d2:1e:ea:44:eb:
-        fe:af:93:7d:d9:4a:2b:44:a3:7f:47:50:aa:d1:b3:9c:a8:a8:
+Signature Algorithm: sha256WithRSAEncryption
+Signature Value:
+    24:3a:67:c8:0d:ef:eb:8c:eb:ba:8f:d5:11:d2:1e:ea:44:eb:
+    fe:af:93:7d:d9:4a:2b:44:a3:7f:47:50:aa:d1:b3:9c:a8:a8:
 ....
 \end{Verbatim}
 \end{frame}
