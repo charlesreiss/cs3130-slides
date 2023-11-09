@@ -27,13 +27,11 @@
 
 \begin{frame}{certificate authorities}
     \begin{itemize}
-    \item instead, have public keys of trusted \textit{certificate authorities}
-    \item only 10s of them, probably
-    \vspace{.5cm}
-    \item websites go to certificates authorities with their public key
+    \item websites (and others) go to \textit{certificates authorities} with their public key
     \item certificate authorities sign messages like: \\
         ``The public key for foo.com is XXX.''
-    \item these signed messages called ``certificates''
+    \item signed message called \textit{certificate}
+    \item send certificates to browsers to verify identity
     \end{itemize}
 \end{frame}
 
