@@ -1,0 +1,19 @@
+
+
+\begin{frame}{cryptographic hash uses}
+    \begin{itemize}
+    \item find shorter `summary' to substitute for data
+        \begin{itemize}
+        \item what hashtables use them for, but\ldots
+        \item we care that adversaries can't cause collisions!
+        \end{itemize}
+    \vspace{.5cm}
+    \item<2-> deal with message limits in signatures/etc.
+    \item<2-> password hashing --- but be careful! [next slide]
+    \item<2-> constructing message authentication codes
+        \begin{itemize}
+        \item hash message + secret info (+ some other details)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+

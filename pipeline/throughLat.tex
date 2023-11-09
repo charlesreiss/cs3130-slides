@@ -34,7 +34,7 @@ A. 1 instr/100 ps & B. 1 instr/500 ps & C. 1 instr/2000ps & D. 1 instr/2500 ps \
     \stagestyles
     \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
     \matrix[tight matrix no line,
-            nodes={text width=1.2cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+            nodes={text width=1.2cm,font=\small\tt,minimum height=.5cm,align=center,text opacity=1.0,fill opacity=0.5},
             column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl1) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
@@ -48,8 +48,8 @@ A. 1 instr/100 ps & B. 1 instr/500 ps & C. 1 instr/2000ps & D. 1 instr/2500 ps \
                               \& |[memory]| M1 \& |[memory]| M2
                                \& |[writeback]| W1 \& |[writeback]| W2}
     \matrix[tight matrix no line,anchor=north,
-            nodes={text width=0.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
-            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl2) at ([yshift=-0.2cm]tbl1.south west) {
+            nodes={text width=0.6cm,font=\tt,minimum height=.6cm,align=center,text opacity=1.0,fill opacity=0.5},
+            column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl2) at ([yshift=-0.1cm]tbl1.south west) {
     |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                         \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
     0x100: add \%r8, \%r9    \ffdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
@@ -57,10 +57,9 @@ A. 1 instr/100 ps & B. 1 instr/500 ps & C. 1 instr/2000ps & D. 1 instr/2500 ps \
     0x110: \ldots \& ~ \& ~ \& ~ \& \ldots \\
     };
 \end{tikzpicture}
+\vspace{-.5cm}
 \begin{itemize}
-\item suppose we double number of pipeline stages (to 10) and
-    decrease cycle time from 500 ps to 250 ps
-\item exercise: new throughput?
+\item double number of pipeline stages (to 10) + decrease cycle time from 500 ps to 250 ps --- throughput?
 {\small\begin{tabular}{llll}
 A. 1 instr/100 ps & B. 1 instr/250 ps & C. 1 instr/1000ps & D. 1 instr/5000 ps \\
  E. something else \\
