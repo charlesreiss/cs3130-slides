@@ -1,5 +1,9 @@
 \usetikzlibrary{matrix,fit}
-\begin{frame}[fragile,label=addqDataHazard]{addq processor: data hazard}
+\begin{frame}[fragile,label=addqDataHazard]{a data hazard}
+\begin{tikzpicture}[overlay,remember picture]
+\node[anchor=north east] at ([xshift=-.5cm,yshift=-1cm]current page.north east)
+    {\resizebox{!}{0.16\textwidth}{\usebox{\pipeCpuBox}}};
+\end{tikzpicture}
 \lstset{
     style=small,
     moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
@@ -10,8 +14,8 @@
 \begin{lstlisting}
 // initially %r8 = 800,
 //           %r9 = 900, etc.
-addq %r8, %r9 
-addq %r9, %r8
+addq %r8, %r9   // R8 + R9 -> R9
+addq %r9, %r8   // R9 + R8 -> R9
 addq ...
 addq ...        
 \end{lstlisting}
@@ -23,7 +27,7 @@ addq ...
         row 2/.append style={nodes={font=\scriptsize}},
         ] (tbl) {
  \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB \& R[rA] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
-cycle \& PC \& rA \& rB \& R[rB \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
+cycle \& PC \& rA \& rB \& R[rB] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
 0 \& 0x0 \\
 1 \& 0x2 \& 8  \& 9    \\ 
 2 \&     \& 9  \& 8   \& 800  \& 900 \& 9 \\

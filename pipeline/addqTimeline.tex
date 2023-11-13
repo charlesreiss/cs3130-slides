@@ -1,0 +1,70 @@
+
+\usetikzlibrary{matrix,fit}
+\begin{frame}[fragile,label=addqTiming]{addq processor timing}
+\begin{tikzpicture}[overlay,remember picture]
+\node[anchor=north east] at ([xshift=-.5cm,yshift=-1cm]current page.north east)
+    {\resizebox{!}{0.16\textwidth}{\usebox{\pipeCpuBox}}};
+\end{tikzpicture}
+\vspace{-.25cm}
+\lstset{
+    style=small,
+    moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
+    moredelim=**[is][\btHL<3|handout:0>]{@3@}{@},
+    moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
+    moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
+    moredelim=**[is][\btHL<6|handout:0>]{@6@}{@},
+}
+\begin{lstlisting}
+// init. %r8=800, %r9=900, etc.
+@2@addq %r8, %r9@   // R8+R9->R9
+@3@addq %r10, %r11@ // R10+R11->R11
+@4@addq %r12, %r13@ // R12+R13->R13
+@5@addq %r14, %r15@ // R14+R15->R15
+@6@addq %r9, %r8@   // R9+R8->R8
+\end{lstlisting}
+\begin{tikzpicture}
+\matrix[tight matrix,nodes={text width=1cm,font=\scriptsize\tt},
+        column 8/.append style={nodes={text width=1.5cm}},
+        column 10/.append style={nodes={text width=1.5cm}},
+        row 1/.append style={nodes={font=\scriptsize}},
+        row 2/.append style={nodes={font=\scriptsize}},
+        ] (tbl) {
+ \& |[fill=yellow!10!white,align=center]| fetch \& rA \& rB \& R[rA] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
+cycle \& PC \& rA \& rB \& R[rB] \& R[rB] \& rB \& sum \& rB \& sum \& rB \\
+0 \& 0x0 \\
+1 \& 0x2 \& 8  \& 9  \\ 
+2 \& 0x4 \& 10 \& 11 \& 800  \& 900 \& 9 \\
+3 \& 0x6 \& 12 \& 13 \& 1000 \& 1100 \& 11 \& 1700 \& 9 \\
+4 \& 0x8 \& 14 \& 15 \& 1200 \& 1300 \& 13 \& 2100 \& 11 \& 1700 \& 9\\
+5 \&     \& 9  \& 8  \& 1400 \& 1500 \& 15 \& 2500 \& 13 \& 2100 \& 11 \\
+6 \&     \&    \&    \&  900 \& 1700 \& 8  \& 2900 \& 15 \& 2500 \& 13 \\
+7 \&     \&    \&    \&      \&      \&    \& 2500 \& 8  \& 2900 \& 15  \\
+8 \&     \&    \&    \&      \&      \&    \&      \&    \& 2500 \& 8  \\
+};
+\begin{scope}[every node/.style={draw,inner sep=0pt},
+              every label/.style={font=\scriptsize,draw=none}]
+    \node[fit=(tbl-1-3) (tbl-1-4),fill=yellow!50!orange!10!white,label={center:fetch/decode}] {};
+    \node[fit=(tbl-1-5) (tbl-1-7),fill=orange!50!green!10!white,label={center:decode/execute}] {};
+    \node[fit=(tbl-1-8) (tbl-1-9),fill=green!50!blue!10!white,label={center:execute/memory}] {};
+    \node[fit=(tbl-1-10) (tbl-1-11),fill=blue!50!violet!10!white,label={center:memory/writeback}] {};
+\end{scope}
+
+\foreach \x/\base in {2/3,3/4,4/5,5/6,6/7} {
+    \begin{pgfonlayer}{bg}
+    \begin{visibleenv}<\x|handout:0>
+        \pgfmathtruncatemacro{\fetchR}{\base}
+        \pgfmathtruncatemacro{\decodeR}{\base+1}
+        \pgfmathtruncatemacro{\executeR}{\base+2}
+        \pgfmathtruncatemacro{\memoryR}{\base+3}
+        \pgfmathtruncatemacro{\writebackR}{\base+4}
+        \foreach \nd in {tbl-\fetchR-2,tbl-\decodeR-3,tbl-\decodeR-4,
+                         tbl-\executeR-5,tbl-\executeR-6,tbl-\executeR-7,
+                         tbl-\memoryR-8,tbl-\memoryR-9,
+                         tbl-\writebackR-10,tbl-\writebackR-11} {
+            \node[fit=(\nd),inner sep=0pt,fill=green,opacity=0.3] {};
+         }
+    \end{visibleenv}
+    \end{pgfonlayer}
+}
+\end{tikzpicture}
+\end{frame}

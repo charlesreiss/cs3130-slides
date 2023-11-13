@@ -68,3 +68,14 @@
     \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=3cm,em reg] (em reg) at ([xshift=.25cm,yshift=0.25cm]execute.north east) {};
     \node[draw,myregister,anchor=north,very thick,minimum width=0.1cm,minimum height=1cm,mw reg] (mw reg) at ([xshift=.5cm,yshift=0.25cm]writeback.north east) {};
 }
+\newsavebox{\pipeCpuBox}
+\savebox{\pipeCpuBox}{%
+    \begin{tikzpicture}
+    \cpuset
+    \cpucomponent
+    \cpuconnect
+    \stagestyles
+    \stageboxes
+    \stageregs
+    \end{tikzpicture}%
+}
