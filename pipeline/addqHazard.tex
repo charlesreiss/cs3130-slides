@@ -85,31 +85,13 @@ addq %r9, %r8
 \item one solution: \myemph{change the ISA}
     \begin{itemize}
     \item all \lstinline|addq|s take effect \myemph{three instructions later} \\
-        (assuming can read register value while it is being written back)
+        \myemph<2>{(assuming can read register value while it is being written back)}
     \end{itemize}
 \item make it \myemph{compiler's  job}
 \item problem: recompile everytime processor changes?
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=dataHazardStall]{data hazard hardware solution}
-\begin{lstlisting}[style=small]
-addq %r8, %r9
-// hardware inserts: nop
-// hardware inserts: nop
-addq %r9, %r8
-\end{lstlisting}
-\begin{itemize}
-    \item how about hardware add nops?
-    \item called \myemph{stalling}
-    \item extra logic:
-        \begin{itemize}
-        \item sometimes don't change PC
-        \item sometimes put do-nothing values in pipeline registers
-        \end{itemize}
-\end{itemize}
-% FIXME: picture of MUX in front of PC, in front of fetch/decode
-\end{frame}
 \begin{frame}{stalling/nop pipeline diagram (1)}
 \begin{tikzpicture}
     \stagestyles
@@ -120,8 +102,8 @@ addq %r9, %r8
         |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                             \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
         add \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
-        (nop) \& ~ \fdemw \& ~ \& ~\\
-        (nop) \& ~ \& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \& ~ \fdemw \& ~ \& ~\\
         addq \%r9, \%r8  \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
         };
     \begin{visibleenv}<2>
@@ -149,10 +131,10 @@ addq %r9, %r8
         |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                             \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
         add \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
-        (nop) \& ~ \fdemw \& ~ \& ~\\
-        (nop) \& ~ \& ~ \fdemw \& ~ \& ~\\
-        |[fill=red!20]| (nop) \& ~ \& ~ \& ~  \fdemw \& ~ \& ~\\
-        addq \%r9, \%r8  \& ~ \& ~ \& ~ \& ~\& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \& ~ \fdemw \& ~ \& ~\\
+        |[fill=red!20]| nop \& ~ \& ~ \& ~  \fdemw \& ~ \& ~\\
+        addq \%r9, \%r8  \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
         };
     \begin{visibleenv}<2>
         \node[draw=red,line width=1mm,inner sep=0mm,fit=(tbl-2-6)] {};
@@ -164,3 +146,23 @@ addq %r9, %r8
     \end{visibleenv}
 \end{tikzpicture}
 \end{frame}
+
+\begin{frame}[fragile,label=dataHazardStall]{data hazard hardware solution}
+\begin{lstlisting}[style=small]
+addq %r8, %r9
+// hardware inserts: nop
+// hardware inserts: nop
+addq %r9, %r8
+\end{lstlisting}
+\begin{itemize}
+    \item how about hardware add nops?
+    \item called \myemph{stalling}
+    \item extra logic:
+        \begin{itemize}
+        \item sometimes don't change PC
+        \item sometimes put do-nothing values in pipeline registers
+        \end{itemize}
+\end{itemize}
+% FIXME: picture of MUX in front of PC, in front of fetch/decode
+\end{frame}
+
