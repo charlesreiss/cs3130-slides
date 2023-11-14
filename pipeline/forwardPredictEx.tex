@@ -1,5 +1,5 @@
 \usetikzlibrary{matrix}
-\begin{frame}[fragile,label=forwardPaths]{exercise: predict+forward}
+\begin{frame}<1-2>[fragile,label=forwardPaths]{exercise: predict+forward (1)}
 \lstset{
     language=myasm,
     morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
@@ -10,28 +10,106 @@
     memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
     \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
 \matrix[tight matrix no line,
-        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
-        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+        nodes={text width=.6cm,font=\tt,minimum height=.65cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 8 column 2/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 3/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 4/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 5/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 6/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 7/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 8/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 9/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 10/.style={nodes={alt=<1>{invisible}}},
+        ] (tbl) {
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
     \lstinline|addq %r8, %r9|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
     \lstinline|cmpq %r9, %r10|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
     \lstinline|jle foo| (taken)   ~\&  ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
     \ldots \\
+    \ldots \\
+    \ldots \\
     \lstinline|foo: andq %r9, %r8|   ~\&  ~ \& ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
 };
 \end{tikzpicture}
+\vspace{-.15cm}
 \begin{itemize}
 \item if jle is \textit{correctly predicted}:
 \begin{itemize}
     \item in cmpq, \%r9 is \rule{3cm}{2pt} addq.
     \item in andq, \%r9 is \rule{3cm}{2pt} addq.
+    %\item\hspace{-1cm} in cmpq, \%r9 is \rule{3cm}{2pt} addq. in andq, \%r9 is \rule{3cm}{2pt} addq.
 \end{itemize}
+\vspace{-.15cm}
+    \begin{itemize}
+    \item A: not forwarded from
+    \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=forwardPaths]{exercise: predict+forward (2)}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+}
+\vspace{-.25cm}
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,font=\tt,minimum height=.65cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 8 column 2/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 3/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 4/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 5/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 6/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 7/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 8/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 9/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 10/.style={nodes={alt=<1>{invisible}}},
+        row 8 column 11/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 2/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 3/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 4/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 5/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 6/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 7/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 8/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 9/.style={nodes={alt=<1>{invisible}}},
+        row 5 column 10/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 2/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 3/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 4/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 5/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 6/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 7/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 8/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 9/.style={nodes={alt=<1>{invisible}}},
+        row 6 column 10/.style={nodes={alt=<1>{invisible}}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+    \lstinline|addq %r8, %r9|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+    \lstinline|cmpq %r9, %r10|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|jle foo| (taken)   ~\&  ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
+    \only<2->{(mispredicted)}\only<1>{\ldots} \& ~ \& ~ \& \fdemw \\
+    \only<2->{(mispredicted)}\only<1>{\ldots} \& ~ \& ~ \& ~ \&  \fdemw \\
+    \ldots \\
+    \lstinline|foo: andq %r9, %r8| \&  ~ \& ~ \& ~ \& ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
+};
+\end{tikzpicture}
+\vspace{-.5cm}
+\begin{itemize}
 \item if jle is \textit{mispredicted} + resolved after jle's execute:
 \begin{itemize}
     \item in cmpq, \%r9 is \rule{3cm}{2pt} addq.
     \item in andq, \%r9 is \rule{3cm}{2pt} addq.
 \end{itemize}
+\vspace{-.15cm}
     \begin{itemize}
     \item A: not forwarded from
     \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
