@@ -1,0 +1,43 @@
+
+
+\begin{frame}{collisions?}
+\begin{itemize}
+\item two branches could have same hashed PC
+\item nothing in table tells us about this
+    \begin{itemize}
+    \item versus direct-mapped cache: had \textit{tag bits} to tell
+    \end{itemize}
+\vspace{.5cm}
+\item is it worth it?
+\item adding tag bits makes table \textit{much} larger and/or slower
+\item but does anything go wrong when there's a collision?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{collision results}
+\begin{itemize}
+\item possibility 1: both branches usually taken
+    \begin{itemize}
+    \item no actual conflict --- prediction is better(!)
+    \end{itemize}
+\item possibility 2: both branches usually not taken
+    \begin{itemize}
+    \item no actual conflict --- prediction is better(!)
+    \end{itemize}
+\item possibility 3: one  branch taken, one not taken
+    \begin{itemize}
+    \item performance probably worse
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{1-bit predictor for loops}
+\begin{itemize}
+\item predicts first and last iteration wrong
+    \begin{itemize}
+    \item example: branch to beginning --- but same for branch from beginning to end
+    \end{itemize}
+\item everything else correct
+\end{itemize}
+\end{frame}
+
