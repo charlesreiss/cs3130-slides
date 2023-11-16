@@ -25,7 +25,7 @@
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
     \lstinline|addq %r8, %r9|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
-    \lstinline|cmpq %r9, %r10|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|subq %r7, %r8|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
     \lstinline|jle foo| (taken)   ~\&  ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
     \ldots \\
     \ldots \\
@@ -37,13 +37,13 @@
 \begin{itemize}
 \item if jle is \textit{correctly predicted}:
 \begin{itemize}
-    \item in cmpq, \%r9 is \rule{3cm}{2pt} addq.
     \item in andq, \%r9 is \rule{3cm}{2pt} addq.
+    \item in andq, \%r8 is \rule{3cm}{2pt} subq.
     %\item\hspace{-1cm} in cmpq, \%r9 is \rule{3cm}{2pt} addq. in andq, \%r9 is \rule{3cm}{2pt} addq.
 \end{itemize}
 \vspace{-.15cm}
     \begin{itemize}
-    \item A: not forwarded from
+    \item A: not forwarded from [assume read while writing requires forwarding]
     \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
     \end{itemize}
 \end{itemize}
@@ -94,7 +94,7 @@
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
     \lstinline|addq %r8, %r9|    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
-    \lstinline|cmpq %r9, %r10|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|subq %r7, %r8|   ~\&  \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \\
     \lstinline|jle foo| (taken)   ~\&  ~ \& \fdemw \& ~ \& ~ \& ~ \& ~ \\
     \only<2->{(mispredicted)}\only<1>{\ldots} \& ~ \& ~ \& \fdemw \\
     \only<2->{(mispredicted)}\only<1>{\ldots} \& ~ \& ~ \& ~ \&  \fdemw \\
@@ -106,12 +106,12 @@
 \begin{itemize}
 \item if jle is \textit{mispredicted} + resolved after jle's execute:
 \begin{itemize}
-    \item in cmpq, \%r9 is \rule{3cm}{2pt} addq.
     \item in andq, \%r9 is \rule{3cm}{2pt} addq.
+    \item in andq, \%r9 is \rule{3cm}{2pt} subq.
 \end{itemize}
 \vspace{-.15cm}
     \begin{itemize}
-    \item A: not forwarded from
+    \item A: not forwarded from [assume read while writing requires forwarding]
     \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
     \end{itemize}
 \end{itemize}
