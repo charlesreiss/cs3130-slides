@@ -5,7 +5,7 @@ foo:
     xor %eax, %eax // eax <- 0
 foo_loop_top:
     test $0x1, %edi
-    je foo_loop_bottom  // if (edi & 1 == 0) goto .Lskip
+    je foo_loop_bottom  // if (edi & 1 == 0) goto for_loop_bottom
     add %edi, %eax 
 foo_loop_bottom:
     dec %edi            // edi = edi - 1
@@ -15,6 +15,6 @@ foo_loop_bottom:
 \begin{itemize}
 \item suppose \%edi = 3 (initially)
 \item and using forward-not-taken, backwards-taken strategy:
-\item how many mispreditions for je? for jl?
+\item how many mispreditions for je? for jg?
 \end{itemize}
 \end{frame}
