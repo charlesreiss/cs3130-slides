@@ -1,37 +1,20 @@
-\begin{frame}[fragile,label=1BmispredEx]{exercise}
+\begin{frame}[fragile,label=1BmispredEx]{exercise (1)}
 \begin{itemize}
 \item use 1-bit predictor on this loop
-    \begin{itemize}
-    \item executed in outer loop (not shown) many, many times
-    \end{itemize}
 \item what is the conditional jump misprediction rate?
 \end{itemize}
 \begin{lstlisting}[language=C,style=small]
 int i = 0;
 while (true) {
-  if (i % 3 == 0)
-    goto next; 
+  if (i % 3 == 0) goto next; 
   ...
 next:
+  if (i % 10 > 2) goto next2; 
+  ...
+next2:
   i += 1;
-  if (i == 50)
-    break; 
 }
 \end{lstlisting}
-\begin{tikzpicture}[overlay,remember picture]
-\begin{visibleenv}<2->
-\node[anchor=north east,font=\small] at ([xshift=-1cm,yshift=-4cm]current page.north east) {
-\begin{tabular}{l|l|l|l|l}
-i = & branch & pred & outcome & correct? \\
-0 & mod 3 & ??? & \myemph<2>{T} & ??? \\
-1 & == 50 & ??? & \myemph<3>{F} & ??? \\
-1 & mod 3 & \myemph<2>{T} & F & --- \\
-2 & == 50 & \myemph<3>{F} & F & \checkmark \\
-\ldots & \ldots & \ldots & \ldots & \ldots \\
-\end{tabular}
-};
-\end{visibleenv}
-\end{tikzpicture}
 \end{frame}
 
 \begin{frame}<0>[fragile,label=1BmispredExSoln]{exercise soln (1)}
@@ -40,22 +23,22 @@ i = & branch & pred & outcome & correct? \\
 \begin{tabular}{lllll}
 i= & branch & predicted & outcome & correct? \\
 0 & mod 3 & ??? & \myemph<2>{T} & ???\\
-1 & == 50 & ??? & \myemph<5>{N} & ???\\
+1 & break & ??? & \myemph<5>{N} & ???\\
 1 & mod 3 & \myemph<2>{T} & \myemph<3>{N} & \\
-2 & == 50 & \myemph<5>{N} & N & \checkmark \\
+2 & break & \myemph<5>{N} & N & \checkmark \\
 2 & mod 3 & \myemph<3>{N} & \myemph<4>{N} & \checkmark \\
-3 & == 50 & N & N & \checkmark \\
+3 & break & N & N & \checkmark \\
 3 & mod 3 & \myemph<4>{N} & T &\\
-4 & == 50 & N & N & \checkmark \\
+4 & break & N & N & \checkmark \\
 \ldots & \ldots & \ldots & \ldots  & \ldots \\
 48 & mod 3 & N & T & \\
-49 & == 50 & N & N & \checkmark \\
+49 & break & N & N & \checkmark \\
 49 & mod 3 & T & N &\\
-50 & == 50 & N & \myemph<5>{T} & \\
+50 & break & N & \myemph<5>{T} & \\
 0 & mod 3 & N & T &\\
-1 & == 50 & \myemph<5>{T} & N &\\
+1 & break & \myemph<5>{T} & N &\\
 1 & mod 3 & T & N & \\
-2 & == 50 & N & N & \checkmark \\
+2 & break & N & N & \checkmark \\
 \end{tabular}
 };
 \node[anchor=north west,align=left,font=\small](conclude) at (table.north east) {
@@ -78,4 +61,3 @@ next:
 \end{tikzpicture}
 \end{frame}
 
-\iftoggle{heldback}{}{\againframe<1->{1BmispredExSoln}}

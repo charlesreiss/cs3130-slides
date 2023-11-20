@@ -1,21 +1,5 @@
 \usetikzlibrary{matrix}
 
-\begin{frame}{1-cycle fetch?}
-    \begin{itemize}
-    \item assumption so far:
-    \item 1 cycle to fetch instruction + identify if jmp, etc.
-        \vspace{.5cm}
-    \item often not really practical
-    \item especially if:
-        \begin{itemize}
-        \item complex machine code format
-        \item many pipeline stages
-        \item more complex instruction cache
-        \item (future idea) fetching 2+ instructions/cycle
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
 \begin{frame}{branch target buffer}
     \begin{itemize}
     \item what if we can't decode LABEL from machine code for \texttt{jmp LABEL} or \texttt{jle LABEL} fast?
