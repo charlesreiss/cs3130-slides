@@ -42,7 +42,7 @@ sbb %rax, %rax  // sbb = subtract with borrow
 \end{itemize}
 \begin{lstlisting}[language=myasm,style=small]
         call load_label
-    capture_ret_spec:       /* <-- want prediction to go here */
+    capture_ret_spec:    /* <-- want prediction to go here */
         pause
         lfence
         jmp capture_ret_spec
