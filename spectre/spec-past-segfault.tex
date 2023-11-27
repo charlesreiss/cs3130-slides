@@ -37,8 +37,8 @@ Probe();
 \begin{lstlisting}
 Prime();
 if (@2something false@) {
-    @4int value = @3ReadMemoryMarkedNonReadableInPageTable();@@
-    @4access other_array[value @4* ...@];@
+    int value = @3ReadMemoryMarkedNonReadableInPageTable();@
+    access other_array[value @4* ...@];
 }
 Probe();
 \end{lstlisting}
