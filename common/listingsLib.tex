@@ -41,7 +41,7 @@
                   MOVUPD,MULPD,MOVSD,MULSD,%
                   SHLADD,MOV,CMP.LT,TBIT.NZ,BR.RET.SPTK.MANY,%
                   ADDQ,POPQ,PUSHQ,RRMOVQ,MRMOVQ,RMMOVQ,IRMOVQ,%
-                  <-,LL,SC,ADDI,ADDL,VMOVDQA,ADDQ,CMPL,JB,JBE,MOVL,CLTQ,
+                  <-,LL,SC,ADDI,ADDL,VMOVDQA,ADDQ,CMPL,JB,JBE,MOVL,CLTQ,%
                   MOVW,PUSHW,MOV,ADD,SUB,INT,PUSH,MOV,ADD,REP,MOVSB,%
                   TESTQ,CMPQ,MOVL,MOVQ,ADDQ,JMPQ,XORQ,%
                   LEAQ,LEAL,LEA,RETQ,RET,POPL,POPW,PUSHL,PUSHW,%
@@ -52,8 +52,15 @@
                   CMOVNS,SRAL,SRAQ,MOVZBW,MOVZBQ,%
                   PADDW,PADDQ,MODUPS,MOVAPD,%
                   MOVL,RET,.GLOBL,%
+		  PAUSE,LFENCE,JMP,%
                   },
     deletekeywords={eax,ebx,sp,si,cx,di,ds,cs,es,fs,dx,ax,bx,al,esi,ebp,ecx,rip,eip,edx,edi,rdi,esp},
+    deletekeywords=[2]{size},
+    alsoletter={\%},
+    alsoother={()},
+    emphstyle={\color{violet}},
+    emph={\%rax,\%rbx,\%rcx,\%rdx,\%r8,\%r9,\%r10,\%r11,\%r12,\%r13,\%r14,\%r15,\%eax,\%ebx,\%sp,\%si,\%cx,\%di,\%ds,\%cs,\%es,\%fs,\%dx,\%ax,\%bx,\%al,\%esi,\%ebp,\%ecx,\%rip,\%eip,\%edx,\%edi,\%rdi,\%esp,\%rsp},
+    %moreemph={eax,ebx,sp,si,cx,di,ds,cs,es,fs,dx,ax,bx,al,esi,ebp,ecx,rip,eip,edx,edi,rdi,esp},
     morecomment=[l]{\#},
     morecomment=[l]{\/\/},
     morecomment=[s]{/*}{*/},
