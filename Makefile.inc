@@ -1,15 +1,15 @@
-LATEXRUN=latexrun
-
 all: talk-slides.pdf
 
+PUBLIC=../../website/slides/
+
 %.pdf: %.tex .FORCE
-	$(LATEXRUN) -W no-overfull --latex-cmd=$(LATEX) --latex-args=-shell-escape $<
+	latexrun -W no-overfull --latex-cmd=$(LATEX) --latex-args=-shell-escape $<
 
 clean:
-	$(LATEXRUN) --clean-all
+	latexrun --clean-all
 
 .FORCE:
 
-.PHONY: all clean .FORCE
+.PHONY: all clean .FORCE 
 
 # vim: ft=make
