@@ -1,3 +1,5 @@
+\usetikzlibrary{shapes.geometric}
+
 \begin{frame}{program crashing?}
 \begin{itemize}
 \item what happens on processor when program crashes?
@@ -17,10 +19,25 @@
 \vspace{.5cm}
 \item also cases where hardware asks OS for help
 \item different triggers than system calls
-\item but same mechanism as system calls:
+\item but \myemph<2>{same mechanism as system calls}:
     \begin{itemize}
     \item switch to kernel mode (if not already)
     \item call OS-designated function
     \end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}{exceptions [Venn diagram]}
+\begin{tikzpicture}
+\node[very thick,draw,ellipse,blue,fill=blue!10,label={south:exceptions},minimum width=15cm,minimum height=6cm] (except) {};
+\node[very thick,draw,circle,red,fill=red!10,label={[align=center]center:system\\calls},
+      minimum width=3cm] (syscalls) 
+    at ([xshift=-3cm,yshift=1cm]except.center){};
+\node[very thick,draw,circle,red,fill=red!10,label={[align=center]center:faults},
+      minimum width=3cm] (fault) 
+    at ([xshift=3cm,yshift=-1cm]except.center){};
+\node[very thick,draw,circle,red,fill=red!10,label={[align=center]center:interrupts},
+      minimum width=3cm] (intr) 
+    at ([xshift=0cm,yshift=0cm]except.center){};
+\end{tikzpicture}
 \end{frame}
