@@ -6,7 +6,7 @@
     every node/.style={font=\small},
 }
 \matrix[tight matrix,
-    nodes={text width=2.5cm,font=\small},
+    nodes={text width=3cm,font=\small},
     column 1/.append style={nodes={draw=none}},
     column 2/.append style={nodes={text width=1.5cm}},
     row 1/.append style={nodes={draw=none}},
@@ -14,12 +14,14 @@
     label distance=1mm,
 ] (eTable) {
     |[align=center]| address \& pointer \\
-    base + {\tt 0x00} \& ~ \\
-    base + {\tt 0x08} \& ~ \\
-    base + {\tt 0x10} \& ~ \\
-    base + {\tt 0x18} \& ~ \\
+    base + {\tt 0x000} \& ~ \\
+    base + {\tt 0x008} \& ~ \\
+    base + {\tt 0x010} \& ~ \\
+    base + {\tt 0x018} \& ~ \\
     |[align=center]| \ldots \& |[draw=none,align=center]| \ldots \\
-    base + {\tt 0x40} \&  ~ \\
+    base + {\tt 0x108} \& ~ \\
+    |[align=center]| \ldots \& |[draw=none,align=center]| \ldots \\
+    base + {\tt 0x400} \&  ~ \\
     |[align=center]| \ldots \& |[draw=none,align=center]| \ldots \\
 };
 \node[draw,text width=2.8cm, align=center, anchor=south] (baseReg) at ([yshift=1cm,xshift=5mm]eTable-1-1.north west){ exception table base register };
@@ -32,19 +34,28 @@ handle_divide_by_zero:
   ...
 \end{lstlisting}
 };
-\node[draw,anchor=north west] (hTimer) at ([yshift=-2.5cm]hDivZero.south west){
+\node[draw,anchor=north west] (hSyscall) at ([yshift=-2.5cm]hDivZero.south west){
 \begin{lstlisting}[style=script,language=myasm]
-handle_timer_interrupt:
+handle_system_call:
+  movq %rax, save_rax
+  movq %rbx, save_rbx
+  ...
+\end{lstlisting}
+};
+\node[draw,anchor=north west] (hKbd) at ([yshift=-.5cm,xshift=2cm]hDivZero.south west){
+\begin{lstlisting}[style=script,language=myasm]
+handle_keyboard_interrupt:
   movq %rax, save_rax
   movq %rbx, save_rbx
   ...
 \end{lstlisting}
 };
 \draw[->,thick] (eTable-2-2.center) -- ++(2,0) |- ([yshift=-1ex]hDivZero.north west);
-\draw[thick] (eTable-3-2.center) -- ++ (2, 0) node[right]{\ldots};
-\draw[thick] (eTable-4-2.center) -- ++ (2, 0) node[right]{\ldots};
-\draw[thick] (eTable-5-2.center) -- ++ (2, 0) node[right]{\ldots};
-\draw[->,thick] (eTable-7-2.center) -- ++(2,0) |- ([yshift=-1ex]hTimer.north west);
+\draw[thick] (eTable-3-2.center) -- ++ (1, 0) node[right]{\ldots};
+\draw[thick] (eTable-4-2.center) -- ++ (1, 0) node[right]{\ldots};
+\draw[thick] (eTable-5-2.center) -- ++ (1, 0) node[right]{\ldots};
+\draw[->,thick] (eTable-7-2.center) -- ++(2,0) |- ([yshift=-1ex]hKbd.north west);
+\draw[->,thick] (eTable-9-2.center) -- ++(2,0) |- ([yshift=-1ex]hSyscall.north west);
 \end{tikzpicture}
 \end{frame}
 
