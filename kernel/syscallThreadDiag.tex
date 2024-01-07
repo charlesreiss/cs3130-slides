@@ -26,7 +26,8 @@
     program encodes \\ request for OS in regs
 };
 \draw[dotted,very thick,<-] (before enter kernel) -- ++(0cm, -.25cm) node[below,align=center,font=\small,fill=white,fill opacity=0.9, inner sep=0.5mm] {
-    program runs special instruction
+    program runs special instruction \\
+    \myemph{``system call''}
 };
 \draw[dotted,very thick,<-] (after enter kernel) -- ++(0cm, .25cm) node[above,align=center,font=\small,fill=white,fill opacity=0.9, inner sep=0.5mm] {
     start system call handler
@@ -39,9 +40,9 @@
     and maybe do it 
 };
 \draw[process A,ultra thick,->,dotted] (before exit kernel) -- (after exit kernel);
-\draw[dotted,very thick,<-] (before exit kernel) -- ++(0cm, -.25cm) node[below,font=\small,fill=white,fill opacity=0.9, inner sep=0.5mm,align=center] {
-    exit system call handler
-};
+%\draw[dotted,very thick,<-] (before exit kernel) -- ++(0cm, -.25cm) node[below,font=\small,fill=white,fill opacity=0.9, inner sep=0.5mm,align=center] {
+%    exit system call handler
+%};
 \end{tikzpicture}
 \end{frame}
 

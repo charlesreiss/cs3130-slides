@@ -1,0 +1,37 @@
+\begin{frame}{exception patterns with I/O (1)}
+    \begin{itemize}
+    \item input --- available now:
+        \begin{itemize}
+        \item exception: device says ``I have input now''
+        \item handler: OS stores input for later
+        \item exception (syscall): program says ``I want to read input''
+        \item handler: OS returns that input
+        \end{itemize}
+    \item input --- not available now:
+        \begin{itemize}
+        \item exception (syscall): program says ``I want to read input''
+        \item handler: OS runs other things (context switch)
+        \item exception: device says ``I have input now''
+        \item handler: OS retrieves input
+        \item handler: (possibly) OS switches back to program that wanted it
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{exception patterns with I/O (2)}
+    \begin{itemize}
+    \item output --- ready now:
+        \begin{itemize}
+        \item exception (syscall): program says ``I want to output this'
+        \item handler: OS sends output to deive
+        \end{itemize}
+    \item output --- not ready now
+        \begin{itemize}
+        \item exception (syscall): program says ``I want to output''
+        \item handler: OS realizes device can't accept output yet
+        \item (other things happen)
+        \item exception: device says ``I'm ready for output now''
+        \item handler: OS sends output requested earlier
+        \end{itemize}
+    \end{itemize}
+\end{frame}
