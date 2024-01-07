@@ -3,18 +3,18 @@
 {\tt
 \begin{tabular}{l}
 program: main.o extra.o \\
-▶\hspace{1.5cm}clang -o program main.o extra.o \\
+▶\hspace{1.5cm}clang -Wall -o program main.o extra.o \\
 ~ \\
 extra.o: extra.c extra.h \\
-▶\hspace{1.5cm}clang -o extra.o -c extra.c \\
+▶\hspace{1.5cm}clang -Wall -o extra.o -c extra.c \\
 main.o: main.c main.h extra.h \\
 ~ \\
 ▶\hspace{1.5cm}clang -o main.o -c main.c \\
 \end{tabular}
 }
 \begin{itemize}
-\item what if I want to run \texttt{clang} with \texttt{-Wall}?
-\item what if I want to change to \texttt{gcc}?
+\item what if I want to run \texttt{clang} with \texttt{-fsanitize=address} instead of \texttt{-Wall}?
+\item what if I want to change \texttt{clang}to \texttt{gcc}?
 \end{itemize}
 \end{frame}
 
@@ -37,6 +37,19 @@ main.o: main.c main.h extra.h \\
 ▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o main.o -c main.c \\
 \end{tabular}
 }
+\end{frame}
+
+\begin{frame}{aside: conventional names}
+\begin{itemize}
+\item chose names \texttt{CC}, \texttt{CFLAGS}, \texttt{LDFALGS}, etc.
+\item not required, but conventional names (incomplete list follows)
+\end{itemize}
+\begin{tabular}{ll}
+\texttt{CC} & C compiler \\
+\texttt{CFLAGS} & C compiler options \\
+\texttt{LDFLAGS} & linking options \\
+\texttt{LIBS} or \texttt{LDLIBS} & libraries \\
+\end{tabular}
 \end{frame}
 
 \begin{frame}{variables/macros (2)}
