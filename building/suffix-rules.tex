@@ -1,0 +1,24 @@
+
+\begin{frame}{suffix rules}
+
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \\
+~ \\
+\myemph{.c.o:} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\myemph{.SUFFIXES: .c .o} \\
+\end{tabular}
+} \\
+{\small aside: \texttt{\$\textasciicircum} works on GNU make (usual on Linux), but not portable.}
+\end{frame}
+
+

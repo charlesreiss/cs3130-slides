@@ -1,0 +1,22 @@
+\begin{frame}[fragile]{C exercise (2)}
+\lstset{language=C,style=smaller}
+\begin{lstlisting}
+int *array2[4]; int array1[4] = {10,20,30,40};
+int *mystery(int **p) {
+    *p = &array1[2];
+}
+int main() {
+    int **q;
+    q = array2;
+    mystery(q);
+    array1[1] = *q;
+    ...
+}
+\end{lstlisting}
+array1 = \\
+\begin{tabular}{llll}
+A. & compile or runtime error   & B. & \{10,10,30,40\} \\
+C. & \{10,30,30,40\} & D. & \{10,10,20,30\} \\
+E. & \{10,20,10,20\} & F. & none of these \\
+\end{tabular}
+\end{frame}

@@ -1,0 +1,32 @@
+
+\begin{frame}{built-in rules}
+\begin{itemize}
+\item `make' has the `make .o from .c' rule built-in already, so:
+\end{itemize}
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+LDLIBS = -lm \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\end{tabular}
+}
+\begin{itemize}
+\item (don't actually need to write supplied rule!)
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2->
+\node[rotate=15,draw=red,font=\Large,ultra thick,fill=white] at (current page.center) {
+    note: built-in rules not allowed on next week's lab
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+

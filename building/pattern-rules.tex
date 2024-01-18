@@ -1,0 +1,22 @@
+
+\begin{frame}{pattern rules}
+
+{\tt
+\begin{tabular}{l}
+CC = gcc \\
+CFLAGS = -Wall \\
+LDFLAGS = -Wall \\
+LDLIBS = -lm \\
+~ \\
+program: main.o extra.o \\
+▶\hspace{1.5cm}\$(CC) \$(LDFLAGS) -o {\$@} {\$\textasciicircum} \$(LDLIBS) \\
+~ \\
+\myemph{\%.o: \%.c} \\
+▶\hspace{1.5cm}\$(CC) \$(CFLAGS) -o {\$@} -c {\$<} \\
+~ \\
+extra.o: extra.c extra.h \\
+main.o: main.c main.h extra.h \\
+\end{tabular}
+} \\
+{\small aside: these rules work on GNU make (usual on Linux), but less portable than suffix rules.}
+\end{frame}
