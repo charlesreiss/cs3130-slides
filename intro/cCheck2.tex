@@ -2,7 +2,7 @@
 \lstset{language=C,style=smaller}
 \begin{lstlisting}
 int *array2[4]; int array1[4] = {10,20,30,40};
-int *mystery(int **p) {
+void mystery(int **p) {
     *p = &array1[2];
 }
 int main() {
