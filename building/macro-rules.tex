@@ -54,7 +54,7 @@ main.o: main.c main.h extra.h \\
 
 \begin{frame}{variables/macros (2)}
 
-{\tt
+{\small\tt
 \begin{tabular}{l}
 CC = gcc \\
 CFLAGS = -Wall \\
@@ -73,5 +73,12 @@ main.o: main.c main.h extra.h \\
 }
 
 {\small aside: \texttt{\$\textasciicircum} works on GNU make (usual on Linux), but not portable.}
+\begin{tikzpicture}[overlay,remember picture]
+\node[ultra thick,draw=red,anchor=north east,align=left] at ([xshift=-1cm,yshift=-1cm]current page.north east) {
+\texttt{\$@}: target \\
+\texttt{\$<}: first dependency \\
+\texttt{\$\textasciicircum}: all dependencies
+};
+\end{tikzpicture}
 \end{frame}
 

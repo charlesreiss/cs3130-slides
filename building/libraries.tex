@@ -20,12 +20,15 @@
         \item compile .o files with \texttt{-fPIC} (position independent code)
         \item then: \texttt{\textit{cc} -shared \ldots~-o libfoo.so}
         \end{itemize}
-    \item use: \texttt{\textit{cc} \ldots -o program -L/path/to/lib \ldots -lfoo}
+    \item use: \texttt{\textit{cc} \ldots -o program \myemph<2>{-L/path/to/lib} \ldots -lfoo}
+    \vspace{.5cm}
+    \item<2-> \texttt{-L...} sets path \textit{\myemph<2>{only when making executable}}
+    \item<2-> \myemph<2>{runtime path set separately}
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,label=sharedLib]{finding shared libraries (1)}
-\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+\begin{Verbatim}[fontsize=\fontsize{11}{12}\selectfont]
 $ ls
 libexample.so  main.c
 $ clang -o main main.c -lexample
@@ -34,20 +37,21 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 $ clang -o main main.c -L. -lexample
 $ ./main
 ./main: error while loading shared libraries:
-    libexample.so: cannot open shared object file: No such file or directory
+    libexample.so: cannot open shared object file: No such
+    file or directory
 \end{Verbatim}
 \begin{visibleenv}<2->
 \hrule
-\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+\begin{Verbatim}[fontsize=\fontsize{11}{12}\selectfont]
 $ LD_LIBRARY_PATH=. ./main
 \end{Verbatim}
 \textit{or}
-\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+\begin{Verbatim}[fontsize=\fontsize{11}{12}\selectfont]
 $ export LD_LIBRARY_PATH=.
 $ ./main
 \end{Verbatim}
 \textit{or}
-\begin{Verbatim}[fontsize=\fontsize{12}{13}\selectfont]
+\begin{Verbatim}[fontsize=\fontsize{11}{12}\selectfont]
 $ clang -o main main.c -L. -lexample -Wl,-rpath .
 $ ./main
 \end{Verbatim}
