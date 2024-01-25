@@ -1,0 +1,14 @@
+
+\begin{frame}{libraries and command line}
+\begin{itemize}
+\item when linking against libraries use: \\
+\texttt{clang -o executable foo.o bar.o -lName} \\
+rather than \\
+\sout{\texttt{clang -o executable -lName foo.o bar.o}} \\
+\item by default, linker processes files in order 
+\item might only grab things that previous files needed from library
+    \begin{itemize}
+    \item (especially for static libraries)
+    \end{itemize}
+\end{itemize}
+\end{frame}
