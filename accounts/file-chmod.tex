@@ -23,7 +23,7 @@
     \item each 3-bit part has a bit for `read' (4), `write' (2), `execute' (1)
     \vspace{.5cm}
     \item \texttt{700} --- user read+write+execute; group none; other none
-    \item \texttt{451} --- user read; group read+execute; other none
+    \item \texttt{451} --- user read; group read+execute; other execute
 \end{itemize}
 \end{frame}
 
@@ -37,9 +37,9 @@ user read write execute; group/others no accesss
 \hrule
 \begin{Verbatim}
 chmod 451 file
-chmod u=r,g=rx,o= file
+chmod u=r,g=rx,o=x file
 \end{Verbatim}
-user read; group read/execute; others no access
+user read; group read/execute; others no execute
 \end{frame}
 
 \begin{frame}[fragile]{chmod --- adjusting permissions}

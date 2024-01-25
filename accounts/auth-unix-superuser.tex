@@ -6,7 +6,7 @@
     \item (non-Unix) or Administrator or SYSTEM or \ldots
     \end{itemize}
 \vspace{.5cm}
-\item some system calls: only work for uid \texttt{0}
+\item some OS funtionality: only work for uid \texttt{0}
     \begin{itemize}
     \item shutdown, mount new file systems, etc.
     \end{itemize}
@@ -16,11 +16,16 @@
 
 \begin{frame}{superuser v kernel mode}
     \begin{itemize}
-    \item superuser : OS :: kernel mode : hardware
-    \vspace{.5cm}
-    \item programs running as superuser still in user mode
+    \item processor has two modes
+	\begin{itemize}
+	\item kernel mode (what core part of OS uses)
+	\item user mode (every thing else)
+	\end{itemize}
+    \item programs running as \myemph{superuser still in user mode}
         \begin{itemize}
-        \item just change in how OS acts on system calls, etc.
+        \item just change in how OS acts when program asks for things
         \end{itemize}
+    \vspace{.5cm}
+    \item superuser : OS :: kernel mode : hardware
     \end{itemize}
 \end{frame}

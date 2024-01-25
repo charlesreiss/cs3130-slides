@@ -1,6 +1,7 @@
 \begin{frame}{authorization checking on Unix}
     \begin{itemize}
-    \item checked on system call entry
+    \item request made to core part of OS = system call
+    \item handler for system calls checks permissions
         \begin{itemize}
         \item no relying on libraries, etc. to do checks
         \end{itemize}
