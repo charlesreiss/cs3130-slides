@@ -1,4 +1,4 @@
-\begin{frame}[fragile]{C exercise (2)}
+\begin{frame}<1>[fragile,label=cExer2]{C exercise (2)}
 \lstset{language=C,style=smaller}
 \begin{lstlisting}
 int *array2[4]; int array1[4] = {10,20,30,40};
@@ -15,8 +15,10 @@ int main() {
 \end{lstlisting}
 array1 = \\
 \begin{tabular}{llll}
-A. & compile or runtime error   & B. & \{10,10,30,40\} \\
+\myemph<2>{A.} & compile or runtime error   & B. & \{10,10,30,40\} \\
 C. & \{10,30,30,40\} & D. & \{10,10,20,30\} \\
-E. & \{10,20,10,20\} & F. & none of these \\
+E. & \{10,20,10,20\} & \myemph<2>{F.} & none of these \\
 \end{tabular}
 \end{frame}
+
+\iftoggle{heldback}{}{\againframe<2>{cExer2}}

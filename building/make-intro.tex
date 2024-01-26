@@ -21,7 +21,7 @@
 \vspace{1cm}
 \begin{itemize}
 \item before colon: \myemph<2>{target(s)} (file(s) generated/updated)
-\item after colon: \myemph<3>{prerequisite(s)}
+\item after colon: \myemph<3>{prerequisite(s)} {\small (also known as dependencies)}
 \item following lines prefixed by a \myemph<4>{tab} character: \myemph<5>{command(s) to run}
 \vspace{.5cm}
 \item \texttt{make} runs commands \myemph<6>{if any prereq modified date after target}
@@ -55,7 +55,7 @@ main.o: main.c main.h extra.h \\
         \begin{itemize}
         \item look in \texttt{Makefile} in current directory for rules
         \item check if \texttt{\textit{target}} is up-to-date
-        \item if not, rebuild it (and dependencies, if needed) so it is
+        \item if not, rebuild it (and prerequisites, if needed) so it is
         \end{itemize}
     \item ``\texttt{make \textit{target1} \textit{target2}}''
         \begin{itemize}
