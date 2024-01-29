@@ -1,7 +1,4 @@
-
-
 \usetikzlibrary{arrows.meta,decorations.pathmorphing}
-
 
 \begin{frame}{system call process}
 \begin{tikzpicture}
@@ -21,7 +18,7 @@
 \draw[snake,process A] (6, -2) coordinate (after enter kernel) -- (6, -4) coordinate (before swtch);
 \draw[snake,process A] (6, -4) coordinate (after swtch) -- (6, -6) coordinate (before exit kernel);
 \draw[snake,process A] (-4, -6.5) coordinate (after exit kernel) -- (-4, -8);
-\draw[process A,ultra thick,->,dotted] (before enter kernel) -- (after enter kernel);
+\draw[process A,ultra thick,->,dotted,alt=<2>{red}] (before enter kernel) -- (after enter kernel);
 \draw[dotted,very thick,<-] ([yshift=0.5cm]before enter kernel) -- ++(.25cm, 0cm) node[right,align=center,font=\small,fill=white,fill opacity=0.9, inner sep=0.5mm] {
     program encodes \\ request for OS in regs
 };

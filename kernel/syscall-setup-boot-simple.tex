@@ -2,7 +2,11 @@
 
 \begin{frame}{controlled entry to kernel mode (1)}
 \begin{itemize}
-\item special instruction: ``system call''
+\item special instruction: ``make system call''
+    \begin{itemize}
+    \item similar idea as \texttt{call} instruction --- jump to function elsewhere
+    \item (and allow that function to return later)
+    \end{itemize}
 \vspace{.5cm}
 \item runs OS code in kernel mode at location specified earlier 
 \item OS sets up at boot
