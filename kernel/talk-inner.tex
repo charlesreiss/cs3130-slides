@@ -65,9 +65,6 @@
 \input{../kernel/exceptIdea}
 
 
-\subsection{exception table}
-\input{../kernel/exceptTable}
-
 \subsection{reasons for exceptions, generally}
 \input{../kernel/exceptKindInfoLib}
 \againframe<1-4>{exceptTypesN}
@@ -92,20 +89,19 @@
 \subsection{operating system runs}
 \input{../kernel/contextSwitchIntro}
 
-\subsection{not just timers}
-\againframe<6>{exceptTypesN}
-\input{../kernel/keyInTimeline}
-
-\input{../kernel/crashTimeline}
-
-\subsection{typical I/O pattern}
-\input{../kernel/exceptIOPattern}
+\subsection{context switches} 
+\input{../kernel/contextSwitch}
 
 \section{thread idea}
 \input{../kernel/thread}
 
-\section{context switches} 
-\input{../kernel/contextSwitch}
+\section{not just timers}
+\againframe<6>{exceptTypesN}
+
+\subsection{typical I/O pattern}
+\input{../kernel/exceptIOPattern}
+
+\input{../kernel/keyInTimeline}
 
 \section{review: exception / context switch}
 \input{../kernel/reviewExceptCtxt}
