@@ -7,11 +7,11 @@
     \begin{itemize}
     \item some sort of exception
     \end{itemize}
-\item saves old registers + program counter
+\item saves old registers + program counter + address mapping
     \begin{itemize}
     \item (optimization: could omit when program crashing/exiting)
     \end{itemize}
-\item sets new registers, jumps to new program counter
+\item sets new registers + address mapping, jumps to new program counter
 \item called \myemph{context switch}
     \begin{itemize}
     \item saved information called \myemph{context}
