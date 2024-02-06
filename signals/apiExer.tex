@@ -10,7 +10,8 @@ void handle_usr1(int num) {
 }
 
 int main() {
-    struct sigaction act;
+    struct sigaction act; 
+    ...
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
     kill(1000, SIGUSR1);
@@ -26,6 +27,7 @@ void handle_usr1(int num) {
 
 int main() {
     struct sigaction act;
+    ...
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
 }
@@ -58,6 +60,7 @@ void handle_usr1(int num) {
 
 int main() {
     struct sigaction act;
+    ...
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
     kill(1000, SIGUSR1);
@@ -74,6 +77,7 @@ void handle_usr1(int num) {
 
 int main() {
     struct sigaction act;
+    ...
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
     @1while (1) pause();@

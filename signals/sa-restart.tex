@@ -6,15 +6,15 @@
         \item general version:
         \item \texttt{sa.sa\_flags = SA\_NAME | SA\_NAME | SA\_NAME;} (or \texttt{0})
         \end{itemize}
-    \item if SA\_RESTART included:
+    \item if \texttt{SA\_RESTART} included:
         \begin{itemize}
         \item after signal handler runs, attempt to restart interrupted operations
                 (e.g. reading from keyboard)
         \end{itemize}
-    \item if SA\_RESTART not included:
+    \item if \texttt{SA\_RESTART} not included:
         \begin{itemize}
         \item after signal handler runs, interrupted operations return
-            typically an error (errno == EINTR)
+            typically an error (detect by checking \texttt{errno == EINTR})
         \end{itemize}
     \end{itemize}
 \end{frame}
