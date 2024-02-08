@@ -11,7 +11,7 @@
 }
 \draw[snake,process A] (0, 0) coordinate (A start) -- ++(0, -1)
     coordinate (A kill)
-    node[above right] {kill(SIGUSR1, B)};
+    node[above right] {kill(B, SIGUSR1)};
 \node[anchor=south] at (A start) {pid A (user)};
 \node[anchor=south] at ([xshift=4cm]A start) {pid A (kernel)};
 \draw[mode,process A] (A kill) -- ++(4, -.5) coordinate (A kill sys);
