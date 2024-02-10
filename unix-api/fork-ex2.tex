@@ -1,0 +1,28 @@
+
+\begin{frame}[fragile,label=forkQuestion]{a fork question (2)}
+\vspace{-.3cm}
+\begin{lstlisting}[language=C++,style=size10]
+int x = 0;
+int main() {
+    pid_t pid = fork();
+    int y = 0;
+    if (pid == 0) {
+        x += 1;
+        y += 2;
+    } else {
+        x += 3;
+        y += 4;
+    }
+    printf("%d %d\n", x, y);
+}
+\end{lstlisting}
+\tikzmark{question start}\small Exercise: which (possibly multiple) are possible outputs?
+\begin{tabular}{lll}
+A. 1 2 (newline) 3 4 &
+B. 1 2 (newline) 4 4 &
+C. 1 2 (newline) 4 6 \\
+D. 3 4 (newline) 1 2 &
+E. 3 4 (newline) 4 6 &
+F. 4 6 (newline) 4 6 \\
+\end{tabular}
+\end{frame}
