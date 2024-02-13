@@ -30,8 +30,9 @@
 handler runs in kernel mode & handler runs in user mode \\
 hardware decides when & \myemph<2>{OS decides}~\tikzmark{OS when}\myemph<2>{when} \\
 hardware needs to save PC & OS needs to save PC \tikzmark{plus regs}\myemph<3>{+ registers} \\
-\myemph<4>{processor} next instruction changes& \myemph<4>{thr\tikzmark{thread}ead} next instruction changes \\
+\myemph<4>{processor} program counter changes& \myemph<4>{thr\tikzmark{thread}ead} program counter changes \\
 \end{tabular}
+{\small program counter = instruction to run next}
 \begin{tikzpicture}[overlay,remember picture]
 \coordinate (callout mark) at ([xshift=-2cm,yshift=-2cm]pic cs:OS when);
 \begin{visibleenv}<2>
