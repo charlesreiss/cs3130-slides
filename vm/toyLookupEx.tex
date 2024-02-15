@@ -1,0 +1,19 @@
+\begin{frame}{exercise: page table lookup}
+    \begin{itemize}
+    \item suppose 64-byte pages (= 6-bit page offsets), 9-bit virtual addresses
+    \end{itemize}
+\begin{tabular}{l|l|l}
+VPN & valid & PPN \\ \hline
+\tt 000 & \tt 1 & \tt 0010 \\ \hline
+\tt 001 & \tt 1 & \tt 1010 \\ \hline
+\tt 010 & \tt 0 & \tt --- \\ \hline
+\tt 011 & \tt 0 & \tt --- \\ \hline
+\tt 100 & \tt 1 & \tt 1110 \\ \hline
+\tt 101 & \tt 1 & \tt 0100 \\ \hline
+\tt 110 & \tt 1 & \tt 0001 \\ \hline
+\tt 111 & \tt 0 & \tt --- \\ \hline
+\end{tabular}
+    \begin{itemize}
+    \item virtual address {\tt 0x024} ({\tt 0 0010 0100}) = physical address ???
+    \end{itemize}
+\end{frame}
