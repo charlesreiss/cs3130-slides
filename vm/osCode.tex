@@ -1,12 +1,11 @@
-\begin{frame}{switching page tables}
+\begin{frame}{running OS code}
     \begin{itemize}
-    \item part of context switch is changing the page table
-    \item extra \myemph{privileged instructions}
+    \item system calls, I/O events, etc. run OS code in kernel mode
     \vspace{.5cm}
-    \item<2-> where in memory is the code that does this switching?
+    \item<2-> where in memory is this OS code?
         \begin{itemize}
             \item<3-> probably have a page table entry pointing to it
-            \item<3-> hopefully marked kernel-mode-only
+            \item<3-> marked not accessible in user mode
         \end{itemize}
     \item<4-> code better not be modified by user program
         \begin{itemize}

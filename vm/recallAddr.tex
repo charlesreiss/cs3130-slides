@@ -1,12 +1,13 @@
 \usetikzlibrary{arrows.meta,calc,fit,patterns,positioning,shapes.multipart}
-\begin{frame}{program memory}
+\begin{frame}[label=progMemory]{program memory}
 \begin{tikzpicture}
 \tikzset{
     mylabel/.style={font=\ttfamily},
     mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
     myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
 }
-\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white,
+    alt=<2>{draw=red,ultra thick}] (kernel) {Used by OS};
 \begin{pgfonlayer}{bg}
 \node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
 \node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
