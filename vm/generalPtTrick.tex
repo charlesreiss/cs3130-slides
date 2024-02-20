@@ -15,14 +15,14 @@
     \begin{itemize}
     \item allocating space on demand
     \item loading code/data from files on disk on demand
-    \item saving data temporarily to disk, reloading to memory on demand
+    \item copy-on-write
+    \item \myemph<2>{saving data temporarily to disk, reloading to memory on demand}
         \begin{itemize}
         \item ``swapping''
         \end{itemize}
-    \item stopping in a debugger when a variable is modified
-    \item detecting whether memory was read/written recently
-    \item sharing memory between programs on two different machines
-    \item ``copy-on-write'' (later)
+    \item \myemph<3>{detecting whether memory was read/written recently}
+    \item \myemph<4>{stopping in a debugger when a variable is modified}
+    \item \myemph<5>{sharing memory between programs on two different machines}
     \end{itemize}
 \end{frame}
 
