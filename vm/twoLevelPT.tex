@@ -95,13 +95,13 @@ nodes={ptNode},
     row 1/.style={nodes={font=\normalfont,draw=none,black}},
 ] (secondZoom) at ([xshift=.5cm,yshift=2cm]first.north east) {
     VPN \& valid \& \ldots \& physical page \# \small (of data) \\
-    0x3\myemph<all:7>{00} \& 0 \& 1 \& 0x42443 \\
-    0x3\myemph<all:7>{01} \& 0 \& 1 \& 0x4A9DE \\
-    0x3\myemph<all:7>{02} \& 0 \& 1 \& 0x5C001 \\
-    0x3\myemph<all:7>{03} \& 0 \& 1 \& 0x00000 \\
-    0x3\myemph<all:7>{04} \& 0 \& 1 \& 0x6C223 \\
+    0x3\myemph<all:7>{00} \& 1 \& \ldots \& 0x42443 \\
+    0x3\myemph<all:7>{01} \& 1 \& \ldots \& 0x4A9DE \\
+    0x3\myemph<all:7>{02} \& 1 \& \ldots \& 0x5C001 \\
+    0x3\myemph<all:7>{03} \& 0 \& \ldots \& 0x00000 \\
+    0x3\myemph<all:7>{04} \& 1 \& \ldots \& 0x6C223 \\
     \ldots \& \ldots \& \ldots \& \ldots \\
-    0x3\myemph<all:7>{FF} \& \ldots \& 1 \& 0x00000 \\
+    0x3\myemph<all:7>{FF} \& 0 \& \ldots \& 0x00000 \\
 } ;
 \end{visibleenv}
 \end{pgfonlayer}

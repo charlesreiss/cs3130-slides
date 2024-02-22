@@ -27,8 +27,8 @@ size_t ptbr; // page table base register
     // points to page table (array of page table entries)
 
 // lookup "virtual" address 'va' in page table ptbr points to
-// return (void*) (~0L) if invalid
-void *translate(size_t va);
+// return (~0L) if invalid
+size_t translate(size_t va);
 
 // make it so 'va' is valid, allocating one page for its data
 // if it isn't already
