@@ -69,7 +69,7 @@
 \node[alt=<1>{red},font=\tt] (ptbr label) at ([xshift=-6cm]baseAddr.north east) {ptbr};
 \draw[alt=<1>{red},ultra thick,dotted,->] (ptbr label) -- (baseAddr.north west);
 \begin{visibleenv}<1>
-\node[draw=red,ultra thick] at (pt) {
+\node[fill=white,draw=red,ultra thick] at (pt) {
     page\_allocate(va) --- set ptbr if unset
 };
 \end{visibleenv}
@@ -85,7 +85,7 @@
     \node[inner sep=0mm,draw=black,thin,fit=(newAddrLeft) (newAddrRight)] (newAddrBox) {};
     \draw[->,very thick] (newAddrBox.south) -- ++(0cm,-.5cm) node[below] {to memory (\texttt{\myemph<1>{translate(va)}})};
 \begin{visibleenv}<2>
-\node[align=left,draw=red,ultra thick,anchor=west] at ([xshift=-2cm]pt.east) {
+\node[fill=white,align=left,draw=red,ultra thick,anchor=west] at ([xshift=-2cm]pt.east) {
     page\_allocate(va) --- \\set page table entry \\ if unset
 };
 \end{visibleenv}
