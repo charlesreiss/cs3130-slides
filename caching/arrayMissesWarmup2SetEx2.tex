@@ -1,5 +1,5 @@
 
-\begin{frame}[fragile,label=arrayMissesWarmup4]{C and cache misses (warmup 4)}
+\begin{frame}[fragile,label=arrayMissesWarmup4]{C and cache misses (warmup 4a)}
 \begin{lstlisting}[style=smaller]
 int array[8]; /* assume aligned */
 ...
@@ -96,3 +96,27 @@ anything funny).}
 \iftoggle{heldback}{}{
 \againframe<1-3>{arrayMissesWarmup4Answers}
 }
+
+\begin{frame}[fragile,label=arrayMissesWarmup4]{C and cache misses (warmup 4b)}
+\begin{lstlisting}[style=smaller]
+int array[8]; /* assume aligned */
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+odd_sum += array[3];
+even_sum += array[6];
+odd_sum += array[1];
+even_sum += array[4];
+odd_sum += array[7];
+even_sum += array[2];
+odd_sum += array[5];
+\end{lstlisting}
+\begin{itemize}
+\item {\small
+Assume everything but {\tt array} is kept in registers (and the compiler does not do
+anything funny).}
+\item How many data cache misses on a \textbf{2}-set direct-mapped cache with 8B blocks?
+\end{itemize}
+\end{frame}
+
+
