@@ -19,6 +19,7 @@ void *sum_thread(void *argument) {
     return NULL;
 }
 int sum_all() {
+    /* missing: error handling */
     pthread_t thread[2];
     for (int i = 0; i < 2; ++i) {
         pthread_create(&threads[i], NULL, sum_thread, (void *) i);

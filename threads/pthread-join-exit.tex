@@ -1,10 +1,11 @@
 
-\begin{frame}{pthread\_join, pthread\_exit}
+\begin{frame}[fragile]{pthread\_join, pthread\_exit}
 \begin{itemize}
-\item \texttt{pthread\_join}: wait for thread, retrieves its return value
+\item R = \texttt{pthread\_join}(X, \verb|&|P): wait for thread X, copies return value into P
     \begin{itemize}
     \item like \texttt{waitpid}, but for a thread
-    \item return value is pointer to anything
+    \item thread return value is pointer to anything
+    \item R = 0 if successful, error code otherwise
     \end{itemize}
 \item \texttt{pthread\_exit}: exit current thread, returning a value
     \begin{itemize}

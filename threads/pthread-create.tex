@@ -3,7 +3,7 @@
 \begin{frame}<1>[fragile,label=pthreadCreateOver]{pthread\_create}
 \vspace{-.25cm}
 \begin{lstlisting}[
-    style=smaller,
+    style=size105,
     language=C++,
     moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
     moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
@@ -13,10 +13,12 @@
 void *ComputePi(void *argument) { ...  }
 void *PrintClassList(void *argument) { ...  }
 int main() {
-    pthread_t pi_thread, list_thread;
-    pthread_create(&@2pi_thread2@, @4NULL4@, @3ComputePi3@, @4NULL4@);
-    pthread_create(&@2list_thread2@, @4NULL4@, @3PrintClassList3@, @4NULL4@);
-    ... /* more code */
+  pthread_t pi_thread, list_thread;
+  if (0 != pthread_create(&@2pi_thread2@, @4NULL4@, @3ComputePi3@, @4NULL4@))
+      handle_error();
+  if (0 != pthread_create(&@2list_thread2@, @4NULL4@, @3PrintClassList3@, @4NULL4@))
+      handle_error();
+  ... /* more code */
 }
 \end{lstlisting}
 \begin{tikzpicture}
@@ -37,9 +39,10 @@ int main() {
 \end{tikzpicture}
 \end{frame}
 
+
 \begin{frame}[fragile,label=pthreadCreateIntro]{pthread\_create}
 \begin{lstlisting}[
-    style=small,
+    style=size105,
     language=C++,
     moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
     moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
@@ -49,10 +52,12 @@ int main() {
 void *ComputePi(void *argument) { ...  }
 void *PrintClassList(void *argument) { ...  }
 int main() {
-    pthread_t pi_thread, list_thread;
-    pthread_create(&@2pi_thread2@, @4NULL4@, @3ComputePi3@, @4NULL4@);
-    pthread_create(&@2list_thread2@, @4NULL4@, @3PrintClassList3@, @4NULL4@);
-    ... /* more code */
+  pthread_t pi_thread, list_thread;
+  if (0 != pthread_create(&@2pi_thread2@, @4NULL4@, @3ComputePi3@, @4NULL4@))
+      handle_error();
+  if (0 != pthread_create(&@2list_thread2@, @4NULL4@, @3PrintClassList3@, @4NULL4@))
+      handle_error();
+  ... /* more code */
 }
 \end{lstlisting}
     \begin{itemize}

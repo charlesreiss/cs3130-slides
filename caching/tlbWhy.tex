@@ -64,7 +64,7 @@
 \begin{frame}{page table entry cache}
     \begin{itemize}
     \item caled a \textbf{TLB} (translation lookaside buffer)
-    \item \myemph{very small cache of page table entries}
+    \item \myemph{(usually very small) cache of page table entries}
     \vspace{.5cm}
     \item
     \begin{tabular}{l|l}
@@ -100,7 +100,7 @@
 };
 \end{visibleenv}
 \begin{visibleenv}<6>
-\node[my callout=entries,align=left] at ([xshift=-6cm,yshift=-1cm]pic cs:entries) {
+\node[my callout=entries,align=left] at ([xshift=-6cm,yshift=-.5cm]pic cs:entries) {
     few active page table entries at a time \\
     enables highly associative cache designs
 };
