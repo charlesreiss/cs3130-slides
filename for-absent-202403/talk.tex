@@ -1,5 +1,5 @@
 \date{}
-\title{}
+\title{barriers (finish) / deadlock}
 \date{}
 \begin{document}
 \begin{frame}
@@ -18,7 +18,7 @@
     \item compilers, processors and memory access reordering
         \begin{itemize}
         \item order you write in C code [or even assembly] might not be order of accesses
-        \item need special operations that gaurentee consistent order (e.g. locks)
+        \item need special operations that gaurentee consistent order
         \end{itemize}
     \item locks for taking turns
         \begin{itemize}
@@ -30,6 +30,10 @@
     \end{itemize}
 \end{frame}
 
+\section{barriers}
+\subsection{exercise}
+\input{../sync/barrier-ex}
+
 \input{../deadlock/dependency-lib}
 \input{../deadlock/talk-inner}
 
@@ -40,5 +44,7 @@
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+\section{barriers}
+\input{../sync/barriers}
 
 \end{document}
