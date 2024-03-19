@@ -1,0 +1,44 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item race conditions
+        \begin{itemize}
+        \item inconsistent results due to timing variation
+        \item example: ``lose'' update due to reading value while update being computed
+        \end{itemize}
+    \item compilers, processors and memory access reordering
+        \begin{itemize}
+        \item order you write in C code [or even assembly] might not be order of accesses
+        \item need special operations that gaurentee consistent order (e.g. locks)
+        \end{itemize}
+    \item locks for taking turns
+        \begin{itemize}
+        \item one thread can ``hold'' lock at a time
+        \item lock operation waits for lock to be available (unlock'd)
+        \item requires threads agree to get lock before using shared thing
+        \end{itemize}
+    \item barriers --- advance threads in lock-step
+    \end{itemize}
+\end{frame}
+
+\input{../deadlock/dependency-lib}
+\input{../deadlock/talk-inner}
+
+\input{../sync/talk-monitor}
+
+%\input{../sync/talk-xact}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
