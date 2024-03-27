@@ -1,7 +1,7 @@
 \begin{frame}[fragile,label=PCSignal]{producer/consumer signal?}
 \begin{lstlisting}[
     language=C++,
-    basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
+    basicstyle=\tt\fontsize{9}{10}\selectfont,
     morekeywords=pthread_mutex_t,
     morekeywords=pthread_cond_t,
     morekeywords=BoundedQueue,
@@ -14,7 +14,6 @@
 pthread_mutex_t lock;
 pthread_cond_t data_ready;
 UnboundedQueue buffer;
-
 Produce(item) {
     @2pthread_mutex_lock(&lock);2@
     buffer.enqueue(item);
@@ -24,7 +23,6 @@ Produce(item) {
         pthread_cond_signal(&item);
     @2pthread_mutex_unlock(&lock);2@
 }
-
 Consume() {
     @2pthread_mutex_lock(&lock);2@
     while (@5buffer.empty()5@) {X\tikzmark{empty}X
