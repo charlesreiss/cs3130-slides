@@ -7,3 +7,13 @@ application & HTTP, SSH, SMTP, \ldots & {application-defined meanings}\\ \hline
 physical & \ldots & encode bits for wire/radio \\ \hline
 \end{tabular}
 \end{frame}
+
+\begin{frame}<1>[fragile,label=layerMsgNames]{layers terminology}
+\begin{tabular}{|l|p{6cm}|l|} \hline
+application & {application-defined meanings} & ~\\ \hline
+transport & {reach correct program,\linebreak reliablity/streams} & segments/datagrams \\ \hline
+network & {reach correct machine}\linebreak(across networks) & packets \\ \hline
+link & {coordinate shared wire/radio} & frames \\ \hline
+physical & encode bits for wire/radio & ~ \\ \hline
+\end{tabular}
+\end{frame}
