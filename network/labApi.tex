@@ -32,9 +32,9 @@
 \begin{frame}[fragile]{callback-based programming (1)}
 \begin{Verbatim}[fontsize=\small]
 /* library code you don't write */
-/* in the lab: part of waitForAllTimeouts() */
+/* in the lab: part of waitForAllTimeoutsAndMessagesThenExit() */
 void mainLoop() {
-    while (true) {
+    while (notExiting) {
         Event event = waitForAndGetNextEvent();
         if (event.type == RECIEVED) {
             recvd(...);
@@ -62,7 +62,7 @@ void timerCallback(...) {
 int main() {
     send(.../* first message */);
     ... /* other initial setup */
-    waitForAllTimeouts(); // runs mainLoop()
+    waitForAllTimeoutsAndMessagesThenExit(); // runs mainLoop()
 }
 \end{Verbatim}
 \end{frame}
