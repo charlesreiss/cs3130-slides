@@ -49,7 +49,7 @@ void Finish(int index) {
         A. \lstinline*pthread_cond_signal(&both_finished_cv)* \\
         B. \lstinline*pthread_cond_broadcast(&both_finished_cv)* \\
         C. \lstinline*if (finished[1-index])* \\
-        \hspace{1.5cm} \lstinline*pthread_cond_singal(&both_finished_cv);* \\
+        \hspace{1.5cm} \lstinline*pthread_cond_signal(&both_finished_cv);* \\
         D. \lstinline*if (finished[1-index])* \\
         \hspace{1.5cm} \lstinline*pthread_cond_broadcast(&both_finished_cv);* \\
         E. something else
