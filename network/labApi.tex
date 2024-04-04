@@ -6,7 +6,7 @@
         \item requesting parts in order
         \item \myemph<2>{resending requests if messages lost/corrupted}
         \end{itemize}
-    \item ``acknowledge'' receiving part X to request part X+1
+    \item \myemph<2>{``acknowledge'' receiving part X to request part X+1}
     \end{itemize}
 \end{frame}
 
@@ -15,15 +15,15 @@
     \item {\tt GET$x$} --- retrieve message $x$ (x = 0, 1, 2, or 3)
         \begin{itemize}
         \item other end acknowledges by giving data
-        \item if they don't acknowledge, you need to send again
+        \item if they don't reply, you need to send again
         \item higher numbered messages have errors/etc. that are harder to handle
         \end{itemize}
     \item {\tt ACK$n$ }
         \begin{itemize}
         \item request message $n + 1$ by acknowledging message $n$
         \item not quite same purpose as acknowledgments in prior examples
-        \item (in lab, the response is your `acknowledgment' of your request; \\
-            you retry if you don't get it)
+        \item \myemph<2>{(in lab, the response is your `acknowledgment' of your request;} \\
+            \myemph<2>{you retry if you don't get it)}
         \end{itemize}
     \end{itemize}
 \end{frame}
