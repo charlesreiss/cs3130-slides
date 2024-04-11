@@ -27,11 +27,14 @@
 
 \begin{frame}{certificate authorities}
     \begin{itemize}
-    \item websites (and others) go to \textit{certificates authorities} with their public key
+    \item websites (and others) go to \textit{certificates authorities} (CA) with their public key
     \item certificate authorities sign messages like: \\
         ``The public key for foo.com is XXX.''
     \item signed message called \textit{certificate}
     \item send certificates to browsers to verify identity
+        \begin{itemize}
+        \item \myemph<2>{website can forward certificate instead of browser contacting CA directly}
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
