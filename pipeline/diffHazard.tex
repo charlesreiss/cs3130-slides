@@ -1,0 +1,22 @@
+\begin{frame}[fragile,label=diffHaz]{pipeline with different hazards}
+\lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,andq},
+    moredelim=**[is][\btHL<1|handout:1>]{~1~}{~end~},
+}
+    \begin{itemize}
+        \item example: 4-stage pipeline: fetch/decode/execute+memory/writeback
+\begin{lstlisting}
+                 // 4 stage  // 5 stage
+addq %rax, ~1~%r8~end~   //          // W
+subq %rax, %r9   // W        // M
+xorq %rax, %r10  // EM       // E
+andq ~1~%r8~end~,  %r11  // D        // D
+\end{lstlisting}
+        \item<2> addq/andq is hazard with 5-stage pipeline
+        \item<2> addq/andq is \textbf{not} a hazard with 4-stage pipeline
+        \item<3> \myemph<3>{more hazards with more pipeline stages}
+    \end{itemize}
+\end{frame}
+
