@@ -1,4 +1,79 @@
-\begin{frame}[fragile,label=1BmispredEx]{exercise}
+
+\begin{frame}<1>[fragile,label=1BmispredExPt1]{exercise (pt 1)}
+\begin{itemize}
+\item use 1-bit predictor on this loop
+    \begin{itemize}
+    \item executed in outer loop (not shown) many, many times
+    \end{itemize}
+\item what is the conditional jump misprediction rate for \verb|i % 3 == 0|?
+\end{itemize}
+\begin{lstlisting}[language=C,style=small]
+int i = 0;
+while (true) {
+  if (i % 3 == 0)
+    goto next; 
+  ...
+next:
+  i += 1;
+  if (i == 50)
+    break; 
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2->
+\node[anchor=north east,font=\small] at ([xshift=-1cm,yshift=-4cm]current page.north east) {
+\begin{tabular}{l|l|l|l|l}
+i = & branch & pred & outcome & correct? \\
+0 & mod 3 & ??? & \myemph<2>{T} & ??? \\
+1 & mod 3 & \myemph<2>{T} & \myemph<3>{F} & no \\
+2 & mod 3 & \myemph<3>{F} & \myemph<4>{F} & yes \\
+3 & mod 3 & \myemph<4>{F} & T & no \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+\end{tabular}
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\againframe<2->{1BmispredExPt1}
+
+
+\begin{frame}<1>[fragile,label=1BmispredExPt2]{exercise (pt 2)}
+\begin{itemize}
+\item use 1-bit predictor on this loop
+    \begin{itemize}
+    \item executed in outer loop (not shown) many, many times
+    \end{itemize}
+\item what is the conditional jump misprediction rate for \verb|i == 50|?
+\end{itemize}
+\begin{lstlisting}[language=C,style=small]
+int i = 0;
+while (true) {
+  if (i % 3 == 0)
+    goto next; 
+  ...
+next:
+  i += 1;
+  if (i == 50)
+    break; 
+}
+\end{lstlisting}
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2->
+\node[anchor=north east,font=\small] at ([xshift=-1cm,yshift=-4cm]current page.north east) {
+\begin{tabular}{l|l|l|l|l}
+i = & branch & pred & outcome & correct? \\
+1 & = 50 & ??? & \myemph<2>{F} & ??? \\
+2 & = 50 & \myemph<2>{F} & \myemph<3>{F} & yes \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+50 & = 50 & \myemph<3>{F} & T & no \\
+\end{tabular}
+};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=1BmispredEx]{exercise (full)}
 \begin{itemize}
 \item use 1-bit predictor on this loop
     \begin{itemize}
