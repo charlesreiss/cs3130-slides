@@ -13,7 +13,6 @@ SLIDEDECKS = \
     pipeline \
     processors \
     secure \
-    side-channel \
     signals \
     spectre \
     sync \
@@ -22,15 +21,15 @@ SLIDEDECKS = \
     unwind \
     vm 
 
-all: $(patsubst %,dist/%.pdf,$(SLIDEDECKS))
+all: $(patsubst %,_dist/%.pdf,$(SLIDEDECKS))
 
 clean:
-	rm -r dist
+	rm -r _dist
 
-dist:
-	mkdir dist
+_dist:
+	mkdir _dist
 
-dist/%.pdf: % dist
-	cd $< && make && cp talk-slides.pdf ../dist/$<.pdf
+_dist/%.pdf: % _dist
+	cd $< && make && cp talk-slides.pdf ../_dist/$<.pdf
 
 .PHONY: all
