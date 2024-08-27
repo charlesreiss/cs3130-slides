@@ -1,6 +1,6 @@
 all: talk-slides.pdf
 
-PUBLIC=../../cs3130-website/slides/
+PUBLIC=../../../cs3130-website/slides/
 
 %.pdf: %.tex .FORCE
 	latexrun -W no-overfull --latex-cmd=$(LATEX) --latex-args=-shell-escape $<
