@@ -33,7 +33,7 @@
 \node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr) at (decl p.south west) {
 *ptr = 0xAB;
 };
-\node[right] at (bad ptr.east) {compile error};
+\node[right] at (bad ptr.east) {runtime error};
 \end{visibleenv}
 \begin{visibleenv}<4-5>
 \node[very thick,align=left,font=\tt,anchor=north west] (ptr single) at (decl p.south west) {
