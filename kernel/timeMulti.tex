@@ -31,9 +31,11 @@
     \node[anchor=north west] (asmPre) at (0, -1) {
 \begin{lstlisting}[language=myasm,style=small]
 ...
-call get_time 
-    // whatever get_time does
-movq %rax, %rbp
+loop: ...
+    ...
+    jmp loop
+loop: ...
+    ...
 \end{lstlisting}
     };
     \draw[red, ultra thick] ([yshift=-.2cm]asmPre.south west) -- ([yshift=-.2cm]asmPre.south east) node [draw=none,midway,fill=white,
@@ -41,10 +43,10 @@ movq %rax, %rbp
         {million cycle delay};
     \node[anchor=north west] (asmPost) at ([yshift=-.5cm]asmPre.south west) {
 \begin{lstlisting}[language=myasm,style=small]
-call get_time
-    // whatever get_time does
-subq %rbp, %rax
-...
+    ...
+    jmp loop
+loop: ...
+    ...
 \end{lstlisting}
     };
 \end{visibleenv}
