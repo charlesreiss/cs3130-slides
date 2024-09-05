@@ -23,11 +23,37 @@
 
 \input{../common/listingsLib}
 
-\input{../accounts/talk-inner}
+\begin{frame}{quiz demo}
+\end{frame}
+
+\section{superuser}
+\input{../accounts/auth-unix-superuser}
+
+\section{becoming superuser}
+
+\subsection{on boot, /bin/login}
+\input{../accounts/bin-login}
+
+\subsection{set-user-ID/sudo}
+\input{../accounts/sudo}
+
+\input{../accounts/setuid-use}
+
+\subsection{a litany of silly setuid program issues}
+\input{../accounts/setuid-hard-to-write}
+
+\section{privilege escalation}
+\input{../accounts/priv-escalate}
+
+
 \input{../kernel/talk-inner}
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\input{../accounts/talk-backup}
+
+\input{../kernel/talk-backup}
 
 \end{document}
