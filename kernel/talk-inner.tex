@@ -23,18 +23,13 @@
 \subsection{aside: terminology}
 \input{../kernel/syscall-term-parts}
 
-\subsection{exercise: why not check}
-\input{../accounts/check-perm-when-exer}
-
-    % FIXME: diagram show system call made
-        % and processing finished later
-
 \subsection{system calls on Linux}
 % FIXME import slides
 \input{../kernel/sysCallLinux}
 
 \subsection{maybe not return?}
 \input{../kernel/syscallThreadLaterDiag}
+
 
 \subsection{system call wrappers}
 \input{../kernel/syscallWrap}
@@ -53,9 +48,6 @@
 \subsubsection{exercise: expected behavior?}
 \input{../kernel/memProtectQ}
 
-\subsubsection{address spaces}
-\input{../kernel/memProtectAddressSpaces}
-
 \subsubsection{preview: shared memory}
 \input{../kernel/previewSharedMemory}
 
@@ -64,12 +56,9 @@
 \againframe<5>{memProtectQ}
 \input{../kernel/exceptIdea}
 
-
 \subsection{reasons for exceptions, generally}
 \input{../kernel/exceptKindInfoLib}
 \againframe<1-4>{exceptTypesN}
-
-
 
 \section{infinite loop}
 \againframe<4>{portalShouldnt}
