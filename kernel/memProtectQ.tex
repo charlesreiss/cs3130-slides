@@ -10,9 +10,10 @@ Program A & Program B \\ \hline
 \lstinputlisting{../kernel/memprot-ex1.c} & \lstinputlisting{../kernel/memprot-ex2.c} \\ \hline
 ~ & ~ \\
 \only<2>{result: {\tt \%rax} (in A) is \ldots} 
-\only<3->{result: {\tt \%rax} (in A) is {\tt 42} (always with `normal' multiuser OSes)} &
+\only<3->{result: {\tt \%rax} (in A) is {\tt 42}} &
 \only<4>{result: {\tt \%rax} (in B) is \ldots} 
 \only<5->{result: \myemph{might crash}} \\
+\only<3->{(always with `normal' multiuser OSes)} \\
 \end{tabular}
 
 \begin{visibleenv}<2-5>
