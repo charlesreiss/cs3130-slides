@@ -8,10 +8,9 @@ void handle_usr1(int num) {
     kill(2000, SIGUSR1);
     _exit(0);
 }
-
 int main() {
     struct sigaction act; 
-    ...
+    ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
     kill(1000, SIGUSR1);
@@ -24,10 +23,9 @@ void handle_usr1(int num) {
     write(1, "Y", 1);
     _exit(0);
 }
-
 int main() {
     struct sigaction act;
-    ...
+    ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act, NULL);
 }
@@ -57,12 +55,12 @@ void handle_usr1(int num) {
     kill(2000, SIGUSR1);
     _exit(0);
 }
-
 int main() {
     struct sigaction act;
-    ...
+    ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
+    @1sleep(1);@
     kill(1000, SIGUSR1);
     @1while (1) pause();@
 }
@@ -74,10 +72,9 @@ void handle_usr1(int num) {
     write(1, "Y", 1);
     _exit(0);
 }
-
 int main() {
     struct sigaction act;
-    ...
+    ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
     @1while (1) pause();@
