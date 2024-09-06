@@ -1,0 +1,86 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item user versus kernel mode
+    \item system calls
+        \begin{itemize}
+        \item special instruction
+        \item system call wrapper
+        \item handler location set at boot
+        \end{itemize}
+    \item memory protection
+    \end{itemize}
+\end{frame}
+
+\input{../kernel/malicious-p}
+
+\section{memory protection}
+\subsubsection{exercise: expected behavior?}
+\input{../kernel/memProtectQ}
+
+\subsubsection{preview: shared memory}
+\input{../kernel/previewSharedMemory}
+
+% FIXME: talk about ``crash'' in mem protect Q case
+\section{extending system calls: exception idea}
+\againframe<5>{memProtectQ}
+\input{../kernel/exceptIdea}
+
+\subsection{reasons for exceptions, generally}
+\input{../kernel/exceptKindInfoLib}
+\againframe<1-4>{exceptTypesN}
+
+\section{infinite loop}
+\againframe<4>{portalShouldnt}
+
+\againframe<5>{exceptTypesN}
+
+\section{exception kinds, summarized}
+\input{../kernel/exceptVenn}
+
+\subsection{exception handling generalized}
+\input{../kernel/exceptThreadDiag}
+
+\subsection{operating system runs}
+\input{../kernel/contextSwitchIntro}
+
+\subsection{context switches} 
+\input{../kernel/contextSwitch}
+
+\section{thread idea}
+\input{../kernel/thread}
+
+\section{not just timers}
+\againframe<6>{exceptTypesN}
+
+\subsection{typical I/O pattern}
+\input{../kernel/exceptIOPattern}
+
+\input{../kernel/keyInTimeline}
+
+\section{review: exception / context switch}
+\input{../kernel/reviewExceptCtxt}
+
+\section{exercise}
+\input{../kernel/howManyEx}
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{process}
+\input{../kernel/processIdea}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
