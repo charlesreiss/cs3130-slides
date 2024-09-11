@@ -1,0 +1,90 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time (1)}
+    \begin{itemize}
+    \item generalizing system calls: exceptions
+        \begin{itemize}
+        \item hardware runs OS for (one of many reasons)
+        \item jumps to function configured by OS at boot
+        \end{itemize}
+    \item timer-triggered exception  to stop infinite loop
+    \item exceptions and I/O
+        \begin{itemize}
+        \item external devices trigger exceptions when they need attention
+        \item combination of system calls AND device-triggered exceptions
+        \end{itemize}
+    \item context switches
+        \begin{itemize}
+        \item save one thread's state (registers, PC, address space map)
+        \item restore another thread's state
+        \item something OS can do when it is running
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{last time (2)}
+    \begin{itemize}
+    \item signals
+        \begin{itemize}
+        \item kinda like exceptions for processes
+        \item OS runs handler if registered, default action if no handler
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{signal IDs/events}
+
+\input{../signals/signalNames}
+
+% FIXME: handling SIGSEGV???
+
+\subsection{wait, SIGSEGV?}
+
+\input{../signals/sigsegvp}
+
+\subsection{signal API}
+
+\input{../signals/signalApi}
+
+\subsection{deferred signals?}
+\input{../signals/deferredExample}
+
+\subsection{exercise}
+\input{../signals/apiExer.tex}
+
+\subsection{caution: signal-safety}
+\input{../signals/signalUnsafe}
+
+\subsection{alt signal handling}
+\input{../signals/signalWithBlocking}
+
+\input{../unix-api/talk-inner}
+
+
+\begin{frame}{}
+\end{frame}
+\begin{frame}{}
+\end{frame}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{what's going on}
+
+\input{../signals/signalAndExceptThreadDiag}
+
+
+\input{../signals/talk-backup}
+
+\input{../unix-api/talk-backup}
+
+\end{document}
