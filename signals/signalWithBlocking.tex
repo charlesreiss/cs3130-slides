@@ -38,11 +38,11 @@
 \item first, block a signal
 \item then either unblock signals only at certain times
     \begin{itemize}
-        \item some special functions to help: \\ {\tt sigsuspend} (unblock until handler runs), \\ {\tt pselect} (unblock while checking for I/O), \ldots
+        \item some special functions to help: \\ {\tt sigsuspend} (unblock and wait until handler runs), \\ {\tt pselect} (unblock while checking for I/O), \ldots
     \end{itemize}
-\item and/or use API for inspecting/changing pending signals
+\item and/or use API for checking/changing pending signals
     \begin{itemize}
-    \item example: \myemph<2>{{\tt sigwait}}
+    \item example: \myemph<2>{{\tt sigwait}} (wait for signal to become pending)
     \item typically \myemph{instead of having signal handler}
     \end{itemize}
 \end{itemize}
