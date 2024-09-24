@@ -1,0 +1,47 @@
+
+
+\begin{frame}[fragile]{unshared seek pointers}
+if ``foo.txt'' contains ``AB''
+\begin{Verbatim}[fontsize=\small]
+int fd1 = open("foo.txt", O_RDONLY);
+int fd2 = open("foo.txt", O_RDONLY);
+char c;
+read(fd, &c, 1);
+char d;
+read(fd, &d, 1);
+\end{Verbatim}
+expected result: c = `A', d = `A'
+\end{frame}
+
+
+\begin{frame}[fragile]{shared seek pointers (1)}
+if ``foo.txt'' contains ``AB'':
+\begin{Verbatim}[fontsize=\small]
+int fd = open("foo.txt", O_RDONLY);
+dup2(fd, 100);
+char c;
+read(fd, &c, 1);
+char d;
+read(100, &d, 1);
+\end{Verbatim}
+expected result: c = `A', d = `B'
+\end{frame}
+
+\begin{frame}[fragile]{shared seek pointers (2)}
+if ``foo.txt'' contains ``AB'':
+\begin{Verbatim}[fontsize=\small]
+int fd = open("foo.txt", O_RDONLY);
+pid_t p = fork();
+if (p == 0) {
+    char c;
+    read(fd, &c, 1);
+    ...
+} else {
+    char d;
+    sleep(1);
+    read(fd, &d, 1);
+    ...
+}
+\end{Verbatim}
+expected result: c = `A', d = `B'
+\end{frame}
