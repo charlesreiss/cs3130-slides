@@ -6,9 +6,9 @@ if ``foo.txt'' contains ``AB''
 int fd1 = open("foo.txt", O_RDONLY);
 int fd2 = open("foo.txt", O_RDONLY);
 char c;
-read(fd, &c, 1);
+read(fd1, &c, 1);
 char d;
-read(fd, &d, 1);
+read(fd2, &d, 1);
 \end{Verbatim}
 expected result: c = `A', d = `A'
 \end{frame}
