@@ -21,6 +21,27 @@
 \begin{frame}{quiz Q1}
 \end{frame}
 
+\begin{frame}{Regarding open files and file descriptors}
+\begin{itemize}
+  \item	When a process is forked, it inherits the parent’s file descriptors
+  \begin{itemize} 
+    \item These are preserved across exec()
+    \item These point to the same slot in the system open file table
+    \item Of particular importance:
+    \begin{itemize}
+      \item Only when the last fd is closed that was associated with a particular open file, is the file actually closed
+      \item So if parent closes an fd, child’s inherited fd still valid, and vice versa
+      \item These fds share a seek pointer (position in file)
+    \end{itemize}
+  \end{itemize}
+  \item Separate calls to open have completely separate state
+  \begin{itemize}
+    \item Eg, if parent opens file X, then child opens file X, the resulting fds are not shared and thus these fds’ seek pointers are independent 
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
 \input{../vm/talk-inner}
 
 \section{backup slides}
