@@ -1,0 +1,87 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item page table `tricks'
+        \begin{itemize}
+        \item page table for \textit{hardware}
+        \item OS tracks logical memory in other structure
+        \item on page fault (last possible moment), update page table
+        \end{itemize}
+    \item example `tricks'
+        \begin{itemize}
+        \item allocate-on-demand, copy-on-write, mmap, \ldots
+        \end{itemize}
+    \item storing page tables in memory
+        \begin{itemize}
+        \item entries as integers
+        \item arrays of integers
+        \item pointer in special register
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{exercise (alt): page table in memory}
+\input{../vm/multiSplitExPt1b}
+
+\subsection{assignment preview 1}
+\input{../vm/asgnSetup}
+\input{../vm/asgnPageAccess}
+
+\input{../vm/toyLookupAsgn}
+
+\section{handling big page tables}
+\subsection{the problem}
+\input{../vm/ptSize64A}
+
+\subsection{general options}
+\input{../vm/bigPageOptions}
+
+\subsection{two-level page tables}
+\input{../vm/twoLevelPtLib}
+\input{../vm/twoLevelPT}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{more than two levels}
+\input{../vm/multiLevelGen}
+
+\subsection{assignment preview}
+% FIXME:assignment preview slides
+\begin{frame}{assignment}
+\end{frame}
+
+\subsection{exercises: multi-level lookup}
+% FIXME: \subsubsection{part 0}
+% FIXME: \input{../vm/multiSplitExPt0}
+\subsubsection{part 2}
+\input{../vm/multiSplitExPt2}
+\subsubsection{part 3}
+\input{../vm/multiSplitExPt3}
+\input{../vm/multiSplitExPt3b}
+\subsubsection{part 4}
+\input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{page table in memory}
+\input{../vm/ptInMemory}
+
+
+\subsection{exercise: page table in memory}
+\input{../vm/multiSplitExPt1}
+
+\input{../vm/talk-backup}
+
+\end{document}
