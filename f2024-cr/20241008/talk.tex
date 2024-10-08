@@ -1,0 +1,129 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item locality --- spatial/temporal
+    \item tag/[set] index/[block] offset split
+        \begin{itemize}
+        \item block size = $2^{\text{offset bits}}$
+        \item number of sets (rows) = $2^{\text{index bits}}$
+        \item tag = leftover address bits
+        \end{itemize}
+    \item direct-mapped lookup
+        \begin{itemize}
+        \item split into tag/index/offset
+        \item go to row \textit{index}
+        \item check valid bit + tag
+        \item if match, return block byte \textit{offset}
+        \item if no match, load from memory
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\input{../common/listingsLib}
+\input{../caching/cacheUtils}
+\usetikzlibrary{calc}
+
+\subsection{simulating a direct mapped cache}
+\input{../caching/dmExampleAccess}
+
+\subsection{exercise: direct-mapped cache access}
+\input{../caching/dmAccessExercise}
+
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
+
+\subsection{cache misses on real code}
+\input{../caching/actMissesDM}
+
+\section{adding associativity}
+\input{../caching/addAssoc}
+
+\subsection{diagram}
+\input{../caching/addAssocOp}
+
+\subsection{options for replacement}
+\input{../caching/replacement}
+
+\subsection{associativity terms}
+\input{../caching/assocTerms}
+
+\subsection{tag/index/offset for set-assoc. caches}
+\input{../caching/tioFormulas}
+
+% FIXME: direct-mapped and C code example
+\section{misses in C, and intuition behind conflicts}
+\input{../caching/conflictMissesAndC}
+
+\subsection{array misses warmup}
+\input{../caching/arrayMissesWarmupEx}
+
+\subsection{array misses warmup (2 set)}
+\input{../caching/arrayMissesWarmup2SetEx1}
+\input{../caching/arrayMissesWarmup2SetEx2}
+
+\subsection{array misses and cache results}
+\input{../caching/arrayMissesWarmupBigEx}
+
+\subsection{array misses and skipping around}
+\input{../caching/arrayMissesSkip}
+
+\subsection{mapping misses to sets (3-way)}
+\input{../caching/setMappingDiag3}
+
+\section{revisiting array misses and skips}
+\againframe<2>{arrayMissesSkip}
+
+\section{array misses and associative caches?}
+\input{../caching/arrayMissesWarmupBigExSA}
+
+\section{simulated misses with set-assoc. caches}
+\input{../caching/actMissesAssoc}
+
+\section{options for handling cache writes}
+\input{../caching/writePolicy}
+
+\subsection{exercise: write/replacement policies}
+\input{../caching/writeReplaceExercise}
+
+\subsection{fast writes: write buffers}
+\input{../caching/fastWrites}
+
+\subsection{briefly, cache tradeoffs}
+\input{../caching/tradeoffsBrief}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../caching/talk-backup}
+
+\end{document}
