@@ -1,0 +1,52 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+\input{../common/listingsLib}
+\input{../caching/cacheUtils}
+\usetikzlibrary{calc}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item C code and cache misses
+    \item handling writes
+        \begin{itemize}
+        \item Q1: add to cache on write? (write-allocate)
+        \item Q2: update next level immediately? (write-back)
+        \end{itemize}
+    \item dirty bits for write-back
+    \end{itemize}
+\end{frame}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+\input{../threads/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
