@@ -48,7 +48,7 @@ int main() {
 \end{pgfonlayer}
 \draw[decorate,decoration={brace},red,ultra thick] ([xshift=.25cm]stack 2.north east) -- ([xshift=.25cm]stack 3.south east) node[midway,right,align=left](dynamicStackBox) {
     dynamically allocated stacks \\
-    \texttt{string result} allocated here  \\
+    \texttt{char string[]} allocated here  \\
     \texttt{string\_ptr} pointed to here
 };
 \node[anchor=north,align=left] at ([yshift=-1cm]dynamicStackBox) {
