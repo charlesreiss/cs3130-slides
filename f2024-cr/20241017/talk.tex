@@ -21,6 +21,26 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Side notes re caches}
+  \begin{itemize}
+  \item Multi-level caches
+      \begin{itemize}
+      \item First-level cache needs to be fast (and thus small) --- 1-2 cycles hit time, so 32-64 KB L1 I/D
+      \item But want high capacity!
+      \item So today's high-end processors have two levels of cache per core, and then a huge last-level cache shared among the cores
+      \item L2 and LLC are shared I/D; L2 is 256KB--1MB; L3 is usu.\ 128--512 MB
+      \item Lots of extra hardware tricks to boost hit rate, e.g. prefetching
+      \end{itemize}
+  \item Cache lookups with virtual or physical address?
+      \begin{itemize}
+      \item Cache lookup with VA: aliasing among processes!
+      \item But indexing using PA must wait for TLB (only an issue for L1)
+      \item So index using VA bits (this means all index bits must be confined to page offset), and do TLB lookup in parallel
+      \item Then tag check can use PA bits
+     \end{itemize}
+  \end{itemize}
+\end{frame}
+
 \section{TLB}
 \input{../vm/twoLevelPtLib}
 \subsection{review: page table lookup (1)}
