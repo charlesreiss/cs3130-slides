@@ -1,0 +1,59 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item TLB: VPN $\rightarrow$ PTE cache
+    \item TLB tags and indices
+    \vspace{.5cm}
+    \item threads and shared \{open files,memory\}
+    \item pthread\_create $\sim$ fork
+    \item pthread\_join $\sim$ waitpid
+    \end{itemize}
+\end{frame}
+
+\input{../threads/thread-sum-no-passing}
+
+\input{../threads/thread-sum-stack-lib}
+\input{../threads/thread-sum-two-stacks}
+
+\subsection{passing info to threads}
+
+\subsubsection{thread ID as argument}
+% FIXME: show thread registers?
+\input{../threads/thread-sum-globals-and-id}
+
+\subsubsection{globals + info struct as argument}
+\input{../threads/thread-sum-globals-and-struct}
+\input{../threads/thread-sum-globals-and-struct-stacks}
+
+\subsubsection{no globals + info struct as argument}
+\input{../threads/thread-sum-struct-main}
+\input{../threads/thread-sum-struct-main-stacks}
+
+\subsubsection{everything on the heap}
+\input{../threads/thread-sum-structs-heap}
+\input{../threads/thread-sum-structs-heap-stacks}
+
+\subsection{on thread resources, detached threads}
+
+\subsubsection{exercise}
+\input{../threads/dangling-pointer-ex}
+
+\subsubsection{join, detach, etc.}
+\input{../threads/thread-resources}
+
+
+
+\input{../sync/talk-locks}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
