@@ -11,7 +11,7 @@ struct ThreadInfo {
     int start, end, result;
 };
 void *sum_thread(void *argument) {
-    struc tThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (struct ThreadInfo *) argument;
+    struct ThreadInfo *@3my_info3@ = Q\tikzmark{info}Q (struct ThreadInfo *) argument;
     int sum = 0;
     for (int i = my_info->start; i < my_info->end; ++i) { sum += values[i]; }
     @4my_info->result = sum;4@
