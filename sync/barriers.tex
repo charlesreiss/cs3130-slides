@@ -78,7 +78,7 @@ barrier.Wait();
 barrier.Wait();
 
 results[2][0] =
-    computeFrom(
+    computeFrom(0,
         results[1][0],
         results[1][1]
     );
@@ -102,7 +102,7 @@ results[1][1] =
 barrier.Wait();
 
 results[2][1] =
-    computeFrom(
+    computeFrom(1,
         @4results[1][0]4@,
         results[1][1]
     );
