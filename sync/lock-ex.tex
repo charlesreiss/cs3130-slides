@@ -37,9 +37,11 @@ possible values of one/two after A+B run?
     \item would need to run B1 after A1 before A2
     \item not possible because Lock1 held for entire B1+B2 operation
     \item \ldots and A1 needs Lock1, too
-    \end{iteimze}
+    \end{itemize}
 \end{itemize}
 \end{frame}
+
+\iftoggle{heldback}{}{\againframe<1>{lockExSln}}
 
 \begin{frame}[fragile,label=lockExAlt1]{exercise (alternate 1)}
     \vspace{-0.5cm}
