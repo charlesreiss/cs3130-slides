@@ -1,3 +1,11 @@
+
+\section{ethernet / 802.11 / \ldots}
+\input{../network/link-layer}
+
+\subsection{exercise: why resend?}
+\input{../network/link-layer-reliable}
+
+
 \subsection{link layer quality-of-service}
 \input{../network/link-layer-qos}
 
@@ -6,7 +14,9 @@
 
 \section{firewalls} % FIXME: complete
 \input{../network/firewalls}
-t
+
+\subsection{aside: TCP state machine}
+\input{../network/tcp-state-machine} % FIXME: diagram
 \subsection{DIG trace}
 \input{../network/dig-trace}
 
@@ -16,9 +26,20 @@ t
 \subsection{ARP / IPv6 ND routing}
 \input{../network/arp-nd-routes}
 
+\subsection{ARP / IPv6 ND}
+\againframe<3>{nameAndAddr}
+\input{../network/arp-nd}
+
+% FIXME: HTTP request/response?
+\section{and HTTP? (exercise)}
+\input{../network/url-and-http}
+
 % FIXME: DNS dig example
 \subsection{DNS: dig +trace}
 \input{../network/dig-trace}
+
+\section{spoofing?}
+\input{../network/spoofing}
 
 
 \subsection{example: echo client/server}
