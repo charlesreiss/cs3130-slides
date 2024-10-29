@@ -101,7 +101,7 @@ void ReturnBook() {
     \node[reserved,fit=(copies-1-1)] {};
     \node[reserved,fit=(copies-2-1)] {};
     \node[reserved,fit=(copies-3-1),dotted] {};
-    \draw[thick,blue,<-] (semaphore.south) -- ++(.5cm,-.5cm) node[right,circle,fill=blue,label={[align=left,text=blue!70!black]south east:{\underline{\textbf{reserve book}} \\ call \textit{down} \\ \sout{waiting} \\ done waiting}}] {};
+    \draw[thick,green,<-] (semaphore.south) -- ++(.4cm,-.5cm) node[right,circle,fill=blue,label={[align=left,text=blue!70!black]south east:{\underline{\textbf{reserve book}} \\ call \textit{down} \\ \sout{waiting} \\ done waiting}}] {};
     \draw[thick,blue!70!black,<-] (semaphore.south) -- ++(-.5cm,-.5cm) node[left,circle,fill=blue,label={[align=right,text=blue!70!black]south west:{\underline{\textbf{return book}} \\ ~ \\ call \textit{up} \\ release waiter}}] {};
 \end{visibleenv}
 
