@@ -28,12 +28,12 @@ void *sum_up(void *raw_dest) {
 }
 
 __attribute__((aligned(4096))) 
-int array[1024];  /* aligned = address is mult. of 4096 */
+int dests[1024];  /* aligned = address is mult. of 4096 */
 
 void sum_twice(int distance) {
     pthread_t threads[2];
-    pthread_create(&threads[0], NULL, sum_up, &array[0]);
-    pthread_create(&threads[1], NULL, sum_up, &array[distance]);
+    pthread_create(&threads[0], NULL, sum_up, &dests[0]);
+    pthread_create(&threads[1], NULL, sum_up, &dests[distance]);
     pthread_join(threads[0], NULL);
     pthread_join(threads[1], NULL);
 }
