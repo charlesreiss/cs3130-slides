@@ -1,4 +1,4 @@
-\begin{frame}[fragile,label=monitorExercise2]{monitor exercise: barrier}
+\begin{frame}[fragile,label=monitorExercise2]{monitor exercise: one-use barrier}
 \begin{itemize}
 \item suppose we want to implement a one-use barrier; fill in blanks:
 \end{itemize}
@@ -23,7 +23,7 @@ void BarrierWait(BarrierInfo *b) {
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}<0>[fragile,label=monitorExercise2Soln]{monitor exercise: barrier}
+\begin{frame}<0>[fragile,label=monitorExercise2Soln]{monitor exercise: one-use barrier}
 \begin{lstlisting}[style=smaller]
 struct BarrierInfo {
     pthread_mutex_t lock;
