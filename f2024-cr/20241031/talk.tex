@@ -6,10 +6,30 @@
     \titlepage
 \end{frame}
 
+\begin{frame}{last time}
+    \begin{itemize}
+    \item monitors  --- lock + cv(s) + shared data
+        \begin{itemize}
+        \item condition variables $\sim$ list of threads
+        \item lock(lock)
+        \item while (reason to wait) wait(cv, lock)
+        \item change data
+        \item if (changed reason to wait) broadcast(cv)
+        \item unlock(lock)
+        \end{itemize}
+    \item counting semaphores 
+    \end{itemize}
+\end{frame}
 
+\input{../sync/talk-xact}
+
+\input{../network/talk-inner}
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
 
+\input{../sync/talk-monitor-backup}
+
+\input{../network/talk-backup}
 \end{document}

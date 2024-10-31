@@ -8,7 +8,7 @@ BeginTransaction();
 int FromOldBalance = GetBalance(FromAccount);
 int ToOldBalance = GetBalance(ToAccount);
 SetBalance(FromAccount, FromOldBalance - 100);
-SetBalance(ToAccount, FromOldBalance + 100);
+SetBalance(ToAccount, ToOldBalance + 100);
 EndTransaction();
 \end{Verbatim}
     \begin{itemize}
