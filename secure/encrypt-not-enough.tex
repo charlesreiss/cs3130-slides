@@ -8,21 +8,68 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{manipulating encrypted data?}
-\begin{itemize}
-\item one example: common symmetric encryption approach:
+\begin{frame}{simple encryption idea (1)}
     \begin{itemize}
-    \item use random number + shared secret to\ldots
-    \item produce sequence of hard-to-guess bits $x_i$ as long as the message
-    \item produce ciphertext with xor: $c_i = m_i \oplus x_i$
-    \item message = $m_0m_1m_2\ldots$; ciphertext = [random number]$c_0c_1c_2\ldots$
+    \item suppose encrypting message
+    \item one possible idea: generate unique number N (e.g. counter)
+    \item combine N and key to produce message size-bit bitstring Y
+    \item say Y=f(X, key) where $f$ is some `secure' function:
+        \begin{itemize}
+        \item $f$ is something like a hash function, but supports arbitrary size output
+        \item $f$ is effectively irreversible
+        \item $f$ is effectivel yequally/unpredictably distributed 
+        \end{itemize}
+    \item use Y XOR message as encrypted value
     \end{itemize}
-\item means that flipping $c_i$ flips bit $m_i$ 
-\item also means that we can shorten messages silently
-\end{itemize}
 \end{frame}
 
-\begin{frame}{manipulating messages}
+\begin{frame}{simple encryption idea (2)}
+    \begin{itemize}
+    \item E(K, message) = (N, f(N, key) XOR message) = (N, C)
+    \item If we know (N, C) and don't know key,
+        can we figure out anything about \textit{message}?
+        \begin{itemize}
+        \item violates f(N, key) being equally/unpredictably distributed
+        \end{itemize}
+    \item If we know (N, C) and message, can we find out about \textit{key}
+        \begin{itemize}
+        \item violates f(N, key) being irreversible
+        \end{itemize}
+    \item If we know (N, C) and message, can we decrypt (N', C')?
+        \begin{itemize}
+        \item remember: each encrypted message chooses unique N
+        \item not if f(N, key) and f(N', key) don't have predictable relationship
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{manipulating simple encryption}
+    \begin{itemize}
+    \item E(K, message) = (N, f(N, key) xor message) = (N, C)
+    \item If we know (N, C) and message, we can generate an encryption of (all zeroes):
+    \item (N, C xor message) = (N, f(N, key) xor (message xor message)) = (N, f(N, key) xor 0)
+    \item And can generate encryption of some other message Q:
+    \item (N, C xor message xor Q) = (N, f(N, key) xor Q)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{maybe don't xor?}
+    \begin{itemize}
+    \item these XOR-based constructions are very common 
+        \begin{itemize}
+        \item example: probably used within most connections to websites
+        \end{itemize}
+    \item there are other ideas, but\ldots
+    \item but can still generate meaningful manipulated messages
+        \begin{itemize}
+        \item usually just need to work on larger units than bits
+        \end{itemize}
+    \vspace{.5cm}
+    \item actual solution: additional \textit{message authentication code}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{manipulating messages, more generally}
 \begin{itemize}
 \item as an active attacker
 \vspace{.5cm}
@@ -31,13 +78,14 @@
     \begin{itemize}
     \item ``Pay \$100 to Bob'' $\rightarrow$ ``Pay \$999 to Bob''
     \end{itemize}
-\item we can shorten 
+\item we can sometimes shorten 
     \begin{itemize}
     \item ``Pay \$100 to ABC Corp if they \ldots'' $\rightarrow$ ``Pay \$100 to ABC Corp''
     \end{itemize}
-\item we can corrupt selected parts of message and check the response is
+\item we can sometimes corrupt selected parts of message and check what the response is
     \begin{itemize}
     \item e.g. what changes don't make B reject message as malformed?
+    \item with repeated tries, often reveals part of message's values
     \end{itemize}
 \end{itemize}
 \end{frame}
