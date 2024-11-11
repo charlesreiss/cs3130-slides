@@ -1,0 +1,53 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{last time}
+\end{frame}
+
+\begin{frame}{NAT illusion}
+    \begin{itemize}
+    \item NAT illusion:
+    \item private IP address communicating directly with public IP
+    \vspace{.5cm}
+    \item inside network, talking to outside:
+        \begin{itemize}
+        \item use private local address
+        \item use public remote address
+        \item never see router's address
+        \end{itemize}
+    \item outside network, talking to inside
+        \begin{itemize}
+        \item use public local address
+        \item use private local addresses
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz Q1}
+    \begin{itemize}
+    \item forwarded packet needs to use \textit{unaltered source address+port}:
+    \item local machine should think it's talking to public remote IP
+        \begin{itemize}
+        \item because that what it's connnecting to
+        \end{itemize}
+    \item local machine will use source address to find correct socket
+        \begin{itemize}
+        \item adjusting source address to router will confuse this process
+        \end{itemize}
+    \vspace{.5cm}
+    \item forwarded packet needs to \textit{use private IP+port as destination}:
+    \item local machine original made connection with this address
+    \item local machine needs to match private IP+port versus its socket
+    \end{itemize}
+\end{frame}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
