@@ -9,6 +9,7 @@
 \begin{frame}{last time}
 \end{frame}
 
+
 \begin{frame}{NAT illusion}
     \begin{itemize}
     \item NAT illusion:
@@ -23,7 +24,7 @@
     \item outside network, talking to inside
         \begin{itemize}
         \item use public local address
-        \item use private local addresses
+        \item use router's public address
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -46,8 +47,116 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{on IP source addresses}
+    \begin{itemize}
+    \item if IP packet sent from A to D via routers B and C\ldots
+    \item routers do not change addresses in the packet!
+    \item include source + destination
+    \vspace{.5cm}
+    \item otherwise, hard for D to know who they're talking to
+        \begin{itemize}
+        \item example: to send acknowledgments back
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{tools without shared keys}
+
+\subsection{asymmetric encryption}
+
+\input{../secure/asym-encrypt}
+
+\subsection{digital signatures}
+
+\input{../secure/digital-sigs}
+
+\section{encryption + authentication pitfalls}
+
+\input{../secure/protocol-oops}
+
+\subsection{replay attacks}
+
+\input{../secure/replay-attacks}
+
+
+\subsection{other attacks}
+
+\begin{frame}{other attacks without breaking math}
+\end{frame}
+
+\input{../secure/other-attacks}
+
+\section{on the lab}
+\begin{frame}{on the lab}
+\end{frame}
+
+\section{certificate authorities}
+
+\input{../secure/cert-authorities}
+
+\subsection{how certificates verified}
+\input{../secure/cert-auth-verified}
+
+\section{preview: additional tools}
+\begin{frame}{additional crypto tools}
+    \begin{itemize}
+    \item cryptographic hash functions (summarize data)
+    \item `secure' random numbers
+    \item key agreement
+    \end{itemize}
+\end{frame}
+
+\section{cryptographic hashes}
+
+% FIXME: hashes
+\input{../secure/crypto-hash}
+
+\subsection{password hashing}
+
+\input{../secure/pass-hash}
+
+\section{random numbers}
+\input{../secure/random-numbers}
+
+\section{key agreement}
+
+\input{../secure/key-agreement}
+
+\subsection{aside: key agreement to public key encrypt}
+\input{../secure/key-agree-pubkey}
+
+\section{putting it together: TLS}
+
+\subsection{handshake}
+\input{../secure/tls-handshake-summary}
+
+\subsection{after handshake}
+\input{../secure/tls-after-handshake}
+
+\subsection{TLS properties}
+\input{../secure/tls-handshake-props}
+\subsection{summary}
+\input{../secure/summary}
+
+
+
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\section{misc. security issues}
+
+\subsection{denial of service}
+\input{../secure/dos}
+    % FIXME: example of small request w/ big response
+
+\subsubsection{amplification example}
+% FIXME: https://blog.cloudflare.com/technical-details-behind-a-400gbps-ntp-amplification-ddos-attack/
+
+\subsection{firewalls} % FIXME: complete
+\input{../network/firewalls}
+% FIXME: update readings to mention IPv6 equivalent
+
+
 
 \end{document}
