@@ -2,10 +2,28 @@
 \begin{itemize}
 \item IPv4 addresses are kinda scarce
 \item solution: \textit{convert} many private addrs. to one public addr.
-\item locally: use private IP addresses for machines
+\item locally: use private IP addresses for local addresses
 \item outside: private IP addresses become a single public one
 \item commonly how home networks work (and some ISPs)
 \end{itemize}
+\end{frame}
+\begin{frame}{NAT illusion}
+    \begin{itemize}
+    \item NAT illusion:
+    \item private IP address communicating directly with public IP
+    \vspace{.5cm}
+    \item inside network, talking to outside:
+        \beign{itemize}
+        \item use private local address
+        \item use public remote address
+        \item never see router's address
+        \end{itemize}
+    \item outside network, talking to inside
+        \begin{itemize}
+        \item use public local address
+        \item use router's public address
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{implementing NAT}
