@@ -1,12 +1,29 @@
 \date{}
 \title{}
 \date{}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
 \begin{document}
 \begin{frame}
     \titlepage
 \end{frame}
 
 \begin{frame}{last time}
+    \begin{itemize}
+    \item NAT, DHCP, lab API
+    \item security properties --- confidentiality, authenticity
+    \item shared secret key tools
+        \begin{itemize}
+        \item symmetric encryption
+        \item message authentication
+        \end{itemize}
+    \item public/private keypairs
+        \begin{itemize}
+        \item private to \textit{no one}
+        \item public to everyone
+        \end{itemize}
+    \item asymmetric encryption
+    \end{itemize}
 \end{frame}
 
 
@@ -137,8 +154,6 @@
 \input{../secure/tls-handshake-props}
 \subsection{summary}
 \input{../secure/summary}
-
-
 
 \section{backup slides}
 \begin{frame}{backup slides}

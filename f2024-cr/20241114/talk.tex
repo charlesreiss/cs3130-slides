@@ -1,0 +1,63 @@
+\date{}
+\title{}
+\date{}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item using asymmetric encryption
+    \item digital signatures
+        \begin{itemize}
+        \item sign with private key; verify with public key
+        \end{itemize}
+    \item replay attacks
+    \item reflection attacks/mistaken identity
+    \item nonces, other context
+    \item logic errors evading cryptography
+    \item cryptographic hashes; random numbers
+    \end{itemize}
+\end{frame}
+
+\section{random numbers}
+\input{../secure/random-numbers}
+
+\section{key agreement}
+
+\input{../secure/key-agreement}
+
+\subsection{aside: key agreement to public key encrypt}
+\input{../secure/key-agree-pubkey}
+
+\section{putting it together: TLS}
+
+\subsection{handshake}
+\input{../secure/tls-handshake-summary}
+
+\subsection{after handshake}
+\input{../secure/tls-after-handshake}
+
+\subsection{TLS properties}
+\input{../secure/tls-handshake-props}
+\subsection{summary}
+\input{../secure/summary}
+
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+\input{../pipeline/pipePicUtils}
+\input{../pipeline/talk-inner}
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
