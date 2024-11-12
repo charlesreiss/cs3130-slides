@@ -24,23 +24,23 @@
 
 \section{challenge: hazards}
 
-\subsection{data hazards}
+\subsection{data hazards intro}
 
 \subsubsection{example execution: wrong result, stalling resolution}
 \input{../pipeline/addqHazard}
-
-\subsubsection{better fix: forwarding}
-\input{../pipeline/addqForward}
-
-\subsubsection{exercise: what forwarding}
-% FIXME
-\input{../pipeline/forwardPathsEx}
 
 \subsection{control hazards}
 \input{../pipeline/controlHazard} % FIXME: correct
 
 \subsubsection{idea: branch prediction}
 \input{../pipeline/predIntro}
+
+\subsection{data hazard fix: forwarding}
+\input{../pipeline/addqForward}
+
+\subsubsection{exercise: what forwarding}
+% FIXME
+\input{../pipeline/forwardPathsEx}
 
 \subsection{can't always forward: load-use}
 \input{../pipeline/loadUseHazard}
