@@ -6,6 +6,43 @@
     \titlepage
 \end{frame}
 
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+\input{../pipeline/pipePicUtils}
+
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item pipe
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{some quiz notes (1)}
+    \begin{itemize}
+    \item some question writing issues on cryptography questions
+    \vspace{.5cm}
+    \item Q1B: As written: send duplicate message to forum A --- no problem, since no counters or similar. Meant to write ``same text they intended to go to forum B'' --- would be prevented because it would require forging MAC(k, forum name+msg).
+    \item Q3A: Depends whether C can act as machine-in-the-middle (not specified in question)
+    \item Q3E: Probably should have written `without B being able to detect it', but does not change answer
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{some quiz notes (2)}
+    \begin{itemize}
+    \item on Q6E:
+    \end{itemize}
+\begin{Verbatim}
+movq %r9, (%r10) // memory[r10] <- r9
+movq %r10, %r11  // r11 <- r10
+\end{Verbatim}
+    \begin{itemize}
+    \item first movq does not modify register \%r10 (or any registers)
+    \item \ldots so no way for second movq to read `wrong version' of `\%r10'
+    \end{itemize}
+\end{frame}
+
 \section{pipelining, con't}
 
 \subsection{can't always forward: load-use}
