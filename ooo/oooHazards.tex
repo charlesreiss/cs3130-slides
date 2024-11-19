@@ -49,20 +49,23 @@
 \begin{tikzpicture}
 \matrix[tight matrix no line,
         nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
-        column 1/.style={nodes={text width=6cm,align=left}}] (tbl) {
+        column 1/.style={nodes={text width=6cm,align=left}},
+        row 3/.append style={nodes={opacity=0.4}},
+        ] (tbl) {
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
 \lstinline|addq %r10, ~2~%r8~end~|   \fdemw \& ~ \& ~ \& ~ \& ~ \\
-\lstinline|addq %r11, ~2~%r8~end~|   \& ~ \fdemw \\
-\lstinline|addq %r12, ~2~%r8~end~|   \& ~ \& ~ \fdemw \& ~ \& ~ \\
+\lstinline|movq %r8, (%rax)|        \& ~ \fdemw \& ~\& ~ \& ~\\
+\lstinline|movq $100, ~2~%r8~end~|   \& ~ \& ~ \fdemw \& ~ \& ~ \& ~\\
+\lstinline|addq %r12, ~2~%r8~end~|   \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
 };
 \newcommand{\fwd}[4]{
     \pgfmathtruncatemacro{\idx}{#1+2}
     \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
 }
-\fwd{4}{3}{4}{<0>}
+\fwd{5}{4}{5}{<0>}
 \foreach \x in {1,...,10} {
-    \draw (tbl-1-\x.north east) -- (tbl-4-\x.south east);
+    \draw (tbl-1-\x.north east) -- (tbl-5-\x.south east);
 }
 \end{tikzpicture}
 \hrule
@@ -191,7 +194,7 @@ if we don't do something, newest value could be overwritten!
 \end{visibleenv}
 \begin{visibleenv}<3>
 \node[align=left,draw=red,very thick,fill=white,anchor=south] at ([yshift=.5cm]current page.south) {
-two instructions that haven't been started \\
+multiple instructions that haven't been started \\
 could need \textit{different versions} of \%r8!
 };
 \end{visibleenv}
