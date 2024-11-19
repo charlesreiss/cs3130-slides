@@ -21,13 +21,13 @@
     connect/.style={very thick,-{Latex[length=2mm]},black!70},
     connect both/.style={very thick,{Latex[length=2mm]}-{Latex[length=2mm]},black!70},
     hi on/.style={alt=<#1>{fill=red!20,draw=red}},
-    predict/.style={hi on=2,hi on=14},
-    rename/.style={hi on=3,hi on=12},
-    issue/.style={hi on=4,hi on=10},
-    regread/.style={hi on=5},
-    execute/.style={hi on=6,hi on=11},
-    writeback/.style={hi on=7},
-    commit/.style={hi on=8,hi on=9,hi on=13,hi on=15},
+    predict/.style={hi on=2,hi on=15},
+    rename/.style={hi on=3,hi on=4,hi on=13},
+    issue/.style={hi on=5,hi on=11},
+    regread/.style={hi on=6},
+    execute/.style={hi on=7,hi on=12},
+    writeback/.style={hi on=8},
+    commit/.style={hi on=9,hi on=10,hi on=14,hi on=16},
 }
 \coordinate (main start) at (0,0);
 \coordinate (low start) at (0, -3);
@@ -108,7 +108,7 @@
 \draw[connect both] (rename.south) -- ++(0mm,-2.5cm) -| (rob.south);
 \end{pgfonlayer}
 \tikzset{
-    box/.style={at={(7.5,-4.5)},anchor=north,draw=red,ultra thick,font=\normalfont,align=left},
+    box/.style={at={(7.5,-4.3)},anchor=north,draw=red,ultra thick,font=\normalfont,align=left},
 }
 \begin{visibleenv}<2>
 \node[box] {
@@ -124,38 +124,44 @@
 \end{visibleenv}
 \begin{visibleenv}<4>
 \node[box] {
+    `dispatch' instructions: add to instruction queue \\
+    prepare reorder buffer entries for any squashing
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
     instruction queue holds pending renamed instructions \\
     combined with register-ready info to \textit{issue} instructions \\
     (issue = start executing)
 };
 \end{visibleenv}
-\begin{visibleenv}<5>
+\begin{visibleenv}<6>
 \node[box] {
     read from much larger register file and handle forwarding \\
     register file: typically read 6+ registers at a time \\
     (extra data paths wires for forwarding not shown)
 };
 \end{visibleenv}
-\begin{visibleenv}<6>
+\begin{visibleenv}<7>
 \node[box] {
     many \textit{execution units} actually do math or memory load/store \\
     some may have multiple pipeline stages \\
     some may take variable time (data cache, integer divide, \ldots)
 };
 \end{visibleenv}
-\begin{visibleenv}<7>
+\begin{visibleenv}<8>
 \node[box] {
     writeback results to physical registers \\
     register file: typically support writing 3+ registers at a time
 };
 \end{visibleenv}
-\begin{visibleenv}<8>
+\begin{visibleenv}<9>
 \node[box] {
     new commit (sometimes \textit{retire}) stage finalizes instruction \\
     figures out when physical registers can be reused again
 };
 \end{visibleenv}
-\begin{visibleenv}<9>
+\begin{visibleenv}<10>
 \node[box] {
     commit stage also handles branch misprediction \\
     \textit{reorder buffer} tracks enough information to undo mispredicted instrs.
