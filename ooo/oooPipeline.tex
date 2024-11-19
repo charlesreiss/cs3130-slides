@@ -164,7 +164,8 @@
 \begin{visibleenv}<10>
 \node[box] {
     commit stage also handles branch misprediction \\
-    \textit{reorder buffer} tracks enough information to undo mispredicted instrs.
+    \textit{reorder buffer} tracks enough information to undo mispredicted instrs. \\
+    also used to undo instructions after segfault, etc. (``precise exceptions'')
 };
 \end{visibleenv}
 \end{tikzpicture}
