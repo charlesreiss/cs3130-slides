@@ -1,14 +1,18 @@
 \usetikzlibrary{calc,matrix,positioning}
-\begin{frame}<1>[fragile,label=costOfStalling]{performance}
+\begin{frame}<1>[fragile,label=costOfStalling]{importance of prediction}
+\begin{itemize}
+\item 5-stage pipeline, predict not-taken versus always stall
+\end{itemize}
 \begin{tikzpicture}
-\matrix[tight matrix,nodes={font=\small,minimum height=.5cm,text width=3cm,align=right},
+\matrix[tight matrix,nodes={font=\small,minimum height=.5cm,text width=3cm,align=right,
+            text depth=1mm},
         row 1/.append style={minimum height=2cm},
         column 2/.append style={nodes={text width=1.5cm}},
         column 3/.append style={nodes={text width=3cm}},
         column 4/.append style={nodes={text width=3cm}},
         label={hypothetical instruction mix},
         ] (table) {
-            kind \& portion \& {cycles \\ (predict not-taken)} \& {cycles \\ (stall)} \\
+            {~\\~\\kind} \& {~\\~\\portion} \& {cycles \\ (predict not-taken)} \& {cycles \\ (stall, \\ no predict)} \\
 taken jXX \& 3\% \& 3 \& 3 \\
 non-taken jXX \& 5\% \& 1 \& 3\\
 others \& 92\% \& 1* \& 1* \\
@@ -16,11 +20,10 @@ others \& 92\% \& 1* \& 1* \\
 \begin{visibleenv}<2->
 \matrix[tight matrix no line,below=0.75cm of table,nodes={font=\small, align=right},
         column 1/.append style={nodes={text width=2cm}},
-        column 2/.append style={nodes={text width=8cm}}] {
-    predict: \& $3\times.03 + 1\times.05 +  1\times.92 =$ \\
-             \& \large \myemph{$1.06$} cycles/instr. \\
-    stall: \& $3\times.03 + 3\times.05 +  1\times.92 =$ \\ 
-           \& \large \myemph{$1.16$} cycles/instr. ($1.16 \div 1.06 \approx 1.09$x faster)\\
+        column 2/.append style={nodes={text width=10cm}}] {
+    predict: \& $3\times.03 + 1\times.05 +  1\times.92 =$ \myemph{$1.06$} cycles/instr. \\
+    stall: \& $3\times.03 + 3\times.05 +  1\times.92 =$ \myemph{$1.16$} cycles/instr. \\
+   ~ \& ($1.16 \div 1.06 \approx 1.09$x faster)\\
 };
 \end{visibleenv}
 \end{tikzpicture}
@@ -29,3 +32,9 @@ others \& 92\% \& 1* \& 1* \\
 
 %\againframe<2->{costOfStalling}
 \iftoggle{heldback}{\againframe<1>{costOfStalling}}{\againframe<2->{costOfStalling}}
+
+\begin{frame}{prediction and OOO}
+    \begin{itemize}
+    \item deeper pipeline --- much higher misprediction penalty
+    \end{itemize}
+\end{frame}
