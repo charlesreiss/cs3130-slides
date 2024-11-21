@@ -15,10 +15,11 @@
     popq \%rax
 };
 \node[draw,font=\fontsize{10}{11}\tt\selectfont,anchor=north west,align=left] (push second) at ([xshift=.75cm]push start.north east) {
-        addq \$8, \%rsp \\ movq 8(\%rsp), \%rax
+        movq (\%rsp), \%rax \\ addq \$8, \%rsp
 };
 \node[draw,font=\fontsize{10}{11}\tt\selectfont,anchor=north west,align=left] (push third) at ([xshift=.75cm]push second.north east) {
-        addq \$8, \%x17 $\rightarrow$ \%x18 \\ movq (\%x18) $\rightarrow$ \%x19 };
+        movq (\%x17) $\rightarrow$ \%x19 \\ addq \$8, \%x17 $\rightarrow$ \%x18 
+    };
 \draw[ultra thick,-Latex] (push start) -- (push second);
 \draw[ultra thick,-Latex] (push second) -- (push third);
 \node[draw,font=\fontsize{10}{11}\tt\selectfont,anchor=north west,align=left] (cmpjmp start) at ([yshift=-1.5cm]push start.south west) {
