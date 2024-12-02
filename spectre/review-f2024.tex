@@ -1,0 +1,100 @@
+
+\begin{frame}[fragile]{review: PRIME+PROBE}
+\begin{Verbatim}[fontsize=\small]
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{exercise}
+\begin{Verbatim}[fontsize=\small]
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+\end{Verbatim}
+\begin{itemize}
+\item 64KB ($2^{16}$B) direct-mapped cache with 64B blocks
+\item array[0x800] slow to access?
+\item other\_array at \texttt{0x4000000}
+\item value of \texttt{mystery}?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{exercise solution}
+\begin{itemize}
+\item \texttt{char *array}; \texttt{array[0x800]}
+\item NUM\_SETS = 64KB/64B = 1K (1024) sets
+\item array[0x800] has cache index \texttt{0x800}/BLOCK\_SIZE $\pmod{\text{NUM\_SETS}}$
+    \begin{itemize}
+    \item = cache index 32
+    \end{itemize}
+\item \texttt{other\_array[0]} at cache index 0
+    \begin{itemize}
+    \item 0x4000000 / BLOCK\_SIZE $\pmod{\text{NUM\_SETS}}$ = 0
+    \end{itemize}
+\item \texttt{other\_array[X]} at cache index 0 + X/BLOCK\_SIZE $\pmod{\text{NUM\_SETS}}$
+\item X = mystery * BLOCK\_SIZE
+\item mystery = 32 or 32 $\pm$ 1024 or 32 $\pm$ 1024 $\times$ 2 or etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{variation: different starting location}
+    \begin{itemize}
+    \item other\_array starts at 0x4001440
+    \item then other\_array[0] at cache index 
+        \begin{itemize}
+        \item 0x4001440 / BLOCK\_SIZE $\pmod{\text{NUM\_SETS}}$ = 51
+        \end{itemize}
+    \item 51 + mystery * BLOCK\_SIZE / BLOCK\_SIZE $\pmod{\text{NUM\_SETS}}$ = 32
+    \item mystery = -19 or 1005 or 2029 or \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{variation: associative cache}
+    \begin{itemize}
+    \item suppose 2-way 64KB cache instead of direct-mapped
+    \item NUM\_SETS = 64KB/2/64B = 512 sets
+    \item array[0x800] still has cache index 32 (still)
+        \begin{itemize}
+        \item but so does \texttt{array[0x800 + 512 * 64]} = \texttt{array[0x8800]}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% FIXME to Skad: mention that this is Meltdown
+% FIXME to Skad: alternate to PRIME+PROBE: EVICT+RELOAD
+\begin{frame}[fragile]{into exploit: Meltdown}
+\begin{Verbatim}
+uint8_t* probe_array = new uint8_t[256 * 4096];
+// ... Make sure probe_array is not cached
+uint8_t kernel_memory_val = *(uint8_t*)(kernel_address);
+uint64_t final_kernel_memory = kernel_memory_val * 4096;
+uint8_t dummy = probe_array[final_kernel_memory];
+// ... catch page fault
+// ... in signal handler, determine which of 256 slots in probe_array is cached
+\end{Verbatim}
+\end{frame}
+

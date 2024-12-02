@@ -1,0 +1,54 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+\end{frame}
+
+\input{../spectre/review-f2024}
+
+
+\section{exercise (review?)}
+\subsection{exercise: detect this access? (2-way)}
+\input{../spectre/ex-detect-access-2way}
+
+\section{spectre}
+\subsection{concept: forcing branch misprediction}
+%\againframe<2>{readWithoutRead}
+\input{../spectre/mistrain-bp}
+
+\subsection{contrived? vulnerable code}
+\input{../spectre/contrivedp-vuln}
+
+\subsection{array bounds check}
+\input{../spectre/bounds-check-kernel}
+
+\subsection{JavaScript exploit}
+\input{../spectre/js-vuln}
+
+\subsection{mispredicted indirect}
+\input{../spectre/mispred-indirect}
+
+\subsection{more variants?}
+\input{../spectre/more-variants}
+
+\subsection{software fix}
+\input{../spectre/spectre-linux-fix}
+
+\subsection{aside: ret stack}
+\input{../bpred/retStack}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\subsection{reading a value (2)}
+\input{../spectre/read-value-pattern-spec}
+
+\end{document}

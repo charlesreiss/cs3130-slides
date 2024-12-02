@@ -1,0 +1,15 @@
+\begin{frame}[fragile]{EVICT+RELOAD}
+    \begin{itemize}
+    \item PRIME+PROBE: fill cache, detect eviction
+    \item alternate idea EVICT+RELOAD:
+    \end{itemize}
+\begin{Verbatim}[fontsize=\small]
+unsigned char *probe_array;
+posix_memalign(&probe_array, CACHE_SIZE, CACHE_SIZE);
+access OTHER things to evict all of probe_array
+if (something false) {
+    read probe_array[mystery * BLOCK_SIZE];
+}
+check which value from probe_array is faster
+\end{Verbatim}
+\end{frame}
