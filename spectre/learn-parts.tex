@@ -1,6 +1,6 @@
 \begin{frame}[fragile]{not just BLOCK\_SIZE}
 \begin{Verbatim}[fontsize=\fontsize{9}{10}]
-char *array;
+char *array, *other_array;
 // PRIME
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
 AccessAllOf(array);
@@ -31,9 +31,9 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 let offset be some number in [0,BLOCK\_SIZE): \\
 \vspace{-1cm}
 \begin{eqnarray*}
-\text{mystery} * N & = & \text{BLOCK\_SIZE}\times(32+1024K) + \text{offset}\\
-\text{mystery} & = & \text{BLOCK\_SIZE}\times(32+1024K) + N\times\text{offset} \\
-\text{mystery} & = & 64\times(32+1024K)+N\times\text{offset} \\
+\text{mystery} * N & = & \text{BLOCK\_SIZE}\times(32+1024Z) + \text{offset}\\
+\text{mystery} & = & \text{BLOCK\_SIZE}\times(32+1024Z) + N\times\text{offset} \\
+\text{mystery} & = & 64\times(32+1024Z)+N\times\text{offset} \\
 \end{eqnarray*}
 \\
 N=1: mystery = $2048$, $2049$, $2050$, \ldots, $2048+63$, $64\cdot1024+2048$, $64\cdot1024+2048+1$, \ldots
@@ -48,9 +48,9 @@ N=1: mystery = $2048$, $2049$, $2050$, \ldots, $2048+63$, $64\cdot1024+2048$, $6
     \end{itemize}
 \vspace{-.5cm}
 \begin{eqnarray*}
-\text{mystery}\cdot 32\cdot 64 & = & 64(32+1024K) + \text{offset} \\
-        & = & 64\cdot32 + 65536K + \text{offset}\\
-\text{mystery} & = & 1 + \frac{65536}{64\cdot32}K + \frac{\text{offset}}{64\cdot32} = 1+32K \\
+\text{mystery}\cdot 32\cdot 64 & = & 64(32+1024Z) + \text{offset} \\
+        & = & 64\cdot32 + 65536Z + \text{offset}\\
+\text{mystery} & = & 1 + \frac{65536}{64\cdot32}Z + \frac{\text{offset}}{64\cdot32} = 1+32Z \\
 \end{eqnarray*}
 \end{frame}
 
