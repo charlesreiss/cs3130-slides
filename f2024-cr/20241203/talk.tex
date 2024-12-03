@@ -8,12 +8,57 @@
 
 \input{../common/listingsLib}
 
-\begin{frame}{last time}
+\begin{frame}{last time (1)}
+    \begin{itemize}
+    \item side channel idea:
+        \begin{itemize}
+        \item unintended information leakage
+        \item example: time taken to check password $\rightarrow$ matching character count
+        \end{itemize}
+    \item in the cache: PRIME+PROBE strategy
+        \begin{itemize}
+        \item timing difference indicates what's in cache
+        \item evictions reveal index bits of cache accesses
+        \end{itemize}
+    \item speculative execution and cache accesses
+        \begin{itemize}
+        \item OOO processors still run cache accesses on branch misprediction
+        \item problem: branches do things like bounds check
+        \item way of reading out-of-bounds data
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
-\input{../spectre/evict-reload}
-\input{../spectre/review-f2024}
+\begin{frame}[fragile]{last time (2)}
+    \begin{itemize}
+    \item Meltdown 
+        \begin{itemize}
+        \item some Intel CPUs: speculative page table permissions check
+        \item \verb|if (false) { access array[*kernel_memory * factor] }|
+        \item idea: array access adds to cache (even though undone)
+        \item detect what was evicted, learn \verb|*kernel_memory| value
+        \end{itemize}
+    \item Spectre
+        \begin{itemize}
+        \item \verb|if (x < size) { access array2[array1[x] * factor] }|
+        \item if statement mispredicted, so array2 access modifies cache
+        \item \ldots can detect which cache index accessed
+        \item pattern appears naturally in system calls, etc.
+        \item learn \verb|array1[x]| value, even though out of bounds
+        \end{itemize}
+    \end{itemize}
+\end{frame}
 
+\input{../spectre/review-prime-probe}
+
+\input{../spectre/f2024-review-simple-prime-probe}
+\input{../spectre/f2024-review-pp-variation}
+
+\input{../spectre/learn-parts}
+
+\input{../spectre/evict-reload}
+
+\input{../spectre/f2024-review-meltdown}
 
 \section{exercise (review?)}
 \subsection{exercise: detect this access? (2-way)}

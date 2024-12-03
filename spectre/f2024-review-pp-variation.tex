@@ -1,0 +1,39 @@
+
+
+\begin{frame}{variation: different starting location}
+    \begin{itemize}
+    \item other\_array starts at 0x4001440
+    \item then other\_array[0] at cache index 
+        \begin{itemize}
+        \item 0x4001440 / BLOCK\_SIZE mod NUM\_SETS = 51
+        \end{itemize}
+    \item (51 + mystery * BLOCK\_SIZE / BLOCK\_SIZE) mod NUM\_SETS = 32
+    \item mystery = -19 or 1005 or 2029 or \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{variation: associative cache}
+\begin{Verbatim}[fontsize=\fontsize{9}{10}]
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+\end{Verbatim}
+    \begin{itemize}
+    \item suppose 2-way 64KB cache instead of direct-mapped
+    \item NUM\_SETS = 64KB/2/64B = 512 sets
+    \item array[0x800] still has cache index 32 (still)
+        \begin{itemize}
+        \item but so does \texttt{array[0x800 + 512 * 64]} = \texttt{array[0x8800]}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
