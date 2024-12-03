@@ -7,6 +7,8 @@
 
 \RequirePackage{etoolbox}
 
+\RequirePackage{pdfpages}
+
 
 \newtoggle{heldback}
 \togglefalse{heldback}
