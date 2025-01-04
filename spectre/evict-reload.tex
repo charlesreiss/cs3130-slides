@@ -1,0 +1,22 @@
+\providecommand{\myemphA}[1]{\myemph<2>{#1}}
+\providecommand{\myemphB}[1]{\myemph<3>{#1}}
+
+\begin{frame}[fragile]{EVICT+RELOAD}
+    \begin{itemize}
+    \item PRIME+PROBE: fill cache, detect eviction
+    \item alternate idea \myemph<2>{EVICT}+\myemph<3>{RELOAD}:
+    \end{itemize}
+\begin{Verbatim}[fontsize=\small,commandchars=\\QX]
+unsigned char *probe_array;
+posix_memalign(&probe_array, CACHE_SIZE, CACHE_SIZE);
+\myemphAQaccess OTHER things to evict all of probe_arrayX
+if (something false) {
+    read probe_array[mystery * BLOCK_SIZE];
+}
+\myemphBQcheck which value from probe_array is fasterX
+\end{Verbatim}
+\begin{itemize}
+\item requires code to access something you can access
+\item but often easier to setup/more reliable than PRIME+PROBE
+\end{itemize}
+\end{frame}

@@ -26,7 +26,7 @@
 (1) \lstinline|addq %rcx, %r9|       \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \& ~ \\
 (2) \lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
 (3) \lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
-(4) \lstinline|movq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+(4) \lstinline|movq %r9, 8(%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
 (5) \lstinline|movq %rcx, %r9|     \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
 };
 \begin{visibleenv}<1|handout:1>
@@ -88,8 +88,8 @@
 \lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
 \lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W \& ~ \\
 \lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
-\lstinline|movq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
-\lstinline|movq %r9, (%rbx)|   \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+\lstinline|movq %r9, 8(%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+\lstinline|movq %r9, 8(%rbx)|   \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
 \lstinline|movq %rcx, %r9|     \& ~ \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
 };
 \begin{visibleenv}<1|handout:1>

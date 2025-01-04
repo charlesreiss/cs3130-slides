@@ -1,0 +1,94 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux,matrix}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+\input{../pipeline/pipePicUtils}
+
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item pipeline idea
+        \begin{itemize}
+        \item instruction A in stage 3, while instruction B in stage 2, while instruction C in stage 3
+        \end{itemize}
+    \item register delays, uneven split limiting pipeline benefits
+    \item control and data hazards
+    \item stalling --- hardware inserted no-ops
+    \item forwarding --- shortcut for value that hasn't made it to register file
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{some quiz notes (1)}
+    \begin{itemize}
+    \item some question writing issues on cryptography questions
+    \vspace{.5cm}
+    \item Q1B: As written: send duplicate message to forum A --- no problem, since no counters or similar. Meant to write ``same text they intended to go to forum B'' --- would be prevented because it would require forging MAC(k, forum name+msg).
+    \item Q3A: Depends whether C can act as machine-in-the-middle (not specified in question)
+    \item Q3E: Probably should have written `without B being able to detect it', but does not change answer
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{some quiz notes (2)}
+    \begin{itemize}
+    \item on Q6E:
+    \end{itemize}
+\begin{Verbatim}
+movq %r9, (%r10) // memory[r10] <- r9
+movq %r10, %r11  // r11 <- r10
+\end{Verbatim}
+    \begin{itemize}
+    \item first movq does not modify register \%r10 (or any registers)
+    \item \ldots so no way for second movq to read `wrong version' of `\%r10'
+    \end{itemize}
+\end{frame}
+
+\section{pipelining, con't}
+
+\subsection{can't always forward: load-use}
+\input{../pipeline/loadUseHazard}
+
+\subsubsection{can forward: load-to-store}
+\input{../pipeline/loadToStoreFwd}
+
+\input{../pipeline/loadUseNoForward}
+% FIXME: show undoing instruction???
+
+
+
+\subsection{dependency v hazard}
+\input{../pipeline/hazardVDep}
+
+\input{../pipeline/hazardVDepEx}
+
+\subsection{with different pipeline?}
+\input{../pipeline/diffHazard}
+
+\subsubsection{exercise}
+\input{../pipeline/diffHazardEx}
+
+\section{OOO}
+\input{../ooo/talk-inner}
+
+\section{branch prediction interlude}
+\input{../bpred/talk-basic}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{addq hazard}
+\input{../pipeline/addqHazard}
+\subsection{data hazard fix: forwarding}
+\input{../pipeline/addqForward}
+
+\input{../ooo/talk-backup}
+
+\end{document}

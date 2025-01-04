@@ -16,9 +16,9 @@
     \item some ideas:
         \begin{itemize}
         \item A chooses a key, sends it encrypted to B
-        \item A sends a public key encrypted B, B chooses a key and sends it back
+        \item A sends a public key encrypted to B, B chooses a key and sends back
         \end{itemize}
-    \item<2-> alternate model:
+    \item<2-> alternate model (not needed, but usually used by TLS, SSH, \ldots):
         \begin{itemize}
         \item both sides generate random values
         \item derive public-key like ``key shares'' from values
@@ -28,7 +28,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Diffie-Hellman key agreement (1)}
+\begin{frame}{Diffie-Hellman key agreement}
 \begin{itemize}
 \item A and B want to agree on shared secret
 \vspace{.5cm}
@@ -44,7 +44,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Diffie-Hellman key agreement (2)}
+\begin{frame}{Diffie-Hellman key agreement (details, if needed)}
     \begin{itemize}
     \item math requirement:
         \begin{itemize}
@@ -57,7 +57,7 @@
 A randomly chooses $Y$ & B randomly chooses $Z$ \\
 A sends $f(X, Y)$ to B & B sends $f(X, Z)$ to A \\
 A computes $f(f(X, Z), Y)$ & B computes $f(f(X, Y), Z)$ \\
-\end{tabular}
+\end{tabular} \\
 \vspace{.5cm}
 \only<2->{
     example $f(a, b) = a^b \pmod{p}$

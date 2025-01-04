@@ -34,7 +34,7 @@
 \begin{tikzpicture}
     \tikzset{>=Latex}
     \matrix[tight matrix,
-        nodes={minimum height=.5cm},
+        nodes={minimum height=.4cm,font=\small},
         row 1/.style={nodes={minimum height=1.65cm}},
         column 2/.style={nodes={text width=3cm,draw}},
         column 1/.style={nodes={text width=1cm,draw}},
@@ -46,10 +46,10 @@
         2 \& 0x44F92 \\
         3 \& 0x22331 \\
     };
-    \node[anchor=east,draw,label={[align=center]north:current\\index}] (ras idx) at ([xshift=-1cm]ras.west) {1};
+    \node[anchor=east,draw,label={[align=center,font=\small]north:current\\index}] (ras idx) at ([xshift=-1cm]ras.west) {1};
 \draw[very thick,->,dotted] (ras idx) -- ++(.5cm, 0cm) |- (ras-3-1.west);
-    \draw[very thick,->] (ras-3-2.east) -- ++(2cm, 0cm) node[right ] {next prediction for ret};
-    \draw[very thick,<-] (ras-4-2.east) -- ++(1cm, 0cm) -- ++(0cm, -1cm) node[below,align=center] {next saved \\ return address \\ from call};
+    \draw[very thick,->] (ras-3-2.east) -- ++(2cm, 0cm) node[right,font=\small] {next prediction for ret};
+    \draw[very thick,<-] (ras-4-2.east) -- ++(1cm, 0cm) -- ++(0cm, -1cm) node[below,align=center,font=\small] {next saved \\ return address \\ from call};
 \end{tikzpicture}
 \begin{itemize}
 \item on \texttt{call}: increment index, save return address in that slot

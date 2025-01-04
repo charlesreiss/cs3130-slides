@@ -1,0 +1,56 @@
+\begin{frame}[fragile]{exercise}
+\begin{Verbatim}[fontsize=\fontsize{9}{10}]
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+\end{Verbatim}
+\begin{itemize}
+\item 64KB ($2^{16}$B) direct-mapped cache with 64B blocks
+\item array[0x800] slow to access; \item other\_array at \texttt{0x4000000}
+\item value of \texttt{mystery}?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{exercise solution (1)}
+\begin{itemize}
+\item NUM\_SETS = 64KB/64B = 1K (1024) sets
+\item array[0x800] has cache index {\small \texttt{0x800}/BLOCK\_SIZE mod NUM\_SETS}
+    \begin{itemize}
+    \item = cache index 32
+    \end{itemize}
+\item know \texttt{\small other\_array[mystery * BLOCK\_SIZE]} had same index
+\vspace{.5cm}
+\item \texttt{other\_array[0]} at cache index 0
+    \begin{itemize}
+    \item (0x4000000 / BLOCK\_SIZE) mod NUM\_SETS = 0
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{exercise solution (2)}
+\begin{itemize}
+\item recall have found:
+    \begin{itemize}
+    \item \texttt{other\_array[0]} at index 0;
+    \item \texttt{other\_array[mystery*BLOCK\_SIZE]} has index 32 (same as \texttt{array[0x800]})
+    \end{itemize}
+\item \texttt{other\_array[X]} at cache index (0 + X/BLOCK\_SIZE  mod NUM\_SETS)
+    \begin{itemize}
+    \item advanced by X/BLOCK\_SIZE blocks
+    \item wrapping around after NUM\_SETS blocks
+    \end{itemize}
+\vspace{.5cm}
+\item X = mystery * BLOCK\_SIZE
+\item 32 = 0 + mystery mod NUM\_SETS
+\item mystery = 32 or 32 $\pm$ 1024 or 32 $\pm$ 1024 $\times$ 2 or etc.
+\end{itemize}
+\end{frame}

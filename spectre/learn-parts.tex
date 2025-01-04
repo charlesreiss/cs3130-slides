@@ -1,0 +1,66 @@
+\begin{frame}[fragile]{not just BLOCK\_SIZE}
+\begin{Verbatim}[fontsize=\fontsize{9}{10}]
+char *array, *other_array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * N] += 1;  // previously: * BLOCK_SIZE
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+\end{Verbatim}
+\begin{itemize}
+\item 64KB ($2^{16}$B) direct-mapped cache with 64B blocks
+\item array[0x800] slow to access?
+\item other\_array at \texttt{0x4000000} (index 0, offset 0)
+\item value of \texttt{mystery} if N = 1? N = 32 * 64?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{solution (N=1)}
+\vspace{-1cm}
+\begin{eqnarray*}
+\left\lfloor\text{mystery} * N / \text{BLOCK\_SIZE}\right\rfloor~\text{mod}~1024 & = & 32 \\
+\left\lfloor\text{mystery} * N / \text{BLOCK\_SIZE}\right\rfloor & = & 32 + 1024K \\
+\end{eqnarray*}
+\\
+let offset be some number in [0,BLOCK\_SIZE): \\
+\vspace{-1cm}
+\begin{eqnarray*}
+\text{mystery} * N & = & \text{BLOCK\_SIZE}\times(32+1024Z) + \text{offset}\\
+\text{mystery} & = & \text{BLOCK\_SIZE}\times(32+1024Z) + N\times\text{offset} \\
+\text{mystery} & = & 64\times(32+1024Z)+N\times\text{offset} \\
+\end{eqnarray*}
+\\
+N=1: mystery = $2048$, $2049$, $2050$, \ldots, $2048+63$, $64\cdot1024+2048$, $64\cdot1024+2048+1$, \ldots
+\end{frame}
+
+\begin{frame}{exercise (N=32*64)}
+    \begin{itemize}
+    \item what if N = 32*64
+    \item recall: other\_array[0] is set 0, offset 0
+    \item other\_array[mystery * N] is set 32
+    \item possible values of mystery?
+    \end{itemize}
+\vspace{-.5cm}
+\begin{eqnarray*}
+\text{mystery}\cdot 32\cdot 64 & = & 64(32+1024Z) + \text{offset} \\
+        & = & 64\cdot32 + 65536Z + \text{offset}\\
+\text{mystery} & = & 1 + \frac{65536}{64\cdot32}Z + \frac{\text{offset}}{64\cdot32} = 1+32Z \\
+\end{eqnarray*}
+\end{frame}
+
+\begin{frame}{alternate view}
+    \begin{itemize}
+    \item learn index bits of mystery * N
+    \item this example: bits 6--15
+    \vspace{.5cm}
+    \item N = 1, bits 6--15 of mystery
+    \item N = 64, bits 0--9 of mystery
+    \item N = 32*64 ($2^{11}$), bits 0--4 of mystery
+    \end{itemize}
+\end{frame}

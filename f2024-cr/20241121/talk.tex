@@ -1,0 +1,73 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+\input{../pipeline/pipePicUtils}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item register renaming motivation
+        \begin{itemize}
+        \item different versions of registers
+        \item out-of-order means multiple active versions
+        \end{itemize}
+    \item out-of-order pipeline
+        \begin{itemize}
+        \item in-order: fetch (w/ branch predict) + decode + rename + dispatch
+        \item out-of-order: issue + execute + writeback
+        \item in-order: commit
+        \end{itemize}
+    \item register renaming mechanics
+    \end{itemize}
+\end{frame}
+
+\input{../ooo/oooPipeline}
+\subsection{instruction dispatch}
+\againframe<11>{oooPipe}
+\input{../ooo/oooDispatch}
+
+% FIXME: EXERCISE
+\subsection{dispatch exercise 1}
+\input{../ooo/oooDispatchEx1}
+
+\subsection{functional units}
+\againframe<12>{oooPipe}
+\input{../ooo/realCpuFU}
+
+\subsection{instruction dispatch (two-cycle multiplier)}
+\input{../ooo/oooDispatchAlt}
+
+\subsection{complex instructions and condition codes}
+\input{../ooo/oooMicrocodeSummary.tex}
+
+\subsection{OOO limits}
+\input{../ooo/oooLimitations}
+% FIXME: examples of each bottleneck
+
+\subsection{the data flow limit}
+\input{../intro/perf-examples}
+
+\subsection{effect of branch prediction}
+\input{../pipeline/predEffect}
+
+\input{../bpred/talk-basic}
+
+\subsection{saturating counter}
+\input{../bpred/local-saturating}
+
+\input{../spectre/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../bpred/talk-advanced}
+
+\end{document}

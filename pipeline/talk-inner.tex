@@ -24,25 +24,33 @@
 
 \section{challenge: hazards}
 
-\subsection{data hazards}
+\subsection{data hazards intro}
 
 \subsubsection{example execution: wrong result, stalling resolution}
 \input{../pipeline/addqHazard}
 
-\subsubsection{better fix: forwarding}
+\subsection{control hazards}
+\input{../pipeline/controlHazard} % FIXME: correct
+
+\subsubsection{idea: branch prediction}
+\input{../pipeline/predIntro}
+
+\subsection{data hazard fix: forwarding}
 \input{../pipeline/addqForward}
 
 \subsubsection{exercise: what forwarding}
-% FIXME
 \input{../pipeline/forwardPathsEx}
 
-\subsubsection{can't always forward: load-use}
+\subsection{can't always forward: load-use}
 \input{../pipeline/loadUseHazard}
 
 \subsubsection{can forward: load-to-store}
 \input{../pipeline/loadToStoreFwd}
 
 \input{../pipeline/loadUseNoForward}
+% FIXME: show undoing instruction???
+
+
 
 \subsection{dependency v hazard}
 \input{../pipeline/hazardVDep}
@@ -54,15 +62,4 @@
 
 \subsubsection{exercise}
 \input{../pipeline/diffHazardEx}
-
-\subsection{control hazards}
-\input{../pipeline/controlHazard} % FIXME: correct
-
-\subsubsection{idea: branch prediction}
-\input{../pipeline/predIntro}
-
-% FIXME: show undoing instruction???
-
-\subsubsection{why so good?}
-\input{../pipeline/predEffect}
 

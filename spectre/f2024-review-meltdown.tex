@@ -1,0 +1,15 @@
+
+% FIXME to Skad: mention that this is Meltdown
+% FIXME to Skad: alternate to PRIME+PROBE: EVICT+RELOAD
+\begin{frame}[fragile]{into exploit: Meltdown}
+\begin{Verbatim}[fontsize=\small]
+uint8_t* probe_array = new uint8_t[256 * 4096];
+// ... Make sure probe_array is not cached
+uint8_t kernel_memory_val = *(uint8_t*)(kernel_address);
+uint64_t final_kernel_memory = kernel_memory_val * 4096;
+uint8_t dummy = probe_array[final_kernel_memory];
+// ... catch page fault
+// ... in signal handler, determine which of 256 slots in probe_array is cached
+\end{Verbatim}
+\end{frame}
+

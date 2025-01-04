@@ -1,0 +1,23 @@
+- test-taking strategies
+- formulas
+
+- week6 quiz Q3
+    - second level PT entry at 0x2011a
+    - 10-bit page offset
+    - 256-entry page tables w/ 4-byte entries
+    - VA 0x12345678
+    - PTBR @ 0x10000
+    - PT format: MSB[v][w][e][u][unused][PPN]
+
+    - answer: impossible
+
+
+- make syntax
+
+- dirty bit
+
+- pthread_cond_signal v pthread_cond_broadcast
+
+- when can M change message A to B?
+- TLS handshake
+

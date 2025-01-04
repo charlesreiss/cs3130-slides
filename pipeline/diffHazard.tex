@@ -14,6 +14,7 @@ subq %rax, %r9   // W        // M
 xorq %rax, %r10  // EM       // E
 andq ~1~%r8~end~,  %r11  // D        // D
 \end{lstlisting}
+        \item<2> (assuming register file does not read while writing) 
         \item<2> addq/andq is hazard with 5-stage pipeline
         \item<2> addq/andq is \textbf{not} a hazard with 4-stage pipeline
         \item<3> \myemph<3>{more hazards with more pipeline stages}
