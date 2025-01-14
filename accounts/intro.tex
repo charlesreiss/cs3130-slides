@@ -1,6 +1,6 @@
 \begin{frame}{opening a file?}
 \begin{itemize}
-\item \texttt{open("/u/creiss/private.txt", O\_RDONLY)}
+\item \texttt{open("/u/bradjc/private.txt", O\_RDONLY)}
 \item say, private file on portal
 \vspace{.5cm}
 \item on Linux: makes \textit{system call}
@@ -12,9 +12,10 @@
 
 \begin{frame}{how does OS decide whether syscall should proceed?}
 \begin{itemize}
+\item \texttt{open("/u/bradjc/private.txt", O\_RDONLY)}
 \item argument: needs extra metadata
 \vspace{.5cm}
-\item what would be wrong using\ldots
+\item what would be wrong with using\ldots
 \item system call arguments?
 \item where the code calling open came from?
 \end{itemize}

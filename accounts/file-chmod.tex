@@ -1,6 +1,13 @@
 \begin{frame}{POSIX file permissions}
     \begin{itemize}
-    \item POSIX files have a very restricted access control list
+    \item POSIX files support a per-file access control list
+        \begin{itemize}
+            \item interface is very narrow/limited
+        \end{itemize}
+    \item binary permissions are \textit{read}, \textit{write}, and \textit{execute}
+        \begin{itemize}
+            \item set for three categories: user, group, other
+        \end{itemize}
     \vspace{.5cm}
     \item one user ID + read/write/execute bits for user
         \begin{itemize}
@@ -21,9 +28,12 @@
         \item user permissions (X), group permissions (Y), other permission (Z)
         \end{itemize}
     \item each 3-bit part has a bit for `read' (4), `write' (2), `execute' (1)
+        \begin{itemize}
+        \item binary number: \texttt{0bRWE}
+        \end{itemize}
     \vspace{.5cm}
-    \item \texttt{700} --- user read+write+execute; group none; other none
-    \item \texttt{451} --- user read; group read+execute; other execute
+    \item<2-> \texttt{700} --- user read+write+execute; group none; other none
+    \item<3-> \texttt{451} --- user read; group read+execute; other execute
 \end{itemize}
 \end{frame}
 

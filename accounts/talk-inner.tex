@@ -7,10 +7,31 @@
 \subsection{group IDs}
 \input{../accounts/group-id}
 
+\begin{frame}{id and group id establish identity}
+    \begin{itemize}
+        \item \textit{who} is running a process or accessing a resource
+        \item but also need \textit{permissions}
+            \begin{itemize}
+            \item what users can access
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \section{permissions and access control lists}
 \subsection{file permissions}
 \input{../accounts/file-chmod}
 \input{../accounts/file-acls}
+
+\begin{frame}{ACLs establish permissions}
+    \begin{itemize}
+        \item identity: \textit{who} is running a process or accessing a resource
+        \item permissions: who has what access to a file or resource
+        \item now need \textit{enforcement}
+            \begin{itemize}
+            \item ensure that permissions are implemented correctly
+            \end{itemize}
+    \end{itemize}
+\end{frame}
 
 \section{enforcing permissions}
 \input{../accounts/auth-unix-check}
