@@ -3,6 +3,9 @@
     \item Unix-like \textit{static} libraries: libfoo.a
     \item internally: archive of .o files with index
     \item create: \texttt{ar rcs libfoo.a file1.o file2.o \ldots}
+        \begin{itemize}
+        \item `archive' utility \texttt{ar} and not normal C compiler
+        \end{itemize}
     \item use: \texttt{\textit{cc} \ldots~-o program -L/path/to/lib \ldots~-lfoo}
         \begin{itemize}
         \item no space between \texttt{-l} and library name
@@ -21,6 +24,9 @@
         \item then: \texttt{\textit{cc} -shared \ldots~-o libfoo.so}
         \end{itemize}
     \item use: \texttt{\textit{cc} \ldots -o program \myemph<2>{-L/path/to/lib} \ldots -lfoo}
+        \begin{itemize}
+        \item \texttt{\textit{cc}} = C compiler (clang, gcc, etc.)
+        \end{itemize}
     \vspace{.5cm}
     \item<2-> \texttt{-L...} sets path \textit{\myemph<2>{only when making executable}}
     \item<2-> \myemph<2>{runtime path set separately}
