@@ -1,15 +1,16 @@
 \begin{frame}{What is a system call?}
 
 	\begin{itemize}
-	\item (Will discuss in more detail in next lecture)
-	\item Briefly - syscall {\em instruction} takes system call number as argument
-		\begin{itemize}
-		\item Other arguments are placed in registers or on the stack
-		\end{itemize}
-	\item This instruction switches hardware into privileged mode and uses syscall number to find correct handler function
-	\item This function decides if the "open" call is allowed to proceed
-	\item Only implemented syscalls are supported - can't invoke fake syscall
-	\item Handlers written carefully (we hope) to ensure safe implementation and correct permission checking
+	\item (will discuss in more detail in next lecture)
+	\item Briefly - special syscall {\em instruction} run w/ \textit{system call number} set
+            \begin{itemize}
+            \item system call number = open requested
+            \item other arguments passed like a normal function
+            \end{itemize}
+	\item instruction switches hardware into privileged mode, runs OS function
+	\item this function decides if the "open" call is allowed to proceed
+	\item only implemented syscalls are supported
+	\item handlers written carefully (we hope) to ensure correct permission checking
 	\end{itemize}
 
 \end{frame}
