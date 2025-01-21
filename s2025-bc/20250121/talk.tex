@@ -1,0 +1,49 @@
+\date{}
+\title{CSO2: Accounts}
+\date{}
+\begin{document}
+
+\input{../20250121/agenda}
+
+
+\begin{frame}{recap: Example \texttt{makefile}}
+
+{\tt
+\begin{tabular}{l}
+\myemph<6>{CC = gcc} \\
+\myemph<6>{CFLAGS = -Wall} \\
+\myemph<6>{LDFLAGS = -Wall} \\
+\myemph<6>{LDLIBS = -lm} \\
+~ \\
+\myemph<2>{program}: \myemph<3>{main.o extra.o} \\
+▶\hspace{1.5cm}\myemph<6>{\$(CC)} \myemph<6>{\$(LDFLAGS)} -o \myemph<5>{\$@} \myemph<5>{\$\textasciicircum} \myemph<6>{\$(LDLIBS)} \\
+~ \\
+\myemph<2,4>{\%.o}: \myemph<3,4>{\%.c} \\
+▶\hspace{1.5cm}\myemph<6>{\$(CC)} \myemph<6>{\$(CFLAGS)} -o \myemph<5>{\$@} -c \myemph<5>{\$<} \\
+~ \\
+\myemph<7>{extra.o: extra.c extra.h} \\
+\myemph<7>{main.o: main.c main.h extra.h} \\
+\end{tabular}
+} \\
+\end{frame}
+
+
+\input{../building/more-build-system}
+
+\input{../20250121/agenda}
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\input{../accounts/talk-inner}
+
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../accounts/talk-backup}
+
+\end{document}
