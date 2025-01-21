@@ -18,7 +18,7 @@
 void readFromDiskInto(int diskLocation, char *dest) {
     ...
     runPrivilegedInstruction(...);
-    ...    
+    ...
 }
 \end{lstlisting}
 };
@@ -38,7 +38,7 @@ void readFileSafely(const char *name, char *dest) {
 
 \draw[very thick,Latex-] (1.2, -5) -- ++ (2cm, -.25cm) node[right,align=left] {
     how do we let this code run \\
-    \texttt{readFromSafely} in kernel mode \\
+    \texttt{readFileSafely} in kernel mode \\
     but not \texttt{readFromDisk}?
 };
 % FIXME: pointer to user code
