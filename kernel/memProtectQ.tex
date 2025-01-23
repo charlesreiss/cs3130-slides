@@ -13,15 +13,14 @@ Program A & Program B \\ \hline
 \only<3->{result: {\tt \%rax} (in A) is {\tt 42}} &
 \only<4>{result: {\tt \%rax} (in B) is \ldots} 
 \only<5->{result: \myemph{might crash}} \\
-\only<3->{(always with `normal' multiuser OSes)} \\
+\only<3->{(with `normal' multiuser OSes)} \\
 \end{tabular}
 
 \begin{visibleenv}<2-5>
 \small
 A. 42 \hspace{1cm} B. 99 \hspace{1cm} C. 0x10000  \\
 D. 42 or 99 (depending on timing/program layout/etc) \\
-E. 42 or 99 or program might crash (depending on \ldots) \\
-F. something else \\
+E. 42 or 99 or program might crash (depending on \ldots) \hspace{1cm} F. something else \\
 \end{visibleenv}
 \end{frame}
 

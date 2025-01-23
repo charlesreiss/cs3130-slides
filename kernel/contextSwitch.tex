@@ -19,7 +19,7 @@
 \end{itemize}
 \end{frame}
 
-\tikzset{a/.style={fill=blue!30},b/.style={fill=green!30},>=Latex}
+\tikzset{a/.style={fill=blue!10,pattern=north west lines,pattern color=blue!30},b/.style={fill=green!30},>=Latex}
 \newsavebox{\aContext}
 \savebox{\aContext}{
 \begin{tikzpicture}
@@ -69,7 +69,7 @@
 
 \begin{frame}{contexts (B running)}
 \begin{tikzpicture}
-\tikzset{a/.style={fill=blue!30},b/.style={fill=green!30}}
+\tikzset{a/.style={fill=blue!10,pattern=north west lines,pattern color=blue!30},b/.style={fill=green!30},>=Latex}
 \matrix[tight matrix,label={north:in CPU},nodes={font=\small\tt,b}] (cpuState) {
     \%rax \\
     \%rbx \\
