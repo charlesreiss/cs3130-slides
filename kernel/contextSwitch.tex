@@ -23,7 +23,7 @@
 \newsavebox{\aContext}
 \savebox{\aContext}{
 \begin{tikzpicture}
-\matrix[tight matrix,nodes={font=\small\tt,a}] (cpuState) {
+\matrix[tight matrix,nodes={font=\small\tt,a},fill=white] (cpuState) {
     \%rax \& SF \\
     \%rbx \& ZF \\
     \%rcx \& PC \\
@@ -34,7 +34,7 @@
 \newsavebox{\bContext}
 \savebox{\bContext}{
 \begin{tikzpicture}
-\matrix[tight matrix,nodes={font=\small\tt,b}] (cpuState) {
+\matrix[tight matrix,nodes={font=\small\tt,b},fill=white] (cpuState) {
     \%rax \& SF \\
     \%rbx \& ZF \\
     \%rcx \& PC \\
