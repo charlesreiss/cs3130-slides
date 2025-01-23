@@ -6,7 +6,46 @@
     \titlepage
 \end{frame}
 
-\begin{frame}{last time}
+\begin{frame}{last time (1)}
+    \begin{itemize}
+    \item identifying users
+        \begin{itemize}
+        \item user ID, group IDs associated with processes
+        \item normally programs inherit IDs of program that ran them
+        \end{itemize}
+    \item checking authorization
+        \begin{itemize}
+        \item compare user+group ID to list associated with resource (like file)
+        \end{itemize}
+    \item `classic' Unix file permissions
+        \begin{itemize}
+        \item read/write/execute bits; `owner' user ID / group ID
+        \end{itemize}
+    \item extending to flexible access control lists
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{last time (2)}
+    \begin{itemize}
+    \item root/superuser/user ID \texttt{0} --- OS says yes to (almost) all checks
+    \item Unix design: checking passwords/etc. in normal programs
+        \begin{itemize}
+        \item programs running as root can switch to normal user
+        \item sysadmin installs programs that do this after checking passwords
+        \item most OS code doesn't know about usernames/passwords
+        \end{itemize}
+    \item set-user ID ``escape hatch''
+        \begin{itemize}
+        \item sysadmin configures program to run as owner (typically root)
+            \begin{itemize}
+            \item normal case: program would keep same user effective ID
+            \end{itemize}
+        \item program has access to original user ID to make decisions
+        \item way to \textit{selectively} allow users to do extra things
+        \item example: \texttt{sudo} allowing selected users extra access with password
+        \item example: allowing detaching USB drives, but not internal drives
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \input{../common/listingsLib}
