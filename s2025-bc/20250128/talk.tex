@@ -1,0 +1,75 @@
+\date{}
+\title{CSO2: Signals}
+\date{}
+\begin{document}
+
+\input{../20250128/agenda}
+
+
+
+
+\begin{frame}{last time: What happens when...}
+\begin{itemize}
+\item program runs an instruction the hardware can't complete?
+    \begin{itemize}
+    \item e.g. access memory it has not been allocated
+    \item e.g. divide by zero
+    \end{itemize}
+\vspace{.5cm}
+\item program asks the OS to do something?
+    \begin{itemize}
+    \item e.g. return process's \texttt{uid}
+    \item e.g. wait for a key press (or other I/O operation)
+    \end{itemize}
+\vspace{.5cm}
+\item<2> \textrightarrow hardware generates an \textit{exception}
+\end{itemize}
+\end{frame}
+
+\input{../kernel/exceptVenn}
+\input{../kernel/exceptKindInfoLib}
+\againframe<5>{exceptTypesN}
+
+\section{not just timers}
+
+\begin{frame}{I/O critical for today's computing}
+\includegraphics[width=0.9\pagewidth]{io.pdf}
+\end{frame}
+
+\subsection{typical I/O pattern}
+\input{../kernel/exceptIOPattern}
+
+\input{../kernel/keyInTimeline}
+
+\section{review: exception / context switch}
+\input{../kernel/reviewExceptCtxt}
+
+\section{exercise}
+\input{../kernel/howManyEx}
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{process}
+\input{../kernel/processIdea}
+
+
+
+
+
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\input{../common/listingsLib}
+\input{../signals/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\input{../signals/talk-backup}
+
+\end{document}
