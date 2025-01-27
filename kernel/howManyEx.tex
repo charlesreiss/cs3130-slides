@@ -14,7 +14,7 @@
 \begin{itemize}
     \item A. program calls a function in the standard library
         \begin{itemize}
-        \item no (same as other functions in program; many standard library functions make no system calls (and do not otherwise trigger exceptions --- for example \texttt{strlen}, \texttt{pow}; also if we consider the calling of a function just the \texttt{call} instruction, then the library functions that do make system calls won't do so until later)
+        \item no (same as other functions in program); many standard library functions make no system calls (and do not otherwise trigger exceptions --- for example \texttt{strlen}, \texttt{pow}; also if we consider the calling of a function just the \texttt{call} instruction, then the library functions that \textit{do} make system calls won't do so until later)
         \end{itemize}
     \item B. program writes a file to disk
         \begin{itemize}
