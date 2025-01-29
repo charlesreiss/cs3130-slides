@@ -9,6 +9,24 @@
 \input{../common/listingsLib}
 
 \begin{frame}{last time}
+    \begin{itemize}
+    \item I/O handling patterns
+        \begin{itemize}
+        \item devices notify OS they need attention with exception
+        \item may cause OS to run in unrelated program
+        \item can't complete read/write requested with syscall right away?
+        \item wait until device triggers exception indicating read/write ready
+        \end{itemize}
+    \item signals and signal handlers
+        \begin{itemize}
+        \item can register `handler' function for certain events
+        \item OS calls handler within your process
+        \end{itemize}
+    \item signal delivery can occur at weird times
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{anonymous feedback}
 \end{frame}
 
 \subsection{caution: signal-safety}
