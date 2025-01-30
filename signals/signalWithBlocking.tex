@@ -93,10 +93,10 @@
     {block signal};
 \draw[violet,very thick,decoration={brace},decorate] ([yshift=-.5cm,xshift=.25cm]base) -- ++(0cm,-2.5cm)
     node[midway,right] {blocked};
-\draw[thick,dotted] ([yshift=-2cm]base) -- ++(-.5cm,0cm) node[font=\small,align=right,left] {sigwait\\starts};
-\draw[thick,dotted] ([yshift=-3cm]base) -- ++(-.5cm,0cm) node[xshift=.1cm,font=\small,align=right,left] {receive signal\\sigwait retuns};
+\draw[thick,dotted] ([yshift=-2cm]base) -- ++(-.5cm,.15cm) node[font=\small,align=right,left] {sigwait\\starts};
+\draw[thick,dotted] ([yshift=-3cm]base) -- ++(-.5cm,0cm) node[font=\small,align=right,left] {receive signal\\sigwait retuns};
 \draw[red,very thick] ([yshift=-3cm,xshift=.25cm]base) --++(.5cm, 0cm)
-    node[midway,right,align=left] {blocked\\and\\ pending};
+    node[xshift=.2cm,midway,right,align=left] {blocked\\and\\ pending};
 \draw[violet,very thick,decoration={brace},decorate] ([yshift=-3cm,xshift=.25cm]base) -- ++(0cm,-3cm)
     node[midway,right,align=left] {blocked};
 \draw[violet,very thick,decoration={brace},decorate] ([yshift=-.5cm,xshift=.25cm]base) -- ++(0cm,-2.5cm)

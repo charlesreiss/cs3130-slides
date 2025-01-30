@@ -7,7 +7,7 @@
 \tikzset{
     pcb/.style={
         tight matrix,
-        column 1/.style={nodes={draw,thin,text width=2.5cm,font=\small,minimum height=0.4cm}},
+        column 1/.style={nodes={draw,thin,text width=3.0cm,font=\small,minimum height=0.4cm}},
         column 2/.style={nodes={draw,thin,text width=5.5cm,font=\fontsize{9}{10}\tt\selectfont,minimum height=0.4cm}},
     },
     page/.style={
@@ -59,7 +59,7 @@
     |[tall]| user regs \&
     |[tall]|
     {rax {\fontsize{8}{9}\selectfont (return val.)}=\sout<5->{42}\only<5->{\textit{\myemph<5>{child pid}}}, \\ rcx=133,} \ldots \\
-    page tables \& |[one pt]| ~ \\
+    memory mapping \& |[one pt]| ~ \\
     |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
     \ldots \& \ldots \\
 };
@@ -82,7 +82,7 @@
     |[tall]| user regs \&
     |[tall]|
     {rax {\fontsize{8}{9}\selectfont(return val.)}=\sout<5->{42}\only<5->{\myemph<5>{0}}, \\ rcx=133, \ldots} \\
-    page tables\& |[two pt]| ~ \\
+    memory mapping \& |[two pt]| ~ \\
     |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
     \ldots \& \ldots \\
 };

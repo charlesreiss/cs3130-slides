@@ -86,7 +86,7 @@
 \draw[mark line reversed] ([xshift=2cm]args memory) -| (new stack text.north) node[pos=0.75,fill=white,font=\small] {\myemph<3>{copy arguments}};
 \end{visibleenv}
 \begin{visibleenv}<4->
-    \draw[mark line,alt=<4>{draw=red}{blue},ultra thick] (fds.south) -- ++(0cm, -2cm) node[below,align=center] { not changed! \\ (more on this later) };
+    \draw[mark line,alt=<4>{draw=red}{blue},ultra thick] (fds.south) -- ++(0cm, -2cm) node[below,align=center] { files + some other things not changed! \\ (more on this later) };
 \end{visibleenv}
 \begin{visibleenv}<5>
 \node[cross out,draw=red,very thick,fit=(orig-A) (orig-other-C),label={[align=center,red]north east:old memory\\discarded}] {};
