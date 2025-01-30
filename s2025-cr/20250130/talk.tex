@@ -27,6 +27,12 @@
 \end{frame}
 
 \begin{frame}{anonymous feedback}
+    \begin{itemize}
+    \item concerns that some believe collaboration allowed on quizzes
+    \vspace{.5cm}
+    \tiem quizzes are individual please
+    \item so no, for example, comparing answers pre-deadline
+    \end{itemize}
 \end{frame}
 
 \subsection{caution: signal-safety}
@@ -34,6 +40,18 @@
 
 \subsection{alt signal handling}
 \input{../signals/signalWithBlocking}
+
+\begin{frame}{signals lab}
+    \begin{itemize}
+    \item local inter-process chat program
+    \item we give:
+        \begin{itemize}
+        \item code to setup \textit{shared} memory between two processes
+        \end{itemize}
+    \item use shared memory to store messages
+    \item use signals to indicate when message ready
+    \end{itemize}
+\end{frame}
 
 \input{../unix-api/talk-inner}
 
