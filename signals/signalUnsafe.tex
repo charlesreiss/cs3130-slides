@@ -76,6 +76,9 @@ foo starts
 \begin{frame}{signal handler safety}
 \begin{itemize}
 \item POSIX (standard that Linux follows) defines ``async-signal-safe'' functions
+    \begin{itemize}
+    \item \texttt{man signal-safety} can get you list on portal
+    \end{itemize}
 \item these must work correctly no matter what they interrupt
 \item \ldots and no matter how they are interrupted
 \item includes: {\tt write}, {\tt \_exit}
