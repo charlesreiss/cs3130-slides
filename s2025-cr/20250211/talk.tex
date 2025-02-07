@@ -1,0 +1,34 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item process's files[file descriptor] $\leftrightarrow$ open file description
+    \item dup2 --- files[X] $\rightarrow$ files[Y]
+    \item close --- null $\rightarrow$ files[X]
+        \begin{itemize}
+        \item resources deallocated when list pointer null'd out
+        \end{itemize}
+    \item pipe --- get connected file descriptors
+        \begin{itemize}
+        \item write end, read end
+        \item one per pipe() call
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\input{../vm/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
