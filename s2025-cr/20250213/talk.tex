@@ -10,24 +10,40 @@
 
 \input{../vm/recallAddr}
 
-\begin{frame}{last time}
+\begin{frame}{last time (1)}
     \begin{itemize}
     \item dividing memory into fixed-sized pages
         \begin{itemize}
         \item page size = power of two
         \item addresses split into page number + page offset
-        \end[itemize}
+        \end{itemize}
     \item different virtual (program) versus physical (real) memory sizes
         \begin{itemize}
         \item virtual address size $\not=$ pointer size
         \item address space = number labeled bytes
         \end{itemize}
     \item page table: virtual page number $\rightarrow$ physical page number
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{last time (2)}
+    \begin{itemize}
     \item valid and permission bits
-    \item allocate-on-demand
         \begin{itemize}
-        \item no entry in page table $\rightarrow$ fix and retry
+        \item processor compares type of access to permission bits
         \end{itemize}
+    \vspace{.5cm}
+    \item allocate-on-demand
+    \item deliberately don't setup full page table
+    \item no entry in page table $\rightarrow$ fix and retry
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{logistics}
+    \begin{itemize}
+    \item fork-lab due tomorrow at noon
+    \item anticipated portal/submission site/quiz site downtime
+    \item change to deadline to timing HW to Monday
     \end{itemize}
 \end{frame}
 
@@ -91,8 +107,7 @@
 \subsection{more than two levels}
 \input{../vm/multiLevelGen}
 
-\subsection{assignment preview}
-% FIXME:assignment preview slides
+\subsection{assignment part 2}
 \begin{frame}{assignment}
 \end{frame}
 

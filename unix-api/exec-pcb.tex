@@ -3,7 +3,7 @@
 \tikzset{
     pcb/.style={
         tight matrix,
-        column 1/.style={nodes={draw,thin,text width=2.5cm,font=\small,minimum height=0.4cm}},
+        column 1/.style={nodes={draw,thin,text width=3cm,font=\small,minimum height=0.4cm}},
         column 2/.style={nodes={draw,thin,text width=4cm,font=\fontsize{9}{10}\tt\selectfont,minimum height=0.4cm}},
     },
     page/.style={
@@ -52,7 +52,7 @@
     |[tall]| user regs \&
     |[tall]|
     {eax=\sout<2->{42}{\normalfont\it \only<2->{\myemph<2>{init. val.}}}, \\ ecx=\sout<2->{133}\only<2->{\normalfont\it \myemph<2>{init. val.}},} \ldots \\
-    pagetables \& |[one pt]| ~ \\
+    memory mapping\& |[one pt]| ~ \\
     |[tall]| open files \& |[tall,alt=<4>{red,thick},alias=fds]| {fd 0: (terminal \ldots) \\ fd 1: \ldots } \\
     \ldots \& \ldots \\
 };
