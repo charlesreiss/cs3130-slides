@@ -1,0 +1,96 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item copy-on-write, page table tricks
+        \begin{itemize}
+        \item react to page/protection fault by filling in table
+        \item separate data structure --- Linux: `maps' list
+        \end{itemize}
+    \item storing page tables in memory
+        \begin{itemize}
+        \item encoding as array of integers
+        \item special register pointing to base of array
+        \end{itemize}
+    \item multi-step page table access
+        \begin{itemize}
+        \item two memory accesses / program access
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz Q4}
+    \begin{itemize}
+    \item memory access steps:
+    \vspace{.5cm}
+    \item virtual address $\rightarrow$ virtual page number (VPN) | page offset (PO)
+    \item read page table entry at BASE + VPN $\times$ entry size
+        \begin{itemize}
+        \item<2-> \myemph{\texttt{0x100000} + VPN $\times$ 8 = \texttt{0x100340}}
+        \end{itemize}
+    \item decode page table entry to get valid  + permission + PPN
+        \begin{itemize}
+        \item<2-> \myemph{\texttt{0x400000F} $\rightarrow$ valid, all perms, PPN 0x4000}
+        \end{itemize}
+    \item access memory for program at PPN [concat] PO
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz Q4 (2)}
+    \begin{itemize}
+    \item no restrictions on page offset
+    \item VPN satisfies {\tt 0x100000} + VPN $\times$ 8 = \texttt{0x100340}
+    \item $\rightarrow$ VPN = 0x68
+    \item virtual address $\rightarrow$ 0x68 | page offset (12-bit)
+    \item \texttt{0x68xxx} [any 12 bits in xxx]
+    \end{itemize}
+\end{frame}
+
+\section{handling big page tables}
+\subsection{general options}
+\input{../vm/bigPageOptions}
+
+\subsection{two-level page tables}
+\input{../vm/twoLevelPtLib}
+\input{../vm/twoLevelPT}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{more than two levels}
+\input{../vm/multiLevelGen}
+
+\subsection{assignment preview 1}
+\input{../vm/asgnSetup}
+\input{../vm/asgnPageAccess}
+
+\input{../vm/toyLookupAsgn}
+
+\subsection{assignment part 2}
+\begin{frame}{assignment}
+\end{frame}
+
+\subsection{exercises: multi-level lookup}
+% FIXME: \subsubsection{part 0}
+% FIXME: \input{../vm/multiSplitExPt0}
+\subsubsection{part 2}
+\input{../vm/multiSplitExPt2}
+\subsubsection{part 3}
+\input{../vm/multiSplitExPt3}
+\input{../vm/multiSplitExPt3b}
+\subsubsection{part 4}
+\input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
