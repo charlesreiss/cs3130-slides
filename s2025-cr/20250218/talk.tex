@@ -89,6 +89,60 @@
 \subsubsection{part 5}
 \input{../vm/multiSplitExPt5}
 
+\input{../caching/cacheUtils}
+
+\section{caching intro}
+
+\subsection{memory hierarchy intro}
+\input{../caching/memHierarchyIntro}
+
+\subsection{locality}
+\input{../caching/localityBasics}
+
+\subsection{typical cache hierarchy}
+\input{../caching/cacheSplitID}
+
+\subsection{one-block cache}
+\input{../caching/oneBlockCache}
+
+\subsection{direct mapped caches}
+\input{../caching/directMappedIntro}
+
+\begin{frame}{terminology}
+    \begin{itemize}
+    \item row = set
+        \begin{itemize}
+        \item preview: change how much is in a row
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{tag/index/offset for direct mapped caches}
+\input{../caching/tioDMIntro}
+
+\subsubsection{aside: cache size}
+\begin{frame}{cache size}
+    \begin{itemize}
+    \item cache size = amount of \textit{data} in cache
+    \item not included metadata (tags, valid bits, etc.)
+    \end{itemize}
+\end{frame}
+
+\subsection{prelim. formulas}
+\input{../caching/tioDMFormulas}
+
+\subsection{tio for DM: exercise}
+\input{../caching/tioDmExercise}
+
+\subsection{simulating a direct mapped cache}
+\input{../caching/dmExampleAccess}
+
+\subsection{exercise: direct-mapped cache access}
+\input{../caching/dmAccessExercise}
+
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
+
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
