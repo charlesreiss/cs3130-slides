@@ -1,0 +1,160 @@
+\date{}
+\title{CSO2: Process API Continued}
+\date{}
+
+
+
+\begin{document}
+\input{../common/listingsLib}
+
+
+
+
+
+\begin{frame}{last time?}
+\begin{center}
+    \includegraphics[width=0.4\pagewidth]{fork.jpg}
+\end{center}
+\end{frame}
+\begin{frame}{last time?}
+\begin{center}
+    \includegraphics[width=0.7\pagewidth]{forkroad.jpg}
+\end{center}
+\end{frame}
+
+
+\input{../unix-api/fork}
+
+
+
+
+
+
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,fadings}
+
+\begin{frame}[fragile,label=typicalPatternQuestion]{common fork() paradigm}
+\begin{tikzpicture}
+\tikzset{
+    thread/.style={very thick,draw,decorate,decoration=snake},
+    split/.style={very thick,draw},
+    marker/.style={thin,draw},
+}
+\path[thread] (0, 0) --  (0, -.5);
+\node[anchor=south] at (0,0) {parent};
+\node[anchor=north] (fork mark) at (0, -.5) {fork};
+% \draw[thread] (fork mark.south) -- (0, -2) node[below] (wait start) {waitpid};
+% \draw[thread] (fork mark.south) -- (0, -5);
+\draw[very thick,dashed] (fork mark.south) -- (0, -5);
+\node (child start) at (9, -1.5) {child process};
+\path[split] (fork mark) --  (child start);
+\path[thread] (child start.south) -- (9, -2.5) node[below] (exec) {exec};
+\path[thread] (exec.south) -- ++(0, -2) coordinate (exec done);
+\node<2-> (wait) at (2, -3) {\myemph{Q: how to wait?}};
+\node<3-> (setup) at (11, -2.2) {\myemph{Q: how to setup?}};
+% \path[marker] (exec done) -- ++(.5, 0) node[right] {exit()};
+% \path[split,dotted] (exec done) -- (0, -6);
+% \draw[very thick,dashed] (wait start) -- (0, -6);
+% \path[thread] (0, -6) -- ++(0, -3);
+\end{tikzpicture}
+\begin{itemize}
+    \item<2-> parent process needs to wait for child process to finish
+    \item<3-> child process needs to setup environment before \texttt{exec()}
+\end{itemize}
+\end{frame}
+
+
+\input{../unix-api/processOverview}
+\againframe<5>{posixProcessFunctions}
+
+\input{../unix-api/wait}
+\input{../unix-api/wait-exit-status}
+
+\subsection{summary diagram}
+
+\input{../unix-api/fork-exec-wait-diag}
+
+\againframe<6>{posixProcessFunctions}
+
+\subsection{exercises (fork+exec+wait)}
+
+\input{../unix-api/fork-wait-ex}
+
+
+\section{shell features}
+\input{../unix-api/shell-features}
+
+\section{fd management}
+\subsection{I/O redirection: syntax, method preview}
+
+\againframe<4>{commandLineFeatures}
+
+\subsection{pipelines}
+
+\againframe<5>{commandLineFeatures}
+
+\section{files in POSIX, part 1}
+
+\subsection{interlude: file descriptors}
+
+\input{../unix-api/fds}
+
+\subsection{getting file descriptors}
+
+\input{../unix-api/open-quick}
+
+\subsection{special file descriptors}
+
+\input{../unix-api/special-fds}
+
+\subsection{close}
+
+\input{../unix-api/close}
+
+\subsection{Shell: redirection}
+
+\input{../unix-api/redirection}
+\input{../unix-api/redirection-exec}
+
+\input{../20250206/agenda}
+
+\subsection{dup2: redirection mechanism}
+
+\input{../unix-api/dup}
+
+\subsection{open/close/dup/fork and fd array}
+\input{../unix-api/dup-close-and-array}
+
+\subsection{shared/unshared seek pointers}
+\input{../unix-api/seek-ptr}
+
+\section{pipelines}
+
+\subsection{pipe}
+
+\input{../unix-api/pipe}
+
+\subsection{pipe example}
+\input{../unix-api/pipe-example}
+
+\subsection{pipe and pipelines}
+\input{../unix-api/pipe-pipelines}
+
+\subsection{pipe exercise}
+\input{../unix-api/pipe-extra-ex} % FIXME: formatting
+
+\section{POSIX api summary}
+\input{../unix-api/summary}
+
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../unix-api/fork-pcb}
+\input{../unix-api/talk-backup}
+
+
+
+\end{document}

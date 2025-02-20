@@ -1,0 +1,163 @@
+\date{}
+\title{CSO2: Caching}
+\date{}
+
+
+
+\begin{document}
+
+\usepgflibrary{shapes.gates.logic.mux}
+\input{../common/listingsLib}
+\input{../caching/cacheUtils}
+
+
+
+\input{../20250220/agenda}
+
+
+% \begin{frame}{last time?}
+% \begin{center}
+%     \includegraphics[width=0.4\pagewidth]{fork.jpg}
+% \end{center}
+% \end{frame}
+% \begin{frame}{last time?}
+% \begin{center}
+%     \includegraphics[width=0.7\pagewidth]{forkroad.jpg}
+% \end{center}
+% \end{frame}
+
+
+% \input{../unix-api/fork}
+
+
+
+\subsection{exercises: multi-level lookup}
+% % FIXME: \subsubsection{part 0}
+% % FIXME: \input{../vm/multiSplitExPt0}
+% \subsubsection{part 2}
+% \input{../vm/multiSplitExPt2}
+% \subsubsection{part 3}
+% \input{../vm/multiSplitExPt3}
+% \input{../vm/multiSplitExPt3b}
+% \subsubsection{part 4}
+% \input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+
+\begin{frame}{Building our toolkit}
+    \begin{itemize}
+        \item Access to system resources (e.g., files)
+            \begin{itemize}
+            \item system calls
+            \item user IDs and permissions
+            \end{itemize}
+
+        \item Handling events (e.g., timer firing) and sharing CPU
+            \begin{itemize}
+                \item exceptions
+                \item context switches
+            \end{itemize}
+
+        \item Creating new processes and shell operations
+            \begin{itemize}
+                \item fork(), exec()
+                \item file descriptors
+            \end{itemize}
+
+        \item Strict process isolation
+            \begin{itemize}
+                \item virtual memory
+            \end{itemize}
+
+        \item next: Increasing memory performance
+            \begin{itemize}
+                \item caching
+            \end{itemize}
+
+    \end{itemize}
+\end{frame}
+
+
+
+
+\section{caching intro}
+
+\subsection{memory hierarchy intro}
+\input{../caching/memHierarchyIntro}
+
+\subsection{locality}
+\input{../caching/localityBasics}
+
+\subsection{typical cache hierarchy}
+\input{../caching/cacheSplitID}
+
+\subsection{one-block cache}
+\input{../caching/oneBlockCache}
+
+\subsection{direct mapped caches}
+\input{../caching/directMappedIntro}
+
+\begin{frame}{terminology}
+    \begin{itemize}
+    \item row = set
+        \begin{itemize}
+        \item preview: change how much is in a row
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{tag/index/offset for direct mapped caches}
+\input{../caching/tioDMIntro}
+
+\subsubsection{aside: cache size}
+\begin{frame}{cache size}
+    \begin{itemize}
+    \item cache size = amount of \textit{data} in cache
+    \item not included metadata (tags, valid bits, etc.)
+    \end{itemize}
+\end{frame}
+
+\subsection{prelim. formulas}
+\input{../caching/tioDMFormulas}
+
+\subsection{tio for DM: exercise}
+\input{../caching/tioDmExercise}
+
+\subsection{simulating a direct mapped cache}
+\input{../caching/dmExampleAccess}
+
+\subsection{exercise: direct-mapped cache access}
+\input{../caching/dmAccessExercise}
+
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
+
+\subsection{cache misses on real code}
+\input{../caching/actMissesDM}
+
+\section{adding associativity}
+\input{../caching/addAssoc}
+
+\subsection{diagram}
+\input{../caching/addAssocOp}
+
+\subsection{options for replacement}
+\input{../caching/replacement}
+
+\subsection{associativity terms}
+\input{../caching/assocTerms}
+
+\subsection{tag/index/offset for set-assoc. caches}
+\input{../caching/tioFormulas}
+
+
+
+\end{document}
