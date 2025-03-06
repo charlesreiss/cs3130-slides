@@ -11,7 +11,43 @@
 \usetikzlibrary{calc}
 
 \begin{frame}{last time}
+    \begin{itemize}
+    \item set-associative caches
+        \begin{itemize}
+        \item multiple blocks per set (row)
+        \end{itemize}
+    \item replacement policies, LRU
+        \begin{itemize}
+        \item LRU = least recently used
+        \item updates on hits for LRU tracking
+        \item track order of accesses
+        \item approximate alternatives
+        \end{itemize}
+    \item alignment of values
+        \begin{itemize}
+        \item avoiding splitting accesses across blocks
+        \end{itemize}
+    \item relating cache misses to C code
+    \end{itemize}
 \end{frame}
+
+\begin{frame}{some logistics}
+    \begin{itemize}
+    \item cachelab due after break now 
+    \item probably will do some extra cache exercises in 9am lecture versus 12pm
+    \vspace{.5cm}
+    \item midterm graded
+        \begin{itemize}
+        \item note that we have some people taking the midterm various sorts of late
+        \item I'd like to have regrades/etc. submitted by Monday after break
+        \end{itemize}
+    \item policy: will decide overall score mapping to A/B/C/D at end of semester
+        \begin{itemize}
+        \item where we'll take into account exam/quiz/etc. difficulty
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
 
 \subsection{tag/index/offset for set-assoc. caches}
 \input{../caching/tioFormulas}
@@ -68,6 +104,27 @@
 
 \subsection{briefly, cache tradeoffs}
 \input{../caching/tradeoffsBrief}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
 
 \section{backup slides}
 \begin{frame}{backup slides}

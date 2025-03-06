@@ -89,3 +89,17 @@ index \& valid \& tag \& value \& ~ \& valid \& tag \& value \& ~\& LRU\\
     \end{scope}
 \end{tikzpicture}
 \end{frame}
+
+\begin{frame}{LRU w/ more than two ways?}
+    \begin{itemize}
+    \item need to track total order
+    \item worst case: bunch of new accesses to same set
+        \begin{itemize}
+        \item first replaces least recently used
+        \item next replaces next least recently used
+        \item etc.
+        \end{itemize}
+    \vspace{.5cm}
+    \item hard to track, so frequently only approximated
+    \end{itemize}
+\end{frame}
