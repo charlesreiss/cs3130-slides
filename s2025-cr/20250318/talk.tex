@@ -1,0 +1,98 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+\input{../caching/cacheUtils}
+
+\begin{frame}{last time [9:30am]}
+    \begin{itemize}
+    \item mapping C code to data cache accesses
+    \item conflicts and powers of two
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{last time [12:30pm]}
+    \begin{itemize}
+    \item set-associative caches
+        \begin{itemize}
+        \item multiple blocks per set
+        \item multiple direct-mapped caches `stapled together'
+        \item same tag / index / offset split
+        \item check \textit{each} valid bit + tag bit in set
+        \end{itemize}
+    \item least-recently used replacement policy
+        \begin{itemize}
+        \item extra state tracking
+        \item update cache on hits
+        \end{itemize}
+    \item mapping C code to data cache accesses
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{pagetable2 logistics}
+    \begin{itemize}
+    \item due \myemph{BEFORE FIRST LAB}
+    \item \myemph{late submissions not normally accepted}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{code review lab}
+    \begin{itemize}
+    \item lab attendance required
+        \begin{itemize}
+        \item if you cannot/should not attend, let us know
+        \end{itemize}
+    \item get feedback on your code from others
+        \begin{itemize}
+        \item them reading code on your screen, with you scrolling
+        \item organization / clarity / etc. feedback
+        \item not debugging
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{options for handling cache writes}
+\input{../caching/writePolicy}
+
+\subsection{exercise: write/replacement policies}
+\input{../caching/writeReplaceExercise}
+
+\subsection{fast writes: write buffers}
+\input{../caching/fastWrites}
+
+\subsection{briefly, cache tradeoffs}
+\input{../caching/tradeoffsBrief}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+\input{../threads/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
