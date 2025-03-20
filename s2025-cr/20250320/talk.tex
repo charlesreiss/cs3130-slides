@@ -1,0 +1,49 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+\usetikzlibrary{fit}
+\input{../caching/cacheUtils}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item write-allocate or not
+        \begin{itemize}
+        \item on cache miss on write, add it?
+        \end{itemize}
+    \item write-back or write-through
+        \begin{itemize}
+        \item wait until evicted (write-back) or immediately (write-through)
+        \end{itemize}
+    \item TLB: virtual page number (VPN) $\rightarrow$ page table entry cache
+        \begin{itemize}
+        \item one page table entry per block
+        \item VPN split into TLB tag and index
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+\input{../threads/talk-inner}
+
+\input{../sync/talk-locks}
+
+\input{../deadlock/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
