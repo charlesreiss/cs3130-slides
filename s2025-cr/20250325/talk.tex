@@ -1,0 +1,43 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item starting new threads --- pthread\_create
+    \item threads sharing address space
+    \item waiting for threads --- pthread\_join
+    \item passing values to/from threads
+        \begin{itemize}
+        \item shared global variables
+        \item using void * arguments
+        \item pointers to other stack/heap
+        \end{itemize}
+    \item preview: synchronization
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz note}
+    \begin{itemize}
+    \item Q2: shouldn't have done j += 4 (oops); doesn't affect answer
+    \vspace{.5cm}
+    \item I screwed up on Q4
+    \item impossible example virtual/physical address pair in question text
+    \end{itemize}
+\end{frame}
+
+\input{../sync/talk-locks}
+
+\input{../deadlock/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
