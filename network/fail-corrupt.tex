@@ -1,18 +1,32 @@
 \begin{frame}{message corrupted}
 \begin{itemize}
-\item instead of sending ``message''
+\item corruption: e.g., a bit flip
+	\begin{itemize}
+	\item sent: \texttt{I LIKE CATS} (\texttt{49204C494B452043415453})
+	\item recv: \texttt{I LIKE BATS} (\texttt{49204C494B4520\myemph{42}415453})
+	\end{itemize}
+\item instead of sending ``message'', send ``message'' + checksum
+	\begin{itemize}
+	\item checksum is some calculation using the original message
+	\item ex: checksum(\texttt{I LIKE CATS}) = 0xD9
+	\item send \texttt{49204C494B452043415453\myemph{D9}}
+	\end{itemize}
+% \vspace{.5cm}
+% \item say Hash(``message'') = 0xABCDEF12
+% \item then send ``0xABCDEF12,message''
 \vspace{.5cm}
-\item say Hash(``message'') = 0xABCDEF12
-\item then send ``0xABCDEF12,message''
-\vspace{.5cm}
-\item when receiving, recompute hash
-\item pretend message lost if does not match
+\item receiver then also computes the checksum with the same data
+	\begin{itemize}
+	\item if matches: keep the message
+	\item if does not match: pretend like the message was lost (i.e., drop the message)
+	\end{itemize}
+% \item pretend message lost if does not match
 \end{itemize}
 \end{frame}
 
-\begin{frame}{``checksum''}
-\begin{itemize}
-\item these hashes commonly called ``checksums''
-\item in UDP/TCP, hash function: treat bytes of messages as array of integers; then add integers together
-\end{itemize}
-\end{frame}
+% \begin{frame}{``checksum''}
+% \begin{itemize}
+% \item these hashes commonly called ``checksums''
+% \item in UDP/TCP, hash function: treat bytes of messages as array of integers; then add integers together
+% \end{itemize}
+% \end{frame}

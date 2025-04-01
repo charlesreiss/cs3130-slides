@@ -16,10 +16,10 @@
         \node[draw,cloud,line width=1pt,minimum width=4cm,minimum height=1cm,aspect=3,
                 alt=<2>{red,thick}] (network) at (0,0) {the network};
         \node[comp box] (machine B) at (6.5, 0) {machine \\ B};
-        \draw[very thick,->] (machine A) -- (network) 
+        \draw[very thick,->] (machine A) -- (network)
             node[alt=<1>{red},midway,above,msg] {B: ``Hello''}
             node[pos=0.0,below right,cmd] {Send(B, ``Hello'')};
-        \draw[very thick,<-] (machine B) -- (network) 
+        \draw[very thick,<-] (machine B) -- (network)
             node[midway,above,msg] {B: ``Hello''}
             node[pos=0.0,below left,cmd] {Recv() = ``Hello''};
         % FIXME: hilite network: knows how to get message to particular place
@@ -66,12 +66,16 @@
 \begin{frame}{connections over mailboxes}
     \begin{itemize}
     \item real Internet: mailbox-style communication
-    \item send ``letters'' (packets) to particular mailboxes
-    \item have ``envelope'' (header) saying where they go
+        \begin{itemize}
+        \item send ``letters'' (packets) to particular mailboxes
+        \item have ``envelope'' (header) saying where they go
+        \end{itemize}
     \vspace{.5cm}
     \item ``best-effort''
-    \item no guarantee on order, when received
-    \item no guarantee on \textit{if} received
+        \begin{itemize}
+        \item no guarantee on order, when received
+        \item no guarantee on \textit{if} received
+        \end{itemize}
     \item sockets implemented on top of this
     \end{itemize}
 \end{frame}

@@ -1,0 +1,15 @@
+\begin{frame}{connections in TCP/IP}
+    \begin{itemize}
+    \item connection identified by \textit{4-tuple}
+        \begin{itemize}
+        \item used by OS to lookup ``where is the socket?''
+        \end{itemize}
+    \item \small(local IP address, local port, remote IP address, remote port)
+    \vspace{.5cm}
+    \item local IP address, port number can be set with \texttt{bind()} function
+        \begin{itemize}
+        \item \textit{typically} always done for servers, not done for clients
+        \item system will choose default if you don't
+        \end{itemize}
+    \end{itemize}
+\end{frame}

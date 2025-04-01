@@ -1,12 +1,42 @@
 
 
 
-\section{recall: sockets}
+\section{intro}
 
-\begin{frame}{recall: sockets}
+\begin{frame}{The Internet}
     \begin{itemize}
-    \item open connection then \ldots \\
-    \item read+write just like a terminal file
+    \item Perhaps the most successful computer application ever
+    \item Can you name a computer program that doesn't use the internet?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\begin{center}
+\includegraphics[width=0.8\pagewidth]{internet_users.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{}
+\begin{center}
+\includegraphics[width=0.8\pagewidth]{internet_reasons.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{}
+\begin{center}
+\includegraphics[width=0.8\pagewidth]{internet_data.png}
+\end{center}
+\end{frame}
+
+
+\section{sockets}
+
+\begin{frame}{sockets is the de-facto API for networking}
+    \begin{itemize}
+    \item open connection then \ldots
+        \begin{itemize}
+        \item read+write just like a terminal file
+        \end{itemize}
     \vspace{.5cm}
     \item doesn't look like individual messages
     \item ``connection abstraction''
@@ -29,6 +59,18 @@
 
 \section{handling network failures}
 \againframe<2>{layerOverview}
+
+\begin{frame}{reality: you don't own the network!}
+    \begin{itemize}
+    \item the internet is a series of connected networks
+    \item packets traverse routers within and between networks
+    \item those networks provide ``best-effort'' service
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=0.4\pagewidth]{network-of-network}
+    \end{center}
+\end{frame}
+
 \input{../network/network-fail-kinds}
 
 \subsection{acknowledgments}
@@ -54,22 +96,29 @@
 \subsection{checksums}
 \againframe<5>{netFailTypes}
 \input{../network/fail-corrupt}
-    % FIXME: exercise: 
+    % FIXME: exercise:
 
 \subsection{aside: going faster}
 \input{../network/split-faster}
 
+\subsection{UDP v TCP}
+\input{../network/udp-v-tcp}
+
 \section{layers, revisited}
 \againframe<3>{layerOverview}
-\input{../network/layers-weird}
+% \input{../network/layers-weird}
+
 
 \section{addresses versus names}
+\input{../network/mailbox-names}
 \input{../network/names-and-addresses}
 
 
-\section{a frame example}
-\againframe<4>{layerOverview}
-\input{../network/example-frame}
+% \section{a frame example}
+% \againframe<4>{layerOverview}
+% \input{../network/example-frame}
+
+
 
 \section{IP}
 % FIXME: example sending message multiple hop
@@ -85,8 +134,8 @@
 \subsection{routing idea}
 \input{../network/routing}
 
-\subsection{special addresses}
-\input{../network/ipv4-special}
+% \subsection{special addresses}
+% \input{../network/ipv4-special}
 
 \section{TCP/UDP}
 \againframe<6>{layerOverview}
@@ -94,11 +143,11 @@
 \subsection{port numbers}
 \input{../network/port-num}
 
-\subsection{UDP v TCP}
-\input{../network/udp-v-tcp}
+
 
 \subsection{OS tracking connections}
-\input{../network/conn-netstat}
+% \input{../network/conn-netstat}
+\input{../network/conn-tcp}
 
 \section{DNS}
 \againframe<2>{nameAndAddr}
@@ -107,9 +156,12 @@
 \subsection{URLs and URIs}
 \input{../network/urls}
 
+\subsection{HTTP}
+\input{../network/http}
 
-\section{DHCP and IPv6 autoconfig}
-\input{../network/dhcp-etc}
+
+% \section{DHCP and IPv6 autoconfig}
+% \input{../network/dhcp-etc}
 
 \section{NAT}
 \input{../network/nat}

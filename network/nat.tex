@@ -1,29 +1,58 @@
-\begin{frame}{network address translation}
+
+
+\begin{frame}{why IPv4 \textit{and} IPv6?}
 \begin{itemize}
-\item IPv4 addresses are kinda scarce
-\item solution: \textit{convert} many private addrs. to one public addr.
+\item ran out of IPv4 addresses
+    \begin{itemize}
+    \item $2^{32}$ \textit{seemed} like a lot of addresses
+    \item now there are more internet \textit{users} than addresses
+    \end{itemize}
+\item<2-> possible solutions:
+    \begin{enumerate}
+    \item<2-> IPv6: use more bits for addresses, enough to never run out
+    \item<3-> NAT: user one IPv4 address for an entire network of devices
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{NAT: network address translation}
+\begin{itemize}
+\item \textit{convert} many private addrs. to one public addr.
 \item locally: use private IP addresses for local addresses
 \item outside: private IP addresses become a single public one
 \item commonly how home networks work (and some ISPs)
+\item certain IPv4 address blocks reserved for private/internal use
+    \begin{itemize}
+    \item \texttt{192.168.X.X}
+    \item \texttt{172.16.X.X}
+    \end{itemize}
 \end{itemize}
 \end{frame}
+
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,shapes.misc}
+\usetikzlibrary{arrows.meta,shapes.symbols,shapes.multipart,calc}
 
 \begin{frame}{NAT idea}
 \begin{tikzpicture}
 \tikzset{network/.style={draw,very thick,cloud,aspect=2}}
-\node[align=center,network] (outside) at (0, 0){external};
-\node[draw,very thick,minimum height=2cm,align=center](router) at (5, 0) {
-    router \\
-    {\fontsize{9}{10}\tt 203.0.113.43} \\
-    {\fontsize{9}{10}\tt 192.168.1.1} 
-};
-\node[align=center,network] (inside) at (9.5, 0){internal\\\fontsize{9}{10}\tt 192.168.1.*};
+% \draw[help lines] (0,0) grid (16,2);
+\draw[dotted,thick,draw=white] (0,-1) -- (0,1);
+\node[align=center,network] (inside) at (5, 0){internal\\\fontsize{9}{10}\tt 192.168.1.*};
 \foreach \x/\v in {2/2, 1/3, 0/4, -1/5, -2/6} {
     \node[draw,very thick,circle,
-        label={[overlay,font=\fontsize{8}{9}\selectfont]right:192.168.1.\v}
-    ] (i-\x) at (12, \x) {};
+        label={[overlay,font=\fontsize{8}{9}\selectfont]left:192.168.1.\v}
+    ] (i-\x) at (2, \x) {};
     \draw (inside) -- (i-\x);
 }
+\node[draw,very thick,minimum height=2cm,align=center](router) at (9, 0) {
+    router \\
+    {\fontsize{9}{10}\tt 203.0.113.43} \\
+    {\fontsize{9}{10}\tt 192.168.1.1}
+};
+\node[align=center,network] (outside) at (13, 0){external};
+
+
+
 \begin{pgfonlayer}{bg}
 \begin{scope}[line width=1mm,black!50]
     \draw (outside) -- (router);
@@ -33,11 +62,11 @@
 \tikzset{
     box/.style={draw,ultra thick,align=center,fill=white,font=\fontsize{13}{14}\selectfont}
 }
-\node[box] (before) at ([yshift=-3cm]$(outside.east)!0.3!(router)$) {
-    1.2.3.4:443 \\ $\rightarrow$ \\ \myemph{203.0.113.43}:54923
+\node[box] (before) at ([yshift=-3cm]$(inside.east)!0.3!(router.west)$) {
+   \myemph{192.168.1.4}:39129 \\ $\rightarrow$ \\ 1.2.3.4:443
 };
-\node[box] (after) at ([yshift=-3cm]$(router)!0.8!(inside.west)$) {
-    1.2.3.4:443 \\ $\rightarrow$ \\ \myemph{192.168.1.4}:39129
+\node[box] (after) at ([yshift=-3cm]$(router.east)!0.7!(outside.west)$) {
+    \myemph{203.0.113.43}:54923 \\ $\rightarrow$ \\  1.2.3.4:443
 };
 \draw[dotted,thick] (before.north) -- (before.north |- outside.east);
 \draw[dotted,thick] (after.north) -- (after.north |- outside.east);
