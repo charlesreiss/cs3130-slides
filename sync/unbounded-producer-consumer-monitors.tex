@@ -7,10 +7,10 @@
     morekeywords=pthread_mutex_t,
     morekeywords=pthread_cond_t,
     morekeywords=UnboundedQueue,
-    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}}, 
-    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}}, 
-    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}}, 
-    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}}, 
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5-,3|handout:5-,3>]{@5}{5@}},
     escapeinside=XX,
 ]
 pthread_mutex_t lock;
@@ -47,21 +47,21 @@ Consume() {
             rule: never touch \texttt{buffer} \\
             without acquiring lock \\
             ~ \\
-            otherwise: what if two threads \\ simulatenously en/dequeue?  \\
+            otherwise: what if two threads \\ simultaneously en/dequeue?  \\
             {\small (both use same array/linked list entry?)} \\
-            {\small (both reallocate array?)} 
+            {\small (both reallocate array?)}
         };
     \end{visibleenv}
     \begin{visibleenv}<3>
         \node [box lower] {
-            check if empty \\
+            check if not empty \\
             if so, dequeue \\
             ~ \\
             okay because have lock
         };
         \draw[<-,very thick,draw=red] (pic cs:after loop) -- ++(6cm,0cm) node[right,align=left] {
             other threads can\textbf{not} dequeue here
-        }; 
+        };
     \end{visibleenv}
     \begin{visibleenv}<4>
         \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:signal) -- ++(2cm,0cm) node[right,align=left] {
@@ -114,8 +114,8 @@ Consume() {
                 \& \ldots lock \\
                 \& |[fill=red!20]| \ldots empty? yes \\
                  \& \ldots unlock/start wait \\
-                Produce() \& ~\\ 
-                \ldots lock \\ 
+                Produce() \& ~\\
+                \ldots lock \\
                 \ldots enqueue \& ~\\
                 \ldots signal \& stop wait \\
                 \ldots unlock \& lock \\
@@ -139,7 +139,7 @@ Consume() {
                 \& \ldots lock \\
                 \& |[fill=red!20]| \ldots empty? yes \\
                  \& \ldots unlock/start wait \\
-                Produce() \& ~ \\ 
+                Produce() \& ~ \\
                 \ldots lock \& \& Consume() \\
                 \ldots enqueue \& ~ \& ~ \\
                 |[alias=two signal]| \ldots signal \& |[alias=two stop wait]| stop wait \& ~ \\
@@ -164,11 +164,11 @@ Consume() {
             \begin{visibleenv}<8>
                 \node[draw=red,thick,inner sep=0mm,fit=(two signal) (two stop wait)] (mark stop wait) {};
                 \draw[thick,red,<-] (mark stop wait.west) -- ++(-1cm,0cm) node[draw=red,text=black,font=\small,left,fill=white,align=right] {
-                    in pthreads: signalled thread not \\
-                    gaurenteed to hold lock next \\
+                    in pthreads: signaled thread not \\
+                    guaranteed to hold lock next \\
                     ~ \\
                     alternate design: \\
-                    signalled thread gets lock next \\
+                    signaled thread gets lock next \\
                     called ``Hoare scheduling'' \\
                     not done by pthreads, Java, \ldots
                 };
