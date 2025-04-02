@@ -3,9 +3,9 @@
     \item A$\rightarrow$B: Did you order lunch? [signature 1 by A]
         \begin{itemize}
             \item signature 1 by A = Sign(A's private signing key, ``Did you order lunch?'')
-            \item will check with Verify(A's public key, signature 1 by A, ``Did you order lunch?'')
+            \item check with Verify(A's public key, signature 1 by A, ``Did you order lunch?'')
         \end{itemize}
-    \item B$\rightarrow$A: Yes. [signature 1 by B]  
+    \item B$\rightarrow$A: Yes. [signature 1 by B]
         \begin{itemize}
             \item signature 1 by B = Sign(B's private key, ``Yes.'')
             \item will check with Verify(B's public key, signature 1 by B, ``Yes.'')
@@ -14,7 +14,7 @@
      B$\rightarrow$A: No, not this time. [signature 2 by B]  \\ \ldots \\
      A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A]
     \vspace{.5cm}
-    \item so attacker can't manipulate/forge messages, everything's okay?
+    \item since attacker can't forge signed messages, everything's okay?
     \end{itemize}
 \end{frame}
 
@@ -25,10 +25,10 @@
           A$\rightarrow$B: Vegetarian? [signature 2 by A] \\
           B$\rightarrow$A: No, not this time. [signature 2 by B] \\
           \ldots \\
-          A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? by A]
-    \item how can attacker hijack the reponse to A's inquiry?
+          A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A]
     \vspace{.5cm}
-    \item<2-> as an attacker, I can copy/paste B's earlier message!
+    \item how can attacker hijack the reponse to A's inquiry?
+    \item<2-> \myemph<2>{as an attacker, I can copy/paste B's earlier message!}
         \begin{itemize}
         \item just keep the same signature, so it can be verified!
         \item Verify(B's public key, ``Yes.'', signature 2 from B) = 1
@@ -37,10 +37,10 @@
 \end{frame}
 
 
-\begin{frame}{nonces (1)}
+\begin{frame}{nonces}
     \begin{itemize}
     \item one solution to replay attacks:
-    \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signature 1 from A] 
+    \item A$\rightarrow$B: \myemph{\#1} Did you order lunch? [signature 1 from A]
         \begin{itemize}
         \item signature from A = Sign(A's private key, ``\myemph{\#1} Did you order lunch?'')
         \end{itemize}
@@ -48,34 +48,34 @@
     A$\rightarrow$B: \myemph{\#2} Vegetarian? [signature 2 from A] \\
     B$\rightarrow$A: \myemph{\#2} No, not this time. [signature 2 from B] \\
     \ldots \\
-    A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? from A] \\
+    A$\rightarrow$B: \myemph{\#54} There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ from A] \\
     \vspace{.5cm}
     \item (assuming A actually checks the numbers)
     \end{itemize}
 \end{frame}
 
-\begin{frame}{nonces (2)}
-    \begin{itemize}
-    \item another solution to replay attacks:
-    \item B$\rightarrow$A: [next number \myemph{\#91523}] [signature from B] \\
-    A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signature from A] \\
-    B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signature from B] \\
-    \ldots \\
-    A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number \myemph{\#36129}][signature from A] 
-    \vspace{.5cm}
-    \item (assuming A actually checks the numbers)
-    \end{itemize}
-\end{frame}
+% \begin{frame}{nonces (2)}
+%     \begin{itemize}
+%     \item another solution to replay attacks:
+%     \item B$\rightarrow$A: [next number \myemph{\#91523}] [signature from B] \\
+%     A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signature from A] \\
+%     B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signature from B] \\
+%     \ldots \\
+%     A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number \myemph{\#36129}][signature from A]
+%     \vspace{.5cm}
+%     \item (assuming A actually checks the numbers)
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}{replay attacks (alt)}
     \begin{itemize}
     \item M$\rightarrow$B: \#50 Did you order lunch? [signature by M] \\
           B$\rightarrow$M: \#50 Yes. [signature intended for M by B]  \\
     \hrule
-    \item A$\rightarrow$B: \#50 There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature ? by A]
-    \item how can M hijack the reponse to A's inquiry?
+    \item<2-> A$\rightarrow$B: \#50 There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A]
     \vspace{.5cm}
-    \item<2-> as an attacker, I can copy/paste B's earlier message!
+    \item<2-> how can M hijack the response to A's inquiry?
+    \item<3-> \myemph<3>{as an attacker, I can copy/paste B's earlier message!}
         \begin{itemize}
         \item just keep the same signature, so it can be verified!
         \item Verify(B's public key, ``\#50 Yes.'', signature intended for M by B) = 1
@@ -83,17 +83,17 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{confusion about who's sending?}
-    \begin{itemize}
-    \item in addition to nonces, either
-        \begin{itemize}
-        \item write down more who is sending + other context so message can't be reused and/or
-        \item use unique set of keys for each principal you're talking to
-        \end{itemize}
-    \vspace{.5cm}
-    \item with symmetric encryption, also ``reflection attacks''
-        \begin{itemize}
-        \item A sends message to B, attacker sends A's message back to A as if it's from B
-        \end{itemize}
-    \end{itemize}
-\end{frame}
+% \begin{frame}{confusion about who's sending?}
+%     \begin{itemize}
+%     \item in addition to nonces, either
+%         \begin{itemize}
+%         \item write down more who is sending + other context so message can't be reused and/or
+%         \item use unique set of keys for each principal you're talking to
+%         \end{itemize}
+%     \vspace{.5cm}
+%     \item with symmetric encryption, also ``reflection attacks''
+%         \begin{itemize}
+%         \item A sends message to B, attacker sends A's message back to A as if it's from B
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}

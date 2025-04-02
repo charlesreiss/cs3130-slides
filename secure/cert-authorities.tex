@@ -1,23 +1,38 @@
-\begin{frame}{getting public keys?}
+\begin{frame}{how does A know B's $K_{pub}$ is \textit{actually} B's?}
     \begin{itemize}
-    \item browser talking to websites \\
-    needs public keys of every single website?
-    \vspace{.5cm}
-    \item not really feasible, but\ldots
+    \item if A asks B for B's public key, M could send M's key instead
+    \vspace{0.5em}
+    \item could try to verify somehow
+        \begin{itemize}
+        \item e.g., call them on the phone, visit in person
+        \item not scalable to do for every website
+        \end{itemize}
+    \vspace{0.5em}
+    \item<2> \myemph<2>{need some way to delegate trust}
     \end{itemize}
 \end{frame}
+
+
+% \begin{frame}{getting public keys?}
+%     \begin{itemize}
+%     \item browser talking to websites \\
+%     needs public keys of every single website?
+%     \vspace{.5cm}
+%     \item not really feasible, but\ldots
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}{certificate idea}
     \begin{itemize}
         \item let's say A has B's public key already.
         \item if C wants B's public key and knows A's already:
             \vspace{.5cm}
-        \item \myemph<2>{A can generate ``certificate'' for B}:
+        \item \myemph<2>{A can generate a ``certificate'' certifying B's public key}:
             \begin{itemize}
-            \item ``B's public key is XXX'' AND
+            \item ``B's public key is XXX'' \textbf{AND}
             \item Sign(A's private key, ``B's public key is XXX'')
             \end{itemize}
-        \item \myemph<3>{B send copy of their ``certificate'' to C} (most common idea)
+        \item \myemph<3>{B sends a copy of this ``certificate'' to C}
         \item if C trusts A, now C has B's public key
             \begin{itemize}
             \item if C does not trust A, well, can't trust this either
@@ -31,9 +46,9 @@
     \item certificate authorities sign messages like: \\
         ``The public key for foo.com is XXX.''
     \item signed message called \textit{certificate}
-    \item send certificates to browsers to verify identity
+    \item browsers use the certificates to verify website identity
         \begin{itemize}
-        \item \myemph<2>{website can forward certificate instead of browser contacting CA directly}
+        \item website can forward certificate instead of browser contacting CA directly
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -85,21 +100,30 @@ Signature Value:
 \end{Verbatim}
 \end{frame}
 
-\begin{frame}{certificate chains}
+\begin{frame}{certificate chains (CA = certificate authority)}
     \begin{itemize}
-    \item That certificate signed by ``InCommon RSA Server CA''
-    \item CA = certificate authority
-    \vspace{.5cm}
-    \item so their public key, comes with my OS/browser?
+    \item \texttt{canvas.its.virginia.edu} has a valid certificate
         \begin{itemize}
-        \item not exactly\ldots
+        \item that certificate is signed by ``InCommon RSA Server CA''
         \end{itemize}
-    \item they have their own certificate signed by ``USERTrust RSA Certification Authority''
-    \item and their public key comes with your OS/browser?
+    \item<2-> but, why do we trust that certificate?
+    \item<3-> well, \textit{their} certificate is signed by ``USERTrust RSA Certification Authority''
+    \item<4-> ok, but why do we trust \textit{their} certificate?
     \vspace{.5cm}
-    \item (but both CAs now operated by UK-based Sectigo)
+    \item<5-> \myemph<5>{trusted public keys hardcoded in OS/browser}
+    % \item so their public key, comes with my OS/browser?
+    %     \begin{itemize}
+    %     \item not exactly\ldots
+    %     \end{itemize}
+    % \item they have their own certificate signed by ``USERTrust RSA Certification Authority''
+    % \item and their public key comes with your OS/browser?
+    % \vspace{.5cm}
+    % \item (but both CAs now operated by UK-based Sectigo)
     \end{itemize}
 \end{frame}
+
+
+
 \usetikzlibrary{fit}
 \begin{frame}{certificate hierarchy}
 \begin{tikzpicture}
@@ -204,6 +228,10 @@ Signature Value:
             \item 237 trust anchors
             \item operated by 86 distinct entities
         \end{itemize}
+    \item Google Chrome (as of 02 Apr 2025)
+        \begin{itemize}
+            \item 134 trust anchors
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
@@ -215,7 +243,7 @@ Signature Value:
         \vspace{.5cm}
     \item several of these:
         \begin{itemize}
-        \item for verifying identity of websites 
+        \item for verifying identity of websites
         \item for verifying origin of domain name records (kind-of)
         \item for verifying origin of applications in some OSes/app stores/etc.
         \item for encrypted email in some organizations

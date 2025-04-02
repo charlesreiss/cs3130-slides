@@ -1,15 +1,14 @@
 \begin{frame}{calling things encryption}
     \begin{itemize}
-    \item in this class, \textit{(symmetric) encryption} means condidentiality but not authenticity
+    \item in this class, \textit{(symmetric) encryption} means confidentiality but not authenticity
         \begin{itemize}
-        \item has malleability problme
+        \item has malleability problem: attacker can generate a new, valid ciphertext without knowing \texttt{key}.
         \end{itemize}
     \item matches most common thing a library calls encryption
     \vspace{.5cm}
-    \item but, sometimes encryption will be\ldots
+    \item but, sometimes encryption will be ``authenticated encryption''
         \begin{itemize}
-        \item ``authenticated encryption'' = encryption + message authentication code, or
-        \item some lower level tool (similar to $f$ function earlier) that needs extra steps to provide confidentiality
+        \item encryption + message authentication code
         \end{itemize}
     \end{itemize}
 \end{frame}

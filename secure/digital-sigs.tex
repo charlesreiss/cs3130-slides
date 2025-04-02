@@ -1,6 +1,6 @@
 \begin{frame}{digital signatures}
 
-symmetric encryption : asymetric encryption :: \\
+symmetric encryption : asymmetric encryption :: \\
 message authentication codes : digital signatures
 \end{frame}
 
@@ -9,9 +9,9 @@ message authentication codes : digital signatures
     \item pair of functions:
         \begin{itemize}
         \item sign: $S(\text{private key}, \text{message}) = \text{signature}$
-        \item verify: $V(\text{public key}, \text{signature}, \text{message}) = 1$ (``yes, correct signature'') 
+        \item verify: $V(\text{public key}, \text{signature}, \text{message}) = 1$ (``yes, correct signature'')
         \end{itemize}
-    \item (public key, private key) = key pair (similar to asymmetric encryption)
+    \item (public key, private key) = key pair
         \begin{itemize}
         \item public key can be shared with everyone
         \item knowing $S$, $V$, $\text{public key}$, $\text{message}$, $\text{signature}$ \\
@@ -21,7 +21,7 @@ message authentication codes : digital signatures
     \end{itemize}
 \end{frame}
 
-\begin{frame}{using?}
+\begin{frame}{using digital signatures}
     \begin{itemize}
     \item in advance: A generates private key + public key
     \item in advance: A sends public key to B (and maybe others) securely

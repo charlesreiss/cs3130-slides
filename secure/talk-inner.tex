@@ -12,9 +12,11 @@
 
 \subsection{symmetric encryption}
 \input{../secure/sym-encrypt}
+% \input{../secure/secrecy-properties}
+\input{../secure/sym-encrypt-process}
 
-\subsection{motivation: need for authentication}
-\input{../secure/encrypt-not-enough}
+% \subsection{motivation: need for authentication}
+% \input{../secure/encrypt-not-enough}
 
 \subsection{aside: terminology}
 \input{../secure/aside-what-encrypt}
@@ -38,35 +40,32 @@
 
 \input{../secure/digital-sigs}
 
-\section{encryption + authentication pitfalls}
-
-\input{../secure/protocol-oops}
+% \section{encryption + authentication pitfalls}
+% \input{../secure/protocol-oops}
 
 \subsection{replay attacks}
-
 \input{../secure/replay-attacks}
 
 
-\subsection{other attacks}
+% \subsection{other attacks}
 
-\begin{frame}{other attacks without breaking math}
-\end{frame}
+% \begin{frame}{other attacks without breaking math}
+% \end{frame}
 
-\input{../secure/other-attacks}
+% \input{../secure/other-attacks}
 
-\section{on the lab}
-\begin{frame}{on the lab}
-\end{frame}
+% \section{on the lab}
+% \begin{frame}{on the lab}
+% \end{frame}
 
 \section{certificate authorities}
-
 \input{../secure/cert-authorities}
 
-\subsection{how certificates verified}
-\input{../secure/cert-auth-verified}
+% \subsection{how certificates verified}
+% \input{../secure/cert-auth-verified}
 
 \section{preview: additional tools}
-\begin{frame}{additional crypto tools}
+\begin{frame}{additional crypto tools needed for web security}
     \begin{itemize}
     \item cryptographic hash functions (summarize data)
     \item `secure' random numbers
@@ -79,21 +78,20 @@
 % FIXME: hashes
 \input{../secure/crypto-hash}
 
-\subsection{password hashing}
-
-\input{../secure/pass-hash}
+% \subsection{password hashing}
+% \input{../secure/pass-hash}
 
 \section{random numbers}
 \input{../secure/random-numbers}
 
 \section{key agreement}
-
 \input{../secure/key-agreement}
 
-\subsection{aside: key agreement to public key encrypt}
-\input{../secure/key-agree-pubkey}
+% \subsection{aside: key agreement to public key encrypt}
+% \input{../secure/key-agree-pubkey}
 
 \section{putting it together: TLS}
+\input{../secure/tls}
 
 \subsection{handshake}
 \input{../secure/tls-handshake-summary}
@@ -103,6 +101,34 @@
 
 \subsection{TLS properties}
 \input{../secure/tls-handshake-props}
+
+
+
+\subsection{summary}
+\input{../secure/summary}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{encryption + authentication pitfalls}
+\input{../secure/protocol-oops}
+
+
+\subsection{other attacks}
+\begin{frame}{other attacks without breaking math}
+\end{frame}
+\input{../secure/other-attacks}
+
+
+\subsection{how certificates verified}
+\input{../secure/cert-auth-verified}
+
+\subsection{password hashing}
+\input{../secure/pass-hash}
+
+\subsection{aside: key agreement to public key encrypt}
+\input{../secure/key-agree-pubkey}
 
 \section{misc. security issues}
 
@@ -116,10 +142,3 @@
 \subsection{firewalls} % FIXME: complete
 \input{../network/firewalls}
 % FIXME: update readings to mention IPv6 equivalent
-
-\subsection{summary}
-\input{../secure/summary}
-
-\section{backup slides}
-\begin{frame}{backup slides}
-\end{frame}

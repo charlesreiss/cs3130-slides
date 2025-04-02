@@ -11,19 +11,36 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{bootstrapping keys?}
+% \begin{frame}{bootstrapping keys?}
+%     \begin{itemize}
+%     \item will still need to have some sort of secure communication to setup!
+%     \item because we need some way to know we aren't talking to attacker
+%     \item<2-> but\ldots
+%     \vspace{.5cm}
+%     \item<3-> \myemph<3>{can be broadcast communication}
+%         \begin{itemize}
+%         \item don't need full new sets of keys for each web browser
+%         \end{itemize}
+%     \item<4-> \myemph<4>{only with smaller number of trusted authorities}
+%         \begin{itemize}
+%         \item don't need to have keys for every website in advance
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}
+
+
+\begin{frame}{alternative encryption scheme}
     \begin{itemize}
-    \item will still need to have some sort of secure communication to setup!
-    \item because we need some way to know we aren't talking to attacker
-    \item<2-> but\ldots
+    \item want to avoid needing to pre-share secret keys
     \vspace{.5cm}
-    \item<3-> \myemph<3>{can be broadcast communication}
+    \item but, ok making some sacrifices:
+    \item<2-> \myemph<2>{confidentiality in only one direction}
         \begin{itemize}
-        \item don't need full new sets of keys for each web browser
+        \item e.g., one set of keys only enables secure communication from A $\rightarrow$ B
         \end{itemize}
-    \item<4-> \myemph<4>{only with smaller number of trusted authorities}
+    \item<3-> \myemph<3>{slower performance}
         \begin{itemize}
-        \item don't need to have keys for every website in advance
+        \item encryption and decryption can take longer than symmetric encryption
         \end{itemize}
     \end{itemize}
 \end{frame}

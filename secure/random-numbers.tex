@@ -33,21 +33,21 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{turning `entropy' into random bytes}
-    \begin{itemize}
-    \item lots of ways to do this; one (rough/incomplete) idea:
-    \item internal variable \textit{state}
-    \item to add `entropy'
-        \begin{itemize}
-        \item state $\leftarrow$ SecureHash(state + entropy)
-        \end{itemize}
-    \item to extract value:
-        \begin{itemize}
-        \item random bytes $\leftarrow$ SecureHash(1 + state) \\
-            \small give bytes that can't be reversed to compute state
-                \vspace{.5cm}
-        \item state $\leftarrow$ SecureHash(2 + state) \\
-            \small change state so attacker can't take us back to old state if compromised
-        \end{itemize}
-    \end{itemize}
-\end{frame}
+% \begin{frame}{turning `entropy' into random bytes}
+%     \begin{itemize}
+%     \item lots of ways to do this; one (rough/incomplete) idea:
+%     \item internal variable \textit{state}
+%     \item to add `entropy'
+%         \begin{itemize}
+%         \item state $\leftarrow$ SecureHash(state + entropy)
+%         \end{itemize}
+%     \item to extract value:
+%         \begin{itemize}
+%         \item random bytes $\leftarrow$ SecureHash(1 + state) \\
+%             \small give bytes that can't be reversed to compute state
+%                 \vspace{.5cm}
+%         \item state $\leftarrow$ SecureHash(2 + state) \\
+%             \small change state so attacker can't take us back to old state if compromised
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}

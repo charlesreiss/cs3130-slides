@@ -27,37 +27,3 @@
     \item ``hard'' $\approx$ would have to try every possible key
     \end{itemize}
 \end{frame}
-
-
-\begin{frame}{secrecy properties}
-    \begin{itemize}
-    \item actually that's not secret enough, usually want to resist \\
-        recovery of info about message \myemph<2>{or key} even given\ldots
-    \vspace{.5cm}
-    \item \myemph<3>{partial info about the message}, or
-    \item \myemph<4>{lots of other (message, ciphertext) pairs}, or
-        \begin{itemize}
-        \item ``known plaintext''
-        \end{itemize}
-    \item lots of (message, ciphertext) pairs for \textit{\myemph<5>{other messages the attacker chooses}}, or
-        \begin{itemize}
-        \item ``chosen plaintext''
-        \end{itemize}
-    \item lots of (message, ciphertext) pairs encrypted under similar keys, or
-        \begin{itemize}
-        \item ``related key''
-        \end{itemize}
-    \item \ldots
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{using?}
-    \begin{itemize}
-    \item in advance: A and B share encryption key
-    \vspace{.5cm}
-    \item A computes $E$(key, `The secret formula is\ldots') = ***
-    \item send on network: \\
-    A $\rightarrow$ B: ***
-    \item<2-> B computes $D$(key, ***) = `The secret formula is \ldots'
-    \end{itemize}
-\end{frame}

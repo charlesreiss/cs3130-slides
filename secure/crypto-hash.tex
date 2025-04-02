@@ -1,4 +1,4 @@
-\begin{frame}{motivation: summary for signature}
+\begin{frame}{motivation for hashes: summary for signature}
     \begin{itemize}
     \item digital signatures typically have size limit
     \item \ldots but we want to sign very large messages
@@ -11,20 +11,15 @@
     \begin{itemize}
     \item hash(M) = X
     \vspace{.5cm}
-    \item given X:
-        \begin{itemize}
-        \item hard to find message other than by guessing
-        \end{itemize}
-    \item given X, M:
-        \begin{itemize}
-        \item hard to find second message so that hash(second message) = X
-        \end{itemize}
+    \item given X: hard to find message other than by guessing
+    \item given X, M: hard to find second message so that hash(second message) = X
     \vspace{.5cm}
     \item example uses:
         \begin{itemize}
         \item substitute for original message in digital signature
         \item building message authentication codes
         \end{itemize}
+    \item example algorithm: SHA256
     \end{itemize}
 \end{frame}
 
