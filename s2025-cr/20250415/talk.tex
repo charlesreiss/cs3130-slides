@@ -1,0 +1,96 @@
+\date{}
+\title{}
+\date{}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+\input{../pipeline/pipePicUtils}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item single-cycle processor design
+    \item pipelining idea
+        \begin{itemize}
+        \item A in stage 3 while B in stage 2 while C in stage 1
+        \item increased throughput (rate of starting/finishing/etc.)
+        \item increased latency (time from beginning to end)
+        \end{itemize}
+    \item control hazards --- can't compute jump target in time
+        \begin{itemize}
+        \item branch prediction --- guess next instruction, undo guess later if found wrong
+        \end{itemize}
+    \item data hazards --- don't have value (in register) in time
+        \begin{itemize}
+        \item stalling --- delay instructions until value ready
+        \item forwarding --- send computed value from elsewhere in pipeline
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz Q2D}
+    \begin{itemize}
+    \item client thinks student attempted to add different course
+    \item problem: digital signature produced by client covers course ID
+    \item attacker won't be able to make digital signature valid if changing course ID
+    \end{itemize}
+\end{frame}
+
+
+
+\section{challenge: hazards}
+
+\subsection{data hazard fix: forwarding}
+\input{../pipeline/addqForward}
+
+\subsubsection{exercise: what forwarding}
+\input{../pipeline/forwardPathsEx}
+
+\subsection{can't always forward: load-use}
+\input{../pipeline/loadUseHazard}
+
+\subsubsection{can forward: load-to-store}
+\input{../pipeline/loadToStoreFwd}
+
+\input{../pipeline/loadUseNoForward}
+% FIXME: show undoing instruction???
+
+
+
+\subsection{dependency v hazard}
+\input{../pipeline/hazardVDep}
+
+\input{../pipeline/hazardVDepEx}
+
+\subsection{with different pipeline?}
+\input{../pipeline/diffHazard}
+
+\subsubsection{exercise}
+\input{../pipeline/diffHazardEx}
+
+\input{../ooo/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\subsection{data hazards intro}
+
+\subsubsection{example execution: wrong result, stalling resolution}
+\input{../pipeline/addqHazard}
+
+\subsection{control hazards}
+\input{../pipeline/controlHazard} % FIXME: correct
+
+\subsubsection{idea: branch prediction}
+\input{../pipeline/predIntro}
+
+\input{../ooo/talk-inner}
+
+\end{document}
