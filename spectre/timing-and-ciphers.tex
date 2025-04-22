@@ -9,7 +9,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{big integer multiplcation}
+\begin{frame}{big integer multiplication}
     \begin{itemize}
     \item say we have two 64-bit integers $x$, $y$
         \begin{itemize}
@@ -41,13 +41,13 @@
 
 \begin{frame}{big integer timing attacks in practice (1)}
     \begin{itemize}
-    \item early versions of OpenSSL (TLS implementation)had timing attack
+    \item early versions of OpenSSL (TLS implementation) had timing attack
         \begin{itemize}
         \item Brumley and Boneh, ``Remote Timing Attacks are Practical'' (Usenix Security '03)
         \end{itemize}
     \item attacker could figure out bits of private key from timing
     \vspace{.5cm}
-    \item why? variable-time mulitplication and modulus operations 
+    \item why? variable-time multiplication and modulus operations
         \begin{itemize}
         \item got faster/slower depending on how input was related to private key
         \end{itemize}
