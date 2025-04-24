@@ -3,15 +3,15 @@
 int check_passphrase(const char *versus) {
     int i = 0;
     while (passphrase[i] == versus[i] &&
-           passphrase[i]) { 
-        i += 1; 
+           passphrase[i]) {
+        i += 1;
     }
     return (passphrase[i] == versus[i]);
 }
 \end{lstlisting}
 \begin{itemize}
-\item number of iterations = number matching characters
-\item leaks information about passphrase, oops!
+\item<2> number of iterations = number matching characters
+\item<2> leaks information about passphrase, oops!
 \end{itemize}
 \end{frame}
 

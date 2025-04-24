@@ -15,11 +15,11 @@
     xor %rax, %rax      // rax <- 0
 retry:
     // rax <- memory[kernel address] (segfaults)
-        // but check for segfault done out-of-order on Intel at time
+    // but check for segfault done out-of-order on Intel at time
     @5movb (%rcx), %al5@
     // rax <- memory[kernel address] * 4096 [speculated]
     @2shl $0xC, %rax2@
-    @3jz retry3@                // not-taken branch
+    @3jz retry3@            // not-taken branch
     // access array[memory[kernel address] * 4096]
     @4mov (%rbx, %rax), %rbx4@
 \end{lstlisting}

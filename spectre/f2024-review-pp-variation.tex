@@ -3,12 +3,12 @@
 \begin{frame}{variation: different starting location}
     \begin{itemize}
     \item other\_array starts at 0x4001440
-    \item then other\_array[0] at cache index 
+    \item then other\_array[0] at cache index
         \begin{itemize}
-        \item 0x4001440 / BLOCK\_SIZE mod NUM\_SETS = 51
+        \item 0x4001440 / BLOCK\_SIZE mod NUM\_SETS = 0x51
         \end{itemize}
-    \item (51 + mystery * BLOCK\_SIZE / BLOCK\_SIZE) mod NUM\_SETS = 32
-    \item mystery = -19 or 1005 or 2029 or \ldots
+    \item (0x51 + mystery * BLOCK\_SIZE / BLOCK\_SIZE) mod NUM\_SETS = 32
+    \item mystery = -49 or 975 or 1099 or \ldots
     \end{itemize}
 \end{frame}
 
