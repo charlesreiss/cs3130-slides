@@ -3,7 +3,7 @@
 
 \ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
 \begin{lrbox}{\codeBoxA}
-\lstset{language=C++}
+\lstset{language=C++,style=script}
 \begin{lstlisting}
 void readFromDiskInto(int diskLocation, char *dest) {
     ...
@@ -14,7 +14,7 @@ void readFromDiskInto(int diskLocation, char *dest) {
 \end{lrbox}
 \ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
 \begin{lrbox}{\codeBoxB}
-\lstset{language=C++}
+\lstset{language=C++,style=script}
 \begin{lstlisting}
 void readFileSafely(const char *name, char *dest) {
     if (canCurrentProgramCanAccessFile(name)) {
