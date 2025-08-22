@@ -43,25 +43,17 @@
 \end{frame}
 
 \begin{frame}[fragile,label=spaceOnDemand]{allocating space on demand}
-\lstset{
-    language=myasm,
-    style=small,
-    moredelim=**[is][\btHL<all:2-3>]{~2~}{~end~},
-}
 \begin{tikzpicture}
 \tikzset{>=Latex}
-\node[draw] (exCode) {
-\begin{lstlisting}
-...
-// requires more stack space
-~2~A: pushq %rbx~end~
-
-B: movq 8(%rcx), %rbx
-C: addq %rbx, %rax
-...
-\end{lstlisting}
+\node[draw,align=left,font=\tt\small] (exCode) {%
+... \\
+// requires more stack space \\
+\myemph<2-3>{A: pushq \%rbx} \\
+B: movq 8(\%rcx), \%rbx \\
+C: addq \%rbx, \%rax \\
+... 
 };
-\node[above=.25cm of exCode,font=\tt,inner sep=0mm] (rspEq) {
+\node[above=.25cm of exCode,font=\tt,inner sep=0mm] (rspEq) {%
 \%rsp = 0x
 };
 \node[anchor=base west,fill=blue!10,inner sep=0mm,font=\tt] (vpn) at (rspEq.base east) {7FFFC};
@@ -73,7 +65,7 @@ C: addq %rbx, %rax
     column 3/.style={nodes={text width=2.5cm}},
     row 1/.style={nodes={draw=none,font=\normalfont}},
     row 3/.append style={nodes={alt=<3>{draw=red,thick}}},
-] (pt) {
+] (pt) {%
     VPN \& valid? \& physical page \\
     \ldots \& \ldots \& \ldots \\
     0x7FFFB \& \only<1-2>{0}\only<3->{1} \& \only<1-2>{---}\only<3->{0x200D8} \\
