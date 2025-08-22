@@ -1,0 +1,20 @@
+\begin{frame}
+\frametitle{memory protection}
+\begin{itemize}
+\item modifying another program's memory?
+\end{itemize}
+\lstset{language=C++,style=small}
+\begin{tabular}{l|l}
+Program 1 & Program 2 \\
+\lstinputlisting{../kernel/memprot-ex1.c} &
+\lstinputlisting{../kernel/memprot-ex2.c} \\ \hline
+\end{tabular}
+\begin{itemize}
+\item What happens?
+\end{itemize}
+\begin{tabular}{llll}
+A. & 42 is printed & B. & 100 is printed \\
+C. & program 1 crashes & D. & program 2 crashes \\
+E. & something else & ~ & ~ \\
+\end{tabular}
+\end{frame}

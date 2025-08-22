@@ -1,6 +1,6 @@
 \usetikzlibrary{positioning,shapes.multipart}
 
-\begin{frame}<1-2>[label=memProtectQ]{memory protection}
+\begin{frame}[label=memProtectQ]\frametitle{memory protection}
 \begin{itemize}
     \item modifying another program's memory?
 \end{itemize}
@@ -23,5 +23,3 @@ D. 42 or 99 (depending on timing/program layout/etc) \\
 E. 42 or 99 or program might crash (depending on \ldots) \hspace{1cm} F. something else \\
 \end{visibleenv}
 \end{frame}
-
-\iftoggle{heldback}{}{\againframe<3>{memProtectQ}}

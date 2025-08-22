@@ -1,0 +1,42 @@
+\begin{frame}[fragile]\frametitle{emptyloop lab (1)}
+\begin{lstlisting}[language=C]
+long last_time = GetTime();
+while (NotDone()) {
+    long current_time = GetTime();
+    RecordDelta(current_time - last_time);
+    last_time = current_time;
+}
+\end{lstlisting}
+\begin{itemize}
+\item naive computer model: RecordDelta called with roughly same number each time
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{emptyloop lab (2)}
+\begin{lstlisting}[language=C]
+long last_time = GetTime();
+while (NotDone()) {
+    long current_time = GetTime();
+    /* maybe OS handles I/O here? */
+    /* maybe OS runs ssh for a bit here? */
+    /* ... */
+    RecordDelta(current_time - last_time);
+    last_time = current_time;
+}
+\end{lstlisting}
+\begin{itemize}
+\item will see spikes in recorded times from exceptions
+\item can infer what system is doing
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{emptyloop lab (3)}
+\begin{itemize}
+    \item upcoming lab: we'll supply program that times in loop
+    \item also will look at Linux counters for asynchronous exceptions
+    \vspace{.5cm}
+    \item should be able to observe when OS/other programs run
+    \item (and about how long)
+\end{itemize}
+\end{frame}
+

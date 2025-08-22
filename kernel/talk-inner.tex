@@ -46,7 +46,7 @@
 \againframe<3>{portalShouldnt}
 
 \subsubsection{exercise: expected behavior?}
-\input{../kernel/memProtectQ}
+\input{../kernel/memProtectQC}
 
 %\subsubsection{preview: shared memory}
 %\input{../kernel/previewSharedMemory}
@@ -56,7 +56,6 @@
 
 % FIXME: talk about ``crash'' in mem protect Q case
 \section{extending system calls: exception idea}
-\againframe<5>{memProtectQ}
 \input{../kernel/exceptIdea}
 
 \subsection{reasons for exceptions, generally}
@@ -75,7 +74,7 @@
 \input{../kernel/exceptThreadDiag}
 
 \subsection{operating system runs}
-\input{../kernel/contextSwitchIntro}
+\input{../kernel/contextSwitchTimeline}
 
 \subsection{context switches} 
 \input{../kernel/contextSwitch}
@@ -90,6 +89,12 @@
 \input{../kernel/exceptIOPattern}
 
 \input{../kernel/keyInTimeline}
+
+\section{combined timeline}
+\input{../kernel/ioTimeline}
+
+\section{preview: empty loop lab}
+\input{../kernel/emptyLoopLab}
 
 \section{review: exception / context switch}
 \input{../kernel/reviewExceptCtxt}
