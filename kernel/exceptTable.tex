@@ -1,4 +1,47 @@
 
+
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
+\lstset{
+    language=myasm,
+    style=script,
+}
+\begin{lstlisting}
+handle_divide_by_zero:
+  movq %rax, save_rax
+  movq %rbx, save_rbx
+  ...
+\end{lstlisting}
+\end{lrbox}
+
+\ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
+\begin{lrbox}{\codeBoxB}
+\lstset{
+    language=myasm,
+    style=script,
+}
+\begin{lstlisting}
+handle_system_call:
+  movq %rax, save_rax
+  movq %rbx, save_rbx
+  ...
+\end{lstlisting}
+\end{lrbox}
+
+\ifdefined\codeBoxC\else\newsavebox\codeBoxC\fi
+\begin{lrbox}{\codeBoxC}
+\lstset{
+    language=myasm,
+    style=script,
+}
+\begin{lstlisting}
+handle_keyboard_interrupt:
+  movq %rax, save_rax
+  movq %rbx, save_rbx
+  ...
+\end{lstlisting}
+\end{lrbox}
+
 \begin{frame}[label=locating,fragile]{locating exception handlers (one strategy)}
 \begin{tikzpicture}
 \tikzset{
@@ -27,28 +70,13 @@
 \node[draw,text width=2.8cm, align=center, anchor=south] (baseReg) at ([yshift=1cm,xshift=5mm]eTable-1-1.north west){ exception table base register };
 \draw[dashed,very thick,->] ([xshift=-1.2cm]baseReg.south) |- (eTable-2-1.west);
 \node[draw,anchor=north west] (hDivZero) at ([xshift=2cm,yshift=2cm]eTable-2-2.north east) {
-\begin{lstlisting}[style=script,language=myasm]
-handle_divide_by_zero:
-  movq %rax, save_rax
-  movq %rbx, save_rbx
-  ...
-\end{lstlisting}
+\usebox{\codeBoxA}
 };
 \node[draw,anchor=north west] (hSyscall) at ([yshift=-2.5cm]hDivZero.south west){
-\begin{lstlisting}[style=script,language=myasm]
-handle_system_call:
-  movq %rax, save_rax
-  movq %rbx, save_rbx
-  ...
-\end{lstlisting}
+\usebox{\codeBoxB}
 };
 \node[draw,anchor=north west] (hKbd) at ([yshift=-.5cm,xshift=2cm]hDivZero.south west){
-\begin{lstlisting}[style=script,language=myasm]
-handle_keyboard_interrupt:
-  movq %rax, save_rax
-  movq %rbx, save_rbx
-  ...
-\end{lstlisting}
+\usebox{\codeBoxC}
 };
 \draw[->,thick] (eTable-2-2.center) -- ++(2,0) |- ([yshift=-1ex]hDivZero.north west);
 \draw[thick] (eTable-3-2.center) -- ++ (1, 0) node[right]{\ldots};

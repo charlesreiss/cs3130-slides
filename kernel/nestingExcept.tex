@@ -1,6 +1,7 @@
 \usetikzlibrary{fit,positioning,shapes.misc}
 
-\begin{frame}[fragile,label=nestedExcept]{exceptions in exceptions}
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
 \lstset{
     language=myasm,
     style=small,
@@ -9,31 +10,51 @@
     moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
     moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
 }
-\begin{tikzpicture}
-\node (code1) {
 \begin{lstlisting}
 handle_timer_interrupt:
   save_old_pc @2save_pc@
   movq %r15, @2save_r15@
-  @1/* key press here */@
+  /* key press here */
 \end{lstlisting}
-};
-\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\end{lrbox}
+\ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
+\begin{lrbox}{\codeBoxB}
+\lstset{
+    language=myasm,
+    style=small,
+}
 \begin{lstlisting}
   movq %r14, save_r14
   ...
 \end{lstlisting}
-};
-\begin{visibleenv}<2->
-\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\end{lrbox}
+\ifdefined\codeBoxC\else\newsavebox\codeBoxC\fi
+\begin{lrbox}{\codeBoxC}
+\lstset{
+    language=myasm,
+    style=small,
+}
 \begin{lstlisting}
 handle_keyboard_interrupt:
-  save_old_pc @2save_pc@
-  movq %r15, @2save_r15@
+  save_old_pc save_pc
+  movq %r15, save_r15
   movq %r14, save_r14
   movq %r13, save_r13
   ...
 \end{lstlisting}
+\end{lrbox}
+
+\begin{frame}[fragile,label=nestedExcept]{exceptions in exceptions}
+\begin{tikzpicture}
+\node (code1) {
+\usebox{\codeBoxA}
+};
+\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\usebox{\codeBoxB}
+};
+\begin{visibleenv}<2->
+\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\usebox{\codeBoxC}
 };
 \draw[very thick,blue,-Latex] (code1.south west) -- (code1.south east) -- (code1.south east |- code2.north);
 \end{visibleenv}
@@ -60,7 +81,8 @@ handle_keyboard_interrupt:
 % FIXME: shwoing logic?
 \end{frame}
 
-\begin{frame}[fragile,label=nestedExcept2]{exceptions in exceptions}
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
 \lstset{
     language=myasm,
     style=small,
@@ -69,32 +91,41 @@ handle_keyboard_interrupt:
     moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
     moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
 }
-\begin{tikzpicture}
-\node (code1) {
 \begin{lstlisting}
 handle_timer_interrupt:
   /* interrupts automatically disabled here */
   movq %rsp, save_rsp
   save_old_pc save_pc
-  @1/* key press here */@
+  /* key press here */
   jmpIfFromKernelMode skip_exception_stack
   movq current_exception_stack, %rsp
 skip_set_kernel_stack:
   pushq save_rsp
   pushq save_pc
-  @2enable_intterupts2@
+  enable_intterupts
   pushq %r15
   ...
 \end{lstlisting}
-};
-\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\end{lrbox}
+
+\ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
+\begin{lrbox}{\codeBoxB}
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
 \begin{lstlisting}
   /* interrupt happens here! */
   ...
 \end{lstlisting}
-};
-\begin{visibleenv}<3->
-\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\end{lrbox}
+
+\ifdefined\codeBoxC\else\newsavebox\codeBoxC\fi
+\begin{lrbox}{\codeBoxC}
 \begin{lstlisting}
 handle_keyboard_interrupt:
   movq %rsp, save_rsp
@@ -108,6 +139,28 @@ skip_exception_stack:
   pushq %r15
   ...
 \end{lstlisting}
+\end{lrbox}
+
+
+\begin{frame}[fragile,label=nestedExcept2]{exceptions in exceptions}
+\lstset{
+    language=myasm,
+    style=small,
+    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
+    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
+    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
+}
+\begin{tikzpicture}
+\node (code1) {
+\usebox{\codeBoxA}
+};
+\node[anchor=north west] (code1b) at ([yshift=1mm]code1.south west) {
+\usebox{\codeBoxB}
+};
+\begin{visibleenv}<3->
+\node[draw,thick,blue!70!black,anchor=north west] (code2) at ([yshift=0.5cm,xshift=5cm]code1b.south west) {
+\usebox{\codeBoxC}
 };
 \draw[very thick,blue,-Latex] (code1.south west) -- ([xshift=-2cm]code1.south east) -- ([xshift=-2cm]code1.south east |- code2.north);
 \end{visibleenv}
