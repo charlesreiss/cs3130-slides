@@ -4,9 +4,15 @@
 {\begingroup\tikzset{bt@Highlight@par/.style={#1}}\begin{lrbox}{\@tempboxa}}
 {\end{lrbox}\bt@HL@box[bt@Highlight@par]{\@tempboxa}\endgroup}
 
+\ifdefined\NewDocumentCommand
+\NewDocumentCommand\btHL{D<>{all} +m}{%
+  \only#1{\begin{btHighlight}[#2]\bgroup\aftergroup\bt@HL@endenv}%
+}
+\else
 \newcommand<>\btHL[1][]{%
   \only#2{\begin{btHighlight}[#1]\bgroup\aftergroup\bt@HL@endenv}%
 }
+\fi
 \def\bt@HL@endenv{%
   \end{btHighlight}%   
   \egroup %
