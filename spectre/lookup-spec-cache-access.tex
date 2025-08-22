@@ -52,19 +52,19 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
         nodes={text width=.6cm,inner sep=0mm,outer sep=0mm},
         column sep={.6cm,between origins},
         row sep={.7cm,between origins},
-        column 1/.style={nodes={text width=6cm,align=left},column sep=0cm},
+        column 1/.style={nodes={font=\tt,text width=6cm,align=left},column sep=0cm},
         ] (tbl) {
 |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
                                  \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11\\
-\lstinline|movq mystery, %rax|   \fdr \iss \e\e\e \w \cmt \\
-\lstinline|test %rax, %rax|      \fdr \& ~ \& ~ \& \issw \cmt\\
-\lstinline|jz skip| (mispred.)     \& ~ \fdr \& ~ \& ~ \& ~ \issw \cmt \\
-    \lstinline|mov pointer, %rax|      \& ~ \fdr \iss \e\e\e \w \& \\
-    \lstinline|mov (%rax), %r8| \& ~ \& ~ \fdr \& ~ \& ~ \& ~ \issw \& \\
-\lstinline|add $1, %r8|     \& ~ \& ~ \fdr \\
-\lstinline|mov %r8, %rax|   \& ~ \& ~ \& ~ \fdr \\
+movq mystery, \%rax   \fdr \iss \e\e\e \w \cmt \\
+test \%rax, \%rax      \fdr \& ~ \& ~ \& \issw \cmt\\
+jz skip {\normalfont (mispred.) }    \& ~ \fdr \& ~ \& ~ \& ~ \issw \cmt \\
+mov pointer, \%rax      \& ~ \fdr \iss \e\e\e \w \& \\
+mov (\%rax), \%r8 \& ~ \& ~ \fdr \& ~ \& ~ \& ~ \issw \& \\
+add \$1, \%r8     \& ~ \& ~ \fdr \\
+mov \%r8, \%rax   \& ~ \& ~ \& ~ \fdr \\
 \ldots \\
-\lstinline|skip: ...|       \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&~ \fdr \\
+skip: ...       \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&~ \fdr \\
 };
 % FIXME: hilite in-order and out-of-order parts of pipeline
 \tikzset{
