@@ -12,7 +12,6 @@
     labelprog3/.style={execute at begin node={\strut firefox networking}},
     labelprog4/.style={execute at begin node={\strut ssh}},
 }
-
 \begin{scope}[xscale=1.2,yscale=1]
 \foreach \s/\e/\p [count=\x] in {0/8/1,8/10/4}{
     \draw[prog\p] (\s, 0) rectangle (\e, 1) coordinate[midway] (mid-\x);
