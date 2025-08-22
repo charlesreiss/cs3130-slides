@@ -18,7 +18,21 @@ next:
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}<0>[fragile,label=2BmispredExSoln]{exercise soln (1)}
+\ifdefined\exCode\else\newsavebox\exCode\fi
+\begin{lrbox}{\exCode}
+\begin{lstlisting}[language=C,style=smaller]
+int i = 0;
+while (true) {
+  if (i % 3 == 0) goto next;
+  ...
+next:
+  i += 1;
+  if (i == 50) break;
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{frame}<0>[label=2BmispredExSoln]{exercise soln (1)}
 \begin{tikzpicture}
 \node[font=\small] (table) {
 \begin{tabular}{lllll}
@@ -52,16 +66,7 @@ break: ends up always predicting not taken \\
 overall: 82/100
 };
 \node[anchor=north west] at (conclude.south west) {
-\begin{lstlisting}[language=C,style=smaller]
-int i = 0;
-while (true) {
-  if (i % 3 == 0) goto next;
-  ...
-next:
-  i += 1;
-  if (i == 50) break;
-}
-\end{lstlisting}
+\usebox{\exCode}
 };
 \end{tikzpicture}
 \end{frame}

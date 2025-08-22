@@ -7,6 +7,20 @@
 \end{itemize}
 \end{frame}
 
+\ifdefined\codeBox\else\newsavebox\codeBox\fi
+\begin{lrbox}{\codeBox}
+\begin{lstlisting}[language=C,style=smaller]
+i = 10000;
+do {
+  if (i % 2 == 0) goto skip;
+  ...
+  if (p == NULL) goto error;
+skip:
+  ...
+} while (i-- != 0);
+\end{lstlisting}
+\end{lrbox}
+
 \begin{frame}[fragile,label=ghExample1]{global history predictor (1)}
 \begin{tikzpicture}
 \tikzset{
@@ -46,16 +60,7 @@ TTTT \& 11 \\
 \node[anchor=south,align=center,overlay] at (outcome loc) {outcome \\ from \\ commit(?)};
 \begin{visibleenv}<2->
 \node[anchor=north east] (code) at ([yshift=0cm,xshift=3cm]gh.north west) {
-\begin{lstlisting}[language=C,style=smaller]
-i = 10000;
-do {
-  if (i % 2 == 0) goto skip;
-  ...
-  if (p == NULL) goto error;
-skip:
-  ...
-} while (i-- != 0);
-\end{lstlisting}
+\usebox{\codeBox}
 };
 \matrix[tight matrix,
     nodes={minimum height=.45cm,fill=white},

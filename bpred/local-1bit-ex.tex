@@ -109,6 +109,20 @@ i = & branch & pred & outcome & correct? \\
 \end{tikzpicture}
 \end{frame}
 
+\ifdefined\exCode\else\newsavebox\exCode\fi
+\begin{lrbox}{\exCode}
+\begin{lstlisting}[language=C,style=smaller]
+int i = 0;
+while (true) {
+  if (i % 3 == 0) goto next;
+  ...
+next:
+  i += 1;
+  if (i == 50) break;
+}
+\end{lstlisting}
+\end{lrbox}
+
 \begin{frame}<0>[fragile,label=1BmispredExSoln]{exercise soln (1)}
 \begin{tikzpicture}
 \node[font=\small] (table) {
@@ -139,16 +153,7 @@ break: correct for i=2,3,\ldots,48 (48/50) \\
 overall: 64/100
 };
 \node[anchor=north west] at (conclude.south west) {
-\begin{lstlisting}[language=C,style=smaller]
-int i = 0;
-while (true) {
-  if (i % 3 == 0) goto next;
-  ...
-next:
-  i += 1;
-  if (i == 50) break;
-}
-\end{lstlisting}
+\usebox{\exCode}
 };
 \end{tikzpicture}
 \end{frame}
