@@ -1,8 +1,8 @@
 
 \makeatletter
-\newenvironment<>{btHighlight}[1][]
-{\begin{onlyenv}#2\begingroup\tikzset{bt@Highlight@par/.style={#1}}\begin{lrbox}{\@tempboxa}}
-{\end{lrbox}\bt@HL@box[bt@Highlight@par]{\@tempboxa}\endgroup\end{onlyenv}}
+\newenvironment{btHighlight}[1][]
+{\begingroup\tikzset{bt@Highlight@par/.style={#1}}\begin{lrbox}{\@tempboxa}}
+{\end{lrbox}\bt@HL@box[bt@Highlight@par]{\@tempboxa}\endgroup}
 
 \newcommand<>\btHL[1][]{%
   \only#2{\begin{btHighlight}[#1]\bgroup\aftergroup\bt@HL@endenv}%
