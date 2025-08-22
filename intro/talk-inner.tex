@@ -1,14 +1,15 @@
 \section{overall themes}
 \input{../intro/themes}
+\themesSlide{1}
 
 \section{briefly, building}
-\againframe<2>{themes}
+\themesSlide{2}
 
 \input{../intro/make}
 
 \section{briefly, virtual memory}
 
-\againframe<3>{themes}
+\themesSlide{3}
 
 \input{../vm/translationOverview}
 
@@ -16,8 +17,7 @@
 
 \subsection{interrupts}
 
-\againframe<4>{themes}
-    % FIXME: example control-C on single core --- how does that work?
+\themesSlide{4}
 
 \input{../kernel/keyInTimeline}
 
@@ -27,13 +27,13 @@
 
 \subsection{kernel mode / permissions}
 
-\againframe<5>{themes}
+\themesSlide{5}
 
 \input{../intro/permissions-limit}
 
 \section{networking}
 
-\againframe<6>{themes}
+\themesSlide{6}
 
 \subsection{layered design}
 
@@ -45,7 +45,7 @@
 
 \subsection{secure communication}
 
-\begin{frame}{secure communication?}
+\begin{frame}\frametitle{secure communication?}
     \begin{itemize}
     \item how do you know who your socket is to?
     \item who can read what's on the socket?
@@ -55,7 +55,7 @@
 
 \section{caching}
 
-\againframe<7>{themes}
+\themesSlide{7}
 
 % FIXME: example of perf difference instead?
 \input{../caching/memHierarchyPic}

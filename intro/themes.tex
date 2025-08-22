@@ -1,5 +1,6 @@
-\begin{frame}<1>[label=themes]{themes}
-\begin{itemize}
+\newcommand{\themesSlide}[1]{%
+\begin{frame}<#1>\frametitle{themes}
+    \begin{itemize}
     \item \myemph<2>{automating building software}
         \begin{itemize}
         \item libraries, taking advantage of incremental compilation
@@ -23,3 +24,4 @@
         \end{itemize}
     \end{itemize}
 \end{frame}
+}
