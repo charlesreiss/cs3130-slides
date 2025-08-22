@@ -35,9 +35,7 @@ read_file() {
     moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
     moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
 }
-\begin{tikzpicture}
-\tikzset{every node/.style={font=\small}}
-\node[draw] (code1) {
+\begin{minipage}{0.3\textwidth}
 \begin{lstlisting}
 main:
   ...
@@ -47,16 +45,16 @@ start_try:
 end_try:
   ret
 \end{lstlisting}
-};
-\node[draw,anchor=north west] (code2) at ([xshift=.25cm]code1.north east) {
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
 \begin{lstlisting}
 main_catch:
   movq $str, %rdi 
   call printf
   jmp end_try
 \end{lstlisting}
-};
-\node[draw,anchor=north west] (code3) at ([xshift=.25cm]code2.north east) {
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
 \begin{lstlisting}
 read_file:
   pushq %r12
@@ -67,7 +65,8 @@ end_read:
   popq %r12
   ret
 \end{lstlisting}
-};
+\end{minipage}
+\begin{tikzpicture}
 \matrix[label={north:lookup table},anchor=north west,
         tight matrix,
         nodes={font=\small,execute at begin node={\tt\strut\normalfont}},
@@ -75,7 +74,7 @@ end_read:
         column 2/.append style={nodes={text width=3.9cm}},
         column 3/.append style={nodes={text width=1.8cm}},    
         row 1/.append style={nodes={font=\small\bfseries,execute at begin node={\tt\strut\normalfont\bfseries}}},
-] (tbl) at ([yshift=-1cm]code1.south west){
+] (tbl) {%
     program counter range \& action \& recurse? \\
     {\tt start\_try} to {\tt end\_try} \& \myemph<3>{\tt jmp main\_catch} \& \myemph<3>{no} \\
     {\tt read\_file} to {\tt end\_read} \& \myemph<2>{\tt popq \%r12, ret} \& \myemph<2>{yes} \\
@@ -96,7 +95,7 @@ end_read:
 \item handles local variables on registers/stack, but\ldots{}
 \vspace{.5cm}
 \item larger executables (probably)
-\item extra complexity for compiler 
+\item extra complexity for compiler
 \end{itemize}
 \end{frame}
 
