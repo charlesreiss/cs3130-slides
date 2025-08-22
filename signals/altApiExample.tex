@@ -7,8 +7,7 @@
     moredelim=**[is][]{@5}{5@},
     moredelim=**[is][]{@6}{6@},
 }
-\begin{tikzpicture}
-\node[draw,very thick,label={north:pid 1000}] (left) {
+PID 1000:
 \begin{lstlisting}
 void @6handle_usr1(int num)6@ {
     write(1, "Y", 1);
@@ -20,13 +19,12 @@ int main() {
     @1...1@ // initialize act
     @1act.sa_handler = &handle_usr1;1@
     @1sigaction(SIGUSR1, &act, NULL);1@
-    @2sleep(60);2@ // wait for pid 2000 to start
+    // wait for pid 2000 to start
+    @2sleep(60);2@
     @4@3kill(2000, SIGUSR1);3@4@
     @5@4while (1) pause();4@5@
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[fragile]{sending signals (2)}
@@ -38,8 +36,8 @@ int main() {
     moredelim=**[is][\btHL<5|handout:5>]{@5}{5@},
     moredelim=**[is][\btHL<6|handout:6>]{@6}{6@},
 }
-\begin{tikzpicture}
-\node[draw,very thick,label={north:pid 1000}] (left) {
+\begin{minipage}{0.4\textwidth}
+PID 1000:
 \begin{lstlisting}
 void @6handle_usr1(int num)6@ {
     write(1, "Y", 1);
@@ -56,8 +54,9 @@ int main() {
     @5@4while (1) pause();4@5@
 }
 \end{lstlisting}
-};
-\node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+PID 2000:
 \begin{lstlisting}
 void @4handle_usr1(int num)4@ {
     @4write(1, "X", 1);4@
@@ -80,6 +79,5 @@ int main() {
     @6@3@2while (1) pause();2@3@6@
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}

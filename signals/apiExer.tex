@@ -1,7 +1,7 @@
-\begin{frame}[fragile,label=signalEx]{output of this?}
+
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
 \lstset{language=C,style=script}
-\begin{tikzpicture}
-\node[draw,very thick,label={north:pid 1000}] (left) {
 \begin{lstlisting}
 void handle_usr1(int num) {
     write(1, "X", 1);
@@ -16,8 +16,10 @@ int main() {
     kill(1000, SIGUSR1);
 }
 \end{lstlisting}
-};
-\node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\end{lrbox}
+\ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
+\begin{lrbox}{\codeBoxA}
+\lstset{language=C,style=script}
 \begin{lstlisting}
 void handle_usr1(int num) {
     write(1, "Y", 1);
@@ -30,6 +32,15 @@ int main() {
     sigaction(SIGUSR1, &act, NULL);
 }
 \end{lstlisting}
+\end{lrbox}
+
+\begin{frame}[fragile,label=signalEx]{output of this?}
+\begin{tikzpicture}
+\node[draw,very thick,label={north:pid 1000}] (left) {
+\usebox{\codeBoxA}
+};
+\node[anchor=north west,draw,very thick,label={north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\usebox{\codeBoxB}
 };
 \end{tikzpicture}
 
@@ -41,15 +52,9 @@ G. (nothing) & H. something else \\
 \end{tabular}
 \end{frame}
 
-\begin{frame}[fragile,label=signalEx2]{output of this? (v2)}
-\vspace{-0.1cm}
-\lstset{
-    language=C,
-    style=script,
-    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
-}
-\begin{tikzpicture}
-    \node[draw,very thick,label={[inner sep=0mm]north:pid 1000}] (left) {
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
+\lstset{language=C,style=script}
 \begin{lstlisting}
 void handle_usr1(int num) {
     write(1, "X", 1);
@@ -61,13 +66,15 @@ int main() {
     ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
-    @1sleep(1);@
+    sleep(1); // ADDED
     kill(1000, SIGUSR1);
-    @1while (1) pause();@
+    while (1) pause(); // ADDED
 }
 \end{lstlisting}
-};
-\node[anchor=north west,draw,very thick,label={[inner sep=0mm]north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\end{lrbox}
+\ifdefined\codeBoxB\else\newsavebox\codeBoxB\fi
+\begin{lrbox}{\codeBoxA}
+\lstset{language=C,style=script}
 \begin{lstlisting}
 void handle_usr1(int num) {
     write(1, "Y", 1);
@@ -78,9 +85,19 @@ int main() {
     ... // initialize rest of "act"
     act.sa_handler = &handle_usr1;
     sigaction(SIGUSR1, &act);
-    @1while (1) pause();@
+    while (1) pause(); // ADDED
 }
 \end{lstlisting}
+\end{lrbox}
+
+\begin{frame}[fragile,label=signalEx2]{output of this? (v2)}
+\vspace{-0.1cm}
+\begin{tikzpicture}
+    \node[draw,very thick,label={[inner sep=0mm]north:pid 1000}] (left) {
+\usebox{\codeBoxA}
+};
+\node[anchor=north west,draw,very thick,label={[inner sep=0mm]north:pid 2000}] (right) at ([xshift=1cm]left.north east) {
+\usebox{\codeBoxB}
 };
 \end{tikzpicture}
 \vspace{-0.1cm}
