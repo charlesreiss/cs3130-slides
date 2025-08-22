@@ -12,6 +12,7 @@ pthread_mutex_t lock;
 \begin{lstlisting}
 unsigned int count;
 \end{lstlisting}
+\end{visibleenv}
 \begin{visibleenv}<3->
 \begin{lstlisting}
 /* condition, broadcast when becomes count > 0 */
@@ -32,6 +33,7 @@ void down() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
+\end{visibleenv}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
 \begin{visibleenv}<5->
@@ -49,6 +51,7 @@ void up() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
+\end{visibleenv}
 \end{minipage}
 \begin{itemize}
 \item<1-> \myemph<1>{lock to protect shared state}
