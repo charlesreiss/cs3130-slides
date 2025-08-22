@@ -16,29 +16,43 @@
     movq \%r11, 0(\%r12) \&~ \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
     \ldots \\
     };
-    \node[anchor=south west] at ([yshift=-1cm]timeline.north west) {
+    \node[anchor=south west,align=left,font=\tt\fontsize{10}{11}\selectfont] at ([yshift=-1cm]timeline.north west) {
+cmpq \%r8, \%r9 \\
+jne LABEL // not taken \\
+xorq \%r10, \%r11 \\
+movq \%r11, 0(\%r12) \\
+...
+};
+\begin{visibleenv}<2>
+    \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-2-4),
+        label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compare sets flags}] {};
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-3-5),
+        label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compute if jump goes to LABEL}] {};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-6-6),
+        label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:use computed result}] {};
+\end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
 \begin{lstlisting}[style=size10]
         cmpq %r8, %r9
-        jne LABEL       // not taken
+        jne LABEL
         xorq %r10, %r11
         movq %r11, 0(%r12)
         ...
+
+LABEL:  addq %r8, %r9
+        imul %r13, %r14
+        ...
 \end{lstlisting}
-    };
-    \begin{visibleenv}<2>
-        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-2-4),
-            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compare sets flags}] {};
-    \end{visibleenv}
-    \begin{visibleenv}<3>
-        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-3-5),
-            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compute if jump goes to LABEL}] {};
-    \end{visibleenv}
-    \begin{visibleenv}<4>
-        \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-6-6),
-            label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:use computed result}] {};
-    \end{visibleenv}
-\end{tikzpicture}
-\end{frame}
+\end{lrbox}
+
 \begin{frame}[fragile,label=makingGuesses]{making guesses}
 \begin{lstlisting}
         cmpq %r8, %r9
@@ -72,19 +86,9 @@ LABEL:  addq %r8, %r9
     movq \%r11, 0(\%r12) \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
     \ldots \\
     };
-    \node[anchor=south west] at ([yshift=-0.5cm]timeline.north west) {
-\begin{lstlisting}[style=size10]
-        cmpq %r8, %r9
-        jne LABEL
-        xorq %r10, %r11
-        movq %r11, 0(%r12)
-        ...
-
-LABEL:  addq %r8, %r9
-        imul %r13, %r14
-        ...
-\end{lstlisting}
-    };
+    \node[anchor=south west,font=\tt\fontsize{10}{11}\selectfont] at ([yshift=-0.5cm]timeline.north west) {
+\usebox{\codeBoxA}
+};
 \end{tikzpicture}
 \end{frame}
 
