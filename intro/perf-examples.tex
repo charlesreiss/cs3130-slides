@@ -1,16 +1,21 @@
 \newsavebox{\listA}
 \newsavebox{\listB}
 
-\sbox{\listA}{
 \lstset{language=myasm,style=smaller,morekeywords={decq}}
+\begin{lrbox}{\listA}
+\begin{minipage}{0.45\textwidth}
 \lstinputlisting{../intro/perf-examples1.s}
-}
-\sbox{\listB}{
+\end{minipage}
+\end{lrbox}
 \lstset{language=myasm,style=smaller,morekeywords={decq}}
+\begin{lrbox}{\listB}
+\begin{minipage}{0.45\textwidth}
 \lstinputlisting{../intro/perf-examples1.s}
-}
+\end{minipage}
+\end{lrbox}
 
-\begin{frame}[fragile]{some performance examples}
+\begin{frame}
+\frametitle{some performance examples}
 \begin{tikzpicture}
 \node[draw,very thick,align=left] (v1) {
 \usebox{\listA}
@@ -20,7 +25,6 @@
 my desktop: approx \myemph<2>{2.65 sec}
 };
 \node[align=left,draw,very thick,anchor=north west] (v2) at ([xshift=1cm]v1.north east) {
-\lstset{language=myasm,style=smaller,morekeywords={decq}}
 \usebox{\listB}
 };
 \node[align=left,anchor=north] at (v2.south) {
