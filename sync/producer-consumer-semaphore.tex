@@ -71,17 +71,15 @@ Consume() {
     \begin{visibleenv}<4-5>
         \node[box next to empty] (reorder empty question) {
             Can we do \\
-\begin{lstlisting}[language=C++,style=small]
-  sem_wait(&mutex);
-  sem_wait(&empty_slots);
-\end{lstlisting} \\
+        \texttt{sem\_wait(\&mutex);} \\
+        \texttt{sem\_wait(\&empty\_slots);} \\
             instead?
         };
     \end{visibleenv}
     \begin{visibleenv}<5>
         \node[box generic,anchor=north west] at (reorder empty question.south west) {
-            \myemph{No.} Consumer waits on \lstinline[style=smaller]|sem_wait(&mutex)| \\
-            so can't \lstinline[style=smaller]|sem_post(&empty_slots)| \\
+            \myemph{No.} Consumer waits on \texttt{sem\_wait(\&mutex)} \\
+            so can't \\texttt{sem\_post(\&empty\_slots)} \\
             (result: producer waits forever \\
             problem called \textit{deadlock})
         };
@@ -89,10 +87,8 @@ Consume() {
     \begin{visibleenv}<6>
         \node[box next to unempty] (reorder unempty question) {
             Can we do \\
-\begin{lstlisting}[language=C++,style=small]
-  sem_post(&full_slots);
-  sem_post(&mutex);
-\end{lstlisting} \\
+        \texttt{sem\_post(\&full\_slots);} \\
+        \texttt{sem\_post(\&mutex);} \\
             instead? \\
             Yes --- post never waits
         };
@@ -101,8 +97,7 @@ Consume() {
 \end{frame}
 
 \begin{frame}[fragile,label=noReorderEmpty]{producer/consumer: cannot reorder mutex/empty}
-\begin{tikzpicture}
-\node (producer reordered) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 ProducerReordered() {
   // BROKEN: WRONG ORDER
@@ -113,8 +108,8 @@ ProducerReordered() {
 
   sem_post(&mutex);
 \end{lstlisting}
-};
-\node[anchor=north west] (consumer) at ([xshift=1cm]producer reordered.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 Consumer() {
   sem_wait(&full_slots);
@@ -128,8 +123,7 @@ Consumer() {
   // so this is not reached
   sem_post(&full_slots);
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
 \againframe<6>{pcSemaphoreCode}

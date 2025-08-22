@@ -1,7 +1,6 @@
 
-\begin{frame}[fragile,label=cvToSem]{semaphores/CV}
-\begin{tikzpicture}
-\node (sem) {
+\begin{frame}[fragile,label=cvToSem]\frametitle{semaphores/CV}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     basicstyle=\fontsize{9}{10}\tt\selectfont,
     moredelim={**[is][\btHL<1>]{@1}{1@}},
@@ -31,8 +30,8 @@ void Finish() {
     @1}1@
 }
 \end{lstlisting}
-};
-\node[anchor=north west] (cv) at ([xshift=2cm]sem.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     basicstyle=\fontsize{9}{10}\tt\selectfont,
     moredelim={**[is][\btHL<1>]{@1}{1@}},
@@ -51,9 +50,6 @@ void WaitForFinished() {
     pthread_mutex_unlock(&mutex);
 }
 
-
-
-
 void Finish() {
     pthread_mutex_lock(&mutex);
     finished = true;
@@ -61,6 +57,5 @@ void Finish() {
     pthread_mutex_unlock(&mutex);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}

@@ -1,0 +1,16 @@
+latexrun -W no-overfull --latex-cmd=lualatex --latex-args=-shell-escape talk-slides.tex
+Traceback (most recent call last):
+  File "/u/cr4bd/bin/latexrun", line 1936, in <module>
+    main()
+  File "/u/cr4bd/bin/latexrun", line 169, in main
+    stable = run_tasks(tasks, args.max_iterations)
+  File "/u/cr4bd/bin/latexrun", line 524, in run_tasks
+    task.run()
+  File "/u/cr4bd/bin/latexrun", line 621, in run
+    result = self._execute()
+  File "/u/cr4bd/bin/latexrun", line 767, in _execute
+    stdout, has_errors, missing_includes = self.__feed_terminal(p.stdout)
+  File "/u/cr4bd/bin/latexrun", line 833, in __feed_terminal
+    data = os.read(stdout.fileno(), 4096)
+KeyboardInterrupt
+make: *** [../Makefile.inc:6: talk-slides.pdf] Interrupt

@@ -21,26 +21,20 @@ remove note;
 \begin{scope}
 \tikzset{
     every label/.style={font=\bfseries},
-    every node/.style={inner sep=0.25mm},
+    every node/.style={inner sep=0.25mm,font=\tt\small,align=left},
 }
 \node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
-\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<2-|handout:2->]{@2}{2@}}]
-leave note;
-if (no milk) {
-    if (@2no note2@) {
-\end{lstlisting}
+leave note; \\
+if (no milk) \{ \\
+    \hspace{.5cm}    if (\myemph<2>{no note}) \{ \
 };
 \node[anchor=north west] (thread A part 2) at (thread A part 1.south west) {
-\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<1-|handout:1->]{@2}{2@}}]
-        buy milk;
-\end{lstlisting}
+\hspace{1cm}       buy milk;
 };
 \node[anchor=north west] (thread A part 3) at (thread A part 2.south west) {
-\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<1-|handout:1->]{@2}{2@}}]
-    }
-}
+\hspace{.5cm} \} \\
+\} \\
 remove note;
-\end{lstlisting}
 };
 \end{scope}
 \begin{visibleenv}<2->

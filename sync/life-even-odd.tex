@@ -1,6 +1,6 @@
 \usetikzlibrary{patterns}
 
-\begin{frame}[fragile,label=lifeEvenOdd]{life homework even/odd}
+\begin{frame}[fragile,label=lifeEvenOdd]\frametitle{life homework even/odd}
 naive way has an operation that needs locking:
 \begin{lstlisting}[
     language=C++,style=smaller,
@@ -26,6 +26,7 @@ for (int time = 0; time < MAX_ITERATIONS; ++time) {
 }
 \end{lstlisting}
 \end{frame}
+
 \begin{frame}{}
 \begin{tikzpicture}
 \tikzset{

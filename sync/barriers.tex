@@ -1,4 +1,4 @@
-\begin{frame}{barriers}
+\begin{frame}\frametitle{barriers}
 \begin{itemize}
 \item compute minimum of 100M element array with 2 processors
 \item algorithm:
@@ -12,7 +12,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=barrierAPI]{barriers API}
+\begin{frame}\frametitle{barriers API}
 \begin{itemize}
 \item barrier.Initialize(NumberOfThreads)
 \item barrier.Wait() --- return after all threads have waited
@@ -22,9 +22,12 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,label=barrierWait]{barrier: waiting for finish}
-\begin{tikzpicture}
-\node[label={north:Thread 0}] (code one) {
+\begin{frame}[fragile,label=barrierWait]\frametitle{barrier: waiting for finish}
+\begin{lstlisting}[language=C++,style=smaller]
+barrier.Initialize(2);
+\end{lstlisting}
+\begin{minipage}{0.45\textwidth}
+\small Thread 0:
 \begin{lstlisting}[language=C++,style=smaller]
 partial_mins[0] = 
     /* min of first
@@ -38,14 +41,9 @@ total_min = min(
     partial_mins[1]
 );
 \end{lstlisting}
-};
-\node[anchor=south] (code zero) at ([yshift=1cm]code one.north) {
-\begin{lstlisting}[language=C++,style=smaller]
-barrier.Initialize(2);
-\end{lstlisting}
-};
-
-\node[label={north:Thread 1},anchor=north west] (code two) at ([xshift=1cm]code one.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\small Thread 1:
 \begin{lstlisting}[language=C++,style=smaller]
 
 
@@ -54,13 +52,11 @@ partial_mins[1] =
        50M elems */
 barrier.Wait();
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
-\begin{frame}[fragile,label=barrierReuse]{barriers: reuse}
-\begin{tikzpicture}
-\node[label={north:Thread 0}] (code one) {
+\begin{frame}[fragile,label=barrierReuse]\frametitle{barriers: reuse}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     language=C++,style=smaller,
     moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
@@ -83,8 +79,8 @@ results[2][0] =
         results[1][1]
     );
 \end{lstlisting}
-};
-\node[label={north:Thread 1},anchor=north west] (code two) at ([xshift=1cm]code one.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     language=C++,style=smaller,
     moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
@@ -107,11 +103,10 @@ results[2][1] =
         results[1][1]
     );
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
-\begin{frame}[fragile,label=pthreadBarrier]{pthread barriers}
+\begin{frame}[fragile,label=pthreadBarrier]\frametitle{pthread barriers}
 \begin{lstlisting}[language=C++,style=smaller]
 pthread_barrier_t barrier;
 pthread_barrier_init(

@@ -1,22 +1,21 @@
 \begin{frame}[fragile,label=loadReorderSetup]{a simple race}
-\begin{tikzpicture}
-\node (thread A code) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_A:
     movl $1, x   /* x <- 1 */
     movl y, %eax /* return y */
     ret
 \end{lstlisting}
-};
-\node[anchor=north west] (thread B code) at ([xshift=.5cm]thread A code.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_B:
     movl $1, y   /* y <- 1 */
     movl x, %eax /* return x */
     ret
 \end{lstlisting}
-};
-\node[anchor=north](driver code) at ([yshift=-.25cm,xshift=-.25cm]thread B code.south west) {
+\end{minipage}
+\\
 \begin{lstlisting}[language=C++,style=smaller]
 x = y = 0;
 pthread_create(&A, NULL, thread_A, NULL);
@@ -24,8 +23,6 @@ pthread_create(&B, NULL, thread_B, NULL);
 pthread_join(A, &A_result); pthread_join(B, &B_result);
 printf("A:%d B:%d\n", (int) A_result, (int) B_result);
 \end{lstlisting}
-};
-\end{tikzpicture} 
 \begin{itemize}
 \item<2-> if loads/stores atomic, then possible results:
     \begin{itemize}
@@ -37,24 +34,22 @@ printf("A:%d B:%d\n", (int) A_result, (int) B_result);
 \end{frame}
 
 \begin{frame}[fragile,label=loadReorderExpResults]{a simple race: results}
-\begin{tikzpicture}
-\node (thread A code) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_A:
     movl $1, x   /* x <- 1 */
     movl y, %eax /* return y */
     ret
 \end{lstlisting}
-};
-\node[anchor=north west] (thread B code) at ([xshift=.5cm]thread A code.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_B:
     movl $1, y   /* y <- 1 */
     movl x, %eax /* return x */
     ret
 \end{lstlisting}
-};
-\node[anchor=north] (driver code) at ([yshift=.1cm,xshift=-.25cm]thread B code.south west) {
+\end{minipage}
 \begin{lstlisting}[language=C++,style=smaller]
 x = y = 0;
 pthread_create(&A, NULL, thread_A, NULL);
@@ -62,8 +57,6 @@ pthread_create(&B, NULL, thread_B, NULL);
 pthread_join(A, &A_result); pthread_join(B, &B_result);
 printf("A:%d B:%d\n", (int) A_result, (int) B_result);
 \end{lstlisting}
-};
-\end{tikzpicture} 
 \vspace{-.5cm}
 \begin{center}
 \small my desktop, 100M trials: \\

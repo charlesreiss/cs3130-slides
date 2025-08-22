@@ -18,27 +18,15 @@
 
 \begin{frame}[fragile,label=naiveEnableDisable1]{naive interrupt enable/disable (1)}
 \begin{tikzpicture}
-\node (lock code) {
-\begin{lstlisting}[
-    language=C++,
-    style=small,
-    moredelim={**[is][\color{red}\bfseries]{@1}{1@}},
-]    
-Lock() {
-    @1disable interrupts1@
-}
-\end{lstlisting}
+\node[align=left,font=\tt] (lock code) {
+Lock() \{ \\
+\hspace{1cm} \myemph{disable interrupts}
+\} 
 };
-\node[anchor=north west] (unlock code) at ([xshift=1cm]lock code.north east) {
-\begin{lstlisting}[
-    language=C++,
-    style=small,
-    moredelim={**[is][\color{red}\bfseries]{@1}{1@}},
-]    
-Unlock() {
-    @1enable interrupts1@
-}
-\end{lstlisting}
+\node[anchor=north west,align=left,font=\tt] (unlock code) at ([xshift=1cm]lock code.north east) {
+Unlock() \{ \\
+\hspace{1cm}\myemph{enable interrupts}
+\}
 };
 \end{tikzpicture}
 \begin{itemize}
@@ -68,27 +56,15 @@ Unlock() {
 
 \begin{frame}[fragile,label=naiveEnableDisable2]{naive interrupt enable/disable (2)}
 \begin{tikzpicture}
-\node (lock code) {
-\begin{lstlisting}[
-    language=C++,
-    style=small,
-    moredelim={**[is][\color{red}\bfseries]{@1}{1@}},
-]    
-Lock() {
-    @1disable interrupts1@
-}
-\end{lstlisting}
+\node[align=left,font=\tt] (lock code) {
+Lock() \{ \\
+\hspace{1cm} \myemph{disable interrupts}
+\} 
 };
-\node[anchor=north west] (unlock code) at ([xshift=1cm]lock code.north east) {
-\begin{lstlisting}[
-    language=C++,
-    style=small,
-    moredelim={**[is][\color{red}\bfseries]{@1}{1@}},
-]    
-Unlock() {
-    @1enable interrupts1@
-}
-\end{lstlisting}
+\node[anchor=north west,align=left,font=\tt] (unlock code) at ([xshift=1cm]lock code.north east) {
+Unlock() \{ \\
+\hspace{1cm}\myemph{enable interrupts} \\
+\}
 };
 \end{tikzpicture}
 \begin{itemize}

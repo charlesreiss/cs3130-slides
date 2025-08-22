@@ -1,36 +1,19 @@
 
 \begin{frame}[fragile,label=semaphoreMonitorNoBCast2A]{semaphores with monitors: no condition}
-\begin{tikzpicture}
-\tikzset{
-    code/.style={anchor=north west,font=
-        \lstset{
-            language=C++,
-            basicstyle=\fontsize{9}{10}\tt\selectfont,
-            morekeywords=pthread_mutex_t,
-            morekeywords=pthread_cond_t,
-            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
-        },
-        inner sep=0mm,
-    },
-    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
+\lstset{
+    language=C++,
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
 }
-\node[code,show at=0] (the lock) {
 \begin{lstlisting}
 pthread_mutex_t lock;
-\end{lstlisting}
-};
-\node[code,show at=0] (the count) at (the lock.south west){
-\begin{lstlisting}
 unsigned int count;
-\end{lstlisting}
-};
-\node[code,show at=0] (the condition) at (the count.south west){
-\begin{lstlisting}
 /* condition, broadcast when becomes count > 0 */
 pthread_cond_t count_is_positive_cv;
-\end{lstlisting}
-};
-\node[code,show at=0] (down code) at (the condition.south west){
+\end{lstlisting}}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void down() {
     pthread_mutex_lock(&lock);
@@ -43,8 +26,8 @@ void down() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[code,show at=0] (up code) at ([xshift=1cm]down code.north east){
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void up() {
     pthread_mutex_lock(&lock);
@@ -55,8 +38,7 @@ void up() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
     \begin{itemize}
         \item same as where we started\ldots
     \end{itemize}
@@ -64,37 +46,21 @@ void up() {
 
 \begin{frame}[fragile,label=semaphoreMonitorBCast2B]{semaphores with monitors: alt w/ signal}
 \begin{tikzpicture}
-\tikzset{
-    code/.style={anchor=north west,font=
-        \lstset{
-            language=C++,
-            basicstyle=\fontsize{9}{10}\tt\selectfont,
-            morekeywords=pthread_mutex_t,
-            morekeywords=pthread_cond_t,
-            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
-        },
-        inner sep=0mm,
-    },
-    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
+\lstset{
+    language=C++,
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
 }
-\node[code,show at=0] (the lock) {
 \begin{lstlisting}
 pthread_mutex_t lock;
-\end{lstlisting}
-};
-\node[code,show at=0] (the count) at (the lock.south west){
-\begin{lstlisting}
 unsigned int count;
-\end{lstlisting}
-};
-\node[code,show at=0] (the condition) at (the count.south west){
-\begin{lstlisting}
 /* condition, broadcast when becomes count > 0 */
 pthread_cond_t count_is_positive_cv;
 \end{lstlisting}
-};
-\node[code,show at=0] (down code) at (the condition.south west){
-\begin{lstlisting}
+\begin{minipage}{0.45\textwidth}
+\begin{lstlsiting}
 void down() {
     pthread_mutex_lock(&lock);
     while (!(count > 0)) {
@@ -111,8 +77,8 @@ void down() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[code,show at=0] (up code) at ([xshift=1cm]down code.north east){
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void up() {
     pthread_mutex_lock(&lock);
@@ -125,8 +91,7 @@ void up() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
 \begin{frame}{on signal/broadcast generally}

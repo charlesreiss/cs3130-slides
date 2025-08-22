@@ -1,23 +1,21 @@
 
-\begin{frame}[fragile]{why reorder here?}
-\begin{tikzpicture}
-\node (thread A code) {
+\begin{frame}[fragile]\frametitle{why reorder here?}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_A:
     movl $1, x   /* x <- 1 */
     movl y, %eax /* return y */
     ret
 \end{lstlisting}
-};
-\node[anchor=north west] (thread B code) at ([xshift=.5cm]thread A code.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=myasm,style=smaller]
 thread_B:
     movl $1, y   /* y <- 1 */
     movl x, %eax /* return x */
     ret
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \begin{itemize}
 \item thread A: faster to load \texttt{y} right now!
 \item \ldots rather than wait for write of \texttt{x} to finish

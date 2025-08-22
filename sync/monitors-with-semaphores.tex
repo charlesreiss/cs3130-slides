@@ -36,8 +36,7 @@ Signal() {
 \begin{itemize}
 \item start with only wait/signal:
 \end{itemize}
-\begin{tikzpicture}
-\node (part one) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 sem_t private_lock;  // initially 1
 int num_waiters;
@@ -51,8 +50,8 @@ Wait(Lock lock) {
   lock.Lock();
 }
 \end{lstlisting}
-};
-\node[anchor=south west] at (part one.south east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 Signal() {
   sem_wait(&private_lock);
@@ -63,16 +62,14 @@ Signal() {
   sem_post(&private_lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
 \begin{frame}[fragile,label=monitorWithSemaphoreCVA3]{monitors with semaphores: broadcast}
 \begin{itemize}
 \item now allows broadcast:
 \end{itemize}
-\begin{tikzpicture}
-\node (part one) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 sem_t private_lock;  // initially 1
 int num_waiters;
@@ -86,8 +83,8 @@ Wait(Lock lock) {
   lock.Lock();
 }
 \end{lstlisting}
-};
-\node[anchor=south west] at (part one.south east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 Broadcast() {
   sem_wait(&private_lock);
@@ -98,7 +95,6 @@ Broadcast() {
   sem_post(&private_lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 

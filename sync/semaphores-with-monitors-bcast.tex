@@ -1,36 +1,21 @@
 \usetikzlibrary{arrows.meta,matrix}
 
 \begin{frame}[fragile,label=semaphoreWithMonitorsBCast]{building semaphore with monitors (version B)}
-\begin{tikzpicture}
-\tikzset{
-    code/.style={anchor=north west,font=
         \lstset{
             language=C++,
             basicstyle=\fontsize{9}{10}\tt\selectfont,
             morekeywords=pthread_mutex_t,
             morekeywords=pthread_cond_t,
-        },
-        inner sep=0mm,
-    },
-    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
-}
-\node[code,show at=0] (the lock) {
+            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+        }
 \begin{lstlisting}
 pthread_mutex_t lock;
-\end{lstlisting}
-};
-\node[code,show at=0] (the count) at (the lock.south west){
-\begin{lstlisting}
 unsigned int count;
-\end{lstlisting}
-};
-\node[code,show at=0] (the condition) at (the count.south west){
-\begin{lstlisting}
 /* condition, broadcast when becomes count > 0 */
 pthread_cond_t count_is_positive_cv;
 \end{lstlisting}
-};
-\node[code,show at=0] (down code) at (the condition.south west){
+
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void down() {
     pthread_mutex_lock(&lock);
@@ -43,8 +28,8 @@ void down() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[code,show at=1] (up code) at ([xshift=1cm]down code.north east){
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void up() {
     pthread_mutex_lock(&lock);
@@ -58,9 +43,7 @@ void up() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
-\vspace{-.5cm}
+\end{minipage}
 \begin{itemize}
 \item before: signal every time
 \item can check if condition just became true instead?
@@ -69,37 +52,20 @@ void up() {
 \end{frame}
 
 \begin{frame}[fragile,label=semaphoreMonitorBCastEx]{exercise: why broadcast?}
-\begin{tikzpicture}
-\tikzset{
-    code/.style={anchor=north west,font=
         \lstset{
             language=C++,
             basicstyle=\fontsize{9}{10}\tt\selectfont,
             morekeywords=pthread_mutex_t,
             morekeywords=pthread_cond_t,
             moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
-        },
-        inner sep=0mm,
-    },
-    show at/.style={opacity=0.0,alt=<#1->{opacity=1.0},alt=<#1>{draw=red,thick}},
-}
-\node[code,show at=0] (the lock) {
+        }
 \begin{lstlisting}
 pthread_mutex_t lock;
-\end{lstlisting}
-};
-\node[code,show at=0] (the count) at (the lock.south west){
-\begin{lstlisting}
 unsigned int count;
-\end{lstlisting}
-};
-\node[code,show at=0] (the condition) at (the count.south west){
-\begin{lstlisting}
 /* condition, broadcast when becomes count > 0 */
 pthread_cond_t count_is_positive_cv;
 \end{lstlisting}
-};
-\node[code,show at=0] (down code) at (the condition.south west){
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void down() {
     pthread_mutex_lock(&lock);
@@ -112,8 +78,8 @@ void down() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[code,show at=0] (up code) at ([xshift=1cm]down code.north east){
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void up() {
     pthread_mutex_lock(&lock);
@@ -126,8 +92,7 @@ void up() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \begin{itemize}
     \item exercise: why can't this be \texttt{pthread\_cond\_signal}?
     \item hint: think of two threads calling down + two calling up?

@@ -4,8 +4,7 @@
 \item but want to ensure first call to Consume() \textbf{always} returns first
 \item (no matter what ordering cond\_signal/cond\_broadcast use)
 \end{itemize}
-\begin{tikzpicture}
-\node (produce) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     language=C++,
     basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
@@ -29,8 +28,8 @@ Produce(item) {
   pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[anchor=north west] at (produce.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[
     language=C++,
     basicstyle=\tt\fontsize{9.5}{10.5}\selectfont,
@@ -53,16 +52,14 @@ Consume() {
   return item;
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 
 \iftoggle{heldback}{\excludecomment{isheldback}}{\includecomment{isheldback}}
 \begin{isheldback}
 \begin{frame}[fragile,label=monitorOrderExerciseSln]{monitor ordering exercise: solution}
 \small (one of many possible solutions) \\
-\begin{tikzpicture}
-\node (produce) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
 struct Waiter {
     pthread_cond_t cv;
@@ -85,8 +82,8 @@ Produce(item) {
  pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[anchor=north west] (consume) at (produce.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[basicstyle=\tt\fontsize{9.5}{10.5}\selectfont]
 Consume() {
   pthread_mutex_lock(&lock);
@@ -105,7 +102,6 @@ Consume() {
   return item;
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \end{frame}
 \end{isheldback}

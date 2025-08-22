@@ -1,5 +1,16 @@
 \usetikzlibrary{arrows.meta}
 
+\ifdefined\exCode\else\newsavebox\codeBoxA\fi
+\begin{lrbox}{\codeBoxA}
+\begin{lstlisting}[
+    language=C++,
+    basicstyle=\tt\fontsize{11}{12}\selectfont,
+]
+if (buffer.size() == buffer.capacity() - 1)
+    pthread_cond_signal(&space_ready);
+\end{lstlisting} \\
+\end{lrlbox}
+
 \begin{frame}<3>[fragile,label=boundedPCError]{bounded buffer producer/consumer}
 \vspace{-.5cm}
 \begin{lstlisting}[
@@ -43,13 +54,7 @@ Consume() {
 \begin{visibleenv}<3>
 \draw[draw=red,thick,<-] ([xshift=0cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
 CANNOT REPLACE WITH: \\
-\begin{lstlisting}[
-    language=C++,
-    basicstyle=\tt\fontsize{11}{12}\selectfont,
-]
-if (buffer.size() == buffer.capacity() - 1)
-    pthread_cond_signal(&space_ready);
-\end{lstlisting} \\
+\usebox{\codeBoxA} % buffer.size()
 what if two waiting producers and \\
 two consumers run right after each other \\
 problem: only one woken up

@@ -1,12 +1,9 @@
-\begin{frame}[fragile,label=waitForBothFinished]{exercise: wait for both finished}
-\begin{tikzpicture}
-\node (top) {
+\begin{frame}[fragile,label=waitForBothFinished]\frametitle{exercise: wait for both finished}
 \begin{lstlisting}[language=C++,style=smaller]
 pthread_mutex_t lock; pthread_cond_t cv;
 bool FirstFinished = false; bool SecondFinished = false;
 \end{lstlisting}
-};
-\node[anchor=north west] (left) at (top.south west) {
+\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 void FinishFirst() {
     pthread_mutex_lock(&lock);
@@ -15,8 +12,8 @@ void FinishFirst() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[anchor=north west] at (left.north east) {
+\end{minipage}
+\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 void FinishSecond() {
     pthread_mutex_lock(&lock);
@@ -25,8 +22,8 @@ void FinishSecond() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[anchor=north west] at (left.south west) {
+\end{minipage}
+\\
 \begin{lstlisting}[language=C++,style=smaller]
 void WaitForBothFinished() {
     pthread_mutex_lock(&lock);
@@ -36,7 +33,6 @@ void WaitForBothFinished() {
     pthread_mutex_unlock(&lock);
 }
 \end{lstlisting}
-};
 \end{tikzpicture}
 Fill in the blanks.
 \end{frame}

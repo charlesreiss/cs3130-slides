@@ -1,5 +1,91 @@
 \usetikzlibrary{calc,fit,matrix,shapes.callouts}
 
+\begingroup
+\lstset{
+    language=C++,
+    basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+    moredelim={**[is][\btHL]{@1}{1@}},
+}
+\tikzset{btHLbox/.append style={fill=blue!20}}
+\newsavebox\rwLockPlusReaders%
+\begin{lrbox}{\rwLockPlusReaders}
+\begin{lstlisting}
+mutex_lock(&lock);
+while (@1writers != 0 || waiting_writers != 01@) {
+  cond_wait(&ok_to_read_cv, &lock);
+}
+@1++readers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+\end{lrbox}
+\newsavebox\rwLockPlusWriters%
+\begin{lrbox}{\rwLockPlusWriters}
+\tikzset{btHLbox/.append style={fill=yellow!20}}
+\begin{lstlisting}
+mutex_lock(&lock);
+++waiting_writers;
+while (@1readers + writers != 01@) {
+  @1cond_wait(&ok_to_write_cv, &lock);1@
+}
+\end{lstlisting}
+\end{lrbox}
+\newsavebox\rwLockMinusReaders%
+\begin{lrbox}{\rwLockMinusReaders}
+\tikzset{btHLbox/.append style={fill=blue!20}}
+\begin{lstlisting}
+mutex_lock(&lock);
+@1--readers;1@
+if (readers == 0)
+  ...
+\end{lstlisting}
+\end{lrbox}
+\newsavebox\rwLockMinusReadersSignal%
+\begin{lrbox}{\rwLockMinusReadersSignal}
+\tikzset{btHLbox/.append style={fill=green!20}}
+\begin{lstlisting}
+mutex_lock(&lock);
+--readers;
+if (readers == 0)
+  @1cond_signal(&ok_to_write_cv)1@
+mutex_unlock(&lock);
+\end{lstlisting}
+\end{lrbox}
+\newsavebox\rwLockWriterGo%
+\begin{lrbox}{\rwLockWriterGo}
+\tikzset{btHLbox/.append style={fill=yellow!30}}
+\begin{lstlisting}
+while (@1readers + writers != 01@) {
+  cond_wait(&ok_to_write_cv, &lock);
+}
+@1--waiting_writers; ++writers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+\end{lrbox}
+\mnewsavebox{\rwLockReaderGoWriter}
+\begin{lrbox}{\rwLockReaderGoWriter}
+\tikzset{btHLbox/.append style={fill=yellow!30}}
+\begin{lstlisting}
+mutex_lock(&lock);
+if (waiting_writers != 0) {
+  cond_signal(&ok_to_write_cv);
+} else {
+  @1cond_broadcast(&ok_to_read_cv);1@
+}
+\end{lstlisting}
+\end{lrbox}
+\newsavebox{\rwLockReaderGoEnd}
+\begin{lrbox}{\rwLockReaderGoEnd}
+\tikzset{btHLbox/.append style={fill=violet!20}}
+\begin{lstlisting}
+while (writers != 0 && waiting_writers != 0) {
+  cond_wait(&ok_to_read_cv, &lock);
+}
+@1++readers;1@
+mutex_unlock(&lock);
+\end{lstlisting}
+\end{lrbox}
+\endgroup
+
 \begin{frame}[fragile,label=readerWriterSim]{simulation of reader/write lock}
 \vspace{-.5cm}
 \begin{itemize}
@@ -9,15 +95,6 @@
 \begin{tikzpicture}
 \tikzset{
     code/.style={
-        font=\lstset{
-            language=C++,
-            basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
-            moredelim={**[is][\btHL<1->]{@1}{1@}},
-            moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
-            moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
-            moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
-            moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
-        },
     },
     codebox/.style={
         code,draw,thick,
@@ -77,88 +154,36 @@
         ($(timeline.north west) + \x*(0,-.5cm)$) rectangle (timeline.south east);
 }
 \begin{visibleenv}<3|handout:0>
-\tikzset{btHLbox/.append style={fill=blue!20}}
 \node[my callout=timeline-3-1.east,fill=white,anchor=north west] at ([yshift=-1cm,xshift=-2cm]timeline-3-1.south) {
-\begin{lstlisting}
-mutex_lock(&lock);
-while (@1writers != 0 || waiting_writers != 01@) {
-  cond_wait(&ok_to_read_cv, &lock);
-}
-@1++readers;1@
-mutex_unlock(&lock);
-\end{lstlisting}
+\usebox{\rwLockPlusReaders}
 };
 \end{visibleenv}
 \begin{visibleenv}<5|handout:0>
-\tikzset{btHLbox/.append style={fill=yellow!20}}
 \node[my callout=timeline-5-3.south,fill=white,anchor=north] at ([yshift=-1cm]timeline-5-3.south) {
-\begin{lstlisting}
-mutex_lock(&lock);
-++waiting_writers;
-while (@1readers + writers != 01@) {
-  @1cond_wait(&ok_to_write_cv, &lock);1@
-}
-\end{lstlisting}
+\usebox{\rwLockPlusWriters}
 };
 \end{visibleenv}
 \begin{visibleenv}<7|handout:0>
-\tikzset{btHLbox/.append style={fill=blue!20}}
 \node[my callout=timeline-7-1.east,fill=white,anchor=west] at ([xshift=1cm]timeline-7-1.east) {
-\begin{lstlisting}
-mutex_lock(&lock);
-@1--readers;1@
-if (readers == 0)
-  ...
-\end{lstlisting}
+\usebox{\rwLockMinusReaders}
 };
 \end{visibleenv}
 \begin{visibleenv}<8|handout:0>
-\tikzset{btHLbox/.append style={fill=green!20}}
 \node[my callout=timeline-8-2.east,fill=white,anchor=west] at ([xshift=1cm]timeline-8-2.east) {
-\begin{lstlisting}
-mutex_lock(&lock);
---readers;
-if (readers == 0)
-  @1cond_signal(&ok_to_write_cv)1@
-mutex_unlock(&lock);
-\end{lstlisting}
+\usebox{\rwLockMinusReadersSignal}
 };
 \end{visibleenv}
 \begin{visibleenv}<9|handout:0>
-\tikzset{btHLbox/.append style={fill=yellow!30}}
 \node[my callout=timeline-9-3.north,fill=white,anchor=south] at ([yshift=1cm]timeline-9-3.north) {
-\begin{lstlisting}
-while (@1readers + writers != 01@) {
-  cond_wait(&ok_to_write_cv, &lock);
-}
-@1--waiting_writers; ++writers;1@
-mutex_unlock(&lock);
-\end{lstlisting}
+\usebox{\rwLockWriterGo}
 };
 \end{visibleenv}
 \begin{visibleenv}<11|handout:0>
-\tikzset{btHLbox/.append style={fill=yellow!30}}
-\node[my callout=timeline-11-3.north,fill=white,anchor=south] at ([yshift=1cm]timeline-11-3.north) {
-\begin{lstlisting}
-mutex_lock(&lock);
-if (waiting_writers != 0) {
-  cond_signal(&ok_to_write_cv);
-} else {
-  @1cond_broadcast(&ok_to_read_cv);1@
-}
-\end{lstlisting}
-};
+\usebox{\rwLockReaderGoWriter}
 \end{visibleenv}
 \begin{visibleenv}<12|handout:0>
-\tikzset{btHLbox/.append style={fill=violet!20}}
 \node[my callout=timeline-12-4.north,fill=white,anchor=south] at ([yshift=1cm]timeline-11-4.north) {
-\begin{lstlisting}
-while (writers != 0 && waiting_writers != 0) {
-  cond_wait(&ok_to_read_cv, &lock);
-}
-@1++readers;1@
-mutex_unlock(&lock);
-\end{lstlisting}
+\usebox{\rwLockReaderGoEnd}
 };
 \end{visibleenv}
 \begin{visibleenv}<13|handout:0> \end{visibleenv}

@@ -40,12 +40,7 @@ Consume() {
 \begin{visibleenv}<3>
 \draw[draw=red,thick,<-] ([xshift=-2cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
     correct (but slow?) to replace with: \\
-\begin{lstlisting}[
-    language=C++,
-    basicstyle=\tt\fontsize{11}{12}\selectfont,
-]
-pthread_cond_broadcast(&space_ready);
-\end{lstlisting} \\
+\texttt{pthread\_cond\_broadcast(\&space\_ready);}
 (just more ``spurious wakeups'')
 };
 \end{visibleenv}

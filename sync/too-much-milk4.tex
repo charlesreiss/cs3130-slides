@@ -19,30 +19,26 @@
 \begin{scope}
 \tikzset{
     every label/.style={font=\bfseries},
-    every node/.style={inner sep=0.25mm},
+    every node/.style={inner sep=0.25mm,font=\tt\small,align=left},
 }
 \node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
-\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<2-|handout:2->]{@2}{2@}}]
-leave note from Alice
-while (note from Bob) {
-    do nothing
-}
-if (no milk) {
-    buy milk
-}
+leave note from Alice \\
+while (note from Bob) \{ \\
+    \hspace{.5cm} do nothing \\
+\} \\
+if (no milk) \{ \\
+    \hspace{.5cm} buy milk \\
+\} \\
 remove note from Alice
-\end{lstlisting}
 };
 \node[label={north:Bob},anchor=north west] (thread B part 1) at ([xshift=2cm]thread A part 1.north east) {
-\begin{lstlisting}[language=C++,style=small,moredelim={**[is][\btHL<2-|handout:2->]{@2}{2@}}]
-leave note from Bob
-if (no note from Alice) {
-    if (no milk) {
-        buy milk
-    }
-}
+leave note from Bob \\
+if (no note from Alice) \{ \\
+    \hspace{.5cm} if (no milk) \{ \\
+        \hspace{1cm} buy milk \\
+    \hspace{.5cm} \} \\
+\} \\
 remove note from Bob
-\end{lstlisting}
 };
 \end{scope}
 \end{tikzpicture}

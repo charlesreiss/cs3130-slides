@@ -3,8 +3,7 @@
 \begin{itemize}
     \item if we want to make sure threads woken up \myemph{in order}
 \end{itemize}
-\begin{tikzpicture}
-\node (part one) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 ThreadSafeQueue<sem_t> waiters;
 Wait(Lock lock) {
@@ -17,8 +16,8 @@ Wait(Lock lock) {
   lock.Lock();
 }
 \end{lstlisting}
-};
-\node[anchor=south west] at (part one.south east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,basicstyle=\fontsize{9.5}{10.5}\tt\selectfont]
 Signal() {
   sem_t *next = waiters.DequeueOrNull();
@@ -27,8 +26,7 @@ Signal() {
   }
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 \begin{itemize}
 \item<2-> (but now implement queue with semaphores\ldots)
 \end{itemize}

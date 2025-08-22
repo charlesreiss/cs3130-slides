@@ -27,40 +27,32 @@ if (no milk) {
 \begin{tikzpicture}
 \tikzset{
     every label/.style={font=\bfseries},
-    every node/.style={inner sep=0.5mm},
+    every node/.style={inner sep=0.5mm,font=\tt\small},
 }
 \node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
-\begin{lstlisting}[language=C++,style=small]
-if (no milk) {
-    if (no note) {
-\end{lstlisting}
+if (no milk) \{ \\
+\hspace{.5cm} if (no note) \{ \\
 };
 \node[label={north:Bob},anchor=north west] (thread B top) at ([xshift=2cm]thread A part 1.north east) {
 \hspace{5cm}
 };
 \node[align=left,anchor=north west] (thread B part 1) at (thread B top.west |- thread A part 1.south) {
-\begin{lstlisting}[language=C++,style=small]
-if (no milk) {
-    if (no note) {
-\end{lstlisting}
+if (no milk) \{ \\
+\hspace{.5cm} if (no note) \{ \\
 };
 \node[align=left,anchor=north west] (thread A part 2) at (thread A part 1.west |- thread B part 1.south) {
-\begin{lstlisting}[language=C++,style=small]
-        leave note;
-        buy milk;
-        remove note;
-    }
-}
-\end{lstlisting}
+\hspace{1cm} leave note; \\
+\hspace{1cm} buy milk; \\
+\hspace{1cm} remove note; \\
+\hspace{0.5cm} \} \\
+\}
 };
 \node[align=left,anchor=north west] (thread B part 2) at (thread B part 1.west |- thread A part 2.south) {
-\begin{lstlisting}[language=C++,style=small]
-        leave note;
-        buy milk;
-        remove note;
-    }
-}
-\end{lstlisting}
+\hspace{1cm} leave note; \\
+\hspace{1cm} buy milk; \\
+\hspace{1cm} remove note; \\
+\hspace{.5cm} \} \\
+\} 
 };
 \end{tikzpicture}
 \end{frame}
