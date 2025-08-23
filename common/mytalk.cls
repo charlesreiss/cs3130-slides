@@ -155,6 +155,12 @@
 \newcommand{\lmss}{\fontfamily{lmtt}\selectfont}
 \renewcommand\textvisiblespace{{\lmss\char"2423}}
 
+\newenvironment{FragileFrame}{%
+    \begin{frame}[environment=FragileFrame,fragile]
+}{%
+    \end{frame}
+}
+
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
 \newcommand{\imagecredit}[1]{
@@ -210,5 +216,4 @@
 }
 
 \endinput
-
 
