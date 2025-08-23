@@ -1,0 +1,27 @@
+\begin{FragileFrame}\frametitle{warning re: forking in loops}
+\lstset{language=C,style=smaller}
+\begin{lstlisting}
+while (true) {
+    fork();
+}
+\end{lstlisting}
+    \begin{itemize}
+    \item what's going to happen?
+        \begin{itemize}
+        \item lots of CPU being used
+        \item lots of memory being allocated
+        \item control-C might only terminate one of the processes
+        \end{itemize}
+    \item<2-> \myemph{probably very bad and hard to recover from}
+    \end{itemize}
+\end{FragileFrame}
+
+\begin{frame}{some recommendations re: timing}
+    \begin{itemize}
+    \item in timing assignment, you'll need to run \texttt{fork()} multiple times to measure it
+    \vspace{.5cm}
+    \item I recommend:
+    \item always waitpid \myemph{successfully} before fork()ing a second time
+    \item test fork()ing exactly once before doing a loop
+    \end{itemize}
+\end{frame}
