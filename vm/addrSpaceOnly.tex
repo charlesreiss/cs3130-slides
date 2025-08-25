@@ -2,8 +2,9 @@
 
 \begin{frame}{address spaces}
 \begin{itemize}
-\item illuision of \myemph{dedicated memory}
+\item illusion of \myemph{dedicated memory}
 \end{itemize}
+\myalttext{
 \begin{tikzpicture}
 \tikzset{
     every node/.style={font=\small},
@@ -41,4 +42,6 @@
     \node[fill=red,fill opacity=0.1,draw=red,ultra thick,fit=(translationA) (translationB),label={[red]north:chose one during context switch}] {};
 \end{visibleenv}
 \end{tikzpicture}
+}{Diagram showing processes A and B have different mappings from virtual (program) to physical (real) addresses set by the OS.
+The mapping can also specifies that some addresses trigger exceptions or are usable in kernel mode only.}
 \end{frame}
