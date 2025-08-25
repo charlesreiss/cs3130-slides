@@ -59,14 +59,14 @@
 \newcommand{\myalttextC}[4]{%
 \only<1>{\pdftooltip{#1}{#2}}%
 \only<2>{\pdftooltip{#1}{#3}}%
-\only<3->{\pdftooltip{#1}{#3}}%
+\only<3->{\pdftooltip{#1}{#4}}%
 }
 
 \newcommand{\myalttextD}[5]{%
 \only<1>{\pdftooltip{#1}{#2}}%
 \only<2>{\pdftooltip{#1}{#3}}%
-\only<3>{\pdftooltip{#1}{#3}}%
-\only<4->{\pdftooltip{#1}{#4}}%
+\only<3>{\pdftooltip{#1}{#4}}%
+\only<4->{\pdftooltip{#1}{#5}}%
 }
 
 

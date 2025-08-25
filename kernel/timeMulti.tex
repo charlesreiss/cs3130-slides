@@ -1,6 +1,7 @@
 \usetikzlibrary{arrows.meta,patterns}
 
 \begin{frame}\frametitle{time multiplexing}
+\myalttextC{
 \begin{tikzpicture}
 \tikzset{
     prog1/.style={draw,fill=cyan!70},
@@ -18,7 +19,6 @@
 }
 \end{scope}
 \node[anchor=east] at (-0.25, 0.5) {processor:};
-% FIXME: system
 \begin{scope}[yscale=1,yshift=-2.5mm]
 \draw[thick,-Latex] (1,0) node[left] {time} -- (10.5,0);
 \end{scope}
@@ -46,5 +46,12 @@ loop: ... \\
     };
 \end{visibleenv}
 \end{tikzpicture}
+}{%
+    Timeline showing loop.exe as active for some time, then nothing active, then loop.exe active
+}{%
+    Same diagram, with the assembly instructions listed from an infinite loop, showing a "million cycle delay" where loop.exe is inactive.
+}{%
+    Same diagram, but now the inactive period is filled by ssh.exe and firefox.exe.
+}
 \end{frame}
 
