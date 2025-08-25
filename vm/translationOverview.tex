@@ -1,5 +1,6 @@
 \usetikzlibrary{arrows.meta,calc,positioning,shapes.multipart}
 \begin{frame}{address translation}
+\myalttext{
 \begin{tikzpicture}
 \tikzset{
     every node/.style={font=\small},
@@ -45,4 +46,8 @@
 };
 \end{visibleenv}
 \end{tikzpicture}
+}{%
+    Diagram showing program addresses (program and data) being converted to real addresses using a mapping set by the OS.
+    The program addresses are called "virtual" and the real addresses are called "physical".
+}
 \end{frame}
