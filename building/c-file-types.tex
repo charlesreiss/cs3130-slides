@@ -1,7 +1,7 @@
 \usetikzlibrary{arrows.meta,chains}
 
 \begin{frame}\frametitle{files in building C programs [dynamic linking]}
-    % FIXME: alt text
+\myalttext{
 \begin{tikzpicture}
 \tikzset{
     file/.style={font=\small,draw,align=center},
@@ -50,7 +50,7 @@
     libc.so
 };
 \draw[dotted,thick,loader] (program) -- (libc so) node[fill=white,midway,font=\small] {loads at runtime};
-
+%
 \coordinate (annotate) at ([xshift=-2cm,yshift=-0.2cm]program.south west);
 \tikzset{
     action/.style={at={(annotate)},anchor=north west,align=left},
@@ -93,11 +93,17 @@
         \texttt{./program ...}
     };
 \end{visibleenv}
-% FIXME: show combining more files
 \end{tikzpicture}
+}{%
+Dependency diagram (repeated with slight variations on several slides) showing source files main.c, main.h, extra.h, stdio.h, extra.c; main.s built from main.c, main.h, extra.h, stdio.h; extra.s built from extra.c, extra.h; main.o built from main.s; extra.o built from extra.s; 
+and program (an executable) built from main.o, extra.o and system files. The program is shown to load libc.so at runtime.
+The first version of the diagram omits the .s files and then shows the .o files produced from the .c and .h files with commands like "clang -c main.c". Then, the .S files are added
+with commands like "clang -S -c main.c" that produces them shown. A later slide also show the command "clang -o program main.o extra.o" (used to produce the program from the .o files and some system files).
+}
 \end{frame}
 
 \begin{frame}{files in building C programs [static linking]}
+\myalttext{
 \begin{tikzpicture}
 \tikzset{
     file/.style={font=\small,draw,align=center},
@@ -134,8 +140,10 @@
 \foreach \nm in {main o,extra o,compiler o,libc a} {
     \draw[produce main] ([xshift=1mm]\nm.south) |- ([yshift=1cm]program.north) -- (program.north);
 }
-% FIXME: show combining more files
 \end{tikzpicture}
+}{%
+same dependency diagram as previous slide, but instead of loading libc.so at runtime, the program is built using libc.a in addition to other files
+}
 \end{frame}
 
 \begin{frame}\frametitle{file extensions}
