@@ -38,7 +38,7 @@
 \RequirePackage{lmodern}
 \RequirePackage[normalem]{ulem} % for sout
 \RequirePackage{pdfpages}
-\RequirePackage{emoji}
+%\RequirePackage{emoji}
 \RequirePackage{pdfcomment}
 \RequirePackage{contour}
 
@@ -68,6 +68,34 @@
 \only<3>{\pdftooltip{#1}{#3}}%
 \only<4->{\pdftooltip{#1}{#4}}%
 }
+
+
+%\newfontfamily\sourcecodepro[
+%    Path={../common/},
+%    Extension=.otf,
+%    UprightFont=SourceCodePro-Regular,
+%    ItalicFont=SourceCodePro-RegularIt,
+%    BoldFont=SourceCodePro-Semibold,
+%    BoldItalicFont=SourceCodePro-SemiboldIt
+%]{Source Code Pro}
+%
+%\newfontfamily\sourcecodeprolight[
+%    Path={../common/},
+%    Extension=.otf,
+%    UprightFont=SourceCodePro-Regular,
+%    ItalicFont=SourceCodePro-RegularIt,
+%    BoldFont=SourceCodePro-Medium,
+%    BoldItalicFont=SourceCodePro-MediumIt
+%]{Source Code Pro Light}
+%
+%\setmonofont[
+%    Path={../common/},
+%    Extension=.otf,
+%    UprightFont=SourceCodePro-Regular,
+%    ItalicFont=SourceCodePro-RegularIt,
+%    BoldFont=SourceCodePro-Semibold,
+%    BoldItalicFont=SourceCodePro-SemiboldIt
+%]{Source Code Pro}
 
 \newfontfamily\sourcecodepro[
     UprightFont=*-Regular,
