@@ -1,6 +1,7 @@
 \usetikzlibrary{arrows.meta,patterns}
 
 \begin{frame}{keyboard input timeline}
+\myalttext{
 \begin{tikzpicture}
 \tikzset{
     prog1/.style={draw,fill=cyan},
@@ -31,6 +32,11 @@
 \node[anchor=west] at (1, -1.5) {\strut = operating system};
 \end{scope}
 \end{tikzpicture}
+}{%
+Timeline showing processor activity on a keypress. A program called read\_input.exe makes a read system call,
+causing the operating system to run other programs for a while. Then, an event from the keyboard triggers
+the operating system to run, and it chooses to resume read\_input.exe
+}
 \end{frame}
 
 
