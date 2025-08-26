@@ -6,7 +6,7 @@ $ ./foo.exe
 $ edit readline.c
 $ make
 clang -g -O -Wall -c readline.c -o readline.o
-ar rcs terminal.o readline.o libreadline.a
+ar rcs libreadline.a terminal.o readline.o
 clang -o foo.exe foo.o foo-utility.o -L. -lreadline
 $ 
 \end{Verbatim}
