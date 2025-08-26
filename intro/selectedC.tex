@@ -44,7 +44,7 @@
 \node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single) at (ptr single.south west) {
 ptr = 0x28;
 };
-\node[right] at (bad ptr single.east) {compile error};
+\node[right] at (bad ptr single.east) {compile error (hopefully)};
 \node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single 2) at ([yshift=-.25cm]bad ptr single.south west) {
 ptr = (int*) single;
 };
@@ -66,7 +66,7 @@ ptr = (int*) single;
 \node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single) at (ptr single.south west) {
 ptr = array[0];
 };
-\node[right] at (bad ptr single.east) {compile error};
+\node[right] at (bad ptr single.east) {compile error*};
 \node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single 2) at ([yshift=-.25cm]bad ptr single.south west) {
 ptr = (int*) array[0];
 };
