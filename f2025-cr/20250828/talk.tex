@@ -9,7 +9,7 @@
 \begin{frame}{last time}
     \begin{itemize}
     \item logistics
-    \item topics generally
+    \item course `themes'
     \item C pointers
         \begin{itemize}
             \item given \texttt{type *p}
@@ -17,6 +17,11 @@
             \item \texttt{p = 0x1234}: don't do this
             \item \texttt{p + X}: advance pointer by X \texttt{type}s
             \item \texttt{p[X]}: same as \texttt{*(p+X)}
+        \end{itemize}
+    \item `returning' two values with a pointer
+        \begin{itemize}
+        \item \texttt{int foo(int *pointer);}
+        \item \texttt{int value2; value1 = foo(\&value2)};
         \end{itemize}
     \end{itemize}
 \end{frame}
