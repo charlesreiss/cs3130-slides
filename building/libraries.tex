@@ -1,4 +1,4 @@
-\begin{frame}{static libraries}
+\begin{frame}\frametitle{static libraries}
     \begin{itemize}
     \item Unix-like \textit{static} libraries: libfoo.a
     \item internally: archive of .o files with index
@@ -15,13 +15,13 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{shared libraries}
+\begin{frame}\frametitle{shared libraries}
     \begin{itemize}
     \item Linux \textit{shared} libraries: libfoo.so
     \item create:
         \begin{itemize}
-        \item compile .o files with \texttt{-fPIC} (position independent code)
-        \item then: \texttt{\textit{cc} -shared \ldots~-o libfoo.so}
+        \item compile .o files with \myemph<1>{\texttt{-fPIC}} (position independent code)
+        \item then: \texttt{\textit{cc} \myemph<1>{-shared} \ldots~-o libfoo.so}
         \end{itemize}
     \item use: \texttt{\textit{cc} \ldots -o program \myemph<2>{-L/path/to/lib} \ldots -lfoo}
         \begin{itemize}
@@ -32,4 +32,3 @@
     \item<2-> \myemph<2>{runtime path set separately}
     \end{itemize}
 \end{frame}
-
