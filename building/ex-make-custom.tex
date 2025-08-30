@@ -1,0 +1,64 @@
+\begin{FragileFrame}
+\frametitle{exericse setup}
+    \begin{itemize}
+    \item a program has source files compiler.c, main.c, functions.customlang
+    \item compiler.c builds a custom compiler
+    \item functions.customlang needs to be compiled with that compiler
+    \item so normal build process is:
+\begin{Verbatim}[frame=single,fontsize=\fontsize{9}{10}]
+clang -c compiler.c
+clang -c main.c
+clang -o compiler compiler.o
+./compiler -c functions.customlang
+clang -o program main.o functions.o
+\end{Verbatim}
+    \end{itemize}
+\end{FragileFrame}
+
+\begin{FragileFrame}
+\frametitle{exercise part 1}
+    \begin{itemize}
+    \item normal build process:
+\begin{Verbatim}[frame=single,fontsize=\fontsize{10}{11}]
+clang -c compiler.c
+clang -c main.c
+clang -o compiler compiler.o
+./compiler -c functions.customlang
+clang -o program main.o functions.o
+\end{Verbatim}
+    \item besides \texttt{program}, \texttt{main.o}, makefile should have what targets?
+\begin{tabular}{ll}
+    A. \texttt{functions.customlang} & B. \texttt{functions.o} \\
+    C. \texttt{compiler.o} & D. \texttt{compiler} \\
+    E. \texttt{all of the above} & F. \texttt{B+C} \\
+    G. \texttt{A+B+D} & H. \texttt{B+C+D} \\
+    I. something else 
+\end{tabular}
+    \end{itemize}
+\end{FragileFrame}
+
+\begin{FragileFrame}
+\frametitle{exercise part 2}
+    \begin{itemize}
+    \item normal build process:
+\begin{Verbatim}[frame=single,fontsize=\fontsize{10}{11}]
+clang -c compiler.c
+clang -c main.c
+clang -o compiler compiler.o
+./compiler -c functions.customlang
+clang -o program main.o functions.o
+\end{Verbatim}
+    \item part 2: make rule for functions.o? first blank = ???
+\begin{Verbatim}[frame=single,fontsize=\fontsize{11}{12}]
+functions.o: ____________________________________
+▶     _____________________________________
+\end{Verbatim}
+\begin{tabular}{llll}
+A. & \texttt{functions.customlang} & B. & \texttt{functions.customlang compiler} \\
+C. & \texttt{compiler} & D. & \texttt{functions.customlang compiler.o} \\
+E. & \texttt{functions.c} & F. & \texttt{program} \\
+G. & something else\\
+\end{tabular}
+    \end{itemize}
+\end{FragileFrame}
+
