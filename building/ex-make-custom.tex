@@ -62,3 +62,22 @@ G. & something else\\
     \end{itemize}
 \end{FragileFrame}
 
+\begin{FragileFrame}
+\frametitle{exercise part 3}
+    \begin{itemize}
+    \item normal build process:
+\begin{Verbatim}[frame=single,fontsize=\fontsize{10}{11}]
+clang -c compiler.c #1
+clang -c main.c #2
+clang -o compiler compiler.o #3
+./compiler -c functions.customlang #4
+clang -o program main.o functions.o #5
+\end{Verbatim}
+    \item command 1 goes in rule for which target? command 3? 4?
+\begin{tabular}{lll}
+    A. \texttt{compiler.o} & B. \texttt{main.o} & C. \texttt{compiler} \\
+    D. \texttt{functions.o} & E. \texttt{program} & F. something else \\
+\end{tabular}
+    \end{itemize}
+\end{FragileFrame}
+
