@@ -1,0 +1,19 @@
+\begin{frame}{exercise}
+\begin{itemize}
+\item \texttt{foo/bar/baz} (all directories)
+    \begin{itemize}
+    \item \texttt{foo}: owner 613; group 75; permissions \texttt{0755}
+    \item \texttt{bar}: owner 1219; group 75; permissions \texttt{0750}
+    \item \texttt{baz}: owner 1219; group 75; permissions \texttt{0730}
+    \end{itemize}
+\item users 613+1219s processes are part of group 75
+\item (1 = execute/search; 2 = write; 4 = read)
+\item which will work?
+    \begin{itemize}
+    \item user 613 does \texttt{ls -l foo}
+    \item user 613 does \texttt{ls foo/bar}
+    \item user 613 writes \texttt{foo/bar/quux}
+    \item user 613 deletes \texttt{foo/bar/baz}
+    \end{itemize}
+\end{itemize}
+\end{frame}

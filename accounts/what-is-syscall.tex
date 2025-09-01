@@ -1,17 +1,17 @@
-\begin{frame}{What is a system call?}
+\begin{frame}{system call = ???}
 
 	\begin{itemize}
-	\item (will discuss in more detail in next lecture)
-	\item Briefly - special syscall {\em instruction} run w/ \textit{system call number} set
+	\item (more detail in later lecture)
+        \item way for programs to make request to OS:
+        \item program sets registers to indicate requested operation 
             \begin{itemize}
-            \item system call number = open requested
-            \item other arguments passed like a normal function
+            \item example: ``open foo.txt''
+            \item ``system call number'' (open) and ``arguments'' (foo.txt)
             \end{itemize}
-	\item instruction switches hardware into privileged mode, runs OS function
-	\item this function decides if the ``open'' call is allowed to proceed
-	\item only implemented syscalls are supported
-	\item handlers written carefully (we hope) to ensure correct permission checking
+	\item program runs special instruction (x86-64: \texttt{syscall})
+	\item hardware switches into \textit{privileged} mode + runs OS function
+        \item OS function decodes requested operation from registers
+        \item OS function \textit{decides} if operation is allowed to proceed
 	\end{itemize}
-
 \end{frame}
 
