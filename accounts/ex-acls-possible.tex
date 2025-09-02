@@ -1,0 +1,11 @@
+\begin{frame}{exercise: ACLs versus chmod}
+\begin{itemize}
+\item which ACL rulesets are possible to imitate with chmod?
+\end{itemize}
+\begin{tabular}{llll}
+A. & \begin{minipage}{5cm}{\texttt{user:foo:rw-}\\\texttt{user:bar:r--}\\\texttt{user:quux:-w-}\\\texttt{other:---}}\end{minipage}&
+B. & \begin{minipage}{5cm}{\texttt{user:foo:rw-}\\\texttt{user:bar:r--}\\\texttt{user:quux:---}\\\texttt{other:---}}\end{minipage}\\[2cm]
+C. & \begin{minipage}{5cm}{\texttt{user:foo:rw-}\\\texttt{user:bar:rw-}\\\texttt{user:quux:r--}\\\texttt{other:r--}}\end{minipage}&
+D. & \begin{minipage}{5cm}{\texttt{user:foo:rw-}\\\texttt{group:G:r--}\\\texttt{user:quux:rw-}\\\texttt{other:---}}\end{minipage}\\
+\end{tabular}
+\end{frame}
