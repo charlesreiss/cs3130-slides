@@ -4,8 +4,8 @@
     \item library functions to not write assembly:
 \end{itemize}
 \lstset{language=myasm,style=small,morekeywords={syscall,cmp,jl,ret,neg,movq,ret},
-    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
-    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<1>]{@1}{@},
+    moredelim=**[is][\btHL<2>]{@2}{@},
 }
 \begin{lstlisting}
 open:
@@ -28,8 +28,8 @@ has_error:
 \lstset{
     language=C,
     style=small,
-    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
-    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
+    moredelim=**[is][\btHL<1>]{@1}{@},
+    moredelim=**[is][\btHL<2>]{@2}{@},
 }
 \begin{lstlisting}
 /* unistd.h contains definitions of:

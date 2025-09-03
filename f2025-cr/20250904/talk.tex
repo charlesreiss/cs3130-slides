@@ -6,10 +6,11 @@
     \titlepage
 \end{frame}
 
-\begin{frame}{last time}
+\begin{FragileFrame}
+\frametitle{last time}
     \begin{itemize}
     \item make macros (CFLAGS=\ldots; \$(CFLAGS))
-    \item automatic macros for part of rules (\$@, \$<, \$^)
+    \item automatic macros for part of rules (\verb|$@|, \verb|$<|, \verb|$^|)
     \item make pattern rules (\%.o: \%.c)
     \vspace{.5cm}
     \item user IDs and group IDs
@@ -17,11 +18,12 @@
         \begin{itemize}
         \item owner/group/other read/write/execute
         \end{itemize}
-    \item general ACLs
+    \item general access control lists
     \end{itemize}
-\end{frame}
+\end{FragileFrame}
 
-\begin{frame}{quiz logistics}
+\begin{frame}
+\frametitle{quiz logistics}
 \end{frame}
 
 \begin{frame}{ACLs establish permissions}
@@ -34,6 +36,8 @@
             \end{itemize}
     \end{itemize}
 \end{frame}
+
+\input{../common/listingsLib}
 
 \section{enforcing permissions}
 \input{../accounts/auth-unix-check}

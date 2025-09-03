@@ -1,4 +1,5 @@
-\begin{frame}{Linux x86-64 system calls}
+\begin{frame}
+\frametitle{Linux x86-64 system calls}
 \begin{itemize}
 \item special instruction: {\tt syscall}
 \item runs OS specified code in kernel mode
@@ -52,13 +53,14 @@ handle_syscall:
 
 % FIXME: kernel stack diagram
 
-\begin{frame}{Linux system call examples}
+\begin{frame}
+\frametitle{Linux system call examples}
 \begin{itemize}
 \item {\tt mmap}, {\tt brk} --- allocate memory
 \item {\tt fork} --- create new process
 \item {\tt execve} --- run a program in the current process
-\item {\tt \myemph<2>{\_exit}} --- terminate a process
 \item {\tt open}, {\tt \myemph<2>{read}}, {\tt write} --- access files
+\item {\tt \myemph<2>{\_exit}} --- terminate a process
 \item {\tt socket}, {\tt accept}, {\tt getpeername} --- socket-related
 \end{itemize}
 \end{frame}
