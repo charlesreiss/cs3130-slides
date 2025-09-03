@@ -1,0 +1,73 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item make macros (CFLAGS=\ldots; \$(CFLAGS))
+    \item automatic macros for part of rules (\$@, \$<, \$^)
+    \item make pattern rules (\%.o: \%.c)
+    \vspace{.5cm}
+    \item user IDs and group IDs
+    \item chmod-style permissions
+        \begin{itemize}
+        \item owner/group/other read/write/execute
+        \end{itemize}
+    \item general ACLs
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{quiz logistics}
+\end{frame}
+
+\begin{frame}{ACLs establish permissions}
+    \begin{itemize}
+        \item identity: \textit{who} is running a process or accessing a resource
+        \item permissions: who has what access to a file or resource
+        \item now need \textit{enforcement}
+            \begin{itemize}
+            \item ensure that permissions are implemented correctly
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{enforcing permissions}
+\input{../accounts/auth-unix-check}
+
+%\subsection{exercise: why not check}
+%\input{../accounts/check-perm-when-exer}
+
+\section{superuser}
+\input{../accounts/auth-unix-superuser}
+
+\section{becoming superuser}
+
+\subsection{on boot, /bin/login}
+\input{../accounts/bin-login}
+
+\subsection{set-user-ID/sudo}
+\input{../accounts/sudo}
+
+\input{../accounts/setuid-use}
+
+\subsection{setuid ``gates''}
+\input{../accounts/setuid-gates}
+
+\subsection{a litany of silly setuid program issues}
+\input{../accounts/setuid-hard-to-write}
+
+\section{privilege escalation}
+\input{../accounts/priv-escalate}
+
+\input{../kernel/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../accounts/talk-backup}
+\end{document}

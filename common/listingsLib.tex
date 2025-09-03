@@ -6,7 +6,7 @@
 
 \ifdefined\NewDocumentCommand
 \NewDocumentCommand\btHL{D<>{all} +m}{%
-  \only#1{\begin{btHighlight}[#2]\bgroup\aftergroup\bt@HL@endenv}%
+  \only<#1>{\begin{btHighlight}[#2]\bgroup\aftergroup\bt@HL@endenv}%
 }
 \else
 \newcommand<>\btHL[1][]{%
