@@ -1,0 +1,122 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+\item superuser
+    \begin{itemize}
+    \item OS says yes to permission checks
+    \end{itemize}
+\item set-user-ID idea
+    \begin{itemize}
+    \item mark program to run as owner
+    \item way for sysadmin to give access in ways OS does not allow
+    \end{itemize}
+\item kernel-mode idea
+\item system calls
+\end{itemize}
+\end{frame}
+
+\input{../kernel/malicious-p}
+
+\input{../kernel/unix-design-build-lib.tex}
+
+\subsection{system calls on Linux}
+% FIXME import slides
+\input{../kernel/sysCallLinux}
+
+\subsection{maybe not return?}
+\input{../kernel/syscallThreadLaterDiag}
+
+
+\subsection{system call wrappers}
+\input{../kernel/syscallWrap}
+% \input{../kernel/sysCallWrapperShort}
+
+\section{interlude: strace}
+\input{../kernel/strace-hello}
+
+\section{kernel + standard library}
+\againframe<2>{unixDesignHWNoLib}
+\againframe<1->{unixDesignHWLib}
+
+\section{memory protection}
+\againframe<3>{portalShouldnt}
+
+\subsubsection{exercise: expected behavior?}
+\input{../kernel/memProtectQC}
+
+%\subsubsection{preview: shared memory}
+%\input{../kernel/previewSharedMemory}
+
+\subsubsection{address spaces}
+\input{../kernel/memProtectAddressSpaces}
+
+% FIXME: talk about ``crash'' in mem protect Q case
+\section{extending system calls: exception idea}
+\input{../kernel/exceptIdea}
+
+\subsection{reasons for exceptions, generally}
+\input{../kernel/exceptKindInfoLib}
+\againframe<1-4>{exceptTypesN}
+
+\section{infinite loop}
+\againframe<4>{portalShouldnt}
+
+\againframe<5>{exceptTypesN}
+
+\section{exception kinds, summarized}
+\input{../kernel/exceptVenn}
+
+\subsection{exception handling generalized}
+\input{../kernel/exceptThreadDiag}
+
+\subsection{operating system runs}
+\input{../kernel/contextSwitchTimeline}
+
+\subsection{context switches} 
+\input{../kernel/contextSwitch}
+
+\section{thread idea}
+\input{../kernel/thread}
+
+\section{not just timers}
+\againframe<6>{exceptTypesN}
+
+\subsection{typical I/O pattern}
+\input{../kernel/exceptIOPattern}
+
+\input{../kernel/keyInTimeline}
+
+\section{combined timeline}
+\input{../kernel/ioTimeline}
+
+\section{preview: empty loop lab}
+\input{../kernel/emptyLoopLab}
+
+\section{review: exception / context switch}
+\input{../kernel/reviewExceptCtxt}
+
+\section{exercise}
+\input{../kernel/howManyEx}
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{process}
+\input{../kernel/processIdea}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
