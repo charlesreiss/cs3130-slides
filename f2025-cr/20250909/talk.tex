@@ -21,7 +21,30 @@
     \item way for sysadmin to give access in ways OS does not allow
     \end{itemize}
 \item kernel-mode idea
+    \begin{itemize}
+    \item limit access to I/O + other hardware features to OS code
+    \item check made by hardware whne executing `dangerous' instructions
+    \item program code runs with more limited interface
+    \end{itemize}
 \item system calls
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{notes on quiz Q2cd}
+\begin{itemize}
+\item modifying f: \\ look at \texttt{all: a b c d}
+    \begin{itemize}
+    \item \texttt{a: e f g} $\rightarrow$ buildA must run since f updated
+    \item \texttt{b: e d} $\rightarrow$ check if d up-to-date
+        \begin{itemize}
+        \item \texttt{d: a c} $\rightarrow$ buildD must run since just updated a
+        \item $\rightarrow$ buildB must run since d just updated
+        \end{itemize}
+    \item \texttt{c: e g} $\rightarrow$ nothing to do
+    \item \texttt{d: a c} --- already handled
+    \end{itemize}
+\item (essentially same logic for g)
 \end{itemize}
 \end{frame}
 
