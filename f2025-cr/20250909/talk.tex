@@ -29,9 +29,10 @@
 \frametitle{notes on quiz Q4}
 \begin{itemize}
 \item \texttt{u+s} = set-user-ID bit (run as owner, not whoever started it)
-\item don't need read permission to execute compiled executable
+\item \myemph{don't need read permission to execute compiled executable}
     \begin{itemize}
     \item regardless of whether it is marked set-user-ID
+    \item ends up being needed for scripts (e.g. Python/shell) because interpreter program needs to open file
     \end{itemize}
 \item \texttt{chmod o+x} doesn't change user/group execute permission
     \begin{itemize}
