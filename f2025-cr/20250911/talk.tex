@@ -1,0 +1,60 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+\item exceptions --- generalizing system calls
+    \begin{itemize}
+    \item triggered by out-of-bounds accesses, div-by-zero, etc.
+    \item hardware can't crash program itself
+    \end{itemize}
+\item I/O and exceptions
+    \begin{itemize}
+    \item I/O devices can trigger exception when OS needs to handle I/O in middle of other things
+    \end{itemize}
+\item timers to force OS to run
+\item context switches
+    \begin{itemize}
+    \item context = info about process saved/restored by OS
+    \end{itemize}
+\end{itemize]
+\end{frame}
+
+\subsection{typical I/O pattern}
+\input{../kernel/exceptIOPattern}
+
+\input{../kernel/keyInTimeline}
+
+\section{combined timeline}
+\input{../kernel/ioTimeline}
+
+\section{preview: empty loop lab}
+\input{../kernel/emptyLoopLab}
+
+\section{review: exception / context switch}
+\input{../kernel/reviewExceptCtxt}
+
+\section{exercise}
+\input{../kernel/howManyEx}
+
+\subsection{aside: terms}
+\input{../kernel/exceptTerms}
+
+\section{process}
+\input{../kernel/processIdea}
+
+\input{../unix-api/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../unix-api/talk-backup}
+
+\end{document}
