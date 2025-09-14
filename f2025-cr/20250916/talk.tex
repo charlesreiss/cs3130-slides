@@ -1,0 +1,126 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\input{../common/listingsLib}
+\usetikzlibrary{patterns}
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+\item fork = copy current process
+    \begin{itemize}
+    \item original = parent; new = child
+    \item returns twice (once in new process, once in old)
+    \item return value tells you which process you're in
+    \end{itemize}
+\item exec = load new program in current process
+\item waitpid = wait for child process
+\item fork + exec pattern
+\end{itemize}
+\end{frame}
+
+
+\input{../unix-api/processOverview}
+
+\subsection{fork exercise}
+\input{../unix-api/fork-ex}
+
+\input{../unix-api/fork-ex2}
+
+\subsection{exec}
+
+\againframe<4>{posixProcessFunctions}
+
+\input{../unix-api/exec}
+
+\input{../unix-api/exec-pcb}
+
+\subsection{aside: fork+exec, really?}
+
+\input{../unix-api/why-fork-exec}
+
+\subsection{wait}
+
+\againframe<5>{posixProcessFunctions}
+
+\input{../unix-api/wait}
+\input{../unix-api/wait-exit-status}
+
+\subsection{summary diagram}
+
+\input{../unix-api/fork-exec-wait-diag}
+
+\againframe<6>{posixProcessFunctions}
+
+\subsection{exercises (fork+exec+wait)}
+
+\input{../unix-api/fork-wait-ex}
+
+\subsection{aside re: fork bombs}
+\input{../unix-api/fork-bomb}
+
+% FIXME: TODO: talk about kill() here
+
+\section{shell features}
+\input{../unix-api/shell-features}
+
+\section{fd management}
+\subsection{I/O redirection: syntax, method preview}
+
+\againframe<4>{commandLineFeatures}
+
+
+\section{files in POSIX, part 1}
+
+\subsection{interlude: file descriptors}
+
+\input{../unix-api/fds}
+
+\input{../unix-api/special-fds}
+
+\subsection{getting file descriptors}
+
+\input{../unix-api/open-quick}
+\input{../unix-api/open-flags}
+
+\subsection{close}
+
+\input{../unix-api/close}
+
+\subsection{Shell: redirection}
+
+\input{../unix-api/redirection}
+\input{../unix-api/redirection-exec}
+
+\subsection{dup2: redirection mechanism}
+
+\input{../unix-api/dup}
+
+\subsection{open/close/dup/fork and fd array}
+\input{../unix-api/dup-close-and-array}
+
+\subsection{dup2 exercise}
+\input{../unix-api/dup-ex}
+
+\subsection{shared/unshared seek pointers}
+\input{../unix-api/seek-ptr}
+
+\section{POSIX api summary}
+\input{../unix-api/summary}
+
+\input{../vm/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../unix-api/talk-backup}
+
+\end{document}
