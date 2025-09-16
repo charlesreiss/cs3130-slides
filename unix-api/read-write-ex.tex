@@ -10,7 +10,7 @@ close(fd);
 write(STDOUT_FILENO, "D", 1);
 write(100, "E", 1);
 \end{lstlisting}
-Assume \texttt{open()} and \texttt{dup2()} \textit{do not fail},
+\small Assume \texttt{open()} and \texttt{dup2()} \textit{do not fail},
 \texttt{write()} does not fail as long as the fd it writes to is open,
 fd \texttt{100} was closed and is not what open returns, and \texttt{STDOUT\_FILENO} is initially open.
 What is written to \texttt{output.txt}? \\
