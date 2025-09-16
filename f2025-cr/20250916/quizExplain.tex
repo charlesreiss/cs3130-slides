@@ -1,0 +1,40 @@
+
+\begin{frame}
+\frametitle{quiz Q1}
+\begin{itemize}
+\item devices trigger exceptions to inform OS of new condition
+    \begin{itemize}
+    \item \myemph{newly available information / capacity to accept output}
+    \end{itemize}
+\vspace{.5cm}
+\item item 7 (retrieve previously stored input): no changes to network status since input was stored for later
+\item item 8 (send on network immediately): no need to wait for something to happen with network interface
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{quiz Q3}
+\fontsize{13}{14}\selectfont
+\begin{tabular}{l|l|l|l|l}
+A & B & C & D & E \\ \hline
+p = fork() & (copy from A)& & &\\
+p $\leftarrow$ B's pid & p $\leftarrow$ 0 & & \\
+if (p > 0): & else (p <= 0): & & \\
+q = fork() & & (copy from A) & & \\
+q $\leftarrow$ C's pid & & q $\leftarrow$ 0 &  \\
+    r = fork()  &  & &  (copy from A) &  \\
+r $\leftarrow$ D's pid  & & & r $\leftarrow$ 0 \\
+~           & ~ & r = fork() &  & (copy from C)\\
+~           & ~ & r $\leftarrow$ E's pid & ~ & r $\leftarrow$ 0 \\
+if (q > 0): & ~ & else (q <= 0): & if (q > 0): & else (q <= 0): \\
+exit (1) & exit(3) & exit(2) & exit (1) & exit (2) \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{quiz Q4}
+\begin{itemize}
+\item fork() --- child: local var y + exit; parent: printf
+\item child executes independently of parent
+\end{itemize}
+\end{frame}
