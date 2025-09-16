@@ -14,14 +14,14 @@ int rdwr_fd = open("file3", O_RDWR);
 \item also for files without normal filenames\ldots:
 \end{itemize}
 \begin{lstlisting}[
-    language=C++,
+    language={},
     moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}},
     style=smaller,
 ]
 int fd = shm_open("/shared_memory", O_RDWR, 0666); // shared memory
 int socket_fd = socket(AF_INET, SOCK_STREAM, 0); // TCP socket
 int term_fd = posix_openpt(O_RDWR); // pseudo-terminal
-int pipe_fds[2]; pipe(pipefds); // "pipes" (later)
+int pipe_fds[2]; pipe(pipefds); // "pipes" (implements ./command | ./other_cmd)
 ...
 \end{lstlisting}
 \end{frame}
