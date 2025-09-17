@@ -1,0 +1,47 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+        \item extracting exit code + other info from waitpid's status
+        \item typical pattern with waitpid
+        \item can wait for finished processes
+            \begin{itemize}
+            \item OS will track status/reserve pid until you waitpid
+            \end{itemize}
+        \item OS tracks per-process array of pointers to `open file descriptions'
+            \begin{itemize}
+            \item use array index (`file descriptor') to access open files
+            \item open() allocates new array index
+            \item fork() copies array of pointers
+            \item close() NULLs out one pointer (with garbage collection)
+            \item dup2() copies pointer from one index to another
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{shared/unshared seek pointers}
+\input{../unix-api/seek-ptr}
+
+\section{POSIX api summary}
+\input{../unix-api/summary}
+
+\input{../vm/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{dup2 exercise (alt)}
+\input{../unix-api/read-write-ex}
+
+\end{document}
