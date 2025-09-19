@@ -1,0 +1,116 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+    \item file position per open(), not per fd
+    \item address space sizes
+        \begin{itemize}
+        \item number of meaningful addresses, not installed/valid memory
+        \item sometimes not all bits of pointers meaningful
+        \end{itemize}
+    \item splitting address spaces into pages
+    \item (virtual or physical) page numbers and page offsets
+    \item page tables: virtual page \#$\rightarrow$ (valid, physical page \#, \ldots)
+    \end{itemize}
+\end{frame}
+
+
+\section{permissions in page tables}
+\subsection{read-only}
+\input{../vm/twoCopiesOfProgram} % FIXME: move?
+
+\subsection{permission bits}
+\input{../vm/permissionsBits}
+
+\subsection{kernel-only}
+\input{../vm/kernelOnly}
+
+\section{page table tricks}
+\subsection{space on demand}
+\input{../vm/spaceOnDemand}
+
+\subsection{aside: copy-on-write}
+\input{../vm/copyOnWrite}
+
+\subsection{fork with copy-on-write}
+\input{../unix-api/fork-cow}
+
+\subsection{switching address spaces}
+\againframe<2>{progMemory}
+\input{../vm/osCode}
+
+\subsection{mmap}
+\input{../vm/mmap}
+
+\subsection{/proc/PID/maps}
+\input{../vm/linux-maps}
+
+%\againframe<5>{forkPCBs}
+
+\subsection{general page table tricks}
+\input{../vm/generalPtTrick}
+
+\subsection{page table lookup}
+\input{../vm/transEx}
+
+\subsection{page table in memory}
+\input{../vm/ptInMemory}
+
+
+\subsection{exercise: page table in memory}
+\input{../vm/multiSplitExPt1}
+\subsection{exercise (alt): page table in memory}
+\input{../vm/multiSplitExPt1b}
+
+\subsection{assignment preview 1}
+\input{../vm/asgnSetup}
+\input{../vm/asgnPageAccess}
+
+\input{../vm/toyLookupAsgn}
+
+\section{handling big page tables}
+\subsection{the problem}
+\input{../vm/ptSize64A}
+
+\subsection{general options}
+\input{../vm/bigPageOptions}
+
+\subsection{two-level page tables}
+\input{../vm/twoLevelPtLib}
+\input{../vm/twoLevelPT}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{more than two levels}
+\input{../vm/multiLevelGen}
+
+\subsection{assignment preview}
+% FIXME:assignment preview slides
+\begin{frame}{assignment}
+\end{frame}
+
+\subsection{exercises: multi-level lookup}
+% FIXME: \subsubsection{part 0}
+% FIXME: \input{../vm/multiSplitExPt0}
+\subsubsection{part 2}
+\input{../vm/multiSplitExPt2}
+\subsubsection{part 3}
+\input{../vm/multiSplitExPt3}
+\input{../vm/multiSplitExPt3b}
+\subsubsection{part 4}
+\input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
