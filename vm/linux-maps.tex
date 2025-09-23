@@ -1,5 +1,24 @@
 \usetikzlibrary{arrows.meta,calc,matrix,shapes.misc}
 
+\begin{frame}
+\frametitle{Linux memory tracking}
+\begin{itemize}
+\item Linux kernel treats all program memory as special case of mmap'd file
+\vspace{.5cm}
+\item two major features to help
+\item `private' mappings = copy-on-write from original file
+    \begin{itemize}
+    \item supports `load program from disk on demand'
+    \item pages not shared with original file after writes
+    \end{itemize}
+\item original file = all zeroes (instead of file from disk)
+    \begin{itemize}
+    \item ``anonymous mapping''
+    \item handles `allocate-on-demand' scenario
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile,label=linuxMapsAreaStruct]{Linux maps: list of maps}
 \lstset{language=}
 \tikzset{
