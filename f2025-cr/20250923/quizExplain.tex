@@ -1,0 +1,38 @@
+\begin{FragileFrame}
+\frametitle{quiz Q1D}
+\begin{Verbatim}[fontsize=\fontsize{10}{11}]
+p = fork();
+if (p > 0) { // original process
+    q = fork();
+    if (q > 0) {
+        // still original process
+        ...
+    } else {
+        // second child of original process:
+        waitpid(p, NULL, 0)
+        ...
+\end{Verbatim}
+\begin{itemize}
+\item waitpid can't wait for non-child-process
+    \begin{itemize}
+    \item p is real process, but not child of current process in this call
+    \item waitpid will fail
+    \end{itemize}
+\end{itemize}
+\end{FragileFrame}
+
+\begin{FragileFrame}
+\frametitle{quiz Q3B}
+\begin{itemize}
+\item two processes writing to same open file
+    \begin{itemize}
+    \item one call to open
+    \item accessible from different places due to fork() + dup2
+    \end{itemize}
+\item one shared seek pointer (= file position)
+\item write system call will use+update shared seek pointer
+    \begin{itemize}
+    \item no overwriting unless some process deliberately seeks to do this
+    \end{itemize}
+\end{itemize}
+\end{FragileFrame}
