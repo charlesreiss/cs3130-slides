@@ -70,7 +70,7 @@
 \draw[alt=<1>{red},ultra thick,dotted,->] (ptbr label) -- (baseAddr.north west);
 \begin{visibleenv}<1>
 \node[fill=white,draw=red,ultra thick] at (pt) {
-    page\_allocate(va) --- set ptbr if unset
+    allocate\_page(va) --- set ptbr if unset
 };
 \end{visibleenv}
 \node[draw,fill=blue!10] (addrLeft) at (-1, 6.0) {\tt 0\ldots0001};
@@ -86,7 +86,7 @@
     \draw[->,very thick] (newAddrBox.south) -- ++(0cm,-.5cm) node[below] {to memory (\texttt{\myemph<1>{translate(va)}})};
 \begin{visibleenv}<2>
 \node[fill=white,align=left,draw=red,ultra thick,anchor=west] at ([xshift=-2cm]pt.east) {
-    page\_allocate(va) --- \\set page table entry \\ if unset
+    allocate\_page(va) --- \\set page table entry \\ if unset
 };
 \end{visibleenv}
 \end{tikzpicture}

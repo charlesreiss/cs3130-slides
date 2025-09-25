@@ -30,9 +30,9 @@ size_t ptbr; // page table base register
 // return (~0L) if invalid
 size_t translate(size_t va);
 
-// make it so 'va' is valid, allocating one page for its data
+// allocating virtaul page which starts at address 'va'
 // if it isn't already
-void page_allocate(size_t va)
+int allocate_page(size_t va);
 \end{lstlisting}
 \end{frame}
 
@@ -74,11 +74,11 @@ void page_allocate(size_t va)
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{page\_allocate()}
+\begin{frame}{allocate\_page()}
 with POBITS=\myemph<3>{12}, LEVELS=1: \\
 \begin{tikzpicture}
     \node (ptbrzero) {ptbr == 0};
-    \node[anchor=north west] (pgalloc) at (ptbrzero.south west){page\_allocate(0x1\myemph<3>{000}) \textit{or} page\_allocate(0x1\myemph<3>{001}) \textit{or} \ldots};
+    \node[anchor=north west] (pgalloc) at (ptbrzero.south west){allocate\_page(0x1\myemph<3>{000})};
     \begin{visibleenv}<2->
     \node[anchor=north west] (ptbreq) at ([yshift=-2cm]pgalloc.south  west) {ptbr \textit{now ==} GetPointerToTable(};
     \matrix[tight matrix,anchor=west,
@@ -131,17 +131,17 @@ error_code =
 
 \begin{frame}{parts}
     \begin{itemize}
-    \item part 1 (28 Feb): LEVELS=1, POBITS=12 and
+    \item part 1: LEVELS=1, POBITS=12 and
         \begin{itemize}
         \item translate() OR
-        \item page\_allocate()
+        \item allocate\_page()
         \end{itemize}
-    \item part 2 (week after break): all LEVELS, both functions
+    \item part 2: all LEVELS, both functions
         \begin{itemize}
         \item in preparation for code review
         \item due Weds BEFORE LAB
         \end{itemize}
-    \item part 3 (week after break): final submission
+    \item part 3: final submission
         \begin{itemize}
         \item Friday after code review
         \item \myemph{most of grade} based on this
