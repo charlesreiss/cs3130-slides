@@ -1,0 +1,51 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\usepgflibrary{shapes.gates.logic.mux}
+\input{../caching/cacheUtils}
+
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+    \item accessing page tables in memory
+    \item `fat' tree-based page table data structure
+    \item divide virtual page number into parts
+    \item repeated table lookup using those parts
+        \begin{itemize}
+        \item most significant to least significant
+        \item physical page number = location of next table (till last part)
+        \end{itemize}
+    \item view of multi-level lookup as repeated array lookups
+\end{itemize}
+\end{frame}
+
+\section{virtual memory con't}
+\subsection{exercises: multi-level lookup}
+% FIXME: \subsubsection{part 0}
+% FIXME: \input{../vm/multiSplitExPt0}
+\subsubsection{part 2}
+\input{../vm/multiSplitExPt2}
+\subsubsection{part 3}
+\input{../vm/multiSplitExPt3}
+\input{../vm/multiSplitExPt3b}
+\subsubsection{part 4}
+\input{../vm/multiSplitExPt4}
+\subsubsection{part 5}
+\input{../vm/multiSplitExPt5}
+
+\input{../caching/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
