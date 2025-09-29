@@ -27,6 +27,24 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}{timing notes: waitpid}
+    \begin{itemize}
+        \item fork(), then
+            \begin{itemize}
+            \item child: exit
+            \item parent: (start timing) waitpid (end timing)
+            \end{itemize}
+        \item problem: waitpid likely to start before child exits
+        \vspace{.5cm}
+        \item fork(), then
+            \begin{itemize}
+            \item child: exit
+            \item parent: waitpid (start timing) waitpid (end timing)
+            \end{itemize}
+        \item problem: second waitpid will fail (`no child process')
+    \end{itemize}
+\end{frame}
+
 \section{virtual memory con't}
 \subsection{exercises: multi-level lookup}
 % FIXME: \subsubsection{part 0}
