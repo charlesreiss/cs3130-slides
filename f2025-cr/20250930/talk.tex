@@ -45,6 +45,15 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{quiz Q3}
+    \begin{itemize}
+    \item \texttt{0xABCDEF000} = \\
+        {\small \tt [101][0 1011 1100 1][101 1110 111][1 0000 0000 0000]}
+    \item VPN part 1 = $101_\text{TWO}$ = 5; VPN part 2 = 0x179; \ldots
+    \item first-level index = base pointer + VPN part 1 times 8 = 0x1000000 + 5 $\times$ 8 = 0x1000028
+    \end{itemize}
+\end{frame}
+
 \section{virtual memory con't}
 \subsection{exercises: multi-level lookup}
 % FIXME: \subsubsection{part 0}
@@ -59,11 +68,16 @@
 \subsubsection{part 5}
 \input{../vm/multiSplitExPt5}
 
+\subsection{demand access exercise}
+\input{../vm/demandMultiEx}
+
 \input{../caching/talk-inner}
 
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\input{../vm/talk-backup}
 
 \end{document}

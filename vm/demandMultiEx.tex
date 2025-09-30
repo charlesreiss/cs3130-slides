@@ -1,0 +1,52 @@
+\begin{frame}{exercise (1)}
+    \begin{itemize}
+        \item suppose
+            \begin{itemize}
+            \item 4-level page tables
+            \item 4096 byte ($2^{12}$ byte) pages
+            \item 8 byte page table entries
+            \item 4096 byte page tables
+            \end{itemize}
+        \item initially empty page table
+        \item load-on-demand (1 page at a time) and program accesses longs at
+            \begin{itemize}
+                \item \texttt{0x12345678FF8}, \texttt{0x12345679000}, \texttt{0x12345679008}, \texttt{0x40000}
+            \end{itemize}
+        \item how much memory allocated?  (include page tables; ignore other OS memory)
+        \item how much copied if program fork()s + child writes to 0x40008?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{soln}
+    \begin{itemize}
+        \item 0x12345678FF8 = VPN 0x12345678;
+            \begin{itemize}
+            \item VPN part 1: 2; VPN part 2: 0x8d; VPN part 3: 0x2b; VPN part 4: 0x78
+            \end{itemize}
+        \item 0x12345679000, \ldots = VPN 0x12345679;
+            \begin{itemize}
+            \item VPN part 1: 2; VPN part 2: 0x8d; VPN part 3: 0x2b; VPN part 4: 0x79
+            \end{itemize}
+        \item 0x40000 = VPN 0x40
+            \begin{itemize}
+            \item VPN part 1: 0; VPN part 2: 0; VPN part 3: 0; VPN part 4: 0x40
+            \end{itemize}
+        \item 1 x first-level
+            \begin{itemize}
+            \item second-level for 0
+                \begin{itemize}
+                    \item third-level for (0, 0)
+                    \item fourth-level for (0, 0, 0)
+                    \item data for (0, 0, 0, 0x40)
+                \end{itemize}
+            \item second-level for 2
+                \begin{itemize}
+                    \item third-level for (2, 0x8d)
+                    \item fourth-level for (2, 0x8d, 0x2b)
+                    \item data for (2, 0x8d, 0x2b, 0x78)
+                    \item data for (2, 0x8d, 0x2b, 0x79)
+                \end{itemize}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
