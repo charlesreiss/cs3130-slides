@@ -1,0 +1,151 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+\item cache sits between processor and memory
+\item multiple levels/hierarchy of caches
+\item direct-mapped cache idea
+    \begin{itemize}
+    \item divide memory into fixed blocks
+    \item one place for each block of memory to be cached
+    \item on miss, insert block in that place
+    \end{itemize}
+\item address = tag : (set) index : (block) offset
+    \begin{itemize}
+    \item use index to find set (row) of cache
+    \item check if already there -- valid + tag matches
+    \item offset says where in block
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{labs next two weeks}
+\begin{itemize}
+\item sync lab --- attendance required unless arrangements with instructors
+\tiem cache lab --- immediately after the break
+\end{itemize}
+\end{frame}
+
+\subsection{tag/index/offset for direct mapped caches}
+\input{../caching/tioDMIntro}
+
+\subsubsection{aside: cache size}
+\begin{frame}{cache size}
+    \begin{itemize}
+    \item cache size = amount of \textit{data} in cache
+    \item not included metadata (tags, valid bits, etc.)
+    \end{itemize}
+\end{frame}
+
+\subsection{prelim. formulas}
+\input{../caching/tioDMFormulas}
+
+\subsection{tio for DM: exercise}
+\input{../caching/tioDmExercise}
+
+\subsection{simulating a direct mapped cache}
+\input{../caching/dmExampleAccess}
+
+\subsection{exercise: direct-mapped cache access}
+\input{../caching/dmAccessExercise}
+
+\subsection{mapping misses to sets (DM)}
+\input{../caching/setMappingDiagDM}
+
+\subsection{cache misses on real code}
+\input{../caching/actMissesDM}
+
+\section{adding associativity}
+\input{../caching/addAssoc}
+
+\subsection{diagram}
+\input{../caching/addAssocOp}
+
+\subsection{options for replacement}
+\input{../caching/replacement}
+
+\input{../caching/lruTracking}
+
+\subsection{associativity terms}
+\input{../caching/assocTerms}
+
+\subsection{tag/index/offset for set-assoc. caches}
+\input{../caching/tioFormulas}
+
+% FIXME: direct-mapped and C code example
+\section{misses in C, and intuition behind conflicts}
+\input{../caching/conflictMissesAndC}
+
+\subsection{array misses warmup}
+\input{../caching/arrayMissesWarmupEx}
+
+\subsection{array misses warmup (2 set)}
+\input{../caching/arrayMissesWarmup2SetEx1}
+\input{../caching/arrayMissesWarmup2SetEx2}
+
+\subsection{array misses and cache results}
+\input{../caching/arrayMissesWarmupBigEx}
+
+\subsection{array misses and skipping around}
+\input{../caching/arrayMissesSkip}
+
+\subsection{mapping misses to sets (3-way)}
+\input{../caching/setMappingDiag3}
+
+\section{revisiting array misses and skips}
+\againframe<2>{arrayMissesSkip}
+
+\section{array misses and associative caches?}
+\input{../caching/arrayMissesWarmupBigExSA}
+
+\section{simulated misses with set-assoc. caches}
+\input{../caching/actMissesAssoc}
+
+\section{options for handling cache writes}
+\input{../caching/writePolicy}
+
+\subsection{exercise: write/replacement policies}
+\input{../caching/writeReplaceExercise}
+
+\subsection{fast writes: write buffers}
+\input{../caching/fastWrites}
+
+\subsection{briefly, cache tradeoffs}
+\input{../caching/tradeoffsBrief}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
