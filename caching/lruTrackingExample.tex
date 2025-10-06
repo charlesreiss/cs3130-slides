@@ -1,0 +1,92 @@
+
+\usetikzlibrary{matrix,fit}
+\begin{frame}[fragile,label=lruTrack]{LRU bit updating}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+
+\begin{tikzpicture}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.1cm}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.9cm,align=center,dataColor,
+            font=\tt\fontsize{10}{11}\selectfont,
+            text depth=2.3ex}},
+        column 5/.append style={nodes={draw=none,text width=.1cm}},
+        column 6/.append style={nodes={align=center,text width=1cm}},
+        column 7/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 8/.append style={nodes={text width=1.9cm,align=center,dataColor,
+            font=\tt\fontsize{10}{11}\selectfont,
+            text depth=2.3ex}},
+        column 9/.append style={nodes={draw=none,text width=.1cm}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        row 1 column 8/.append style={nodes={text depth=.1ex}},
+        column 10/.append style={nodes={visible on=<2->,align=center}},
+        label={[font=\small]$2$-way set associative, $2$ byte blocks, $2$ sets}] (cache)  {
+index \& valid \& tag \& value \& ~ \& valid \& tag \& value \& ~\& LRU\\
+0\&
+    % i 0, 0:
+    \zzx{1}{7}{1}\z{8}{1} \& 
+    \zzx{1}{7}{000000}\z{8}{111000} \& 
+    \zzx{1}{7}{mem[0x00] mem[0x01]}\z{8}{mem[0xe0] mem[0xe1]} \& ~\&
+    % i 0, 1:
+    \z{2}{1} \& 
+    \zz{2}{5}{011000}\z{6}{111100} \& 
+    \zz{2}{5}{mem[0x60] mem[0x61]}\z{6}{mem[0xf0] mem[0xf1]} \& ~ \&
+    \zzx{1}{1}{1}\zz{2}{3}{0}\zz{4}{5}{1}\zz{6}{7}{0}\z{8}{1} \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \&  ~ \&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~\& 1
+    \\
+};
+\matrix[tight matrix,anchor=north west,
+            nodes={font=\small,minimum height=.5cm,text depth=.1ex},
+            column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+            row 1/.append style={nodes={font=\small\bfseries}},
+            column 2/.append style={nodes={text width=1.3cm}},
+            ] (pattern) at ([yshift=-.5cm]cache.south west) {
+        address (hex)\& result \\
+        \ldots \& \ldots \\
+        01100001 (61) \& |[v=1]| miss \\
+        01100000 (60) \& |[v=3]| hit \\
+        01100000 (61) \& |[v=3]| hit \\
+        00000000 (00) \& |[v=4]| hit \\
+        11110000 (f0) \& |[v=5]| miss \\
+        11100000 (e0) \& |[v=7]| miss \\
+    };
+\node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-2-2) (cache-2-8)] {};
+    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+    \coordinate (indexTopLeft) at ([xshift=4\oneZero]tagTopLeft);
+    \coordinate (offsetTopLeft) at ([xshift=2\oneZero]indexTopLeft);
+    \coordinate (offsetTopRight) at ([xshift=2\oneZero]offsetTopLeft);
+    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+            tag
+        };
+        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+            index
+        };
+        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+            offset
+        };
+    \end{scope}
+\end{tikzpicture}
+\end{frame}

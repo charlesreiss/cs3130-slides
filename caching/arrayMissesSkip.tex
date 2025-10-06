@@ -14,7 +14,6 @@ for (int i = 0; i < 512; i += 1)
     \item
 About how many \textit{data cache misses} on a 2KB direct-mapped cache with 16B cache blocks? \\
 Hint: depends on relative placement of array1, array2
-\item<2->How about on a two-way set associative cache?
 \end{itemize}
 \end{frame}
 
@@ -39,8 +38,12 @@ Hint: depends on relative placement of array1, array2
 
 \begin{frame}{worst case in practice?}
     \begin{itemize}
-    \item two rows of matrix?
-    \item often sizeof(row) bytes apart
-    \item if the row size is multiple of number of sets $\times$ bytes per block, oops!
+    \item can have worst spacing happen by accident:
+    \vspace{.5cm}
+    \item two structs/arrays placed at start of newly allocated page
+        \begin{itemize}
+        \item worst-case spacing likely small multiple of page size
+        \end{itemize}
+    \item columns of matrix with power-of-two width
     \end{itemize}
 \end{frame}

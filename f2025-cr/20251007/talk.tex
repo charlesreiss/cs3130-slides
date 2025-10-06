@@ -8,14 +8,31 @@
 
 \begin{frame}
 \frametitle{last time}
+    \begin{itemize}
+    \item set-associative caches
+        \begin{itemize}
+        \item multiple blocks per set (row)
+        \item check all blocks in a set (valid, tag)
+        \item use replacement policy to determine what to replace
+        \end{itemize}
+    \item LRU replacement
+    \end{itemize}
 \end{frame}
+
 
 \usetikzlibrary{calc,positioning}
 \usepgflibrary{shapes.gates.logic.mux}
 \input{../caching/cacheUtils}
 
 \input{../common/listingsLib}
+\subsection{circuit diagram}
+\input{../caching/assocCircuit}
 
+\subsection{associativity terms}
+\input{../caching/assocTerms}
+
+\subsection{LRU tracking reminder}
+\input{../caching/lruTrackingExample}
 
 \subsection{array misses warmup}
 \input{../caching/arrayMissesWarmupEx}
@@ -28,12 +45,6 @@
 
 \subsection{array misses and skipping around}
 \input{../caching/arrayMissesSkip}
-
-\subsection{mapping misses to sets (3-way)}
-\input{../caching/setMappingDiag3}
-
-\section{revisiting array misses and skips}
-\againframe<2>{arrayMissesSkip}
 
 \section{array misses and associative caches?}
 \input{../caching/arrayMissesWarmupBigExSA}
@@ -49,6 +60,14 @@
 
 \subsection{briefly, cache tradeoffs}
 \input{../caching/tradeoffsBrief}
+
+\section{varying parameters exercise}
+    % FIXME: put back?
+\input{../caching/cacheTradeoffsEx}
+
+\subsection{misc cache optimizations: prefetching}
+    % FIXME: put back? (named in tradeoffs table)
+\input{../caching/miscCacheOpt}
 
 \section{TLB}
 \input{../vm/twoLevelPtLib}
