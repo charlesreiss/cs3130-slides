@@ -1,0 +1,79 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{last time}
+\end{frame}
+
+\usetikzlibrary{calc,positioning}
+\usepgflibrary{shapes.gates.logic.mux}
+\input{../caching/cacheUtils}
+
+\input{../common/listingsLib}
+
+
+\subsection{array misses warmup}
+\input{../caching/arrayMissesWarmupEx}
+
+\subsection{array misses warmup (2 set)}
+\input{../caching/arrayMissesWarmup2SetEx2}
+
+\subsection{array misses and cache results}
+\input{../caching/arrayMissesWarmupBigEx}
+
+\subsection{array misses and skipping around}
+\input{../caching/arrayMissesSkip}
+
+\subsection{mapping misses to sets (3-way)}
+\input{../caching/setMappingDiag3}
+
+\section{revisiting array misses and skips}
+\againframe<2>{arrayMissesSkip}
+
+\section{array misses and associative caches?}
+\input{../caching/arrayMissesWarmupBigExSA}
+
+\section{options for handling cache writes}
+\input{../caching/writePolicy}
+
+\subsection{exercise: write/replacement policies}
+\input{../caching/writeReplaceExercise}
+
+\subsection{fast writes: write buffers}
+\input{../caching/fastWrites}
+
+\subsection{briefly, cache tradeoffs}
+\input{../caching/tradeoffsBrief}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
