@@ -3,15 +3,14 @@
 \begin{frame}{cache organization and miss rate}
 \begin{itemize}
 \item \myemph{depends on program}; one example:
-\item SPEC CPU2000 benchmarks, 64B block size
-\item LRU replacement policies
+\item SPEC CPU2000 benchmarks, 64B block size, LRU replacement
 \item data cache miss rates:
 {\small
 \begin{tabular}{lrrrr}
 Cache size & direct-mapped & 2-way & 8-way & fully assoc. \\
 1KB & 8.63\% & 6.97\% & 5.63\% & 5.34\% \\
 2KB & 5.71\% & 4.23\% & 3.30\% & 3.05\% \\
-4KB & 3.70\% & 2.60\% & \myemph<2>{2.03\%} & \myemph<2>{1.90\%} \\
+4KB & 3.70\% & 2.60\% & {2.03\%} & {1.90\%} \\
 16KB & 1.59\% & 0.86\% & 0.56\% & 0.50\% \\
 64KB & 0.66\% & 0.37\% & 0.10\% & 0.001\% \\
 128KB & 0.27\% & 0.001\% & 0.0006\% & 0.0006\% \\

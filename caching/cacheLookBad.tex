@@ -1,0 +1,14 @@
+
+\begin{frame}{making any cache look bad}
+    \begin{itemize}
+    \item 1. access enough blocks, to fill the cache
+    \item 2. access an additional block, replacing something
+    \item 3. access last block replaced
+    \item 4. access last block replaced
+    \item 5. access last block replaced
+    \item \ldots
+        \vspace{.5cm}
+    \item but --- typical real programs have \myemph{locality}
+    \end{itemize}
+\end{frame}
+

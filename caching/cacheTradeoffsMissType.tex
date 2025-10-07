@@ -1,0 +1,18 @@
+
+% https://dl.acm.org/doi/pdf/10.1145/325164.325135 --> block size
+
+\begin{frame}{cache optimizations by miss type}
+\newcommand{\good}{\textcolor{green!50!black}{fewer misses}}
+\newcommand{\bad}{\textcolor{red!50!black}{more misses}}
+(assuming other listed parameters remain constant)
+\begin{tabular}{llll}
+    ~ & capacity & conflict & compulsory \\
+increase cache size & \good & \good & --- \\
+increase associativity & --- & \good & --- \\
+increase block size & \bad? & \bad? & \good \\
+~ \\
+LRU replacement & --- & \good & --- \\
+prefetching & --- & --- & \good \\
+\end{tabular}
+\end{frame}
+

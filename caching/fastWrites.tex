@@ -14,6 +14,9 @@
     ([yshift=1cm]mem.west) coordinate (memIn)
     node[align=left,font=\tt,red,very thick,near start,label={[font=\bfseries]write buffer},draw,fill=white] { 0xABCD: 10 \\ 0x1234: 20 };
 
-    \node[draw=red,fill=white,below=1cm of cache,align=left] { write appears to complete immediately when placed in buffer \\ memory can be much slower};
+    \node[draw=red,fill=white,below=.5cm of cache,align=left] {%
+         write appears to complete immediately when placed in buffer \\
+         buffer checked on reads in case reading just-evicted value
+    };
 \end{tikzpicture}
 \end{frame}
