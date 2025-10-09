@@ -68,25 +68,25 @@ index \& valid \& tag \& value \& ~ \& valid \& tag \& value \& ~\& LRU\\
         11100000 (e0) \& |[v=7]| miss \\
     };
 \node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-2-2) (cache-2-8)] {};
-    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
-    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
-    \coordinate (indexTopLeft) at ([xshift=4\oneZero]tagTopLeft);
-    \coordinate (offsetTopLeft) at ([xshift=2\oneZero]indexTopLeft);
-    \coordinate (offsetTopRight) at ([xshift=2\oneZero]offsetTopLeft);
-    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
-    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
-    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
-    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
-    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
-        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
-            tag
-        };
-        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
-            index
-        };
-        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
-            offset
-        };
-    \end{scope}
+%    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+%    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+%    \coordinate (indexTopLeft) at ([xshift=4\oneZero]tagTopLeft);
+%    \coordinate (offsetTopLeft) at ([xshift=2\oneZero]indexTopLeft);
+%    \coordinate (offsetTopRight) at ([xshift=2\oneZero]offsetTopLeft);
+%    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+%    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+%    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+%    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+%    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+%        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+%            tag
+%        };
+%        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+%            index
+%        };
+%        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+%            offset
+%        };
+%    \end{scope}
 \end{tikzpicture}
 \end{frame}
