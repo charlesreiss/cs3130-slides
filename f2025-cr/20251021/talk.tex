@@ -1,0 +1,84 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{before the midterm}
+\begin{itemize}
+\item choices handling cache writes
+\item if write-allocate: add to cache if not there
+    \begin{itemize}
+    \item requires loading the rest of the block
+    \end{itemize}
+\item if write-back (= not write-through)
+    \begin{itemize}
+    \item mark value as dirty, write to next level later
+    \end{itemize}
+\item if write-through (= not write-back)
+    \begin{itemize}
+    \item write to next level immediately
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{options for handling cache writes}
+\input{../caching/writePolicy}
+
+\subsection{exercise: write/replacement policies}
+\input{../caching/writeReplaceExercise}
+
+\subsection{fast writes: write buffers}
+\input{../caching/fastWrites}
+
+\subsection{briefly, cache tradeoffs}
+\input{../caching/cacheLookBad}
+\input{../caching/tradeoffsBrief}
+
+\subsection{empirical benchmarks}
+\input{../caching/cacheBenchExample}
+
+\subsection{AMAT}
+\input{../caching/amatFormula}
+
+\input{../caching/amatEx}
+
+\subsection{relating cache parameters to AMAT}
+\input{../caching/cacheTradeoffsHitMiss}
+
+
+\subsection{misc cache optimizations: prefetching}
+    % FIXME: put back? (named in tradeoffs table)
+\input{../caching/miscCacheOpt}
+
+\section{TLB}
+\input{../vm/twoLevelPtLib}
+\subsection{review: page table lookup (1)}
+\input{../vm/twoLevelPTAlt}
+
+\subsection{review: page table lookup (2)}
+\againframe<7>{twoLevelPtLookup}
+
+\subsection{why cache page table entries?}
+\input{../caching/tlbWhy}
+
+\subsection{how TLB fits in page table lookup}
+\input{../caching/tlbMulti}
+
+\subsection{how TLBs are organized}
+\input{../caching/tlbOrgNoCircuit} % FIXME: emphasize that AFTER this is normal cache access
+
+\subsection{exercise: TLB access pattern}
+\input{../caching/tlbAccessExPrep}
+\input{../caching/tlbAccessEx}
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
