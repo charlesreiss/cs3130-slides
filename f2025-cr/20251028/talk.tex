@@ -1,0 +1,82 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+\frametitle{last time}
+\begin{itemize}
+\item creating threads, joining threads
+\item passing data to threads; using void* argument
+\item race conditions
+\item what does hardware do at once
+    \begin{itemize}
+    \item need to tell compiler, processor to keep things in order
+    \end{itemize}
+\item started: threading library tools for coordinating threads
+\end{itemize}
+\end{frame}
+
+\section{pthreads and load/store reordering}
+\input{../sync/no-reordering}
+
+\section{definitions: mutual exclusion, critical section}
+\input{../sync/mutual-exclusion-defn}
+
+\section{locks}
+\input{../sync/lock-analogy}
+
+% FIXME: lock analogy: hat
+\input{../sync/locks}
+
+\subsection{exercise}
+\input{../sync/lock-ex}
+
+\subsection{pthread\_mutex: lock where you unlock}
+\input{../sync/pthread-mutex-restriction}
+
+\section{preview: more advance sync}
+\input{../sync/preview-dont-roll}
+
+\subsection{beyond locks}
+\input{../sync/beyond-lock}
+
+\section{barriers}
+\input{../sync/barriers}
+
+\subsection{exercise}
+\input{../sync/barrier-ex}
+
+\section{life HW}
+\input{../sync/life-hw-intro}
+
+\input{../deadlock/talk-inner}
+
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\subsection{what is atomic?}
+\input{../sync/what-atomic}
+
+\subsection{compiler reordering}
+\input{../sync/compiler-reordering}
+
+\subsection{fix compiler reordering}
+\begin{frame}{fixing compiler reordering?}
+    \begin{itemize}
+    \item isn't there a way to tell compiler not to do these optimizations?
+    \item yes, but that is \myemph{still not enough}!
+    \item \textbf{processors} sometimes do this kind of reordering too (between cores)
+    \end{itemize}
+\end{frame}
+
+
+\end{document}
