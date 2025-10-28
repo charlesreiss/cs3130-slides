@@ -14,16 +14,43 @@
 \item creating threads, joining threads
 \item passing data to threads; using void* argument
 \item race conditions
-\item what does hardware do at once
+\item compiler, processor changing when things happen
     \begin{itemize}
-    \item need to tell compiler, processor to keep things in order
+    \item threading library tools tell compiler/processor not to do this
     \end{itemize}
-\item started: threading library tools for coordinating threads
+\item lock --- tool for threads to \textit{taketurns}
+    \begin{itemize}
+    \item one thread can \textit{acquire} lock at a time
+    \item can create \textit{critical section} by acquiring lock before running code
+    \item example: agree to acquire lock before accessing bank balance
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
-\section{pthreads and load/store reordering}
-\input{../sync/no-reordering}
+\begin{frame}
+\frametitle{quiz Q4: question bugs}
+\begin{itemize}
+    \item wrong number of pthread\_join arguments
+    \item mistake in (not) setting up info[1].x that (basically) doesn't affect answers
+    \item technically data race = undefined behavior
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{quiz Q4: on virtual addresses in threads}
+\begin{itemize}
+\item same process = same page tables
+\item if two threads in same process --- stacks have to be at different addresses
+    \begin{itemize}
+    \item explains quiz Q4C
+    \end{itemize}
+\item pointers passed into thread don't change address
+    \begin{itemize}
+    \item quiz Q4D --- \texttt{info[X].y} different for each thread in main
+    \item different address stays same in each thread
+    \end{itemize}
+\end{itemize}
+\end{frame}
 
 \section{definitions: mutual exclusion, critical section}
 \input{../sync/mutual-exclusion-defn}
@@ -46,14 +73,24 @@
 \subsection{beyond locks}
 \input{../sync/beyond-lock}
 
-
 \input{../deadlock/talk-inner}
 
-\input{../sync/talk-barriers}
+\section{barriers}
+\input{../sync/barriers}
+
+\subsection{exercise}
+\input{../sync/barrier-ex}
+
+\section{life HW}
+\input{../sync/life-hw-intro}
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\section{pthreads and load/store reordering}
+\input{../sync/no-reordering}
+
 
 \subsection{what is atomic?}
 \input{../sync/what-atomic}

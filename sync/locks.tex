@@ -39,6 +39,8 @@ pthread_mutex_init(&account_lock, NULL);
 pthread_mutex_lock(&account_lock);
 balance += ...;
 pthread_mutex_unlock(&account_lock);
+...
+pthread_mutex_destroy(&account_lock);
 \end{lstlisting}
 \end{frame}
 
