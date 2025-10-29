@@ -1,0 +1,40 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+    \item pthread mutex API
+    \item preview: more general synchronization
+        \begin{itemize}
+        \item missing piece: way to wait for event
+        \end{itemize}
+    \item deadlock: circular waiting
+        \begin{itemize}
+        \item thread A waiting for B waiting for \ldots waiting for A
+        \end{itemize}
+    \item deadlock avoidance strategies
+        \begin{itemize}
+        \item avoid limited/shared resources
+        \item abort-and-retry (but livelock problems)
+        \item revoking/preempting resources
+        \item preferred for locks: consistent ordering
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\input{../sync/talk-barriers}
+\input{../sync/talk-monitor}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
