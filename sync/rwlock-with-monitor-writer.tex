@@ -2,7 +2,7 @@
 \begin{frame}[fragile,label=writerPriority]{writer-priority (1)}
 \lstset{
     language=C++,
-    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
     morekeywords=pthread_mutex_t,
     morekeywords=pthread_cond_t,
     moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
@@ -11,12 +11,13 @@
     moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
     moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
     moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
-},
+}
 \begin{lstlisting}
 mutex_t lock; cond_t ok_to_read_cv; cond_t ok_to_write_cv;
 int readers = 0, writers = 0;
 int @2waiting_writers2@ = 0;
 \end{lstlisting}
+\vspace{-.3cm}
 \begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 ReadLock() {

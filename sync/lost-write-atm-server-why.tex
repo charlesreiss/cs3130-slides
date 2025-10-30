@@ -1,0 +1,26 @@
+\begin{frame}[fragile,label=threadedServerWhy]{a threaded server?}
+\begin{lstlisting}[
+    language=C++,
+    style=small,
+    moredelim={**[is][\btHL<1-|handout:1->]{@1}{1@}}
+]
+Deposit(accountNumber, amount) {
+    account = @1GetAccount(accountId)1@;
+    account->balance += amount;
+    @1SaveAccountUpdates(account);1@
+}
+\end{lstlisting}
+\begin{itemize}
+\item maybe GetAccount/SaveAccountUpdates can be slow?
+    \begin{itemize}
+    \item read/write disk sometimes? contact another server sometimes?
+    \end{itemize}
+\item maybe lots of requests to process?
+    \begin{itemize}
+    \item maybe real logic has more checks than Deposit()
+    \item \ldots
+    \end{itemize}
+\item all reasons to handle multiple requests at once
+\item $\rightarrow$ many threads all running the server loop
+\end{itemize}
+\end{frame}

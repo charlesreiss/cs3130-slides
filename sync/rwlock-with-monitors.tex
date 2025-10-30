@@ -1,8 +1,7 @@
 \begin{frame}[fragile,label=rwlockMonitors1]{rwlocks with monitors (attempt 1)}
-\begin{tikzpicture}
 \lstset{
     language=C++,
-    basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
     morekeywords=pthread_mutex_t,
     morekeywords=pthread_cond_t,
     moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
@@ -11,15 +10,17 @@
     moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
     moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
     moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
-},
+}
 \begin{lstlisting}
 mutex_t lock;
 \end{lstlisting}
+\vspace{-.3cm}
 \begin{visibleenv}<2->
 \begin{lstlisting}
 @2unsigned int readers, writers;2@
 \end{lstlisting}
 \end{visibleenv}
+\vspace{-.3cm}
 \begin{visibleenv}<3->
 \begin{lstlisting}
 /* condition, signal when writers becomes 0 */
@@ -28,6 +29,7 @@ mutex_t lock;
 @3cond_t ok_to_write_cv;3@
 \end{lstlisting}
 \end{visibleenv}
+\vspace{-.3cm}
 \begin{visibleenv}<4->
 \begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
@@ -50,6 +52,7 @@ ReadUnlock() {
 \end{lstlisting}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
+\begin{lstlisting}
 WriteLock() {
   mutex_lock(&lock);
   while (readers + writers != 0) {
@@ -65,9 +68,10 @@ WriteUnlock() {
   @B4cond_broadcast(&ok_to_read_cv);4@
   mutex_unlock(&lock);
 }
+\end{lstlisting}
 \end{minipage}
 \end{visibleenv}
-\vspace{-.25cm}
+\vspace{-.3cm}
 
 \begin{onlyenv}<1>
 \myemph{lock to protect shared state}

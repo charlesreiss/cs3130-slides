@@ -1,6 +1,5 @@
 \begin{frame}[fragile,label=rwlockEffectsExer]{rwlock effects exercise}
-\begin{tikzpicture}
-\node (first) {
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 pthread_rwlock_t lock;
 void ThreadA() {
@@ -18,8 +17,8 @@ void ThreadB() {
   pthread_rwlock_unlock(&lock);
 }
 \end{lstlisting}
-};
-\node[anchor=north west] (second) at (first.north east) {
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
 \begin{lstlisting}[language=C++,style=smaller]
 void ThreadC() {
   pthread_rwlock_wrlock(&lock);
@@ -36,8 +35,7 @@ void ThreadD() {
   pthread_rwlock_unlock(&lock);
 }
 \end{lstlisting}
-};
-\end{tikzpicture}
+\end{minipage}
 exercise: which of these outputs are possible? \\
 \begin{tabular}{lll}
 1. aAbBcCdD & 2. abABcdDC & 3. cCabBAdD \\ 4. cdCDaAbB & 5. caACdDbB \\

@@ -40,7 +40,7 @@ Consume() {
 \begin{visibleenv}<3>
 \draw[draw=red,thick,<-] ([xshift=-2cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
     correct (but slow?) to replace with: \\
-\texttt{pthread\_cond\_broadcast(\&space\_ready);}
+\texttt{pthread\_cond\_broadcast(\&space\_ready);} \\
 (just more ``spurious wakeups'')
 };
 \end{visibleenv}
