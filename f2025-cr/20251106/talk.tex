@@ -1,0 +1,49 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+    \frametitle{last time}
+    \begin{itemize}
+        \item barriers
+            \begin{itemize}
+                \item Init(ThreadCount); Wait() [for all other threads]
+                \item reusable
+            \end{itemize}
+        \item monitors (start)
+            \begin{itemize}
+            \item lock(Lock);
+            \item while (need to wait b/c of shared data) Wait(CV, Lock); 
+            \item do something with shared data
+            \item if (someone can stop waiting) Broadcast/Signal(CV)
+            \item unlock(Lock)
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{exercise: wait for both finished}
+\input{../sync/monitor-ex-both-finishes}
+
+\subsection{exercise: barrier}
+\input{../sync/monitor-exercise2}
+
+\subsection{exercise: conditional signal in produce?}
+\input{../sync/monitor-ex-ps-cond-signal}
+% FIXME
+\input{../sync/talk-false-share}
+
+\input{../sync/talk-xact}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\subsection{exercise: ConsumeTwo}
+\input{../sync/monitor-exercise}
+
+\end{document}
