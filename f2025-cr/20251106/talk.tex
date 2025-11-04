@@ -33,22 +33,45 @@
 \subsection{exercise: barrier}
 \input{../sync/monitor-exercise2}
 
-\subsection{exercise: conditional signal in produce?}
-\input{../sync/monitor-ex-ps-cond-signal}
-% FIXME
-\input{../sync/talk-false-share}
+\input{../sync/talk-rwlock}
 
-\input{../sync/talk-xact}
+\input{../sync/transaction-defn}
+
+\begin{frame}
+\frametitle{transaction implementation ideas}
+\begin{itemize}
+\item simple idea: do one transaction at a time
+\item more efficient(?) idea: 
+    \begin{itemize}
+    \item get list of operations 
+    \item lock everything operations use (in consistent order to prevent deadlock)
+    \item do operations on list
+    \item unlock everything
+    \end{itemize}
+\item (also other strategies with different flexibility/efficiency)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{networking}
+\end{frame}
 
 \input{../network/talk-inner}
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+\subsection{exercise: conditional signal in produce?}
+\input{../sync/monitor-ex-ps-cond-signal}
+% FIXME
+\input{../sync/talk-false-share}
+
 \subsection{exercise: ConsumeTwo}
 \input{../sync/monitor-exercise}
 
 \input{../sync/talk-monitor-backup}
 \input{../network/talk-backup}
+
+\input{../sync/transaction-impls}
 
 \end{document}
