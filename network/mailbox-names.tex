@@ -15,7 +15,7 @@
         \node[comp box] (machine A) at (-6.5, 0) {machine \\ A};
         \node[draw,cloud,line width=1pt,minimum width=4cm,minimum height=1cm,aspect=3,
                 ] (network) at (0,0) {the network};
-        \node[comp box] (machine B) at (6.5, 0) {machine \\ B};
+        \node[comp box] (machine B) at (6.5, 0) {machine \\ B\\ ~\\~};
         \draw[very thick,->] (machine A) -- (network)
             node[midway,above,msg] {B: ``GET''}
             node[pos=0.0,below right,cmd] {Send(B, ``GET'')};
@@ -34,8 +34,8 @@
             how does B know the message is for the web server? \\
             how does the response get to ``A''?
         };
-        \node[anchor=south,draw,rectangle,] at ([yshift=.1cm]machine B.south) {
-            web server
+        \node[anchor=south,draw,rectangle,align=center] at ([yshift=.2cm]machine B.south) {
+            web\\server
         };
     \end{tikzpicture}
 \end{frame}
