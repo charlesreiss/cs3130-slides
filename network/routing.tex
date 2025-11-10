@@ -3,17 +3,17 @@
 \begin{tikzpicture}
 \tikzset{>=Latex},
 \node[draw,thick] (router) {router};
-\node[aspect=3,draw,cloud,anchor=east,minimum width=2.5cm] (network 1) at ([xshift=-1cm,yshift=.5cm] router.west) {
+\node[aspect=3.2,draw,cloud,anchor=east,minimum width=2.5cm] (network 1) at ([xshift=-1cm,yshift=.5cm] router.west) {
     network 1
 };
-\node[aspect=3,draw,cloud,anchor=west,minimum width=2.5cm] (network 2) at ([xshift=1cm,yshift=.5cm] router.east) {
+\node[aspect=3.2,draw,cloud,anchor=west,minimum width=2.5cm] (network 2) at ([xshift=1cm,yshift=.5cm] router.east) {
     network 2
 };
-\node[aspect=3,draw,cloud,anchor=south,minimum width=2.5cm] (network 3) at ([yshift=1cm] router.north) {
+\node[aspect=3.2,draw,cloud,anchor=south,minimum width=2.5cm] (network 3) at ([yshift=0.75cm] router.north) {
     network 3
 };
 \foreach \x in {1,2,3} { \draw[<->,very thick] (router) -- (network \x); }
-\node[anchor=north,font=\small,draw,thick] (table) at ([yshift=-.25cm]router.south) {
+\node[anchor=north,font=\small,draw,thick,inner sep=0.5mm] (table) at ([yshift=-.25cm]router.south) {
 \begin{tabular}{l|l}
 if I receive data for\ldots & send it to\ldots \\ \hline
 128.143.0.0---128.143.255.255 & network 1, 11.4.3.2 \\
