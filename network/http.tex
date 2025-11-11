@@ -1,17 +1,51 @@
 \begin{frame}[fragile]{HTTP: HyperText Transfer Protocol}
 \begin{itemize}
     \item primary application-layer protocol for the Web
-    \item standard port: 80
-    \item uses TCP
+    \item standard port: 80 (non-encrypted), 443 (encrypted)
+    \item uses TCP (or TCP + TLS for encrypted version)
     \item client-server protocol
-\end{itemize}
-\begin{itemize}
+        \begin{itemize}
+        \item server = always on machine, never initiaites contact
+        \item client = sometimes on machine, initiates contact
+        \end{itemize}
     \item ex. URL: \texttt{http://www.foo.com/bar}
 \end{itemize}
-\begin{itemize}
-    \item clients make requests to URLs
-    \item common HTTP commands: \texttt{GET}, \texttt{HEAD}, \texttt{POST}
-    \item servers respond with status and data
-    \item common status codes: \texttt{200 OK}, \texttt{404 NOT FOUND}, \texttt{500 ERR}
-\end{itemize}
 \end{frame}
+
+\begin{FragileFrame}
+\frametitle{HTTP: HyperText Transfer Protocol}
+\begin{itemize}
+    \item \texttt{http://www.foo.com/bar}
+    \item HTTP client (example: web browser) connects to www.foo.com
+    \item sends something like
+\end{itemize}
+\begin{Verbatim}
+GET /bar HTTP/1.1
+Host: www.foo.com
+...
+\end{Verbatim}
+    \begin{itemize}
+    \item server replies with status code + (usually) some data
+        \begin{itemize}
+        \item 200 OK, 403 Unauthorized 404 Not Found, 500 Internal Server Error, \ldots
+        \end{itemize}
+    \end{itemize}
+\end{FragileFrame}
+
+\begin{FragileFrame}
+    \frametitle{HTTP miscellany}
+    \begin{itemize}
+        \item other HTTP commands besides GET
+        \item POST --- sending forms
+        \item HEAD --- get metadata about file (without getting its data)
+        \item PUT, DELETE, \ldots 
+        \vspace{.5cm}
+        \item all requests/replies have many possible headers
+            \begin{itemize}
+            \item filetype inforation
+            \item login-related information (usually)
+            \item metadata used for caching webpages
+            \item \ldots
+            \end{itemize}
+    \end{itemize}
+\end{FragileFrame}

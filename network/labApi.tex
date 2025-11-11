@@ -67,8 +67,34 @@ int main() {
 \end{Verbatim}
 \end{frame}
 
+\begin{FragileFrame}
+\frametitle{callback-based programing (3)}
+\begin{Verbatim}[fontsize=\fontsize{9.5}{10.5},frame=single]
+packet = getNextPacket()
+doSomething(packet);
+sleep(10);
+doAnotherThing();
+packet = getNextPacket();
+doYetAnotherThing(packet);
+\end{Verbatim}
+turns into code like:
+\begin{Verbatim}[fontsize=\fontsize{9.5}{10.5},frame=single]
+afterTimeout() {
+    doAnotherThing(); mode = 2;
+}
+recvdPacket(packet) {
+    if (mode == 1) {
+        doSomething(packet);
+        setTimeout(10, afterTimeout);
+    } else if (mode == 2)
+        doYetAnotherThing(packet);
+    } else ...
+}
+\end{Verbatim}
+\end{FragileFrame}
 
-\begin{frame}{callback-based programming}
+
+\begin{frame}{callback-based programming uses}
     \begin{itemize}
     \item writing scripts in a webpage
     \item many graphical user interface libraries
