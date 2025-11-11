@@ -1,0 +1,18 @@
+
+\begin{frame}{Matrix vulnerabilties}
+    \begin{itemize}
+    \item one example from \url{https://nebuchadnezzar-megolm.github.io/static/paper.pdf}
+    \item system for confidential multi-user chat
+    \vspace{.5cm}
+    \item protocol + goals:
+        \begin{itemize}
+        \item each device (my phone, my desktop) has public key
+        \item to talk to me, you verify one of my public keys
+        \item to add devices, my client can forward my other devices' public keys
+        \end{itemize}
+    \item bug:
+        \begin{itemize}
+        \item when receiving new keys, clients did not check who they were forwarded from correctly
+        \end{itemize}
+    \end{itemize}
+\end{frame}
