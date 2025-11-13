@@ -7,9 +7,96 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{last time}
+    \frametitle{last time [networking]}
+    \begin{itemize}
+    \item callback-based programming
+    \item names versus addresses
+    \item DNS = distributed database
+        \begin{itemize}
+        \item recursive resolvers; caching of responses
+        \end{itemize}
+    \item IP address format; routing tables
+    \item port numbers; 4-tuples to ID connections
+    \item HTTP, briefly
+    \item network address translation
+    \end{itemize}
 \end{frame}
 
+\begin{frame}
+    \frametitle{last time [secure comm. / 11am]}
+    \begin{itemize}
+    \item secure communication problem
+        \begin{itemize}
+        \item same with networks versus non-networks
+        \end{itemize}
+    \item `principals' for examples
+        \begin{itemize}
+        \item A, B, C (communicators)
+        \item E, M (attackers)
+        \end{itemize}
+    \item security properties we might want
+        \begin{itemize}
+        \item confidentiality, authenticity
+        \item possibility of other properties
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{last time [secure comm. / 2pm]}
+    \begin{itemize}
+    \item secure communication problem
+    \item `principals' for examples
+        \begin{itemize}
+        \item A, B, C (communicators)
+        \item E, M (attackers)
+        \end{itemize}
+    \item security properties we might want
+        \begin{itemize}
+        \item confidentiality, authenticity
+        \item possibility of other properties
+        \end{itemize}
+    \item using secrets for confidentiality/authenticity
+    \item symmetric encryption, authentication
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{why secure communication here [2pm]}
+    \begin{itemize}
+    \item tools we want you to learn before graduating
+        \begin{itemize}
+        \item CSO2 was the course selected to put it in the CS degrees
+        \end{itemize}
+    \item won't be going over actual math
+        \begin{itemize}
+        \item some professional mathematician does that
+        \item yes, which algorithm matters, but\ldots
+        \item \ldots not the most common cause of security problems
+        \end{itemize}
+    \item goal: not shoot yourself in the foot
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{what authenticity means [2pm]}
+    \begin{itemize}
+    \item \textit{authenticity} can be confusing concept
+    \item we've said MAC shows ``message really came from (A or B)''
+    \vspace{.5cm}
+    \item authenticity means message really came from correct party \\
+        \textit{including being an unchanged message they intended to send}
+    \item problem we'll encounter using MACs:
+        \begin{itemize}
+        \item MAC needs to `cover' message contents
+        \item MAC needs to `cover' relevant context
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{motivation: need for authentication}
+\input{../secure/secrecy-properties}
+\input{../secure/encrypt-not-enough}
 
 \section{tools with shared keys}
 \subsection{secrets generally}
@@ -28,9 +115,6 @@
 % FIXME: place for later sectoin
 \section{exercise}
 \input{../secure/sym-ex}
-
-\subsection{motivation: need for authentication}
-\input{../secure/encrypt-not-enough}
 
 \section{motivation: distributing shared secrets?}
 \input{../secure/motivate-public-keys}
@@ -114,15 +198,6 @@
 \begin{frame}{backup slides}
 \end{frame}
 
-\subsection{encryption + authentication pitfalls}
-\input{../secure/protocol-oops}
-
-
-\subsection{other attacks}
-\begin{frame}{other attacks without breaking math}
-\end{frame}
-\input{../secure/other-attacks}
-
 
 \subsection{password hashing}
 \input{../secure/pass-hash}
@@ -141,16 +216,13 @@
 
 \subsection{firewalls} % FIXME: complete
 \input{../network/firewalls}
-% FIXME: update readings to mention IPv6 equivalent
-
-\section{backup slides}
-\begin{frame}{backup slides}
-\end{frame}
-
+V
 \subsection{how certificates verified}
 \input{../secure/cert-auth-verified}
 
 \subsection{password hashing}
 \input{../secure/pass-hash}
+
+\input{../secure/talk-backup}
 
 \end{document}
