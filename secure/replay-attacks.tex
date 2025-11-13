@@ -54,18 +54,6 @@
     \end{itemize}
 \end{frame}
 
-% \begin{frame}{nonces (2)}
-%     \begin{itemize}
-%     \item another solution to replay attacks:
-%     \item B$\rightarrow$A: [next number \myemph{\#91523}] [signature from B] \\
-%     A$\rightarrow$B: \myemph{\#91523} Did you order lunch? [next number \myemph{\#90382}] [signature from A] \\
-%     B$\rightarrow$A: \myemph{\#90382} Yes. [next number \myemph{\#14578}] [signature from B] \\
-%     \ldots \\
-%     A$\rightarrow$B: \myemph{\#6824} There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number \myemph{\#36129}][signature from A]
-%     \vspace{.5cm}
-%     \item (assuming A actually checks the numbers)
-%     \end{itemize}
-% \end{frame}
 
 \begin{frame}{replay attacks (alt)}
     \begin{itemize}
@@ -82,18 +70,3 @@
         \end{itemize}
     \end{itemize}
 \end{frame}
-
-% \begin{frame}{confusion about who's sending?}
-%     \begin{itemize}
-%     \item in addition to nonces, either
-%         \begin{itemize}
-%         \item write down more who is sending + other context so message can't be reused and/or
-%         \item use unique set of keys for each principal you're talking to
-%         \end{itemize}
-%     \vspace{.5cm}
-%     \item with symmetric encryption, also ``reflection attacks''
-%         \begin{itemize}
-%         \item A sends message to B, attacker sends A's message back to A as if it's from B
-%         \end{itemize}
-%     \end{itemize}
-% \end{frame}
