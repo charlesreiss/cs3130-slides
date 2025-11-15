@@ -1,0 +1,63 @@
+\date{}
+\title{}
+\date{}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+    \item \{symmetric, asymmetric\} encryption
+    \item public/private key idea
+    \item message authenication codes / digital signatures
+    \item certificates, certificate authorities
+    \end{itemize}
+\end{frame}
+
+\input{../secure/pki}
+
+
+\section{cryptographic hashes}
+
+% FIXME: hashes
+\input{../secure/crypto-hash}
+
+\section{random numbers}
+\input{../secure/random-numbers-quick}
+
+\section{key agreement}
+\input{../secure/key-agreement}
+
+\section{putting it together: TLS}
+\input{../secure/tls}
+
+\subsection{handshake}
+\input{../secure/tls-handshake-summary}
+
+\subsection{after handshake}
+\input{../secure/tls-after-handshake}
+
+\subsection{TLS properties}
+\input{../secure/tls-handshake-props}
+
+\subsection{summary}
+\input{../secure/summary}
+
+\input{../pipeline/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
