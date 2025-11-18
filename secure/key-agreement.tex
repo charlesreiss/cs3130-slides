@@ -1,14 +1,6 @@
-% \begin{frame}{just asymmetric?}
-%     \begin{itemize}
-%     \item given public-key encryption + digital signatures\ldots
-%     \item why bother with the symmetric stuff?
-%     \vspace{.5cm}
-%     \item symmetric stuff much faster
-%     \item symmetric stuff much better at supporting larger messages
-%     \end{itemize}
-% \end{frame}
 
-\begin{frame}{key agreement}
+\begin{frame}
+\frametitle{key agreement}
     \begin{itemize}
     \item problem: A has B's public encryption key \\
         wants to choose shared secret
@@ -18,49 +10,29 @@
         \item A chooses a key, sends it encrypted to B
         \item A sends a public key encrypted to B, B chooses a key and sends back
         \end{itemize}
-    \item<2-> alternate model (not needed, but usually used by TLS, SSH, \ldots):
+    \item TLS, SSH use special key agreement primitive instead
         \begin{itemize}
-        \item both sides generate random values
-        \item derive public-key like ``key shares'' from values
-        \item use math to combine ``key shares''
-        \item kinda like A + B both sending each other public encryption keys
+        \item easier to use temporary keys to limit effect of key compromise
         \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Diffie-Hellman key agreement}
-\begin{itemize}
-\item A and B want to agree on shared secret
-\vspace{.5cm}
-\item A chooses random value Y
-\item A sends public value derived from Y (``key share'')
-\item B chooses random value Z
-\item B sends public value derived from Z (``key share'')
-\item A combines Y with public value from B to get number
-\item B combines Z with public value from A to get number
+\begin{frame}
+\frametitle{Diffie-Hellman-style key agreement}
     \begin{itemize}
-    \item and b/c of math chosen, both get same number
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Diffie-Hellman key agreement (details, if needed)}
-    \begin{itemize}
-    \item math requirement:
+    \item public/private-key-like:
         \begin{itemize}
-        \item some $f$, so $f(f(X, Y), Z) = f(f(X, Z), Y)$
-        \item (that's hard to invert, etc.)
+        \item  ``key share'' (public) 
+        \item private (random) value
         \end{itemize}
-    choose X in advance and:
+    \item key share = GenerateKeyShare(private value)
+    \item KeyGen(A's private value, B's key share) = new shared secret
+    \item KeyGen(B's private value, A's key share) = same shared secret
+    \vspace{.5cm}
+    \item primitive providers gaurentee:
+        \begin{itemize}
+        \item cannot guess shared secret without an involved private value
+        \end{itemize}
     \end{itemize}
-\begin{tabular}{l|l}
-A randomly chooses $Y$ & B randomly chooses $Z$ \\
-A sends $f(X, Y)$ to B & B sends $f(X, Z)$ to A \\
-A computes $f(f(X, Z), Y)$ & B computes $f(f(X, Y), Z)$ \\
-\end{tabular} \\
-\vspace{.5cm}
-\only<2->{
-    example $f(a, b) = a^b \pmod{p}$
-}
 \end{frame}
 

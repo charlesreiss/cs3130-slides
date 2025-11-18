@@ -1,0 +1,36 @@
+\begin{frame}{Diffie-Hellman-style key agreement}
+\begin{itemize}
+\item A and B want to agree on shared secret
+\vspace{.5cm}
+\item A chooses random value Y
+\item A sends public value derived from Y (``key share'')
+\item B chooses random value Z
+\item B sends public value derived from Z (``key share'')
+\item A combines Y with public value from B to get number
+\item B combines Z with public value from A to get number
+    \begin{itemize}
+    \item and b/c of math chosen, both get same number
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diffie-Hellman key agreement (details, if needed)}
+    \begin{itemize}
+    \item math requirement:
+        \begin{itemize}
+        \item some $f$, so $f(f(X, Y), Z) = f(f(X, Z), Y)$
+        \item (that's hard to invert, etc.)
+        \end{itemize}
+    choose X in advance and:
+    \end{itemize}
+\begin{tabular}{l|l}
+A randomly chooses $Y$ & B randomly chooses $Z$ \\
+A sends $f(X, Y)$ to B & B sends $f(X, Z)$ to A \\
+A computes $f(f(X, Z), Y)$ & B computes $f(f(X, Y), Z)$ \\
+\end{tabular} \\
+\vspace{.5cm}
+\only<2->{
+    example $f(a, b) = a^b \pmod{p}$
+}
+\end{frame}
+
