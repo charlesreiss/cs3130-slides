@@ -1,6 +1,6 @@
 \usetikzlibrary{shapes,fit,arrows.meta,chains}
 
-\begin{frame}[fragile,label=dfLimit]{data flow model and limits (1)}
+\begin{frame}[fragile,label=dfLimit2]{data flow model and limits (1)}
     \begin{tikzpicture}
         \tikzset{
             var/.style={draw,rectangle,fill=blue!30},
@@ -67,14 +67,12 @@
             }
         \end{scope}
         \begin{visibleenv}<all:1>
-            \node[anchor=west] at ([xshift=1cm,yshift=-.5cm]i0.east) {
-\begin{lstlisting}[language=myasm,style=small]
-loop2:
-    addq %rbx, %rcx
-    addq %r8, %r9
-    decq %rax
-    jge loop2
-\end{lstlisting}
+            \node[anchor=west,align=left,font=\small\tt] at ([xshift=1cm,yshift=-.5cm]i0.east) {
+loop2: \\
+\hspace{1cm}    addq \%rbx, \%rcx \\
+\hspace{1cm}   addq \%r8, \%r9 \\
+\hspace{1cm}   decq \%rax \\
+\hspace{1cm}   jge loop2 \\
 };
         \end{visibleenv}
         \begin{visibleenv}<all:2>

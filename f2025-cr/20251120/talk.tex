@@ -1,0 +1,86 @@
+\date{}
+\title{}
+\date{}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+        \item other math tools: cryptographic hashes; DH-like key agreement
+        \item TLS handshake
+            \begin{itemize}
+            \item asymmetric to setup symmetric; signatures over key share
+            \end{itemize}
+        \item review? of single-cycle processor
+        \item adding pipelining (laundry analogy)
+        \item need for pipeline registers; diminishing returns
+        \item hazard = pipeline computes wrong answer without fixes
+        \item fixing read `old' value data hazards with stalling
+    \end{itemize}
+\end{frame}
+
+\section{challenge: hazards}
+
+\subsection{data hazards intro}
+
+\subsubsection{example execution: wrong result, stalling resolution}
+\input{../pipeline/addqHazard}
+
+\subsection{control hazards}
+\input{../pipeline/controlHazard} % FIXME: correct
+
+\subsubsection{idea: branch prediction}
+\input{../pipeline/predIntro}
+
+\subsection{data hazard fix: forwarding}
+\input{../pipeline/addqForward}
+
+\subsubsection{exercise: what forwarding}
+\input{../pipeline/forwardPathsEx}
+
+\subsection{can't always forward: load-use}
+\input{../pipeline/loadUseHazard}
+
+\subsubsection{can forward: load-to-store}
+\input{../pipeline/loadToStoreFwd}
+
+\input{../pipeline/loadUseNoForward}
+% FIXME: show undoing instruction???
+
+
+\subsection{dependency v hazard}
+\input{../pipeline/hazardVDep}
+
+\input{../pipeline/hazardVDepEx}
+
+\subsection{with different pipeline?}
+\input{../pipeline/diffHazard}
+
+\subsubsection{exercise}
+\input{../pipeline/diffHazardEx}
+
+\input{../ooo/talk-inner}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\input{../pipeline/talk-backup}
+\input{../ooo/talk-backup}
+
+
+\end{document}

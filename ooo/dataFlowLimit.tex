@@ -51,14 +51,12 @@
             }
         \end{scope}
         \begin{visibleenv}<all:1>
-            \node[anchor=west] at ([xshift=1cm,yshift=-.5cm]a2.east) {
-\begin{lstlisting}[language=C,style=small]
-for (int i = 0; i < N; i += K) {
-    sum += A[i];
-    sum += A[i+1];
-    ...
-}
-\end{lstlisting}
+            \node[anchor=west,align=left,font=\tt\small] at ([xshift=1cm,yshift=-.5cm]a2.east) {
+for (int i = 0; i < N; i += K) \{ \\
+\hspace{1cm} sum += A[i]; \\
+\hspace{1cm} sum += A[i+1]; \\
+\hspace{1cm} \ldots \\
+\}
 };
         \end{visibleenv}
         \begin{visibleenv}<all:2>

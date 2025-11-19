@@ -1,7 +1,6 @@
 \usetikzlibrary{shapes}
 
 \begin{frame}[fragile,label=reassoc]{reassociation}
-    \lstset{language=myasm,style=small}
     \begin{itemize}
     \item with pipelined, 5-cycle latency multiplier; how long does each take to compute?
     \end{itemize}
@@ -21,12 +20,10 @@
     op/.style={draw,ellipse,fill=yellow!40},
     wire/.style={->,draw,very thick},
 }
-\node[draw,label={north:$((a\times b)\times c)\times d$}] (first) {
-\begin{lstlisting}
-imulq %rbx, %rax
-imulq %rcx, %rax
-imulq %rdx, %rax
-\end{lstlisting}
+\node[draw,font=\tt\small,align=left,label={north:$((a\times b)\times c)\times d$}] (first) {
+imulq \%rbx, \%rax \\
+imulq \%rcx, \%rax \\
+imulq \%rdx, \%rax \\
 };
 \begin{visibleenv}<2->
 \node[var] (firstRax) at ([yshift=-.5cm]first.south west) {\%rax};
@@ -45,12 +42,10 @@ imulq %rdx, %rax
     \draw[wire] (firstAddD.south) |- ++(.5cm, -.25cm);
 \end{visibleenv}
 
-\node[draw,answer,label={north:$(a\times b)\times (c\times d)$},right=2.75cm of first] (second) {
-\begin{lstlisting}
-imulq %rbx, %rax
-imulq %rcx, %rdx
-imulq %rdx, %rax
-\end{lstlisting}
+\node[draw,answer,font=\tt\small,align=left,label={north:$(a\times b)\times (c\times d)$},right=2.75cm of first] (second) {
+imulq \%rbx, \%rax \\
+imulq \%rcx, \%rdx \\
+imulq \%rdx, \%rax \\
 };
 
 \begin{visibleenv}<2->
