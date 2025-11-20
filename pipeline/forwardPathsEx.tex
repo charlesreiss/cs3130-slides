@@ -21,12 +21,13 @@
 };
 \end{tikzpicture}
 \begin{itemize}
-\item in subq, \%r8 is \rule{3cm}{2pt} addq.
-\item in xorq, \%r9 is \rule{3cm}{2pt} addq.
-\item in andq, \%r9 is \rule{3cm}{2pt} addq.
-\item in andq, \%r9 is \rule{3cm}{2pt} xorq.
+\item in subq, \%r8 is \rule{3cm}{2pt} addq. \vspace{-.1cm}
+\item in xorq, \%r9 is \rule{3cm}{2pt} addq. \vspace{-.1cm}
+\item in andq, \%r9 is \rule{3cm}{2pt} addq. \vspace{-.1cm}
+\item in andq, \%r9 is \rule{3cm}{2pt} xorq. \vspace{-.1cm}
     \begin{itemize}
-    \item A: not forwarded from
+    \item assume regfile cannot read value while being written
+    \item A: not forwarded from 
     \item B-D: forwarded to decode from \{execute,memory,writeback\} stage of
     \end{itemize}
 \end{itemize}

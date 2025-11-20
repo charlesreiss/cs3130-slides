@@ -1,0 +1,95 @@
+
+\usetikzlibrary{matrix,fit}
+
+\begin{frame}[fragile,label=dataHazardNoop]{data hazard compiler solution}
+\begin{lstlisting}[style=small]
+addq %r8, %r9
+nop
+nop
+addq %r9, %r8
+\end{lstlisting}
+\begin{itemize}
+\item one solution: \myemph{change the ISA}
+    \begin{itemize}
+    \item all \lstinline|addq|s take effect \myemph{three instructions later} \\
+        \myemph<2>{(assuming can read register value while it is being written back)}
+    \end{itemize}
+\item make it \myemph{compiler's  job}
+\item problem: recompile everytime processor changes?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{stalling/nop pipeline diagram (1)}
+\begin{tikzpicture}
+    \stagestyles
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+        \matrix[tight matrix no line,
+                nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+                column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl) {
+        |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                            \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+        add \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+        nop \& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \& ~ \fdemw \& ~ \& ~\\
+        addq \%r9, \%r8  \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
+        };
+    \begin{visibleenv}<2>
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(tbl-2-6)] {};
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(tbl-5-6)] {};
+        \draw[red,line width=1mm,dotted,->] (tbl-2-6) -- (tbl-5-6);
+        \node[anchor=north,align=left] at (tbl.south) {assumption: \\
+                if writing register value \\
+                register file will return that value  for reads \\
+                ~ \\
+                not actually way register file worked in single-cycle CPU \\
+                (e.g. can read old \%r9 while writing new \%r9)
+            };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{stalling/nop pipeline diagram (2)}
+\begin{tikzpicture}
+    \stagestyles
+    \providecommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+        \matrix[tight matrix no line,
+                nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center,text opacity=1.0,fill opacity=0.5},
+                column 1/.style={nodes={text width=9cm,align=left}},anchor=north west] (tbl) {
+        |[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                            \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+        add \%r8, \%r9    \fdemw \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+        nop \& ~ \fdemw \& ~ \& ~\\
+        nop \& ~ \& ~ \fdemw \& ~ \& ~\\
+        |[fill=red!20]| nop \& ~ \& ~ \& ~  \fdemw \& ~ \& ~\\
+        addq \%r9, \%r8  \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
+        };
+    \begin{visibleenv}<2>
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(tbl-2-6)] {};
+        \node[draw=red,line width=1mm,inner sep=0mm,fit=(tbl-6-7)] {};
+        \draw[red,line width=1mm,dotted,->] (tbl-2-6) -- (tbl-6-7);
+        \node[red,anchor=north] at (tbl.south) {
+            if we didn't modify the register file, we'd need an extra cycle
+            };
+    \end{visibleenv}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile,label=dataHazardStall]{data hazard hardware solution}
+\begin{lstlisting}[style=small]
+addq %r8, %r9
+// hardware inserts: nop
+// hardware inserts: nop
+addq %r9, %r8
+\end{lstlisting}
+\begin{itemize}
+    \item how about hardware add nops?
+    \item called \myemph{stalling}
+    \item extra logic:
+        \begin{itemize}
+        \item sometimes don't change PC
+        \item sometimes put do-nothing values in pipeline registers
+        \end{itemize}
+\end{itemize}
+% FIXME: picture of MUX in front of PC, in front of fetch/decode
+\end{frame}
+

@@ -19,25 +19,24 @@
 \begin{frame}
 \frametitle{last time}
     \begin{itemize}
-        \item other math tools: cryptographic hashes; DH-like key agreement
+        \item cryptographic hashes; DH-like key agreement
         \item TLS handshake
             \begin{itemize}
             \item asymmetric to setup symmetric; signatures over key share
             \end{itemize}
-        \item review? of single-cycle processor
-        \item adding pipelining (laundry analogy)
-        \item need for pipeline registers; diminishing returns
+        \item adding pipelining to single-cycle processor (laundry analogy)
+        \item diminishing returns (pipeline registers, uneven split)
         \item hazard = pipeline computes wrong answer without fixes
-        \item fixing read `old' value data hazards with stalling
+        \item stalling (insert nops) to resolve data hazard
+            \begin{itemize}
+            \item wait long enough that register read happens same time/after write
+            \end{itemize}
     \end{itemize}
 \end{frame}
 
 \section{challenge: hazards}
 
 \subsection{data hazards intro}
-
-\subsubsection{example execution: wrong result, stalling resolution}
-\input{../pipeline/addqHazard}
 
 \subsection{control hazards}
 \input{../pipeline/controlHazard} % FIXME: correct
@@ -78,6 +77,9 @@
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+\input{../pipeline/addqHazardSoln}
+
+\input{../pipeline/addqHazard}
 
 \input{../pipeline/talk-backup}
 \input{../ooo/talk-backup}
