@@ -118,11 +118,11 @@ can't use same forwarding logic
 \begin{frame}[fragile,label=rawRewriting1]{rewriting hazard examples (1)}
 \begin{tabular}{l|l}
 \texttt{addq \%r10, \%r8} &
-\texttt{addq \%r10, \%r8\textsubscript{v1} $\rightarrow$ \%r8\textsubscript{v2}} \\
+\texttt{addq \%r10\textsubscript{v1}, \%r8\textsubscript{v1} $\rightarrow$ \%r8\textsubscript{v2}} \\
 \texttt{addq \%r11, \%r8} &
-\texttt{addq \%r11, \%r8\textsubscript{v2} $\rightarrow$ \%r8\textsubscript{v3}} \\
+\texttt{addq \%r11\textsubscript{v1}, \%r8\textsubscript{v2} $\rightarrow$ \%r8\textsubscript{v3}} \\
 \texttt{addq \%r12, \%r8} &
-\texttt{addq \%r12, \%r8\textsubscript{v3} $\rightarrow$ \%r8\textsubscript{v4}} \\
+\texttt{addq \%r12\textsubscript{v1}, \%r8\textsubscript{v3} $\rightarrow$ \%r8\textsubscript{v4}} \\
 \end{tabular}
 \hrule
 \begin{itemize}
