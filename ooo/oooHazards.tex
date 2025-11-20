@@ -144,6 +144,7 @@ can't use same forwarding logic
     morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
     moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
     moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+    moredelim={**[is][\btHL<2,4|handout:0>]{~23~}{~end~}},
 }
 \tikzset{
     forwardLine/.style={blue!60!black,thick,-Latex},
@@ -175,14 +176,15 @@ can't use same forwarding logic
                                     \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
 \lstinline|addq %r10, ~2~%r8~end~|   \F \& ~ \& ~ \& ~ \&\dem \& |[writeback,draw=red,very thick,alias=from1]| W \& ~ \& ~ \& ~ \& ~ \\
     \lstinline|movq ~3~%r8~end~, (%rax)|        \F \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \& |[alias=to1]| \demw \& ~ \& ~ \& ~ \& ~ \\
-\lstinline|movq %r11, ~2~%r8~end~|   \& ~ \fdemw \\
-\lstinline|movq ~3~%r8~end~, 8(%rax)|     \& ~ \F \& ~ \& ~ \& ~ \& ~ \& ~ \demw \& ~ \& ~ \& ~ \& ~ \\
+    \lstinline|movq %r11, ~2~%r8~end~|   \& ~ \fdem \& |[writeback,draw=red,very thick,alias=from3]| W \\
+    \lstinline|movq ~3~%r8~end~, 8(%rax)|     \& ~ \F \& ~ \& ~ \& ~ \& ~ \& |[alias=to3]| ~ \demw \& ~ \& ~ \& ~ \& ~ \\
     \lstinline|movq $100, ~2~%r8~end~|   \& \& \fdem \& |[writeback,draw=red,very thick,alias=from2]| W  \\
-    \lstinline|addq %r13, ~2~%r8~end~|   \& ~ \& ~  \F \& ~ \& ~ \& ~ \& ~ \& ~ \& |[alias=to2]| \demw \& ~ \& ~ \\
+    \lstinline|addq %r13, ~23~%r8~end~|   \& ~ \& ~  \F \& ~ \& ~ \& ~ \& ~ \& ~ \& |[alias=to2]| \demw \& ~ \& ~ \\
 };
-    \begin{visibleenv}<3>
+    \begin{visibleenv}<3-4>
         \draw[ultra thick,red,-Latex] (from1) -- (to1.east);
         \draw[ultra thick,red,-Latex] (from2) -- (to2.east);
+        \draw[ultra thick,red,-Latex] (from3) -- (to3.east);
     \end{visibleenv}
 \newcommand{\fwdB}[4]{
     \pgfmathtruncatemacro{\idx}{#1+2}
