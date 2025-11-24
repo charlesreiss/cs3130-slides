@@ -1,0 +1,101 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\input{../common/listingsLib}
+\usetikzlibrary{circuits.logic.mux}
+\input{../pipeline/register-lib}
+\input{../pipeline/cpu-lib}
+
+\section{last time}
+\begin{frame}
+    \frametitle{last time}
+    \begin{itemize}
+    \item branch prediction --- guess to avoid stalling
+    \item forwarding (AKA bypassing) --- borrow value from later in pipelien
+        \begin{itemize}
+        \item combining with stalling
+        \end{itemize}
+    \item changing hazards with different pipeline
+    \item out-of-order idea --- run instructions as ready
+    \item need for multiple versions of registers
+        \begin{itemize}
+        \item register renaming --- explicitly store multiple versions
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{OOO}
+
+\subsection{superscalar overall design}
+% FIXME: https://people.eecs.berkeley.edu/~krste/papers/BROOM-IEEEMicro2019.pdf
+\input{../ooo/oooPipeline}
+\againframe<1-10>{oooPipe}
+
+\subsection{overall effect}
+\input{../ooo/oooOverallExec}
+
+\subsection{register renaming}
+
+\againframe<13>{oooPipe}
+\input{../ooo/oooRename.tex}
+
+\subsection{briefly, load/store queues} % FIXME: skip if no time
+\input{../ooo/load-store-queue}
+
+\subsection{renaming exercise?}
+\input{../ooo/oooRenameEx.tex}
+
+\subsection{instruction dispatch}
+\againframe<11>{oooPipe}
+\input{../ooo/oooDispatch}
+
+% FIXME: EXERCISE
+\subsection{dispatch exercise 1}
+\input{../ooo/oooDispatchEx1}
+
+\subsection{functional units}
+\againframe<12>{oooPipe}
+\input{../ooo/realCpuFU}
+
+\subsection{instruction dispatch (two-cycle multiplier)}
+\input{../ooo/oooDispatchAlt}
+
+\subsection{complex instructions and condition codes}
+\input{../ooo/oooMicrocodeSummary.tex}
+
+\subsection{OOO limits}
+\input{../ooo/oooLimitations}
+% FIXME: examples of each bottleneck
+
+\subsection{the data flow limit}
+\input{../intro/perf-examples}
+
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\input{../ooo/talk-backup}
+
+
+\subsection{introduction}
+
+\subsection{multiple issue}
+\input{../ooo/missingPiecesMI}
+
+\subsection{out-of-order issue}
+\input{../ooo/missingPiecesOOO}
+
+\subsection{real CPUs}
+\input{../ooo/realCpuIntro}
+
+\subsection{complex hazards examples}
+\input{../ooo/oooHazards.tex} %FIXME
+
+
+\end{document}
