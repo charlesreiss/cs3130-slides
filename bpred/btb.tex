@@ -3,10 +3,11 @@
 \begin{frame}{branch target buffer}
     \begin{itemize}
     \item what if we can't decode LABEL from machine code for \texttt{jmp LABEL} or \texttt{jle LABEL} fast?
-        \begin{itemize}
-        \item will happen in more complex pipelines
-        \end{itemize}
     \item what if we can't decode that there's a RET, CALL, etc. fast?
+    \item both issues for deeper pipelines
+        \begin{itemize}
+        \item want to fetch instruction X before decoding instruction X-1
+        \end{itemize}
     \end{itemize}
 \end{frame}
 

@@ -23,7 +23,7 @@
 \node[draw,font=\tt\small,align=left,label={north:$((a\times b)\times c)\times d$}] (first) {
 imulq \%rbx, \%rax \\
 imulq \%rcx, \%rax \\
-imulq \%rdx, \%rax \\
+imulq \%rdx, \%rax 
 };
 \begin{visibleenv}<2->
 \node[var] (firstRax) at ([yshift=-.5cm]first.south west) {\%rax};
@@ -45,7 +45,7 @@ imulq \%rdx, \%rax \\
 \node[draw,answer,font=\tt\small,align=left,label={north:$(a\times b)\times (c\times d)$},right=2.75cm of first] (second) {
 imulq \%rbx, \%rax \\
 imulq \%rcx, \%rdx \\
-imulq \%rdx, \%rax \\
+imulq \%rdx, \%rax 
 };
 
 \begin{visibleenv}<2->

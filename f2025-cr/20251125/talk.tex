@@ -63,24 +63,55 @@
 \againframe<12>{oooPipe}
 \input{../ooo/realCpuFU}
 
+\subsection{reassociation and data flow}
+\input{../ooo/reassocDataFlow}
+
 \subsection{instruction dispatch (two-cycle multiplier)}
 \input{../ooo/oooDispatchAlt}
 
 \subsection{complex instructions and condition codes}
 \input{../ooo/oooMicrocodeSummary.tex}
 
+\subsection{handling branch misprediction}
+\againframe<15>{oooPipe}
+\input{../bpred/btb}
+\input{../bpred/staticPredict}
+\input{../bpred/local-1bit}
+
+\begin{frame}\frametitle{more complex branch prediction}
+    \begin{itemize}
+    \item some extensions: more history than just last result
+        \begin{itemize}
+        \item predict based on last K times
+        \end{itemize}
+    \item lookup based on more than branch address
+        \begin{itemize}
+        \item most common: based on other recent branches
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \subsection{OOO limits}
 \input{../ooo/oooLimitations}
 % FIXME: examples of each bottleneck
 
+\subsection{real OOO sizes}
+\input{../ooo/oooZen5Sizes}
+
 \subsection{the data flow limit}
 \input{../intro/perf-examples}
+
+%\input{../spectre/talk-inner}
 
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+\subsection{data flow limit}
+\input{../ooo/dataFlowLimitNew}
+
 \input{../ooo/talk-backup}
+\input{../bpred/local-1bit-ex}
 
 
 \subsection{introduction}
@@ -97,5 +128,8 @@
 \subsection{complex hazards examples}
 \input{../ooo/oooHazards.tex} %FIXME
 
+
+\input{../bpred/talk-inner}
+\input{../bpred/talk-backup}
 
 \end{document}
