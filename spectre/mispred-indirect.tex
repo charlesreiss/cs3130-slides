@@ -41,9 +41,8 @@ bottom 12 bits of jmp address & last seen target \\ \hline
 \begin{itemize}
 \item Intel Haswell CPU did something similar to this
     \begin{itemize}
-    \item uses bits of last several jumps, not just last one
+    \item uses Hash(bits of last several jumps), not just last jmp
     \end{itemize}
-\item can mistrain this branch predictor
 \end{itemize}
 \end{frame}
 
@@ -53,6 +52,7 @@ bottom 12 bits of jmp address & last seen target \\ \hline
 \item 2: mistrain branch target predictor for it to jump to chosen code
     \begin{itemize}
     \item use code at address that conflicts in ``recent jumps cache''
+    \item since only bottom bits are used, can set this up in user memory
     \end{itemize}
 \item 3: have chosen code be attack code (e.g. array access)
     \begin{itemize}
