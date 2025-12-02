@@ -1,0 +1,42 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+    \item out-of-order pipeline overview
+    \item register renaming
+        \begin{itemize}
+        \item new physical register for each version of architectural
+        \item place preprocessed instructions in queue
+        \end{itemize}
+    \item dispatch --- look for ready instructions
+        \begin{itemize}
+        \item track which physical register have ready values
+        \end{itemize}
+    \item branch target buffer --- cache of branch targets
+    \item remembering past brances to predict future ones
+    \end{itemize}
+\end{frame}
+
+\subsection{OOO limits}
+\input{../ooo/oooLimitations}
+
+\input{../spectre/talk-inner}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+%\input{../spectre/talk-backup}
+
+\input{../bpred/talk-basic}
+
+\end{document}
