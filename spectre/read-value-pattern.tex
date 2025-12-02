@@ -1,4 +1,26 @@
-\begin{frame}[fragile]{reading a value}
+\begin{frame}[fragile]{reading a value --- general pattern}
+\begin{lstlisting}[language=C,style=smaller]
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+other_array[mystery] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+        ...
+    }
+}
+\end{lstlisting}
+\begin{itemize}
+\item previous idea: learn bits of mystery that correspond to index bits
+    \begin{itemize}
+    \item compute index bits of other\_array + mystery as function of mystery
+    \item see how it matches index bits of array + i
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{reading a value --- simpler case}
 \begin{lstlisting}[language=C,style=smaller]
 char *array;
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
@@ -11,9 +33,8 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 }
 \end{lstlisting}
 \begin{itemize}
-\item with 32KB direct-mapped cache
-\item suppose we find out that \texttt{array[0x400]} is slow to access
-\item and other\_array starts at address 0x100000
-\item what was mystery?
+\item if other\_array is char* and starts at multiple of cache size
+\item and \texttt{array[0x6*BLOCK\_SIZE]} is slow to access
+\item mystery == 0x6 + BLOCK\_SIZE * SET\_COUNT
 \end{itemize}
 \end{frame}

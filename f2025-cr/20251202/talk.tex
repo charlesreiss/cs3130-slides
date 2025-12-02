@@ -7,6 +7,7 @@
 \end{frame}
 
 \input{../common/listingsLib}
+\input{../pipeline/register-lib}
 
 \begin{frame}
 \frametitle{last time}
@@ -22,24 +23,33 @@
         \item track which physical register have ready values
         \end{itemize}
     \item branch target buffer --- cache of branch targets
-    \item remembering past brances to predict future ones
+    \item remembering past branches to predict future ones
     \end{itemize}
 \end{frame}
 
+\input{../ooo/oooPipeline}
+\againframe<1>{oooPipe}
+
 \begin{frame}
 \frametitle{logistics}
+    \begin{itemize}
+        \item pipeline HW due TONIGHT
+        \item OOO HW due 10:45am NEXT TUESDAY
+            \begin{itemize}
+                \item no late submissions accepted
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
-\input{../ooo/oooPipeline}
-
-\subsection{OOO limits}
-\input{../ooo/oooLimitations}
 
 \input{../spectre/talk-inner}
 
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+
+\subsection{OOO limits}
+\input{../ooo/oooLimitations}
 
 %\input{../spectre/talk-backup}
 

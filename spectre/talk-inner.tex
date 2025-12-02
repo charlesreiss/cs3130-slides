@@ -8,17 +8,27 @@
 \subsection{example: power analysis}
 \input{../spectre/power-analysis}
 
-\subsection{timing and ciphers}
-\input{../spectre/timing-and-ciphers}
-
 \subsection{example: RF leaks}
 \input{../spectre/rf-leak}
+
+\subsection{timing and ciphers}
+\input{../spectre/timing-and-ciphers}
 
 \subsection{example: which website}
 \input{../spectre/which-website}
 
 \section{generally: side channels}
 \input{../spectre/side-channels}
+
+\begin{frame}\frametitle{our focus}
+    \begin{itemize}
+    \item we're going to focus on timing-related leaks\ldots
+    \item and interaction with attacker input/processor design
+    \vspace{.5cm}
+    \item discovery: lots of cases where features that make code/processors fast \\
+        let attackers learn much more than they should through timing
+    \end{itemize}
+\end{frame}
 
 \section{cache side channels}
 
@@ -34,11 +44,11 @@
 \subsection{exercise: detect this access? (2-way)}
 \input{../spectre/ex-detect-access-2way}
 
-\subsection{PRIME+PROBE, AES example}
-\input{../spectre/prime-probe} % FIXME: lfence-using example
-
 \subsection{reading a value (1)}
 \input{../spectre/read-value-pattern}
+
+\subsection{PRIME+PROBE, AES example}
+\input{../spectre/prime-probe} % FIXME: lfence-using example
 
 \section{seeing speculation via side channels}
 
