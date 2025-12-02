@@ -35,6 +35,6 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 \begin{itemize}
 \item if other\_array is char* and starts at multiple of cache size
 \item and \texttt{array[0x6*BLOCK\_SIZE]} is slow to access
-\item mystery == 0x6 + BLOCK\_SIZE * SET\_COUNT
+\item mystery == 0x6 + K * SET\_COUNT
 \end{itemize}
 \end{frame}
