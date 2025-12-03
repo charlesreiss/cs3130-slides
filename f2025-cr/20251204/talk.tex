@@ -1,0 +1,106 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{last time}
+    \begin{itemize}
+    \item side channel idea
+        \begin{itemize}
+        \item learn information through unintended mechanism
+        \item check\_password example
+        \item examples: timing, power usage, radio emissions
+        \end{itemize}
+    \item side channels through the cache
+        \begin{itemize}
+        \item PRIME+PROBE: detecting cache accesses via evictions
+        \item cache set $\rightarrow$ `secret' value
+        \end{itemize}
+    \item cache accesses running speculatively
+    \item Meltdown pattern
+        \begin{itemize}
+        \item read kernel-only value speculatively
+        \item use value to perform cache access
+        \item read is undone by processor, but not cache access
+        \item find value by detecting eviction from cache access
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\input{../common/listingsLib}
+\input{../pipeline/register-lib}
+
+\section{meltdown}
+
+
+\subsection{vulnerability}
+\input{../spectre/meltdown-code}
+
+\subsection{fix}
+\input{../spectre/meltdown-fix}
+
+\section{spectre}
+
+\subsection{concept: forcing branch misprediction}
+\input{../spectre/mistrain-bp}
+
+\subsection{contrived? vulnerable code}
+\input{../spectre/contrivedp-vuln}
+
+\subsection{array bounds check}
+\input{../spectre/bounds-check-kernel}
+
+\section{additional exercises}
+\subsection{simple prime+probe example}
+\input{../spectre/f2024-review-simple-prime-probe}
+\includepdf[pages=5-6]{../spectre/from-powerpoint/3130_Dec3_spectre2.pdf}
+\subsection{which bits do we learn --- extended}
+\input{../spectre/learn-parts}
+\subsection{variations: starting location, associativity}
+\input{../spectre/f2024-review-pp-variation}
+
+\section{evict+reload}
+\input{../spectre/evict-reload}
+\subsection{applied to meltdown}
+\input{../spectre/f2024-review-meltdown}
+
+\section{spectre con't}
+
+\subsection{JavaScript exploit}
+\input{../spectre/js-vuln}
+
+\subsection{mispredicted indirect}
+\input{../spectre/mispred-indirect}
+
+\subsection{more variants?}
+\input{../spectre/more-variants}
+
+\subsection{software fix}
+\input{../spectre/spectre-linux-fix}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+\input{../spectre/read-value-pattern}
+\subsection{well, what else gets speculated?}
+\input{../spectre/spec-past-segfault}
+
+\subsection{quiz review (F2024)}
+\includepdf[pages=1-]{../spectre/from-powerpoint/3130_Dec3_quiz14}
+
+\subsection{learning parts of bits}
+\includepdf[pages=7-12]{../spectre/from-powerpoint/3130_Dec3_spectre2.pdf}
+
+\subsection{more exercises}
+\includepdf[pages=39-43]{../spectre/from-powerpoint/3130_Dec3_spectre2.pdf}
+
+\section{backup slides}
+\begin{frame}{backup slides}
+\end{frame}
+
+\end{document}
