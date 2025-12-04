@@ -19,10 +19,8 @@ if (x < array1_size)
 \end{lstlisting}
 \begin{itemize}
 \item will still get \textit{upper} bits of array1[x] (can tell from cache set)
-\item<2-> can still read arbitrary memory!
     \begin{itemize}
-    \item want memory at 0x10000?
-    \item upper bits of 4-byte integer at 0x0FFFE
+        \item still likely to be sensitive data
     \end{itemize}
 \end{itemize}
 \end{visibleenv}
