@@ -48,6 +48,16 @@ y = array2[array1[x] * 4096];
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+    \frametitle{the out of bounds access (2) soln}
+    \begin{itemize}
+        \item array2[array1[x] * 4096] accesses set array1[x] * 4096 / BLOCK\_SIZE mod 8192
+        \item = array1[x] * 64 mod 8192
+        \item array1[x] * 64 = 128 (mod 8192) $\rightarrow$ array1[x] * 64 = 128 + 8192 * K
+        \item array1[x] = 2 + 128 * K
+    \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{exploit with contrived(?) code}
 \begin{lstlisting}[language=C,style=smaller]
 /* in kernel: */
