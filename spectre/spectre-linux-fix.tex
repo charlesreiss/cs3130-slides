@@ -37,7 +37,7 @@ sbb %rax, %rax  // sbb = subtract with borrow
 
 \begin{frame}[fragile]{only safe prediction}
 \begin{itemize}
-\item as replacement for \lstinline|jmp *(%rax)|
+\item as replacement for \lstinline|jmp *%rax|
 \item code from Intel's ``Retpoline: A Branch Target Injection Mitigation''
 \end{itemize}
 \begin{lstlisting}[language=myasm,style=small]
