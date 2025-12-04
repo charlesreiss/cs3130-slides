@@ -54,3 +54,14 @@ if (@2x < array1_size2@) {
 }
 \end{lstlisting}
 \end{frame}
+
+\begin{frame}\frametitle{generalizing exploit}
+    \begin{itemize}
+    \item limited in what address we can learn about based on how big entries in tables are
+        \begin{itemize}
+        \item but can combine multiple Spectre-type exploits
+        \item only need one secret value leaked
+        \end{itemize}
+    \item need to adjust calculations to actual addresses / array element sizes / etc.
+    \end{itemize}
+\end{frame}

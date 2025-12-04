@@ -8,7 +8,7 @@
 
 
 \begin{frame}
-\frametitle{last time}
+    \frametitle{last time (1)}
     \begin{itemize}
     \item side channel idea
         \begin{itemize}
@@ -22,13 +22,25 @@
         \item cache set $\rightarrow$ `secret' value
         \end{itemize}
     \item cache accesses running speculatively
-    \item Meltdown pattern
         \begin{itemize}
-        \item read kernel-only value speculatively
-        \item use value to perform cache access
-        \item read is undone by processor, but not cache access
-        \item find value by detecting eviction from cache access
+        \item can learn about execution that happens speculatively and is then cancelled
         \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{last time (2)}
+    \begin{itemize}
+    \item Meltdown pattern
+    \vspace{.5cm}
+    \item read kernel-only value
+    \item processor does read before checking permissions
+        \begin{itemize}
+            \item but does not commit (finalize) instruction
+        \end{itemize}
+    \item use accessed value in address for \textit{different} cache access
+    \item after checking permissions, processor undoes `bad' instructions
+    \item \ldots but doesn't undo cache evictions
     \end{itemize}
 \end{frame}
 
@@ -46,6 +58,22 @@
 
 \section{spectre}
 
+\begin{frame}
+    \frametitle{Spectre}
+    \begin{itemize}
+    \item Meltdown: address translation without permissions check
+    \item seems relatively easy to fix in hardware
+    \vspace{.5cm}
+    \item but idea of leaks from speculative execution has
+        much harder to fix attacks\ldots
+    \item first: let's review what we learn
+    \end{itemize}
+\end{frame}
+
+\subsection{review: reading a value (2)}
+\input{../spectre/read-value-pattern}
+\input{../spectre/read-value-pattern-offset}
+
 \subsection{concept: forcing branch misprediction}
 \input{../spectre/mistrain-bp}
 
@@ -55,37 +83,41 @@
 \subsection{array bounds check}
 \input{../spectre/bounds-check-kernel}
 
-\section{additional exercises}
-\subsection{simple prime+probe example}
-\input{../spectre/f2024-review-simple-prime-probe}
-\includepdf[pages=5-6]{../spectre/from-powerpoint/3130_Dec3_spectre2.pdf}
-\subsection{which bits do we learn --- extended}
-\input{../spectre/learn-parts}
-\subsection{variations: starting location, associativity}
-\input{../spectre/f2024-review-pp-variation}
-
-\section{evict+reload}
-\input{../spectre/evict-reload}
-\subsection{applied to meltdown}
-\input{../spectre/f2024-review-meltdown}
-
 \section{spectre con't}
-
 \subsection{JavaScript exploit}
 \input{../spectre/js-vuln}
-
 \subsection{mispredicted indirect}
 \input{../spectre/mispred-indirect}
-
 \subsection{more variants?}
 \input{../spectre/more-variants}
 
 \subsection{software fix}
 \input{../spectre/spectre-linux-fix}
 
+\section{additional exercises}
+\begin{frame}
+    \frametitle{additional exercises}
+\end{frame}
+\subsection{which bits do we learn --- extended}
+\input{../spectre/learn-parts}
+\subsection{simple prime+probe example}
+\input{../spectre/f2024-review-simple-prime-probe}
+\subsection{variations: starting location, associativity}
+\input{../spectre/f2024-review-pp-variation}
+\includepdf[pages=5-6]{../spectre/from-powerpoint/3130_Dec3_spectre2.pdf}
+
 \section{backup slides}
 \begin{frame}{backup slides}
 \end{frame}
+\section{evict+reload}
+\input{../spectre/evict-reload}
+
+\subsection{applied to meltdown}
+\input{../spectre/f2024-review-meltdown}
+
+
+
+\subsection{read-value-pattern}
 \input{../spectre/read-value-pattern}
 \subsection{well, what else gets speculated?}
 \input{../spectre/spec-past-segfault}

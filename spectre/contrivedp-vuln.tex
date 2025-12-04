@@ -59,15 +59,15 @@ int systemCallHandler(int x) {
 \end{lstlisting}
 \hrule
 \begin{lstlisting}[language=C,style=smaller]
-/* exploiting code */
+/* exploiting pseudocode */
     /* step 1: mistrain branch predictor */
 for (a lot) {
     systemCallHandler(0 /* less than array1_size */);
 }
     /* step 2: evict from cache using misprediction */
 Prime();
-systemCallHandler(targetAddress - array1Address);
+systemCallHandler((targetAddress - array1Address) / A1ElemSize);
 int evictedSet = ProbeAndFindEviction();
-int targetValue = (evictedSet - array2StartSet) / setsPer4K;
+int targetValue = (evictedSet - array2StartSet) / setsPer4KA2Elem;
 \end{lstlisting}
 \end{frame}

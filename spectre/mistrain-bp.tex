@@ -5,11 +5,12 @@ if (something) {
 }
 \end{lstlisting}
 \begin{itemize}
-\item how can we have `something' be false, but predicted
+\item useful for attacks: \\
+   have `something' be false, but predicted
     as true
 \vspace{.5cm}
-\item run lots of times with something true
-\item then do actually run with something false
+\item one way: run lots of times with something true then do actually run with something false
+\item another way: learn how branch prediction caches work, run code that fills in caches in known way
 \end{itemize}
 \end{frame}
 

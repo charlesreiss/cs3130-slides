@@ -52,7 +52,10 @@ avoid triggering prefetcher
 \node[box] {
     segfault actually happens eventually \\
     option 1: okay, just start a new process every time \\
-    option 2: way of suppressing exception (transactional memory support)
+    (don't even need to hide segfault) \\
+    option 2: way of suppressing segfault \\
+    (paper used transactional memory support, \\
+    not mispredicted branch)
 };
 \end{visibleenv}
 \end{tikzpicture}
