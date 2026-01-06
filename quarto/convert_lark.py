@@ -1,0 +1,957 @@
+from __future__ import annotations
+
+import argparse
+import copy
+import lark
+import logging
+import re
+import sys
+
+
+from dataclasses import dataclass, field, InitVar
+from lark import Lark, ast_utils
+from operator import attrgetter, methodcaller
+from pathlib import Path
+from typing import Dict, List
+
+current_module = sys.modules[__name__]
+
+GRAMMAR = \
+r'''
+start: document
+
+document: any_empty_item* (frame any_empty_item*)*
+
+frame: _BEGIN_FRAME when? optional_argument? argument? whitespace? frametitle? any_text _END_FRAME 
+
+optional_argument: _SQUARE_BRACKET any_text _END_SQUARE_BRACKET
+
+?argument: _BRACE any_text _END_BRACE
+
+when: WHEN?
+
+generic_command: SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)*
+
+?inline_command: generic_command
+    | _BRACE any_text_raw any_text _END_BRACE -> bare_block
+    | _BRACE SIMPLE_COMMAND any_text _END_BRACE -> block_with_command
+
+item: _ITEM when any_text
+
+itemize: _BEGIN_ITEMIZE (whitespace? item)+ _END_ITEMIZE
+
+tabular_line: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak LINEBREAK
+
+tabular: _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line+ any_text_not_linebreak _END_TABULAR
+
+frametitle: _BEGIN_FRAMETITLE _BRACE any_text _END_BRACE
+
+?any_text: any_text LINEBREAK any_text
+        | any_text_not_linebreak
+
+
+any_text_not_linebreak: any_text_basic*
+    | any_text_basic* inline_command generic_command* any_text_basic any_text_not_linebreak
+    | any_text_basic* inline_command generic_command*
+
+?any_text_basic: _START_QUOTE any_text _END_QUOTE -> squote
+    | _START_DQUOTE any_text _END_DQUOTE -> dquote
+    | BEGIN_GENERIC any_text END_GENERIC -> generic_environment
+    | itemize
+    | tabular
+    | _FONTSIZE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> fontsize
+    | whitespace
+    | columns
+    | VERBATIM -> verbatim
+    | TIKZPICTURE -> tikzpicture
+    | _MYALTTEXT _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
+    | _BEGIN_VISIBLEENV when any_text _END_VISIBLEENV -> visibleenv
+    | _END_SQUARE_BRACKET -> end_square_bracket
+    | _SQUARE_BRACKET -> square_bracket
+    | any_text_raw
+
+columns: (column whitespace?)+
+
+column: _BEGIN_MINIPAGE _BRACE any_text _END_BRACE any_text _END_MINIPAGE
+
+whitespace: whitespace_item+
+?whitespace_item: NEWLINE | WHITESPACE | COMMENT
+
+?any_text_raw: ANY
+    | NBSP | SIMPLE_ESCAPED
+    | TIKZPICTURE | VERBATIM
+
+any_empty_item: whitespace
+    | SIMPLE_COMMAND (_BRACE any_text _END_BRACE)+ -> outside_command
+
+
+COMMENT.5: /%.*/
+_BEGIN_FRAMETITLE.10: /\\frametitle/
+_BEGIN_ITEMIZE.10: /\\begin\{itemize\}/
+_END_ITEMIZE.10: /\\end\{itemize\}/
+_ITEM.10: /\\item/
+_FONTSIZE.10: /\\fontsize/
+WHEN: /<[^>]+>/
+VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
+              \s*\n(?s:.)*?
+              \\end\{(?:Verbatim|lstlisting)\}/x
+TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
+                 (?s:.)*?
+                 \\end\{tikzpicture\}
+                /x
+_BEGIN_FRAME.10: /\\begin\{(?:frame|FragileFrame)\}/
+_END_FRAME.10: /\\end{(?:frame|FragileFrame)\}/
+_MYALTTEXT.10: /\\myalttext/
+LINEBREAK: /\\\\(?:\[[^]]+\])?/
+NBSP: /~/
+_START_DQUOTE: /``/
+_END_DQUOTE: /''/
+_START_QUOTE: /`/
+_END_QUOTE: /'/
+_BEGIN_VISIBLEENV.10: /\\begin\{visibleenv\}/
+_END_VISIBLEENV.10: /\\end\{visibleenv\}/
+_BEGIN_TABULAR.10: /\\begin\{tabular\}/
+_END_TABULAR.10: /\\end\{tabular\}/
+_BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
+_END_MINIPAGE.10: /\\end\{minipage\}/
+BEGIN_GENERIC.0: /\\begin\{(?!minipage|tabular|itemize|Verbatim|visibleenv)\w+\}/
+END_GENERIC.0: /\\end\{(?!minipage|tabular|itemize|Verbatim|visibleenv)\w+\}/
+_BRACE.-10: /\{/
+_END_BRACE.-10: /\}/
+_SQUARE_BRACKET: /\[/
+_END_SQUARE_BRACKET: /\]/
+SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_)\w+/
+SIMPLE_ESCAPED.-11: /\\[.&_$%]/
+_NEXT_CELL.-20: /&/
+NEWLINE.-20: /\n+/
+WHITESPACE.-20: /[ \t\v]/
+ANY.-30: /[^\\{}]/
+'''
+
+FIGURE_COUNT: Dict[str, int] = {}
+SEEN_TIKZ_LIBRARIES: set[str] = set()
+
+@dataclass
+class RenderContext:
+    base_input_path: Path
+    base_output_path: Path
+    frame_name: str | None = None
+    indent: int = 0
+    strip_ends: bool = False
+    column_count: int | None = None
+    frame_top: bool = False
+    pre: bool = False
+    tt: bool = False
+
+    def next_figure_stem(self) -> str:
+        global FIGURE_COUNT
+        base_name = self.base_output_path.stem
+        if self.frame_name is not None:
+            base_name += '-' + self.frame_name.lower().replace(' ', '-')
+        index = FIGURE_COUNT.get(base_name, 1)
+        FIGURE_COUNT[base_name] = index + 1
+        return f'{base_name}-{index}'
+
+    def get_tikz_libraries(self) -> set[str]:
+        global SEEN_TIKZ_LIBRARIES
+        return SEEN_TIKZ_LIBRARIES
+
+    def add_tikz_libraries(self, libs: set[str]):
+        global SEEN_TIKZ_LIBRARIES
+        SEEN_TIKZ_LIBRARIES |= set(libs)
+
+    def indented(self, markdown: str):
+        return markdown.replace('\n', '\n' + (' ' * self.indent))
+
+    def inner(self, strip_ends=None, extra_indent=None, column_count=None, frame_top=False, pre=None, tt=None) -> InnerRenderContextManager:
+        result = copy.copy(self)
+        if strip_ends is not None:
+            result.strip_ends = strip_ends
+        if extra_indent is not None:
+            result.indent += extra_indent
+        if column_count is not None:
+            result.column_count = column_count
+        if frame_top is not None:
+            result.frame_top = frame_top
+        if pre is not None:
+            result.pre = pre
+        if tt is not None:
+            result.tt = tt
+        return InnerRenderContextManager(result)
+
+@dataclass
+class InnerRenderContextManager:
+    inner_context: RenderContext
+
+    def __enter__(self):
+        return self.inner_context
+    
+    def __exit__(self, typ, value, traceback):
+        return False
+        
+
+class _MyAstItem(ast_utils.Ast):
+    @property
+    def is_whitespace(self):
+        return False
+
+    @property
+    def inner_text(self):
+        raise Exception(f'no inner_text on {self}')
+
+    def render(self, context: RenderContext) -> str:
+        return self.inner_text
+
+@dataclass
+class _RawString(_MyAstItem):
+    contents: str
+    contents_markdown: str | None = None
+
+    @property
+    def inner_text(self):
+        return self.contents
+
+    def render(self, context: RenderContext) -> str:
+        if self.contents_markdown:
+            result = self.contents_markdown
+        else:
+            result = self.contents
+        return context.indented(result)
+
+@dataclass
+class OptionalArgument(_MyAstItem):
+    contents: AnyText
+
+    @property
+    def inner_text(self) -> str:
+        return self.contents.inner_text
+
+    def render(self, context: RenderContext) -> str:
+        return ''
+
+
+@dataclass
+class When(_MyAstItem):
+    raw_when: InitVar[str | None] = None
+    when: str | None = field(init=False)
+
+    def __post_init__(self, raw_when):
+        if raw_when:
+            self.when = raw_when[1:-1]
+        else:
+            self.when = None
+
+    @property
+    def needs_fragment(self):
+        if self.when:
+            return True
+        else:
+            return False
+   
+    @property 
+    def is_after_fragment(self):
+        if self.when:
+            if self.when.endswith('-'):
+                return True
+        return False
+
+    @property 
+    def is_before_fragment(self):
+        if self.when:
+            if self.when.startswith('-'):
+                return True
+        return False
+
+
+    @property
+    def number(self) -> int:
+        if self.when:
+            return int(self.when.replace('-', ''))
+        raise Exception('when.number on invalid range')
+
+@dataclass
+class _InlineCommand(_MyAstItem):
+    command: str
+    arguments: List[AnyText]
+    when: When | None = None
+
+    @property
+    def inner_text(self):
+        return ''.join(map(attrgetter('inner_text'), self.arguments)).strip()
+
+    def render(self, context: RenderContext) -> str:
+        before, after = None, None
+        start_arg : int | None = -1
+        is_tt = None
+        strip_ends = None
+        if self.when and self.when.needs_fragment:
+            if self.command in (r'\myemph',):
+                before = '['
+                number = str(self.when.number)
+                if self.when.is_after_fragment:
+                    after = (
+                        ']{.fragment fragment-index=' + number +
+                        ' .custom .myem}'
+                    )
+                else:
+                    after = (
+                        ']{.fragment fragment-index=' + number +
+                        ' .custom .myem-only}'
+                    )
+            else:
+                before, after = self.command + self.when + '{', '}'
+        else:
+            if self.command in (r'\tt', r'\texttt'):
+                before, after = '<code>', '</code>'
+                is_tt = True
+                strip_ends = True
+            elif self.command in (r'\myemph',):
+                before, after = '<em>', '</em>'
+            elif self.command in (r'\textit', r'\itshape'):
+                before, after = '<it>', '</it>'
+            elif self.command in (r'\small',r'\scriptsize'):
+                before, after = '[', ']{.my-small}'
+            elif self.command in (r'\selectfont',):
+                before, after = '', ''
+            elif self.command in (r'\hspace',):
+                start_arg = None
+                before, after = ' ', ''
+            elif self.command in (r'\hrule',):
+                start_arg = None
+                before, after = '<hr />', '\n'
+            elif self.command in (r'\vspace',):
+                start_arg = None
+                before, after = '\n', ''
+            elif self.command in (r'\textasciicircum',):
+                before, after = '^', ''
+            elif self.command in (r'\ldots,'):
+                before, after = '\N{horizontal ellipsis}', ''
+            elif self.command in (r'\sout,'):
+                before, after = '~~', '~~'
+            else:
+                start_arg = 0
+                before, after = self.command + '{', '}'
+
+        result = before
+        if start_arg != None:
+            for argument in self.arguments[start_arg:]:
+                with context.inner(tt=is_tt, strip_ends=strip_ends, frame_top=None) as inner_context:
+                    result += argument.render(inner_context)
+        result += after
+        return result
+
+@dataclass
+class Fontsize(_MyAstItem):
+    def __init__(self, *args):
+        pass
+
+    def render(self, context: RenderContext) -> str:
+        return ''
+
+def _merge_rawstrings(lst):
+    pending = None
+    result = []
+    for item in lst:
+        if pending is None and isinstance(item, _RawString):
+            pending = item
+        elif pending is not None:
+            if isinstance(item, _RawString):
+                pending_markdown = pending.contents_markdown
+                if pending_markdown is None:
+                    pending_markdown = pending.contents
+                item_markdown = item.contents_markdown
+                if item_markdown is None:
+                    item_markdown = item.contents
+                pending = _RawString(
+                    pending.contents + item.contents,
+                    pending_markdown + item_markdown
+                )
+            else:
+                result.append(pending)
+                pending = None
+                result.append(item)
+        else:
+            result.append(item)
+    if pending is not None:
+        result.append(pending)
+    return result
+
+@dataclass
+class AnyText(_MyAstItem):
+    parts: List[_MyAstItem]
+
+    def __init__(self, *parts):
+        self.parts = []
+        for part in parts:
+            if isinstance(part, AnyText):
+                self.parts += part.parts
+            else:
+                self.parts.append(part)
+        self.parts = _merge_rawstrings(self.parts)
+
+    @property
+    def is_whitespace(self):
+        return self.inner_text.strip() == ''
+
+    @property
+    def inner_text(self) -> str:
+        logging.debug('self.parts = %s', self.parts)
+        return ''.join(map(attrgetter('inner_text'), self.parts))
+
+    def render(self, context: RenderContext) -> str:
+        start = 0
+        end = len(self.parts) - 1
+        if context.strip_ends:
+            start = 0
+            while start < len(self.parts) and self.parts[start].is_whitespace:
+                start += 1
+            end = len(self.parts) - 1
+            while end >= 0 and self.parts[end].is_whitespace:
+                end -= 1
+        for item in self.parts[start:end+1]:
+            if isinstance(item, lark.Tree):
+                logging.debug('found tree %s', item)
+        if end == start:
+            return self.parts[start].render(context)
+        else:
+            with context.inner(strip_ends=False) as inner_context:
+                result = ''.join(map(
+                    methodcaller('render', inner_context),
+                    self.parts[start:end+1]
+                ))
+                return result
+
+AnyTextNotLinebreak = AnyText
+AnyTextNotAfterCommand = AnyText
+
+@dataclass
+class Column(_MyAstItem):
+    width: AnyText
+    contents: AnyText
+
+    def render(self, context: RenderContext) -> result:
+        width_text = self.width.inner_text
+        if r'\textwidth' in width_text:
+            width_float = float(width_text.replace(r'\textwidth', ''))
+        else:
+            width_float = 1.0 / context.column_count
+        result = '\n::: {.column width="' + f'{width_float * 100.0:.0f}%' + '"}\n'
+        with context.inner() as inner_context:
+            result += self.contents.render(inner_context)
+        result += '\n:::\n'
+        return result
+
+@dataclass
+class Columns(_MyAstItem):
+    columns: List[Column]
+
+    def __init__(self, *items):
+        columns = []
+        for item in items:
+            if not item.is_whitespace:
+                columns.append(item)
+        self.columns = columns
+
+    def render(self, context: RenderContext) -> str:
+        with context.inner(column_count=len(self.columns)) as inner_context:
+            result = '\n:::: {.columns}\n'
+            for column in self.columns:
+                result += column.render(inner_context)
+            result += '\n::::\n'
+            return result
+
+
+@dataclass
+class Verbatim(_MyAstItem):
+    contents: str
+    command_chars: str | None = None
+
+    def __init__(self, token):
+        pattern = r'''
+              \\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
+              \s*\n(?P<contents>(?s:.)*?)
+              \\end\{(?:Verbatim|lstlisting)\}
+        '''
+        m = re.match(pattern, token.value, re.X)
+        self.contents = m.group('contents')
+        m = re.search(r'commandchars=([^]]+)', token.value)
+        if m != None:
+            self.command_chars = m.group(1)
+            self.command_chars = re.sub(r'\\(.)', r'\1', self.command_chars)
+
+    def render(self, context: RenderContext) -> str:
+        if self.command_chars is not None:
+            slash = self.command_chars[0]
+            open_brace = self.command_chars[1]
+            close_brace = self.command_chars[2]
+            result = '<pre><code>'
+            in_command = False
+            in_argument = False
+            current_command = ''
+            current_argument = ''
+            for c in self.contents:
+                if in_argument:
+                    if c == close_brace:
+                        with context.inner(pre=True) as inner_context:
+                            result += GenericCommand(
+                                '\\' + current_command,
+                                None,
+                                _RawString(current_argument)
+                            ).render(inner_context)
+                        in_argument = False
+                        current_command = ''
+                    elif c in '[\\':
+                        current_argument += '\\' + c
+                    elif c == '<':
+                        current_argument += '&lt;'
+                    elif c == '>':
+                        current_argument += '&gt;'
+                    elif c == '&':
+                        current_argument += '&amp;'
+                    else:
+                        current_argument += c
+                elif in_command:
+                    if c == open_brace:
+                        in_command = False
+                        in_argument = True
+                        current_argument = ''
+                    else:
+                        current_command += c
+                else:
+                    if c == slash:
+                        in_command = True
+                    elif c in '[\\':
+                        result += '\\' + c
+                    elif c == '<':
+                        result += '&lt;'
+                    elif c == '>':
+                        result += '&gt;'
+                    elif c == '&':
+                        result += '&amp;'
+                    else:
+                        result += c
+            result += '</code></pre>'
+            return result
+        else:
+            return f'\n```\n{self.contents}```\n'
+
+@dataclass
+class Visibleenv(_MyAstItem):
+    when: When
+    contents: AnyText
+
+    def render(self, context: RenderContext) -> str:
+        when = self.when
+        if when.needs_fragment:
+            if when.is_after_fragment:
+                number = str(when.number)
+                result = context.indented(
+                    '\n<div class="fragment fade-in" data-fragment-index=' + number + ' >\n'
+                )
+            elif when.is_before_fragment:
+                number_plus_1 = str(when.number + 1)
+                result = context.indented(
+                    '\n<div class="fragment fade-out" data-fragment-index=' + number_plus_1 + ' >\n')
+            else:
+                number = str(when.number)
+                result = context.indented(
+                    '\n<div class="fragment fade-in-and out" data-fragment-index=' + number +' >\n'
+                )
+            result += self.contents.render(context)
+            result += '</div>'
+            return result
+        else:
+            return contents.render(context)
+
+
+@dataclass
+class Tikzpicture(_MyAstItem):
+    contents: lark.Token
+    alt_text: str | None = None
+
+    def render(self, context: RenderContext) -> str:
+        # FIXME: overlay special case
+        max_slide_number = 1
+        for m in re.finditer(r'<(?P<n1>\d+)?-?(?P<n2>\d+)?>', self.contents.value):
+            for key in ('n1', 'n2'):
+                if m.group(key):
+                    max_slide_number = max(max_slide_number, int(m.group(key)))
+        fig_output_dir = context.base_output_path.parent / 'texfig' 
+        fig_file_stem = context.next_figure_stem()
+        fig_output_inner = fig_output_dir / (
+            fig_file_stem + '-inner.tex'
+        )
+        fig_output_inner.parent.mkdir(parents=True, exist_ok=True)
+        with fig_output_inner.open('w') as out_fh:
+            out_fh.write(self.contents.value)
+        result = ''
+        if max_slide_number > 1:
+            # result += '\n<div class="r-stack r-stretch">\n'
+            if context.frame_top:
+                result += '\n::: {.r-stack .my-full}\n'
+            else:
+                result += '\n::: {.r-stack}\n'
+        for slide_number in range(1, max_slide_number+1):
+            fig_output_tex = fig_output_dir / (
+                fig_file_stem + f'-{slide_number}.figure.tex'
+            )
+            fig_output_svg = fig_output_tex.with_suffix('.svg')
+            output_svg_name = fig_output_svg.parent.name + '/' + fig_output_svg.name
+            fig_output_tex.parent.mkdir(parents=True, exist_ok=True)
+            with fig_output_tex.open('w') as out_fh:
+                out_fh.write(r'''
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+'''
+                )
+                out_fh.write('\\usetikzlibrary{' + (','.join(list(context.get_tikz_libraries()))) + '}')
+                out_fh.write('\\setSlide{' + str(slide_number) + '}\n')
+                out_fh.write(r'''\begin{document}''')
+                out_fh.write('\n')
+                out_fh.write('\\input{' + 
+                    fig_output_inner.parent.parent.name + '/' +
+                    fig_output_inner.parent.name + '/' +
+                    fig_output_inner.name +
+                '}\n')
+                out_fh.write(r'''\end{document}''')
+                out_fh.write('\n')
+            if max_slide_number == 1:
+                result += f'![]({output_svg_name})\n'
+            else:
+                result += (
+                    f'![]({output_svg_name})' +
+                    '{.fragment .fade-in-then-out fragment-index=' +
+                    str(slide_number) + '}\n\n'
+                )
+        if max_slide_number > 1:
+            result += ':::\n'
+            #result += '</div>\n'
+        return result
+
+@dataclass
+class TikzpictureWithAlt(Tikzpicture):
+    def __init__(self, *args):
+        for item in args:
+            if isinstance(item, lark.Token):
+                self.contents = item
+            elif item.is_whitespace:
+                pass
+            else:
+                alt_text = item.inner_text
+
+@dataclass
+class Frametitle(_MyAstItem):
+    title: AnyText
+
+    @property
+    def inner_text(self):
+        return self.title.inner_text
+
+    def render(self, context: RenderContext) -> str:
+        return ''
+
+@dataclass
+class GenericCommand(_InlineCommand):
+    def __init__(self, command, when, *arguments):
+        self.command = str(command)
+        self.when = when
+        self.arguments = arguments
+
+@dataclass
+class BlockWithCommand(_InlineCommand):
+    def __init__(self, command, text):
+        self.command = command
+        self.arguments = [text]
+
+BareBlock = AnyText
+
+@dataclass
+class Item(_MyAstItem):
+    when: When
+    contents: AnyText
+
+    @property
+    def inner_text(self) -> str:
+        return self.contents.inner_text
+
+    def render(self, context: RenderContext) -> str:
+        result = context.indented('\n* ')
+        with context.inner(strip_ends=True, extra_indent=3) as inner_context:
+            result += self.contents.render(inner_context)
+        return result
+
+
+@dataclass
+class Itemize(_MyAstItem):
+    items: List[Item]
+
+    def __init__(self, *args):
+        self.items = []
+        for maybe_item in args:
+            if isinstance(maybe_item, Item):
+                self.items.append(maybe_item)
+
+    def render(self, context: RenderContext) -> str:
+        result = ''
+        if not context.frame_top:
+            result += '\n'
+        for item in self.items:
+            result += item.render(context)
+        result += '\n'
+        return result
+
+@dataclass
+class TabularLine(_MyAstItem):
+    cells: List[AnyText]
+    linebreak: object
+
+    def __init__(self, *args):
+        self.linebreak = args[-1]
+        self.cells = args[:-1]
+
+    @property
+    def inner_text(self) -> str:
+        return ' | '.join(map(attrgetter('inner_text'), self.cells))
+
+    def render(self, context: RenderContext) -> str:
+        result = '<tr>'
+        for cell in self.cells:
+            # FIXME: \multicolumn \hline \etc
+            result += '<td>'
+            with context.inner(strip_ends=True, frame_top=False) as inner_context:
+                logging.debug('cell = %s', cell)
+                result += cell.render(inner_context)
+            result += '</td>'
+        result += '</tr>\n'
+        return result
+
+@dataclass
+class Tabular(_MyAstItem):
+    column_types: object
+    lines: List[TabularLine]
+    end: object
+
+    def __init__(self, column_types, *rest):
+        self.column_types = column_types
+        self.lines = rest[:-1]
+        self.end = rest[-1]
+
+    @property
+    def inner_text(self) -> str:
+        return '\n'.join(map(attrgetter('inner_text'), self.lines))
+
+    def render(self, context: RenderContext) -> str:
+        if context.tt:
+            result = ''
+            for line in self.lines: # FIXME: render special case?
+                for index, cell in enumerate(line.cells):
+                    with context.inner(strip_ends=True) as inner_context:
+                        result += context.indented(cell.render(inner_context))
+                        if index != len(line.cells) - 1:
+                            result += context.indented('<br />\n')
+                        else:
+                            result += context.indented('\n')
+            return result
+        else:
+            result = context.indented('<table>\n')
+            for line in self.lines:
+                result += line.render(context)
+            result += context.indented('</table>\n')
+            return result
+
+
+@dataclass
+class Frame(_MyAstItem):
+    title: None | str
+    contents: AnyText
+
+    def __init__(self, *args):
+        self.contents = args[-1]
+        self.title = ''
+        for item in args[:-1]:
+            if item.is_whitespace:
+                continue
+            if isinstance(item, When):
+                continue
+            if isinstance(item, OptionalArgument):
+                continue
+            self.title += item.inner_text
+        if self.title == '':
+            for item in self.contents.parts:
+                if isinstance(item, Frametitle):
+                    self.title = item.inner_text
+
+    def render(self, context) -> str:
+        result = f'\n### {self.title}\n\n'
+        with context.inner(strip_ends=True, frame_top=True) as inner_context:
+            result += self.contents.render(inner_context)
+        result += '\n'
+        return result
+
+
+@dataclass
+class Whitespace(_MyAstItem):
+    parts: List[lark.Token]
+    has_newline: bool = False
+    comment: str = ''
+
+    def __init__(self, *args):
+        self.parts = args
+        for item in args:
+            if item.type == 'COMMENT':
+                self.comment += item.value
+            elif item.type == 'NEWLINE':
+                self.has_newline = True
+
+    @property
+    def is_whitespace(self):
+        return True
+
+    @property
+    def inner_text(self) -> str:
+        if self.has_newline:
+            return '\n'
+        else:
+            return ' '
+
+    def render(self, context: RenderContext) -> str:
+        return ' '
+
+
+@dataclass
+class OutsideCommand(_MyAstItem):
+    command: str
+    arguments: List[AnyText]
+
+    def __init__(self, command, *arguments):
+        logging.debug('OutsideCommand: %s %s', command, arguments)
+        self.command = str(command)
+        self.arguments = arguments
+
+    def render(self, context: RenderContext) -> str:
+        if self.command == r'\usetikzlibrary':
+            context.add_tikz_libraries(self.arguments[0].inner_text.split(','))
+            return ''
+        elif self.command == r'\input':
+            logging.debug('input %s', self.arguments)
+            input_file = Path(self.arguments[0].inner_text)
+            input_file = input_file.with_name(
+                '_' + input_file.name
+            )
+            if not input_file.name.endswith('.tex'):
+                input_file.with_name(input_file.name + '.tex')
+            input_file = input_file.with_suffix('.qmd')
+            return '\n{{< include ' + str(input_file) + ' >}}\n'
+        elif self.command == r'\section':
+            return f'\n# {self.arguments[0].inner_text}\n'
+        elif self.command == r'\subsection':
+            return f'\n## {self.arguments[0].inner_text}\n'
+        elif self.command == r'\subsubsection':
+            return f'\n## {self.arguments[0].inner_text}\n'
+        elif self.command == r'\iftoggle':
+            result = f'\n<!-- {self.command}('
+            result += ','.join(map(attrgetter('inner_text'), self.arguments))
+            result += ') -->\n'
+            return result
+        else:
+            result = f'\n### {self.command}('
+            result += ','.join(map(attrgetter('inner_text'), self.arguments))
+            result += ')\n'
+            return result
+
+@dataclass
+class AnyEmptyItem(_MyAstItem):
+    contents: List[_MyAstItem]
+
+    def __init__(self, *contents):
+        logging.debug('AnyEmptyItem: %s', contents)
+        self.contents = contents
+
+    @property
+    def inner_text(self):
+        return ''
+
+@dataclass
+class Document(_MyAstItem):
+    parts: List[Frame | AnyEmptyItem]
+
+    def __init__(self, *args):
+        self.parts = args
+
+    @property
+    def inner_text(self) -> str:
+        return ''.join(map(attrgetter('inner_text'), self.parts))
+
+    def render(self, context: RenderContext) -> str:
+        return ''.join(map(methodcaller('render', context), self.parts))
+
+
+
+class ToAST(lark.Transformer):
+    def ANY(self, args):
+        if args[0] in '<[':
+            return _RawString(args[0], '\\' + args[0])
+        else:
+            return _RawString(args[0])
+
+    def LINEBREAK(self, args):
+        return _RawString('\n', '<br>')
+
+    def SIMPLE_ESCAPED(self, args):
+        if args[1] == '&':
+            return _RawString('&', '&amp;')
+        else:
+            return _RawString(args[1])
+
+
+    def NBSP(self, args):
+        return _RawString(' ', '&nbsp;')
+
+    def dquote(self, args):
+        new_args = [_RawString('\N{left double quotation mark}')] + \
+           args + \
+           [_RawString('\N{right double quotation mark}')]
+        return AnyText(*new_args)
+
+    def squote(self, args):
+        new_args = [_RawString('\N{left single quotation mark}')] + \
+            args + \
+            [_RawString('\N{right single quotation mark}')]
+        return AnyText(*new_args)
+
+    def start(self, args):
+        return args
+
+    def square_bracket(self, args):
+        return _RawString('[', '[')
+    
+    def end_square_bracket(self, args):
+        return _RawString(']', ']')
+
+def parse_and_render_file(input_file: Path, output_file: Path) -> str:
+    global GRAMMAR
+    lark = Lark(GRAMMAR, start='start', strict=True)
+    result = lark.parse(input_file.read_text())
+    #result = lark.parse(r'''\begin{frame}\end{frame}''')
+
+    #print(result)
+
+    global current_module
+    transformer = ast_utils.create_transformer(current_module, ToAST())
+
+    result = transformer.transform(result)
+    return result[0].render(RenderContext(base_input_path=input_file, base_output_path=output_file))
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', type=Path)
+    parser.add_argument('--output', type=Path)
+    args = parser.parse_args()
+    result = parse_and_render_file(args.input, args.output)
+    args.output.parent.mkdir(exist_ok=True)
+    args.output.write_text(result)
+
+if __name__ == '__main__':
+    sys.setrecursionlimit(10000)
+    logging.basicConfig(level=logging.DEBUG)
+    main()
