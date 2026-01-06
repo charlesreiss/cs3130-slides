@@ -303,7 +303,13 @@ class _InlineCommand(_MyAstItem):
         else:
             if self.command in (r'\tt', r'\texttt'):
                 before, after = '<code>', '</code>'
-                is_tt = True
+                if len(self.arguments) > 0:
+                    inner = self.arguments[0].get_interesting_parts()
+                    if len(inner) == 1 and isinstance(inner[0], Tabular):
+                        before, after = '', ''
+                        is_tt = True
+                    else:
+                        logging.debug('inner = %s', inner)
                 strip_ends = True
             elif self.command in (r'\myemph',):
                 before, after = '<em>', '</em>'
@@ -397,6 +403,14 @@ class AnyText(_MyAstItem):
     def inner_text(self) -> str:
         logging.debug('self.parts = %s', self.parts)
         return ''.join(map(attrgetter('inner_text'), self.parts))
+
+    def get_interesting_parts(self) -> List[_MyAstItem]:
+        result = []
+        for part in self.parts:
+            if isinstance(part, _RawString) or isinstance(part, Whitespace):
+                continue
+            result.append(part)
+        return result
 
     def render(self, context: RenderContext) -> str:
         start = 0
@@ -742,15 +756,17 @@ class Tabular(_MyAstItem):
 
     def render(self, context: RenderContext) -> str:
         if context.tt:
-            result = ''
-            for line in self.lines: # FIXME: render special case?
-                for index, cell in enumerate(line.cells):
+            result = context.indented('\n')
+            for index, line in enumerate(self.lines):
+                result += '<code>'
+                for cell in line.cells:
                     with context.inner(strip_ends=True) as inner_context:
-                        result += context.indented(cell.render(inner_context))
-                        if index != len(line.cells) - 1:
-                            result += context.indented('<br />\n')
-                        else:
-                            result += context.indented('\n')
+                        result += cell.render(inner_context)
+                result += '</code>'
+                if index != len(self.lines) - 1:
+                    result += context.indented('<br />\n')
+                else:
+                    result += context.indented('\n')
             return result
         else:
             result = context.indented('<table>\n')
