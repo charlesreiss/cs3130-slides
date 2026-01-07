@@ -81,6 +81,9 @@ format:
     scrollable: true
     chalkboard: true
     progress: false
+    margin: 0.02
+    width: 1050
+    height: 600
 ---
 ''' + '{{< include ../' + str(include_path.relative_to(path.parent.parent)) + ' >}}\n')
 
