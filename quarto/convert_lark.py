@@ -34,7 +34,7 @@ generic_command: SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)*
 
 ?inline_command: generic_command
     | _BRACE any_text_raw any_text _END_BRACE -> bare_block
-    | _BRACE SIMPLE_COMMAND any_text _END_BRACE -> block_with_command
+    | _BRACE SIMPLE_COMMAND+ any_text _END_BRACE -> block_with_command
 
 item: _ITEM when any_text
 
@@ -131,11 +131,17 @@ ANY.-30: /[^\\{}]/
 FIGURE_COUNT: Dict[str, int] = {}
 SEEN_TIKZ_LIBRARIES: set[str] = set()
 
+def _title_to_filename(title: str) -> str:
+    result = title.replace(' ', '-')
+    result = re.sub(r'[^-_a-zA-Z0-9]', '', result)
+    return result
+
 @dataclass
 class RenderContext:
     base_input_path: Path
     base_output_path: Path
-    frame_name: str | None = None
+    frame_title: str | None = None
+    frame_label: str | None = None
     indent: int = 0
     strip_ends: bool = False
     column_count: int | None = None
@@ -146,8 +152,12 @@ class RenderContext:
     def next_figure_stem(self) -> str:
         global FIGURE_COUNT
         base_name = self.base_output_path.stem
-        if self.frame_name is not None:
-            base_name += '-' + self.frame_name.lower().replace(' ', '-')
+        if self.frame_label is not None:
+            base_name = _title_to_filename(self.frame_label)
+        elif self.frame_title is not None and self.frame_title != '':
+            base_name += '-' + _title_to_filename(self.frame_title.lower())
+        else:
+            assert False, self
         index = FIGURE_COUNT.get(base_name, 1)
         FIGURE_COUNT[base_name] = index + 1
         return f'{base_name}-{index}'
@@ -163,7 +173,9 @@ class RenderContext:
     def indented(self, markdown: str):
         return markdown.replace('\n', '\n' + (' ' * self.indent))
 
-    def inner(self, strip_ends=None, extra_indent=None, column_count=None, frame_top=False, pre=None, tt=None) -> InnerRenderContextManager:
+    def inner(self, strip_ends=None, extra_indent=None, column_count=None,
+             frame_top=False, frame_title=None, frame_label=None,
+             pre=None, tt=None) -> InnerRenderContextManager:
         result = copy.copy(self)
         if strip_ends is not None:
             result.strip_ends = strip_ends
@@ -173,6 +185,10 @@ class RenderContext:
             result.column_count = column_count
         if frame_top is not None:
             result.frame_top = frame_top
+        if frame_title is not None:
+            result.frame_title = frame_title
+        if frame_label is not None:
+            result.frame_label = frame_label
         if pre is not None:
             result.pre = pre
         if tt is not None:
@@ -198,6 +214,10 @@ class _MyAstItem(ast_utils.Ast):
     @property
     def inner_text(self):
         raise Exception(f'no inner_text on {self}')
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return True
 
     def render(self, context: RenderContext) -> str:
         return self.inner_text
@@ -279,6 +299,10 @@ class _InlineCommand(_MyAstItem):
     def inner_text(self):
         return ''.join(map(attrgetter('inner_text'), self.arguments)).strip()
 
+    @property
+    def can_be_spanned(self) -> bool:
+        return all(map(attrgetter('can_be_spanned'), self.arguments))
+
     def render(self, context: RenderContext) -> str:
         before, after = None, None
         start_arg : int | None = -1
@@ -305,9 +329,14 @@ class _InlineCommand(_MyAstItem):
                 before, after = '<code>', '</code>'
                 if len(self.arguments) > 0:
                     inner = self.arguments[0].get_interesting_parts()
-                    if len(inner) == 1 and isinstance(inner[0], Tabular):
-                        before, after = '', ''
-                        is_tt = True
+                    if len(inner) == 1:
+                        if isinstance(inner[0], _InlineCommand) and len(inner[0].arguments) > 0:
+                            inner_inner = inner[0].arguments[-1].get_interesting_parts()
+                            if len(inner_inner) == 1:
+                                inner = inner_inner
+                        if isinstance(inner[0], Tabular):
+                            before, after = '', ''
+                            is_tt = True
                     else:
                         logging.debug('inner = %s', inner)
                 strip_ends = True
@@ -316,7 +345,11 @@ class _InlineCommand(_MyAstItem):
             elif self.command in (r'\textit', r'\itshape'):
                 before, after = '<it>', '</it>'
             elif self.command in (r'\small',r'\scriptsize'):
-                before, after = '[', ']{.my-small}'
+                can_be_spanned = all(map(attrgetter('can_be_spanned'), self.arguments))
+                if can_be_spanned:
+                    before, after = '[', ']{.my-small}'
+                else:
+                    before, after = '<div class="my-small">', '</div>\n'
             elif self.command in (r'\selectfont',):
                 before, after = '', ''
             elif self.command in (r'\hspace',):
@@ -400,6 +433,10 @@ class AnyText(_MyAstItem):
         return self.inner_text.strip() == ''
 
     @property
+    def can_be_spanned(self) -> bool:
+        return all(map(attrgetter('can_be_spanned'), self.parts))
+
+    @property
     def inner_text(self) -> str:
         logging.debug('self.parts = %s', self.parts)
         return ''.join(map(attrgetter('inner_text'), self.parts))
@@ -449,7 +486,7 @@ class Column(_MyAstItem):
             width_float = float(width_text.replace(r'\textwidth', ''))
         else:
             width_float = 1.0 / context.column_count
-        result = '\n::: {.column width="' + f'{width_float * 100.0:.0f}%' + '"}\n'
+        result = '\n::: {.column width="' + f'{width_float * 99.0:.0f}%' + '"}\n'
         with context.inner() as inner_context:
             result += self.contents.render(inner_context)
         result += '\n:::\n'
@@ -492,6 +529,10 @@ class Verbatim(_MyAstItem):
         if m != None:
             self.command_chars = m.group(1)
             self.command_chars = re.sub(r'\\(.)', r'\1', self.command_chars)
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
 
     def render(self, context: RenderContext) -> str:
         if self.command_chars is not None:
@@ -554,6 +595,10 @@ class Visibleenv(_MyAstItem):
     when: When
     contents: AnyText
 
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
+
     def render(self, context: RenderContext) -> str:
         when = self.when
         if when.needs_fragment:
@@ -575,13 +620,17 @@ class Visibleenv(_MyAstItem):
             result += '</div>'
             return result
         else:
-            return contents.render(context)
+            return self.contents.render(context)
 
 
 @dataclass
 class Tikzpicture(_MyAstItem):
     contents: lark.Token
     alt_text: str | None = None
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
 
     def render(self, context: RenderContext) -> str:
         # FIXME: overlay special case
@@ -651,7 +700,7 @@ class TikzpictureWithAlt(Tikzpicture):
             elif item.is_whitespace:
                 pass
             else:
-                alt_text = item.inner_text
+                self.alt_text = item.inner_text
 
 @dataclass
 class Frametitle(_MyAstItem):
@@ -673,9 +722,14 @@ class GenericCommand(_InlineCommand):
 
 @dataclass
 class BlockWithCommand(_InlineCommand):
-    def __init__(self, command, text):
-        self.command = command
-        self.arguments = [text]
+    def __init__(self, *args):
+        if len(args) > 2:
+            logging.debug('nested command %s', args)
+            self.command = args[0]
+            self.arguments = [AnyText(BlockWithCommand(*args[1:]))]
+        else:
+            self.command = args[0]
+            self.arguments = [args[1]]
 
 BareBlock = AnyText
 
@@ -683,6 +737,10 @@ BareBlock = AnyText
 class Item(_MyAstItem):
     when: When
     contents: AnyText
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
 
     @property
     def inner_text(self) -> str:
@@ -704,6 +762,10 @@ class Itemize(_MyAstItem):
         for maybe_item in args:
             if isinstance(maybe_item, Item):
                 self.items.append(maybe_item)
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
 
     def render(self, context: RenderContext) -> str:
         result = ''
@@ -751,6 +813,10 @@ class Tabular(_MyAstItem):
         self.end = rest[-1]
 
     @property
+    def can_be_spanned(self) -> bool:
+        return False
+
+    @property
     def inner_text(self) -> str:
         return '\n'.join(map(attrgetter('inner_text'), self.lines))
 
@@ -779,17 +845,26 @@ class Tabular(_MyAstItem):
 @dataclass
 class Frame(_MyAstItem):
     title: None | str
+    label: None | str
     contents: AnyText
+
+    @property
+    def can_be_spanned(self) -> bool:
+        return False
 
     def __init__(self, *args):
         self.contents = args[-1]
         self.title = ''
+        self.label= None
         for item in args[:-1]:
             if item.is_whitespace:
                 continue
             if isinstance(item, When):
                 continue
             if isinstance(item, OptionalArgument):
+                m = re.search('label=([^=,]+)', item.inner_text)
+                if m is not None:
+                    self.label = m.group(1)
                 continue
             self.title += item.inner_text
         if self.title == '':
@@ -799,7 +874,8 @@ class Frame(_MyAstItem):
 
     def render(self, context) -> str:
         result = f'\n### {self.title}\n\n'
-        with context.inner(strip_ends=True, frame_top=True) as inner_context:
+        with context.inner(strip_ends=True, frame_top=True, frame_title=self.title, frame_label=self.label) as inner_context:
+            logging.debug('inner context = %s', inner_context)
             result += self.contents.render(inner_context)
         result += '\n'
         return result
@@ -905,10 +981,8 @@ class Document(_MyAstItem):
 
 class ToAST(lark.Transformer):
     def ANY(self, args):
-        if args[0] in '<[':
-            return _RawString(args[0], '\\' + args[0])
-        else:
-            return _RawString(args[0])
+        as_markdown = re.sub(r'[<\[\\]', lambda m: '\\' + m.group(0), args[0])
+        return _RawString(args[0], as_markdown)
 
     def LINEBREAK(self, args):
         return _RawString('\n', '<br>')
@@ -916,6 +990,10 @@ class ToAST(lark.Transformer):
     def SIMPLE_ESCAPED(self, args):
         if args[1] == '&':
             return _RawString('&', '&amp;')
+        elif args[1] == '$':
+            return _RawString('$', '\$')
+        elif args[1] == '\\':
+            return _RawString('\\', '\\\\')
         else:
             return _RawString(args[1])
 
