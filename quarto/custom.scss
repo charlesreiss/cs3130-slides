@@ -56,10 +56,16 @@
 }
 
 .reveal em {
-    color: #ff8000;
+    color: #ff6000;
     font-style: italic;
 }
 
 section > ul {
     margin: 0 0 0 0;
+}
+
+@media print {
+    .slide-chalkboard-buttons {
+        display: none ! important
+    }
 }
