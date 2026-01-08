@@ -102,7 +102,8 @@ def render_qmd(path):
     run_logged(QUARTO + [path])
 
 def create_top_qmd(path, include_path):
-    path.write_text('''---
+    path.write_text(f'---\ntitle: "{path.parent.name}"\n' +
+'''
 format:
   revealjs:
     theme: [simple, ../custom.scss]
