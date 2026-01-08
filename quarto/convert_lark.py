@@ -633,62 +633,98 @@ class Tikzpicture(_MyAstItem):
         return False
 
     def render(self, context: RenderContext) -> str:
-        # FIXME: overlay special case
         max_slide_number = 1
         for m in re.finditer(r'<(?P<n1>\d+)?-?(?P<n2>\d+)?>', self.contents.value):
             for key in ('n1', 'n2'):
                 if m.group(key):
                     max_slide_number = max(max_slide_number, int(m.group(key)))
+        tikz_code = self.contents.value
+        options_match = re.search(r'\\begin\{tikzpicture\}\[(?P<options>[^]]+)\]', tikz_code)
+        is_overlay = False
+        if options_match is not None:
+            if 'overlay' in options_match.group('options'):
+                is_overlay = True
+                logging.debug('options = %s', options_match.group('options'))
+                assert r'\begin{tikzpicture}[' in tikz_code
+                assert r'\begin{tikzpicture}[' + options_match.group('options') in tikz_code
+                tikz_code = tikz_code.replace(
+                    r'\begin{tikzpicture}[' + options_match.group('options') + ']',
+                    r'\begin{tikzpicture}' + '\n'
+                    r'\node[minimum width=15cm,minimum height=9cm] (current page) {};' + '\n'
+                    r'\begin{scope}[overlay]' + '\n'
+                )
+                tikz_code = tikz_code.replace(
+                    r'\end{tikzpicture}',
+                    r'\end{scope}' + '\n'
+                    r'\end{tikzpicture}' + '\n'
+                )
         fig_output_dir = context.base_output_path.parent / 'texfig' 
         fig_file_stem = context.next_figure_stem()
         fig_output_inner = fig_output_dir / (
-            fig_file_stem + '-inner.tex'
+            fig_file_stem + '.inner.tex'
         )
         fig_output_inner.parent.mkdir(parents=True, exist_ok=True)
         with fig_output_inner.open('w') as out_fh:
-            out_fh.write(self.contents.value)
+            out_fh.write(tikz_code)
         result = ''
-        if max_slide_number > 1:
-            # result += '\n<div class="r-stack r-stretch">\n'
-            if context.frame_top:
-                result += '\n::: {.r-stack .my-full}\n'
-            else:
-                result += '\n::: {.r-stack}\n'
-        for slide_number in range(1, max_slide_number+1):
-            fig_output_tex = fig_output_dir / (
-                fig_file_stem + f'-{slide_number}.figure.tex'
-            )
-            fig_output_svg = fig_output_tex.with_suffix('.svg')
-            output_svg_name = fig_output_svg.parent.name + '/' + fig_output_svg.name
-            fig_output_tex.parent.mkdir(parents=True, exist_ok=True)
-            with fig_output_tex.open('w') as out_fh:
-                out_fh.write(r'''
-\documentclass[tikz]{standalone}
-\input{common/tikzBase}
-'''
-                )
-                out_fh.write('\\usetikzlibrary{' + (','.join(list(context.get_tikz_libraries()))) + '}')
+        if not is_overlay:
+            if max_slide_number > 1:
+                if context.frame_top:
+                    result += '\n::: {.r-stack .my-full}\n'
+                else:
+                    result += '\n::: {.r-stack}\n'
+        fig_output_tex = fig_output_dir / (
+            fig_file_stem + f'.figure.tex'
+        )
+        fig_output_tex.parent.mkdir(parents=True, exist_ok=True)
+        with fig_output_tex.open('w') as out_fh:
+            out_fh.write(r'\documentclass[tikz]{standalone}' + '\n')
+            out_fh.write(r'\input{common/tikzBase}' + '\n')
+            out_fh.write('\\usetikzlibrary{' + (','.join(list(context.get_tikz_libraries()))) + '}')
+            out_fh.write(r'''\begin{document}''')
+            out_fh.write('\n')
+            for slide_number in range(1, max_slide_number+1):
                 out_fh.write('\\setSlide{' + str(slide_number) + '}\n')
-                out_fh.write(r'''\begin{document}''')
-                out_fh.write('\n')
                 out_fh.write('\\input{' + 
                     fig_output_inner.parent.parent.name + '/' +
                     fig_output_inner.parent.name + '/' +
                     fig_output_inner.name +
                 '}\n')
-                out_fh.write(r'''\end{document}''')
-                out_fh.write('\n')
+            out_fh.write(r'''\end{document}''')
+            out_fh.write('\n')
+        for slide_number in range(1, max_slide_number+1):
             if max_slide_number == 1:
-                result += f'![]({output_svg_name})\n'
+                fig_output_svg = fig_output_tex.with_suffix('.svg')
+            else:
+                fig_output_svg = fig_output_tex.with_stem(
+                    fig_output_tex.stem + f'-{slide_number}'
+                ).with_suffix('.svg')
+            output_svg_name = fig_output_svg.parent.name + '/' + fig_output_svg.name
+            maybe_alt = ''
+            if self.alt_text is not None:
+                alt_text_escaped = self.alt_text.replace('"', '&quot;')
+                maybe_alt = ' alt="{self.alt_text}"'
+            if is_overlay:
+                result += f'![]({output_svg_name})' + \
+                    '{.absolute top="0%" left="0%" width=1050 height=700 .my-center ' + maybe_alt
+                if max_slide_number > 1:
+                    result += ' .fragment .fade-in-then-out fragment=index='+str(slide_number)
+                result += '}\n'
+            elif max_slide_number == 1:
+                result += f'![]({output_svg_name})'
+                if maybe_alt != '':
+                    result += '{' + maybe_alt.strip() + '}'
+                result += '\n'
             else:
                 result += (
                     f'![]({output_svg_name})' +
                     '{.fragment .fade-in-then-out fragment-index=' +
-                    str(slide_number) + '}\n\n'
+                    str(slide_number) + maybe_alt + '}\n\n'
                 )
-        if max_slide_number > 1:
-            result += ':::\n'
-            #result += '</div>\n'
+        if not is_overlay:
+            if max_slide_number > 1:
+                result += ':::\n'
+                #result += '</div>\n'
         return result
 
 @dataclass

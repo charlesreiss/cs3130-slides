@@ -3,6 +3,7 @@ import argparse
 import copy
 import logging
 import os
+import re
 import subprocess
 
 from pathlib import Path
@@ -14,6 +15,11 @@ LATEXRUN = [
 QUARTO = [
     'quarto', 'render'
 ]
+
+DECKTAPE = [
+    'npx', 'decktape', 'reveal', '--fragments', '-s 1920x1080',
+]
+
 
 def run_logged(*args, **xargs):
     logging.debug('running %s', args)
@@ -32,7 +38,6 @@ def build_figures(base_directory, incremental):
         if item.name.endswith('.figure.tex'):
             fls_file = base_directory / 'latex.out' / item.with_suffix('.fls').name
             pdf_file = base_directory / 'latex.out' / item.with_suffix('.pdf').name
-            svg_file = item.with_suffix('.svg')
             pdf_is_outdated = True
             if incremental and fls_file.exists() and pdf_file.exists():
                 pdf_is_outdated = False
@@ -64,10 +69,32 @@ def build_figures(base_directory, incremental):
                 assert pdf_file.exists()
                 pdf_file.touch(exist_ok=True)
             svg_is_outdated = True
-            if incremental and not pdf_is_outdated and svg_file.exists() and svg_file.stat().st_mtime > pdf_file.stat().st_mtime:
-                svg_is_outdated = False
-            if svg_is_outdated:
-                run_logged(['pdf2svg', pdf_file, svg_file])
+            pdf_info = subprocess.check_output([
+                'pdfinfo', pdf_file
+            ])
+            page_count_match = re.search(rb'Pages:\s+(?P<pages>\d+)', pdf_info)
+            pages = 1
+            if page_count_match is not None:
+                pages = int(page_count_match.group('pages'))
+            if pages == 1:
+                svg_files = [(1, item.with_suffix('.svg'))]
+            else:
+                svg_files = []
+                for i in range(1, pages + 1):
+                    svg_files.append(
+                        (i, item.with_stem(item.stem + '-' + str(i)).with_suffix('.svg'))
+                    )
+            for page, svg_file in svg_files:
+                if incremental:
+                    needs_update = False
+                    if pdf_is_outdated:
+                        needs_update = True
+                    elif svg_file.exists() and svg_file.stat().st_mtime > pdf_file.stat().st_mtime:
+                        needs_update = False
+                else:
+                    needs_update = True
+                if needs_update:
+                    run_logged(['pdf2svg', pdf_file, svg_file, str(page)])
 
 def render_qmd(path):
     run_logged(QUARTO + [path])
@@ -87,10 +114,14 @@ format:
 ---
 ''' + '{{< include ../' + str(include_path.relative_to(path.parent.parent)) + ' >}}\n')
 
+def render_html(path):
+    run_logged(DECKTAPE + [path, path.with_suffix('.pdf')])
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--create-top-qmd', type=Path)
     parser.add_argument('--render-qmd', type=Path)
+    parser.add_argument('--render-html', type=Path)
     parser.add_argument('--figures', type=Path)
     parser.add_argument('--include', type=Path)
     parser.add_argument('--directory', type=Path)
@@ -100,12 +131,15 @@ def main():
     if args.directory:
         args.figures = args.directory / 'texfig'
         args.render_qmd = args.directory / 'talk.qmd'
+        args.render_html = args.directory / 'talk.html'
     if args.create_top_qmd:
         create_top_qmd(args.create_top_qmd, args.include)
     if args.figures:
         build_figures(args.figures, incremental=args.incremental)
     if args.render_qmd:
         render_qmd(args.render_qmd)
+    if args.render_html:
+        render_html(args.render_html)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
