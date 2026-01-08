@@ -152,6 +152,8 @@ class RenderContext:
     def next_figure_stem(self) -> str:
         global FIGURE_COUNT
         base_name = self.base_output_path.stem
+        if base_name.startswith('_'):
+            base_name = base_name[1:]
         if self.frame_label is not None:
             base_name = _title_to_filename(self.frame_label)
         elif self.frame_title is not None and self.frame_title != '':
