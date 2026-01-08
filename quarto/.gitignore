@@ -6,3 +6,5 @@
 !**/figures/*.pdf
 **/*.html
 .venv
+talk.html
+talk.pdf
