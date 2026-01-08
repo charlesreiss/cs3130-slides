@@ -34,6 +34,8 @@ def build_figures(base_directory, incremental):
     tex_inputs.append(str(Path('common').absolute()))
     tex_inputs.append(str(Path('.').absolute()))
     env['TEXINPUTS'] = ':'.join(tex_inputs) + ':'
+    if not base_directory.exists():
+        return
     for item in base_directory.iterdir():
         if item.name.endswith('.figure.tex'):
             fls_file = base_directory / 'latex.out' / item.with_suffix('.fls').name
@@ -105,6 +107,7 @@ format:
   revealjs:
     theme: [simple, ../custom.scss]
     slide-level: 3
+    navigation-mode: linear
     scrollable: true
     chalkboard: true
     progress: false

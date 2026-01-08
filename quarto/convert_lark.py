@@ -1027,11 +1027,11 @@ class OutsideCommand(_MyAstItem):
             input_file = input_file.with_suffix('.qmd')
             return '\n{{< include ' + str(input_file) + ' >}}\n'
         elif self.command == r'\section':
-            return f'\n# {self.arguments[0].inner_text}\n'
+            return f'\n# {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
         elif self.command == r'\subsection':
-            return f'\n## {self.arguments[0].inner_text}\n'
+            return f'\n## {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
         elif self.command == r'\subsubsection':
-            return f'\n## {self.arguments[0].inner_text}\n'
+            return f'\n## {self.arguments[0].inner_text}' + '{visibility="hidden"}\n'
         elif self.command == r'\iftoggle':
             result = f'\n<!-- {self.command}('
             result += ','.join(map(attrgetter('inner_text'), self.arguments))
