@@ -82,7 +82,7 @@ whitespace: whitespace_item+
     | TIKZPICTURE | VERBATIM
 
 any_empty_item: whitespace
-    | SIMPLE_COMMAND (_BRACE any_text _END_BRACE)+ -> outside_command
+    | SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)+ -> outside_command
 
 
 COMMENT.5: /%.*/
@@ -171,7 +171,7 @@ class RenderContext:
         global SEEN_TIKZ_LIBRARIES
         return SEEN_TIKZ_LIBRARIES
 
-    def add_tikz_libraries(self, libs: set[str]):
+    def add_tikz_libraries(self, libs: list[str]):
         global SEEN_TIKZ_LIBRARIES
         SEEN_TIKZ_LIBRARIES |= set(libs)
 
@@ -544,9 +544,16 @@ class Columns(_MyAstItem):
 
 
 @dataclass
+class Moredelim:
+    start: str
+    end: str
+    command: str
+
+@dataclass
 class Verbatim(_MyAstItem):
     contents: str
     command_chars: str | None = None
+    moredelim: list[(str, str, str)] | None = None
 
     @property
     def estimated_lines(self) -> int:
@@ -554,16 +561,36 @@ class Verbatim(_MyAstItem):
 
     def __init__(self, token):
         pattern = r'''
-              \\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
+              \\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[
+                (?:
+                    [^\[\]]+
+                    |
+                    \[[^\]]*\]
+                )+
+              \])?
               \s*\n(?P<contents>(?s:.)*?)
               \\end\{(?:Verbatim|lstlisting)\}
         '''
+        logging.debug('about to match %s', token.value)
         m = re.match(pattern, token.value, re.X)
+        assert m is not None, token.value
         self.contents = m.group('contents')
         m = re.search(r'commandchars=([^]]+)', token.value)
         if m != None:
             self.command_chars = m.group(1)
             self.command_chars = re.sub(r'\\(.)', r'\1', self.command_chars)
+        self.moredelim = []
+        for m in re.finditer(r'''
+            moredelim=\{[^]]+\[[^]]+\] # {**[is]
+                \[(?P<command>[^]]+)\] # [\it]
+                \{(?P<start>[^]]+)\} # {X}
+                \{(?P<end>[^]]+)\} # {Y}
+            ''', token.value, re.X):
+            self.moredelim.append(Moredelim(
+                m.group('start'),
+                m.group('end'),
+                m.group('command'),
+            ))
 
     @property
     def can_be_spanned(self) -> bool:
@@ -577,11 +604,40 @@ class Verbatim(_MyAstItem):
             result = '<pre><code>'
             in_command = False
             in_argument = False
+            in_moredelim = False
+            current_moredelim = None
             current_command = ''
             current_argument = ''
             for c in self.contents:
-                if in_argument:
-                    if c == close_brace:
+                if in_moredelim and c == current_moredelim.end:
+                    in_moredelim = False
+                    with context.inner(pre=True) as inner_context:
+                        current_inner = AnyText(_RawString(current_argument))
+                        for command in reversed(current_moredelim.command.split('\\')):
+                            if command != '':
+                                continue
+                            m = re.match(r'(?P<base_command>[^{]+)(?:(?P<when><[(^>]+>))?(?:\{(?P<arg>[^}]+)\})?',
+                                command)
+                            assert m is not None, command
+                            when = None
+                            if m.group('when'):
+                                when = When(m.group('when'))
+                            args: list[AnyText] = []
+                            if m.group('arg'):
+                                args.push(AnyText(_RawString(m.group('arg'))))
+                            args.push(current_inner)
+                            current_inner = AnyText(
+                                GenericCommand(
+                                    '\\' + m.group('base_command'),
+                                    when,
+                                    *args
+                                )
+                            )
+                        with context.inner(pre=True) as inner_context:
+                            result += current_inner.render(inner_context)
+                    in_moredelim = False
+                elif in_argument or in_moredelim:
+                    if in_argument and c == close_brace:
                         with context.inner(pre=True) as inner_context:
                             result += GenericCommand(
                                 '\\' + current_command,
@@ -608,6 +664,13 @@ class Verbatim(_MyAstItem):
                     else:
                         current_command += c
                 else:
+                    for candidate in self.moredelim:
+                        if candidate.start == c:
+                            in_moredelim = True
+                            current_moredelim = candidate
+                            break
+                    if in_moredelim:
+                        continue
                     if c == slash:
                         in_command = True
                     elif c in '[\\':
@@ -1005,15 +1068,18 @@ class Whitespace(_MyAstItem):
     def render(self, context: RenderContext) -> str:
         return ' '
 
-
 @dataclass
 class OutsideCommand(_MyAstItem):
     command: str
+    when: None | When
     arguments: List[AnyText]
 
     def __init__(self, command, *arguments):
         logging.debug('OutsideCommand: %s %s', command, arguments)
         self.command = str(command)
+        if isinstance(arguments[0], When):
+            self.when = arguments[0]
+            arguments = arguments[1:]
         self.arguments = arguments
 
     def render(self, context: RenderContext) -> str:
@@ -1043,9 +1109,14 @@ class OutsideCommand(_MyAstItem):
             return result
         else:
             result = f'\n### {self.command}('
+            if self.when is not None and self.when.raw_when is not None:
+                result += self.when.raw_when
             result += ','.join(map(attrgetter('inner_text'), self.arguments))
             result += ')\n'
             return result
+
+
+    
 
 @dataclass
 class AnyEmptyItem(_MyAstItem):
