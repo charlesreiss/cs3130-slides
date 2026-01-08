@@ -13,6 +13,7 @@
 \str_new:N \l_overlay_current_spec_str
 \int_new:N \g_overlay_current_slide_int
 \clist_new:N \l_overlay_current_step_clist
+\box_new:N \l_overlay_tmp_box
 
 \msg_new:nnn {overlay} {trace-match} {On~slide~#1:~Range~`#2'~match:`#3'}
 \cs_generate_variant:Nn \msg_log:nnnnn {nnVVn}
@@ -107,12 +108,12 @@
   {
     \group_begin:
     \overlay_parse:n {#1}
-    \bool_if:Nf \l_overlay_is_correct_bool 
-      {\vbox_set:nw \l_overlay_tmp_box}
+    \bool_if:NF \l_overlay_is_correct_bool
+      {\vbox_set:Nw \l_overlay_tmp_box}
   }
   {
-    \bool_if:Nf \l_overlay_is_correct_bool 
-      {\vbox_set_end}
+    \bool_if:NF \l_overlay_is_correct_bool
+      {\vbox_set_end:}
     \group_end:
   }
 \NewDocumentEnvironment{visibleenv}{D<>{}}
@@ -127,7 +128,7 @@
   }
 \NewDocumentCommand\myemph{D<>{}m}
   {
-    \group_begin:\alt<#1>{\color{orange}\itshape}{}#2\group_end:
+    \group_begin:\alt<#1>{\color{orange!50!red}\itshape}{}#2\group_end:
   }
 
 \NewDocumentCommand{\setSlide}{m}{
