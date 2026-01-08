@@ -744,7 +744,7 @@ class Tikzpicture(_MyAstItem):
             maybe_alt = ''
             if self.alt_text is not None:
                 alt_text_escaped = self.alt_text.replace('"', '&quot;')
-                maybe_alt = ' alt="{self.alt_text}"'
+                maybe_alt = f' alt="{self.alt_text}"'
             if is_overlay:
                 result += f'![]({output_svg_name})' + \
                     '{.absolute top="0%" left="0%" width=1050 height=700 .my-center ' + maybe_alt
