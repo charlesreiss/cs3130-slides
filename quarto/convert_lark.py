@@ -160,7 +160,10 @@ class RenderContext:
             assert False, self
         index = FIGURE_COUNT.get(base_name, 1)
         FIGURE_COUNT[base_name] = index + 1
-        return f'{base_name}-{index}'
+        if index == 1:
+            return f'{base_name}'
+        else:
+            return f'{base_name}_{index}'
 
     def get_tikz_libraries(self) -> set[str]:
         global SEEN_TIKZ_LIBRARIES
@@ -219,6 +222,12 @@ class _MyAstItem(ast_utils.Ast):
     def can_be_spanned(self) -> bool:
         return True
 
+    """Approximate number of lines, primarily for purposes of guessing whether to mark a
+    slide with .smaller."""
+    @property
+    def estimated_lines(self) -> int:
+        return 0
+
     def render(self, context: RenderContext) -> str:
         return self.inner_text
 
@@ -230,6 +239,10 @@ class _RawString(_MyAstItem):
     @property
     def inner_text(self):
         return self.contents
+
+    @property
+    def estimated_lines(self) -> int:
+        return len(self.contents) // 40
 
     def render(self, context: RenderContext) -> str:
         if self.contents_markdown:
@@ -302,6 +315,10 @@ class _InlineCommand(_MyAstItem):
     @property
     def can_be_spanned(self) -> bool:
         return all(map(attrgetter('can_be_spanned'), self.arguments))
+
+    @property
+    def estimated_lines(self) -> int:
+        return len(self.inner_text) // 40
 
     def render(self, context: RenderContext) -> str:
         before, after = None, None
@@ -441,6 +458,10 @@ class AnyText(_MyAstItem):
         logging.debug('self.parts = %s', self.parts)
         return ''.join(map(attrgetter('inner_text'), self.parts))
 
+    @property
+    def estimated_lines(self) -> int:
+        return sum(map(attrgetter('estimated_lines'), self.parts))
+
     def get_interesting_parts(self) -> List[_MyAstItem]:
         result = []
         for part in self.parts:
@@ -492,6 +513,10 @@ class Column(_MyAstItem):
         result += '\n:::\n'
         return result
 
+    @property
+    def estimated_lines(self) -> int:
+        return self.contents.estimated_lines
+
 @dataclass
 class Columns(_MyAstItem):
     columns: List[Column]
@@ -502,6 +527,10 @@ class Columns(_MyAstItem):
             if not item.is_whitespace:
                 columns.append(item)
         self.columns = columns
+
+    @property
+    def estimated_lines(self) -> int:
+        return max(map(attrgetter('estimated_lines'), self.columns))
 
     def render(self, context: RenderContext) -> str:
         with context.inner(column_count=len(self.columns)) as inner_context:
@@ -516,6 +545,10 @@ class Columns(_MyAstItem):
 class Verbatim(_MyAstItem):
     contents: str
     command_chars: str | None = None
+
+    @property
+    def estimated_lines(self) -> int:
+        return self.contents.count('\n')
 
     def __init__(self, token):
         pattern = r'''
@@ -596,6 +629,10 @@ class Visibleenv(_MyAstItem):
     contents: AnyText
 
     @property
+    def estimated_lines(self) -> int:
+        return self.contents.estimated_lines
+
+    @property
     def can_be_spanned(self) -> bool:
         return False
 
@@ -627,6 +664,10 @@ class Visibleenv(_MyAstItem):
 class Tikzpicture(_MyAstItem):
     contents: lark.Token
     alt_text: str | None = None
+
+    @property
+    def estimated_lines(self) -> int:
+        return 4
 
     @property
     def can_be_spanned(self) -> bool:
@@ -775,6 +816,10 @@ class Item(_MyAstItem):
     contents: AnyText
 
     @property
+    def estimated_lines(self) -> int:
+        return max(1, self.contents.estimated_lines)
+
+    @property
     def can_be_spanned(self) -> bool:
         return False
 
@@ -798,6 +843,10 @@ class Itemize(_MyAstItem):
         for maybe_item in args:
             if isinstance(maybe_item, Item):
                 self.items.append(maybe_item)
+
+    @property
+    def estimated_lines(self) -> int:
+        return sum(map(attrgetter('estimated_lines'), self.items)) + 0.4 * len(self.items)
 
     @property
     def can_be_spanned(self) -> bool:
@@ -847,6 +896,10 @@ class Tabular(_MyAstItem):
         self.column_types = column_types
         self.lines = rest[:-1]
         self.end = rest[-1]
+    
+    @property
+    def estimated_lines(self) -> int:
+        return len(self.lines)
 
     @property
     def can_be_spanned(self) -> bool:
@@ -909,7 +962,10 @@ class Frame(_MyAstItem):
                     self.title = item.inner_text
 
     def render(self, context) -> str:
-        result = f'\n### {self.title}\n\n'
+        classes = ''
+        if self.contents.estimated_lines >= 7:
+            classes = ' {.smaller}'
+        result = f'\n### {self.title} {classes}\n\n'
         with context.inner(strip_ends=True, frame_top=True, frame_title=self.title, frame_label=self.label) as inner_context:
             logging.debug('inner context = %s', inner_context)
             result += self.contents.render(inner_context)
