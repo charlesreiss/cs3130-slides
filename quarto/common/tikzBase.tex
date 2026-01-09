@@ -170,6 +170,10 @@
   {
     \group_begin:\alt<#1>{\color{orange!50!red}\itshape}{}#2\group_end:
   }
+\RenewDocumentCommand\textbf{D<>{}m}
+  {
+    \group_begin:\alt<#1>{\bfseries}{}#2\group_end:
+  }
 
 \NewDocumentCommand{\setSlide}{m}{
   \bool_gset_false:N \g_overlay_need_continue_bool
