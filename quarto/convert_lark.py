@@ -10,6 +10,7 @@ import sys
 
 from dataclasses import dataclass, field, InitVar
 from lark import Lark, ast_utils
+from itertools import chain
 from operator import attrgetter, methodcaller
 from pathlib import Path
 from typing import Dict, List
@@ -31,7 +32,7 @@ optional_argument: _SQUARE_BRACKET any_text _END_SQUARE_BRACKET
 
 when: WHEN?
 
-generic_command: SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)*
+generic_command: SIMPLE_COMMAND when optional_argument? (_BRACE any_text _END_BRACE)*
 
 ?inline_command: generic_command
     | _BRACE any_text_raw any_text _END_BRACE -> bare_block
@@ -64,6 +65,7 @@ any_text_not_linebreak: any_text_basic*
     | whitespace
     | columns
     | VERBATIM -> verbatim
+    | INLINE_VERBATIM -> inline_verbatim
     | TIKZPICTURE -> tikzpicture
     | _MYALTTEXT _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
     | _MYALTTEXTB _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
@@ -107,6 +109,11 @@ WHEN: /<[^>]+>/
 VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
               \s*\n(?s:.)*?
               \\end\{(?:Verbatim|lstlisting)\}/x
+INLINE_VERBATIM.10: /
+        \\lstinline\|[^|]+\|
+        |
+        \\verb\|[^|]+\|
+    /x
 TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
                  (?s:.)*?
                  \\end\{tikzpicture\}
@@ -135,7 +142,7 @@ _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
 _END_SQUARE_BRACKET: /\]/
-SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox)\w+/
+SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox|verb|lstinline)\w+/
 LSTSET.0: /\\lstset\{
         (?:
             [^{}]+
@@ -186,6 +193,7 @@ def _title_to_filename(title: str) -> str:
 class RenderContext:
     base_input_path: Path
     base_output_path: Path
+    frame_count: int | None = None
     frame_title: str | None = None
     frame_label: str | None = None
     indent: int = 0
@@ -193,9 +201,11 @@ class RenderContext:
     column_count: int | None = None
     frame_top: bool = False
     pre: bool = False
+    raw_html: bool = False
     tt: bool = False
     tikz_preamble: str = ''
     tikz_begin_document: str = ''
+    lstset: List[str] = field(default_factory=lambda: [])
     nested_group: bool = False
 
     def next_figure_stem(self) -> str:
@@ -203,12 +213,13 @@ class RenderContext:
         base_name = self.base_output_path.stem
         if base_name.startswith('_'):
             base_name = base_name[1:]
-        if self.frame_label is not None:
-            base_name = _title_to_filename(self.frame_label)
-        elif self.frame_title is not None and self.frame_title != '':
-            base_name += '-' + _title_to_filename(self.frame_title.lower())
-        else:
-            assert False, self
+        if self.frame_count is None or self.frame_count > 0:
+            if self.frame_label is not None:
+                base_name = _title_to_filename(self.frame_label)
+            elif self.frame_title is not None and self.frame_title != '':
+                base_name += '-' + _title_to_filename(self.frame_title.lower())
+            else:
+                assert False, self
         index = FIGURE_COUNT.get(base_name, 1)
         FIGURE_COUNT[base_name] = index + 1
         if index == 1:
@@ -230,12 +241,15 @@ class RenderContext:
     def add_tikz_begin_document(self, tikz_begin_document: str):
         self.tikz_begin_document += tikz_begin_document
 
+    def add_lstset(self, setting: str):
+        self.lstset = self.lstset + [setting]
+
     def indented(self, markdown: str):
         return markdown.replace('\n', '\n' + (' ' * self.indent))
 
     def inner(self, strip_ends=None, extra_indent=None, column_count=None,
              frame_top=False, frame_title=None, frame_label=None,
-             pre=None, tt=None,
+             pre=None, tt=None, raw_html=None,
              nested_group=False) -> InnerRenderContextManager:
         result = copy.copy(self)
         if strip_ends is not None:
@@ -252,6 +266,8 @@ class RenderContext:
             result.frame_label = frame_label
         if pre is not None:
             result.pre = pre
+        if raw_html is not None:
+            result.raw_html = raw_html
         if tt is not None:
             result.tt = tt
         if nested_group is not None:
@@ -270,6 +286,7 @@ class InnerRenderContextManager:
         if not self.inner_context.nested_group:
             self.outer_context.tikz_preamble = self.inner_context.tikz_preamble
             self.outer_context.tikz_begin_document = self.inner_context.tikz_begin_document
+            self.outer_context.lstset = self.inner_context.lstset
         return False
         
 
@@ -317,14 +334,34 @@ class _RawString(_MyAstItem):
 
 @dataclass
 class Lstset(_MyAstItem):
-    contents: lark.Token
+    token: lark.Token
+    setting: str
+
+    def __init__(self, token):
+        self.token = token
+        m = re.match(r'''\\lstset\{(?P<setting>
+                (?:
+                    [^{}]+
+                    |
+                    \{
+                        (?:
+                            \{[^}]*\}
+                        |
+                            [^{}]+
+                        )*
+                    \}
+                )*
+            )\}''', token.value, re.X)
+        assert m is not None, token.value
+        self.setting = m.group('setting')
 
     @property
     def inner_text(self):
         return ''
 
     def render(self, context: RenderContext) -> str:
-        return '<!-- ' + str(self.contents) + '-->'
+        context.add_lstset(self.setting)
+        return '<!-- ' + str(self.token) + ' -->\n'
 
 @dataclass
 class TikzContext(_MyAstItem):
@@ -435,7 +472,7 @@ class _InlineCommand(_MyAstItem):
         is_tt = None
         strip_ends = None
         if self.when and self.when.needs_fragment:
-            if self.command in (r'\myemph',):
+            if self.command in (r'\myemph',r'\btHL',):
                 before = '['
                 number = str(self.when.number)
                 if self.when.is_after_fragment:
@@ -454,7 +491,14 @@ class _InlineCommand(_MyAstItem):
                     when_str = str(self.when_raw_when)
                 before, after = self.command + when_str + '{', '}'
         else:
-            if self.command in (r'\tt', r'\texttt'):
+            if self.command in (r'\lstinputlisting',):
+                logging.debug('arguments = %s', self.arguments)
+                file_name = self.arguments[-1].inner_text
+                file_path = context.base_input_path.parent / file_name
+                output_path = (context.base_output_path.parent / file_path.name)
+                output_path.write_text(file_path.read_text())
+                return '\n```\n{{< include /' + str(output_path.relative_to(context.base_output_path.parent.parent)) + ' >}}\n```\n'
+            elif self.command in (r'\tt', r'\texttt'):
                 before, after = '<code>', '</code>'
                 if len(self.arguments) > 0:
                     inner = self.arguments[0].get_interesting_parts()
@@ -469,7 +513,7 @@ class _InlineCommand(_MyAstItem):
                     else:
                         logging.debug('inner = %s', inner)
                 strip_ends = True
-            elif self.command in (r'\myemph',):
+            elif self.command in (r'\myemph',r'\btHL',):
                 before, after = '<em>', '</em>'
             elif self.command in (r'\textit', r'\itshape'):
                 before, after = '<it>', '</it>'
@@ -500,6 +544,23 @@ class _InlineCommand(_MyAstItem):
                 start_arg = 0
                 before, after = self.command + '{', '}'
 
+        if context.raw_html and before == '[':
+            classes = []
+            attrs = {}
+            for span_class in re.findall('\.[\w-]+|[\w-]+=\w+', after):
+                if '=' in span_class:
+                    k, v = span_class.split('=')
+                    attrs['data-' + k] = v
+                else:
+                    classes.append(span_class[1:])
+            if len(classes) > 0:
+                attrs['class'] = " ".join(classes)
+            before = '<span '
+            for k, v in attrs.items():
+                before += f'{k}="{v}" '
+            before = before[:-1]
+            before += '>'
+            after = '</span>'
         result = before
         if start_arg != None:
             for argument in self.arguments[start_arg:]:
@@ -659,6 +720,41 @@ class Moredelim:
     end: str
     command: str
 
+def _parse_moredelim_from(settings):
+    result = []
+    for m in re.finditer(r'''
+        moredelim=\{?[^]]+\[[^]]+\] # {**[is]
+            \[(?P<command>[^]]+)\] # [\it]
+            \{(?P<start>[^]]+)\} # {X}
+            \{(?P<end>[^]]+)\} # {Y}
+        ''', settings, re.X):
+        result.append(Moredelim(
+            m.group('start'),
+            m.group('end'),
+            m.group('command'),
+        ))
+    return result
+
+@dataclass
+class InlineVerbatim(_MyAstItem):
+    contents: str
+
+    def __init__(self, token):
+        pattern = r'''
+            \\(?:lstinline|verb)\|(?P<contents>[^|]+)\|
+        '''
+        m = re.match(pattern, token.value, re.X)
+        assert m is not None, token.value
+        self.contents = m.group('contents')
+
+    @property
+    def inner_text(self):
+        return self.contents
+
+    def render(self, context: RenderContext) -> str:
+        return f'`{self.contents}`'
+
+
 @dataclass
 class Verbatim(_MyAstItem):
     contents: str
@@ -689,53 +785,53 @@ class Verbatim(_MyAstItem):
         if m != None:
             self.command_chars = m.group(1)
             self.command_chars = re.sub(r'\\(.)', r'\1', self.command_chars)
-        self.moredelim = []
-        for m in re.finditer(r'''
-            moredelim=\{[^]]+\[[^]]+\] # {**[is]
-                \[(?P<command>[^]]+)\] # [\it]
-                \{(?P<start>[^]]+)\} # {X}
-                \{(?P<end>[^]]+)\} # {Y}
-            ''', token.value, re.X):
-            self.moredelim.append(Moredelim(
-                m.group('start'),
-                m.group('end'),
-                m.group('command'),
-            ))
+        self.moredelim = _parse_moredelim_from(token.value)
 
     @property
     def can_be_spanned(self) -> bool:
         return False
 
     def render(self, context: RenderContext) -> str:
-        if self.command_chars is not None:
-            slash = self.command_chars[0]
-            open_brace = self.command_chars[1]
-            close_brace = self.command_chars[2]
+        active_moredelim = self.moredelim + list(chain.from_iterable(
+            map(_parse_moredelim_from, context.lstset)
+        ))
+        logging.debug('active_moredelim = %s from %s, %s',
+            active_moredelim, self.moredelim, context.lstset)
+        if self.command_chars is not None or len(active_moredelim) > 0:
+            if self.command_chars is None:
+                slash = None
+                open_brace = None
+                clsoe_brace  = None
+            else:
+                slash = self.command_chars[0]
+                open_brace = self.command_chars[1]
+                close_brace = self.command_chars[2]
             result = '<pre><code>'
             in_command = False
             in_argument = False
-            in_moredelim = False
-            current_moredelim = None
+            current_moredelim: Moredelim | None = None
             current_command = ''
             current_argument = ''
-            for c in self.contents:
-                if in_moredelim and c == current_moredelim.end:
-                    in_moredelim = False
-                    with context.inner(pre=True) as inner_context:
+            i = 0
+            while i < len(self.contents):
+                c = self.contents[i]
+                if current_moredelim is not None and self.contents[i:].startswith(current_moredelim.end):
+                    with context.inner(pre=True, raw_html=True) as inner_context:
                         current_inner = AnyText(_RawString(current_argument))
                         for command in reversed(current_moredelim.command.split('\\')):
-                            if command != '':
+                            if command == '':
                                 continue
-                            m = re.match(r'(?P<base_command>[^{]+)(?:(?P<when><[(^>]+>))?(?:\{(?P<arg>[^}]+)\})?',
+                            m = re.match(r'(?P<base_command>[^{<]+)(?:(?P<when><[^>]+>))?(?:\{(?P<arg>[^}]+)\})?',
                                 command)
                             assert m is not None, command
                             when = None
-                            if m.group('when'):
+                            if m.group('when') is not None:
                                 when = When(m.group('when'))
                             args: list[AnyText] = []
                             if m.group('arg'):
-                                args.push(AnyText(_RawString(m.group('arg'))))
-                            args.push(current_inner)
+                                args.append(AnyText(_RawString(m.group('arg'))))
+                            args.append(current_inner)
+                            logging.debug('verbatim command %s/%s from %s', m.group('base_command'), when, command)
                             current_inner = AnyText(
                                 GenericCommand(
                                     '\\' + m.group('base_command'),
@@ -743,12 +839,14 @@ class Verbatim(_MyAstItem):
                                     *args
                                 )
                             )
-                        with context.inner(pre=True) as inner_context:
-                            result += current_inner.render(inner_context)
-                    in_moredelim = False
-                elif in_argument or in_moredelim:
+                        result += current_inner.render(inner_context)
+                    i += len(current_moredelim.end)
+                    current_argument = ''
+                    current_moredelim = None
+                    continue
+                elif in_argument or current_moredelim is not None:
                     if in_argument and c == close_brace:
-                        with context.inner(pre=True) as inner_context:
+                        with context.inner(pre=True, raw_html=True) as inner_context:
                             result += GenericCommand(
                                 '\\' + current_command,
                                 None,
@@ -756,14 +854,14 @@ class Verbatim(_MyAstItem):
                             ).render(inner_context)
                         in_argument = False
                         current_command = ''
-                    elif c in '[\\':
-                        current_argument += '\\' + c
                     elif c == '<':
                         current_argument += '&lt;'
                     elif c == '>':
                         current_argument += '&gt;'
                     elif c == '&':
                         current_argument += '&amp;'
+                    elif c == '\n':
+                        current_argument += '\n'
                     else:
                         current_argument += c
                 elif in_command:
@@ -774,12 +872,12 @@ class Verbatim(_MyAstItem):
                     else:
                         current_command += c
                 else:
-                    for candidate in self.moredelim:
-                        if candidate.start == c:
-                            in_moredelim = True
+                    for candidate in active_moredelim:
+                        if self.contents[i:].startswith(candidate.start):
+                            i += len(candidate.start)
                             current_moredelim = candidate
                             break
-                    if in_moredelim:
+                    if current_moredelim is not None:
                         continue
                     if c == slash:
                         in_command = True
@@ -791,8 +889,11 @@ class Verbatim(_MyAstItem):
                         result += '&gt;'
                     elif c == '&':
                         result += '&amp;'
+                    elif c == '\n':
+                        result += '\n'
                     else:
                         result += c
+                i += 1
             result += '</code></pre>'
             return result
         else:
@@ -1176,7 +1277,7 @@ class Whitespace(_MyAstItem):
         self.parts = args
         for item in args:
             if item.type == 'COMMENT':
-                self.comment += item.value
+                self.comment += item.value[1:].strip()
             elif item.type == 'NEWLINE':
                 self.has_newline = True
 
@@ -1192,7 +1293,10 @@ class Whitespace(_MyAstItem):
             return ' '
 
     def render(self, context: RenderContext) -> str:
-        return ' '
+        if len(self.comment) > 0:
+            return f'<!-- {self.comment} -->'
+        else:
+            return ' '
 
 @dataclass
 class OutsideCommand(_MyAstItem):
@@ -1285,6 +1389,7 @@ class AnyEmptyItem(_MyAstItem):
 @dataclass
 class Document(_MyAstItem):
     parts: List[Frame | AnyEmptyItem]
+    frame_count: int
 
     def __init__(self, *args):
         self.parts = []
@@ -1293,12 +1398,17 @@ class Document(_MyAstItem):
                 self.parts += part.document.parts
             else:
                 self.parts.append(part)
+        self.frame_count = 0
+        for part in self.parts:
+            if isinstance(part, Frame):
+                self.frame_count += 1
 
     @property
     def inner_text(self) -> str:
         return ''.join(map(attrgetter('inner_text'), self.parts))
 
     def render(self, context: RenderContext) -> str:
+        context.frame_count = self.frame_count
         return ''.join(map(methodcaller('render', context), self.parts))
 
 
