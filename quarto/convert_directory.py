@@ -24,6 +24,8 @@ def convert_tex(base_file: Path, output_directory: Path):
         ])
 
 def convert_directory(base_directory: Path, output_directory: Path):
+    if not output_directory.exists():
+        output_directory.mkdir()
     for item in base_directory.iterdir():
         if (item.suffix == '.pdf' or item.suffix == '.png') and \
            item.stem not in ('slides', 'talk', 'talk-slides', 'talk-slides-heldback', 'test', 'talk-slides2'):
