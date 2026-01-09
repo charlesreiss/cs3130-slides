@@ -5,6 +5,38 @@
 \usepackage{sourcecodepro}
 \usepackage{trace}
 \usepackage{lmodern}
+\usepackage{listings}
+\ifluatex
+    \def\EmptyMapping{}
+\else
+    \def\EmptyMapping{\addfontfeatures{Mapping=}}
+\fi
+
+\input{common/listingsLib}
+
+\usetikzlibrary{arrows.meta,calc,patterns,positioning,matrix}
+\tikzset{ 
+    ampersand replacement=\&,
+    tight matrix node/.style={draw,rectangle,inner sep=1pt, outer sep=0pt,text width=1cm,minimum height=.4cm,anchor=center},
+    tight matrix node noline/.style={rectangle,inner sep=1pt, outer sep=0pt,text width=1cm,minimum height=.4cm,anchor=center},
+    tight matrix/.style={
+        matrix of nodes,
+        inner sep=1pt, outer sep=0pt,
+        row sep=-\pgflinewidth,
+        column sep=-\pgflinewidth,
+        nodes={tight matrix node},
+    },
+    tight matrix no line/.style={
+        matrix of nodes,
+        inner sep=1pt, outer sep=0pt,
+        row sep=-\pgflinewidth,
+        column sep=-\pgflinewidth,
+        nodes={tight matrix node noline},
+    },
+}
+\pgfdeclarelayer{bg}
+\pgfdeclarelayer{fg}
+\pgfsetlayers{bg,main,fg}
 \renewcommand*\familydefault{\sfdefault}
 \ExplSyntaxOn
 \debug_on:n{all}
@@ -104,6 +136,14 @@
     {#3}
 }
 
+\NewDocumentCommand\only{D<>{}m}{%
+  \overlay_parse:n {#1}
+  %\bool_log:N \l_overlay_is_correct_bool
+  %\str_log:N \l_overlay_current_spec_str
+  \bool_if:NT \l_overlay_is_correct_bool
+    {#2}
+}
+
 \NewDocumentEnvironment{onlyenv}{D<>{}}
   {
     \group_begin:
@@ -142,9 +182,13 @@
     alt/.code args={<#1>#2#3}{%
       \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
     },%
-    alt/.code args={<#1>#2#3}{%
+    slidealt/.code args={<#1>#2#3}{%
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+    },%
+    beameralt/.code args={<#1>#2#3}{%
       \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
     },%
     invisible/.style={opacity=0},%
+    visible on/.style={slidealt=#1{}{invisible}},%
 }
 \setSlide{1}

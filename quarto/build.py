@@ -8,8 +8,14 @@ import subprocess
 
 from pathlib import Path
 
+USE_LATEXMK = True
+
 LATEXRUN = [
-    'latexrun', '--latex-cmd', 'lualatex',
+    'latexrun', '--debug', '--verbose-cmds', '--latex-cmd', 'lualatex',
+]
+
+LATEXMK = [
+    Path(__file__).parent / 'latexmk.pl', '-pdflua', '-outdir=latex.out',
 ]
 
 QUARTO = [
@@ -63,11 +69,18 @@ def build_figures(base_directory, incremental):
                             pdf_is_outdated = True
                             break
             if pdf_is_outdated:
-                run_logged(
-                    LATEXRUN + [item.stem, '-o', pdf_file.relative_to(base_directory)],
-                    env=env,
-                    cwd=base_directory,
-                )
+                if USE_LATEXMK:
+                    run_logged(
+                        LATEXMK + [item.stem],
+                        env=env,
+                        cwd=base_directory,
+                    )
+                else:
+                    run_logged(
+                        LATEXRUN + [item.stem, '-o', pdf_file.relative_to(base_directory)],
+                        env=env,
+                        cwd=base_directory,
+                    )
                 assert pdf_file.exists()
                 pdf_file.touch(exist_ok=True)
             svg_is_outdated = True

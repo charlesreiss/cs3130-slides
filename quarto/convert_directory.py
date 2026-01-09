@@ -14,11 +14,14 @@ def run_logged(command: List[str | Path]):
     subprocess.check_call(command)
 
 def convert_tex(base_file: Path, output_directory: Path):
-    run_logged([
-        'python3', 'convert_lark.py',
-        '--input', base_file,
-        '--output', output_directory / ('_' + base_file.stem + '.qmd')
-    ])
+    if r'\documentclass[tikz]{standalone}' in base_file.read_text()[:500]:
+        shutil.copyfile(base_file, output_directory / base_file.name)
+    else:
+        run_logged([
+            'python3', 'convert_lark.py',
+            '--input', base_file,
+            '--output', output_directory / ('_' + base_file.stem + '.qmd')
+        ])
 
 def convert_directory(base_directory: Path, output_directory: Path):
     for item in base_directory.iterdir():

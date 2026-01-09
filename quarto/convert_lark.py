@@ -23,6 +23,7 @@ start: document
 document: any_empty_item* (frame any_empty_item*)*
 
 frame: _BEGIN_FRAME when? optional_argument? argument? whitespace? frametitle? any_text _END_FRAME 
+     |  _IFNOTHELDBACK document _END_BRACE -> heldback_frames
 
 optional_argument: _SQUARE_BRACKET any_text _END_SQUARE_BRACKET
 
@@ -65,9 +66,14 @@ any_text_not_linebreak: any_text_basic*
     | VERBATIM -> verbatim
     | TIKZPICTURE -> tikzpicture
     | _MYALTTEXT _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
+    | _MYALTTEXTB _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
+    | _MYALTTEXTC _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
+    | _MYALTTEXTD _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
     | _BEGIN_VISIBLEENV when any_text _END_VISIBLEENV -> visibleenv
     | _END_SQUARE_BRACKET -> end_square_bracket
     | _SQUARE_BRACKET -> square_bracket
+    | LSTSET -> lstset
+    | TIKZSET -> tikzset
     | any_text_raw
 
 columns: (column whitespace?)+
@@ -82,10 +88,16 @@ whitespace: whitespace_item+
     | TIKZPICTURE | VERBATIM
 
 any_empty_item: whitespace
-    | SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)+ -> outside_command
+    | SIMPLE_COMMAND when (_BRACE any_text _END_BRACE)* -> outside_command
+    | BEGIN_GENERIC any_text END_GENERIC -> outside_environment
+    | TIKZSET -> tikz_context
+    | NEWSAVEBOX -> tikz_context
+    | LRBOX -> tikz_context_begin_document
+    | SAVEBOX whitespace? TIKZPICTURE whitespace? _END_BRACE -> tikz_savebox
 
 
 COMMENT.5: /%.*/
+_IFNOTHELDBACK.10: /\\iftoggle\{heldback\}\{\}\{/
 _BEGIN_FRAMETITLE.10: /\\frametitle/
 _BEGIN_ITEMIZE.10: /\\begin\{itemize\}/
 _END_ITEMIZE.10: /\\end\{itemize\}/
@@ -102,6 +114,9 @@ TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
 _BEGIN_FRAME.10: /\\begin\{(?:frame|FragileFrame)\}/
 _END_FRAME.10: /\\end{(?:frame|FragileFrame)\}/
 _MYALTTEXT.10: /\\myalttext/
+_MYALTTEXTB.10: /\\myalttextB/
+_MYALTTEXTC.10: /\\myalttextC/
+_MYALTTEXTD.10: /\\myalttextD/
 LINEBREAK: /\\\\(?:\[[^]]+\])?/
 NBSP: /~/
 _START_DQUOTE: /``/
@@ -114,13 +129,42 @@ _BEGIN_TABULAR.10: /\\begin\{tabular\}/
 _END_TABULAR.10: /\\end\{tabular\}/
 _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
-BEGIN_GENERIC.0: /\\begin\{(?!minipage|tabular|itemize|Verbatim|visibleenv)\w+\}/
-END_GENERIC.0: /\\end\{(?!minipage|tabular|itemize|Verbatim|visibleenv)\w+\}/
+BEGIN_GENERIC.0: /\\begin\{(?!minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
+END_GENERIC.0: /\\end\{(?!minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
 _END_SQUARE_BRACKET: /\]/
-SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_)\w+/
+SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox)\w+/
+LSTSET.0: /\\lstset\{
+        (?:
+            [^{}]+
+            |
+            \{
+                (?:
+                    \{[^}]*\}
+                |
+                    [^{}]+
+                )*
+            \}
+        )*
+    \}/x
+TIKZSET.0: /\\tikzset\{
+        (?:
+            [^{}]+
+            |
+            \{
+                (?:
+                    \{[^}]*\}
+                |
+                    [^{}]+
+                )*
+            \}
+        )*
+    \}/x
+NEWSAVEBOX.0: /\\newsavebox\{\\[^}]+\}|\\newsavebox\\[a-zA-Z]+|\\ifdefined\\[a-zA-Z]+\\else\\newsavebox\\[a-zA-Z]+\\fi/
+SAVEBOX.0: /\\savebox\{\\[^}]+\}\{/
+LRBOX.0: /\\begin\{lrbox\}(?s:.*?)\\end\{lrbox\}/
 SIMPLE_ESCAPED.-11: /\\[.&_$%]/
 _NEXT_CELL.-20: /&/
 NEWLINE.-20: /\n+/
@@ -134,6 +178,8 @@ SEEN_TIKZ_LIBRARIES: set[str] = set()
 def _title_to_filename(title: str) -> str:
     result = title.replace(' ', '-')
     result = re.sub(r'[^-_a-zA-Z0-9]', '', result)
+    if len(result) > 40:
+        result = result[:40]
     return result
 
 @dataclass
@@ -148,6 +194,9 @@ class RenderContext:
     frame_top: bool = False
     pre: bool = False
     tt: bool = False
+    tikz_preamble: str = ''
+    tikz_begin_document: str = ''
+    nested_group: bool = False
 
     def next_figure_stem(self) -> str:
         global FIGURE_COUNT
@@ -175,12 +224,19 @@ class RenderContext:
         global SEEN_TIKZ_LIBRARIES
         SEEN_TIKZ_LIBRARIES |= set(libs)
 
+    def add_tikz_preamble(self, tikz_preamble: str):
+        self.tikz_preamble += tikz_preamble
+
+    def add_tikz_begin_document(self, tikz_begin_document: str):
+        self.tikz_begin_document += tikz_begin_document
+
     def indented(self, markdown: str):
         return markdown.replace('\n', '\n' + (' ' * self.indent))
 
     def inner(self, strip_ends=None, extra_indent=None, column_count=None,
              frame_top=False, frame_title=None, frame_label=None,
-             pre=None, tt=None) -> InnerRenderContextManager:
+             pre=None, tt=None,
+             nested_group=False) -> InnerRenderContextManager:
         result = copy.copy(self)
         if strip_ends is not None:
             result.strip_ends = strip_ends
@@ -198,16 +254,22 @@ class RenderContext:
             result.pre = pre
         if tt is not None:
             result.tt = tt
-        return InnerRenderContextManager(result)
+        if nested_group is not None:
+            result.nested_group = nested_group
+        return InnerRenderContextManager(result, self)
 
 @dataclass
 class InnerRenderContextManager:
     inner_context: RenderContext
+    outer_context: RenderContext
 
     def __enter__(self):
         return self.inner_context
     
     def __exit__(self, typ, value, traceback):
+        if not self.inner_context.nested_group:
+            self.outer_context.tikz_preamble = self.inner_context.tikz_preamble
+            self.outer_context.tikz_begin_document = self.inner_context.tikz_begin_document
         return False
         
 
@@ -252,6 +314,48 @@ class _RawString(_MyAstItem):
         else:
             result = self.contents
         return context.indented(result)
+
+@dataclass
+class Lstset(_MyAstItem):
+    contents: lark.Token
+
+    @property
+    def inner_text(self):
+        return ''
+
+    def render(self, context: RenderContext) -> str:
+        return '<!-- ' + str(self.contents) + '-->'
+
+@dataclass
+class TikzContext(_MyAstItem):
+    text: str
+
+    def __init__(self, *args):
+        self.text = ''
+        for arg in args:
+            self.text += str(arg)
+
+    def render(self, context: RenderContext) -> str:
+        context.add_tikz_preamble(self.text + '\n')
+        return ''
+
+# For things like lrbox which seem broken if done in the preamble
+@dataclass
+class TikzContextBeginDocument(TikzContext):
+    def render(self, context: RenderContext) -> str:
+        context.add_tikz_begin_document(self.text + '\n')
+        return ''
+
+@dataclass
+class TikzSavebox(TikzContext):
+    def __init__(self, *args):
+        self.text = ''
+        for arg in args:
+            if isinstance(arg, Whitespace):
+                self.text += ''.join(map(str, arg.parts))
+            else:
+                self.text += str(arg)
+        self.text += '}'
 
 @dataclass
 class OptionalArgument(_MyAstItem):
@@ -320,7 +424,10 @@ class _InlineCommand(_MyAstItem):
 
     @property
     def estimated_lines(self) -> int:
-        return len(self.inner_text) // 40
+        if self.command in (r'\vspace', r'\hrule'):
+            return 1.5
+        else:
+            return len(self.inner_text) // 40
 
     def render(self, context: RenderContext) -> str:
         before, after = None, None
@@ -342,7 +449,10 @@ class _InlineCommand(_MyAstItem):
                         ' .custom .myem-only}'
                     )
             else:
-                before, after = self.command + self.when + '{', '}'
+                when_str = ''
+                if self.when.raw_when is not None:
+                    when_str = str(self.when_raw_when)
+                before, after = self.command + when_str + '{', '}'
         else:
             if self.command in (r'\tt', r'\texttt'):
                 before, after = '<code>', '</code>'
@@ -728,7 +838,7 @@ class Visibleenv(_MyAstItem):
 @dataclass
 class Tikzpicture(_MyAstItem):
     contents: lark.Token
-    alt_text: str | None = None
+    alt_texts: list[str] | None = None
 
     @property
     def estimated_lines(self) -> int:
@@ -745,6 +855,8 @@ class Tikzpicture(_MyAstItem):
                 if m.group(key):
                     max_slide_number = max(max_slide_number, int(m.group(key)))
         tikz_code = self.contents.value
+        if '(pic cs:' in tikz_code:
+            return '<!--\n```\n' + self.contents.value + '\n```\n-->\n'
         options_match = re.search(r'\\begin\{tikzpicture\}\[(?P<options>[^]]+)\]', tikz_code)
         is_overlay = False
         if options_match is not None:
@@ -786,8 +898,10 @@ class Tikzpicture(_MyAstItem):
         with fig_output_tex.open('w') as out_fh:
             out_fh.write(r'\documentclass[tikz]{standalone}' + '\n')
             out_fh.write(r'\input{common/tikzBase}' + '\n')
-            out_fh.write('\\usetikzlibrary{' + (','.join(list(context.get_tikz_libraries()))) + '}')
-            out_fh.write(r'''\begin{document}''')
+            out_fh.write('\\usetikzlibrary{' + (','.join(list(context.get_tikz_libraries()))) + '}\n')
+            out_fh.write(context.tikz_preamble)
+            out_fh.write(r'''\begin{document}''' + '\n')
+            out_fh.write(context.tikz_begin_document)
             out_fh.write('\n')
             for slide_number in range(1, max_slide_number+1):
                 out_fh.write('\\setSlide{' + str(slide_number) + '}\n')
@@ -807,8 +921,12 @@ class Tikzpicture(_MyAstItem):
                 ).with_suffix('.svg')
             output_svg_name = fig_output_svg.parent.name + '/' + fig_output_svg.name
             maybe_alt = ''
-            if self.alt_text is not None:
-                alt_text_escaped = self.alt_text.replace('"', '&quot;')
+            if self.alt_texts is not None:
+                if slide_number > len(self.alt_texts):
+                    alt_text = self.alt_texts[-1]
+                else:
+                    alt_text = self.alt_texts[slide_number-1]
+                alt_text_escaped = alt_text.replace('"', '&quot;')
                 alt_text_escaped = alt_text_escaped.replace('\n', ' ')
                 alt_text_escaped = alt_text_escaped.strip()
                 maybe_alt = f' fig-alt="{alt_text_escaped}"'
@@ -838,13 +956,14 @@ class Tikzpicture(_MyAstItem):
 @dataclass
 class TikzpictureWithAlt(Tikzpicture):
     def __init__(self, *args):
+        self.alt_texts = []
         for item in args:
             if isinstance(item, lark.Token):
                 self.contents = item
             elif item.is_whitespace:
                 pass
             else:
-                self.alt_text = item.inner_text
+                self.alt_texts.append(item.inner_text)
 
 @dataclass
 class Frametitle(_MyAstItem):
@@ -999,6 +1118,10 @@ class Tabular(_MyAstItem):
 
 
 @dataclass
+class HeldbackFrames(_MyAstItem):
+    document: Document
+
+@dataclass
 class Frame(_MyAstItem):
     title: None | str
     label: None | str
@@ -1033,7 +1156,10 @@ class Frame(_MyAstItem):
         if self.contents.estimated_lines >= 7:
             classes = ' {.smaller}'
         result = f'\n### {self.title} {classes}\n\n'
-        with context.inner(strip_ends=True, frame_top=True, frame_title=self.title, frame_label=self.label) as inner_context:
+        with context.inner(strip_ends=True,
+            frame_top=True, frame_title=self.title,
+            frame_label=self.label,
+            nested_group=True) as inner_context:
             logging.debug('inner context = %s', inner_context)
             result += self.contents.render(inner_context)
         result += '\n'
@@ -1077,10 +1203,14 @@ class OutsideCommand(_MyAstItem):
     def __init__(self, command, *arguments):
         logging.debug('OutsideCommand: %s %s', command, arguments)
         self.command = str(command)
-        if isinstance(arguments[0], When):
-            self.when = arguments[0]
-            arguments = arguments[1:]
-        self.arguments = arguments
+        self.arguments = []
+        for item in arguments:
+            if isinstance(item, When):
+                self.when = item
+            elif isinstance(item, AnyText):
+                self.arguments.append(item)
+            else:
+                self.command += str(item)
 
     def render(self, context: RenderContext) -> str:
         if self.command == r'\usetikzlibrary':
@@ -1108,7 +1238,7 @@ class OutsideCommand(_MyAstItem):
             result += ') -->\n'
             return result
         else:
-            result = f'\n### {self.command}('
+            result = f'\n### {self.command[1:]}('
             if self.when is not None and self.when.raw_when is not None:
                 result += self.when.raw_when
             result += ','.join(map(attrgetter('inner_text'), self.arguments))
@@ -1116,7 +1246,29 @@ class OutsideCommand(_MyAstItem):
             return result
 
 
-    
+@dataclass
+class GenericEnvironment(_MyAstItem):
+    begin_generic: lark.Token
+    contents: AnyText
+    end_generic: lark.Token
+
+    def render(self, context: RenderContext) -> str:
+        result = '```\n'
+        result += str(self.begin_generic) + '\n'
+        with context.inner(pre=True) as inner_context:
+            result += self.contents.render(inner_context)
+        result += '\n'
+        result += str(self.end_generic)
+        result += '```\n'
+        return result
+
+@dataclass
+class OutsideEnvironment(GenericEnvironment):
+    def render(self, context: RenderContext) -> str:
+        result = '###\n'
+        result += super().render(context)
+        result += '\n'
+        return result
 
 @dataclass
 class AnyEmptyItem(_MyAstItem):
@@ -1135,7 +1287,12 @@ class Document(_MyAstItem):
     parts: List[Frame | AnyEmptyItem]
 
     def __init__(self, *args):
-        self.parts = args
+        self.parts = []
+        for part in args:
+            if isinstance(part, HeldbackFrames):
+                self.parts += part.document.parts
+            else:
+                self.parts.append(part)
 
     @property
     def inner_text(self) -> str:
@@ -1195,12 +1352,15 @@ def parse_and_render_file(input_file: Path, output_file: Path) -> str:
     result = lark.parse(input_file.read_text())
     #result = lark.parse(r'''\begin{frame}\end{frame}''')
 
+    logging.debug('parsed as %s', result)
+
     #print(result)
 
     global current_module
     transformer = ast_utils.create_transformer(current_module, ToAST())
 
     result = transformer.transform(result)
+    logging.debug('transformed as %s', result)
     return result[0].render(RenderContext(base_input_path=input_file, base_output_path=output_file))
 
 def main():
