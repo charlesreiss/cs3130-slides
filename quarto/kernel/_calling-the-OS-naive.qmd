@@ -1,0 +1,5 @@
+
+### calling the OS? 
+
+![](/kernel/texfig/callOSDirectP.figure.svg)
+
