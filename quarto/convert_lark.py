@@ -25,6 +25,7 @@ document: any_empty_item* (frame any_empty_item*)*
 
 frame: _BEGIN_FRAME when? optional_argument? argument? whitespace? frametitle? any_text _END_FRAME 
      |  _IFNOTHELDBACK document _END_BRACE -> heldback_frames
+     |  _BRACE document _END_BRACE -> scoped_document
 
 optional_argument: _SQUARE_BRACKET any_text _END_SQUARE_BRACKET
 
@@ -213,13 +214,11 @@ class RenderContext:
         base_name = self.base_output_path.stem
         if base_name.startswith('_'):
             base_name = base_name[1:]
-        if self.frame_count is None or self.frame_count > 0:
+        if self.frame_count is None or self.frame_count > 1:
             if self.frame_label is not None:
                 base_name = _title_to_filename(self.frame_label)
             elif self.frame_title is not None and self.frame_title != '':
                 base_name += '-' + _title_to_filename(self.frame_title.lower())
-            else:
-                assert False, self
         index = FIGURE_COUNT.get(base_name, 1)
         FIGURE_COUNT[base_name] = index + 1
         if index == 1:
@@ -1223,6 +1222,10 @@ class HeldbackFrames(_MyAstItem):
     document: Document
 
 @dataclass
+class ScopedDocument(_MyAstItem):
+    document: Document
+
+@dataclass
 class Frame(_MyAstItem):
     title: None | str
     label: None | str
@@ -1336,7 +1339,7 @@ class OutsideCommand(_MyAstItem):
             return f'\n## {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
         elif self.command == r'\subsubsection':
             return f'\n## {self.arguments[0].inner_text}' + '{visibility="hidden"}\n'
-        elif self.command == r'\iftoggle':
+        elif self.command in (r'\iftoggle', r'\setbeamertemplate',):
             result = f'\n<!-- {self.command}('
             result += ','.join(map(attrgetter('inner_text'), self.arguments))
             result += ') -->\n'
@@ -1394,7 +1397,7 @@ class Document(_MyAstItem):
     def __init__(self, *args):
         self.parts = []
         for part in args:
-            if isinstance(part, HeldbackFrames):
+            if isinstance(part, HeldbackFrames) and isinstance(part, ScopedDocument):
                 self.parts += part.document.parts
             else:
                 self.parts.append(part)
