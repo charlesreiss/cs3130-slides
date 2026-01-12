@@ -16,7 +16,7 @@
 ### POSIX user IDs  {.smaller}
 
 
-```
+```c
 uid_t geteuid(); // get current process's "effective" user ID
 ```
  
@@ -25,14 +25,14 @@ uid_t geteuid(); // get current process's "effective" user ID
 * core part of OS only knows number (not name!) 
 
    * core, always loaded part of OS = ‘‘kernel’’
-   * the part of the OS with extra privs with hardware
+   * the part of the OS with extra privileges with hardware
    * the part of the OS that enforces program restrictions
 
 * effective user ID is used for all permission checks
-* also some other user IDs
+<!-- * also some other user IDs -->
 * standard programs/library maintain number to name mapping 
 
-   * <code>/etc/passwd</code> on typical single-user systems
+   * `/etc/passwd` on typical single-user systems
    * network database on department machines
 
 

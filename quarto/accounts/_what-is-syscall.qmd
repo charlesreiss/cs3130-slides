@@ -4,13 +4,15 @@
 
 * (more detail in later lecture)
 * way for programs to make request to OS:
-* program sets registers to indicate requested operation  
 
-   * example: ‘‘open foo.txt’’
-   * ‘‘system call number’’ (open) and ‘‘arguments’’ (foo.txt)
+   1. program sets registers to indicate requested operation
 
-* program runs special instruction (x86-64: <code>syscall</code>)
-* hardware switches into <it>privileged</it> mode + runs OS function
-* OS function decodes requested operation from registers
-* OS function <it>decides</it> if operation is allowed to proceed
+      * example: ‘‘open foo.txt’’
+        * register 1: ‘‘system call number’’ (eg, open)
+        * register 2: ‘‘arguments’’ (eg, foo.txt)
+
+   2. program runs special instruction (x86-64: `syscall`)
+   3. hardware switches into _privileged_ mode + runs OS function
+   4. OS function decodes requested operation from registers
+   5. OS function _decides_ if operation is allowed to proceed
 

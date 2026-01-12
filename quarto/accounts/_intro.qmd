@@ -1,12 +1,16 @@
 
-### opening a file? 
+### opening a file?
 
+- say, private file on portal
 
-* <code>open("/u/bradjc/private.txt", O_RDONLY)</code>
-* say, private file on portal 
+- for example:
 
-* on Linux: makes <it>system call</it>
-* kernel needs to decide if this should work or not
+```c
+open("/u/bradjc/private.txt", O_RDONLY)
+```
+
+- on Linux: makes <it>system call</it>
+- kernel needs to decide if this should work or not
 
 
 {{< include ../accounts/_what-is-syscall.qmd >}}
@@ -14,10 +18,13 @@
 ### deciding whether syscall should proceed?  {.smaller}
 
 
-* <code>open("/u/bradjc/private.txt", O_RDONLY)</code>
+```c
+open("/u/bradjc/private.txt", O_RDONLY)
+```
+
 * argument: needs extra metadata 
 
-* what would be wrong with using…
-* system call arguments?
-* where the code calling open came from?
+* what would be wrong with using:
+  * system call arguments?
+  * where the code calling open came from?
 

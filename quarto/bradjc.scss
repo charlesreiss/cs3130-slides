@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+
+$primary-text-emphasis: #3333b3;
+$secondary-text-emphasis: #3333b3;
+
+/*-- scss:rules --*/
+
+/* restore bullets for nested lists */
+.reveal .slide ul li ul li {
+    list-style-type: disc !important;
+}
+
+/* restore bullets for nested lists */
+.reveal .slide ol > li {
+    list-style-type: list-item !important;
+}
+
+/*-- scss:rules --*/
+.reveal .stack em, .reveal .stack i {
+  color: #ff0000; /* Example: changes color to red */
+}

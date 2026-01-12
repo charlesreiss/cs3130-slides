@@ -11,14 +11,45 @@
 
 {{< include ../accounts/_group-id.qmd >}}
 
-### id and group id establish identity 
+### id and group id establish _identity_
 
 
-* <it>who</it> is running a process or accessing a resource
-* but also need <it>permissions</it>  
+* _who_ is running a process or accessing a resource
+* but also need _permissions_
 
    * what users can access
+```{mermaid}
+%%| fig-width: 5
+%%| fig-height: 3
 
+block-beta
+  columns 3
+  %% Userspace processes on one line
+  block:Userspace:3
+    columns 3
+    T["Userspace"]:3
+    P1["Process A\nUID: 90001"]
+    P2["Process B\nUID: 103"]
+    P3["Process C\nUID: 90049"]
+  end
+
+
+  I["open(/u/bradjc/private.txt, O_RDONLY)"]:3
+
+  space:3
+
+  D["Kernel"]:3
+
+
+  P1 --> D
+  P2 -- "deny" --> D
+  P3 -- "deny" --> D
+
+
+  style T fill:none,stroke:none;
+  style I fill:#ddd,stroke:none;
+  style Userspace stroke:none;
+```
 
 
 # permissions and access control lists {visibility="hidden"}
@@ -32,9 +63,9 @@
 ### ACLs establish permissions 
 
 
-* identity: <it>who</it> is running a process or accessing a resource
-* permissions: who has what access to a file or resource
-* now need <it>enforcement</it>  
+* identity: _who_ is running a process or accessing a resource
+* permissions: who has _what access_ to a file or resource
+* now need _enforcement_
 
    * ensure that permissions are implemented correctly
 

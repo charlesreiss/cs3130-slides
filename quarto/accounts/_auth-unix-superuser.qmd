@@ -3,12 +3,12 @@
 
 
 * user ID <code>0</code> is special
-* <it>superuser</it> or <it>root</it> 
+* _superuser_ or _root_
 
    * (non-Unix) or Administrator or SYSTEM or …
  
 
-* some OS funtionality: only work for uid <code>0</code> 
+* some OS functionality: only works for uid <code>0</code>
 
    * shutdown, mount new file systems, etc.
 
@@ -23,7 +23,7 @@
    * kernel mode (what core part of OS uses)
    * user mode (every thing else)
 
-* programs running as <em>superuser still in user mode</em> 
+* programs running as _superuser still in user mode_
 
    * just change in how OS acts when program asks for things
  

@@ -17,7 +17,7 @@
 
    * setuid program ensures that log is append-only for normal users
 
-* bind to a particular port number $\<$ 1024 
+* bind to a particular port number <1024
 
    * setuid program creates socket, then becomes not root
 

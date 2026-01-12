@@ -1,23 +1,48 @@
 
 ### how does login work?  {.smaller}
 
+::: {.columns}
+
+::: {.column width="60%"}
 
 ```
-XsomemachineX login: YjoY
+somemachine login: jo
 password: ********
 
-jo@XsomemachineX$ YlsY
+jo@somemachine$ ls
 ...
 ```
  
 
 * this is a program which…
-* [checks if the password is correct]{.fragment fragment-index=2 .custom .myem-only}, and
-* [changes user IDs]{.fragment fragment-index=3 .custom .myem-only}, and
-* runs a shell
+
+  1. [checks if the password is correct]{.fragment fragment-index=2 .custom .myem-only}, and
+  2. [changes user IDs]{.fragment fragment-index=3 .custom .myem-only}, and
+  3. runs a shell
+
+:::
+
+::: {.column width="40%"}
+
+```{mermaid}
+%%| fig-width: 3
+%%| fig-height: 4
+flowchart TD
+    A["/bin/login runs"] -->|"Check password"| B{Password correct?}
+    B -->|Yes| C["Run setuid()"]
+    C --> D["Run shell"]
+    B -->|No| E[Retry]
+
+```
+
+:::
+
+:::
 
 
-### againframe(loginProgram)
+
+
+<!-- ### againframe(loginProgram) -->
 
 ### Unix password storage  {.smaller}
 
@@ -48,23 +73,36 @@ jo@XsomemachineX$ YlsY
 
 
 
-### againframe(loginProgram)
+<!-- ### againframe(loginProgram) -->
 
-### changing user IDs 
+### changing user IDs   {.smaller}
 
+::: {.columns}
 
-```
+::: {.column width="75%"}
+```c
 int setuid(uid_t uid);
 ```
- 
 
-* if superuser: sets effective user ID to arbitrary value 
+* if superuser: sets effective user ID to arbitrary value
 
    * and a ‘‘real user ID'’ and a ‘‘saved set-user-ID’’ (we’ll talk later)
- 
 
-* system starts as superuser and login programs run as superuser 
+* system starts as superuser and login programs run as superuser
 
    * voluntarily restrict own access before running shell, etc.
+:::
 
+::: {.column width="25%"}
 
+```{mermaid}
+%%| fig-width: 2
+%%| fig-height: 3
+flowchart TD
+    A["Process runs as superuser"] --> B[Do priviledged operations]
+    B -->|"Call setuid(uid)"| C[Run shell as user]
+```
+
+:::
+
+:::

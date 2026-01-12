@@ -4,7 +4,7 @@
 
 * more flexible access control lists 
 
-* list of (user or group, read or write or execute or …) 
+* **list** of (user or group, read or write or execute or …)
 
 * supported by NTFS (Windows)
 * a version standardized by POSIX, but usually not supported
@@ -35,28 +35,30 @@ user:tj1a:---
 getfacl file
 ```
  
- <hr />
+
  
+#### add line to ACL:
+
 ```
 setfacl -m 'user:tj1a:---' file
 ```
- add line to ACL 
- <hr />
+
+#### REMOVE line from acl:
  
 ```
 setfacl -x 'user:tj1a' file
 ```
- REMOVE line from acl 
- <hr />
+
+#### add to acl, but read what to add from a file:
  
 ```
 setfacl -M acl.txt file
 ```
- add to acl, but read what to add from a file 
- <hr />
+
+#### remove from acl, but read what to remove from a file:
  
 ```
 setfacl -X acl.txt file
 ```
- remove from acl, but read what to remove from a file 
+
 

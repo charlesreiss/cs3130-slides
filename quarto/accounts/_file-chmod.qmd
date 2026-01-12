@@ -2,14 +2,11 @@
 ### POSIX file permissions  {.smaller}
 
 
-* POSIX files support a per-file access control list 
+* POSIX files support a _per-file_ access control list
 
    * interface is very narrow/limited
-
-* binary permissions are <it>read</it>, <it>write</it>, and <it>execute</it> 
-
-   * set for three categories: user, group, other
- 
+   * binary permissions are: **read**, **write**, **execute**
+   * set for three categories: **user**, **group**, **other**
 
 * one user ID + read/write/execute bits for user 
 
@@ -18,7 +15,7 @@
 * one group ID + read/write/execute bits for group
 * default setting --- read/write/execute 
 
-* on directories, ‘execute’ means ‘search’ instead
+* on directories, "execute" means "search" instead
 
 
 ### permissions encoding  {.smaller}
@@ -34,8 +31,11 @@
    * binary number: <code>0bRWE</code>
  
 
+::: {.incremental}
 * <code>700</code> --- user read+write+execute; group none; other none
+* <code>451</code>?
 * <code>451</code> --- user read; group read+execute; other execute
+:::
 
 
 ### chmod --- exact permissions  {.smaller}
@@ -43,7 +43,7 @@
 
 ```
 chmod 700 file
-chmod u=rwx,og= file
+chmod u=rwx,go= file
 ```
  user read write execute; group/others no accesss 
  <hr />

@@ -1,26 +1,28 @@
 
-### sudo 
+### sudo {.smaller}
 
 
 ```
-tj1a@somemachine$ Ysudo restartY
+tj1a@somemachine$ sudo restart
 Password: *********
 ```
  
 
 * sudo: run command with superuser permissions 
 
-   * started by non-superuser
+   * process started by non-superuser
 
-* recall: inherits non-superuser UID
-* can't just call <code>setuid(0)</code>
+
+* issue: what makes the `sudo` command privileged?
+  * recall: normal command inherits UID from user who runs it (ie, non-superuser UID)
+  * can't just call <code>setuid(0)</code>
 
 
 ### set-user-ID sudo  {.smaller}
 
 
 * extra metadata bit on <it>executables</it>: set-user-ID
-* if set: <code>exec()</code> syscall changes effective user ID to owner's ID 
+* if set: <code>exec()</code> syscall changes effective user ID to _owner's_ ID
 
    * ‘‘extra’’ user IDs track what original user was
 

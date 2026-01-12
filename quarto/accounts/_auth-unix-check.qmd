@@ -8,7 +8,9 @@
    * no relying on libraries, etc. to do checks
  
 
-* files (open, rename, …) --- file/directory permissions include UID or GID
-* processes (kill, …) --- process UID = user UID
+* file operations (eg: open, rename, …)
+  * file/directory permissions include UID or GID
+* process operations (eg: kill, …)
+  * process UID = user UID
 * …
 
