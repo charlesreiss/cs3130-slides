@@ -1,5 +1,5 @@
 \usetikzlibrary{arrows.meta,chains,fit,matrix}
-\begin{frame}<all:1-7,10,8-9>[fragile,label=ptInMem1]{page tables in memory}
+\begin{frame}<1-7,10,8-9>[fragile,label=ptInMem1]{page tables in memory}
 \begin{itemize}
 \item where can processor store megabytes of page tables? \myemph{in memory}
 \end{itemize}
@@ -15,16 +15,16 @@
 % page table entry layout
 \matrix[anchor=south,tight matrix,nodes={draw,minimum height=0.4cm,text width={}},label={north:page table entry layout (chosen by processor)}]
     at (8, 3){
-        |[alt={<all:4,8>{red}}]| valid (bit 15) \& |[alt={<all:5,9>{red}}]| physical page \# (bits 4--14) \& |[alt={<6,10>{red}}]| other bits and/or unused (bit 0-3) \\
+        |[alt={<4,8>{red}}]| valid (bit 15) \& |[alt={<5,9>{red}}]| physical page \# (bits 4--14) \& |[alt={<6,10>{red}}]| other bits and/or unused (bit 0-3) \\
 };
 
-\begin{visibleenv}<all:7->
+\begin{visibleenv}<7->
 \matrix[tight matrix,anchor=north west,
         nodes={text width=2.3cm,minimum height=0.3cm,font=\fontsize{10}{11}\selectfont\tt,black!80},
         column 1/.style={nodes={draw=none,align=right}},
-        column 2/.style={nodes={draw,thick,text width=1.2cm,align=center,alt=<all:8>{red}}},
-        column 3/.style={nodes={draw,thick,text width=1.2cm,align=center,alt=<all:10>{red}}},
-        column 4/.style={nodes={draw,thick,text width=2.7cm,alt=<all:9>{red}}},
+        column 2/.style={nodes={draw,thick,text width=1.2cm,align=center,alt=<8>{red}}},
+        column 3/.style={nodes={draw,thick,text width=1.2cm,align=center,alt=<10>{red}}},
+        column 4/.style={nodes={draw,thick,text width=2.7cm,alt=<9>{red}}},
         row 1/.style={nodes={draw=none,font=\fontsize{10}{11}\selectfont\normalfont}},
         label={above:page table (logically)},
     ] (pt) at (0, 0) {
@@ -38,7 +38,7 @@
 };
 \end{visibleenv}
 
-\begin{visibleenv}<all:3->
+\begin{visibleenv}<3->
 \matrix[tight matrix,anchor=north west,
         nodes={text width=2.8cm,minimum height=0.3cm,font=\fontsize{10}{11}\selectfont\tt},
         column 1/.style={nodes={draw=none,align=right}},
@@ -49,22 +49,22 @@
     addresses \& bytes \\
     0x00000000-1 \& 00000000 00000000 \\
     \ldots \\
-    0x00010000-1 \& \myemph<all:4,8>{0}\myemph<all:5,9>{000000 0000}\myemph<all:10>{0000} \\
-    0x00010002-3 \& \myemph<all:8>{1}\myemph<all:9>{100010 0110}\myemph<all:10>{0000} \\
-    0x00010004-5 \& \myemph<all:8>{1}\myemph<all:9>{000010 1100}\myemph<all:10>{0000} \\
-    0x00010006-7 \& \myemph<all:8>{1}\myemph<all:9>{110000 0011}\myemph<all:10>{0000} \\
+    0x00010000-1 \& \myemph<4,8>{0}\myemph<5,9>{000000 0000}\myemph<10>{0000} \\
+    0x00010002-3 \& \myemph<8>{1}\myemph<9>{100010 0110}\myemph<10>{0000} \\
+    0x00010004-5 \& \myemph<8>{1}\myemph<9>{000010 1100}\myemph<10>{0000} \\
+    0x00010006-7 \& \myemph<8>{1}\myemph<9>{110000 0011}\myemph<10>{0000} \\
     \ldots \\
-    0x000101FE-F \& \myemph<all:8>{1}\myemph<all:9>{001110 1000}\myemph<all:10>{0000} \\
+    0x000101FE-F \& \myemph<8>{1}\myemph<9>{001110 1000}\myemph<10>{0000} \\
     0x00010200-1 \& 10100010 00111010 \\
 };
 \end{visibleenv}
 
-\begin{visibleenv}<all:2->
+\begin{visibleenv}<2->
 \node[draw,very thick,above=1cm of pt,label={[align=center]north:page table\\base register},xshift=-1.5cm] (ptbr) {\tt 0x00010000};
 \draw[->,very thick,dashed] (ptbr) |- (pm-4-1);
 \end{visibleenv}
 
-\begin{visibleenv}<all:7->
+\begin{visibleenv}<7->
     \draw[dotted,<->] (pm-4-1.west) -- (pt-2-4.east);
     \draw[dotted,<->] (pm-5-1.west) -- (pt-3-4.east);
     \draw[dotted,<->] (pm-6-1.west) -- (pt-4-4.east);
@@ -74,7 +74,7 @@
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}<all:1-8>{memory access with page table}
+\begin{frame}<1-8>{memory access with page table}
 \begin{tikzpicture}
 \tikzset{
     >=Latex,

@@ -10,20 +10,16 @@
     column 1/.style={nodes={draw=none,font=\tt,align=right}},
     column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
     column 3/.style={nodes={draw,thick,font=\tt, text width=3.5cm}},
-    column 4/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
-    column 5/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
     row 1/.style={nodes={draw=none,font=\normalfont}},
     ] (pt) at (0, 5) {
-    virtual page \# \& valid? \& physical page \# \& read OK? \& write OK? \\
-    0\ldots0000 \& |[alias=baseAddr]| 1 \& 01000 \& 1 \& 0 \\
-    0\ldots0001 \& 1 \& 11111 \& 1 \& 1 \\
-    0\ldots0010 \& 0 \& 00000 \& 0 \& 1 \\
+    virtual page \# \& valid? \& physical page \# \\
+    0\ldots0000 \& |[alias=baseAddr]| 1 \& 01000 \\
+    0\ldots0001 \& 1 \& 11111 \\
+    0\ldots0010 \& 0 \& 00000 \\
     \ldots \& |[draw=none]| \ldots
            \& |[draw=none]| \ldots
-           \& |[draw=none]| \ldots
-           \& |[draw=none]| \ldots
            \\
-    1\ldots1111 \& 0 \& 01100 \& 1 \& 1 \\
+    1\ldots1111 \& 0 \& 01100 \\
 };
 \node[alt=<2>{red},font=\tt] (ptbr label) at ([xshift=-6cm]baseAddr.north east) {ptbr};
 \draw[alt=<2>{red},ultra thick,dotted,->] (ptbr label) -- (baseAddr.north west);
@@ -52,18 +48,15 @@
     column 1/.style={nodes={draw=none,font=\tt,align=right}},
     column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
     column 3/.style={nodes={draw,thick,font=\tt, text width=3.5cm}},
-    column 4/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
-    column 5/.style={nodes={draw,thick,font=\tt,visible on=<all:0>, text width=1cm}},
     row 1/.style={nodes={draw=none,font=\normalfont}},
     ] (pt) at (0, 5) {
-    virtual page \# \& valid? \& physical page \# \\%\& read OK? \& write OK? \\
-    0\ldots0000 \& |[alias=baseAddr]| 1 \& 01000 \\%\& 1 \& 0 \\
-    0\ldots0001 \& |[alt=<2>{fill=red!10}]| 0 \& |[alt=<2>{fill=red!10}]| 00000 \\%\& 0 \& 0 \\
-    0\ldots0010 \& 0 \& 00000 \& 0 \& 0 \\
+    virtual page \# \& valid? \& physical page \# \\
+    0\ldots0000 \& |[alias=baseAddr]| 1 \& 01000 \\
+    0\ldots0001 \& |[alt=<2>{fill=red!10}]| 0 \& |[alt=<2>{fill=red!10}]| 00000 \\
+    0\ldots0010 \& 0 \& 00000 \\
     \ldots \& |[draw=none]| \ldots
-           \& |[draw=none]| \ldots
-           \\ %\& |[draw=none]| \ldots \& |[draw=none]| \ldots \\
-    1\ldots1111 \& 0 \& 01100 \\ %\& 1 \& 1 \\
+           \& |[draw=none]| \ldots \\
+    1\ldots1111 \& 0 \& 01100 \\
 };
 \end{visibleenv}
 \node[alt=<1>{red},font=\tt] (ptbr label) at ([xshift=-6cm]baseAddr.north east) {ptbr};

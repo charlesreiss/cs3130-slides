@@ -1,7 +1,7 @@
 \usetikzlibrary{arrows.meta,matrix,shapes.misc,calc,fit,positioning}
 
 % FIXME: with VPN ranges labelled?
-\begin{frame}<all:1-8>[fragile,label=twoLevelPT]{two-level page tables}
+\begin{frame}<1-8>[fragile,label=twoLevelPT]{two-level page tables}
 \begin{tikzpicture}
 \tikzset{
     >=Latex,
@@ -52,16 +52,16 @@ nodes={ptNode},
 };
 \draw[ptr] ([xshift=-.5cm]first-4-1.east) [fill] circle (1mm);
 \draw[ptr] ([xshift=-.5cm]first-4-1.east) -- (secondTwo-1-1.west);
-\begin{visibleenv}<all:2->
+\begin{visibleenv}<2->
 \foreach \x in {2,3} {
 \draw[thick,red] ([xshift=-.5cm]first-\x-1.east) node[draw=red,cross out,minimum width=.25cm,minimum height=.25cm] {};
 }
 \end{visibleenv}
-\begin{visibleenv}<all:2>
+\begin{visibleenv}<2>
     \node[draw=red,ultra thick,inner sep=0mm,fit=(first-2-1) (first-3-1),label={[draw=red,ultra thick,label distance=2mm,fill=white]east:invalid entries represent big holes}] {};
 \end{visibleenv}
 \begin{pgfonlayer}{fg}
-\begin{visibleenv}<all:3-5>
+\begin{visibleenv}<3-5>
 \matrix[tight matrix,anchor=north west,firstLevel,
     nodes={minimum height=.55cm},
     label={[alias=firstZoomLabel,font=\bfseries]north:first-level page table},
@@ -69,21 +69,21 @@ nodes={ptNode},
     column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
     column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
     column 4/.style={nodes={text width=3.6cm,font=\tt,align=left,
-        alt=<all:4>{red}}},
+        alt=<4>{red}}},
     row 1/.style={nodes={font=\normalfont,draw=none,black}},
 ] (firstZoom) at ([xshift=-2cm,yshift=2cm]first.north east) {
-    VPN range \& valid \& \ldots \& physical page \# \small (of \myemph<all:4>{next page table}) \\
-    0x\myemph<all:5>{00}00-0x\myemph<all:5>{00}FF \& 1 \& \ldots \& 0x22343 \\
-    0x\myemph<all:5>{01}00-0x\myemph<all:5>{01}FF \& 0 \& \ldots \& 0x00000 \\
-    0x\myemph<all:5>{02}00-0x\myemph<all:5>{02}FF \& 0 \& \ldots \& 0x00000 \\
-    0x\myemph<all:5>{03}00-0x\myemph<all:5>{03}FF \& 1 \& \ldots \& 0x33454 \\
-    0x\myemph<all:5>{04}00-0x\myemph<all:5>{04}FF \& 1 \& \ldots \& 0xFF043 \\
+    VPN range \& valid \& \ldots \& physical page \# \small (of \myemph<4>{next page table}) \\
+    0x\myemph<5>{00}00-0x\myemph<5>{00}FF \& 1 \& \ldots \& 0x22343 \\
+    0x\myemph<5>{01}00-0x\myemph<5>{01}FF \& 0 \& \ldots \& 0x00000 \\
+    0x\myemph<5>{02}00-0x\myemph<5>{02}FF \& 0 \& \ldots \& 0x00000 \\
+    0x\myemph<5>{03}00-0x\myemph<5>{03}FF \& 1 \& \ldots \& 0x33454 \\
+    0x\myemph<5>{04}00-0x\myemph<5>{04}FF \& 1 \& \ldots \& 0xFF043 \\
     \ldots \& \ldots \& \ldots \& \ldots \\
-    0x\myemph<all:5>{FF}00-0x\myemph<all:5>{FF}FF \& 1 \& \ldots \& 0xFF045 \\
+    0x\myemph<5>{FF}00-0x\myemph<5>{FF}FF \& 1 \& \ldots \& 0xFF045 \\
 } ;
 \end{visibleenv}
 
-\begin{visibleenv}<all:6-7>
+\begin{visibleenv}<6-7>
 \matrix[tight matrix,anchor=north west,secondLevel,
     nodes={minimum height=.55cm},
     label={[alias=secondZoomLabel,font=\bfseries]north:a second-level page table},
@@ -91,29 +91,29 @@ nodes={ptNode},
     column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
     column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
     column 4/.style={nodes={text width=3.6cm,font=\tt,align=left,
-        alt=<all:4>{red}}},
+        alt=<4>{red}}},
     row 1/.style={nodes={font=\normalfont,draw=none,black}},
 ] (secondZoom) at ([xshift=.5cm,yshift=2cm]first.north east) {
     VPN \& valid \& \ldots \& physical page \# \small (of data) \\
-    0x3\myemph<all:7>{00} \& 1 \& \ldots \& 0x42443 \\
-    0x3\myemph<all:7>{01} \& 1 \& \ldots \& 0x4A9DE \\
-    0x3\myemph<all:7>{02} \& 1 \& \ldots \& 0x5C001 \\
-    0x3\myemph<all:7>{03} \& 0 \& \ldots \& 0x00000 \\
-    0x3\myemph<all:7>{04} \& 1 \& \ldots \& 0x6C223 \\
+    0x3\myemph<7>{00} \& 1 \& \ldots \& 0x42443 \\
+    0x3\myemph<7>{01} \& 1 \& \ldots \& 0x4A9DE \\
+    0x3\myemph<7>{02} \& 1 \& \ldots \& 0x5C001 \\
+    0x3\myemph<7>{03} \& 0 \& \ldots \& 0x00000 \\
+    0x3\myemph<7>{04} \& 1 \& \ldots \& 0x6C223 \\
     \ldots \& \ldots \& \ldots \& \ldots \\
-    0x3\myemph<all:7>{FF} \& 0 \& \ldots \& 0x00000 \\
+    0x3\myemph<7>{FF} \& 0 \& \ldots \& 0x00000 \\
 } ;
 \end{visibleenv}
 \end{pgfonlayer}
 
-\begin{visibleenv}<all:3-5>
+\begin{visibleenv}<3-5>
 \node[draw,fit=(firstZoom) (firstZoomLabel),fill=white] (firstZoomBox) {};
     \draw[ultra thick,dotted] (first.north west) -- (firstZoomBox.north west);
     \draw[ultra thick,dotted] (first-6-1.south west) -- (firstZoomBox.south west);
     %\draw[ultra thick,dotted] (first-4-1.south east) -- (firstZoomBox.south east);
 \end{visibleenv}
 
-\begin{visibleenv}<all:6-7>
+\begin{visibleenv}<6-7>
 \node[draw,fit=(secondZoom) (secondZoomLabel),fill=white] (secondZoomBox) {};
     %\draw[ultra thick,dotted] (secondTwo.north west) -- (secondZoomBox.north west);
     %\draw[ultra thick,dotted] (secondTwo.north east) -- (secondZoomBox.north east);
