@@ -42,7 +42,7 @@ generic_command: SIMPLE_COMMAND when optional_argument? (_BRACE any_text _END_BR
 item: _ITEM when any_text
     | _ITEM when whitespace? _BRACE _END_BRACE any_text
 
-itemize: _BEGIN_ITEMIZE (whitespace? item)+ _END_ITEMIZE
+itemize: _BEGIN_ITEMIZE whitespace? SIMPLE_COMMAND? (whitespace? item)+ _END_ITEMIZE
 
 tabular_line: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak LINEBREAK
 
@@ -75,6 +75,7 @@ any_text_not_linebreak: any_text_basic*
     | _MYALTTEXTD _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
     | _PDFTOOLTIP _BRACE whitespace? TIKZPICTURE whitespace? _END_BRACE _BRACE any_text _END_BRACE -> tikzpicture_with_alt
     | _BEGIN_VISIBLEENV when any_text _END_VISIBLEENV -> visibleenv
+    | _BEGIN_ONLYENV when any_text _END_ONLYENV -> visibleenv
     | _END_SQUARE_BRACKET -> end_square_bracket
     | _SQUARE_BRACKET -> square_bracket
     | LSTSET -> lstset
@@ -140,12 +141,14 @@ _START_QUOTE: /`/
 _END_QUOTE: /'/
 _BEGIN_VISIBLEENV.10: /\\begin\{visibleenv\}/
 _END_VISIBLEENV.10: /\\end\{visibleenv\}/
+_BEGIN_ONLYENV.10: /\\begin\{onlyenv\}/
+_END_ONLYENV.10: /\\end\{onlyenv\}/
 _BEGIN_TABULAR.10: /\\begin\{tabular\}/
 _END_TABULAR.10: /\\end\{tabular\}/
 _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
-BEGIN_GENERIC.0: /\\begin\{(?!minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
-END_GENERIC.0: /\\end\{(?!minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
+BEGIN_GENERIC.0: /\\begin\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
+END_GENERIC.0: /\\end\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
@@ -179,13 +182,21 @@ TIKZSET.0: /\\tikzset\{
         )*
     \}/x
 NEWSAVEBOX.0: /\\newsavebox\{\\[^}]+\}|\\newsavebox\\[a-zA-Z]+|\\ifdefined\\[a-zA-Z]+\\else\\newsavebox\\[a-zA-Z]+\\fi/
-NEWCOMMAND.0: /\\(?:newcommand|renewcommand|providecommand)\{[^}]+\}(?:
+NEWCOMMAND.0: /\\(?:newcommand|renewcommand|providecommand)(?:<>)?\{[^}]+\}(?:
         \{(?:
             [^{}]+
             |
             \{
                 (?:
-                    \{[^}]*\}
+                    \{
+                        (?:
+                            \{
+                                [^}]*
+                            \}
+                        |
+                            [^{}]+
+                        )*
+                    \}
                 |
                     [^{}]+
                 )*
@@ -221,7 +232,7 @@ SAVEBOX.0: /
     \}
     /x
 LRBOX.0: /\\begin\{lrbox\}(?s:.*?)\\end\{lrbox\}/
-SIMPLE_ESCAPED.-11: /\\[.&_$%\/#]/
+SIMPLE_ESCAPED.-11: /\\[.&_$%\/#{}]/
 _NEXT_CELL.-20: /&/
 NEWLINE.-20: /\n+/
 WHITESPACE.-20: /[ \t\v]/
@@ -462,6 +473,23 @@ class TikzContext(_MyAstItem):
         self.text = ''
         for arg in args:
             self.text += str(arg)
+        if self.text.startswith(r'\newcommand<>'):
+            m = re.search(r'''
+                    \\newcommand<>\{(?P<command>[^}]+)\}\[1\]
+                ''', self.text, re.X)
+            assert m is not None
+            self.text = re.sub(r'''
+                    \\newcommand<>\{(?P<command>[^}]+)\}\[1\]
+                ''',
+                r'\\NewDocumentCommand\g<command>{D<>{} m}',
+                self.text, flags=re.X)
+            logging.debug('self.text = %s', self.text)
+        elif r'\newcommand<' in self.text:
+            assert False
+
+    @property
+    def inner_text(self):
+        return self.text
 
     def render(self, context: RenderContext) -> str:
         context.add_tikz_preamble(self.text + '\n')
@@ -506,6 +534,8 @@ class When(_MyAstItem):
         if raw_when:
             self.when = raw_when[1:-1]
             self.when = self.when.replace('|handout:0', '')
+            self.when = self.when.replace('|handout:1', '')
+            self.when = self.when.replace('all:', '')
         else:
             self.when = None
 
@@ -1055,6 +1085,8 @@ class Visibleenv(_MyAstItem):
         else:
             return self.contents.render(context)
 
+Onlyenv = Visibleenv
+
 def _make_fig_alt(alt_text: str | None) -> str:
     if alt_text is None:
         return ''
@@ -1115,7 +1147,7 @@ class Tikzpicture(_MyAstItem):
                 if m.group(key):
                     max_slide_number = max(max_slide_number, int(m.group(key)))
         tikz_code = self.contents.value
-        if '(pic cs:' in tikz_code:
+        if 'pic cs:' in tikz_code:
             return '<!--\n```\n' + self.contents.value + '\n```\n-->\n'
         tikz_code = tikz_code.replace(r'\paperwidth', r'\mypaperwidth')
         tikz_code = tikz_code.replace(r'\paperheight', r'\mypaperheight')
@@ -1152,9 +1184,9 @@ class Tikzpicture(_MyAstItem):
         if not is_overlay:
             if max_slide_number > 1:
                 if context.frame_top:
-                    result += '\n::: {.r-stack .my-full}\n'
+                    result += '\n\n::: {.r-stack .my-full}\n'
                 else:
-                    result += '\n::: {.r-stack}\n'
+                    result += '\n\n::: {.r-stack}\n'
         fig_output_tex = fig_output_dir / (
             fig_file_stem + f'.figure.tex'
         )
@@ -1210,7 +1242,7 @@ class Tikzpicture(_MyAstItem):
                 )
         if not is_overlay:
             if max_slide_number > 1:
-                result += ':::\n'
+                result += '\n:::\n'
                 #result += '</div>\n'
         return result
 
@@ -1291,6 +1323,7 @@ class Itemize(_MyAstItem):
 
     def __init__(self, *args):
         self.items = []
+        # TODO: ignores optional simple command (e.g. \small) before first \item
         for maybe_item in args:
             if isinstance(maybe_item, Item):
                 self.items.append(maybe_item)
@@ -1533,7 +1566,7 @@ class GenericEnvironment(_MyAstItem):
             result += self.contents.render(inner_context)
         result += '\n'
         result += str(self.end_generic)
-        result += '```\n'
+        result += '\n```\n'
         return result
 
 @dataclass
