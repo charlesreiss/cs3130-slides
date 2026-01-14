@@ -23,9 +23,10 @@ start: document
 
 document: any_empty_item* (frame any_empty_item*)*
 
-frame: _BEGIN_FRAME when? optional_argument? argument? whitespace? frametitle? any_text _END_FRAME 
+frame: _BEGIN_FRAME when? optional_argument? argument? whitespace? frametitle? any_text _END_FRAME
      |  _IFNOTHELDBACK document _END_BRACE -> heldback_frames
      |  _BRACE document _END_BRACE -> scoped_document
+     |  _BEGIN_DOCUMENT document _END_DOCUMENT -> scoped_document
 
 optional_argument: _SQUARE_BRACKET any_text _END_SQUARE_BRACKET
 
@@ -121,6 +122,10 @@ INLINE_VERBATIM.10: /
         \\lstinline\|[^|]+\|
         |
         \\verb\|[^|]+\|
+        |
+        \\lstinline![^!]+\!
+        |
+        \\verb![^!]+\!
     /x
 TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
                  (?s:.)*?
@@ -147,8 +152,10 @@ _BEGIN_TABULAR.10: /\\begin\{tabular\}/
 _END_TABULAR.10: /\\end\{tabular\}/
 _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
-BEGIN_GENERIC.0: /\\begin\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
-END_GENERIC.0: /\\end\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame)\w+\}/
+_BEGIN_DOCUMENT.10: /\\begin\{document\}/
+_END_DOCUMENT.10: /\\end\{document\}/
+BEGIN_GENERIC.0: /\\begin\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
+END_GENERIC.0: /\\end\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
@@ -174,7 +181,15 @@ TIKZSET.0: /\\tikzset\{
             |
             \{
                 (?:
-                    \{[^}]*\}
+                    \{
+                        (?:
+                            \{
+                                [^}]*
+                            \}
+                        |
+                            [^{}]+
+                        )*
+                    \}
                 |
                     [^{}]+
                 )*
@@ -687,7 +702,7 @@ class _InlineCommand(_MyAstItem):
         if context.raw_html and before == '[':
             classes = []
             attrs = {}
-            for span_class in re.findall('\.[\w-]+|[\w-]+=\w+', after):
+            for span_class in re.findall(r'\.[\w-]+|[\w-]+=\w+', after):
                 if '=' in span_class:
                     k, v = span_class.split('=')
                     attrs['data-' + k] = v
@@ -905,12 +920,12 @@ class InlineVerbatim(_MyAstItem):
     contents: str
 
     def __init__(self, token):
-        pattern = r'''
-            \\(?:lstinline|verb)\|(?P<contents>[^|]+)\|
-        '''
-        m = re.match(pattern, token.value, re.X)
-        assert m is not None, token.value
-        self.contents = m.group('contents')
+        value = token.value
+        for prefix in (r'\lstinline', r'\verb'):
+            if value.startswith(prefix):
+                value = value[len(prefix):]
+                break 
+        self.contents = value[1:-1]
 
     @property
     def inner_text(self):
@@ -1080,12 +1095,10 @@ class Visibleenv(_MyAstItem):
                     '\n<div class="fragment fade-in-and out" data-fragment-index=' + number +' >\n'
                 )
             result += self.contents.render(context)
-            result += '</div>'
+            result += '\n</div>'
             return result
         else:
             return self.contents.render(context)
-
-Onlyenv = Visibleenv
 
 def _make_fig_alt(alt_text: str | None) -> str:
     if alt_text is None:
@@ -1215,7 +1228,7 @@ class Tikzpicture(_MyAstItem):
                 fig_output_svg = fig_output_tex.with_stem(
                     fig_output_tex.stem + f'-{slide_number}'
                 ).with_suffix('.svg')
-            output_svg_name = fig_output_svg.parent.name + '/' + fig_output_svg.name
+            output_svg_name = '/' + str(fig_output_svg.relative_to(context.base_quarto_path))
             maybe_alt = ''
             if self.alt_texts is not None:
                 if slide_number > len(self.alt_texts):
@@ -1560,7 +1573,7 @@ class GenericEnvironment(_MyAstItem):
     end_generic: lark.Token
 
     def render(self, context: RenderContext) -> str:
-        result = '```\n'
+        result = '\n```\n'
         result += str(self.begin_generic) + '\n'
         with context.inner(pre=True) as inner_context:
             result += self.contents.render(inner_context)
@@ -1628,7 +1641,7 @@ class ToAST(lark.Transformer):
         if args[1] == '&':
             return _RawString('&', '&amp;')
         elif args[1] == '$':
-            return _RawString('$', '\$')
+            return _RawString('$', r'\$')
         elif args[1] == '\\':
             return _RawString('\\', '\\\\')
         else:
