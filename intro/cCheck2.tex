@@ -21,3 +21,21 @@ E. & \{10,20,10,20\} & \myemph<2>{F.} & none of these \\
 \end{tabular}
 \end{frame}
 
+\begin{frame}[fragile,label=cExer2Sln]\frametitle{C exercise (2, soln)}
+\begin{lstlisting}[style=smaller, language={}]
+    // array2 = {...}, array1 = {10,20,30,40}, q = ???
+q = array2; 
+    // q <- address of array2[0]
+mystery(q)
+    in mystery():
+    // p = q (argument) = address of array2[0]
+    *p = &array1[2] 
+    // p points to array2[0]
+    // array2[0] <- address of array1[2]
+
+array1[1] = *q
+    // q points to array2[0]
+    // *q = value of array2[0] = address of array1[2]
+    // potential type error
+\end{lstlisting}
+\end{frame}
