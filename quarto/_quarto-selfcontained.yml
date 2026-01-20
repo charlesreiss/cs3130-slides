@@ -1,0 +1,7 @@
+project:
+  title: "CS3130 slides"
+format:
+  revealjs:
+    chalkboard: false
+    embed-resources: true
+mermaid-format: svg

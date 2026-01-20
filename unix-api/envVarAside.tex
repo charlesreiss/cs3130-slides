@@ -44,11 +44,13 @@ _=/usr/bin/printenv
     \item \texttt{setenv("KEY", "value")} (sets KEY to \textit{value})
     \end{itemize}
 \item {\fontsize{12}{13}\texttt{int execve(char *path, char **argv, char **envp)}}
+\end{itemize}
 \begin{lstlisting}[language=C++,style=small]
     char *envp[] = { "KEY1=value1", "KEY2=value2", NULL };
     char *argv[] = { "somecommand", "some arg", NULL };
     execve("/path/to/somecommand", argv, envp);
 \end{lstlisting}
+\begin{itemize}
 \item normal exec versions --- keep same environment variables
 \end{itemize}
 \end{frame}

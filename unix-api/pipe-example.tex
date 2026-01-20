@@ -31,19 +31,19 @@ int write_fd = pipe_fd[1];
 \tikzset{
     box/.style={draw=red,thick,fill=white,anchor=north east,at={(box place)},align=left,font=\small},
 }
-\begin{visibleenv}<2|handout:0>
+\begin{visibleenv}<2>
 \node[box] {
     `standard' pattern with fork()
 };
 \end{visibleenv}
-\begin{visibleenv}<3|handout:2>
+\begin{visibleenv}<3>
 \node[box] {
     read() will not indicate \\
     end-of-file if write fd is open  \\
     (any copy of it)
 };
 \end{visibleenv}
-\begin{visibleenv}<4|handout:3>
+\begin{visibleenv}<4>
 \node[box] {
     have habit of closing \\
     to avoid `leaking' file descriptors \\
