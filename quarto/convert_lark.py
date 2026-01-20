@@ -42,14 +42,15 @@ generic_command: SIMPLE_COMMAND when optional_argument? (_BRACE any_text _END_BR
 
 item: _ITEM when any_text
     | _ITEM when whitespace? _BRACE _END_BRACE any_text
+    | _ITEM when whitespace? _BRACE any_text _END_BRACE whitespace?
 
 itemize: _BEGIN_ITEMIZE whitespace? SIMPLE_COMMAND? (whitespace? item)+ _END_ITEMIZE
 
 tabular_line: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak LINEBREAK
 
-tabular_line_nonl: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak -> tabular_line
+tabular_line_nonl: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak 
 
-tabular: _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line+ any_text_not_linebreak _END_TABULAR
+tabular: _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line+ tabular_line_nonl whitespace? _END_TABULAR
        | _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line_nonl _END_TABULAR
 
 frametitle: _BEGIN_FRAMETITLE _BRACE any_text _END_BRACE
@@ -62,12 +63,14 @@ any_text_not_linebreak: any_text_basic*
     | any_text_basic* inline_command generic_command* any_text_basic any_text_not_linebreak
     | any_text_basic* inline_command generic_command*
 
+fontsize: _FONTSIZE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> fontsize
+
 ?any_text_basic: _START_QUOTE any_text _END_QUOTE -> squote
     | _START_DQUOTE any_text _END_DQUOTE -> dquote
     | BEGIN_GENERIC any_text END_GENERIC -> generic_environment
     | itemize
     | tabular
-    | _FONTSIZE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> fontsize
+    | fontsize
     | whitespace
     | columns
     | VERBATIM -> verbatim
@@ -124,11 +127,11 @@ VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
 INLINE_VERBATIM.10: /
         \\lstinline\|[^|]+\|
         |
-        \\verb\|[^|]+\|
+        \\verb\*?\|[^|]+\|
         |
         \\lstinline![^!]+\!
         |
-        \\verb![^!]+\!
+        \\verb\*?![^!]+\!
     /x
 TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
                  (?s:.)*?
@@ -171,7 +174,13 @@ LSTSET.0: /\\lstset\{
             |
             \{
                 (?:
-                    \{[^}]*\}
+                    \{
+                        (?:
+                            \{[^}]*\}
+                        |
+                            [^{}]+
+                        )*
+                    \}
                 |
                     [^{}]+
                 )*
@@ -551,8 +560,7 @@ class When(_MyAstItem):
     def __post_init__(self, raw_when):
         if raw_when:
             self.when = raw_when[1:-1]
-            self.when = self.when.replace('|handout:0', '')
-            self.when = self.when.replace('|handout:1', '')
+            self.when = re.sub(r'\|handout:\d+', '', self.when)
             self.when = self.when.replace('all:', '')
         else:
             self.when = None
@@ -960,7 +968,7 @@ class InlineVerbatim(_MyAstItem):
 
     def __init__(self, token):
         value = token.value
-        for prefix in (r'\lstinline', r'\verb'):
+        for prefix in (r'\lstinline', r'\verb*', r'\verb'):
             if value.startswith(prefix):
                 value = value[len(prefix):]
                 break 
@@ -1413,6 +1421,11 @@ class TabularLine(_MyAstItem):
     def __init__(self, *args):
         self.linebreak = args[-1]
         self.cells = args[:-1]
+        logging.debug('linebreak = %s', self.linebreak)
+        if isinstance(self.linebreak, AnyText):
+            self.cells += (self.linebreak,)
+            logging.debug('cells = %s', self.cells)
+            self.linebreak = None
 
     @property
     def inner_text(self) -> str:
@@ -1430,6 +1443,8 @@ class TabularLine(_MyAstItem):
         result += '</tr>\n'
         return result
 
+TabularLineNonl = TabularLine
+
 @dataclass
 class Tabular(_MyAstItem):
     column_types: object
@@ -1440,6 +1455,11 @@ class Tabular(_MyAstItem):
         self.column_types = column_types
         self.lines = rest[:-1]
         self.end = rest[-1]
+        if isinstance(self.end, TabularLine):
+            self.lines += (self.end,)
+        elif not self.end.is_whitespace:
+            self.lines += (TabularLine(self.end),)
+            self.end = None
     
     @property
     def estimated_lines(self) -> float:
@@ -1454,6 +1474,7 @@ class Tabular(_MyAstItem):
         return '\n'.join(map(attrgetter('inner_text'), self.lines))
 
     def render(self, context: RenderContext) -> str:
+        logging.debug('lines = %s', self.lines)
         if context.tt:
             result = context.indented('\n')
             for index, line in enumerate(self.lines):
