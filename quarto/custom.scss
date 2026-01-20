@@ -1,6 +1,10 @@
 /*-- scss:defaults --*/
 
 $presentation-heading-color: #3333b3;
+$code-color: #000000;
+$myoverbox-color: #ff6000;
+$myem-color: #ff6000;
+$font-family-monospace: "Source Code Pro","Courier New",monospace;
 
 /*-- scss:rules --*/
 
@@ -48,12 +52,12 @@ $presentation-heading-color: #3333b3;
 }
 
 .reveal .fragment.myem-only.current-fragment{
-    color: #ff6000;
+    color: $myem-color;
     font-style: italic;
 }
 
 .reveal .fragment.myem.visible {
-    color: #ff6000;
+    color: $myem-color;
     font-style: italic;
 }
 
@@ -62,7 +66,7 @@ $presentation-heading-color: #3333b3;
 }
 
 .reveal em {
-    color: #ff6000;
+    color: $myem-color;
     font-style: italic;
 }
 
@@ -71,11 +75,11 @@ $presentation-heading-color: #3333b3;
 }
 
 
-.mycredit {
-    font-size: 9pt;
+p:has(> .mycredit:only-child), .mycredit:not(:only-child) {
     position: absolute;
     bottom: 0pt;
-    left: 0pt;
+    right: 0pt;
+    font-size: 0.5em;
 }
 
 section > ul {
@@ -98,6 +102,37 @@ section > ul {
     background-color: white;
 }
 i { font-style: italic; }
+
+div.myoverbox {
+    position: absolute;
+    font-size: 30px;
+    background-color: $body-bg;
+    top: 20%;
+    left: 50%;
+    max-width: 95%;
+    width: max-content;
+    transform: translate(-50%, 0%);
+    border: $myoverbox-color 5px solid;
+    padding: 3px 3px 3px 3px;
+} 
+
+div.myoverbox.big {
+    font-size: 40px;
+    padding: 5px 5px 5px 5px;
+    border: $myoverbox-color 8px solid;
+}
+
+div.myoverbox.low {
+    top: auto;
+    bottom: 20%;
+}
+
+div.myoverbox.vlow {
+    top: auto;
+    bottom: 5%;
+}
+
+code span { color: inherit; }
 
 @media print {
     .slide-chalkboard-buttons {
