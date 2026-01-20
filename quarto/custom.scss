@@ -82,6 +82,23 @@ section > ul {
     margin: 0 0 0 0;
 }
 
+.reveal .slide ul li > hr.vspace, hr.vspace {
+    margin-top: 0.75em;
+    border: none;
+}
+
+.reveal div.sourceCode { border: none; }
+
+.reveal code .highlight-line {
+    background-color: #4f4;
+
+}
+
+.reveal code .highlight-line a:first-child::before {
+    background-color: white;
+}
+i { font-style: italic; }
+
 @media print {
     .slide-chalkboard-buttons {
         display: none ! important
