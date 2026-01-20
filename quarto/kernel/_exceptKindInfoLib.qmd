@@ -32,7 +32,7 @@
 ### types of exceptions  {.smaller}
 
 
-:::: {.sync-except style="border: 5px solid darkviolet; margin: -5px; padding: 0"}
+:::: {.sync-except style="border: 5px solid darkviolet; margin-bottom: -5px; margin-top: -5px; padding: 0"}
 
 ::: {style="margin-bottom: -0.5em;"}
 <div style="padding: 2px; padding-right: 10px; float: right; font-size: 110%; text-align: right; color: darkviolet;">synchornous<br />
@@ -50,7 +50,7 @@
 
 ::::
 
-:::: {.async-except style="border: 5px solid darkgreen; margin: -5px; margin-top: 0.5em;"}
+:::: {.async-except style="border: 5px solid darkgreen; margin-bottom: -5px; margin-top: 0.5em;"}
 
 ::: {style="margin-bottom: -0.5em;"}
 

@@ -2,15 +2,7 @@
 ### program memory (two programs) 
 
 
-::: {.r-stack .my-full}
-
-![](/kernel/texfig/progMem.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
-
-![](/kernel/texfig/progMem.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/kernel/texfig/progMem.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-:::
+![](/kernel/texfig/progMem.figure-1.svg){fig-alt="memory layout of two programs, shown side-by-side. Each has (in order from top to bottom) an upper region used by the OS, a stack, a heap/other dynamic region, a writeable data region, and a code + constants region. The locations of the stack, heap, data, and code+constants are slightly different for the two programs. Between the used by OS and stack and between the stack and heap, and below the code+constants region are hunavailable space marked with a hashing pattern. The 'used by OS' region is also marked with faded hashing pattern, indicating that it is unavailable for program use."}
 
 
 ### address space 
@@ -18,12 +10,12 @@
 * programs have <em>illusion of own memory</em>
 * called a program's <em>address space</em>
 
-::: {.r-stack}
-![](/kernel/texfig/addrSpace.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 width=90%}
+::: {.r-stack }
+![](/kernel/texfig/addrSpace.figure-1.svg){.fragment .fade-out fragment-index=1 width=600px fig-alt="addresses from two programs are passed each passes through a mapping set by the OS. The mapping resolves these addresses to real memory, such that program A and program B's code and data can be stored at different addresses in real memory even though the programs might access them with the same addresses."}
 
-![](/kernel/texfig/addrSpace.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=90%}
+![](/kernel/texfig/addrSpace.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 width=600px fig-alt="in addition, some parts of the address mapping go to 'trigger error', representing the unavailable space"}
 
-![](/kernel/texfig/addrSpace.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=90%}
+![](/kernel/texfig/addrSpace.figure-3.svg){.fragment .fade-in-then-out fragment-index=2 width=600px fig-alt="in addition, the program's mapping includes kernel-mode only mappings, allowing OS data to be accessed by the kernel, from within either program (but only in kernel mode)"}
 
 :::
 

@@ -1,5 +1,5 @@
 
-### threads  {.smaller}
+### threads
 
 
 * thread = illusion of own processor 

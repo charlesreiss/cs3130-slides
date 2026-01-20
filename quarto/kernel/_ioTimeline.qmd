@@ -1,8 +1,7 @@
 
 ### context switches and exceptions 
 
-![](/kernel/texfig/ioTimeline.figure.svg)
- 
+![](/kernel/texfig/ioTimeline.figure.svg){fig-alt="loop.exe runs, then ssh.exe, then firefox.exe, then loop.exe, then ssh.exe. Frequently, all these programs are interrupted by the kernel (OS) running briefly. In some cases, the OS running briefly results in switching from one program to another. The times when the OS runs have various causes ('net' = network I/O interrupt; 'key' = keyboard I/O interrupt; 'syscall' = system call; 'timer' = timer interrupt)."}
 
 * program execution interleaves with OS
 * OS might context switch when it is run, might not

@@ -1,13 +1,11 @@
 
 ### time multiplexing 
 
-
-
 ::: {.r-stack .my-full}
-![](/kernel/texfig/contextSwitchTimeline.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/kernel/texfig/contextSwitchTimeline.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/kernel/texfig/contextSwitchTimeline.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="loop.exe runs, then OS runs briefly, then ssh.exe runs, then OS runs briefly, then firefox.exe runs briefly, then loop.exe runs again, then OS runs briefly, then ssh.exe runs again"}
 
+![](/kernel/texfig/contextSwitchTimeline.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="OS running briefly is triggered by an exception; resuming a normal program is returning from an exception"}
 
 :::
 
