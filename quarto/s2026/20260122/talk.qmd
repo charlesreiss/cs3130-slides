@@ -1,0 +1,44 @@
+---
+title: "20260122"
+---
+
+### last time (1) {.smaller}
+
+* avoiding redundancy in make
+  * variables (AKA macros)
+  * pattern rules
+* preview: kernel and kernel mode
+  * core part of operating system runs with extra permissions in hardware
+* user IDs, group IDs
+  * associated with processes (running programs)
+  * database outside of kernel maps to user IDs
+
+### last time (2) {.smaller}
+
+* chmod-style permissions (user/group/other read/write/exec)
+* access control lists
+* set-user ID bit
+
+# accounts (con't)
+
+## set-user-ID/sudo {visibility="hidden"}
+
+{{< include /accounts/_sudo.qmd >}}
+
+{{< include /accounts/_setuid-use.qmd >}}
+
+## a litany of silly setuid program issues {visibility="hidden"}
+
+{{< include /accounts/_setuid-hard-to-write.qmd >}}
+
+# privilege escalation {visibility="hidden"}
+
+{{< include /accounts/_priv-escalate.qmd >}}
+
+# kernel
+
+{{< include /kernel/_talk-inner.qmd >}}
+
+# backup slides
+
+{{< include /kernel/_talk-backup.qmd >}}
