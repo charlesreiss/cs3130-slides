@@ -1,27 +1,25 @@
 
-### program crashing?  {.smaller}
+### program crashing?
 
 
 * what happens on processor when program crashes? 
-
+<hr class="vspace" />
 * other program informed of crash to display message
 * use processor to run some other program 
-
+<hr class="vspace" />
 * how does hardware do this?
 * would be complicated to tell about other programs, etc.
 * instead: hardware runs designated OS routine
 
 
-### exceptions  {.smaller}
+### exceptions
 
-
-* recall: system calls --- software asks OS for help 
-
+* recall: system calls --- software asks OS for help
+<hr class="vspace" />
 * also cases where hardware asks OS for help
 * different triggers than system calls
 * but [same mechanism as system calls]{.fragment fragment-index=2 .custom .myem-only}: 
-
    * switch to kernel mode (if not already)
-   * call OS-designated function
+   * call OS-designated function (configured at boot)
 
 

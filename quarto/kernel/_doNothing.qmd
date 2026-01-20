@@ -23,8 +23,12 @@
 
 ### doing nothing on a busy system 
 
-\includegraphics{../kernel/empty-samples}
+
+![](/kernel/empty-samples){}
+
 
 ### doing nothing on a busy system 
 
-\includegraphics{../kernel/empty-samples-big-marked}
+
+![](/kernel/empty-samples-big-marked){}
+

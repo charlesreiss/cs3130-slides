@@ -1,5 +1,5 @@
 
 ### locating exception handlers (one strategy) 
 
-![](/kernel/texfig/locating.figure.svg)
+![](/kernel/texfig/exceptTable.figure.svg)
 

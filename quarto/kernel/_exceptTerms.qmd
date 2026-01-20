@@ -3,7 +3,7 @@
 
 
 * terms for exceptions aren't standardized 
-
+<hr class="vspace" />
 * our readings use one set of terms 
 
    * interrupts = externally-triggered

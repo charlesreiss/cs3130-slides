@@ -2,10 +2,12 @@
 ### time multiplexing 
 
 
-::: {.r-stack .my-full}
-![](/kernel/texfig/contextSwitchTimeline-time-multiplexing.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/kernel/texfig/contextSwitchTimeline-time-multiplexing.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+::: {.r-stack .my-full}
+![](/kernel/texfig/contextSwitchTimeline.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/kernel/texfig/contextSwitchTimeline.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
 
 :::
 

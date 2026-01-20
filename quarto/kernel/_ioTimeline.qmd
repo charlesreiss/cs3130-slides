@@ -1,7 +1,7 @@
 
 ### context switches and exceptions 
 
-![](/kernel/texfig/ioTimeline-context-switches-and-exceptions.figure.svg)
+![](/kernel/texfig/ioTimeline.figure.svg)
  
 
 * program execution interleaves with OS

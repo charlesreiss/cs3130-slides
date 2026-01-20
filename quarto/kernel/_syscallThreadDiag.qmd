@@ -2,10 +2,12 @@
 ### system call process 
 
 
-::: {.r-stack .my-full}
-![](/kernel/texfig/syscallThreadDiag-system-call-process.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/kernel/texfig/syscallThreadDiag-system-call-process.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+::: {.r-stack .my-full}
+![](/kernel/texfig/syscallThreadDiag.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/kernel/texfig/syscallThreadDiag.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
 
 :::
 

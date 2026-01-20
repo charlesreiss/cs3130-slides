@@ -12,33 +12,24 @@
 * before <code>syscall</code>:
 * `%rax` --- system call number
 * `%rdi`, `%rsi`, `%rdx`, `%r10`, `%r8`, `%r9` --- args 
-
+<hr class="vspace" />
 * after <code>syscall</code>:
 * `%rax` --- return value
 * on error: `%rax` contains -1 times ‘‘error number’’ 
-
+<hr class="vspace" />
 * <em>almost</em> the same as normal function calls
 
 
 ### Linux x86-64 hello world 
 
-<!-- \lstset{language=myasm,style=small,morekeywords={syscall,movq,.asciz,.globl}} -->
- 
-```
+```gnuassembler
 {{< include /kernel/hello_world.s >}}
 ```
 
 
-### approx. system call handler  {.smaller}
+### approx. system call handler 
 
-<!-- \lstset{
-    language=myasm,
-    morekeywords={.quad,pushq,jmp},
-    escapechar=@,
-    style=small,
-} -->
- 
-```
+```gnuassembler
 sys_call_table:
     .quad handle_read_syscall
     .quad handle_write_syscall
@@ -54,10 +45,11 @@ handle_syscall:
     popq %rdi
     popq %rcx
     return_from_exception
+
 ```
 
 
-### Linux system call examples  {.smaller}
+### Linux system call examples 
 
 
 * <code>mmap</code>, <code>brk</code> --- allocate memory

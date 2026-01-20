@@ -1,5 +1,5 @@
 
-### added to CPU for exceptions 
+### added to CPU for exceptions  {.smaller}
 
 
 * new instruction: set [exception table base]{.fragment fragment-index=2 .custom .myem-only}

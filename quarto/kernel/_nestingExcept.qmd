@@ -2,12 +2,14 @@
 ### exceptions in exceptions 
 
 
+
 ::: {.r-stack .my-full}
 ![](/kernel/texfig/nestedExcept.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/kernel/texfig/nestedExcept.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
 ![](/kernel/texfig/nestedExcept.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
 
 :::
 
@@ -36,12 +38,14 @@
     moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
 } -->
  
+
 ::: {.r-stack}
 ![](/kernel/texfig/nestedExcept2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/kernel/texfig/nestedExcept2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
 ![](/kernel/texfig/nestedExcept2.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
 
 :::
 
@@ -61,5 +65,6 @@ change_keyboard_parameters:
      handle_keyboard_interrupt here */
   ...
   enable_interrupts
+
 ```
 

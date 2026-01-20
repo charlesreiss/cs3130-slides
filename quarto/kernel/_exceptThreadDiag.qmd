@@ -1,5 +1,5 @@
 
 ### general exception process 
 
-![](/kernel/texfig/exceptThreadDiag-general-exception-process.figure.svg)
+![](/kernel/texfig/exceptThreadDiag.figure.svg)
 

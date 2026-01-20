@@ -1,12 +1,11 @@
 
-### system call terminology  {.smaller}
-
+### system call terminology 
 
 * some inconsistency: 
-
+<hr class="vspace" />
 * system call = event of entering kernel mode on request?
 * system call = whole process from beginning to end? 
-
+<hr class="vspace" />
 * same issue as with ‘function call’  
 
    * is it just starting the function, or the whole time the function runs?

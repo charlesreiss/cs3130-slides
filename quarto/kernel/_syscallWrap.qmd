@@ -1,48 +1,39 @@
 
-### system call wrappers  {.smaller}
-
-
+### system call wrappers
 
 * library functions to not write assembly:
- <!-- \lstset{language=myasm,style=small,morekeywords={syscall,cmp,jl,ret,neg,movq,ret},
-    moredelim=**[is][\btHL<1>]{@1}{@},
-    moredelim=**[is][\btHL<2>]{@2}{@},
-} -->
- <pre><code>open:
+```{.gnuassembler code-line-numbers='|4|6,11'}
+open:
     movq $2, %rax // 2 = sys_open
     // 2 arguments happen to use same registers
-    <span data-fragment-index="1" class="fragment custom myem-only">syscall</span>
+    syscall
     // return value in %eax
-    <span data-fragment-index="2" class="fragment custom myem-only">cmp $0, %rax</span>
+    cmp $0, %rax
     jl has_error
     ret
 has_error:
     neg %rax
-    movq %rax, <span data-fragment-index="2" class="fragment custom myem-only">errno</span>
+    movq %rax, errno
     movq $-1, %rax
     ret
-</code></pre>
+```
 
-### system call wrapper: usage  {.smaller}
 
-<!-- \lstset{
-    language=C,
-    style=small,
-    moredelim=**[is][\btHL<1>]{@1}{@},
-    moredelim=**[is][\btHL<2>]{@2}{@},
-} -->
- <pre><code>/* unistd.h contains definitions of:
+### system call wrapper: usage
+
+```{.c code-line-numbers='|6|8'}
+/*  unistd.h contains definitions of:
     O_RDONLY (integer constant), open() */
-#include &lt;unistd.h&gt;
+#include <unistd.h>
 int main(void) {
   int file_descriptor;
-  file_descriptor = <span data-fragment-index="1" class="fragment custom myem-only">open("input.txt", O_RDONLY)</span>;
-  if (<span data-fragment-index="2" class="fragment custom myem-only">file_descriptor &lt; 0</span>) {
-      printf("error: %s\\n", <span data-fragment-index="2" class="fragment custom myem-only">strerror(errno)</span>);
+  file_descriptor = open("input.txt", O_RDONLY);
+  if (file_descriptor < 0) {
+      printf("error: %s\n", strerror(errno));
       exit(1);
   }
   ...
   result = read(file_descriptor, ...);
   ...
 }
-</code></pre>
+```

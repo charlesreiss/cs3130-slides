@@ -1,5 +1,5 @@
 
-### switching programs 
+### switching programs  {.smaller}
 
 
 * OS starts running somehow 

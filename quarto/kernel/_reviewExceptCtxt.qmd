@@ -11,5 +11,6 @@
 
    * by saving old register values + loading new ones
    * part of OS routine run by exception
+   * OS won't know it wants to do this when exception happens
 
 

@@ -12,6 +12,7 @@ int fd = shm_open("/name", O_RDWR);
 /* make file's data accessible as memory */
 void *memory = mmap(NULL, size, PROT_READ | PROT_WRITE,
                     MAP_SHARED, fd, 0);
+
 ```
  
 

@@ -3,12 +3,12 @@
 
 
 * basically a function call, but… 
-
+<hr class="vspace" />
 * calling convention for arguments, return value
 * special instruction to trigger excpetion 
 
    * can't specify address of function to call, so…
-   * typically set <it>system call number</it> in register
+   * typically set <i>system call number</i> in register
    * e.g. on x86-64 Linux, %rax = 0 for read, 1 for write, 2 for open, …
 
 

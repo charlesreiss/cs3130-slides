@@ -1,24 +1,25 @@
 
-### emptyloop lab (1)  {.smaller}
+### emptyloop lab (1)
 
 
-```
+```c
 long last_time = GetTime();
 while (NotDone()) {
     long current_time = GetTime();
     RecordDelta(current_time - last_time);
     last_time = current_time;
 }
+
 ```
  
 
-* naive computer model: RecordDelta called with roughly same number each time
+* naive computer model:<br/>RecordDelta called with roughly same number each time
 
 
-### emptyloop lab (2)  {.smaller}
+### emptyloop lab (2)
 
 
-```
+```c
 long last_time = GetTime();
 while (NotDone()) {
     long current_time = GetTime();
@@ -28,6 +29,7 @@ while (NotDone()) {
     RecordDelta(current_time - last_time);
     last_time = current_time;
 }
+
 ```
  
 
@@ -35,12 +37,12 @@ while (NotDone()) {
 * can infer what system is doing
 
 
-### emptyloop lab (3) 
+### emptyloop lab (3)
 
 
 * upcoming lab: we'll supply program that times in loop
 * also will look at Linux counters for asynchronous exceptions 
-
+<hr class="vspace" />
 * should be able to observe when OS/other programs run
 * (and about how long)
 

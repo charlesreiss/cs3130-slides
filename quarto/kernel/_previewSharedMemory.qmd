@@ -6,5 +6,5 @@
 * recall: dynamically linked libraries
 * would be nice not to duplicate code/data…
 * we can!
- ![](/kernel/texfig/sharedMemAddr.figure.svg)
+ ![](/kernel/texfig/previewSharedMemory.figure.svg)
 

@@ -1,49 +1,36 @@
 
 ### privileged operation: problem 
 
-
 * how can hardware (HW) plus operating system (OS) allow: 
-
    * read your own files from hard drive
-
-* but disallow: 
-
+* but disallow:
    * read others files from hard drive
 
 
-
-### some ideas  {.smaller}
-
+### some ideas {.smaller}
 
 * OS tells HW ‘okay’ parts of hard drive before running program code 
-
    * complex for hardware and for OS
 
 * OS verifies your program's code can't do bad hard drive access  
-
    * no work for HW, but complex for OS
    * may require compiling differently to allow analysis
-
-* [OS tells HW to only allow OS-written code to access hard drive]{.fragment fragment-index=3 .custom .myem-only}  
-
+* [OS tells HW to only allow OS-written code to access hard drive]{.fragment fragment-index=1 .custom .myem-only}  
    * that code can enforce only ‘good’ accesses
    * requires program code to call OS routines to access hard drive
    * relatively simple for hardware
 
 
+### kernel mode
 
-### kernel mode 
-
-
-* extra one-bit register: ‘‘are we in <it>kernel mode</it>’’ 
-
+* extra one-bit register: ‘‘are we in <i>kernel mode</i>’’ 
    * other names: privileged mode, supervisor mode, …
 
-* not in kernel mode = <it>user mode</it> 
-
+* not in kernel mode = <i>user mode</i> 
+<hr class="vspace" />
 * certain operations only allowed in kernel mode 
 
-   * <it>privileged instructions</it>
+   * <i>privileged instructions</i>
 
 * example: talking to any I/O device
 
@@ -53,7 +40,7 @@
 
 * system boots in kernel mode
 * OS switches to user mode to run program code 
-
+<hr class="vspace" />
 * next topic: when does system switch back to kernel mode? 
 
    * how does OS tell HW where the (trusted) OS code is?

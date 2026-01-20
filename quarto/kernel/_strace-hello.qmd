@@ -1,7 +1,5 @@
 
-### strace hello_world (1)  {.smaller}
-
-
+### strace hello_world (1)
 
 * <code>strace</code> --- Linux tool to trace system calls
 * run on assembly program we saw earlier:
@@ -14,13 +12,14 @@ execve("./hello_world", ["./hello_world"],
 write(1, "Hello, World!\n\0", 14)       = 14
 exit(0)                                 = ?
 +++ exited with 0 +++
-```
-
-
-### strace hello_world (2)  {.smaller}
-
 
 ```
+
+
+### strace hello_world (2) {.smaller}
+
+
+```c
 #include <stdio.h>
 int main() { puts("Hello, World!"); }
 ```
@@ -43,6 +42,7 @@ fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 4), ...}) = 0
 write(1, "Hello, World!\n", 14)         = 14
 exit_group(0)                           = ?
 +++ exited with 0 +++
+
 ```
 
 
@@ -65,12 +65,12 @@ exit_group(0)                           = ?
 ### strace hello_world (2)  {.smaller}
 
 
-```
+```c
 #include <stdio.h>
 int main() { puts("Hello, World!"); }
 ```
- <hr />
- []{.my-small} when dynamically linked: 
+<hr />
+[when dynamically linked:]{.my-small}
 ```
 execve("./hello_world", ["./hello_world"], 0x7ffcfe91d540 /* 28 vars */) 
                                         = 0

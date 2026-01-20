@@ -2,6 +2,7 @@
 ### the classic Unix design 
 
 
+
 ::: {.r-stack .my-full}
 ![](/kernel/texfig/classicUnix.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
@@ -15,6 +16,7 @@
 
 ![](/kernel/texfig/classicUnix.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
 
+
 :::
 
 
@@ -25,7 +27,7 @@
 * OS = stuff that runs in kernel mode + libraries to use it?
 * OS = stuff that runs in kernel mode + libraries + utility programs (e.g. shell, finder)?
 * OS = everything that comes with machine? 
-
+<hr class="vspace" />
 * no consensus on where the line is
 * each piece can be replaced separately…
 

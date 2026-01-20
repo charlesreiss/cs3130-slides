@@ -1,24 +1,70 @@
 
+
+### types of exceptions  {.smaller}
+
+::: {}
+
+* system calls
+   * intentional --- ask OS to do something
+
+:::
+
+::: {.fragment .fade-in}
+
+* errors/events in programs
+   * memory not in address space ("Segmentation fault")
+   * privileged instruction
+   * divide by zero, invalid instruction
+   * ...
+
+:::
+
+::: {.fragment .fade-in}
+
+* external --- I/O, etc.
+   * timer
+   * I/O devices
+   * hardware is broken (e.g. memory parity error)
+
+:::
+
+
 ### types of exceptions  {.smaller}
 
 
+:::: {.sync-except style="border: 5px solid darkviolet; margin: -5px; padding: 0"}
 
-* \tikzmark{trap bot}[system calls]{.fragment fragment-index=2 .custom .myem-only} 
+::: {style="margin-bottom: -0.5em;"}
+<div style="padding: 2px; padding-right: 10px; float: right; font-size: 110%; text-align: right; color: darkviolet;">synchornous<br />
+<div style="font-size: 80%">triggered by current program</div></div>
 
+* system calls
    * intentional --- ask OS to do something
+* errors/events in programs
+   * memory not in address space ("Segmentation fault")
+   * privileged instruction
+   * divide by zero, invalid instruction
+   * ...
 
-* \tikzmark{fault bot}[errors/events in programs]{.fragment fragment-index=3 .custom .myem-only} 
+:::
 
-   * [memory not in address space]{.fragment fragment-index=8 .custom .myem-only} (‘‘Segmentation fault’’)
-   * [privileged instruction]{.fragment fragment-index=9 .custom .myem-only}
-   * [divide by zero, invalid instruction]{.fragment fragment-index=10 .custom .myem-only}
-   * \tikzmark{invalid bot}…
- \only{(and more we'll talk about later)}
-* \tikzmark{int bot}[external --- I/O, etc.]{.fragment fragment-index=5 .custom .myem-only}  
+::::
 
-   * [timer]{.fragment fragment-index=6 .custom .myem-only} --- configured by OS to run OS at certain time
-   * [I/O devices]{.fragment fragment-index=7 .custom .myem-only} --- key presses, hard drives, networks, …
-   * \tikzmark{abort bot}hardware is broken (e.g. memory parity error)
+:::: {.async-except style="border: 5px solid darkgreen; margin: -5px; margin-top: 0.5em;"}
+
+::: {style="margin-bottom: -0.5em;"}
+
+<div style="padding: 2px; padding-right: 10px; float: right; font-size: 110%; text-align: right; color: darkgreen;">asynchornous<br />
+<div style="font-size: 80%">not triggered by running program</div></div>
+
+* external --- I/O, etc.
+   * timer
+   * I/O devices
+   * hardware is broken (e.g. memory parity error)
+
+:::
+
+::::
 
  <!--
 ```

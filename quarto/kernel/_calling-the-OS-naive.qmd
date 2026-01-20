@@ -1,5 +1,7 @@
 
 ### calling the OS? 
 
-![](/kernel/texfig/callOSDirectP.figure.svg)
+![](/kernel/texfig/calling-the-OS-naive.figure.svg)
+
+<!-- FIXME: redo this diagram -->
 

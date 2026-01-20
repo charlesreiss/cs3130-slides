@@ -10,12 +10,12 @@
 * F. program pops a value from the stack
 
 
-### which require exceptions [answers] (1) 
+### which require exceptions [answers] (1)  {.smaller}
 
 
 * A. program calls a function in the standard library 
 
-   * no (same as other functions in program); many standard library functions make no system calls (and do not otherwise trigger exceptions --- for example <code>strlen</code>, <code>pow</code>; also if we consider the calling of a function just the <code>call</code> instruction, then the library functions that <it>do</it> make system calls won't do so until later)
+   * no (same as other functions in program); many standard library functions make no system calls (and do not otherwise trigger exceptions --- for example <code>strlen</code>, <code>pow</code>; also if we consider the calling of a function just the <code>call</code> instruction, then the library functions that <i>do</i> make system calls won't do so until later)
 
 * B. program writes a file to disk 
 
@@ -27,7 +27,7 @@
 
 
 
-### which require exceptions [answer] (2) 
+### which require exceptions [answer] (2)  {.smaller}
 
 
 * D. program exits 

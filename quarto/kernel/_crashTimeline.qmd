@@ -1,5 +1,5 @@
 
 ### crash timeline timeline 
 
-![](/kernel/texfig/crashTimeline-crash-timeline-timeline.figure.svg)
+![](/kernel/texfig/crashTimeline.figure.svg)
 
