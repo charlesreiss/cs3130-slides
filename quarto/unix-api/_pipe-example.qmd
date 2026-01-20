@@ -1,0 +1,28 @@
+
+### pipe example (1)  {.smaller}
+
+
+<pre><code>int pipe_fd\[2];
+if (pipe(pipe_fd) &lt; 0)
+    handle_error(); /* e.g. out of file descriptors */
+int read_fd = pipe_fd\[0];
+int write_fd = pipe_fd\[1];
+<span data-fragment-index="2" class="fragment custom myem-only">child_pid = fork();</span>
+<span data-fragment-index="2" class="fragment custom myem-only">if (child_pid  == 0) {</span>
+    /* in child process, write to pipe */
+    <span data-fragment-index="4" class="fragment custom myem-only">close(read_fd);</span>
+    write_to_pipe(write_fd); /* function not shown */
+    exit(EXIT_SUCCESS);
+<span data-fragment-index="2" class="fragment custom myem-only">} else if (child_pid &gt; 0) {</span>
+    /* in parent process, read from pipe */
+    <span data-fragment-index="3" class="fragment custom myem-only">close(write_fd);</span>
+    read_from_pipe(read_fd); /* function not shown */
+    <span data-fragment-index="2" class="fragment custom myem-only">waitpid(child_pid, NULL, 0);</span>
+    <span data-fragment-index="4" class="fragment custom myem-only">close(read_fd);</span>
+} <span data-fragment-index="2" class="fragment custom myem-only">else {</span> /* fork error */ }
+</code></pre>
+ ![](/unix-api/texfig/pipe-example.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/unix-api/texfig/pipe-example.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/unix-api/texfig/pipe-example.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/unix-api/texfig/pipe-example.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+

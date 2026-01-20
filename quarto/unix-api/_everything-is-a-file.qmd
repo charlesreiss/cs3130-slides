@@ -1,0 +1,14 @@
+
+### POSIX: everything is a file  {.smaller}
+
+
+* the file: one interface for 
+
+   * devices (terminals, printers, …)
+   * regular files on disk
+   * networking (sockets)
+   * local interprocess communication (pipes, sockets)
+ 
+<hr class="vspace" />
+* basic operations: open(), read(), write(), close()
+

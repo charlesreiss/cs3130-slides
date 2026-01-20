@@ -1,0 +1,38 @@
+
+### write example (with error checking)  {.smaller}
+
+
+```
+const char *ptr = "Hello, World!\n";
+ssize_t remaining = 14;
+while (remaining > 0) {
+    /* cast to void * optional in C */
+    ssize_t amount_written = write(STDOUT_FILENO,
+                                   ptr,
+                                   remaining);
+    if (amount_written < 0) {
+        perror("write"); /* print error message */
+        ... /* abort??? */
+    } else {
+        remaining -= amount_written;
+        ptr += amount_written;
+    }
+}
+
+```
+
+
+### partial writes  {.smaller}
+
+
+* usually only happen on error or interruption 
+
+   * but can request ‘‘non-blocking’’
+   * (interruption: via <i>signal</i>)
+
+* <i>usually</i>: write <em>waits until it completes</em>  
+
+   * = until remaining part fits in buffer in kernel
+   * does not mean data was sent on network, shown to user yet, etc.
+
+

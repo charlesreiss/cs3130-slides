@@ -1,0 +1,17 @@
+
+### mixing stdio/iostream and raw read/write  {.smaller}
+
+
+* don't do it (unless you're very careful) 
+<hr class="vspace" />
+* <code>cin</code>/<code>scanf</code> read some extra characters into a buffer? 
+
+   * you call <code>read</code> --- they disappear!
+
+* <code>cout</code>/<code>printf</code> has output waiting in a buffer? 
+
+   * you call <code>write</code> --- out-of-order output!
+ 
+<hr class="vspace" />
+* (if you need to: some stdio calls specify that they clear out buffers)
+

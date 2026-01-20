@@ -1,0 +1,114 @@
+
+# process creation and management {visibility="hidden"}
+
+{{< include /unix-api/_processOverview.qmd >}}
+
+### againframe(posixProcessFunctions)
+
+## fork {visibility="hidden"}
+
+{{< include /unix-api/_fork.qmd >}}
+
+{{< include /unix-api/_fork-pcb.qmd >}}
+
+## fork example {visibility="hidden"}
+
+{{< include /unix-api/_fork-example.qmd >}}
+
+## fork exercise {visibility="hidden"}
+
+{{< include /unix-api/_fork-ex.qmd >}}
+
+{{< include /unix-api/_fork-ex2.qmd >}}
+
+## exec {visibility="hidden"}
+
+### againframe(posixProcessFunctions)
+
+{{< include /unix-api/_exec.qmd >}}
+
+{{< include /unix-api/_exec-pcb.qmd >}}
+
+## aside: fork+exec, really? {visibility="hidden"}
+
+{{< include /unix-api/_why-fork-exec.qmd >}}
+
+## wait {visibility="hidden"}
+
+### againframe(posixProcessFunctions)
+
+{{< include /unix-api/_wait.qmd >}}
+
+{{< include /unix-api/_wait-exit-status.qmd >}}
+
+## summary diagram {visibility="hidden"}
+
+{{< include /unix-api/_fork-exec-wait-diag.qmd >}}
+
+### againframe(posixProcessFunctions)
+
+## exercises (fork+exec+wait) {visibility="hidden"}
+
+{{< include /unix-api/_fork-wait-ex.qmd >}}
+
+## aside re: fork bombs {visibility="hidden"}
+
+{{< include /unix-api/_fork-bomb.qmd >}}
+
+# shell features {visibility="hidden"}
+
+{{< include /unix-api/_shell-features.qmd >}}
+
+# fd management {visibility="hidden"}
+
+## I/O redirection: syntax, method preview {visibility="hidden"}
+
+### againframe(commandLineFeatures)
+
+# files in POSIX, part 1 {visibility="hidden"}
+
+## interlude: file descriptors {visibility="hidden"}
+
+{{< include /unix-api/_fds.qmd >}}
+
+{{< include /unix-api/_special-fds.qmd >}}
+
+## getting file descriptors {visibility="hidden"}
+
+{{< include /unix-api/_open-quick.qmd >}}
+
+{{< include /unix-api/_open-flags.qmd >}}
+
+## close {visibility="hidden"}
+
+{{< include /unix-api/_close.qmd >}}
+
+## Shell: redirection {visibility="hidden"}
+
+{{< include /unix-api/_redirection.qmd >}}
+
+{{< include /unix-api/_redirection-exec.qmd >}}
+
+## dup2: redirection mechanism {visibility="hidden"}
+
+{{< include /unix-api/_dup.qmd >}}
+
+## open/close/dup/fork and fd array {visibility="hidden"}
+
+{{< include /unix-api/_dup-close-and-array.qmd >}}
+
+## dup2 exercise {visibility="hidden"}
+
+{{< include /unix-api/_dup-ex.qmd >}}
+
+## shared/unshared seek pointers {visibility="hidden"}
+
+{{< include /unix-api/_seek-ptr.qmd >}}
+
+## dup2 exercise (alt) {visibility="hidden"}
+
+{{< include /unix-api/_read-write-ex.qmd >}}
+
+# POSIX api summary {visibility="hidden"}
+
+{{< include /unix-api/_summary.qmd >}}

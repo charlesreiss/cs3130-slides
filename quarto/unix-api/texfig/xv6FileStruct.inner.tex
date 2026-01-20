@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([yshift=-.5cm,xshift=-.5cm]current page.east);
+\tikzset{
+    box/.style={
+        at=(place),
+        anchor=east,
+        draw=red,very thick,
+        align=left,
+        fill=white,
+    }
+}
+\begin{visibleenv}<2>
+\node[box] {
+    FD\_PIPE = to talk to other process \\
+    FD\_INODE = other kind of file \\
+    ~ \\
+    alternate designs: \\
+    \hspace{.5cm} class + subclass per type \\
+    \hspace{.5cm} pointer to list of functions (Linux soln.)
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    number of pointers to this struct file \\
+    used to safely delete this struct \\
+    ~ \\
+    e.g. after \texttt{fork} same pointer \\ shared in parent, child
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    should read/write be allowed? \\
+    based on flags to open
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    \texttt{off} = location in file \\
+    (not meaningful for all files)
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

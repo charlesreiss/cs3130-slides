@@ -1,0 +1,43 @@
+
+### kernel buffering (reads) 
+
+
+
+::: {.r-stack .my-full}
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-reads.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-reads.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-reads.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-reads.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-reads.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### kernel buffering (writes) 
+
+
+
+::: {.r-stack .my-full}
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-writes.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-writes.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-writes.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-writes.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/unix-api/texfig/everything-is-a-file-short-kernel-buffering-writes.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### layering 
+
+![](/unix-api/texfig/everything-is-a-file-short-layering.figure.svg)
+

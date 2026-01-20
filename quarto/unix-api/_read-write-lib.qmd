@@ -1,0 +1,22 @@
+
+### read/write  {.smaller}
+
+
+```
+ssize_t read(int fd, void *buffer, size_t count);
+ssize_t write(int fd, void *buffer, size_t count);
+
+```
+ 
+
+* read/write [up to <i>count</i>]{.fragment fragment-index=2 .custom .myem-only} bytes to/from <i>buffer</i>
+* returns number of bytes read/written or -1 on error 
+
+   * ssize_t is a signed integer type
+   * error code in <code>errno</code>
+
+* read returning 0 means end-of-file (<i>not an error</i>) 
+
+   * can read/write less than requested (end of file, broken I/O device, …)
+
+

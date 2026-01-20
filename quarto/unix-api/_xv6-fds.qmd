@@ -1,0 +1,38 @@
+
+### implementing file descriptors in xv6 (1)  {.smaller}
+
+
+<pre><code>struct proc {
+  ...
+  <span data-fragment-index="1" class="fragment custom myem">struct file *ofile[NOFILE];</span>  // Open files
+};
+</code></pre>
+ 
+
+* <code>ofile[0]</code> = file descriptor <code>0</code>
+* pointer --- <i>can be shared between proceses</i> 
+
+   * not part of deep copy fork does
+
+* null pointers --- no file open with that number
+
+
+### implementing file descriptors in xv6 (2)  {.smaller}
+
+
+<pre><code>struct file {
+  <span data-fragment-index="2" class="fragment custom myem-only">enum { FD_NONE, FD_PIPE, FD_INODE } type</span>;
+  <span data-fragment-index="3" class="fragment custom myem-only">int ref;</span> // reference count
+  <span data-fragment-index="4" class="fragment custom myem-only">char readable;</span>
+  <span data-fragment-index="4" class="fragment custom myem-only">char writable;</span>
+  struct pipe *pipe;
+  struct inode *ip;
+  <span data-fragment-index="5" class="fragment custom myem-only">uint off;</span>
+};
+</code></pre>
+ ![](/unix-api/texfig/xv6FileStruct.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/unix-api/texfig/xv6FileStruct.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/unix-api/texfig/xv6FileStruct.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/unix-api/texfig/xv6FileStruct.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+![](/unix-api/texfig/xv6FileStruct.figure-5.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=5}
+

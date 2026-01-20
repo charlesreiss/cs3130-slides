@@ -1,0 +1,93 @@
+\begin{tikzpicture}
+\tikzset{
+    pcb/.style={
+        tight matrix,
+        column 1/.style={nodes={draw,thin,text width=2.5cm,font=\small,minimum height=0.4cm}},
+        column 2/.style={nodes={draw,thin,text width=4cm,font=\fontsize{9}{10}\tt\selectfont,minimum height=0.4cm}},
+    },
+    page/.style={
+        draw,thick,
+        pattern=north west lines,
+        minimum width=2cm,
+        node contents={~},
+    },
+    pointer/.style={
+        draw,very thick,-Latex,
+    },
+    pointer light/.style={
+        draw,thick,-Latex,
+    },
+    tall/.style={
+        minimum height=0.85cm
+    },
+    one pt/.style={
+        fill=blue!40,
+    },
+    one pt line/.style={
+        draw=blue!80!black,
+    },
+    one memory/.style={
+        fill=green!40,
+    },
+    one memory line/.style={
+        draw=green!80!black,
+        opacity=0.2,dotted,
+    },
+    two memory/.style={
+        fill=violet!40,
+        draw=red,thick,
+    },
+    two memory line/.style={
+        draw=violet!80!black,
+    },
+    mark line/.style={
+        draw,thick,Latex-,
+    },
+    mark line reversed/.style={
+        draw,thick,-Latex,
+    }
+}
+\matrix[pcb,label={[font=\small]north:the process control block}] (proc one) {
+    |[tall]| user regs \&
+    |[tall]|
+    {eax=\sout<1->{42}{\normalfont\it \myemph<0>{init. val.}}, \\ ecx=\sout<1->{133}{\normalfont\it \myemph<0>{init. val.}},} \ldots \\
+    pagetable \& |[one pt]| ~ \\
+    |[tall]| open files \& |[tall,red,thick,alias=fds]| {fd 0: (terminal \ldots) \\ fd 1: \ldots } \\
+    \ldots \& \ldots \\
+};
+\newcommand{\halfvthick}{.2mm}
+\node[draw,very thick,pattern=north west lines,minimum width=2cm,minimum height=6cm,anchor=north west,
+    label={north:memory}] (memory) at ([xshift=3cm,yshift=0cm]proc one.north east) {};
+\draw[pointer,one pt line] (proc one-2-2.east) -- ++(1cm,0cm) |- ([yshift=-1.8cm]memory.north west);
+\foreach \y in {-1.8cm} {
+    \draw[very thick,one pt] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\draw[pointer light,one memory line] (proc one-3-2.east) -- ++(1.25cm,0cm) |- ([yshift=-0.9cm]memory.north west);
+\draw[pointer light,one memory line] ([yshift=-.1mm]proc one-3-2.east) -- ++(1.25cm,0cm) |- ([yshift=-1.1cm]memory.north west) coordinate (args memory);
+\draw[pointer light,one memory line] ([yshift=.1mm]proc one-3-2.east) -- ++(1.25cm,0cm) |- ([yshift=-1.5cm]memory.north west);
+\foreach \y/\v in {-0.9cm/A,-1.1cm/B,-1.5cm/C} {
+    \draw[very thick,one memory] ([yshift=\y,xshift=\halfvthick]memory.north west) coordinate (orig-\v) rectangle ++ (2cm,-1mm) coordinate (orig-other-\v);
+}
+\begin{visibleenv}<1->
+\draw[pointer light,two memory line] (proc one-3-2.east) -- ++(1.75cm,0cm) |- ([yshift=-4.4cm]memory.north west);
+\draw[pointer light,two memory line] ([yshift=-.1mm]proc one-3-2.east) -- ++(1.75cm,0cm) |- ([yshift=-4.6cm]memory.north west);
+\draw[pointer light,two memory line] ([yshift=-.1mm]proc one-3-2.east) -- ++(1.75cm,0cm) |- ([yshift=-5cm]memory.north west);
+\draw[pointer light,two memory line] ([yshift=-.1mm]proc one-3-2.east) -- ++(1.75cm,0cm) |- ([yshift=-5.1cm]memory.north west);
+\foreach \y in {-4.4cm,-4.6cm,-5cm,-5.1cm} {
+    \draw[very thick,two memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\draw[mark line] ([yshift=-5.15cm]memory.north east) -| ++(2cm,-.5cm) node[below,align=center,font=\small] { loaded from \\ executable file };
+\coordinate (new memory) at ([yshift=-4.7cm,xshift=.25cm]memory.north east);
+\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=-.15cm,yshift=-3mm]new memory) -- ([xshift=-.15cm,yshift=3mm]new memory);
+\node[anchor=west,font=\small] (new stack text) at ([xshift=-1.5mm]new memory) { \myemph<0>{new stack, heap, \ldots} };
+\end{visibleenv}
+\begin{visibleenv}<1->
+\draw[mark line reversed] ([xshift=2cm]args memory) -| (new stack text.north) node[pos=0.75,fill=white,font=\small] {\myemph<0>{copy arguments}};
+\end{visibleenv}
+\begin{visibleenv}<1->
+\draw[mark line,draw=red,line width=3pt] (fds.south) -- ++(0cm, -2cm) node[below,align=center] { not changed! \\ \small redirection/etc.: \\ setup stdin/stdout before exec};
+\end{visibleenv}
+\begin{visibleenv}<1>
+\node[cross out,draw=red,very thick,fit=(orig-A) (orig-other-C),label={[align=center,red]north east:old memory\\discarded}] {};
+\end{visibleenv}
+\end{tikzpicture}

@@ -1,0 +1,28 @@
+
+### exercise  {.smaller}
+
+
+```
+pid_t p = fork();
+int pipe_fds[2];
+pipe(pipe_fds);
+if (p == 0) { /* child */
+  close(pipe_fds[0]);
+  char c = 'A';
+  write(pipe_fds[1], &c, 1);
+  exit(0);
+} else { /* parent */
+  close(pipe_fds[1]);
+  char c;
+  int count = read(pipe_fds[0], &c, 1);
+  printf("read %d bytes\n", count);
+}
+
+```
+ The child is trying to send the character <code>A</code> to the parent, but the above code outputs <code>read 0 bytes</code> instead of <code>read 1 bytes</code>. What happened?
+
+### exercise solution 
+
+
+* \\iftoggle{heldback&nbsp;pipe() is after fork --- two pipes, one in child, one in parent}
+

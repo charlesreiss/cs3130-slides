@@ -1,0 +1,21 @@
+
+### exercise  {.smaller}
+
+
+```
+int fd = open("output.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666);
+write(fd, "A", 1);
+dup2(STDOUT_FILENO, 100);
+dup2(fd, STDOUT_FILENO);
+write(STDOUT_FILENO, "B", 1);
+write(fd, "C", 1);
+close(fd);
+write(STDOUT_FILENO, "D", 1);
+write(100, "E", 1);
+
+```
+ []{.my-small} Assume <code>open()</code> and <code>dup2()</code> <i>do not fail</i>, <code>write()</code> does not fail as long as the fd it writes to is open, fd <code>100</code> was closed and is not what open returns, and <code>STDOUT_FILENO</code> is initially open. What is written to <code>output.txt</code>? <br> <table>
+<tr><td><em>A.</em></td><td>ABCDE</td><td><em>C.</em></td><td>ABC</td><td><em>E.</em> something else</td></tr>
+<tr><td><em>B.</em></td><td>ABCD</td><td><em>D.</em></td><td>ACD</td></tr>
+</table>
+

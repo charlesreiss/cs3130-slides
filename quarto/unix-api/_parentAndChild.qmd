@@ -1,0 +1,31 @@
+
+### parent and child processes  {.smaller}
+
+
+
+* every process (but process id 1) has a <i>parent process</i> (<code>getppid()</code>)
+* this is the process that can wait for it
+* creates tree of processes (Linux <code>pstree</code> command):
+ 
+![](/unix-api/process-tree){}
+ 
+![](/unix-api/process-tree2){}
+
+
+### parent and child questions\ldots  {.smaller}
+
+
+* what if parent process exits before child? 
+
+   * child's parent process becomes process id 1 (typically called <i>init</i>)
+
+* what if parent process never <code>waitpid()</code>s [ (or equivalent)]{.my-small} for child? 
+
+   * child process stays around as a ‘‘zombie’’
+   * can't reuse pid in case parent wants to use <code>waitpid()</code>
+
+* what if non-parent tries to <code>waitpid()</code> for child? 
+
+   * waitpid fails
+
+

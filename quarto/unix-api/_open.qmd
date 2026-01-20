@@ -1,0 +1,65 @@
+
+### filesystem abstraction  {.smaller}
+
+
+* regular files --- named collection of bytes 
+
+   * also: size, modification time, owner, access control info, …
+
+* directories --- folders containing files and directories 
+
+   * hierarchical naming: <code>/net/zf14/cr4bd/fall2018/cs4414</code>
+   * <i>mostly</i> contains regular files or directories
+
+
+
+### open  {.smaller}
+
+
+<pre><code>int open(const char *path, int flags);
+int open(const char *path, int flags, int mode);
+...
+
+int read_fd = open("dir/file1", O_RDONLY);
+int write_fd = open("/other/file2",
+        O_WRONLY | O_CREAT | O_TRUNC, 0666);
+int rdwr_fd = open("file3", O_RDWR);
+</code></pre>
+
+
+### open  {.smaller}
+
+
+<pre><code>int open(const char *<span data-fragment-index="1" class="fragment custom myem">path</span>, int flags);
+int open(const char *<span data-fragment-index="1" class="fragment custom myem">path</span>, int flags, int mode);
+</code></pre>
+ 
+
+* path = filename
+* e.g. <code>"/foo/bar/file.txt"</code> 
+
+   * <code>file.txt</code> in
+   * directory <code>bar</code> in
+   * directory <code>foo</code> in
+   * ‘‘the root directory’’
+
+* e.g. <code>"quux/other.txt</code>  
+
+   * <code>other.txt</code> in
+   * directory <code>quux</code> in
+   * ‘‘the current working directory’’ (set with <code>chdir()</code>)
+
+
+
+### open: file descriptors 
+
+
+<pre><code><span data-fragment-index="1" class="fragment custom myem">int</span> open(const char *path, int flags);
+<span data-fragment-index="1" class="fragment custom myem">int</span> open(const char *path, int flags, int mode);
+</code></pre>
+ 
+
+* return value = <em>file descriptor</em> [ (or -1 on error)]{.my-small}
+* index into table of <i>open file descriptions</i> for each process
+* used by system calls that deal with open files
+

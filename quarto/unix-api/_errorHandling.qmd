@@ -1,0 +1,30 @@
+
+### POSIX error handling  {.smaller}
+
+
+* most commonly POSIX functions return -1 on error 
+
+   * some exceptions; check <code>man function_name</code>
+
+* usually set variable <code>errno</code> 
+
+   * what went wrong?
+
+* tools for using <code>errno</code>  
+
+   * <code>strerror(errno)</code> --- human-readable error string
+   * <code>perror("name")</code> --- print ‘name: <i>error</i>’ to stderr
+
+
+
+### error lists 
+
+
+
+* from <code>man fork</code> on Linux 
+
+   * possible errors are E<i>SOMETHING</i> constants declared in <code>errno.h</code>
+
+ 
+![](/unix-api/fork-errors){}
+

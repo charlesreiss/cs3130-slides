@@ -1,0 +1,18 @@
+
+### special file descriptors  {.smaller}
+
+
+* file descriptor 0 = standard input
+* file descriptor 1 = standard output
+* file descriptor 2 = standard error 
+<hr class="vspace" />
+* constants in <code>unistd.h</code> 
+
+   * <code>STDIN_FILENO</code>, <code>STDOUT_FILENO</code>, <code>STDERR_FILENO</code>
+ 
+<hr class="vspace" />
+* but you can't choose which number <code>open</code> assigns…? 
+
+   * more on this later
+
+

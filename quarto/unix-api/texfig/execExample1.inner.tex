@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (explain location) at ([xshift=-1cm,yshift=-4cm]current page.north east);
+\tikzset{
+    explain box/.style={
+        at={(explain location)},
+        anchor=north east,
+        draw=red,
+        very thick,
+        align=left,
+        fill=white
+    },
+}
+\begin{visibleenv}<2|handout:0>
+\node[explain box] {
+used to compute argv, argc \\
+when program's \texttt{main} is run \\
+~ \\
+convention: first argument is program name
+};
+\end{visibleenv}
+\begin{visibleenv}<3|handout:0>
+\node[explain box] {
+path of executable to run \\
+need not match first argument \\
+(but probably should match it) \\
+~  \\
+on Unix {\texttt /bin} is a directory \\
+containing many common programs, \\
+including \texttt{ls} (`list directory')
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

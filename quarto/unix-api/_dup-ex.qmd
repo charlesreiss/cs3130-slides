@@ -1,0 +1,25 @@
+
+### dup2 exercise  {.smaller}
+
+
+
+* recall: <code>dup2(old_fd, new_fd)</code>
+ 
+```
+int fd = open("output.txt", O_WRONLY | O_CREAT, 0666);
+write(STDOUT_FILENO, "A", 1);
+dup2(fd, STDOUT_FILENO);
+pid_t pid = fork();
+if (pid == 0) { /* child: */
+    dup2(STDOUT_FILENO, fd); write(fd, "B", 1);
+} else {
+    write(STDOUT_FILENO, "C", 1);
+}
+
+```
+ Which outputs are possible?<br>[]{.my-small} <table>
+<tr><td>A. stdout: ABC ; output.txt: empty</td><td>D. stdout: A ; output.txt: BC</td></tr>
+<tr><td>B. stdout: AC ; output.txt: B</td><td>E. more?</td></tr>
+<tr><td>C. stdout: A ; output.txt: CB</td></tr>
+</table>
+

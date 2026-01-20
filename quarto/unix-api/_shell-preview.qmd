@@ -1,0 +1,19 @@
+
+### shell assignment  {.smaller}
+
+
+* implement a simple shell that supports redirection and pipeline
+* for Linux or another POSIX system (not xv6) 
+
+   * but our supplied tests assume specifically Linux (<em>not OS X</em>)
+
+* … and prints the exit code of programs 
+<hr class="vspace" />
+* simplified parsing: space-seperated: 
+
+   * okay: `/bin/ls -1 > tmp.txt`
+   * not okay: `/bin/ls -l >tmp.txt`
+   * okay: `/bin/ls -1 | /bin/grep foo > tmp.txt`
+   * not okay: `/bin/ls -1 |/bin/grep foo >tmp.txt`
+
+

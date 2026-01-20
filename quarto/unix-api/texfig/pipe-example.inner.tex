@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (box place) at ([xshift=-1cm,yshift=-1cm]current page.north east);
+\tikzset{
+    box/.style={draw=red,thick,fill=white,anchor=north east,at={(box place)},align=left,font=\small},
+}
+\begin{visibleenv}<2>
+\node[box] {
+    `standard' pattern with fork()
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    read() will not indicate \\
+    end-of-file if write fd is open  \\
+    (any copy of it)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    have habit of closing \\
+    to avoid `leaking' file descriptors \\
+    you can run out
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

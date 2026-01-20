@@ -1,0 +1,58 @@
+
+### exercise (1)  {.smaller}
+
+
+ 
+```
+int main() {
+    pid_t pids[2]; const char *args[] = {"echo", "ARG", NULL};
+    const char *extra[] = {"L1", "L2"};
+    for (int i = 0; i < 2; ++i) {
+        pids[i] = fork();
+        if (pids[i] == 0) {
+            args[1] = extra[i];
+            execv("/bin/echo", args);
+        }
+    }
+    for (int i = 0; i < 2; ++i) {
+        waitpid(pids[i], NULL, 0);
+    }
+}
+
+```
+  Assuming fork and execv do not fail, which are possible outputs? <table>
+<tr><td><em></em> A.</td><td><code></code> L1\\shownewline{} L2</td><td><em></em> D.</td><td>A and B</td></tr>
+<tr><td><em></em> B.</td><td><code></code> L1\\shownewline{} L2\\shownewline{} L2</td><td><em></em> E.</td><td>A and C</td></tr>
+<tr><td><em></em> C.</td><td><code></code> L2\\shownewline{} L1</td><td><em></em> F.</td><td>all of the above</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td><td><em></em> G.</td><td>something else</td></tr>
+</table>
+
+
+<!-- \iftoggle(heldback,\providecommand{\correct}[1]{#1},\providecommand{\correct}[1]{\myemph<2>{#1}}) -->
+
+### exercise (2)  {.smaller}
+
+
+ 
+```
+int main() {
+    pid_t pids[2]; const char *args[] = {"echo", "0", NULL};
+    for (int i = 0; i < 2; ++i) {
+        pids[i] = fork();
+        if (pids[i] == 0) { execv("/bin/echo", args); }
+    }
+    printf("1\n"); fflush(stdout);
+    for (int i = 0; i < 2; ++i) {
+        waitpid(pids[i], NULL, 0);
+    }
+    printf("2\n"); fflush(stdout);
+}
+
+```
+  Assuming fork and execv do not fail, which are possible outputs? <table>
+<tr><td><em></em> A.</td><td><code></code> 0\\shownewline{} 0\\shownewline{} 1\\shownewline{} 2</td><td><em></em> E.</td><td>\\correct{A, B, and C}</td></tr>
+<tr><td><em></em> B.</td><td><code></code> 0\\shownewline{} 1\\shownewline{} 0\\shownewline{} 2</td><td><em></em> F.</td><td>C and D</td></tr>
+<tr><td><em></em> C.</td><td><code></code> 1\\shownewline{} 0\\shownewline{} 0\\shownewline{} 2</td><td><em></em> G.</td><td>all of the above</td></tr>
+<tr><td><em></em> D.</td><td><code></code> 1\\shownewline{} 0\\shownewline{} 2\\shownewline{} 0</td><td><em></em> H.</td><td>something else</td></tr>
+</table>
+

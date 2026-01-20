@@ -1,0 +1,19 @@
+
+### fork (w/ copy-on-write, if parent writes first) 
+
+
+
+::: {.r-stack .my-full}
+![](/unix-api/texfig/fork-cow.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/unix-api/texfig/fork-cow.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/unix-api/texfig/fork-cow.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/unix-api/texfig/fork-cow.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/unix-api/texfig/fork-cow.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

@@ -1,0 +1,48 @@
+
+### unshared seek pointers  {.smaller}
+
+if ‘‘foo.txt’’ contains ‘‘AB’’ 
+```
+int fd1 = open("foo.txt", O_RDONLY);
+int fd2 = open("foo.txt", O_RDONLY);
+char c;
+read(fd1, &c, 1);
+char d;
+read(fd2, &d, 1);
+
+```
+ expected result: c = ‘A’, d = ‘A’
+
+### shared seek pointers (1)  {.smaller}
+
+if ‘‘foo.txt’’ contains ‘‘AB’’: 
+```
+int fd = open("foo.txt", O_RDONLY);
+dup2(fd, 100);
+char c;
+read(fd, &c, 1);
+char d;
+read(100, &d, 1);
+
+```
+ expected result: c = ‘A’, d = ‘B’
+
+### shared seek pointers (2)  {.smaller}
+
+if ‘‘foo.txt’’ contains ‘‘AB’’: 
+```
+int fd = open("foo.txt", O_RDONLY);
+pid_t p = fork();
+if (p == 0) {
+    char c;
+    read(fd, &c, 1);
+    ...
+} else {
+    char d;
+    sleep(1);
+    read(fd, &d, 1);
+    ...
+}
+
+```
+ expected result: c = ‘A’, d = ‘B’

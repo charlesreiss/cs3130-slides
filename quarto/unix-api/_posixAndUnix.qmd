@@ -1,0 +1,46 @@
+
+### this class: focus on Unix  {.smaller}
+
+
+* Unix-like OSes will be our focus
+* we have source code
+* used to from 2150, etc.?
+* have been around for a while
+* xv6 imitates Unix
+
+
+### Unix history 
+
+
+ 
+![](/unix-api/Unix_history-simple_en.pdf){}
+ [image: Wikpedia/Eraserhead1+Infinity0+Sav_vas]{.mycredit}
+
+### POSIX: standardized Unix  {.smaller}
+
+
+* Portable Operating System Interface (POSIX)  
+
+   * ‘‘standard for Unix’’
+
+* current version online: https://pubs.opengroup.org/onlinepubs/9699919799/
+* (almost) followed by most current Unix-like OSes
+* … but OSes add extra features
+* … and POSIX doesn't specify everything
+
+
+### what POSIX defines  {.smaller}
+
+
+* POSIX specifies the <em>library and shell interface</em> 
+
+   * source code compatibility
+
+* doesn't care what is/is not a system call…
+* doesn't specify binary formats…
+* idea: write applications for POSIX, recompile and run on all implementations 
+
+   * this was a very important goal in the 80s/90s
+   * at the time, no dominant Unix-like OS (Linux was very immature)
+
+

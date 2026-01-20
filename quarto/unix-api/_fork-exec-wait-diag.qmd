@@ -1,0 +1,15 @@
+
+### typical pattern 
+
+![](/unix-api/texfig/typicalPatternSnake.figure.svg)
+
+
+### typical pattern (alt) 
+
+![](/unix-api/texfig/typicalPatternSnakeAlt.figure.svg)
+
+
+### typical pattern (detail) 
+
+    ![](/unix-api/texfig/typicalPattern.figure.svg)
+

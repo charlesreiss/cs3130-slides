@@ -1,0 +1,25 @@
+
+### Unix API summary  {.smaller}
+
+
+* spawn and wait for program: <code>fork</code> (copy), then 
+
+   * in child: setup, then <code>execv</code>, etc. (replace copy)
+   * in parent: <code>waitpid</code>
+
+* files: open, read and/or write, close 
+
+   * one interface for regular files, pipes, network, devices, …
+
+* file descriptors are indices into per-process array 
+
+   * index 0, 1, 2 = stdin, stdout, stderr
+   * <code>dup2</code> --- assign one index to another
+   * <code>close</code> --- deallocate index
+
+* redirection 
+
+   * open() to create new file descriptors
+   * dup2 in child to assign file descriptor to index 0, 1
+
+

@@ -1,0 +1,53 @@
+
+### shell redirection  {.smaller}
+
+
+* `./my_program ... < input.txt`: 
+
+   * run `./my_program ...` but use `input.txt` as input
+   * like we copied and pasted the file into the terminal
+ 
+<hr class="vspace" />
+* `echo foo > output.txt`: 
+
+   * runs `echo foo`, sends output to `output.txt`
+   * like we copied and pasted the output into that file
+   * (as it was written)
+
+
+
+### fork copies file pointer list 
+
+
+
+::: {.r-stack .my-full}
+![](/unix-api/texfig/forkTrick.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/unix-api/texfig/forkTrick.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/unix-api/texfig/forkTrick.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### typical pattern with redirection 
+
+     ![](/unix-api/texfig/typicalPatternRedirect.figure.svg)
+
+
+### redirecting with exec  {.smaller}
+
+
+* standard output/error/input are files 
+
+   * (C stdout/stderr/stdin; C++ cout/cerr/cin)
+ 
+<hr class="vspace" />
+* (probably after forking) open files to redirect
+* … and make them be standard output/error/input 
+
+   * using <code>dup2()</code> library call
+
+* then exec, preserving new standard output/etc.
+

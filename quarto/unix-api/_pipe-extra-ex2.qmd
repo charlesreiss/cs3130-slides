@@ -1,0 +1,65 @@
+
+### exercise  {.smaller}
+
+
+ 
+```
+int pipe_fds[2]; pipe(pipe_fds);
+pid_t p = fork();
+if (p == 0) {
+  close(pipe_fds[0]);
+  for (int i = 0; i < 10; ++i) {
+    char c = '0' + i;
+    write(pipe_fds[1], &c, 1);
+  }
+  exit(0);
+}
+close(pipe_fds[1]);
+char buffer[10];
+ssize_t count = read(pipe_fds[0], buffer, 10);
+for (int i = 0; i < count; ++i) {
+  printf("%c", buffer[i]);
+}
+
+```
+ Which of these are possible outputs [ (if pipe, read, write, fork don't fail)]{.my-small}? <table>
+<tr><td>A. <code>0123456789</code></td><td>B. <code>0</code></td><td>C. (nothing)</td></tr>
+<tr><td>[D.]{.fragment fragment-index=2 .custom .myem-only} A and B</td><td>E. A and C</td><td>F. A, B, and C</td></tr>
+</table>
+
+
+### againframe(pipeExtraEx2)
+
+### empirical evidence  {.smaller}
+
+
+```
+      8 0
+    374 01
+    210 012
+     30 0123
+     12 01234
+      3 012345
+      1 0123456
+      2 01234567
+      1 012345678
+    359 0123456789
+
+```
+
+
+### againframe(pipeExtraEx2More)
+
+### partial reads  {.smaller}
+
+
+* read returning 0 always means end-of-file 
+
+   * by default, read always waits <i>if no input available yet</i>
+   * but can set read to return <i>error</i> instead of waiting
+
+* read can return less than requested if not available 
+
+   * e.g. child hasn't gotten far enough
+
+

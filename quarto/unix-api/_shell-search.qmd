@@ -1,0 +1,22 @@
+
+### searching for programs  {.smaller}
+
+
+* POSIX convention: PATH <i>environment variable</i> 
+
+   * example: <code>/home/cr4bd/bin:/usr/bin:/bin</code>
+   * list of directories to check in order
+
+* environment variables = key/value pairs stored with process 
+
+   * by default, left unchanged on execve, fork, etc.
+
+* one way to implement:  [pseudocode] 
+```
+for (directory in path) {
+    execv(directory + "/" + program_name, argv);
+}
+
+```
+
+

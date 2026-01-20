@@ -1,0 +1,61 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{shapes.misc,arrows.meta,fit,decorations.pathreplacing,matrix,patterns}
+\newcommand{\maincode}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} open new files; \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} waitpid(pid,\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+        }
+\newcommand{\maincodeWait}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} open new files; \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} \myemph{waitpid(pid,\ldots)}; \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+        }
+\newcommand{\maincodeFork}{
+            pid = \myemph{fork()}; \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} open new files; \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} waitpid(pid,\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+        }
+\newcommand{\maincodeOpenNew}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} \myemph{open new files}; \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} waitpid(pid,\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+}
+\newcommand{\altcode}{
+            main() \{ \\
+            \hspace{.5cm} \ldots \\
+            \}
+}
+\begin{document}
+
+\setSlide{1}
+\input{unix-api/texfig/typicalPatternRedirect.inner.tex}
+\end{document}

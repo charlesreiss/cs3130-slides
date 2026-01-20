@@ -1,0 +1,29 @@
+
+### pipelines  {.smaller}
+
+
+* `./program1 | ./program2` 
+
+   * program2's input is program1's output
+
+* example: `ls -1 | grep foo` 
+
+   * `ls -1`: list files (one per line)
+   * `grep foo`: output all lines that contain ‘‘foo’’
+   * `ls -l | grep foo` list all files whose names contain ‘‘foo’’
+
+* similar to `ls -1 >temp1.txt` then ` grep foo <temp1.txt` 
+
+   * but: no waiting
+
+
+
+### pipes 
+
+
+* in `ls -1 | grep foo`, what is `ls -1`'s output
+* trick: in POSIX, there are many types of files 
+
+   * special <i>kind of file</i> called a <em>pipe</em>
+
+

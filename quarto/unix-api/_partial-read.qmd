@@ -1,0 +1,37 @@
+
+### read'ing a fixed amount  {.smaller}
+
+
+```
+ssize_t offset = 0;
+const ssize_t amount_to_read = 1024;
+char result[amount_to_read];
+do {
+    /* cast to void * optional in C */
+    ssize_t amount_read = 
+        read(STDIN_FILENO,
+             (void *) (result + offset),
+             amount_to_read - offset);
+    if (amount_read < 0) {
+        perror("read"); /* print error message */
+        ... /* abort??? */
+    } else {
+        offset += amount_read;
+    }
+} while (offset != amount_to_read && amount_read != 0);
+
+```
+
+
+### partial reads  {.smaller}
+
+
+* on regular file: read reads what you request
+* but otherwise: usually gives you what's known to be available 
+
+   * after waiting for something to be available
+ 
+<hr class="vspace" />
+* reading from network --- what's been received
+* reading from keyboard --- what's been typed
+

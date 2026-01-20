@@ -1,0 +1,16 @@
+
+### ‘waiting’ without waiting  {.smaller}
+
+
+<pre><code>#include &lt;sys/wait.h&gt;
+...
+  pid_t return_value = waitpid(child_pid, &amp;status, WNOHANG);
+  if (return_value == (pid_t) 0) {
+    /* child process not done yet */
+  } else if (child_pid == (pid_t) -1) {
+    /* error */
+  } else {
+    /* handle child_pid exiting */
+  }
+</code></pre>
+

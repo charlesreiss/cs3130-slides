@@ -1,0 +1,5 @@
+
+### exec preserves open files 
+
+![](/unix-api/texfig/redirection-exec.figure.svg)
+

@@ -1,0 +1,21 @@
+
+### multiple processes?  {.smaller}
+
+
+```
+while (...) {
+    pid = fork();
+    if (pid == 0) {
+        exec ...
+    } else if (pid > 0) {
+        pids.push_back(pid);
+    }
+}
+
+/* retrieve exit statuses as processes finish */
+while ((pid = waitpid(-1, ...)) != -1) {
+    handleProcessFinishing(pid);
+}
+
+```
+

@@ -1,0 +1,36 @@
+
+{{< include /unix-api/_read-write-lib.qmd >}}
+
+### againframe(readWrite)
+
+### read'ing one byte at a time  {.smaller}
+
+
+```
+string s;
+ssize_t amount_read;
+char c;
+/* cast to void * not needed in C */
+while ((amount_read = read(STDIN_FILENO, (void*) &c, 1)) > 0) {
+    /* amount_read must be exactly 1 */
+    s += c;
+}
+if (amount_read == -1) {
+    /* some error happened */
+    perror("read"); /* print out a message about it */
+} else if (amount_read == 0) {
+    /* reached end of file */
+}
+
+```
+
+
+### write example 
+
+
+```
+/* cast to void * optional in C */
+write(STDOUT_FILENO, (void *) "Hello, World!\n", 14);
+
+```
+

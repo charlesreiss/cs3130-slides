@@ -1,0 +1,20 @@
+
+### shell 
+
+
+* allow user (= person at keyboard) to run applications
+* user's wrapper around process-management functions
+
+
+### aside: shell forms  {.smaller}
+
+
+* POSIX: command line you have used before 
+<hr class="vspace" />
+* also: graphical shells 
+
+   * e.g. OS X Finder, Windows explorer
+
+* other types of command lines?
+* completely different interfaces?
+

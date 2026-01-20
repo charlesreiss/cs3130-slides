@@ -1,0 +1,37 @@
+
+### pipes  {.smaller}
+
+
+* special kind of file: pipes
+* bytes go in one end, come out the other --- once 
+<hr class="vspace" />
+* created with <code>pipe()</code> library call
+* intended use: communicate between processes 
+
+   * like implementing shell pipelines
+
+
+
+### pipe()  {.smaller}
+
+
+```
+int pipe_fd[2];
+if (pipe(pipe_fd) < 0)
+    handle_error();
+/* normal case: */
+int read_fd = pipe_fd[0];
+int write_fd = pipe_fd[1];
+
+```
+ then from one process… 
+```
+write(write_fd, ...);
+
+```
+ and from another 
+```
+read(read_fd, ...);
+
+```
+

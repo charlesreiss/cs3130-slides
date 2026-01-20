@@ -1,0 +1,118 @@
+
+# shells {visibility="hidden"}
+
+## shells, the concept {visibility="hidden"}
+
+{{< include /unix-api/_shell-concept.qmd >}}
+
+## searching for programs {visibility="hidden"}
+
+{{< include /unix-api/_shell-search.qmd >}}
+
+## kernel buffering {visibility="hidden"}
+
+{{< include /unix-api/_kernel-buffering.qmd >}}
+
+## layers of file interfaces {visibility="hidden"}
+
+{{< include /unix-api/_file-layers.qmd >}}
+
+## pipe blocking {visibility="hidden"}
+
+{{< include /unix-api/_pipe-blocking.qmd >}}
+
+## waiting for more than one? {visibility="hidden"}
+
+{{< include /unix-api/_fork-exec-wait-mult-diag.qmd >}}
+
+## POSIX and Unix {visibility="hidden"}
+
+{{< include /unix-api/_posixAndUnix.qmd >}}
+
+## getpid {visibility="hidden"}
+
+{{< include /unix-api/_getpid.qmd >}}
+
+## read, write {visibility="hidden"}
+
+{{< include /unix-api/_read-write.qmd >}}
+
+## aside: environment variables {visibility="hidden"}
+
+{{< include /unix-api/_envVarAside.qmd >}}
+
+## wait for mutliple {visibility="hidden"}
+
+{{< include /unix-api/_wait-multiple1.qmd >}}
+
+## wait for all {visibility="hidden"}
+
+{{< include /unix-api/_wait-all.qmd >}}
+
+## wait for all (alt) {visibility="hidden"}
+
+{{< include /unix-api/_wait-multiple2.qmd >}}
+
+## waitpid WNOHANG {visibility="hidden"}
+
+{{< include /unix-api/_waitNoHang.qmd >}}
+
+## parent and child {visibility="hidden"}
+
+{{< include /unix-api/_parentAndChild.qmd >}}
+
+# partial reads and writes {visibility="hidden"}
+
+## partial reads and read error checking {visibility="hidden"}
+
+{{< include /unix-api/_partial-read.qmd >}}
+
+## partial writes and write error checking {visibility="hidden"}
+
+{{< include /unix-api/_partial-write.qmd >}}
+
+## kernel buffering {visibility="hidden"}
+
+{{< include /unix-api/_kernel-buffering.qmd >}}
+
+## Unix: everything is a file {visibility="hidden"}
+
+{{< include /unix-api/_everything-is-a-file.qmd >}}
+
+## pipelines {visibility="hidden"}
+
+### againframe(commandLineFeatures)
+
+# pipe exercise (partial reads) {visibility="hidden"}
+
+{{< include /unix-api/_pipe-extra-ex2.qmd >}}
+
+# pipe: closing? {visibility="hidden"}
+
+{{< include /unix-api/_pipe-close.qmd >}}
+
+## aside: copy-on-write {visibility="hidden"}
+
+{{< include /vm/_copyOnWrite.qmd >}}
+
+## fork with copy-on-write {visibility="hidden"}
+
+{{< include /unix-api/_fork-cow.qmd >}}
+
+# pipelines {visibility="hidden"}
+
+## pipe {visibility="hidden"}
+
+{{< include /unix-api/_pipe.qmd >}}
+
+## pipe example {visibility="hidden"}
+
+{{< include /unix-api/_pipe-example.qmd >}}
+
+## pipe and pipelines {visibility="hidden"}
+
+{{< include /unix-api/_pipe-pipelines.qmd >}}
+
+## pipe exercise {visibility="hidden"}
+
+{{< include /unix-api/_pipe-extra-ex.qmd >}}

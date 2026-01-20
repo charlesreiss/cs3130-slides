@@ -1,0 +1,15 @@
+
+### pipe: closing?  {.smaller}
+
+
+* if all write ends of pipe are closed 
+
+   * can get end-of-file (read() returning 0) on read end
+   * exit()ing closes them
+
+* $\\rightarrow{}$ close write end when not using 
+<hr class="vspace" />
+* generally: limited number of file descriptors per process
+* $\\rightarrow{}$ good habit to close file descriptors not being used
+* (but probably didn't matter for read end of pipes in example)
+

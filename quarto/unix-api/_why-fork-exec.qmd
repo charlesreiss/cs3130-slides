@@ -1,0 +1,51 @@
+
+### why fork/exec?  {.smaller}
+
+
+* could just have a function to spawn a new program 
+
+   * Windows <code>CreateProcess()</code>; POSIX's (rarely used) <code>posix_spawn</code>
+ 
+<hr class="vspace" />
+* some other OSs do this (e.g. Windows)
+* needs to include API to set new program's state 
+
+   * e.g. without fork: either: <br> need function to set new program's current directory, <i>or</i> <br> need to change your directory, then start program, then change back
+   * e.g. with fork: just change your current directory before exec
+
+* but allows OS to avoid ‘copy everything’ code 
+
+   * probably makes OS implementation easier
+
+
+
+### posix_spawn  {.smaller}
+
+
+```
+pid_t new_pid;
+const char argv[] = { "ls", "-l", NULL };
+int error_code = posix_spawn(
+    &new_pid,
+    "/bin/ls",
+    NULL /* null = copy current process's open files;
+            if not null, do something else */,
+    NULL /* null = no special settings for new process */,
+    argv,
+    NULL /* null = copy current "environment variables", 
+            if not null, do something else */
+);
+if (error_code == 0) {
+    /* handle error */
+}
+
+```
+
+
+### some opinions (via HotOS '19)  {.smaller}
+
+
+![](/unix-api/fork-in-road-title){}
+ 
+![](/unix-api/fork-in-road-abs){}
+

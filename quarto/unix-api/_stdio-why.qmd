@@ -1,0 +1,22 @@
+
+### stdio and iostreams  {.smaller}
+
+
+* what about <code>cout</code>, <code>printf</code>, etc.?
+* … implemented in terms of <code>read</code>, <code>write</code>, <code>open</code>, <code>close</code> 
+<hr class="vspace" />
+* adds buffering in the process --- faster 
+
+   * read/write typically system calls
+   * running system call for approx. each character is slow!
+   * <i>in addition</i> to buffering that occurs in the kernel
+
+* more convenient 
+
+   * formatted I/O, partial reads/writes handled by library, etc.
+
+* more portable 
+
+   * stdio.h and iostreams defined by the C and C++ standards
+
+

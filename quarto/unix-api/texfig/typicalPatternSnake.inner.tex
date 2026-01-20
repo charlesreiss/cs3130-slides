@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+\tikzset{
+    thread/.style={very thick,draw,decorate,decoration=snake},
+    split/.style={very thick,draw},
+    marker/.style={thin,draw},
+}
+\path[thread] (0, 0) --  (0, -.5);
+\node[anchor=south] at (0,0) {parent};
+\node[anchor=north] (fork mark) at (0, -.5) {fork};
+\draw[thread] (fork mark.south) -- (0, -2) node[below] (wait start) {waitpid};
+\node (child start) at (9, -1.5) {child process};
+\path[split] (fork mark) --  (child start);
+\path[thread] (child start.south) -- (9, -2.5) node[below] (exec) {exec};
+\path[thread] (exec.south) -- ++(0, -2) coordinate (exec done);
+\path[marker] (exec done) -- ++(.5, 0) node[right] {exit()};
+\path[split,dotted] (exec done) -- (0, -6);
+\draw[very thick,dashed] (wait start) -- (0, -6);
+\path[thread] (0, -6) -- ++(0, -3);
+\end{tikzpicture}

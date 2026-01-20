@@ -1,0 +1,5 @@
+
+### pattern with multiple? 
+
+![](/unix-api/texfig/fork-exec-wait-mult-diag.figure.svg)
+

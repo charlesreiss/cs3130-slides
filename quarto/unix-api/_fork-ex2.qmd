@@ -1,0 +1,26 @@
+
+### a fork question (2)  {.smaller}
+
+
+ 
+```
+int x = 0;
+int main() {
+    pid_t pid = fork();
+    int y = 0;
+    if (pid == 0) {
+        x += 1;
+        y += 2;
+    } else {
+        x += 3;
+        y += 4;
+    }
+    printf("%d %d\n", x, y);
+}
+
+```
+ \\tikzmark{question start}[]{.my-small} Exercise: which (possibly multiple) are possible outputs? <table>
+<tr><td>A. 1 2 (newline) 3 4</td><td>B. 1 2 (newline) 4 4</td><td>C. 1 2 (newline) 4 6</td></tr>
+<tr><td>D. 3 4 (newline) 1 2</td><td>E. 3 4 (newline) 4 6</td><td>F. 4 6 (newline) 4 6</td></tr>
+</table>
+

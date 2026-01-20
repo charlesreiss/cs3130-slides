@@ -1,0 +1,23 @@
+
+### some POSIX command-line features  {.smaller}
+
+
+* [searching for programs]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * `ls -l`  \\textrightarrow{}  `/bin/ls -l`
+   * `make` \\textrightarrow{} `/usr/bin/make`
+
+* running in background 
+
+   * `./someprogram &`
+
+* [redirection]{.fragment fragment-index=4 .custom .myem-only}: 
+
+   * `./someprogram >output.txt`
+   * `./someprogram <input.txt`
+
+* [pipelines]{.fragment fragment-index=5 .custom .myem-only}: 
+
+   * `./someprogram | ./somefilter`
+
+

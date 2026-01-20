@@ -1,0 +1,29 @@
+
+### execv and const  {.smaller}
+
+
+```
+int execv(const char *path, char *const *argv);
+
+```
+ 
+
+* <code>argv</code> is a pointer to constant pointer to char
+* probably should be a pointer to constant pointer to <i>constant</i> char
+* … this causes some awkwardness:
+ 
+```
+const char *array[] = { /* ... */ };
+execv(path, array); // ERROR
+
+```
+ 
+
+* solution: cast
+ 
+```
+const char *array[] = { /* ... */ };
+execv(path, (char **) array); // or (char * const *)
+
+```
+

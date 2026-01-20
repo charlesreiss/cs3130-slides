@@ -1,0 +1,22 @@
+
+### running in background  {.smaller}
+
+
+```
+$ ./long_computation >tmp.txt &
+[1] 4049
+$ ...
+[1]+    Done        ./long_computation > tmp.txt
+$ cat tmp.txt
+the result is ...
+
+```
+ 
+
+* `&` --- run a program in ‘‘background’’
+* initially output PID (above: 4049)
+* print out after terminated 
+
+   * one way: use <code>waitpid</code> with option saying ‘‘don't wait’’
+
+

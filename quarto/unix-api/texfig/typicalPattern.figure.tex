@@ -1,0 +1,46 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{decorations.pathmorphing,fadings,arrows.meta}
+\newcommand{\maincode}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} waitpid(pid,\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+}
+\newcommand{\maincodeExec}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} \myemph{exec\ldots(\ldots);} \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} waitpid(pid,\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+}
+\newcommand{\maincodeWait}{
+            pid = fork(); \\
+            if (pid == 0) \{ \\
+            \hspace{.5cm} exec\ldots(\ldots); \\
+            \hspace{.5cm} \ldots \\
+            \} else if (pid > 0) \{ \\
+            \hspace{.5cm} \myemph{waitpid(pid,\ldots);} \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+            \ldots
+}
+\newcommand{\altcode}{
+            main() \{ \\
+            \hspace{.5cm} \ldots \\
+            \} \\
+}
+\begin{document}
+
+\setSlide{1}
+\input{unix-api/texfig/typicalPattern.inner.tex}
+\end{document}

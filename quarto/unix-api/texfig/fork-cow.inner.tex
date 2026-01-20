@@ -1,0 +1,165 @@
+\begin{tikzpicture}
+\tikzset{
+    pcb/.style={
+        tight matrix,
+        column 1/.style={nodes={draw,thin,text width=2.5cm,font=\small,minimum height=0.4cm}},
+        column 2/.style={nodes={draw,thin,text width=5.5cm,font=\fontsize{9}{10}\tt\selectfont,minimum height=0.4cm}},
+    },
+    page/.style={
+        draw,thick,
+        pattern=north west lines,
+        minimum width=2cm,
+        node contents={~},
+    },
+    pointer/.style={
+        draw,very thick,-Latex,
+    },
+    pointer light/.style={
+        draw,thick,-Latex,
+    },
+    tall/.style={
+        minimum height=0.85cm
+    },
+    one pt/.style={
+        fill=blue!40,
+    },
+    one pt line/.style={
+        draw=blue!80!black,
+    },
+    one memory/.style={
+        fill=green!40,
+    },
+    shared memory/.style={
+        fill=yellow!40,
+    },
+    one memory line/.style={
+        draw=green!80!black,
+    },
+    one memory line cow/.style={
+        draw=green!80!black,
+        dashed,
+    },
+    two pt/.style={
+        fill=orange!40,
+    },
+    two pt line/.style={
+        draw=orange!80!black,
+    },
+    two memory/.style={
+        fill=violet!40,
+    },
+    two memory line/.style={
+        draw=violet!80!black,
+    },
+    two memory line cow/.style={
+        draw=violet!80!black,
+        dashed 
+    },
+    fork line/.style={
+        draw=black!30,line width=2mm,-{Latex[length=6mm]}
+    },
+}
+\matrix[pcb,label={[font=\small]north:parent process info}] (proc one) {
+    |[tall]| user regs \&
+    |[tall]|
+    {rax {\fontsize{8}{9}\selectfont (return val.)}=\sout<1->{42}\only<1->{\textit{\myemph<5>{child pid}}}, \\ rcx=133,} \ldots \\
+    page tables \& |[one pt]| ~ \\
+    |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
+    \ldots \& \ldots \\
+};
+\newcommand{\halfvthick}{.2mm}
+\node[draw,very thick,pattern=north west lines,minimum width=2cm,minimum height=6cm,anchor=north west,
+    label={north:memory}] (memory) at ([xshift=1.5cm,yshift=0cm]proc one.north east) {};
+\foreach \y in {-1.8cm} {
+    \draw[very thick,one pt] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\coordinate (one pt root) at ([yshift=-1.8cm-0.7mm,xshift=\halfvthick]memory.north west);
+\draw[pointer light,one pt line] (proc one-2-2.east) -- ++(.25cm,0cm) |- ([yshift=-1.8cm]memory.north west);
+\begin{visibleenv}<1>
+\draw[pointer light,one memory line] (one pt root) -- ++(-.5cm,0cm) |- ([yshift=-0.4cm]memory.north west);
+\draw[pointer light,one memory line] (one pt root) -- ++(-.6cm,0cm) |- ([yshift=-1.1cm]memory.north west);
+\draw[pointer light,one memory line] (one pt root) -- ++(-.7cm,0cm) |- ([yshift=-1.5cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<2>
+\draw[pointer light,one memory line cow] (one pt root) -- ++(-.5cm,0cm) |- ([yshift=-0.4cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\draw[pointer light,one memory line,alt=<3>{red,very thick}] (one pt root) -- ++(-.5cm,0cm) |- ([yshift=-2.9cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<2->
+\draw[pointer light,one memory line cow] (one pt root) -- ++(-.6cm,0cm) |- ([yshift=-1.1cm]memory.north west);
+\draw[pointer light,one memory line cow] (one pt root) -- ++(-.7cm,0cm) |- ([yshift=-1.5cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<1>
+\foreach \y in {-0.4cm,-1.1cm,-1.5cm} {
+    \draw[very thick,one memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\end{visibleenv}
+\begin{visibleenv}<2->
+\foreach \y in {-0.4cm,-1.1cm,-1.5cm} {
+    \draw[very thick,shared memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\end{visibleenv}
+\begin{visibleenv}<2>
+\path ([yshift=-0.8cm,xshift=0cm]memory.north east) coordinate (base memory) node [right=0.5mm,align=left] {shared\\read-only};
+\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=.1cm,yshift=-7mm]base memory) -- ([xshift=.1cm,yshift=7mm]base memory);
+\end{visibleenv}
+\begin{visibleenv}<3-4>
+\path ([yshift=-1.3cm,xshift=0cm]memory.north east) coordinate (base memory alt) node [right=0.5mm,align=left] {shared\\read-only};
+\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=.1cm,yshift=-3mm]base memory alt) -- ([xshift=.1cm,yshift=3mm]base memory alt);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\foreach \y in {-2.9cm} {
+    \draw[very thick,one memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\path[alt=<3>{red}] ([yshift=-2.9cm,xshift=0cm]memory.north east) coordinate (copied memory) node [inner sep=0mm,right=4mm,align=left] (copy label) {copied};
+    \node[align=left,font=\small,anchor=north west,inner sep=0.5mm] at (copy label.south west) {for\\ parent's\\ write};
+\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=.1cm,yshift=-2mm]copied memory) -- ([xshift=.1cm,yshift=2mm]copied memory);
+\end{visibleenv}
+\begin{visibleenv}<4>
+\path[alt=<4>{red}] ([yshift=-0.4cm,xshift=0cm]memory.north east) coordinate (now unshared memory) node[inner sep=0mm,right=0mm]{$\leftarrow$} node [inner sep=0mm,right=5mm,align=left,font=\small] {no longer\\shared};
+\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=.1cm,yshift=-2mm]copied memory) -- ([xshift=.1cm,yshift=2mm]copied memory);
+\end{visibleenv}
+\begin{visibleenv}<3>
+\path[alt=<3>{red}] ([yshift=-0.4cm,xshift=0cm]memory.north east) coordinate (uncopied memory) node[inner sep=0mm,right=0mm]{$\leftarrow$} node [inner sep=0mm,right=5mm,align=left,font=\small] {on parent\\write};
+\end{visibleenv}
+\begin{visibleenv}<2->
+\matrix[pcb,anchor=north west,label={[font=\small]north:child process info}] (proc two) at ([yshift=-1cm]proc one.south west) {
+    |[tall]| user regs \&
+    |[tall]|
+    {rax {\fontsize{8}{9}\selectfont(return val.)}=\sout<1->{42}\only<1->{\myemph<5>{0}}, \\ rcx=133, \ldots} \\
+    page tables\& |[two pt]| ~ \\
+    |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
+    \ldots \& \ldots \\
+};
+\draw[fork line] ([xshift=-0.25cm]proc one.west) -- ++(-1cm,0cm) |- ([xshift=-0.25cm]proc two.west)
+    node[pos=0.25,right] {copy};
+\end{visibleenv}
+\begin{visibleenv}<2->
+\foreach \y in {-4.3cm} {
+    \draw[very thick,two pt] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\coordinate (two pt root) at ([yshift=-4.3cm-0.5mm,xshift=\halfvthick]memory.north west);
+\draw[pointer light,two pt line] (proc two-2-2.east) -- ++(.25cm,0cm) |- ([yshift=-4.3cm]memory.north west);
+\begin{visibleenv}<2->
+\draw[pointer light,two memory line cow] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-0.45cm]memory.north west);
+\draw[pointer light,two memory line cow] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-1.15cm]memory.north west);
+\draw[pointer light,two memory line cow] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-1.55cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<0>
+\draw[pointer light,two memory line] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-4.4cm]memory.north west);
+\draw[pointer light,two memory line] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-4.6cm]memory.north west);
+\draw[pointer light,two memory line] (two pt root) -- ++(-.75cm,0cm) |- ([yshift=-4.7cm]memory.north west);
+\end{visibleenv}
+\begin{visibleenv}<0>
+\foreach \y in {-4.4cm,-4.6cm,-4.7cm} {
+    \draw[very thick,two memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (2cm,-1mm);
+}
+\end{visibleenv}
+% FIXME: XXX -----> = read-only marker
+%\draw[fork line] ([yshift=-1.4cm,xshift=.5cm]memory.north east) coordinate (one memory)-- ++(1cm, 0cm) |- ([yshift=-4.6cm,xshift=.5cm]memory.north east) coordinate (two memory)
+%    node[pos=0.25,left] {copy};
+%\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=-.25cm,yshift=-6mm]one memory) -- ([xshift=-.25cm,yshift=6mm]one memory);
+%\draw[ultra thick,decorate,decoration={brace,mirror}] ([xshift=-.25cm,yshift=-6mm]two memory) -- ([xshift=-.25cm,yshift=6mm]two memory);
+\end{visibleenv}
+\end{tikzpicture}

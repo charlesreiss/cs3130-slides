@@ -1,0 +1,59 @@
+
+### reassigning file descriptors  {.smaller}
+
+
+* redirection: `./program >output.txt`
+* step 1: open output.txt for writing, get new file descriptor
+* step 2: [make that new file descriptor stdout (number 1)]{.fragment fragment-index=2 .custom .myem-only} 
+<hr class="vspace" />
+* tool: <code>int dup2(int oldfd, int newfd)</code> <br> make <code>newfd</code> refer to same open file as <code>oldfd</code> 
+
+   * same <i>open file description</i>
+   * shares the current location in the file
+   * (even after more reads/writes)
+
+* what if newfd already allocated --- closed, then reused
+
+
+### reassigning and file table  {.smaller}
+
+
+```
+// something like this in OS code
+struct process_info { 
+    ...
+    struct open_file_description *files[SIZE];
+    ....
+};
+...
+process->files[STDOUT_FILENO] = process->files[opened-fd];
+
+```
+ 
+
+* syscall: <code>dup2(<i>opened-fd</i>, STDOUT_FILENO);</code>
+
+
+### againframe(reassign)
+
+### dup2 example  {.smaller}
+
+redirects stdout to output to <code>output.txt</code>: 
+```
+fflush(stdout);  /* clear printf's buffer */
+int fd = open("output.txt",
+              O_WRONLY | O_CREAT | O_TRUNC);
+if (fd < 0)
+    do_something_about_error();
+
+dup2(fd, STDOUT_FILENO);
+/* now both write(fd, ...) and write(STDOUT_FILENO, ...) 
+   write to output.txt
+   */
+
+close(fd); /* only close original, copy still works! */
+
+printf("This will be sent to output.txt.\n");
+
+```
+

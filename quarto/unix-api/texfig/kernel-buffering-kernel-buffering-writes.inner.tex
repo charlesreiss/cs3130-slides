@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    component box/.style={draw,thick,minimum width=10cm,minimum height=1cm,align=center},
+    component box big/.style={component box,minimum height=2.25cm},
+    component box small/.style={component box,minimum width=4cm},
+    subcomponent box/.style={draw,thick,minimum width=2cm,align=center,font=\small},
+    event line/.style={draw,ultra thick},
+    event box/.style={draw,thick,fill=white,inner sep=0.25mm,font=\small, align=center},
+}
+\node[component box] (process) {program};
+\node[component box big,anchor=north] (os) at ([yshift=-2cm]process.south) {operating system \\ ~ \\ ~};
+\node[component box small,anchor=north east] (network) at ([xshift=-.5cm,yshift=-1.5cm]os.south) {network};
+\node[component box small,anchor=north west] (disk) at ([xshift=.5cm,yshift=-1.5cm]os.south) {disk};
+\begin{visibleenv}<3->
+\draw[event line,<-] (keyboard.north) -- (os.south -| keyboard.north) node[midway,event box] {(when ready) \\ send data};
+\node[anchor=south,subcomponent box] (keyboard buffer)  at (os.south -| keyboard.north) {buffer: output \\ waiting for network};
+\end{visibleenv}
+\begin{visibleenv}<2->
+\draw[event line,->] ([xshift=-4cm]process.south) -- ([xshift=-4cm]os.north) node[midway,event box,xshift=0cm] {print char \\ to remote machine};
+\end{visibleenv}
+\begin{visibleenv}<4->
+\draw[event line,->] ([xshift=1cm]process.south) -- ([xshift=1cm]os.north) node[midway,event box,xshift=0cm] {write char \\ to file};
+\end{visibleenv}
+\begin{visibleenv}<5->
+\draw[event line,<-] (disk.north) -- (os.south -| disk.north) node[midway,event box] {(when ready) \\ write \textit{block} of data from disk};
+\node[anchor=south,subcomponent box] at (os.south -| disk.north) {buffer: data waiting \\ to be written on disk};
+\end{visibleenv}
+\end{tikzpicture}

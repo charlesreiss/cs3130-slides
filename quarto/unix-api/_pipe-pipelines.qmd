@@ -1,0 +1,35 @@
+
+### pipe and pipelines  {.smaller}
+
+
+```
+ls -1 | grep foo
+
+```
+ 
+```
+pipe(pipe_fd);
+ls_pid = fork();
+if (ls_pid == 0) {
+    dup2(pipe_fd[1], STDOUT_FILENO);
+    close(pipe_fd[0]); close(pipe_fd[1]);
+    char *argv[] = {"ls", "-1", NULL};
+    execv("/bin/ls", argv);
+}
+grep_pid = fork();
+if (grep_pid == 0) {
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]); close(pipe_fd[1]);
+    char *argv[] = {"grep", "foo", NULL};
+    execv("/bin/grep", argv);
+}
+close(pipe_fd[0]); close(pipe_fd[1]);
+/* wait for processes, etc. */
+
+```
+
+
+### example execution 
+
+![](/unix-api/texfig/pipeDiagram.figure.svg)
+

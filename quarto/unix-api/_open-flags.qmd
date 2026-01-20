@@ -1,0 +1,52 @@
+
+### open: flags  {.smaller}
+
+
+<pre><code>int open(const char *path, int <span data-fragment-index="1" class="fragment custom myem">flags</span>);
+int open(const char *path, int <span data-fragment-index="1" class="fragment custom myem">flags</span>, int mode);
+</code></pre>
+ 
+
+* flags: bitwise or of: 
+
+   * <code>O_RDWR</code>, <code>O_RDONLY</code>, or <code>O_WRONLY</code> 
+
+      * read/write, read-only, write-only
+
+   * <code>O_APPEND</code> 
+
+      * append to end of file
+
+   * <code>O_TRUNC</code> 
+
+      * truncate (set length to 0) file if it already exists
+
+   * <code>O_CREAT</code> 
+
+      * create a new file if one doesn't exist
+      * (default: file must already exist)
+
+   * … and more
+
+* <code>man 2 open</code>
+
+
+### open: mode  {.smaller}
+
+
+<pre><code>int open(const char *path, int flags);
+int open(const char *path, int flags, int <span data-fragment-index="1" class="fragment custom myem">mode</span>);
+</code></pre>
+ 
+
+* mode: permissions of newly created file 
+
+   * like numbers provided to <code>chmod</code> command
+   * filtered by a ‘‘umask’’
+
+* simple advice: always use <code>0666</code>  
+
+   * = readable/writeable by everyone, except where umask prohibits
+   * (typical umask: prohibit other/group writing)
+
+

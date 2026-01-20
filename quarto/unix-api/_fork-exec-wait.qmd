@@ -1,0 +1,46 @@
+
+# process creation and management {visibility="hidden"}
+
+{{< include /unix-api/_processOverview.qmd >}}
+
+### againframe(posixProcessFunctions)
+
+{{< include /unix-api/_fork.qmd >}}
+
+{{< include /unix-api/_fork-pcb.qmd >}}
+
+{{< include /unix-api/_fork-example.qmd >}}
+
+{{< include /unix-api/_fork-ex.qmd >}}
+
+## exec {visibility="hidden"}
+
+### againframe(posixProcessFunctions)
+
+{{< include /unix-api/_exec.qmd >}}
+
+{{< include /unix-api/_exec-pcb.qmd >}}
+
+## aside: fork+exec, really? {visibility="hidden"}
+
+{{< include /unix-api/_why-fork-exec.qmd >}}
+
+## wait {visibility="hidden"}
+
+### againframe(posixProcessFunctions)
+
+{{< include /unix-api/_wait.qmd >}}
+
+## summary diagram {visibility="hidden"}
+
+{{< include /unix-api/_fork-exec-wait-diag.qmd >}}
+
+## waiting for more than one? {visibility="hidden"}
+
+{{< include /unix-api/_fork-exec-wait-mult-diag.qmd >}}
+
+### againframe(posixProcessFunctions)
+
+## exercises (fork+exec+wait) {visibility="hidden"}
+
+{{< include /unix-api/_fork-wait-ex.qmd >}}

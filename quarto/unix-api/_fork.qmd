@@ -1,0 +1,17 @@
+
+### fork  {.smaller}
+
+
+* <code>pid_t fork()</code> --- copy the current process
+* returns twice: 
+
+   * in <i>parent</i> (original process): pid of new <i>child</i> process
+   * in <i>child</i> (new process): <code>0</code>
+
+* <em>everything (but pid) duplicated</em> in parent, child: 
+
+   * memory
+   * file descriptors (later)
+   * registers
+
+

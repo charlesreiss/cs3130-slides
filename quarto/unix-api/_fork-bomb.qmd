@@ -1,0 +1,31 @@
+
+### warning re: forking in loops  {.smaller}
+
+<!-- \lstset{language=C,style=smaller} -->
+ 
+```
+while (true) {
+    fork();
+}
+
+```
+ 
+
+* what's going to happen? 
+
+   * lots of CPU being used
+   * lots of memory being allocated
+   * control-C might only terminate one of the processes
+
+* <em>probably very bad and hard to recover from</em>
+
+
+### some recommendations re: timing  {.smaller}
+
+
+* in timing assignment, you'll need to run <code>fork()</code> multiple times to measure it 
+<hr class="vspace" />
+* I recommend:
+* always waitpid <em>successfully</em> before fork()ing a second time
+* test fork()ing exactly once before doing a loop
+

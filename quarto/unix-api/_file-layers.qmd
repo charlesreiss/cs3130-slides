@@ -1,0 +1,24 @@
+
+### layering 
+
+![](/unix-api/texfig/file-layers-layering.figure.svg)
+
+
+### why the extra layer  {.smaller}
+
+
+* better (but more complex to implement) interface: 
+
+   * read line
+   * formatted input (scanf, cin into integer, etc.)
+   * formatted output
+
+* less system calls (bigger reads/writes) sometimes faster 
+
+   * buffering can combine multiple in/out library calls into one system call
+
+* more portable interface 
+
+   * cin, printf, etc. defined by C and C++ standards
+
+
