@@ -47,7 +47,10 @@ itemize: _BEGIN_ITEMIZE whitespace? SIMPLE_COMMAND? (whitespace? item)+ _END_ITE
 
 tabular_line: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak LINEBREAK
 
+tabular_line_nonl: (any_text_not_linebreak _NEXT_CELL)* any_text_not_linebreak -> tabular_line
+
 tabular: _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line+ any_text_not_linebreak _END_TABULAR
+       | _BEGIN_TABULAR _BRACE any_text_not_linebreak _END_BRACE tabular_line_nonl _END_TABULAR
 
 frametitle: _BEGIN_FRAMETITLE _BRACE any_text _END_BRACE
 
@@ -613,12 +616,32 @@ class _InlineCommand(_MyAstItem):
         strip_ends = None
         when = self.when
         command = self.command
+        arguments = self.arguments
         if re.match(r'^\\myemph[A-Z]$', command) is not None:
             index = ord(command[len(r'\myemph')]) - ord('A')
             when = When(f'<{index}>')
             assert when.needs_fragment
             command = r'\myemph'
-        assert command != r'\myemphA'
+        if re.match(r'^\\myemph(AB|Two|Three|Four|Five|Six|Seven)$', command) is not None:
+            name = command[len(r'\myemph'):]
+            index = {
+                'AB': '2-3',
+                'Two': 2,
+                'Three': 3,
+                'Four': 4,
+                'Five': 5,
+                'Six': 6,
+                'Seven': 7,
+            }[name]
+            when = When(f'<{index}>')
+            assert when.needs_fragment
+            command = r'\myemph'
+        if command == r'\varMark':
+            logging.debug('arguments = %s', arguments)
+            index_argument = arguments[0].inner_text
+            when = When(f'<{index_argument}>')
+            command = r'\myemph'
+            arguments = arguments[1:]
         if when and when.needs_fragment:
             if command in (r'\myemph',r'\btHL',):
                 before = '['
@@ -642,8 +665,7 @@ class _InlineCommand(_MyAstItem):
             assert '<' not in command, command
             assert '&' not in command, command
             if command in (r'\lstinputlisting',):
-                logging.debug('arguments = %s', self.arguments)
-                file_name = self.arguments[-1].inner_text
+                file_name = arguments[-1].inner_text
                 file_path = context.base_input_path.parent / file_name
                 output_path = (context.base_output_path.parent / file_path.name)
                 output_path.write_text(file_path.read_text())
@@ -651,8 +673,8 @@ class _InlineCommand(_MyAstItem):
                     output_path.relative_to(context.base_quarto_path)) + ' >}}\n```\n'
             elif command in (r'\tt', r'\texttt'):
                 before, after = '<code>', '</code>'
-                if len(self.arguments) > 0:
-                    inner = self.arguments[0].get_interesting_parts()
+                if len(arguments) > 0:
+                    inner = arguments[0].get_interesting_parts()
                     if len(inner) == 1:
                         if isinstance(inner[0], _InlineCommand) and len(inner[0].arguments) > 0:
                             inner_inner = inner[0].arguments[-1].get_interesting_parts()
@@ -666,12 +688,12 @@ class _InlineCommand(_MyAstItem):
                 strip_ends = True
             elif command in (r'\myemph',r'\btHL',):
                 before, after = '<em>', '</em>'
-            elif command in (r'\textit', r'\itshape'):
-                before, after = '<it>', '</it>'
+            elif command in (r'\textit', r'\itshape', r'\it'):
+                before, after = '<i>', '</i>'
             elif command in (r'\textbf', r'\bfseries'):
                 before, after = '<em>', '</em>'
             elif command in (r'\small',r'\scriptsize'):
-                can_be_spanned = all(map(attrgetter('can_be_spanned'), self.arguments))
+                can_be_spanned = all(map(attrgetter('can_be_spanned'), arguments))
                 if can_be_spanned:
                     before, after = '[', ']{.my-small}'
                 else:
@@ -686,7 +708,10 @@ class _InlineCommand(_MyAstItem):
                 before, after = '<hr />', '\n'
             elif command in (r'\vspace',):
                 start_arg = None
-                before, after = '\n', ''
+                if arguments[0].inner_text.startswith('-'):
+                    before, after = '\n', ''
+                else:
+                    before, after = '\n<hr class="vspace" />', ''
             elif command in (r'\textasciicircum',):
                 before, after = '^', ''
             elif command in (r'\ldots,'):
@@ -695,6 +720,20 @@ class _InlineCommand(_MyAstItem):
                 before, after = '~~', '~~'
             elif command in (r'\imagecredit',):
                 before, after = '[', ']{.mycredit}'
+            elif command in (r'\url',):
+                before, after = '[', '](' + arguments[0].inner_text + ')'
+            elif command in (r'\titlepage',):
+                return ''
+            elif command in (r'\normalfont',):
+                before, after = '<span class="normal">', ''
+            elif command in (r'\textcolor',r'\color'):
+                color_map = {
+                    'violet!80!black': 'darkviolet',
+                    'blue!80!black': 'darkblue',
+                    'green!80!black': 'darkgreen',
+                }
+                color = color_map.get(arguments[0].inner_text, arguments[0].inner_text)
+                before, after = f'<span style="color: {color}">', '</span>'
             else:
                 start_arg = 0
                 before, after = command.replace('\\', '\\\\') + '{', '}'
@@ -718,7 +757,7 @@ class _InlineCommand(_MyAstItem):
             after = '</span>'
         result = before
         if start_arg != None:
-            for argument in self.arguments[start_arg:]:
+            for argument in arguments[start_arg:]:
                 with context.inner(tt=is_tt, strip_ends=strip_ends, frame_top=None) as inner_context:
                     result += argument.render(inner_context)
         result += after
@@ -992,6 +1031,7 @@ class Verbatim(_MyAstItem):
             in_argument = False
             current_moredelim: Moredelim | None = None
             current_command = ''
+            previous_arguments = []
             current_argument = ''
             i = 0
             while i < len(self.contents):
@@ -1007,16 +1047,23 @@ class Verbatim(_MyAstItem):
                     continue
                 elif in_argument or current_moredelim is not None:
                     if in_argument and c == close_brace:
-                        assert not current_command.startswith('\\'), current_command
-                        command_ast = GenericCommand(
-                                '\\' + current_command,
-                                None,
-                                _RawString(current_argument)
-                            )
-                        with context.inner(pre=True, raw_html=True) as inner_context:
-                            result += command_ast.render(inner_context)
-                        in_argument = False
-                        current_command = ''
+                        previous_arguments.append(_RawString(current_argument))
+                        current_argument = ''
+                        if len(self.contents) < i+1 or self.contents[i+1] != open_brace:
+                            assert not current_command.startswith('\\'), current_command
+                            command_ast = GenericCommand(
+                                    '\\' + current_command,
+                                    None,
+                                    *previous_arguments
+                                )
+                            with context.inner(pre=True, raw_html=True) as inner_context:
+                                result += command_ast.render(inner_context)
+                            in_argument = False
+                            current_command = ''
+                            previous_arguments = []
+                        else:
+                            i += 2
+                            continue
                     elif c == '<':
                         current_argument += '&lt;'
                     elif c == '>':
@@ -1240,7 +1287,7 @@ class Tikzpicture(_MyAstItem):
                 result += f'![]({output_svg_name})' + \
                     '{.absolute top="0%" left="0%" width=1050 height=600 .my-center ' + maybe_alt
                 if max_slide_number > 1:
-                    result += ' .fragment .fade-in-then-out fragment=index='+str(slide_number)
+                    result += ' .fragment .fade-in-then-out fragment-index='+str(slide_number)
                 result += '}\n'
             elif max_slide_number == 1:
                 result += f'![]({output_svg_name})'
@@ -1536,7 +1583,10 @@ class OutsideCommand(_MyAstItem):
             return ''
         elif self.command == r'\input':
             logging.debug('input %s', self.arguments)
-            input_file = context.base_output_path.parent / self.arguments[0].inner_text
+            filename = self.arguments[0].inner_text
+            if filename in ('../common/listingsLib', '../common/listingsLib.tex'):
+                return '<!-- \\input{' + filename + '} -->'
+            input_file = context.base_output_path.parent / filename
             input_file = input_file.with_name(
                 '_' + input_file.name
             )
@@ -1552,7 +1602,8 @@ class OutsideCommand(_MyAstItem):
             return f'\n## {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
         elif self.command == r'\subsubsection':
             return f'\n## {self.arguments[0].inner_text}' + '{visibility="hidden"}\n'
-        elif self.command in (r'\iftoggle', r'\setbeamertemplate',):
+        elif self.command in (r'\iftoggle', r'\setbeamertemplate', r'\titlepage',
+                              r'\title', r'\date'):
             result = f'\n<!-- {self.command}('
             result += ','.join(map(attrgetter('inner_text'), self.arguments))
             result += ') -->\n'
