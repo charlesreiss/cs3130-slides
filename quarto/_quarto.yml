@@ -1,5 +1,20 @@
 project:
   title: "CS3130 slides"
-
-
-
+format:
+  revealjs:
+    theme: [simple, ./custom.scss]
+    slide-level: 3
+    navigation-mode: linear
+    scrollable: true
+    chalkboard:
+      chalk-effect: 1.0
+      theme: whiteboard
+      boardmarker-width: 3
+    progress: false
+    margin: 0.02
+    width: 1050
+    height: 600
+    code-line-numbers: false
+    self-contained-math: true
+    slide-number: "c"
+mermaid-format: svg

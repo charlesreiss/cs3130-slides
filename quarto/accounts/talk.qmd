@@ -4,20 +4,8 @@ title: "accounts"
 format:
   revealjs:
     theme: [simple, ../custom.scss, ../bradjc.scss]
-    slide-level: 3
-    navigation-mode: linear
-    scrollable: true
-    chalkboard:
-      chalk-effect: 1.0
-      theme: whiteboard
-      boardmarker-width: 3
-    progress: false
     smaller: true
     margin: 0.1
-    width: 1050
-    height: 600
     slide-number: "c"
-
-mermaid-format: svg
 ---
 {{< include ../accounts/_talk-inner.qmd >}}
