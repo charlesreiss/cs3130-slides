@@ -1,0 +1,201 @@
+
+<!-- \iftoggle(heldback,\NewDocumentCommand\maybeEmph{D<>{} m}{#1},\NewDocumentCommand\maybeEmph{D<>{} m}{\myemph#2{#1}}) -->
+
+### splitting addresses for levels  {.smaller}
+
+
+* x86-32
+* 32-bit physical address; 32-bit virtual address
+* $2^12$ byte page size  
+
+   * \\iftoggle{heldback<i>12-bit page offset</i>}
+
+* 2-levels of page tables; each page table is one page
+* 4 byte page table entries 
+
+   * \\iftoggle{heldback<i>$2^12/4 = 2^10$ PTEs/page table; 10-bit VPN parts</i>}
+ 
+<hr class="vspace" />
+* how is address <code>0x12345678</code> split up? 
+
+   * \\iftoggle{heldback\only{10-bit VPN part 1: <code>0001 0010 00 (0x48)</code>; <br> 10-bit VPN part 2: <code>11 0100 0101 (0x345)</code>; <br> 12-bit page offset: <code>0x678</code>}}
+
+
+
+### 1-level example  {.smaller}
+
+
+
+* 6-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+* page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 other bits;
+* page table base register <code>0x20</code>; translate virtual address <code>0x30</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-1-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-1-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-1-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitEx-1-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### 2-level example  {.smaller}
+
+
+
+* [9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+* page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+* page table base register <code>0x20</code>; translate virtual address <code>0x131</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-2-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-2-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-2-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitEx-2-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/multiSplitEx-2-level-example.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/multiSplitEx-2-level-example.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### 2-level splitting  {.smaller}
+
+
+* 9-bit virtual address
+* 6-bit physical address 
+<hr class="vspace" />
+* 8-byte pages $\\rightarrow{}$ 3-bit page offset (bottom bits)
+* 9-bit VA: 6 bit VPN + 3 bit PO
+* 6-bit PA: 3 bit PPN + 3 bit PO 
+<hr class="vspace" />
+* 8 entry page tables $\\rightarrow{}$ 3-bit VPN parts
+* 9-bit VA: 3 bit VPN part 1; 3 bit VPN part 2
+
+
+### pages and page table base pointer  {.smaller}
+
+
+* page table base pointer --- only for first-level lookup 
+
+   * zeroth page table entry
+
+* 1st-level page table entry contains physical page number
+* multiply page number by page size to get byte address of page 
+
+   * (then same process as using page table base pointer)
+
+
+
+### 2-level exercise (1)  {.smaller}
+
+
+
+* [9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+* page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;
+* page table base register <code>0x08</code>; translate virtual address <code>0x0FB</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### 2-level exercise (2)  {.smaller}
+
+
+
+* [9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+* page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+* page table base register <code>0x08</code>; translate virtual address <code>0x00B</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### 2-level exercise (3)  {.smaller}
+
+
+
+* [9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE
+* page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused
+* page table base register <code>0x08</code>; translate virtual address <code>0x1CB</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### 2-level exercise (4)  {.smaller}
+
+
+
+* [10-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 16 byte pages, 2 byte PTE
+* page tables 1 page; PTE: 2 bit PPN (MSB of first byte), 1 valid bit, rest unused
+* page table base register <code>0x10</code>; translate virtual address <code>0x376</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+
+
+### memory HW 
+
+
+* very similar exericses
+

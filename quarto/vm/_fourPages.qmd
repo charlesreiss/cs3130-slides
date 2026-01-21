@@ -1,0 +1,59 @@
+
+### toy program memory 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/fourPages-toy-program-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/fourPages-toy-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/fourPages-toy-program-memory.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/fourPages-toy-program-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/fourPages-toy-program-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### toy physical memory 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/fourPages-toy-physical-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/fourPages-toy-physical-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/fourPages-toy-physical-memory.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/fourPages-toy-physical-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/fourPages-toy-physical-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### toy page table lookup 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+

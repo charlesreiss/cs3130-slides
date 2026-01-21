@@ -1,0 +1,28 @@
+
+{{< include /vm/_ptInPipeline.qmd >}}
+
+## copy-on-write?{visibility="hidden"}
+
+{{< include /vm/_copyOnWrite.qmd >}}
+
+# page table in memory --- assignment {visibility="hidden"}
+
+{{< include /vm/_ptInMemAssign.qmd >}}
+
+## swapping {visibility="hidden"}
+
+{{< include /vm/_swapping.qmd >}}
+
+{{< include /vm/_swapTimeline.qmd >}}
+
+## swap/mmap {visibility="hidden"}
+
+{{< include /vm/_mmap-swap.qmd >}}
+
+## misc exercise {visibility="hidden"}
+
+{{< include /vm/_ptSizeEx2.qmd >}}
+
+## exercise: simple lookup {visibility="hidden"}
+
+{{< include /vm/_toyLookupEx2.qmd >}}

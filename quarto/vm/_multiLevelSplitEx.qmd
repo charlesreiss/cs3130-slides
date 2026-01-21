@@ -1,0 +1,23 @@
+
+### splitting addresses  {.smaller}
+
+
+* if: 
+
+   * 256-byte ($2^8$ byte) pages
+   * 4-byte page table entries
+   * 3 levels of page tables
+   * page tables take up 1 page
+
+* Q1: page offset size (bits) <table>
+   <tr><td>A. \<=4</td><td>B. 5--7</td><td>C. 8--11</td><td>D. 12--15</td><td>E. >15</td></tr>
+<tr><td></td></tr>
+</table>
+   
+* Q2: virtual page number size (bits) <table>
+   <tr><td>A. \<=4</td><td>B. 5--7</td><td>C. 8--11</td><td>D. 12--15</td><td>E. >15</td></tr>
+<tr><td></td></tr>
+</table>
+   
+* Q3: split address <code>0x1234</code>
+

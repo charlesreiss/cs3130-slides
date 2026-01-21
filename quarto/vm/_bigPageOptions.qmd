@@ -1,0 +1,53 @@
+
+### huge page tables 
+
+
+* huge virtual address spaces!
+* impossible to store PTE for every page 
+<hr class="vspace" />
+* how can we save space?
+
+
+### holes 
+
+![](/vm/texfig/bigPageOptions-holes.figure.svg)
+
+
+### saving space  {.smaller}
+
+
+* basic idea: don't store (most) invalid page table entries
+* use a data structure other than a flat array 
+
+   * want a map --- lookup key (virtual page number), get value (PTE)
+
+* options? 
+<hr class="vspace" />
+* [hashtable]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * actually used by some historical processors
+   * but never common
+
+* [tree data structure]{.fragment fragment-index=3 .custom .myem-only}  
+
+   * but not quite a search tree
+
+
+
+### search tree tradeoffs  {.smaller}
+
+
+* lookup usually implemented <em>in hardware</em> 
+
+   * lookup should be simple
+   * solution: lookup splits up address bits (no complex calculations)
+
+* lookup should not involve many memory accesses 
+
+   * doing two memory accesses is already very slow
+   * solution: tree with many children from each node 
+
+      * (far from binary tree's left/right child)
+
+
+

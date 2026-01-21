@@ -1,0 +1,13 @@
+
+### pa=translate(va) 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/ptInMemAssign.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/ptInMemAssign.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\tikzset{
+    stage/.style={draw,ultra thick,minimum height=2cm,minimum width=1.25cm,font=\small},
+    subStage/.style={draw,thick, minimum height=1.8cm,font=\fontsize{10}{11}\selectfont},
+    >=Latex,
+}
+
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=7.5mm]
+\node[subStage,on chain] (immu) {MMU};
+\node[subStage,on chain=going right] (icache) {i-cache};
+\node[stage,on chain,label={south:decode}] (decode) {};
+\node[stage,on chain,label={south:execute}] (execute) {};
+\node[subStage,on chain] (dmmu) {MMU};
+\node[subStage,on chain] (dcache) {d-cache};
+\node[stage,on chain,label={south:writeback}] (writeback) {};
+\end{scope}
+\foreach \x in {2mm} {
+    \draw[<-,thick] ([yshift=\x]immu.east) -- ([yshift=\x]icache.west);
+    \draw[<-,thick] ([yshift=\x]dmmu.east) -- ([yshift=\x]dcache.west);
+}
+\foreach \x in {6mm,-2mm} {
+    \draw[->,thick] ([yshift=\x]immu.east) -- ([yshift=\x]icache.west);
+    \draw[->,thick] ([yshift=\x]dmmu.east) -- ([yshift=\x]dcache.west);
+}
+\node[stage,fit=(immu) (icache),label={south:fetch}] (fetch) {};
+\node[stage,fit=(dmmu) (dcache),label={south:memory}] (memory) {};
+\draw[->,thick] (fetch) -- (decode);
+\draw[->,thick] (decode) -- (execute);
+\draw[->,thick] (execute) --  (memory);
+\draw[->,thick] (memory) -- (writeback);
+\end{tikzpicture}

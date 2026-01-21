@@ -1,0 +1,19 @@
+
+### swapping almost mmap  {.smaller}
+
+
+* access mapped file for first time, read from disk 
+
+   * (like swapping when memory was swapped out)
+
+* write ‘‘mapped’’ memory, write to disk eventually 
+
+   * (like writeback policy in swapping)
+   * use ‘‘dirty’’ bit
+ 
+<hr class="vspace" />
+* extra detail: other processes should see changes 
+
+   * all accesses to file use <em>same physical memory</em>
+
+

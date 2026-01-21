@@ -1,0 +1,61 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+    \coordinate (begin) at ([xshift=-1cm,yshift=-2cm]current page.north east);
+    \tikzset{
+        page offset/.style={alt=<2>{draw=red,fill=red!10}},
+    }
+    \begin{scope}[shift={(begin)},x=1.25cm] 
+        \draw (-6, 0) rectangle (0, 0.5);
+        \node[anchor=south] at (-3, 0.4) {virtual addr};
+        \begin{visibleenv}<2-3>
+        \draw (-6, 0) rectangle (-2, 0.5) node[midway] {VPN};
+        \end{visibleenv}
+        \begin{visibleenv}<4->
+        \draw (-6, 0) rectangle (-2, 0.5);
+            \draw[alt=<4>{red},dotted] (-6, 0) rectangle (-4, 0.5) node[midway,font=\fontsize{11}{12}\selectfont] {VPN pt 1};
+            \draw[alt=<4>{red},dotted] (-4, 0) rectangle (-2, 0.5) node[midway,font=\fontsize{11}{12}\selectfont] {VPN pt 2};
+        \end{visibleenv}
+        \begin{visibleenv}<2->
+        \draw[page offset] (-2, 0) rectangle (0, 0.5) node[midway] {page offset};
+        \end{visibleenv}
+        \begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt,inner sep=0mm}]
+            \node[anchor=north] at (0, 0) {0};
+            \node[anchor=north] at (-2, 0) {3};
+            \node[anchor=north] at (-4, 0) {6};
+            \node[anchor=north] at (-6, 0) {9};
+        \end{scope}
+        \begin{scope}[yshift=-1.5cm]
+            \draw (-4, 0) rectangle (0, 0.5);
+            \node[anchor=south] at (-2, 0.4) {physical addr};
+            \begin{visibleenv}<2->
+            \draw (-4, 0) rectangle (-2, 0.5) node[midway] {PPN};
+            \draw[page offset] (-2, 0) rectangle (0, 0.5) node[midway] {page offset};
+            \end{visibleenv}
+            \begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt,inner sep=0mm}]
+                \node[anchor=north] at (0, 0) {0};
+                \node[anchor=north] at (-2, 0) {3};
+                \node[anchor=north] at (-4, 0) {6};
+            \end{scope}
+        \end{scope}
+        \begin{visibleenv}<3->
+        \begin{scope}[yshift=-4cm]
+            \matrix[tight matrix,
+                nodes={text width=1cm,font=\small},
+                column 1/.style={nodes={text width=0.6cm,draw=none}},
+                row 1/.style={nodes={draw=none}},
+                label={north:page table \small (either level)},
+            ] at (-1, 0){
+                ~ \& valid? \& PPN \\
+                0 \& ~ \& ~ \\
+                1 \& ~ \& ~ \\
+                2 \& ~ \& ~ \\
+                \ldots \& |[draw=none]|\ldots \& |[draw=none]|\ldots \\
+                \myemph<4>{7} \& ~ \& ~ \\
+            };
+        \end{scope}
+        \end{visibleenv}
+    \end{scope}
+\end{scope}
+\end{tikzpicture}

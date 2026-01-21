@@ -1,0 +1,12 @@
+
+### x86-64 page table splitting  {.smaller}
+
+
+* 48-bit virtual address
+* 12-bit page offset (4KB pages)
+* 36-bit virtual page number, split into four 9-bit parts
+* page tables at each level: $2^9$ entries, 8 bytes/entry 
+
+   * page tables take up 4KB (1 page)
+
+

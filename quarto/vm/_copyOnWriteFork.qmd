@@ -1,0 +1,10 @@
+
+### fast copies  {.smaller}
+
+
+* Unix mechanism for starting a new process: <code>fork()</code>
+* creates a <em>copy</em> of an entire program!
+* (usually, the copy then calls <code>execve</code> --- replaces itself with another program) 
+<hr class="vspace" />
+* how isn't this really slow?
+

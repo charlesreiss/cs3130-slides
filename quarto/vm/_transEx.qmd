@@ -1,0 +1,39 @@
+
+### exercise setup 
+
+
+
+* 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+ 
+
+::: {.r-stack}
+![](/vm/texfig/transExSetup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/transExSetup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### exercise  {.smaller}
+
+  
+
+* 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+* (virtual addresses) []{.my-small} [<code></code> 0x18]{.fragment fragment-index=2 .custom .myem-only} = \exAnswer{<code></code> 00}; <code>0x03</code> = \exAnswer{0x4A}; <code>0x0A</code> = \exAnswer{<code></code> 0xDC}; <code>0x13</code> = \exAnswer{fault}
+ 
+
+::: {.r-stack}
+![](/vm/texfig/transExAddrs.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/transExAddrs.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/transExAddrs.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/transExAddrs.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/transExAddrs.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

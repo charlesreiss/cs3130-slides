@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+    \begin{visibleenv}<2->
+\node[fill=white,draw=red,ultra thick,anchor=south,align=left] at ([yshift=1cm]current page.south) {
+OS tracks list of \texttt{struct vm\_area\_struct} with: \\
+(shown in this output): \\
+\hspace{.5cm}virtual address start, end \\
+\hspace{.5cm}permissions \\
+\hspace{.5cm}offset in backing file (if any) \\
+\hspace{.5cm}pointer to backing file (if any) \\
+~ \\
+(not shown): \\
+\hspace{.5cm}info about sharing of non-file data
+\hspace{.5cm}\ldots
+};
+    \end{visibleenv}
+\end{scope}
+\end{tikzpicture}

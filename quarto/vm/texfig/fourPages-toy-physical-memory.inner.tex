@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    addr/.style={font=\small\tt},
+    y=0.8cm,
+}
+\node[anchor=south,align=center]at (2, 4) {program memory \\ \myemph{virtual addresses}};
+\draw[very thick] (0, 0) rectangle (4, 4);
+\foreach \x in {1,2,3} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt}]
+\node[align=left] at (2, 0.5) {00 0000 0000 to \\ 00 1111 1111};
+\node[align=left] at (2, 1.5) {01 0000 0000 to \\ 01 1111 1111};
+\node[align=left] at (2, 2.5) {10 0000 0000 to \\ 10 1111 1111};
+\node[align=left] at (2, 3.5) {11 0000 0000 to \\ 11 1111 1111};
+\end{scope}
+\foreach \x/\y in {0/green,1/blue,2/orange,3/yellow} {
+    \fill[\y,opacity=0.10] (0, \x) rectangle ($(0, \x) + (4, 1)$);
+}
+\begin{scope}[xshift=6.5cm]
+\node[overlay,anchor=south,align=center]at (2, 8) {real memory \\ \myemph{physical addresses}};
+\draw[very thick] (0, 0) rectangle (4, 8);
+\foreach \x in {1,2,3,...,7} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\begin{scope}[every node/.style={font=\fontsize{10}{11}\selectfont\tt}]
+\node[align=left] at (2, 0.5) {\myemph<2>{000} 0000 0000 to \\ \myemph<2>{000} 1111 1111};
+\node[align=left] at (2, 1.5) {\myemph<2>{001} 0000 0000 to \\ \myemph<2>{001} 1111 1111};
+\node[align=left] at (2, 7.5) {\myemph<2>{111} 0000 0000 to \\ \myemph<2>{111} 1111 1111};
+\end{scope}
+\begin{visibleenv}<2>
+\node[anchor=west] at (4, 0.5) {physical page 0};
+\node[anchor=west] at (4, 1.5) {physical page 1};
+\node[anchor=west] at (4, 7.5) {physical page 7};
+\end{visibleenv}
+\end{scope}
+\begin{visibleenv}<3->
+\draw[thick,->] (4, 0.5) -- (6.5, 2.5);
+\draw[thick,->] (4, 1.5) -- (6.5, 7.5);
+\draw[thick,->] (4, 3.5) -- (6.5, 0.5);
+\end{visibleenv}
+\begin{visibleenv}<4->
+\matrix[tight matrix,anchor=north,
+    nodes={text width=3.4cm,minimum height=0.5cm},
+    column 1/.style={nodes={draw=none,font=\tt}},
+    column 2/.style={nodes={draw,thick,font=\tt}},
+    row 1/.style={nodes={draw=none,font=\normalfont}}] (thePt) at (2, 9.0) {
+    virtual page \# \& physical page \# \\
+    00 \& 010 \normalfont (2) \\
+    01 \& 111 \normalfont (7) \\
+    10 \& \normalfont\it none \\
+    11 \& 000 \normalfont (0) \\
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[draw=red,fill=red,fill opacity=0.1,ultra thick,inner sep=0.5mm,fit=(thePt)] {};
+    \node[overlay,red,anchor=south west,align=left] at ([xshift=0cm,yshift=-0.25cm]thePt.north east) {\bfseries page\\\bfseries table!};
+\end{visibleenv}
+\end{tikzpicture}

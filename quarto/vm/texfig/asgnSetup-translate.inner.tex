@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+    \node (ptbreq) {ptbr = GetPointerToTable(};
+    \matrix[tight matrix,anchor=west,
+        nodes={minimum height=0.5cm},
+        row 1/.style={
+            nodes={draw=none},
+        },
+        column 1/.style={nodes={draw=none}},
+        column 2/.style={
+            nodes={text width=1.2cm}
+        },
+        column 3/.style={
+            nodes={text width=2.2cm}
+        },
+    ] (tbl) at (ptbreq.east) {
+        VPN \& valid? \& physical \\
+        0 \& 0 \& --- \\
+        1 \& 1 \& 0x9999 \\
+        2 \& 0 \& --- \\
+        3 \& 1 \& 0x3333 \\
+        \ldots \& \ldots \& \ldots \\
+    };
+    \node[anchor=west] (ptbrparen) at (tbl.east) {)};
+    \node[align=left,
+    anchor=north west] at (tbl.south -| ptbreq.west) {
+        translate(0x0\myemph<2>{FFF}) == (void*) \~~0L \\
+        translate(0x1\myemph<2>{000}) == (void*) 0x9999\myemph<2>{000} \\
+        translate(0x1\myemph<2>{001}) == (void*) 0x9999\myemph<2>{001} \\
+        translate(0x2\myemph<2>{000}) == (void*) \~~0L \\
+        translate(0x2\myemph<2>{001}) == (void*) \~~0L \\
+        translate(0x3\myemph<2>{000}) == (void*) 0x3333\myemph<2>{000} \\
+    };
+    \node[anchor=west] (ptbrparen2) at (tbl.east) {)};
+\end{tikzpicture}

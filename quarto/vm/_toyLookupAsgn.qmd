@@ -1,0 +1,26 @@
+
+### page table lookup (and translate()) 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/toyLookupAsgn-page-table-lookup-and-translate.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/toyLookupAsgn-page-table-lookup-and-translate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### page table lookup (and allocate) 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/toyLookupAsgn-page-table-lookup-and-allocate.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/toyLookupAsgn-page-table-lookup-and-allocate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

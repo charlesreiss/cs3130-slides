@@ -1,0 +1,59 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    pageNumber/.style={fill=blue!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageOffset/.style={fill=green!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    comp/.style={fill=yellow!10,font=\fontsize{12}{13}\selectfont},
+    memAccess/.style={alt=<7>{red, very thick}},
+}
+\node[pageNumber] (addrLeft) {11 0101 01};
+\node[anchor=west,pageOffset] (addrRight) at (addrLeft.east) {00 1101 1111};
+\begin{visibleenv}<2->
+\node[draw,comp,below=1cm of addrLeft] (timesPte) {$\times$ PTE size};
+\draw[->,thick] (addrLeft) -- (timesPte);
+\node[draw,very thick,below left=3cm and 1cm of addrLeft,label={[align=center]north:page table\\base register}] (ptbr) {\tt 0x10000};
+\node[draw,comp] (plus) at (timesPte.south |- ptbr.west) {+};
+\draw[->,thick] (timesPte) -- (plus);
+\draw[->,thick] (ptbr) -- (plus);
+\end{visibleenv}
+
+\begin{visibleenv}<3->
+\node[below=1.25cm of plus,fill=violet!10,draw,very thick,minimum height=1cm,minimum width=12cm,xshift=3cm] (cache) {memory};
+\node[pageNumber] (addrLeftFinal) at ([xshift=7cm]plus) {1101 0011 11};
+\draw[->,thick,memAccess] (plus) -- (cache.north -| plus.south);
+\node[above right=1cm and 2cm of plus,align=center,draw,comp] (check) {check valid bit/etc.};
+\node[below=1cm of check,draw,comp] (split) {split PTE parts};
+\draw[->,thick] (cache.north -| split.south) -- (split.south);
+\draw[->,thick] (split) -- (check);
+\draw[->,thick] ([xshift=1cm]check.north) -- ++(1cm, 1cm) node[above] {cause fault?};
+\draw[blue!50!black,->,thick] (split) -- (addrLeftFinal);
+\end{visibleenv}
+
+\begin{visibleenv}<4->
+\node[anchor=west,pageOffset] (addrRightFinal) at (addrLeftFinal.east) {00 1101 1111};
+\draw[very thick,green!50!black,densely dotted] (addrRight) |- ([xshift=-.5mm,yshift=.5cm]split.north);
+\draw[very thick,green!50!black,densely dotted,->] ([xshift=.5mm,yshift=.5cm]split.north) -| (addrRightFinal.north);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]south:physical address},fit=(addrLeftFinal) (addrRightFinal)] (addrFinal) {};
+\end{visibleenv}
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]north:virtual address},fit=(addrLeft) (addrRight)] (addr) {};
+\begin{visibleenv}<5->
+    \draw[->,thick,memAccess] (addrFinal) -- (cache.north -| addrFinal.south);
+\end{visibleenv}
+
+\begin{pgfonlayer}{bg}
+\begin{visibleenv}<6->
+    \node [fill=black!5,fit=(timesPte) (split),draw,line width=0.5mm,dashed,label={south:memory management unit (MMU)}] (mmu) {};
+\end{visibleenv}
+\end{pgfonlayer}
+
+\begin{visibleenv}<7>
+    \node[fill=white,draw=red,ultra thick,align=center] at ([xshift=1cm]mmu.center) {
+        one program cache/memory access becomes \\
+        multiple cache/memory accesses
+    };
+\end{visibleenv}
+
+\end{tikzpicture}

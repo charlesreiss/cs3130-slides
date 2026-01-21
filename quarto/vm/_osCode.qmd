@@ -1,0 +1,16 @@
+
+### running OS code  {.smaller}
+
+
+* system calls, I/O events, etc. run OS code in kernel mode 
+<hr class="vspace" />
+* where in memory is this OS code? 
+
+   * probably have a page table entry pointing to it
+   * marked not accessible in user mode
+
+* code better not be modified by user program 
+
+   * otherwise: uncontrolled way to ‘‘escape’’ user mode
+
+

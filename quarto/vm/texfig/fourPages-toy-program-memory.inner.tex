@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    addr/.style={font=\fontsize{12}{13}\selectfont\tt},
+}
+\draw[very thick] (0, 0) rectangle (4, 4);
+\foreach \x in {1,2,3} {
+    \draw[thick] (0, \x) -- (4, \x);
+}
+\node at (2, 0.5) {code};
+\node at (2, 1.5) {data/heap};
+\node at (2, 2.5) {empty/more heap?};
+\node at (2, 3.5) {stack};
+\draw[<-,thick] (0,0.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{00} \myemph<5>{0000 0000} = 0x000};
+\draw[<-,thick] (0,1.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{01} \myemph<5>{0000 0000} = 0x100};
+\draw[<-,thick] (0,2.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{10} \myemph<5>{0000 0000} = 0x200};
+\draw[<-,thick] (0,3.0)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{11} \myemph<5>{0000 0000} = 0x300};
+\draw[<-,thick] (0,3.95)  -- ++ (-.5cm,0cm) node [left,addr] {\myemph<4>{11} \myemph<5>{1111 1111} = 0x3FF};
+\begin{visibleenv}<2->
+\foreach \x/\y in {0/green,1/blue,2/orange,3/yellow} {
+    \fill[\y,opacity=0.10] (0, \x) rectangle ($(0, \x) + (4, 1)$);
+    \node[anchor=west] at ($(0, \x) + (4, 0.5)$) {virtual page\# \myemph<4>{\x}};
+}
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    divide memory into \myemph{pages} ($2^8$ bytes in this case) \\
+    ``virtual'' = addresses the program sees
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    \myemph{page number} is upper bits of address \\
+    (because page size is power of two)
+};
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    rest of address is called \myemph{page offset}
+};
+\end{visibleenv}
+\end{tikzpicture}

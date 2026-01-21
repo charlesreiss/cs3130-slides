@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\begin{visibleenv}<2>
+\node[draw=red,ultra thick] at ([yshift=-1cm]current page.south) {
+    page fault handler is going \myemph{switch to another program}
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw=red,ultra thick,align=left] at ([yshift=-1cm]current page.south) {
+    worth using expensive replacement policies to lower miss rate \\
+    (plus other tricks, like prefetching, \ldots)
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red,ultra thick] at ([yshift=-1cm]current page.south) {
+    factor in why pages are as big as they are 
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

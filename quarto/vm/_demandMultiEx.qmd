@@ -1,0 +1,50 @@
+
+### exercise (1)  {.smaller}
+
+
+* suppose 
+
+   * 4-level page tables
+   * 4096 byte ($2^12$ byte) pages
+   * 8 byte page table entries
+   * 4096 byte page tables
+
+* initially empty page table
+* load-on-demand (1 page at a time) and program accesses longs at 
+
+   * <code>0x12345678FF8</code>, <code>0x12345679000</code>, <code>0x12345679008</code>, <code>0x40000</code>
+
+* how much memory allocated?  (include page tables; ignore other OS memory)
+* how much copied if program fork()s + child writes to 0x40008?
+
+
+### soln  {.smaller}
+
+
+* 0x12345678FF8 = VPN 0x12345678; 
+
+   * VPN part 1: 2; VPN part 2: 0x8d; VPN part 3: 0x2b; VPN part 4: 0x78
+
+* 0x12345679000, … = VPN 0x12345679; 
+
+   * VPN part 1: 2; VPN part 2: 0x8d; VPN part 3: 0x2b; VPN part 4: 0x79
+
+* 0x40000 = VPN 0x40 
+
+   * VPN part 1: 0; VPN part 2: 0; VPN part 3: 0; VPN part 4: 0x40
+
+* 1 x first-level 
+
+   * second-level for 0 
+
+      * third-level for (0, 0)
+      * fourth-level for (0, 0, 0)
+      * data for (0, 0, 0, 0x40)
+
+   * second-level for 2 
+
+      * third-level for (2, 0x8d); fourth-level for (2, 0x8d, 0x2b)
+      * data for (2, 0x8d, 0x2b, 0x78); data for (3, 0x8d, 0x2b, 0x79)
+
+
+

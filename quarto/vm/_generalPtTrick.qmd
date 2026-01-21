@@ -1,0 +1,44 @@
+
+### page tricks generally  {.smaller}
+
+
+* deliberately <em>make program trigger page/protection fault</em>
+* but <em>don't assume page/protection fault is an error</em> 
+<hr class="vspace" />
+* have <em>seperate data structures</em> represent logically allocated memory 
+
+   * e.g. ‘‘addresses <code>0x7FFF8000</code> to <code>0x7FFFFFFFF</code> are the stack’’
+
+* page table is for the hardware and not the OS
+
+
+### example page table tricks  {.smaller}
+
+
+* allocating space on demand
+* loading code/data from files on disk on demand
+* copy-on-write
+* [saving data temporarily to disk, reloading to memory on demand]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * ‘‘swapping’’
+
+* [detecting whether memory was read/written recently]{.fragment fragment-index=3 .custom .myem-only}
+* [stopping in a debugger when a variable is modified]{.fragment fragment-index=4 .custom .myem-only}
+* [sharing memory between programs on two different machines]{.fragment fragment-index=5 .custom .myem-only}
+
+
+### hardware help for page table tricks  {.smaller}
+
+
+* information about the address causing the fault 
+
+   * e.g. special register with memory address accessed
+   * harder alternative: OS disassembles instruction, look at registers
+
+* (by default) rerun faulting instruction when returning from exception
+* precise exceptions: no side effects from faulting instruction or after 
+
+   * e.g. <code>pushq</code> that caused did not change <code>%rsp</code> before fault
+   * e.g. can't notice if instructions were executed in parallel
+
+

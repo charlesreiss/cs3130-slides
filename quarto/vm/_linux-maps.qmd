@@ -1,0 +1,48 @@
+
+### Linux memory tracking  {.smaller}
+
+
+* Linux kernel treats all program memory as special case of mmap'd file 
+<hr class="vspace" />
+* two major features to help
+* ‘private’ mappings = copy-on-write from original file 
+
+   * supports ‘load program from disk on demand’
+   * pages not shared with original file after writes
+
+* original file = all zeroes (instead of file from disk) 
+
+   * ‘‘anonymous mapping’’
+   * handles ‘allocate-on-demand’ scenario
+
+
+
+### Linux maps: list of maps  {.smaller}
+
+<!-- \lstset{language=} -->
+  
+<pre><code>$ cat /proc/self/maps
+<span data-fragment-index="1" class="fragment custom myem-only">00400000-0040b000 r-xp 00000000 08:01 48328831          /bin/cat</span>
+0060a000-0060b000 r--p 0000a000 08:01 48328831          /bin/cat
+0060b000-0060c000 rw-p 0000b000 08:01 48328831          /bin/cat
+01974000-01995000 rw-p 00000000 00:00 0                 \[heap]
+7f60c718b000-7f60c7490000 r--p 00000000 08:01 77483660  /usr/lib/locale/locale-archive
+7f60c7490000-7f60c764e000 r-xp 00000000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c764e000-7f60c784e000 ---p 001be000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c784e000-7f60c7852000 r--p 001be000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c7852000-7f60c7854000 rw-p 001c2000 08:01 96659129  /lib/x86_64-linux-gnu/libc-2.19.so
+7f60c7854000-7f60c7859000 rw-p 00000000 00:00 0 
+7f60c7859000-7f60c787c000 r-xp 00000000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a39000-7f60c7a3b000 rw-p 00000000 00:00 0 
+7f60c7a7a000-7f60c7a7b000 rw-p 00000000 00:00 0 
+7f60c7a7b000-7f60c7a7c000 r--p 00022000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a7c000-7f60c7a7d000 rw-p 00023000 08:01 96659109  /lib/x86_64-linux-gnu/ld-2.19.so
+7f60c7a7d000-7f60c7a7e000 rw-p 00000000 00:00 0 
+7ffc5d2b2000-7ffc5d2d3000 rw-p 00000000 00:00 0         \[stack]
+7ffc5d3b0000-7ffc5d3b3000 r--p 00000000 00:00 0         \[vvar]
+7ffc5d3b3000-7ffc5d3b5000 r-xp 00000000 00:00 0         \[vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 \[vsyscall]
+</code></pre>
+ ![](/vm/texfig/linuxMapsAreaStruct.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/linuxMapsAreaStruct.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+

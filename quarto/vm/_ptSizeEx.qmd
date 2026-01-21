@@ -1,0 +1,33 @@
+
+### exercise: page counting 
+
+
+* suppose 32-bit virtual (program) addresses
+* and each page is 4096 bytes ($2^12$ bytes) 
+<hr class="vspace" />
+* how many virtual pages?
+* \\iftoggle{heldback$2^32 / 2^12 = 2^20$}
+
+
+### exercise: page table size  {.smaller}
+
+
+* suppose 32-bit virtual (program) addresses
+* suppose 30-bit physical (hardware) addresses
+* each page is 4096 bytes ($2^12$ bytes)
+* page table entries have physical page #, valid bit 
+<hr class="vspace" />
+* how big is the page table (if laid out like ones we've seen)?
+* \\iftoggle{heldback$2^20$ entries $\\times{} (18 + 1)$ bits per entry}  
+
+   * issue: where can we store that?
+
+
+
+### exercise: address splitting 
+
+
+* and each page is 4096 bytes ($2^12$ bytes)
+* split the address <code>0x12345678</code> into page number and page offset:
+* \\iftoggle{heldbackpage #: \\tt0x12345{}; offset: <code>0x678</code>}
+

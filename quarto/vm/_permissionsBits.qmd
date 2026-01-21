@@ -1,0 +1,15 @@
+
+### permissions bits  {.smaller}
+
+
+
+* page table entry will have more <em>permissions bits</em> 
+
+   * can access in user mode?
+   * can read from?
+   * can write to?
+   * can execute from?
+
+* checked by hardware like valid bit
+ ![](/vm/texfig/permissionsBits.figure.svg)
+

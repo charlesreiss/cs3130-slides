@@ -1,0 +1,43 @@
+
+### space on demand 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### allocating space on demand 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/spaceOnDemand.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/spaceOnDemand.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/spaceOnDemand.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### allocating space on demand  {.smaller}
+
+
+* note: the space doesn't have to be initially empty
+* only change: load from file, etc. instead of allocating empty page 
+<hr class="vspace" />
+* loading program can be <em>merely creating empty page table</em>
+* everything else can be handled <em>in response to page faults</em>  
+
+   * no time/space spent loading/allocating unneeded space
+
+

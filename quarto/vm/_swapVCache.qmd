@@ -1,0 +1,16 @@
+
+### swapping versus caching  {.smaller}
+
+
+* ‘‘cache block’’ $\\approx{}$ physical page
+* <em>fully associative</em> 
+
+   * every virtual page can be stored in any physical page
+
+* replacement/cache misses managed by the OS
+* normal cache hits happen in hardware 
+
+   * hardware's page table lookup
+   * common case that needs to be very fast
+
+

@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.6cm},
+    column 1/.style={nodes={draw=none,font=\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\tt,text width=1.2cm,align=center}},
+    column 3/.style={nodes={draw,thick,font=\tt, text width=3.5cm}},
+    column 4/.style={nodes={draw,thick,font=\tt,visible on=<0>, text width=1cm}},
+    column 5/.style={nodes={draw,thick,font=\tt,visible on=<0>, text width=1cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    ] (pt) at (0, 5) {
+    virtual page \# \& valid? \& physical page \# \& read OK? \& write OK? \\
+    00 \& 1 \& 010 \normalfont (2, code) \& 1 \& 0 \\
+    01 \& 1 \& 111 \normalfont (7, data) \& 1 \& 1 \\
+    10 \& 0 \& ??? \normalfont (ignored) \& 0 \& 0 \\
+    11 \& 1 \& 000 \normalfont (0, stack) \& 1 \& 1 \\
+};
+\begin{visibleenv}<2->
+\node[draw,fill=blue!10,alt=<4>{draw=red,fill=red!10,ultra thick}] (addrLeft) at (-1, 6.0) {\tt 01};
+    \node[anchor=west,fill=green!10,alt=<6>{draw=red,fill=red!10,ultra thick}] (addrRest) at (addrLeft.east) {\tt 1101 0010 \normalfont};
+\node[anchor=west] (addrDesc) at (addrRest.east) {--- address from CPU};
+    \draw[->,very thick,draw=blue!50!black] (addrLeft.south) |- ([xshift=4ex]pt-3-1.west);
+    \draw[->,thick] (pt-5-2.south) |- ++(-1cm,-1.5cm) -- ++(0cm,-.5cm) node[below] {trigger exception if 0?};
+\draw[->,very thick,draw=blue!50!black] ([xshift=3ex]pt-5-3.south west) |- ++(2cm,-1cm)
+    node[right,fill=blue!10,alt=<5>{draw=red,fill=red!10,ultra thick}] (newAddrLeft) {\tt 111};
+    \node[anchor=west,fill=green!10,alt=<6>{draw=red,fill=red!10,ultra thick}] (newAddrRight) at (newAddrLeft.east) {\tt 1101 0010};
+\draw[->,very thick,draw=green!50!black] (addrRest) |- ([xshift=1cm,yshift=.5cm]pt-1-3.north east) -| (newAddrRight);
+    \node[inner sep=0mm,draw=black,thin,fit=(newAddrLeft) (newAddrRight)] (newAddrBox) {};
+    \draw[->,very thick] (newAddrBox.south) -- ++(0cm,-.5cm) node[below] {to memory};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\node[inner sep=0mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[inner sep=0mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3),fill=red,fill opacity=0.1] {};
+    \node[fill=white,anchor=west,align=center] at (pt-3-3.east) {\myemph{``page}\\ \myemph{table} \\ \myemph{entry''}};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[fill=white,anchor=south west,xshift=-1cm,overlay] at (addrLeft.north east) {\myemph{``virtual page number''}};
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[fill=white, anchor=south west,xshift=-2cm] at (newAddrLeft.north east) {\myemph{``physical page number''}};
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \node[fill=white,xshift=-2cm,anchor=south west] at (newAddrRight.north east) {\myemph{``page offset''}};
+    \node[overlay,fill=white,xshift=-2cm,anchor=south west] at (addrRest.north east) {\myemph{``page offset''}};
+\end{visibleenv}
+\end{tikzpicture}

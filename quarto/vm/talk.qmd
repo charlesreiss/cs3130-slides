@@ -1,0 +1,10 @@
+---
+title: "vm"
+
+---
+
+{{< include ../vm/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../vm/_talk-backup.qmd >}}

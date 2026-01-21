@@ -1,0 +1,122 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    ptr/.style={->,very thick},
+    ptNode/.style={minimum height=.5cm,text width=4.5cm,thick},
+    ptNodeW/.style={minimum height=.5cm,text width=5.5cm,thick},
+    firstLevel/.style={blue!40!black},
+    secondLevel/.style={green!40!black},
+}
+\matrix[tight matrix,firstLevel,
+    nodes={ptNodeW},
+    label={north:first-level page table},
+    ] (first) {
+        for VPN 0x0-0xFF  \\
+        for VPN 0x100-0x1FF \\
+        for VPN 0x200-0x2FF \\
+        for VPN 0x300-0x3FF \\
+        |[draw=none,align=center]| \ldots \\
+        for VPN 0xFF00-0xFFFF \\
+    };
+\node[anchor=north west] at ([yshift=3.5cm]first.north west) {
+two-level page tables for 65536 pages (16-bit VPN; 256 entries/table)
+};
+\matrix[tight matrix,anchor=north west,secondLevel,
+nodes={ptNode},
+label={north:second-level page tables},
+] (secondOne) at ([xshift=1cm,yshift=2cm]first.north east) {
+    PTE for VPN 0x00 \\
+    PTE for VPN 0x01 \\
+    PTE for VPN 0x02 \\
+    PTE for VPN 0x03 \\
+    |[draw=none,align=center]| \ldots \\
+    PTE for VPN 0xFF \\
+};
+\draw[ptr] ([xshift=-.5cm]first-1-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]first-1-1.east) -- (secondOne-1-1.west);
+\draw[ptr] ([xshift=-.5cm]secondOne-1-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]secondOne-1-1.east) -- ++(1cm,0cm) node[right,align=left] {actual data for page \\ (if PTE valid)};
+\matrix[tight matrix,anchor=north west,secondLevel,
+nodes={ptNode},
+] (secondTwo) at ([xshift=1.5cm,yshift=-1.5cm]first.north east) {
+    PTE for VPN 0x300 \\
+    PTE for VPN 0x301 \\
+    PTE for VPN 0x302\\
+    PTE for VPN 0x303 \\
+    |[draw=none,align=center]| \ldots \\
+    PTE for VPN 0x3FF \\
+};
+\draw[ptr] ([xshift=-.5cm]first-4-1.east) [fill] circle (1mm);
+\draw[ptr] ([xshift=-.5cm]first-4-1.east) -- (secondTwo-1-1.west);
+\begin{visibleenv}<2->
+\foreach \x in {2,3} {
+\draw[thick,red] ([xshift=-.5cm]first-\x-1.east) node[draw=red,cross out,minimum width=.25cm,minimum height=.25cm] {};
+}
+\end{visibleenv}
+\begin{visibleenv}<2>
+    \node[draw=red,ultra thick,inner sep=0mm,fit=(first-2-1) (first-3-1),label={[draw=red,ultra thick,label distance=2mm,fill=white]east:invalid entries represent big holes}] {};
+\end{visibleenv}
+\begin{pgfonlayer}{fg}
+\begin{visibleenv}<3-5>
+\matrix[tight matrix,anchor=north west,firstLevel,
+    nodes={minimum height=.55cm},
+    label={[alias=firstZoomLabel,font=\bfseries]north:first-level page table},
+    column 1/.style={nodes={draw=none,font=\tt,text width=4cm}},
+    column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 4/.style={nodes={text width=3.6cm,font=\tt,align=left,
+        alt=<4>{red}}},
+    row 1/.style={nodes={font=\normalfont,draw=none,black}},
+] (firstZoom) at ([xshift=-2cm,yshift=2cm]first.north east) {
+    VPN range \& valid \& \ldots \& physical page \# \small (of \myemph<4>{next page table}) \\
+    0x\myemph<5>{00}00-0x\myemph<5>{00}FF \& 1 \& \ldots \& 0x22343 \\
+    0x\myemph<5>{01}00-0x\myemph<5>{01}FF \& 0 \& \ldots \& 0x00000 \\
+    0x\myemph<5>{02}00-0x\myemph<5>{02}FF \& 0 \& \ldots \& 0x00000 \\
+    0x\myemph<5>{03}00-0x\myemph<5>{03}FF \& 1 \& \ldots \& 0x33454 \\
+    0x\myemph<5>{04}00-0x\myemph<5>{04}FF \& 1 \& \ldots \& 0xFF043 \\
+    \ldots \& \ldots \& \ldots \& \ldots \\
+    0x\myemph<5>{FF}00-0x\myemph<5>{FF}FF \& 1 \& \ldots \& 0xFF045 \\
+} ;
+\end{visibleenv}
+
+\begin{visibleenv}<6-7>
+\matrix[tight matrix,anchor=north west,secondLevel,
+    nodes={minimum height=.55cm},
+    label={[alias=secondZoomLabel,font=\bfseries]north:a second-level page table},
+    column 1/.style={nodes={draw=none,font=\tt,text width=1.7cm}},
+    column 2/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 3/.style={nodes={text width=1.3cm,font=\tt,align=center}},
+    column 4/.style={nodes={text width=3.6cm,font=\tt,align=left,
+        alt=<4>{red}}},
+    row 1/.style={nodes={font=\normalfont,draw=none,black}},
+] (secondZoom) at ([xshift=.5cm,yshift=2cm]first.north east) {
+    VPN \& valid \& \ldots \& physical page \# \small (of data) \\
+    0x3\myemph<7>{00} \& 1 \& \ldots \& 0x42443 \\
+    0x3\myemph<7>{01} \& 1 \& \ldots \& 0x4A9DE \\
+    0x3\myemph<7>{02} \& 1 \& \ldots \& 0x5C001 \\
+    0x3\myemph<7>{03} \& 0 \& \ldots \& 0x00000 \\
+    0x3\myemph<7>{04} \& 1 \& \ldots \& 0x6C223 \\
+    \ldots \& \ldots \& \ldots \& \ldots \\
+    0x3\myemph<7>{FF} \& 0 \& \ldots \& 0x00000 \\
+} ;
+\end{visibleenv}
+\end{pgfonlayer}
+
+\begin{visibleenv}<3-5>
+\node[draw,fit=(firstZoom) (firstZoomLabel),fill=white] (firstZoomBox) {};
+    \draw[ultra thick,dotted] (first.north west) -- (firstZoomBox.north west);
+    \draw[ultra thick,dotted] (first-6-1.south west) -- (firstZoomBox.south west);
+    %\draw[ultra thick,dotted] (first-4-1.south east) -- (firstZoomBox.south east);
+\end{visibleenv}
+
+\begin{visibleenv}<6-7>
+\node[draw,fit=(secondZoom) (secondZoomLabel),fill=white] (secondZoomBox) {};
+    %\draw[ultra thick,dotted] (secondTwo.north west) -- (secondZoomBox.north west);
+    %\draw[ultra thick,dotted] (secondTwo.north east) -- (secondZoomBox.north east);
+    \draw[ultra thick,dotted] (secondTwo.south west) -- (secondZoomBox.south west);
+    \draw[ultra thick,dotted] (secondTwo.south east) -- (secondZoomBox.south east);
+\end{visibleenv}
+
+
+% FIXME: color code for each page table
+\end{tikzpicture}

@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    pageNumber/.style={fill=blue!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    pageOffset/.style={fill=green!10,font=\fontsize{11}{12}\selectfont,inner sep=.5mm},
+    comp/.style={fill=yellow!10,font=\fontsize{12}{13}\selectfont},
+    memAccess/.style={},
+    fillPA/.style={alt=<2>{red,fill=red!10}},
+}
+\node[pageNumber] (addrLeft) {11 0101 01};
+\node[anchor=west,pageOffset] (addrRight) at (addrLeft.east) {00 1101 1111};
+\node[red,anchor=east,font=\tt] at (addrLeft.west) {va};
+\node[draw,comp,below=1cm of addrLeft] (timesPte) {$\times$ PTE size};
+\draw[->,thick] (addrLeft) -- (timesPte);
+\node[fillPA,draw,very thick,below left=3cm and 1cm of addrLeft,label={[align=center]north:page table\\base register}] (ptbr) {\tt 0x10000};
+\node[red,font=\tt,anchor=north] at (ptbr.south) {ptbr};
+\node[draw,comp] (plus) at (timesPte.south |- ptbr.west) {+};
+\draw[->,thick] (timesPte) -- (plus);
+\draw[->,thick] (ptbr) -- (plus);
+\node[below=1.25cm of plus,fill=violet!10,draw,very thick,minimum height=1cm,minimum width=12cm,xshift=3cm] (cache) {memory};
+\node[fillPA,pageNumber] (addrLeftFinal) at ([xshift=7cm]plus) {1101 0011 11};
+\draw[->,thick,memAccess] (plus) -- (cache.north -| plus.south);
+\node[above right=1cm and 2cm of plus,align=center,draw,comp] (check) {check valid bit/etc.};
+\node[below=1cm of check,draw,comp] (split) {split PTE parts};
+\draw[->,thick,fillPA] (cache.north -| split.south) -- (split.south);
+\draw[->,thick] (split) -- (check);
+\draw[->,thick] ([xshift=1cm]check.north) -- ++(1cm, 1cm) node[above] {cause fault?};
+\draw[blue!50!black,->,thick,fillPA] (split) -- (addrLeftFinal);
+
+\node[anchor=west,pageOffset] (addrRightFinal) at (addrLeftFinal.east) {00 1101 1111};
+\node[anchor=south,font=\tt,red] at (addrRightFinal.north west) {pa};
+\draw[very thick,green!50!black,densely dotted] (addrRight) |- ([xshift=-.5mm,yshift=.5cm]split.north);
+\draw[very thick,green!50!black,densely dotted,->] ([xshift=.5mm,yshift=.5cm]split.north) -| (addrRightFinal.north);
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]south:physical address},fit=(addrLeftFinal) (addrRightFinal)] (addrFinal) {};
+
+\node[inner sep=0mm,draw,label={[font=\fontsize{12}{13}\selectfont]north:virtual address},fit=(addrLeft) (addrRight)] (addr) {};
+    \draw[->,thick,memAccess] (addrFinal) -- (cache.north -| addrFinal.south);
+
+\begin{visibleenv}<2>
+\node[overlay,align=left,anchor=south west,draw=red,ultra thick,fill=white] at (addrRight.north east) {
+    page\_allocate(va) needs to \\
+    make translate(va) work
+};
+\node[ultra thick,draw=red,align=center,fill=white] at ([xshift=-4cm,yshift=1.5cm]addrLeftFinal) (set pa) {set by page\_allocate \\ if needed};
+
+\draw[red,<-,ultra thick,fill=white] (addrLeftFinal) -- (set pa);
+\draw[red,->,dotted,ultra thick] (set pa) -- (cache.north -| split.south);
+\draw[red,<-,ultra thick] (ptbr.east) -- (set pa);
+\end{visibleenv}
+\end{tikzpicture}

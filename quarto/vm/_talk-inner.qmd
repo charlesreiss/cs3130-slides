@@ -1,0 +1,146 @@
+
+# virtual memory {visibility="hidden"}
+
+## address spaces {visibility="hidden"}
+
+{{< include /vm/_recallAddr.qmd >}}
+
+{{< include /vm/_addrSpaceOnly.qmd >}}
+
+## address translation overview {visibility="hidden"}
+
+{{< include /vm/_translationOverview.qmd >}}
+
+## simple paging with four pages {visibility="hidden"}
+
+{{< include /vm/_fourPages.qmd >}}
+
+## on address space sizes {visibility="hidden"}
+
+{{< include /vm/_sizeNotes.qmd >}}
+
+## exercise: address splitting {visibility="hidden"}
+
+{{< include /vm/_ptSizeEx.qmd >}}
+
+## exercise: simple lookup {visibility="hidden"}
+
+{{< include /vm/_toyLookupEx.qmd >}}
+
+# permissions in page tables {visibility="hidden"}
+
+## read-only {visibility="hidden"}
+
+{{< include /vm/_twoCopiesOfProgram.qmd >}}
+
+## permission bits {visibility="hidden"}
+
+{{< include /vm/_permissionsBits.qmd >}}
+
+## kernel-only {visibility="hidden"}
+
+{{< include /vm/_kernelOnly.qmd >}}
+
+# page table tricks {visibility="hidden"}
+
+## space on demand {visibility="hidden"}
+
+{{< include /vm/_spaceOnDemand.qmd >}}
+
+## aside: copy-on-write {visibility="hidden"}
+
+{{< include /vm/_copyOnWrite.qmd >}}
+
+## fork with copy-on-write {visibility="hidden"}
+
+{{< include /unix-api/_fork-cow.qmd >}}
+
+## switching address spaces {visibility="hidden"}
+
+### againframe(progMemory)
+
+{{< include /vm/_osCode.qmd >}}
+
+## mmap {visibility="hidden"}
+
+{{< include /vm/_mmap.qmd >}}
+
+## /proc/PID/maps {visibility="hidden"}
+
+{{< include /vm/_linux-maps.qmd >}}
+
+## general page table tricks {visibility="hidden"}
+
+{{< include /vm/_generalPtTrick.qmd >}}
+
+## page table lookup {visibility="hidden"}
+
+{{< include /vm/_transEx.qmd >}}
+
+## page table in memory {visibility="hidden"}
+
+{{< include /vm/_ptInMemory.qmd >}}
+
+## exercise: page table in memory {visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt1.qmd >}}
+
+## exercise (alt): page table in memory {visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt1b.qmd >}}
+
+## assignment preview 1 {visibility="hidden"}
+
+{{< include /vm/_asgnSetup.qmd >}}
+
+{{< include /vm/_asgnPageAccess.qmd >}}
+
+{{< include /vm/_toyLookupAsgn.qmd >}}
+
+# handling big page tables {visibility="hidden"}
+
+## the problem {visibility="hidden"}
+
+{{< include /vm/_ptSize64A.qmd >}}
+
+## general options {visibility="hidden"}
+
+{{< include /vm/_bigPageOptions.qmd >}}
+
+## two-level page tables {visibility="hidden"}
+
+{{< include /vm/_twoLevelPtLib.qmd >}}
+
+{{< include /vm/_twoLevelPT.qmd >}}
+
+{{< include /vm/_twoLevelPTAlt.qmd >}}
+
+## more than two levels {visibility="hidden"}
+
+{{< include /vm/_multiLevelGen.qmd >}}
+
+## assignment preview {visibility="hidden"}
+
+### assignment 
+
+
+
+## exercises: multi-level lookup {visibility="hidden"}
+
+## part 2{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt2.qmd >}}
+
+## part 3{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt3.qmd >}}
+
+{{< include /vm/_multiSplitExPt3b.qmd >}}
+
+## part 4{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt4.qmd >}}
+
+## part 5{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt5.qmd >}}

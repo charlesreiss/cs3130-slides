@@ -1,0 +1,53 @@
+\begin{tikzpicture}
+\tikzset{>=Latex}
+\node[draw,align=left,font=\tt\small] (exCode) {%
+... \\
+// requires more stack space \\
+\myemph<2-3>{A: pushq \%rbx} \\
+B: movq 8(\%rcx), \%rbx \\
+C: addq \%rbx, \%rax \\
+... 
+};
+\node[above=.25cm of exCode,font=\tt,inner sep=0mm] (rspEq) {%
+\%rsp = 0x
+};
+\node[anchor=base west,fill=blue!10,inner sep=0mm,font=\tt] (vpn) at (rspEq.base east) {7FFFC};
+\node[anchor=base west,font=\tt,inner sep=0mm] at (vpn.base east) {000};
+\matrix[tight matrix,right=1cm of exCode,
+    nodes={font=\tt,draw},
+    column 1/.style={nodes={draw=none,text width=2.5cm}},
+    column 2/.style={nodes={text width=1.25cm,align=center}},
+    column 3/.style={nodes={text width=2.5cm}},
+    row 1/.style={nodes={draw=none,font=\normalfont}},
+    row 3/.append style={nodes={alt=<3>{draw=red,thick}}},
+] (pt) {%
+    VPN \& valid? \& physical page \\
+    \ldots \& \ldots \& \ldots \\
+    0x7FFFB \& \only<1-2>{0}\only<3->{1} \& \only<1-2>{---}\only<3->{0x200D8} \\
+    0x7FFFC \& 1 \& 0x200DF \\
+    0x7FFFD \& 1 \& 0x12340 \\
+    0x7FFFE \& 1 \& 0x12347 \\
+    0x7FFFF \& 1 \& 0x12345 \\
+    \ldots \& \ldots \& \ldots \\
+};
+\coordinate (noteLoc) at ([yshift=-1cm]exCode.south west);
+\begin{visibleenv}<2>
+\node[inner sep=0.25mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\node[draw,anchor=north west,align=left] at (noteLoc) {
+    pushq triggers exception \\
+    hardware says ``accessing address {\tt 0x7FFFBFF8}'' \\
+    OS looks up what's should be there --- ``stack''
+};
+    \draw[very thick,red,->] ([yshift=-1.3cm,xshift=-1cm]exCode.north) -- ++(1cm,0cm) node[right] {page fault!};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[inner sep=0.25mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
+\node[draw,anchor=north west,align=left] at (noteLoc) {
+    in exception handler, OS allocates more stack space \\
+    OS updates the page table \\
+    then returns to retry the instruction
+};
+\draw[very thick,red,->] ([yshift=-1.3cm,xshift=-1cm]exCode.north) -- ++(2cm,0cm)
+        -- ++(0cm,.6cm) node[midway,right] {restarted} -- ++(-2cm,0cm);
+\end{visibleenv}
+\end{tikzpicture}

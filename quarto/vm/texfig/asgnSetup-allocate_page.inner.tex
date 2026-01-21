@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+    \node (ptbrzero) {ptbr == 0};
+    \node[anchor=north west] (pgalloc) at (ptbrzero.south west){allocate\_page(0x1\myemph<3>{000})};
+    \begin{visibleenv}<2->
+    \node[anchor=north west] (ptbreq) at ([yshift=-2cm]pgalloc.south  west) {ptbr \textit{now ==} GetPointerToTable(};
+    \matrix[tight matrix,anchor=west,
+        nodes={minimum height=0.6cm},
+        row 1/.style={
+            nodes={draw=none},
+        },
+        column 1/.style={nodes={draw=none}},
+        column 2/.style={
+            nodes={text width=1.2cm}
+        },
+        column 3/.style={
+            nodes={text width=2.2cm}
+        },
+    ] (tbl) at (ptbreq.east) {
+        VPN \& valid? \& physical \\
+        0 \& 0 \& --- \\
+        1 \& 1 \& |[fill=red!10,alias=new]| \myemph<2>{(new)} \\
+        2 \& 0 \& --- \\
+        3 \& 0 \& --- \\
+        \ldots \& \ldots \& \ldots \\
+    };
+    \node[anchor=west] (ptbrparen2) at (tbl.east) {)};
+    \draw[very thick,red,<-] (new) -- ++(0cm, -2cm) node[below] {
+        allocated with \texttt{posix\_memalign}
+    };
+    \end{visibleenv}
+\end{tikzpicture}

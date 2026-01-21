@@ -1,0 +1,52 @@
+
+### swapping  {.smaller}
+
+
+* early motivation for virtual memory: <em>swapping</em>
+* using disk (or SSD, …) as the next level of the memory hierarchy 
+
+   * how our textbook and many other sources presents virtual memory
+ 
+<hr class="vspace" />
+* OS allocates <em>program space on disk</em> 
+
+   * own mapping of virtual addresses to location on disk
+
+* [DRAM is a cache for disk]{.fragment fragment-index=2 .custom .myem-only}
+
+
+### swapping components  {.smaller}
+
+
+* ‘‘swap in’’ a page --- exactly like allocating on demand! 
+
+   * OS gets page fault --- invalid in page table
+   * check where page actually is (from virtual address)
+   * read from disk
+   * eventually restart process
+
+* ‘‘swap out’’ a page 
+
+   * OS marks as invalid in the page table(s)
+   * copy to disk (if modified)
+
+
+
+### HDD/SDDs are slow  {.smaller}
+
+
+
+* HDD reads and writes: [milliseconds to tens of milliseconds]{.fragment fragment-index=23 .custom .myem-only} 
+
+   * minimum size: 512 bytes
+   * writing tens of [kilobytes]{.fragment fragment-index=4 .custom .myem-only} basically as fast as writing 512 bytes
+
+* SSD writes and writes: [hundreds of microseconds]{.fragment fragment-index=23 .custom .myem-only}  
+
+   * designed for writes/reads of [kilobytes]{.fragment fragment-index=4 .custom .myem-only} (not much smaller)
+
+ ![](/vm/texfig/swapping-hddsdds-are-slow.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/swapping-hddsdds-are-slow.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/swapping-hddsdds-are-slow.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/swapping-hddsdds-are-slow.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+

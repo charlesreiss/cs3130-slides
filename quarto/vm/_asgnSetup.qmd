@@ -1,0 +1,113 @@
+
+### pagetable assignment  {.smaller}
+
+
+* pagetable assignment
+* simulate page tables (on top of normal program memory) 
+
+   * alternately: implement another layer of page tables <br> on top of the existing system's
+ 
+<hr class="vspace" />
+* in assignment:
+* virtual address $\\sim{}$ arguments to your functions
+* physical address $\\sim{}$ your program addresses (normal pointers)
+
+
+### pagetable assignment API  {.smaller}
+
+<!-- \lstset{language=C,style=smaller} -->
+ 
+```
+/* configuration parameters */
+#define POBITS ... /* page offset bits */
+#define LEVELS /* later */
+
+```
+ <hr />
+ 
+```
+size_t ptbr; // page table base register
+    // points to page table (array of page table entries)
+
+// lookup "virtual" address 'va' in page table ptbr points to
+// return (~0L) if invalid
+size_t translate(size_t va);
+
+// allocating virtaul page which starts at address 'va'
+// if it isn't already
+int allocate_page(size_t va);
+
+```
+
+
+### translate() 
+
+with POBITS=[12]{.fragment fragment-index=2 .custom .myem-only}, LEVELS=1: <br> 
+
+::: {.r-stack}
+![](/vm/texfig/asgnSetup-translate.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/asgnSetup-translate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### allocate_page() 
+
+with POBITS=[12]{.fragment fragment-index=3 .custom .myem-only}, LEVELS=1: <br> 
+
+::: {.r-stack}
+![](/vm/texfig/asgnSetup-allocate_page.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/asgnSetup-allocate_page.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/asgnSetup-allocate_page.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### posix_memalign  {.smaller}
+
+<!-- \lstset{
+    language=C
+} -->
+ 
+```
+void *result;
+error_code =
+    posix_memalign(&result, alignment, size);
+
+```
+ 
+
+* allocate <code>size</code> bytes
+* choosing address that is multiple of [<code>alignment</code>]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * can make sure allocation starts at beginning of page
+
+* <code>error_code</code> indicates if out-of-memory, etc.
+* fills in [<code>result</code> (passed via pointer)]{.fragment fragment-index=3 .custom .myem-only}
+
+
+### parts  {.smaller}
+
+
+* part 1: LEVELS=1, POBITS=12 and 
+
+   * translate() OR
+   * allocate_page()
+
+* part 2: all LEVELS, both functions 
+
+   * in preparation for code review
+   * due Weds BEFORE LAB
+
+* part 3: final submission 
+
+   * Friday after code review
+   * <em>most of grade</em> based on this
+   * <em>will test previous parts again</em>
+
+

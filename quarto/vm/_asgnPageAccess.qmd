@@ -1,0 +1,47 @@
+
+### address/page table entry format  {.smaller}
+
+(with POBITS=12, LEVELS=1) []{.my-small} <table>
+<tr><td>&nbsp;</td><td>bits 63--21</td><td>bits 20--12</td><td>bits 11--1</td><td>bit 0</td></tr>
+<tr><td>\\hline{} page table entry</td><td>\\multicolumn{2c|physical page number}</td><td>unused</td><td>valid bit</td></tr>
+<tr><td>\\hline{}  virtual address</td><td>unused</td><td>virtual page number</td><td>\\multicolumn{2cpage offset}</td></tr>
+<tr><td>\\hline{} physical address</td><td>\\multicolumn{2c|physical page number}</td><td>\\multicolumn{2cpage offset}</td></tr>
+<tr><td>\\hline{}</td></tr>
+</table>
+ 
+
+* in assignment: value from posix_memalign = physical address
+
+
+### pa = translate(va) [LEVELS=1] 
+
+![](/vm/texfig/asgnPageAccess-pa--translateva-levels1.figure.svg)
+
+
+### first allocate_page(va) [LEVELS=1] 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### allocate_page(va) [LEVELS=1] 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/asgnPageAccess-allocate_pageva-levels1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/asgnPageAccess-allocate_pageva-levels1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

@@ -1,0 +1,30 @@
+
+### on virtual address sizes  {.smaller}
+
+
+* virtual address size = size of pointer? 
+<hr class="vspace" />
+* often, but --- sometimes part of pointer not used
+* example: typical x86-64 only use 48 bits 
+
+   * rest of bits have fixed value
+
+* virtual address size is amount used for mapping
+
+
+### address space sizes  {.smaller}
+
+
+* amount of stuff that can be addressed = address space size 
+
+   * based on number of unique addresses
+
+* e.g. 32-bit virtual address = $2^32$ byte virtual address space
+* e.g. 20-bit physical addresss = $2^20$ byte physical address space 
+<hr class="vspace" />
+* what if my machine has 3GB of memory (not power of two)? 
+
+   * not all addresses in physical address space are useful
+   * most common situation (since CPUs support having a lot of memory)
+
+

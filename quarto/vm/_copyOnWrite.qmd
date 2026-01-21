@@ -1,0 +1,47 @@
+
+### do we really need a complete copy? 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/copyOnWrite-do-we-really-need-a-complete-copy.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/copyOnWrite-do-we-really-need-a-complete-copy.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/copyOnWrite-do-we-really-need-a-complete-copy.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### trick for extra sharing  {.smaller}
+
+
+* sharing writeable data is fine --- until either process modifies it 
+
+   * example: default value of global variables
+   * might typically not change
+   * (or OS might have preloaded executable's data anyways)
+
+* can we detect modifications? 
+<hr class="vspace" />
+* trick: tell CPU (via page table) shared part is read-only
+* processor will trigger a fault when it's written
+
+
+### copy-on-write and page tables 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+

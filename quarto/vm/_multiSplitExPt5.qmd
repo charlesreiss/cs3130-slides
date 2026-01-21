@@ -1,0 +1,30 @@
+
+### 2-level exercise (5)  {.smaller}
+
+
+
+* [10-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 16 byte pages, 2 byte PTE
+* [page tables 1 page; PTE 1st byte: (MSB) 2-bit PPN, valid bit; rest unused]{.my-small}
+* page table base register <code>0x10</code>; translate virtual address <code>0x376</code>
+ 
+
+::: {.r-stack}
+![](/vm/texfig/multiSplitExPt5.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/multiSplitExPt5.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/multiSplitExPt5.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/multiSplitExPt5.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/multiSplitExPt5.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/multiSplitExPt5.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm/texfig/multiSplitExPt5.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/vm/texfig/multiSplitExPt5.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+

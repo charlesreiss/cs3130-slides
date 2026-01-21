@@ -1,0 +1,33 @@
+
+### two-level page table lookup 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/twoLevelPtLib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/twoLevelPtLib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/twoLevelPtLib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/twoLevelPtLib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/twoLevelPtLib.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/twoLevelPtLib.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm/texfig/twoLevelPtLib.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/vm/texfig/twoLevelPtLib.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/vm/texfig/twoLevelPtLib.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/vm/texfig/twoLevelPtLib.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/vm/texfig/twoLevelPtLib.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/vm/texfig/twoLevelPtLib.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+
+:::
+

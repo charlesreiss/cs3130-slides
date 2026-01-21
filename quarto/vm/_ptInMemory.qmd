@@ -1,0 +1,55 @@
+
+### page tables in memory 
+
+
+
+* where can processor store megabytes of page tables? <em>in memory</em>
+<!-- FIXME: big page table picture marked in memory with memory addressesand page table base register --><!-- FIXME: animation -->
+
+::: {.r-stack}
+![](/vm/texfig/ptInMem1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/ptInMem1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/ptInMem1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/ptInMem1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/ptInMem1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/ptInMem1.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm/texfig/ptInMem1.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/vm/texfig/ptInMem1.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/vm/texfig/ptInMem1.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/vm/texfig/ptInMem1.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+
+:::
+
+
+### memory access with page table 
+
+
+
+::: {.r-stack .my-full}
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+

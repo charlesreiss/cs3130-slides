@@ -1,0 +1,26 @@
+
+### exercise: 64-bit system  {.smaller}
+
+
+
+* my desktop: 39-bit physical addresses; [48-bit\\tikzmark{virtAddr} virtual addresses]{.fragment fragment-index=2 .custom .myem-only}
+* 4096 byte pages
+* exercise: how many page table entries? (assuming page table like shown before) \only{\\iftoggle{heldback$2^48 / 2^12 = 2^36$ entries}}
+* exercise: how large are physical page numbers? \only{\\iftoggle{heldback$39 - 12 = 27$ bits}}
+* page table entries are <em>8 bytes</em> (room for expansion, metadata) 
+
+   * trick: power of two size makes table lookup faster
+
+* would take up $2^39$ bytes?? (512GB??)
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[my callout=virtAddr,align=center] at ([yshift=-1cm,xshift=-8cm]pic cs:virtAddr) {
+    top 16 bits of 64-bit addresses not used for translation
+};
+\end{visibleenv}
+\end{tikzpicture}
+```
+-->
+

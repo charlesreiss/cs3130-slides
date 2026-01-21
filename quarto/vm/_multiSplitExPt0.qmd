@@ -1,0 +1,21 @@
+
+### splitting addresses for levels  {.smaller}
+
+
+* x86-32
+* 32-bit physical address; 32-bit virtual address
+* $2^12$ byte page size  
+
+   * \\iftoggle{heldback<i>12-bit page offset</i>}
+
+* 2-levels of page tables; each page table is one page
+* 4 byte page table entries 
+
+   * \\iftoggle{heldback<i>$2^12/4 = 2^10$ PTEs/page table; 10-bit VPN parts</i>}
+ 
+<hr class="vspace" />
+* how is address <code>0x12345678</code> split up? 
+
+   * \\iftoggle{heldback\only{10-bit VPN part 1: <code>0001 0010 00 (0x48)</code>; <br> 10-bit VPN part 2: <code>11 0100 0101 (0x345)</code>; <br> 12-bit page offset: <code>0x678</code>}}
+
+

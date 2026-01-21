@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\small\normalfont}},
+    ] (memA)  {
+    physical addresses \& bytes \\
+    0x00-3 \& 00 11 22 33 \\
+    0x04-7 \& 44 55 66 77 \\
+    0x08-B \& 88 99 AA BB \\
+    0x0C-F \& CC DD EE FF \\
+    0x10-3 \& 1A 2A 3A 4A \\
+    0x14-7 \& 1B 2B 3B 4B \\
+    0x18-B \& 1C 2C 3C 4C \\
+    0x1C-F \& 1C 2C 3C 4C \\
+};
+\matrix[tight matrix,anchor=north west,
+    nodes={text width=2cm,minimum height=0.5cm,font=\small},
+    column 1/.style={nodes={draw=none,font=\small\tt,align=right}},
+    column 2/.style={nodes={draw,thick,font=\small\tt,text width=2.6cm,align=left}},
+    row 1/.style={nodes={draw=none,font=\normalfont\small}},
+    ] (memB) at ([xshift=0cm]memA.north east) {
+    physical addresses \& bytes \\
+    0x20-3 \& 00 91 72 13 \\
+    0x24-7 \& \maybeEmph<2>{F4} A5 36 07 \\
+    0x28-B \& 89 9A AB BC \\
+    0x2C-F \& CD DE EF F0 \\
+    0x30-3 \& BA \maybeEmph<5>{0A} BA 0A \\
+    0x34-7 \& DB 0B DB 0B \\
+    0x38-B \& EC 0C EC 0C \\
+    0x3C-F \& AC \maybeEmph<3>{DC} DC 0C \\
+};
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2->
+\node[right=0cm of memB,align=left,font=\small] {
+    {\tt 0x129} = {\tt \myemph<2>{\color<6>{blue}1 00}\myemph<3>{\color<6>{violet}10 1}\myemph<5>{\color<6>{orange}001}} \\
+    \texttt{0x20} + {\color<6>{blue}\tt 0x4}~\times 1 = {\tt 0x24} \\
+    \textit{PTE 1 value:} \\
+    {\tt 0xF4} = {\tt 1111 0100} \\
+    PPN {\tt {\color<6>{green} 111}}, valid {\tt 1} \\
+    \only<3->{\textit{PTE 2 addr:}} \\
+    \only<3->{\texttt{{\color<6>{green} 111} 000} +  \texttt{\myemph<3>{\color<6>{violet} 101}} $\times$ 1 = {\tt 0x3D}}\\
+    \only<3->{\textit{PTE 2 value:} {\tt 0xDC}} \\
+    \only<4->{PPN {\tt \myemph<4>{\color<6>{red}110}}; valid {\tt 1}} \\
+    \only<4->{M[\texttt{\myemph<4>{\color<6>{red}110} \myemph<5>{\color<6>{orange}001}} (\texttt{0x31})] = \texttt{0x0A}}
+};
+\end{visibleenv}
+}
+\end{tikzpicture}
