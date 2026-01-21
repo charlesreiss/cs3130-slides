@@ -24,11 +24,11 @@
 ### doing nothing on a busy system 
 
 
-![](/kernel/empty-samples){}
+![](/kernel/empty-samples.svg){}
 
 
 ### doing nothing on a busy system 
 
 
-![](/kernel/empty-samples-big-marked){}
+![](/kernel/empty-samples-big-marked.svg){}
 
