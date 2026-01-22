@@ -11,7 +11,7 @@
 
 {{< include ../accounts/_group-id.qmd >}}
 
-### id and group id establish _identity_
+### user id and group id establish _identity_
 
 
 * _who_ is running a process or accessing a resource
@@ -28,9 +28,9 @@ block-beta
   block:Userspace:3
     columns 3
     T["Userspace"]:3
-    P1["Process A\nUID: 90001"]
+    P1["Process A\nUID: 858545"]
     P2["Process B\nUID: 103"]
-    P3["Process C\nUID: 90049"]
+    P3["Process C\nUID: 797979"]
   end
 
 

@@ -7,14 +7,14 @@ program: main.o extra.o \\
 ~ \\
 extra.o: extra.c extra.h \\
 ▶\hspace{1.5cm}clang -Wall -o extra.o -c extra.c \\
-main.o: main.c main.h extra.h \\
 ~ \\
+main.o: main.c main.h extra.h \\
 ▶\hspace{1.5cm}clang -o main.o -c main.c \\
 \end{tabular}
 }
 \begin{itemize}
 \item what if I want to run \texttt{clang} with \texttt{-fsanitize=address} instead of \texttt{-Wall}?
-\item what if I want to change \texttt{clang}to \texttt{gcc}?
+\item what if I want to change \texttt{clang} to \texttt{gcc}?
 \end{itemize}
 \end{frame}
 
