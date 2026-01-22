@@ -1,6 +1,5 @@
 
-### on virtual address sizes  {.smaller}
-
+### on virtual address sizes
 
 * virtual address size = size of pointer? 
 <hr class="vspace" />
@@ -19,8 +18,8 @@
 
    * based on number of unique addresses
 
-* e.g. 32-bit virtual address = $2^32$ byte virtual address space
-* e.g. 20-bit physical addresss = $2^20$ byte physical address space 
+* e.g. 32-bit virtual address = $2^{32}$ byte virtual address space
+* e.g. 20-bit physical addresss = $2^{20}$ byte physical address space 
 <hr class="vspace" />
 * what if my machine has 3GB of memory (not power of two)? 
 

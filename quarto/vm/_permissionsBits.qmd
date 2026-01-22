@@ -11,5 +11,6 @@
    * can execute from?
 
 * checked by hardware like valid bit
- ![](/vm/texfig/permissionsBits.figure.svg)
+
+![](/vm/texfig/permissionsBits.figure.svg)
 

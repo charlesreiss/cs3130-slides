@@ -4,17 +4,16 @@
 
 
 * suppose 64-byte pages (= 6-bit page offsets), 9-bit virtual addresses
- <table>
-<tr><td>VPN</td><td>valid</td><td>PPN</td></tr>
-<tr><td>\\hline{} <code></code> 000</td><td><code></code> 1</td><td><code></code> 0010</td></tr>
-<tr><td>\\hline{} <code></code> 001</td><td><code></code> 1</td><td><code></code> 1010</td></tr>
-<tr><td>\\hline{} <code></code> 010</td><td><code></code> 0</td><td><code></code> ---</td></tr>
-<tr><td>\\hline{} <code></code> 011</td><td><code></code> 0</td><td><code></code> ---</td></tr>
-<tr><td>\\hline{} <code></code> 100</td><td><code></code> 1</td><td><code></code> 1110</td></tr>
-<tr><td>\\hline{} <code></code> 101</td><td><code></code> 1</td><td><code></code> 0100</td></tr>
-<tr><td>\\hline{} <code></code> 110</td><td><code></code> 1</td><td><code></code> 0001</td></tr>
-<tr><td>\\hline{} <code></code> 111</td><td><code></code> 0</td><td><code></code> ---</td></tr>
-<tr><td>\\hline{}</td></tr>
+<table>
+<tr><th>VPN</th><th>valid</th><th>PPN</th></tr>
+<tr><td><code>000</code></td><td><code>1</code></td><td><code>0010</code></td></tr>
+<tr><td><code>001</code></td><td><code>1</code></td><td><code>1010</code></td></tr>
+<tr><td><code>010</code></td><td><code>0</code></td><td><code>---</code></td></tr>
+<tr><td><code>011</code></td><td><code>0</code></td><td><code>---</code></td></tr>
+<tr><td><code>100</code></td><td><code>1</code></td><td><code>1110</code></td></tr>
+<tr><td><code>101</code></td><td><code>1</code></td><td><code>0100</code></td></tr>
+<tr><td><code>110</code></td><td><code>1</code></td><td><code>0001</code></td></tr>
+<tr><td><code>111</code></td><td><code>0</code></td><td><code>---</code></td></tr>
 </table>
  
 

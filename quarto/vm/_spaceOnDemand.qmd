@@ -4,19 +4,25 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/spaceOnDemand-space-on-demand.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/spaceOnDemand-space-on-demand.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="Program memory layout with a zoom-in on many pages of stack space."}
 
-![](/vm/texfig/spaceOnDemand-space-on-demand.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Only the topmost 12 KB of stack space (three pages) is used; the rest is wasted space."}
 
 :::
+
+::: {.myoverbox .fragment fragment-index=2}
+
+OS would like to only allocate space if needed.
+
+:::
+
 
 
 ### allocating space on demand 
 
 
+<!-- FIXME: diagram has bad text overlap -->
 
 ::: {.r-stack .my-full}
 ![](/vm/texfig/spaceOnDemand.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
@@ -29,11 +35,11 @@
 :::
 
 
-### allocating space on demand  {.smaller}
+### allocating space on demand
 
 
 * note: the space doesn't have to be initially empty
-* only change: load from file, etc. instead of allocating empty page 
+* load from file, etc. instead of allocating empty page 
 <hr class="vspace" />
 * loading program can be <em>merely creating empty page table</em>
 * everything else can be handled <em>in response to page faults</em>  

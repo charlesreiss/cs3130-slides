@@ -6,7 +6,7 @@
 * and each page is 4096 bytes ($2^12$ bytes) 
 <hr class="vspace" />
 * how many virtual pages?
-* \\iftoggle{heldback$2^32 / 2^12 = 2^20$}
+* [$2^{32} / 2^{12} = 2^{20}$]{.fragment}
 
 
 ### exercise: page table size  {.smaller}
@@ -18,9 +18,9 @@
 * page table entries have physical page #, valid bit 
 <hr class="vspace" />
 * how big is the page table (if laid out like ones we've seen)?
-* \\iftoggle{heldback$2^20$ entries $\\times{} (18 + 1)$ bits per entry}  
+* [$2^20$ entries $\\times{} (18 + 1)$ bits per entry]{.fragment}
 
-   * issue: where can we store that?
+   * [issue: where can we store that?]{.fragment}
 
 
 
@@ -29,5 +29,5 @@
 
 * and each page is 4096 bytes ($2^12$ bytes)
 * split the address <code>0x12345678</code> into page number and page offset:
-* \\iftoggle{heldbackpage #: \\tt0x12345{}; offset: <code>0x678</code>}
+* [page number `0x12345`; offset: <code>0x678</code>]{.fragment}
 

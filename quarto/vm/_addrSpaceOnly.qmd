@@ -7,9 +7,10 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/addrSpaceOnly.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Diagram showing processes A and B have different mappings from virtual (program) to physical (real) addresses set by the OS. The mapping can also specifies that some addresses trigger exceptions or are usable in kernel mode only."}
 
-![](/vm/texfig/addrSpaceOnly.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Diagram showing processes A and B have different mappings from virtual (program) to physical (real) addresses set by the OS. The mapping can also specifies that some addresses trigger exceptions or are usable in kernel mode only."}
+![](/vm/texfig/addrSpaceOnly.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="Diagram showing processes A and B have different mappings from virtual (program) to physical (real) addresses set by the OS. The mapping can also specifies that some addresses trigger exceptions or are usable in kernel mode only." style="height: 390px"}
+
+![](/vm/texfig/addrSpaceOnly.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Diagram showing processes A and B have different mappings from virtual (program) to physical (real) addresses set by the OS. The mapping can also specifies that some addresses trigger exceptions or are usable in kernel mode only." style="height: 390px"}
 
 
 :::

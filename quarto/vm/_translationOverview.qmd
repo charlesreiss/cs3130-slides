@@ -3,14 +3,15 @@
 
 
 
+
 ::: {.r-stack .my-full}
-![](/vm/texfig/translationOverview.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Diagram showing program addresses (program and data) being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
+![](/vm/texfig/translationOverview.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Program addresses being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
 
-![](/vm/texfig/translationOverview.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Diagram showing program addresses (program and data) being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
+![](/vm/texfig/translationOverview.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Virtual addresses (the program addreses) that are translated include both instructions and data"}
 
-![](/vm/texfig/translationOverview.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="Diagram showing program addresses (program and data) being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
+![](/vm/texfig/translationOverview.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="The virtual (program) and physical (real) addresss can be different sizes."}
 
-![](/vm/texfig/translationOverview.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="Diagram showing program addresses (program and data) being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
+![](/vm/texfig/translationOverview.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="Question: where is the mapping stored -- in the processor? In what format?"}
 
 
 :::

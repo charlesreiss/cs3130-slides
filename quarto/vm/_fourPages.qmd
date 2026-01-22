@@ -4,35 +4,77 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/fourPages-toy-program-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/fourPages-toy-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/fourPages-toy-program-memory.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="Diagram of a program's memory, ranging from address 0x000 (00 0000 0000 in binary) through 0x3FF (11 1111 1111) is divided into four equally sized regions. The pages are labeled code, data/heap, empty/more heap?, and stack."}
 
-![](/vm/texfig/fourPages-toy-program-memory.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/fourPages-toy-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The four regions are labeled as 'virtual pages', numbered from 0 (lowest addresses) to 3 (highest addresses)."}
 
-![](/vm/texfig/fourPages-toy-program-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/fourPages-toy-program-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="The upper two bits of each address in this example match the corresponding page numbers. For example, 0x100 = 01 0000 0000 is the beginning of virtual page # 1 = 01"}
 
-![](/vm/texfig/fourPages-toy-program-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
-
+![](/vm/texfig/fourPages-toy-program-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="The lower 8 bits of each addresses shown are highlighted; for example, in the address 11 1111 1111r the least 8 1s are highlighted."}
 
 :::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=2}
+
+divide memory into _pages_ ($2^8$ bytes in this case) <br />
+"virtual" = addresses the program sees
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=3}
+
+_page number_ is the uppper bits of address <br />
+because the page size is a power of two
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=4}
+
+the rest of the address is called the _page offset_
+
+:::
+
+
+<!--
+\begin{visibleenv}<3>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    divide memory into \myemph{pages} ($2^8$ bytes in this case) \\
+    ``virtual'' = addresses the program sees
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    \myemph{page number} is upper bits of address \\
+    (because page size is power of two)
+};
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+\node[draw=red,thick,fill=white,align=left] at (0, -2) {
+    rest of address is called \myemph{page offset}
+};
+\end{visibleenv}
+-->
 
 
 ### toy physical memory 
 
 
+<!-- FIXME: make table real table?-->
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/fourPages-toy-physical-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/fourPages-toy-physical-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/fourPages-toy-physical-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="The program memory of four pages (virtual addresseS) from the previous slide is combined with a real memory (physical addresses) of twice the size. The physical memory is divided into 8 pages of the size same."}
 
-![](/vm/texfig/fourPages-toy-physical-memory.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/fourPages-toy-physical-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/fourPages-toy-physical-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The physical memory is divded into physical pages numbered in the same way and labeled as physical pages. Physical page 0 ranges from addresses 000 0000 0000 through 000 1111 1111; physical page 1 from 001 0000 0000 to 001 1111 1111; and so on."}
 
-![](/vm/texfig/fourPages-toy-physical-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm/texfig/fourPages-toy-physical-memory.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="Arrows are drawn linking three virtual pages to physical pages: virtual page 0 to physical page 2; virtual page 1 to physical page 7; virtual page 3 to physical page 0. Virtual page 1 lacks any arrow."}
 
+![](/vm/texfig/fourPages-toy-physical-memory.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="A table is shown with two columns: virtual page number, and physical page number. The table entries are: virtual page #00, physical page #010 (2); virtual page #01, physical page #111 (7); virtual page #10, physical page # NONE; virtual page #11, physical page # 000 (0)."}
+
+
+![](/vm/texfig/fourPages-toy-physical-memory.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 fig-alt="That table is called a 'page table'."}
 
 :::
 
@@ -41,18 +83,21 @@
 
 
 
+<!-- FIXME: alt text -->
+
 ::: {.r-stack .my-full}
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-1.svg){.fragment .fade-out fragment-index=2 style="height: 500px"}
 
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 500px"}
 
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 500px"}
 
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height: 500px"}
 
-![](/vm/texfig/fourPages-toy-page-table-lookup.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height: 500px"}
+
+![](/vm/texfig/fourPages-toy-page-table-lookup.figure-6.svg){.fragment .fade-in-then-out fragment-index=6 style="height: 500px"}
 
 
 :::

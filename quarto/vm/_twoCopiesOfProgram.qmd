@@ -1,13 +1,13 @@
 
 ### vim (two copies) 
 
-
+<!-- FIXME: make two things same size; alt text -->
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/progMem.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/progMem.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/progMem.figure-1.svg){.fragment .fade-out fragment-index=1}
 
+![](/vm/texfig/progMem.figure-2.svg){.fragment .fade-in-then-out fragment-index=1}
 
 :::
 
@@ -15,11 +15,10 @@
 ### two copies of program 
 
 
-* would like to only have one copy of program 
+* would like to only have one copy of program code
 <hr class="vspace" />
 * what if <code>mst3k</code>'s vim tries to modify its code?
 * would break process abstraction: 
-
-   * ‘‘illusion of own memory’’
+   * "illusion of own memory"
 
 

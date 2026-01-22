@@ -22,22 +22,4 @@
     \node[anchor=west] at ($(0, \x) + (4, 0.5)$) {virtual page\# \myemph<4>{\x}};
 }
 \end{visibleenv}
-\begin{visibleenv}<3>
-\node[draw=red,thick,fill=white,align=left] at (0, -2) {
-    divide memory into \myemph{pages} ($2^8$ bytes in this case) \\
-    ``virtual'' = addresses the program sees
-};
-\end{visibleenv}
-\begin{visibleenv}<4>
-\node[draw=red,thick,fill=white,align=left] at (0, -2) {
-    \myemph{page number} is upper bits of address \\
-    (because page size is power of two)
-};
-\end{visibleenv}
-
-\begin{visibleenv}<5>
-\node[draw=red,thick,fill=white,align=left] at (0, -2) {
-    rest of address is called \myemph{page offset}
-};
-\end{visibleenv}
 \end{tikzpicture}

@@ -19,7 +19,7 @@
     \fill[\y,opacity=0.10] (0, \x) rectangle ($(0, \x) + (4, 1)$);
 }
 \begin{scope}[xshift=6.5cm]
-\node[overlay,anchor=south,align=center]at (2, 8) {real memory \\ \myemph{physical addresses}};
+\node[anchor=south,align=center]at (2, 8) {real memory \\ \myemph{physical addresses}};
 \draw[very thick] (0, 0) rectangle (4, 8);
 \foreach \x in {1,2,3,...,7} {
     \draw[thick] (0, \x) -- (4, \x);
@@ -55,6 +55,6 @@
 \end{visibleenv}
 \begin{visibleenv}<5>
 \node[draw=red,fill=red,fill opacity=0.1,ultra thick,inner sep=0.5mm,fit=(thePt)] {};
-    \node[overlay,red,anchor=south west,align=left] at ([xshift=0cm,yshift=-0.25cm]thePt.north east) {\bfseries page\\\bfseries table!};
+    \node[red,anchor=south west,align=left] at ([xshift=0cm,yshift=-0.5cm]thePt.north east) {\bfseries page\\\bfseries table!};
 \end{visibleenv}
 \end{tikzpicture}

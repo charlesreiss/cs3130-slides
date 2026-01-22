@@ -1,5 +1,5 @@
 
-### mmap  {.smaller}
+### mmap
 
 <!-- \lstset{
     language=C,
@@ -9,7 +9,7 @@
 
 * Linux/Unix has a function to ‘‘map’’ a file to memory
  
-```
+```c
 int file = open("somefile.dat", O_RDWR);
 
     // data is region of memory that represents file
