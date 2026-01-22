@@ -1,0 +1,66 @@
+\date{}
+\title{}
+\date{}
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{../common/listingsLib}
+
+\begin{frame}{last time}
+    \begin{itemize}
+    \item building C code
+    \item compiling and linking
+    \item static and dynamic libraries
+    \item start on make
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{make rules}
+
+{\tt
+\begin{tabular}{l}
+program: main.o extra.o \\
+▶\hspace{1.5cm}clang -Wall -o program main.o extra.o \\
+~ \\
+extra.o: extra.c extra.h \\
+▶\hspace{1.5cm}clang -Wall -c extra.c \\
+~ \\
+main.o: main.c main.h extra.h \\
+▶\hspace{1.5cm}clang -Wall -c main.c \\
+\end{tabular}
+}
+
+\end{frame}
+
+\subsection{phony targets}
+
+\input{../building/phony-targets}
+
+\subsection{conventional targets}
+
+\input{../building/conventional-targets}
+
+\subsection{variables, macro rules}
+
+\input{../building/macro-rules}
+
+% \subsection{aside: make versions}
+
+% \input{../building/make-versions}
+
+\subsection{pattern rules}
+
+\input{../building/pattern-rules}
+
+\subsection{built-in rules}
+
+\input{../building/builtin-rules}
+
+\section{other build system stuff}
+
+\input{../building/more-build-system}
+
+\end{document}
