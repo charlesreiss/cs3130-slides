@@ -14,8 +14,8 @@ write(STDOUT_FILENO, "D", 1);
 write(100, "E", 1);
 
 ```
- []{.my-small} Assume <code>open()</code> and <code>dup2()</code> <i>do not fail</i>, <code>write()</code> does not fail as long as the fd it writes to is open, fd <code>100</code> was closed and is not what open returns, and <code>STDOUT_FILENO</code> is initially open. What is written to <code>output.txt</code>? <br> <table>
-<tr><td><em>A.</em></td><td>ABCDE</td><td><em>C.</em></td><td>ABC</td><td><em>E.</em> something else</td></tr>
-<tr><td><em>B.</em></td><td>ABCD</td><td><em>D.</em></td><td>ACD</td></tr>
+[Assume <code>open()</code> and <code>dup2()</code> <i>do not fail</i>, <code>write()</code> does not fail as long as the fd it writes to is open, fd <code>100</code> was closed and is not what open returns, and <code>STDOUT_FILENO</code> is initially open.]{.my-small} What is written to <code>output.txt</code>? <br> <table>
+<tr><td>A.</td><td>ABCDE</td><td>C.</td><td>ABC</td><td>E. something else</td></tr>
+<tr><td>B.</td><td>ABCD</td><td>D.</td><td>ACD</td></tr>
 </table>
 

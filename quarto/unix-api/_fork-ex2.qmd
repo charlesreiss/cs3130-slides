@@ -1,8 +1,6 @@
 
-### a fork question (2)  {.smaller}
+### a fork question (2) 
 
-
- 
 ```
 int x = 0;
 int main() {
@@ -17,10 +15,14 @@ int main() {
     }
     printf("%d %d\n", x, y);
 }
-
 ```
- \\tikzmark{question start}[]{.my-small} Exercise: which (possibly multiple) are possible outputs? <table>
+::: {style="font-size: 80%"}
+
+Which (possibly multiple) are possible outputs? [(assume trailing newline)]{style="font-size: 60%"}
+<table>
 <tr><td>A. 1 2 (newline) 3 4</td><td>B. 1 2 (newline) 4 4</td><td>C. 1 2 (newline) 4 6</td></tr>
 <tr><td>D. 3 4 (newline) 1 2</td><td>E. 3 4 (newline) 4 6</td><td>F. 4 6 (newline) 4 6</td></tr>
 </table>
+
+:::
 

@@ -13,8 +13,8 @@
 \node[component box small,anchor=north east] (network) at ([xshift=-.5cm,yshift=-1.5cm]os.south) {network};
 \node[component box small,anchor=north west] (disk) at ([xshift=.5cm,yshift=-1.5cm]os.south) {disk};
 \begin{visibleenv}<3->
-\draw[event line,<-] (keyboard.north) -- (os.south -| keyboard.north) node[midway,event box] {(when ready) \\ send data};
-\node[anchor=south,subcomponent box] (keyboard buffer)  at (os.south -| keyboard.north) {buffer: output \\ waiting for network};
+\draw[event line,<-] (network.north) -- (os.south -| network.north) node[midway,event box] {(when ready) \\ send data};
+\node[anchor=south,subcomponent box] (network buffer)  at (os.south -| network.north) {buffer: output \\ waiting for network};
 \end{visibleenv}
 \begin{visibleenv}<2->
 \draw[event line,->] ([xshift=-4cm]process.south) -- ([xshift=-4cm]os.north) node[midway,event box,xshift=0cm] {print char \\ to remote machine};

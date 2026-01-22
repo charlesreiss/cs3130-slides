@@ -11,5 +11,5 @@
 
 ### typical pattern (detail) 
 
-    ![](/unix-api/texfig/typicalPattern.figure.svg)
+![](/unix-api/texfig/typicalPattern.figure.svg)
 

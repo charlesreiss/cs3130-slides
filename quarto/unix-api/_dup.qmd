@@ -34,8 +34,6 @@ process->files[STDOUT_FILENO] = process->files[opened-fd];
 * syscall: <code>dup2(<i>opened-fd</i>, STDOUT_FILENO);</code>
 
 
-### againframe(reassign)
-
 ### dup2 example  {.smaller}
 
 redirects stdout to output to <code>output.txt</code>: 

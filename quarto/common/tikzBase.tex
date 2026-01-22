@@ -7,6 +7,7 @@
 \usepackage{lmodern}
 \usepackage{listings}
 \usepackage{amsmath}
+\usepackage[normalem]{ulem}
 \ifluatex
     \def\EmptyMapping{}
 \else
@@ -177,6 +178,11 @@
   {
     \alt<#1>{\originalColor{#2}}{}
   }
+\NewCommandCopy\originalSout\sout
+\RenewDocumentCommand\sout{D<>{1-}m}
+  {
+    \alt<#1>{\originalSout{#2}}{#2}
+  }
 \NewDocumentCommand\myemph{D<>{1-}m}
   {
     \group_begin:\alt<#1>{\originalColor{orange!50!red}\itshape}{}#2\group_end:
@@ -189,10 +195,7 @@
   {
     \group_begin:\alt<#1>{\bfseries}{}#2\group_end:
   }
-\RenewDocumentCommand\textbf{D<>{1-}m}
-  {
-    \group_begin:\alt<#1>{\bfseries}{}#2\group_end:
-  }
+
 
 \NewDocumentCommand{\setSlide}{m}{
   \bool_gset_false:N \g_overlay_need_continue_bool

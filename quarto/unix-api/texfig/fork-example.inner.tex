@@ -1,59 +1,10 @@
 \begin{tikzpicture}
-\node[minimum width=15cm,minimum height=9cm] (current page) {};
-\begin{scope}[overlay]
-
-\coordinate (explain location) at ([xshift=-1cm,yshift=-2cm]current page.north east);
-\coordinate (explain location 2) at ([xshift=-1cm,yshift=-6cm]current page.north east);
 \tikzset{
     thread/.style={decoration={snake},decorate,thick},
-    explain box/.style={
-        at={(explain location)},
-        anchor=north east,
-        draw=red,
-        very thick,
-        align=left,
-        fill=white
-    },
-    explain box 2/.style={
-        at={(explain location 2)},
-        anchor=north east,
-        draw=red,
-        very thick,
-        align=left,
-        fill=white
-    },
 }
-\begin{visibleenv}<2>
-\node[explain box] {
-\texttt{getpid} --- returns current process pid
-};
-\end{visibleenv}
-\begin{visibleenv}<3>
-\node[explain box] {
-cast in case \texttt{pid\_t} isn't int \\
-POSIX doesn't specify (some systems it is, some not\ldots) \\
-(not necessary if you were using C++'s cout, etc.)
-};
-\end{visibleenv}
-\begin{visibleenv}<4>
-\node[explain box] {
-prints out \texttt{Fork failed: \textit{error message}} \\
-(example \textit{error message}: ``Resource temporarily unavailable'') \\
-from error number stored in special global variable \texttt{errno} 
-};
-\end{visibleenv}
-\begin{visibleenv}<5>
-\coordinate (thread start) at ([xshift=-6cm,yshift=5cm]explain location 2);
-\draw[overlay,thread] (thread start) -- ++(0, -2) node[below] (fork) {fork()} node[midway,right] {parent pid: \ldots};
+\coordinate (thread start) at (0, 0);
+\draw[thread] (thread start) -- ++(0, -2) node[below] (fork) {fork()} node[midway,right] {parent pid: \ldots};
 \draw[thread] (fork) -- ++ (0, -1.5) node[right]{parent of \ldots};
 \draw[thick,dotted] (fork) -- ++(4, -.5) coordinate (new thread start);
 \draw[thread] (new thread start) -- ++(0, -1.5) node[right] {child \ldots};
-\node[explain box 2] {
-Example output: \\
-\texttt{Parent pid: 100} \\
-\texttt{[100] parent of [432]} \\
-\texttt{[432] child}
-};
-\end{visibleenv}
-\end{scope}
 \end{tikzpicture}

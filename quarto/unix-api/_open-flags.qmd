@@ -8,26 +8,16 @@ int open(const char *path, int <span data-fragment-index="1" class="fragment cus
  
 
 * flags: bitwise or of: 
-
    * <code>O_RDWR</code>, <code>O_RDONLY</code>, or <code>O_WRONLY</code> 
-
       * read/write, read-only, write-only
-
    * <code>O_APPEND</code> 
-
       * append to end of file
-
    * <code>O_TRUNC</code> 
-
       * truncate (set length to 0) file if it already exists
-
    * <code>O_CREAT</code> 
-
       * create a new file if one doesn't exist
       * (default: file must already exist)
-
    * … and more
-
 * <code>man 2 open</code>
 
 

@@ -1,5 +1,5 @@
 
-### fork example 
+### fork example  {.smaller}
 
 <!-- \lstset{
     language=C,
@@ -8,13 +8,42 @@
     moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
     moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
 } -->
- 
-```
+
+```c
 {{< include /unix-api/fork1.c >}}
 ```
- ![](/unix-api/texfig/fork-example.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/unix-api/texfig/fork-example.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/unix-api/texfig/fork-example.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-![](/unix-api/texfig/fork-example.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
-![](/unix-api/texfig/fork-example.figure-5.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=5}
+
+::: {.myoverbox .lowright .fragment fragment-index=1 .fade-in-then-out}
+
+`getpid` --- returns current process ID
+
+:::
+
+::: {.myoverbox .lowright .fragment fragment-index=2 .fade-in-then-out}
+
+casts on printf because `pid_t` might not be `int`
+
+:::
+
+::: {.myoverbox .lowright .fragment fragment-index=3 .fade-in-then-out}
+
+`perror("Fork failed")` prints out <code>Fork failed: <i>error message</i></code> <br />
+example <i>error message</i>: "Resource temporarily unavailable"
+
+:::
+
+::: {.myoverbox .lowright .fragment fragment-index=4 .fade-in}
+
+Example output: <br />
+`Parent pid: 100` <br />
+`[100] parent of [432]`<br />
+`[432] child`
+
+:::
+
+::: {style="position: absolute; top: 0%; right: 0%;" .fragment fragment-index=4 .fade-in-then-out}
+
+![](/unix-api/texfig/fork-example.figure.svg){width=400px}
+
+:::
 

@@ -33,7 +33,7 @@
 
 ### typical pattern with redirection 
 
-     ![](/unix-api/texfig/typicalPatternRedirect.figure.svg)
+![](/unix-api/texfig/typicalPatternRedirect.figure.svg)
 
 
 ### redirecting with exec  {.smaller}

@@ -14,7 +14,7 @@ int rdwr_fd = open("file3", O_RDWR);
 <pre><code>int fd = shm_open("/shared_memory", O_RDWR, 0666); // shared memory
 int socket_fd = socket(AF_INET, SOCK_STREAM, 0); // TCP socket
 int term_fd = posix_openpt(O_RDWR); // pseudo-terminal
-int pipe_fds\[2]; pipe(pipefds); // "pipes" (implements ./command | ./other_cmd)
+int pipe_fds[2]; pipe(pipefds); // "pipes" (implements ./command | ./other_cmd)
 ...
 </code></pre>
 

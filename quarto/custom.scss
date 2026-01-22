@@ -132,6 +132,14 @@ div.myoverbox.vlow {
     bottom: 5%;
 }
 
+div.myoverbox.lowright {
+    top: auto;
+    bottom: 5%;
+    left: auto;
+    right: 5%;
+    transform: translate(0%, 0%);
+}
+
 code span { color: inherit; }
 
 @media print {
