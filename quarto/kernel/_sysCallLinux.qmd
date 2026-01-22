@@ -55,7 +55,7 @@ handle_syscall:
 * <code>mmap</code>, <code>brk</code> --- allocate memory
 * <code>fork</code> --- create new process
 * <code>execve</code> --- run a program in the current process
-* <code>open</code>, <code>[read]{.fragment fragment-index=2 .custom .myem-only}</code>, <code>write</code> --- access files
-* <code>[_exit]{.fragment fragment-index=2 .custom .myem-only}</code> --- terminate a process
+* <code>open</code>, <code>read</code>, <code>write</code> --- access files
+* <code>_exit</code> --- terminate a process
 * <code>socket</code>, <code>accept</code>, <code>getpeername</code> --- socket-related
 

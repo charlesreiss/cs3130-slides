@@ -11,7 +11,6 @@
 
 * OS tells HW ‘okay’ parts of hard drive before running program code 
    * complex for hardware and for OS
-
 * OS verifies your program's code can't do bad hard drive access  
    * no work for HW, but complex for OS
    * may require compiling differently to allow analysis
@@ -25,13 +24,10 @@
 
 * extra one-bit register: ‘‘are we in <i>kernel mode</i>’’ 
    * other names: privileged mode, supervisor mode, …
-
 * not in kernel mode = <i>user mode</i> 
 <hr class="vspace" />
 * certain operations only allowed in kernel mode 
-
    * <i>privileged instructions</i>
-
 * example: talking to any I/O device
 
 
@@ -42,7 +38,6 @@
 * OS switches to user mode to run program code 
 <hr class="vspace" />
 * next topic: when does system switch back to kernel mode? 
-
    * how does OS tell HW where the (trusted) OS code is?
 
 
