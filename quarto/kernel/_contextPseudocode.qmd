@@ -1,12 +1,6 @@
 
-### context switch pseudocode  {.smaller}
+### context switch pseudocode
 
-<!-- \lstset{
-    style=small,
-    language=myasm,
-    morekeywords={copy_preexception_pc},
-} -->
- 
 ```
 context_switch(last, next):
   copy_preexception_pc last->pc

@@ -41,6 +41,10 @@ title: "20260122"
 
 {{< include /kernel/_talk-inner.qmd >}}
 
+# unix-api
+
+{{< include /unix-api/_talk-inner.qmd >}}
+
 # backup slides
 
 {{< include /kernel/_talk-backup.qmd >}}
