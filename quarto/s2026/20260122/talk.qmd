@@ -19,6 +19,8 @@ title: "20260122"
 * access control lists
 * set-user ID bit
 
+### quiz demo
+
 # accounts (con't)
 
 ## set-user-ID/sudo {visibility="hidden"}
