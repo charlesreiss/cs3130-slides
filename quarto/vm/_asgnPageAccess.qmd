@@ -1,12 +1,12 @@
 
 ### address/page table entry format  {.smaller}
 
-(with POBITS=12, LEVELS=1) []{.my-small} <table>
+(with POBITS=12, LEVELS=1)
+<table class="cellborders">
 <tr><td>&nbsp;</td><td>bits 63--21</td><td>bits 20--12</td><td>bits 11--1</td><td>bit 0</td></tr>
-<tr><td>\\hline{} page table entry</td><td>\\multicolumn{2c|physical page number}</td><td>unused</td><td>valid bit</td></tr>
-<tr><td>\\hline{}  virtual address</td><td>unused</td><td>virtual page number</td><td>\\multicolumn{2cpage offset}</td></tr>
-<tr><td>\\hline{} physical address</td><td>\\multicolumn{2c|physical page number}</td><td>\\multicolumn{2cpage offset}</td></tr>
-<tr><td>\\hline{}</td></tr>
+<tr><td> page table entry</td><td colspan="2">physical page number</td><td>unused</td><td>valid bit</td></tr>
+<tr><td>  virtual address</td><td>unused</td><td>virtual page number</td><td colspan="2">page offset</td></tr>
+<tr><td> physical address</td><td colspan="2">physical page number</td><td colspan="2">page offset</td></tr>
 </table>
  
 

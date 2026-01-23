@@ -1,19 +1,16 @@
 
-### pagetable assignment  {.smaller}
-
+### pagetable assignment {.smaller}
 
 * pagetable assignment
 * simulate page tables (on top of normal program memory) 
-
    * alternately: implement another layer of page tables <br> on top of the existing system's
- 
 <hr class="vspace" />
 * in assignment:
-* virtual address $\\sim{}$ arguments to your functions
-* physical address $\\sim{}$ your program addresses (normal pointers)
+* virtual address $\sim$ arguments to your functions
+* physical address $\sim$ your program addresses (normal pointers)
 
 
-### pagetable assignment API  {.smaller}
+### pagetable assignment API
 
 <!-- \lstset{language=C,style=smaller} -->
  
@@ -42,12 +39,12 @@ int allocate_page(size_t va);
 
 ### translate() 
 
-with POBITS=[12]{.fragment fragment-index=2 .custom .myem-only}, LEVELS=1: <br> 
+with POBITS=[12]{.fragment fragment-index=2 .custom .myem-only}, LEVELS=1:
 
 ::: {.r-stack}
-![](/vm/texfig/asgnSetup-translate.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/asgnSetup-translate.figure-1.svg){.fragment .fade-out fragment-index=2 style="height: 450px"}
 
-![](/vm/texfig/asgnSetup-translate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/asgnSetup-translate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 450px"}
 
 
 :::
@@ -55,29 +52,28 @@ with POBITS=[12]{.fragment fragment-index=2 .custom .myem-only}, LEVELS=1: <br>
 
 ### allocate_page() 
 
-with POBITS=[12]{.fragment fragment-index=3 .custom .myem-only}, LEVELS=1: <br> 
+with POBITS=[12]{.fragment fragment-index=3 .custom .myem-only}, LEVELS=1: 
 
 ::: {.r-stack}
-![](/vm/texfig/asgnSetup-allocate_page.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/asgnSetup-allocate_page.figure-1.svg){.fragment .fade-out fragment-index=2 style="height: 450px"}
 
-![](/vm/texfig/asgnSetup-allocate_page.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/asgnSetup-allocate_page.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 450px"}
 
-![](/vm/texfig/asgnSetup-allocate_page.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/asgnSetup-allocate_page.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 450px"}
 
 
 :::
 
 
-### posix_memalign  {.smaller}
+### posix_memalign
 
 <!-- \lstset{
     language=C
 } -->
  
-```
+```c
 void *result;
-error_code =
-    posix_memalign(&result, alignment, size);
+error_code = posix_memalign(&result, alignment, size);
 
 ```
  

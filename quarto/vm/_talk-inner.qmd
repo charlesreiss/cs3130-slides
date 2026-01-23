@@ -57,7 +57,6 @@
 
 ## switching address spaces {visibility="hidden"}
 
-
 {{< include /vm/_osCode.qmd >}}
 
 ## mmap {visibility="hidden"}
@@ -108,21 +107,15 @@
 
 ## two-level page tables {visibility="hidden"}
 
-{{< include /vm/_twoLevelPtLib.qmd >}}
-
 {{< include /vm/_twoLevelPT.qmd >}}
+
+{{< include /vm/_twoLevelPtLib.qmd >}}
 
 {{< include /vm/_twoLevelPTAlt.qmd >}}
 
 ## more than two levels {visibility="hidden"}
 
 {{< include /vm/_multiLevelGen.qmd >}}
-
-## assignment preview {visibility="hidden"}
-
-### assignment 
-
-
 
 ## exercises: multi-level lookup {visibility="hidden"}
 

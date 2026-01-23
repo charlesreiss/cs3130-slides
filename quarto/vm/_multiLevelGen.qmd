@@ -1,13 +1,10 @@
 
-### multi-level page tables  {.smaller}
-
+### multi-level page tables 
 
 * VPN split into pieces for each level of page table 
 <hr class="vspace" />
 * top levels: page table entries point to next page table 
-
    * usually using physical page number of next page table
-
 * bottom level: page table entry points to destination page 
 <hr class="vspace" />
 * validity checks at <em>each level</em>
@@ -15,9 +12,5 @@
 
 ### note on VPN splitting 
 
-
 * indexes used for lookup <em>parts of the virtual page number</em>  
-
    * (there are not multiple VPNs)
-
-
