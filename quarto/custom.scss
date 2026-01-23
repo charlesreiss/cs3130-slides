@@ -142,6 +142,8 @@ div.myoverbox.lowright {
 
 code span { color: inherit; }
 
+.reveal .slide table.cellborders td { border: 2px solid; }
+
 @media print {
     .slide-chalkboard-buttons {
         display: none ! important
