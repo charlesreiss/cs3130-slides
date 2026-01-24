@@ -65,12 +65,15 @@ any_text_not_linebreak: any_text_basic*
 
 fontsize: _FONTSIZE _BRACE any_text _END_BRACE _BRACE any_text _END_BRACE -> fontsize
 
+fontsize_group: _BRACE fontsize any_text _END_BRACE
+
 ?any_text_basic: _START_QUOTE any_text _END_QUOTE -> squote
     | _START_DQUOTE any_text _END_DQUOTE -> dquote
     | BEGIN_GENERIC any_text END_GENERIC -> generic_environment
     | itemize
     | tabular
     | fontsize
+    | fontsize_group
     | whitespace
     | columns
     | VERBATIM -> verbatim
@@ -101,6 +104,7 @@ whitespace: whitespace_item+
 ?any_text_raw: ANY
     | NBSP | SIMPLE_ESCAPED
     | TIKZPICTURE | VERBATIM
+    | DISPLAYMATH
 
 any_empty_item: whitespace
     | SIMPLE_COMMAND when (_BRACE any_text _END_BRACE | _SQUARE_BRACKET any_text _END_SQUARE_BRACKET)* -> outside_command
@@ -113,7 +117,10 @@ any_empty_item: whitespace
     | SAVEBOX -> tikz_context
 
 
-COMMENT.5: /%.*/
+COMMENT.5: /
+        %.*|
+        \\begin\{comment\}(?s:.)*?\\end\{comment\}
+    /x
 _IFNOTHELDBACK.10: /\\iftoggle\{heldback\}\{\}\{/
 _BEGIN_FRAMETITLE.10: /\\frametitle/
 _BEGIN_ITEMIZE.10: /\\begin\{itemize\}/
@@ -144,6 +151,7 @@ _MYALTTEXTB.10: /\\myalttextB/
 _MYALTTEXTC.10: /\\myalttextC/
 _MYALTTEXTD.10: /\\myalttextD/
 _PDFTOOLTIP.10: /\\pdftooltip/
+DISPLAYMATH: /\\\[(?s:.)*?\\\]/
 LINEBREAK: /\\\\(?:\[[^]]+\])?/
 NBSP: /~/
 _START_DQUOTE: /``/
@@ -160,14 +168,14 @@ _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
 _BEGIN_DOCUMENT.10: /\\begin\{document\}/
 _END_DOCUMENT.10: /\\end\{document\}/
-BEGIN_GENERIC.0: /\\begin\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
-END_GENERIC.0: /\\end\{(?!onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
+BEGIN_GENERIC.0: /\\begin\{(?!comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
+END_GENERIC.0: /\\end\{(?!comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
 _END_SQUARE_BRACKET: /\]/
 INCLUDE_GRAPHICS.-10: /\\includegraphics\[[^]]+\]\{[^}]+\}/
-SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox|verb|lstinline|includegraphics)\w+/
+SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox|verb|lstinline|includegraphics)\w+\*?/
 LSTSET.0: /\\lstset\{
         (?:
             [^{}]+
@@ -556,14 +564,50 @@ class OptionalArgument(_MyAstItem):
 class When(_MyAstItem):
     raw_when: InitVar[str | None] = None
     when: str | None = field(init=False)
+    before_index: int | None = field(init=False)
+    middle_indices: tuple[int] = field(init=False)
+    after_index: int | None = field(init=False)
+
 
     def __post_init__(self, raw_when):
         if raw_when:
             self.when = raw_when[1:-1]
-            self.when = re.sub(r'\|handout:\d+', '', self.when)
             self.when = self.when.replace('all:', '')
+            when_parts = re.split(r'[,|]', self.when)
+            self.before_index = None
+            self.after_index = None
+            middle_indices = []
+            for part in when_parts:
+                part = part.replace('all:','')
+                if part.startswith('handout:'):
+                    continue
+                if part != '1-' and part.startswith('1-'):
+                    part = part[1:]
+                if part.startswith('-'):
+                    if self.before_index is not None:
+                        raise ValueError(f'multiple before ranges in {raw_when}')
+                    self.before_index = int(part[1:])
+                elif part.endswith('-'):
+                    if self.after_index is not None:
+                        raise ValueError(f'multiple after ranges in {raw_when}')
+                    self.after_index = int(part[:-1])
+                elif '-' in part:
+                    before, after = part.split('-')
+                    for i in range(int(before), int(after)+1):
+                        middle_indices.append(i)
+                else:
+                    middle_indices.append(int(part))
+            self.middle_indices = tuple(middle_indices)
         else:
             self.when = None
+            self.before_index = None
+            self.middle_indices = tuple()
+            self.after_index = None
+        if self.after_index == 1:
+            self.when = None
+            self.before_index = None
+            self.middle_indices = tuple()
+            self.after_index = None
 
     @property
     def needs_fragment(self):
@@ -574,24 +618,34 @@ class When(_MyAstItem):
    
     @property 
     def is_after_fragment(self):
-        if self.when:
-            if self.when.endswith('-'):
-                return True
-        return False
+        return self.after_index is not None
 
     @property 
     def is_before_fragment(self):
-        if self.when:
-            if self.when.startswith('-'):
-                return True
-        return False
+        return self.before_index is not None
 
+    @property
+    def is_multiple(self):
+        count = len(self.middle_indices)
+        if self.after_index is not None:
+            count += 1
+        if self.before_index is not None:
+            count += 1
+        return count > 0
 
     @property
     def number(self) -> int:
-        if self.when:
-            return int(self.when.replace('-', ''))
-        raise Exception('when.number on invalid range')
+        if self.is_multiple:
+            raise ValueError
+        if len(self.middle_indices) > 0:
+            return self.middle_indices[0]
+        elif self.after_index is not None:
+            return self.after_index
+        elif self.before_index is not None:
+            return self.before_index
+        else:
+            return ValueError
+
 
 @dataclass
 class _InlineCommand(_MyAstItem):
@@ -652,18 +706,17 @@ class _InlineCommand(_MyAstItem):
             arguments = arguments[1:]
         if when and when.needs_fragment:
             if command in (r'\myemph',r'\btHL',):
-                before = '['
-                number = str(when.number)
+                before = ''
+                after = ''
                 if when.is_after_fragment:
-                    after = (
-                        ']{.fragment fragment-index=' + number +
-                        ' .custom .myem}'
-                    )
-                else:
-                    after = (
-                        ']{.fragment fragment-index=' + number +
-                        ' .custom .myem-only}'
-                    )
+                    before += '['
+                    after += ']{.fragment fragment-index=' + str(when.after_index) + ' .custom .myem}'
+                if when.is_before_fragment:
+                    before += '['
+                    after += ']{.fragment fragment-index=' + str(when.before_index+1) + ' .custom .myem-until}'
+                for index in when.middle_indices:
+                    before += '['
+                    after += ']{.fragment fragment-index=' + str(index) + ' .custom .myem-only}'
             else:
                 when_str = ''
                 if when.raw_when is not None:
@@ -869,6 +922,23 @@ class AnyText(_MyAstItem):
 
 AnyTextNotLinebreak = AnyText
 AnyTextNotAfterCommand = AnyText
+
+@dataclass
+class FontsizeGroup(_MyAstItem):
+    fontsize: Fontsize
+    text: AnyText
+
+    def render(self, context: RenderContext) -> str:
+        return self.text.render(context)
+
+    @property
+    def estimated_lines(self) -> float:
+        return self.text.estimated_lines
+
+    @property
+    def inner_text(self) -> str:
+        return self.text.inner_text
+
 
 @dataclass
 class Column(_MyAstItem):
@@ -1135,17 +1205,19 @@ class Visibleenv(_MyAstItem):
     def render(self, context: RenderContext) -> str:
         when = self.when
         if when.needs_fragment:
-            if when.is_after_fragment:
-                number = str(when.number)
+            if when.is_multiple:
+                raise NotImplemented
+            elif when.is_after_fragment:
+                number = str(when.after_index)
                 result = context.indented(
                     '\n<div class="fragment fade-in" data-fragment-index=' + number + ' >\n'
                 )
             elif when.is_before_fragment:
-                number_plus_1 = str(when.number + 1)
+                number_plus_1 = str(when.before_index + 1)
                 result = context.indented(
                     '\n<div class="fragment fade-out" data-fragment-index=' + number_plus_1 + ' >\n')
             else:
-                number = str(when.number)
+                number = str(when.middle_indices[0])
                 result = context.indented(
                     '\n<div class="fragment fade-in-and out" data-fragment-index=' + number +' >\n'
                 )
@@ -1617,7 +1689,7 @@ class OutsideCommand(_MyAstItem):
             return '\n{{< include /' + \
                 str(input_file.resolve().relative_to(context.base_quarto_path.resolve())) + \
                 ' >}}\n'
-        elif self.command == r'\section':
+        elif self.command == r'\section' or self.command == r'\section*':
             return f'\n# {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
         elif self.command == r'\subsection':
             return f'\n## {self.arguments[0].inner_text} ' + '{visibility="hidden"}\n'
@@ -1719,9 +1791,11 @@ class ToAST(lark.Transformer):
         else:
             return _RawString(args[1])
 
-
     def NBSP(self, args):
         return _RawString(' ', '&nbsp;')
+
+    def DISPLAYMATH(self, args):
+        return _RawString(args, args)
 
     def dquote(self, args):
         new_args = [_RawString('\N{left double quotation mark}')] + \
