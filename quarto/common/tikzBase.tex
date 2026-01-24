@@ -195,11 +195,19 @@
   }
 \NewDocumentCommand\myemph{D<>{1-}m}
   {
-    \group_begin:\alt<#1>{\originalColor{orange!50!red}\itshape}{}#2\group_end:
+    \if_mode_math:
+      \group_begin:\alt<#1>{\originalColor{orange!50!red}\mathit{#2}}{#2}\group_end:
+    \else:
+      \group_begin:\alt<#1>{\originalColor{orange!50!red}\itshape}{}#2\group_end:
+    \fi
   }
 \NewDocumentCommand\maybeEmph{D<>{1-}m}
   {
-    \group_begin:\alt<#1>{\originalColor{orange!50!red}\itshape}{}#2\group_end:
+    \if_mode_math:
+      \group_begin:\alt<#1>{\originalColor{orange!50!red}\mathit{#2}}{#2}\group_end:
+    \else:
+      \group_begin:\alt<#1>{\originalColor{orange!50!red}\itshape}{}#2\group_end:
+    \fi
   }
 \RenewDocumentCommand\textbf{D<>{1-}m}
   {
