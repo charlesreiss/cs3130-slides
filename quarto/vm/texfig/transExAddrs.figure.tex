@@ -1,8 +1,8 @@
 \documentclass[tikz]{standalone}
 \input{common/tikzBase}
 \usetikzlibrary{}
-\NewDocumentCommand\exAnswer{D<>{} m}{\begingroup\alt#2{\iftoggle{heldback}{}{#1}}{???}\endgroup}
-\NewDocumentCommand\emphAns{D<>{} m}{\iftoggle{heldback}{#1}{\alt#2{\myemph{#1}}{#1}}}
+\NewDocumentCommand\exAnswer{D<>{} m}{\begingroup\alt<#1>{#2}{???}\endgroup}
+\NewDocumentCommand\emphAns{D<>{} m}{\alt<#1>{\myemph{#2}}{#2}}
 \begin{document}
 
 \setSlide{1}

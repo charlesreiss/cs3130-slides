@@ -2,15 +2,16 @@
 ### exercise setup 
 
 
-
-* 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+<div style="font-size: 70%">
+5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+</div>
  
 
 ::: {.r-stack}
-![](/vm/texfig/transExSetup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/transExSetup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/transExSetup.figure-1.svg){.fragment .fade-out fragment-index=1 style="height: 500px"}
 
+![](/vm/texfig/transExSetup.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 style="height: 500px"}
 
 :::
 
@@ -18,21 +19,21 @@
 ### exercise  {.smaller}
 
   
-
-* 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
-* (virtual addresses) []{.my-small} [<code></code> 0x18]{.fragment fragment-index=2 .custom .myem-only} = \exAnswer{<code></code> 00}; <code>0x03</code> = \exAnswer{0x4A}; <code>0x0A</code> = \exAnswer{<code></code> 0xDC}; <code>0x13</code> = \exAnswer{fault}
- 
+<div style="font-size: 70%">
+5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
+(virtual addresses) [<code></code> 0x18]{.fragment fragment-index=2 .custom .myem-only} =[00]{.fragment fragment-index=3}; <code>0x03</code> = [0x4A]{.fragment fragment-index=4}; <code>0x0A</code> = [0xDC]{.fragment fragment-index=4}; <code>0x13</code> = [fault]{.fragment fragment-index=5}
+</div>
 
 ::: {.r-stack}
-![](/vm/texfig/transExAddrs.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/transExAddrs.figure-1.svg){.fragment .fade-out fragment-index=2 style="height:450px"}
 
-![](/vm/texfig/transExAddrs.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/transExAddrs.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height:450px"}
 
-![](/vm/texfig/transExAddrs.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/transExAddrs.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height:450px"}
 
-![](/vm/texfig/transExAddrs.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/transExAddrs.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height:450px"}
 
-![](/vm/texfig/transExAddrs.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm/texfig/transExAddrs.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height:450px"}
 
 
 :::

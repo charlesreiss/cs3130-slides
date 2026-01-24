@@ -1,8 +1,6 @@
 
 ### two-level page table lookup 
 
-
-
 ::: {.r-stack .my-full}
 ![](/vm/texfig/twoLevelPtLib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
