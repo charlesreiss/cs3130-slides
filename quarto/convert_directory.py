@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 EXCLUDED = (
     'slides', 'talk', 'talk-handout', 'talk-handout-heldback', 'talk-slides', 'talk-slides-heldback', 'test',
     'talk-slides2',
+    'tikzlibrarycircuits.logic.mux.code',
+    'pgflibraryshapes.gates.logic.mux.code',
 )
 
 def run_logged(command: List[str | Path]):
