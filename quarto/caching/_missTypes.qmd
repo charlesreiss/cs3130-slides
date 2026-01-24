@@ -1,0 +1,23 @@
+
+### cache miss types  {.smaller}
+
+
+* common to categorize misses: 
+
+   * roughly ‘‘cause’’ of miss assuming cache block size fixed
+ 
+<hr class="vspace" />
+* <i>compulsory</i> (or <i>cold</i>) --- <em>first time</em> accessing something 
+
+   * adding more sets or blocks/set wouldn't change
+
+* <i>conflict</i> --- sets aren't big/flexible enough 
+
+   * a fully-associtive (1-set) cache of the same size would have done better
+
+* <i>capacity</i> --- cache was not big enough
+* <i>coherence</i> --- from sync'ing cache with other caches 
+
+   * only issue with multiple cores
+
+

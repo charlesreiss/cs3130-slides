@@ -1,0 +1,38 @@
+
+### 2004 CPU 
+
+
+
+::: {.r-stack}
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/memHierarchyIntro-2004-cpu.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+ [Image: approx 2004 AMD press image of Opteron die; <br> approx register location via chip-architect.org (Hans de Vries)]{.mycredit}
+
+### the place of cache (1) 
+
+![](/caching/texfig/memHierarchyIntro-the-place-of-cache-1.figure.svg)
+
+
+### memory hierarchy goals 
+
+
+* performance of the fastest (smallest) memory 
+
+   * hide 100x latency difference? <em>99+% hit (= value found in cache) rate</em>
+
+* capacity of the largest (slowest) memory
+

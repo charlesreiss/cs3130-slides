@@ -1,0 +1,10 @@
+---
+title: "caching"
+
+---
+
+{{< include /caching-blocking/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /caching-blocking/_talk-backup.qmd >}}

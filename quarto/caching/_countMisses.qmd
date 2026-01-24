@@ -1,0 +1,32 @@
+
+### reasoning about loop orders 
+
+
+* changing loop order changed locality 
+<hr class="vspace" />
+* how do we tell which loop order will be best? 
+
+   * besides running each one?
+
+
+
+### systematic approach (1)  {.smaller}
+
+<!-- \lstset{style=small,language=C} -->
+ 
+```
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+
+```
+ 
+
+* goal: get most out of <em>each cache miss</em>
+* if $N$ is larger than the cache:
+* miss for $B_ij$ --- 1 comptuation
+* miss for $A_ik$ --- $N$ computations
+* miss for $A_kj$ --- 1 computation
+* effectively caching <em>just 1 element</em>
+

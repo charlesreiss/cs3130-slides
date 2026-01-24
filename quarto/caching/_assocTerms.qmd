@@ -1,0 +1,11 @@
+
+### associativity terminology 
+
+
+* <em>direct-mapped</em> --- one block per set
+* <em>$E$-way set associative</em> --- $E$ blocks per set 
+
+   * $E$ ways in the cache
+
+* <em>fully associative</em> --- one set total (everything in one set)
+

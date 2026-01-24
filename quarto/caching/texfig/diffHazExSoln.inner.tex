@@ -1,0 +1,63 @@
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\matrix[tight matrix noline,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5.2cm,align=left}},
+        row 4/.style={nodes={visible on=<3->}},
+        row 3/.style={nodes={alt=<1-2>{}{opacity=0.2}}},
+        row 6/.style={nodes={visible on=<3->}},
+        row 5/.style={nodes={alt=<1-2>{}{opacity=0.2}}},
+        row 8/.style={nodes={visible on=<3->}},
+        row 7/.style={nodes={alt=<1-2>{}{opacity=0.2}}},
+        row 9/.style={nodes={visible on=<5->}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+addq \%rcx, \%r9       \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \& ~ \\
+addq \%r9, \%rbx       \& ~ \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \\
+addq \%r9, \%rbx       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
+addq \%rax, \%r9       \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W \& ~ \\
+addq \%rax, \%r9       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
+rmmovq \%r9, (\%rbx)   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+rmmovq \%r9, (\%rbx)   \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+};
+\begin{visibleenv}<1>
+    \fill[white] (tbl-3-2.north west) rectangle (tbl-8-11.south east);
+\end{visibleenv}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\foreach \x in {1,...,10} {
+    \draw[dotted] (tbl-1-\x.north east) -- (tbl-8-\x.south east);
+}
+\iftoggle{heldback}{}{
+\begin{visibleenv}<2>
+    \fwdNo{3}{2}{3}
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \fwd{4}{2}{4}{<3>}
+\end{visibleenv}
+\begin{visibleenv}<4->
+    \fwd{5}{2}{6}{<4>}
+\end{visibleenv}
+\begin{visibleenv}<5->
+    \fwd{6}{4}{8}{<5>}
+    \fwd{8}{6}{8}{<5>}
+\end{visibleenv}
+}
+\end{tikzpicture}

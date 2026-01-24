@@ -1,0 +1,15 @@
+
+### Tag-Index-Offset formulas  {.smaller}
+
+<table>
+<tr><td>$m$</td><td>memory addreses bits</td></tr>
+<tr><td>$E$</td><td>number of blocks per set (‘‘ways’’)</td></tr>
+<tr><td>$S=2^s$</td><td>number of sets</td></tr>
+<tr><td>$s$</td><td>(set) index bits</td></tr>
+<tr><td>$B=2^b$</td><td>block size</td></tr>
+<tr><td>$b$</td><td>(block) offset bits</td></tr>
+<tr><td>$t = m - (s+b)$</td><td>tag bits</td></tr>
+<tr><td>$C = B \times S \times E$</td><td>cache size (excluding metadata)</td></tr>
+<tr><td></td></tr>
+</table>
+

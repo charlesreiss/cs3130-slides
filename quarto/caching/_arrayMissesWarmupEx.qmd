@@ -1,0 +1,65 @@
+
+### C and cache misses (warmup 1)
+
+
+```c
+int array[4];
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+odd_sum += array[1];
+even_sum += array[2];
+odd_sum += array[3];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many data cache misses on a 1-set direct-mapped cache with 8B blocks?
+
+
+### some possiblities 
+
+::: {.r-stack .my-full}
+
+![](/caching/texfig/arrayMissesWarmup1Answers.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/arrayMissesWarmup1Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/arrayMissesWarmup1Answers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/arrayMissesWarmup1Answers.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+### aside: alignment 
+
+
+* compilers and malloc/new implementations usually try to <em>align</em> values
+* align = make address be multiple of something 
+<hr class="vspace" />
+* most important reason: don't cross cache block boundaries
+
+### C and cache misses (warmup 2)
+
+```c
+int array[4];
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+odd_sum += array[1];
+odd_sum += array[3];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* Assume array[0] at beginning of cache block.
+* How many data cache misses on a 1-set direct-mapped cache with 8B blocks?
+
+
+### exercise solution 
+
+![](/caching/texfig/arrayMissesWarmup2Answers.figure.svg)
+

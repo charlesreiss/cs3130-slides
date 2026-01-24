@@ -1,0 +1,49 @@
+
+### cache blocking ugliness --- fringe  {.smaller}
+
+<!-- \lstset{
+    style=small,
+    escapechar=@
+} -->
+ 
+```
+for (int kk = 0; kk < N; kk += K) {
+  for (int ii = 0; ii < N; ii += I) {
+    for (int jj = 0; jj < N; jj += J) {
+      for (int k = kk; k < @\myemph{$\mathtt{\min}(kk+K,N)$}@; ++k) {
+          // ...
+      }
+    }
+  }
+}
+
+```
+
+
+### cache blocking ugliness --- fringe  {.smaller}
+
+<!-- \lstset{
+    style=small,
+    escapechar=@
+} -->
+ 
+```
+for (kk = 0; kk + K <= N; kk += K) {
+  for (ii = 0; ii + I <= N; ii += I) {
+    for (jj = 0; jj + J <= N; ii += J) {
+      // ...
+    }
+    for (; jj < N; ++jj) {
+      // handle remainder
+    }
+  }
+  for (; ii < N; ++ii) {
+    // handle remainder
+  }
+}
+for (; kk < N; ++kk) {
+  // handle remainder
+}
+
+```
+

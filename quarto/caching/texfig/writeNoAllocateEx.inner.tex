@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm,align=center}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 4/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 5/.append style={nodes={align=center,text width=1cm,red}},
+        column 6/.append style={nodes={draw=none,text width=.1cm}},
+        column 7/.append style={nodes={align=center,text width=0.9cm}},
+        column 8/.append style={nodes={align=center,tagColor,text width=1.3cm,
+            font=\tt\fontsize{10}{11}\selectfont}},
+        column 9/.append style={nodes={text width=1.3cm,align=center,dataColor,
+            text depth=2.3ex,font=\tt\fontsize{7}{8}\selectfont}},
+        column 10/.append style={nodes={align=center,text width=1cm,red}},
+        column 11/.append style={nodes={draw=none,text width=.1cm}},
+        column 12/.append style={nodes={align=center}},
+        row 1 column 4/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 9/.append style={nodes={text depth=.1ex,font=\small\bfseries}},
+        row 1 column 10/.append style={nodes={align=center,text width=1cm}},
+        label={[font=\small]$2$-way set associative, LRU, writeback}] (cache)  {
+index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \& ~\&LRU \\
+0\&
+    % i 0, 0:
+    1 \& 
+    000000 \& 
+    mem[0x00] mem[0x01] \&
+    0 \& ~\&
+    % i 0, 1:
+    1 \& 
+    011000 \& 
+    mem[0x60]* mem[0x61]*%
+    %
+     \&
+    1 \& ~ \&
+    1 \\
+1\& 
+    % i 1, 0:
+    1 \& 
+    011000 \&
+    mem[0x62] mem[0x63] \& 
+    0 \& ~\&
+    % i 1, 1:
+    0 \& ~ \& ~ \&  ~ \&
+    ~ \& 0
+    \\
+};
+\begin{visibleenv}<1>
+    \node[inner sep=-1pt,line width=2pt,red,draw,fit=(cache-2-7) (cache-2-10)] {};
+\end{visibleenv}
+\node[anchor=north west,align=left] at ([yshift=-.1cm]cache.south west) {
+    \myemph{writing} {\t 0xFF} into address {\tt 0x04}? \\
+    step 1: is it in cache yet? \\
+    step 2: no, \myemph{just send it to memory}
+};
+\end{tikzpicture}

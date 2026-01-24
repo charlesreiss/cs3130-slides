@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\tikzset{>=Latex}
+\node[minimum width=5cm,minimum height=2cm,draw,thick,align=center] (mmu) {MMU \\ \small (`page table walk' logic)};
+\node[right=1.5cm of mmu,minimum width=5cm,minimum height=2cm,draw,thick] (cache) {L1 Cache/Memory};
+\node[above=1.5cm of mmu,minimum width=5cm,minimum height=1cm,draw,thick] (tlb) {TLB};
+    \node[left=1.5cm of mmu,align=right] (fromProgram) {address\\ from\\ program};
+\draw[thick,<->] (mmu) -- (cache);
+\draw[thick,<->] (mmu) -- (tlb);
+    \draw[thick,->] (fromProgram) -- (mmu);
+\end{tikzpicture}

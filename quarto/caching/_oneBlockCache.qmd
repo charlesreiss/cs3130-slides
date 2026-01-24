@@ -1,0 +1,23 @@
+
+### one-block cache 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/oneBlockCache.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/oneBlockCache.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/oneBlockCache.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/oneBlockCache.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/oneBlockCache.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/oneBlockCache.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/oneBlockCache.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+

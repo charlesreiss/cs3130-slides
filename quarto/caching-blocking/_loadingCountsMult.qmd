@@ -1,0 +1,26 @@
+
+### systematic approach  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; ++k) {
+  for (int i = 0; i < N; ++i) {
+    @$A_{ik}$ loaded once in this loop:@
+    for (int j = 0; j < N; ++j)
+      @$C_{ij}$, $B_{kj}$ loaded each iteration (if $N$ big):@
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+
+```
+ 
+
+* values from $A_ik$ used $N$ times per load
+* values from $B_kj$ used $1$ times per load 
+
+   * but good spatial locality, so cache block of $B_kj$ together
+
+* values from $C_ij$ used $1$ times per load 
+
+   * but good spatial locality, so cache block of $C_ij$ together
+
+

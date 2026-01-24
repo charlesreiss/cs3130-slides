@@ -1,0 +1,56 @@
+
+### TLBs and performance 
+
+![](/caching/texfig/tlbPerformance-tlbs-and-performance.figure.svg)
+
+
+### L1 caches and page numbers (Intel Skylake) 
+
+
+
+::: {.r-stack}
+![](/caching/texfig/tlbPerformance-l1-caches-and-page-numbers-intel-skylake.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbPerformance-l1-caches-and-page-numbers-intel-skylake.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+ 
+
+* not a coincidence
+* why did Intel make this decision?
+
+
+### overlapping TLB and cache access 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/tlbPerformance-overlapping-tlb-and-cache-access.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbPerformance-overlapping-tlb-and-cache-access.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/tlbPerformance-overlapping-tlb-and-cache-access.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### virtually-indexed, physically-tagged  {.smaller}
+
+
+* called virtually-indexed, physically-tagged cache
+* requirement: <em>index contained entirely in page offset</em> 
+
+   * do not need to do translation to start cache access
+
+* tag overlaps with PPN 
+
+   * example: tag=PPN
+   * (but tag could include part of page offset, too)
+
+* do TLB access <em>while retrieving cache set</em> 
+<hr class="vspace" />
+* most common design in current processors
+* reason for highly associative (e.g. 8-way) L1 caches
+

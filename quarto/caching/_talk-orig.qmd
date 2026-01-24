@@ -1,0 +1,295 @@
+
+### graphicspath(./figures/)
+
+<!-- \title(Caching) -->
+
+<!-- \date() -->
+
+### usepgflibrary(shapes.gates.logic.mux)
+<!-- \input{../common/listingsLib} -->
+{{< include /caching/_cacheUtils.qmd >}}
+
+# caching {visibility="hidden"}
+
+## memory hierarchy intro {visibility="hidden"}
+
+{{< include /caching/_memHierarchyIntro.qmd >}}
+
+## locality {visibility="hidden"}
+
+{{< include /caching/_localityBasics.qmd >}}
+
+## direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_directMappedIntro.qmd >}}
+
+### terminology 
+
+
+* row = set 
+
+   * preview: change how much is in a row
+
+
+
+## tag/index/offset for direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_tioDMIntro.qmd >}}
+
+## tio for DM: exercise {visibility="hidden"}
+
+{{< include /caching/_tioDmExercise.qmd >}}
+
+## simulating a direct mapped cache {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccess.qmd >}}
+
+## exercise: direct-mapped cache access {visibility="hidden"}
+
+{{< include /caching/_dmAccessExercise.qmd >}}
+
+## adding associativity {visibility="hidden"}
+
+### againframe(pattern1)
+
+{{< include /caching/_addAssoc.qmd >}}
+
+## associativity terms {visibility="hidden"}
+
+{{< include /caching/_assocTerms.qmd >}}
+
+## tag/index/offset for set-assoc. caches {visibility="hidden"}
+
+{{< include /caching/_tioAssoc.qmd >}}
+
+## tag/index/offset exercise {visibility="hidden"}
+
+## setup{visibility="hidden"}
+
+{{< include /caching/_tioExerciseIntro.qmd >}}
+
+## the exercise{visibility="hidden"}
+
+{{< include /caching/_tioExercise.qmd >}}
+
+## options for replacement {visibility="hidden"}
+
+{{< include /caching/_replacement.qmd >}}
+
+## options for handling writes {visibility="hidden"}
+
+{{< include /caching/_writePolicy.qmd >}}
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+{{< include /caching/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching/_fastWrites.qmd >}}
+
+# AMAT {visibility="hidden"}
+
+{{< include /caching/_amatFormula.qmd >}}
+
+## exercise: AMAT (simple case) {visibility="hidden"}
+
+{{< include /caching/_amatEx.qmd >}}
+
+## exercise: multi-level cache AMAT {visibility="hidden"}
+
+{{< include /caching/_multiLevelAMAT.qmd >}}
+
+## miss types {visibility="hidden"}
+
+{{< include /caching/_missTypes.qmd >}}
+
+# cache tradeoffs {visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffs.qmd >}}
+
+# misses in C, and intuition behind conflicts {visibility="hidden"}
+
+{{< include /caching/_conflictMissesAndC.qmd >}}
+
+# array misses warmup {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupEx.qmd >}}
+
+# array misses and cache results {visibility="hidden"}
+
+{{< include /caching/_arrayMissesEx.qmd >}}
+
+# less precise approxmation {visibility="hidden"}
+
+{{< include /caching/_approxMisses.qmd >}}
+
+# warmup: locality exercise {visibility="hidden"}
+
+{{< include /caching/_localityExercise.qmd >}}
+
+# warmup: miss counting {visibility="hidden"}
+
+{{< include /caching/_localityExMissCount.qmd >}}
+
+# 2D arrays in C {visibility="hidden"}
+
+{{< include /caching/_c2DArray.qmd >}}
+
+{{< include /caching/_2DArrayBlock.qmd >}}
+
+# matrix multiply and loop orders {visibility="hidden"}
+
+{{< include /caching/_matrixMultIntro.qmd >}}
+
+{{< include /caching/_matrixMultOrders.qmd >}}
+
+{{< include /caching/_matrixMultOrdersLocality.qmd >}}
+
+## exercise: which order? {visibility="hidden"}
+
+{{< include /caching/_matrixMultOrdersEx.qmd >}}
+
+## locality: diagrams {visibility="hidden"}
+
+{{< include /caching/_blockDiagMultIjk.qmd >}}
+
+{{< include /caching/_blockDiagMult.qmd >}}
+
+## MM performance {visibility="hidden"}
+
+### againframe(matrixMultTwoVersions)
+
+{{< include /caching/_matrixMultOrdersPerf.qmd >}}
+
+## miss counting {visibility="hidden"}
+
+{{< include /caching/_matrixMultOrdersMisses.qmd >}}
+
+## miss count exericse {visibility="hidden"}
+
+{{< include /caching/_localityExMissCount2.qmd >}}
+
+## jagged edges: conflict misses {visibility="hidden"}
+
+{{< include /caching/_matrixMultOrdersConflicts.qmd >}}
+
+# warmup, take two: locality exercise {visibility="hidden"}
+
+{{< include /caching/_localityExercise2.qmd >}}
+
+# cache blocking introduction {visibility="hidden"}
+
+## transformation --- 1D blocking {visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultXformK.qmd >}}
+
+## missses in A{visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultKMissesA.qmd >}}
+
+## missses in B{visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultKMissesB.qmd >}}
+
+## overall misses{visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultKMissesOverall.qmd >}}
+
+## actual performance{visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultKReadMissGraph.qmd >}}
+
+## two-at-a-time {visibility="hidden"}
+
+{{< include /caching/_blockingIntro2Mult.qmd >}}
+
+## generalizing {visibility="hidden"}
+
+{{< include /caching/_blockingDivideAndConquerMult.qmd >}}
+
+## diagram of general {visibility="hidden"}
+
+{{< include /caching/_blockingUsageGeneralMult.qmd >}}
+
+# counting loads {visibility="hidden"}
+
+{{< include /caching/_loadingCountsMult.qmd >}}
+
+# exercise {visibility="hidden"}
+
+{{< include /caching/_localityExMissCount3.qmd >}}
+
+# cache blocking review {visibility="hidden"}
+
+{{< include /caching/_cacheBlockingReview.qmd >}}
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+
+
+## cut example? {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccessCut.qmd >}}
+
+## benchmarking and cache results {visibility="hidden"}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+## on split data/instruction caches and hierarchy {visibility="hidden"}
+
+{{< include /caching/_cacheSplitID.qmd >}}
+
+# varying parameters exercise {visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffsEx.qmd >}}
+
+## misc cache optimizations: prefetching {visibility="hidden"}
+
+{{< include /caching/_miscCacheOpt.qmd >}}
+
+## an old quiz question {visibility="hidden"}
+
+{{< include /caching/_arrayMissesQuizAnswer.qmd >}}
+
+## mapping misses to sets (DM) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiagDM.qmd >}}
+
+## mapping misses to sets (3-way) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiag3.qmd >}}
+
+## sparse array miss exericse {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparseConflicts.qmd >}}
+
+# alternate cache miss exericse {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparseAlt.qmd >}}
+
+# array misses and cache results (old sparse) {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparse.qmd >}}
+
+## set mapping (text) {visibility="hidden"}
+
+{{< include /caching/_setMappingText.qmd >}}
+
+## addt'l order usage diagrams {visibility="hidden"}
+
+### againframe(ijkCacheUsage)
+
+### againframe(kijCacheUsage)
+
+## cache blocking: more than two at a time? {visibility="hidden"}
+
+{{< include /caching/_blockingIntroMultKTo3.qmd >}}
+
+{{< include /caching/_blockingUsageMult.qmd >}}
+
+## explicit counting {visibility="hidden"}
+
+{{< include /caching/_explicitCounting.qmd >}}

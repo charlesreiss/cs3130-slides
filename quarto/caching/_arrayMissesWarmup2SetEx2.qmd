@@ -1,0 +1,60 @@
+
+### C and cache misses (warmup 4a)
+
+
+```c
+int array[8]; /* assume aligned */
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+even_sum += array[4];
+even_sum += array[6];
+odd_sum += array[1];
+odd_sum += array[3];
+odd_sum += array[5];
+odd_sum += array[7];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
+
+
+### exercise solution 
+
+
+::: {.r-stack .my-full}
+
+![](/caching/texfig/arrayMissesWarmup4Answers.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/caching/texfig/arrayMissesWarmup4Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/arrayMissesWarmup4Answers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### C and cache misses (warmup 4b)
+
+```c
+int array[8]; /* assume aligned */
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+odd_sum += array[3];
+even_sum += array[6];
+odd_sum += array[1];
+even_sum += array[4];
+odd_sum += array[7];
+even_sum += array[2];
+odd_sum += array[5];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
+

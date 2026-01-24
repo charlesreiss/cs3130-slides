@@ -1,0 +1,10 @@
+
+### minor HCL update  {.smaller}
+
+
+* new version of hclrs.tar: 
+<hr class="vspace" />
+* removes poptest.yo from list of tests for seqhw, pipehw2
+* gives error if you try to assign to register output: <br> <code>register xY { foo : 1 = 0; }<br> x_foo = 0; Y_foo = 1;</code>
+* (previously: silently choose a value to give <code>Y_foo</code>)
+

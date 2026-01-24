@@ -1,0 +1,16 @@
+
+### keeping values in cache  {.smaller}
+
+
+* can't <i>explicitly</i> ensure values are kept in cache
+* … but reusing values <i>effectively</i> does this 
+
+   * cache will try to keep recently used values
+ 
+<hr class="vspace" />
+* cache optimization ideas: choose what's in the cache 
+
+   * for thinking about it: load values explicitly
+   * for implementing it: access only values we want loaded
+
+

@@ -1,0 +1,22 @@
+
+### approximate miss analysis  {.smaller}
+
+
+* very tedious to precisely count cache misses 
+
+   * even more tedious when we take advanced cache optimizations into account
+ 
+<hr class="vspace" />
+* instead, approximations:
+* [good or bad temporal/spatial locality]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * good temporal locality: value stays in cache
+   * good spatial locality: use all parts of cache block
+
+* with nested loops: what does inner loop use? 
+
+   * intuition: values used in inner loop loaded into cache once
+   * (that is, once each time the inner loop is run)
+   * … if they can all fit in the cache
+
+

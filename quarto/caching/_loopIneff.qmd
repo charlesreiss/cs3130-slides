@@ -1,0 +1,14 @@
+
+### inefficiencies  {.smaller}
+
+
+* if a row doesn't fit in cache --- <br> cache effectively holds <em>one element</em> 
+
+   * everything else --- too much other stuff between accesses
+ 
+<hr class="vspace" />
+* if a row does fit in cache --- <br> cache effectively holds <em>one row + one element</em>  
+
+   * everything else --- too much other stuff between accesses
+
+

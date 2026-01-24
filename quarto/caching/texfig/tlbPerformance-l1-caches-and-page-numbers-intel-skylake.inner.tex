@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\tikzset{
+    ht/.style={draw,thick,minimum height=1.2cm,align=center,inner sep=0mm},
+}
+
+\node[ht,minimum width=12cm] (addr) { physical address \\ (48 bits) };
+\node[ht,minimum width=7cm,anchor=north west,alt=<2>{red}] (ppn) at ([yshift=-.1cm]addr.south west){ PPN \\ (36 bit) };
+\node[ht,right=0cm of ppn,minimum width=5cm] {page offset \\  (12 bit)};
+\node[ht,minimum width=7cm,anchor=north west,alt=<2>{red}] (skylakeTag) at ([yshift=-.1cm]ppn.south west){ L1 cache tag \\ (36 bit) };
+\node[ht,minimum width=2.5cm,right=0cm of skylakeTag] (skylakeIndex) { L1 index \\ (6 bit) };
+\node[ht,minimum width=2.5cm,right=0cm of skylakeIndex] (skylakeOff) { L1 offset \\ (6 bit) };
+
+\end{tikzpicture}

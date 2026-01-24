@@ -1,0 +1,30 @@
+
+### optimized loop???  {.smaller}
+
+
+* performance difference wasn't visible at small sizes
+* until I optimized <em>arithmetic</em> in the loop
+* (mostly by [supplying better options to GCC]{.fragment fragment-index=3 .custom .myem-only}) 
+<hr class="vspace" />
+* 1: reducing number of loads
+* 2: doing adds/multiplies/etc. with less instructions
+* 3: simplifying address computations
+* but… how can that make cache blocking better???
+
+
+### overlapping loads and arithmetic 
+
+![](/caching/texfig/overlappingLoads-overlapping-loads-and-arithmetic.figure.svg)
+
+
+### optimization and bottlenecks 
+
+
+* arithmetic/loop efficiency was the <em>bottleneck</em>
+* after fixing this, cache performance was the bottleneck 
+<hr class="vspace" />
+* common theme when optimizing: 
+
+   * X may not matter until Y is optimized
+
+

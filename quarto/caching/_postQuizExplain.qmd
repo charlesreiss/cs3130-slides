@@ -1,0 +1,93 @@
+
+### post-quiz Q1 B  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+} -->
+ 
+```
+rmmovq %rcx, 0(%rdx)  
+    // reads: %rcx, %rdx
+    // writes: data memory [no registers!]
+nop
+addq %rcx, %rdx
+    // reads: %rcx, %rdx
+    // writes: %rdx
+
+```
+ 
+
+* read to read $\\rightarrow{}$ <em>no dependency</em>
+
+
+### post-quiz Q1 D 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+} -->
+ ![](/caching/texfig/postQ1D.figure.svg)
+
+
+### post-quiz Q 2  {.smaller}
+
+
+
+* goal: squash instruction currently in execute
+* i.e. C disappears from the pipeline instead of advancing to memory
+ ![](/caching/texfig/postQuizExplain-post-quiz-q-2.figure.svg)
+
+
+### post-quiz Q 3 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+} -->
+ 
+
+* our/book's CPU predicts branches as <em>always taken</em>
+* use branch result at <em>beginning of jump's memory stage</em>
+ 
+
+::: {.r-stack}
+![](/caching/texfig/postQuizQ3.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/postQuizQ3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### post-quiz Q 4 
+
+<!-- \lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+} -->
+ 
+
+* irmovq $\\rightarrow{}$ rmmovq: needs %rax
+* mrmovq $\\rightarrow{}$ subq: needs %rbx
+ ![](/caching/texfig/postQuizQ4.figure.svg)
+
+
+### post-quiz Q 5 
+
+<!-- \lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<1-2|handout:1>]{~1~}{~end~},
+} -->
+ 
+
+* irmovq $\\rightarrow{}$ rmmovq: needs %rax
+* mrmovq $\\rightarrow{}$ subq: needs %rbx
+ ![](/caching/texfig/postQuizQ5.figure.svg)
+

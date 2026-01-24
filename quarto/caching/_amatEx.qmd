@@ -1,0 +1,14 @@
+
+### AMAT exercise (1)  {.smaller}
+
+
+* 90% cache hit rate
+* hit time is 2 cycles
+* 30 cycle miss penalty
+* what is the average memory access time?
+* [5 cycles]{.fragment}
+<hr class="vspace" />
+* suppose we could increase hit rate by increasing its size, but it would increase the hit time to 3 cycles
+* how much do we have to increase the hit rate for this to not increase AMAT?
+* [to miss rate of 2/30 $\rightarrow$ to approx 93% hit rate]{.fragment}
+

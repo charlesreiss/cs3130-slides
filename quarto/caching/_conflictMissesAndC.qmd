@@ -1,0 +1,78 @@
+
+### cache accesses and C code (1)  {.smaller}
+
+
+```
+int scaleFactor;
+
+int scaleByFactor(int value) {
+    return value * scaleFactor;
+}
+
+```
+ <hr />
+ 
+```
+scaleByFactor:
+    movl scaleFactor, %eax
+    imull %edi, %eax
+    ret
+
+```
+ <hr />
+ 
+
+* exericse: what data cache accesses does this function do? 
+
+   * 4-byte read of scaleFactor
+   * 8-byte read of return address
+
+
+
+### possible scaleFactor use 
+
+
+```
+for (int i = 0; i < size; ++i) {
+    array[i] = scaleByFactor(array[i]);
+}
+
+```
+
+
+### misses and code (2)  {.smaller}
+
+
+```
+scaleByFactor:
+    movl scaleFactor, %eax
+    imull %edi, %eax
+    ret
+
+```
+ 
+
+* suppose each time this is called in the loop: 
+
+   * return address located at address <code>0x7ffffffe43b8</code>
+   * scaleFactor located at address <code>0x6bc3a0</code>
+
+* with direct-mapped 32KB cache w/64 B blocks, what is their: <table>
+   <tr><td>&nbsp;</td><td>return address</td><td>scaleFactor</td></tr>
+<tr><td>\\hline{} tag</td><td>\only{0xfffffffc}</td><td>\only{0xd7}</td></tr>
+<tr><td>index</td><td>\only{[0x10e]{.fragment fragment-index=3 .custom .myem-only}}</td><td>\only{[0x10e]{.fragment fragment-index=3 .custom .myem-only}}</td></tr>
+<tr><td>offset</td><td>\only{0x38}</td><td>\only{0x20}</td></tr>
+<tr><td></td></tr>
+</table>
+   
+
+
+### conflict miss coincidences? 
+
+
+* obviously I set that up to have the same index  
+
+   * have to use exactly the right amount of stack space…
+
+* but one of the reasons we'll want something better than direct-mapped cache
+

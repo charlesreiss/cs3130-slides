@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+\tikzset{
+    stepCircle/.style={circle,fill=yellow!10,draw,very thick,inner sep=1pt},
+    every pin edge/.style={-,thick},
+}
+
+\node[draw,minimum width=1cm,minimum height=2.5cm] (cpu) {CPU};
+\node[draw,minimum width=3cm,minimum height=4cm,right=4cm of cpu] (cache) {};
+    \node[anchor=south] at ([yshift=1cm]cache.center) {Cache};
+    \node[above=2cm of cache,font=\bfseries] {
+        \only<1-2>{option 1: write-allocate}\only<4-5>{option 2: write-no-allocate}
+    };
+\node[draw,minimum width=3cm,minimum height=6cm,right=4cm of cache] (mem) {RAM};
+    \node[align=center,draw,anchor=north] (storedValue) at ([yshift=1cm]cache.center) {
+        \ldots \\
+        \alt<2-3>{\myemph<3>{ABCC:} \ldots}{\ldots} \\
+        \alt<2-3>{\myemph<2>{ABCD: 10}}{\ldots} \\
+        \alt<2-3>{\myemph<3>{ABCE:} \ldots}{\ldots} \\
+        \ldots 
+    };
+    \node[align=center,draw,anchor=north] (storedValueMem) at ([yshift=-.5cm]mem.center) {\ldots};
+
+\begin{scope}[every node/.style={inner sep=1pt},every pin/.style={align=center}]
+    \draw[very thick,-Latex] ([yshift=1cm]cpu.east) -- ([yshift=1cm]cache.west)
+        node[-,midway,pin={[name=writeToCache]north:write {\tt 10}\\to {\tt 0xABCD}}] (cacheWrite) {};
+    \node[stepCircle] at (writeToCache.north west) {1};
+    \begin{visibleenv}<2-3>
+    \node[stepCircle] at (storedValue.north west) {2};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \draw[very thick,Latex-Latex] ([yshift=1cm]cache.east) coordinate (cacheOut) --
+            ([yshift=1cm]mem.west) coordinate (memIn)
+            node[-,midway,pin={[name=forwardWrite]north:read rest of cache block}] {};
+        \node[stepCircle] at (forwardWrite.north west) {3};
+    \end{visibleenv}
+\end{scope}
+\begin{visibleenv}<5->
+        \draw[very thick,-Latex] ([yshift=1cm]cache.east) coordinate (cacheOut) --
+            ([yshift=1cm]mem.west) coordinate (memIn)
+            node[-,midway,pin={[name=forwardWrite]north:write 10 to 0xABCD}] {};
+    \node[stepCircle] at (forwardWrite.north west) {2};
+\end{visibleenv}
+\end{tikzpicture}

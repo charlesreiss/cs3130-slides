@@ -1,0 +1,14 @@
+
+### LRU w/ more than two ways?  {.smaller}
+
+
+* need to track total order
+* worst case: bunch of new accesses to same set 
+
+   * first replaces least recently used
+   * next replaces next least recently used
+   * etc.
+ 
+<hr class="vspace" />
+* hard to track, so frequently only approximated
+

@@ -1,0 +1,126 @@
+
+### a transformation  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; <span data-fragment-index="2" class="fragment custom myem-only">kk += 2</span>)
+  for (int k = kk; <span data-fragment-index="2" class="fragment custom myem-only">k &lt; kk + 2</span>; ++k)
+      for (int i = 0; i &lt; N; ++i)
+        for (int j = 0; j &lt; N; ++j)
+          B\[i*N+j] += A\[i*N+k] * A\[k*N+j];
+</code></pre>
+ 
+
+* split the loop over $k$ --- should be exactly the same  
+
+   * (assuming even $N$)
+
+
+
+### simple blocking  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<2-3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; <span data-fragment-index="2" class="fragment custom myem-only">kk += 2</span>)
+  /* was here: for (int k = kk; k &lt; kk + 2; ++k) */
+    for (int i = 0; i &lt; N; ++i)
+      for (int j = 0; j &lt; N; ++j)
+        /* load Aik, Aik+1 into cache and process: */
+        [[for (int k = kk; k &lt; kk + 2; ++k)]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}
+            B\[i*N+j] += A\[i*N+k] * A\[k*N+j];
+</code></pre>
+ 
+
+* now <em>reorder</em> split loop --- same calculations
+* now handle $B_ij$ for $k+1$ right after $B_ij$ for $k$
+* (previously: $B_i,j+1$ for $k$ right after $B_ij$ for $k$)
+
+
+### simple blocking -- expanded  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += 2) {
+  for (int i = 0; i &lt; N; i += 2) {
+    for (int j = 0; j &lt; N; ++j) {
+      /* process a "block" of 2 k values: */
+      <span data-fragment-index="2" class="fragment custom myem-only">B[i*N+j]</span> += <span data-fragment-index="3" class="fragment custom myem-only">A[i*N+kk+0]</span> * <span data-fragment-index="4" class="fragment custom myem-only">A[(kk+0)*N+j]</span>;
+      <span data-fragment-index="2" class="fragment custom myem-only">B[i*N+j]</span> += <span data-fragment-index="3" class="fragment custom myem-only">A[i*N+kk+1]</span> * A\[(kk+1)*N+j];
+    }
+  }
+}
+</code></pre>
+ 
+
+* \only{Temporal locality in $B_ij$s} \only{More spatial locality in $A_ik$} \only{Still have good spatial locality in $A_kj$, $B_ij$}
+
+
+### improvement in read misses 
+
+
+![](/caching-blocking/k-kk-novec-block-read_miss_rate){}
+
+
+### simple blocking (2)  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+
+* same thing for $i$ in addition to $k$?
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += 2) {
+  for (int ii = 0; ii &lt; N; ii += 2) {
+    for (int j = 0; j &lt; N; ++j) {
+      /* process a "block": */
+      for (int k = kk; k &lt; kk + 2; ++k)
+        for (int i = 0; i &lt; ii + 2; ++i)
+            B\[i*N+j] += A\[i*N+k] * A\[k*N+j];
+    }
+  }
+}
+</code></pre>
+
+
+### simple blocking --- expanded  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2) {
+  for (int i = 0; i < N; i += 2) {
+    /* load a block around Aik */
+    for (int j = 0; j < N; ++j) {
+      /* process a "block": */
+      @\normalsize$B_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize\myemph{$A_{k+0,j}$}@
+      @\normalsize$B_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$A_{k+1,j}$@
+      @\normalsize$B_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize\myemph{$A_{k+0,j}$}@
+      @\normalsize$B_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$A_{k+1,j}$@
+    }
+  }
+}
+
+```
+ 
+
+* Now $A_kj$ reused in inner loop --- more calculations per load!
+

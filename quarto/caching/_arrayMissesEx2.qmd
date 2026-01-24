@@ -1,0 +1,20 @@
+
+### arrays and cache misses (3)  {.smaller}
+
+
+```
+int sum; int array[1024]; // 4KB array
+for (int i = 8; i < 1016; i += 1) {
+    int local_sum = 0;
+    for (int j = i - 8; j < i + 8; j += 1) {
+        local_sum += array[i] * (j - i);
+    }
+    sum += (local_sum - array[i]);
+}
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many <i>data cache misses</i> on initially empty <em>2KB</em> direct-mapped cache with 16B cache blocks?
+

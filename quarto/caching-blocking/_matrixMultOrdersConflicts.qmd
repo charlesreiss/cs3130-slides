@@ -1,0 +1,51 @@
+
+### L1 misses (with A=B) 
+
+
+![](/caching-blocking/k-inout-l1d_read_miss_rate.svg){}
+
+
+### L1 miss detail (1) 
+
+
+![](/caching-blocking/k-in-l1d-miss-annot-size.svg){}
+
+
+### L1 miss detail (2) 
+
+
+![](/caching-blocking/k-in-l1d-miss-annot4-size.svg){}
+
+
+### addresses  {.smaller}
+
+<table>
+<tr><td>`B[k*114+j]`</td><td>is at</td><td><code>10 <em>0000 00</em>00 0100</code></td></tr>
+<tr><td>`B[k*114+j+1]`</td><td>is at</td><td><code>10 <em>0000 00</em>00 1000</code></td></tr>
+<tr><td>`B[(k+1)*114+j]`</td><td>is at</td><td><code>10 <em>0011 10</em>01 0100</code></td></tr>
+<tr><td>`B[(k+2)*114+j]`</td><td>is at</td><td><code>10 <em>0101 01</em>01 1100</code></td></tr>
+<tr><td>…</td><td></td><td></td></tr>
+<tr><td>`B[(k+9)*114+j]`</td><td>is at</td><td><code>11 <em>0000 00</em>00 1100</code></td></tr>
+</table>
+<hr class="vspace" />  
+
+* test system L1 cache: \textcolor{6 index bits}, 6 block offset bits
+
+
+### conflict misses  {.smaller}
+
+
+* powers of two --- lower order bits unchanged
+* `B[k*93+j]` and `B[(k+11)*93+j]`: 
+
+   * <em>1023 elements apart</em> (4092 bytes; 63.9 cache blocks)
+
+* 64 sets in L1 cache: usually maps to same set
+* `B[k*93+(j+1)]` will not be cached (next $i$ loop)
+* even if in same block as `B[k*93+j]` 
+<hr class="vspace" />
+* how to fix? improve spatial locality 
+
+   * (maybe even if it requires copying)
+
+

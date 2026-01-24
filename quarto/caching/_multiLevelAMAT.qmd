@@ -1,0 +1,26 @@
+
+### exercise: AMAT and multi-level caches  {.smaller}
+
+
+* suppose we have L1 cache with 
+
+   * 3 cycle hit time
+   * 90% hit rate
+
+* and an L2 cache with 
+
+   * 10 cycle hit time
+   * 80% hit rate (for accesses that make this far)
+   * (assume all accesses come via this L1)
+
+* and main memory has a 100 cycle access time
+* assume when there's an cache miss, the next level access starts after the hit time 
+
+   * e.g. an access that misses in L1 and hits in L2 will take 10+3 cycles
+
+* what is the average memory access time for the L1 cache? 
+
+   * \\iftoggle{heldback&nbsp;$3 + 0.1\\cdot{}([10 + 0.2\\cdot100{}]{.fragment fragment-index=3 .custom .myem-only}) = 6$ cycles}
+   * \\iftoggle{heldback&nbsp;L1 miss penalty is $10 + 0.2\\cdot100{} = 30$ cycles}
+
+

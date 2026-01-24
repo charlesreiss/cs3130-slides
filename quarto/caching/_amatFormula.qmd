@@ -1,0 +1,7 @@
+
+### average memory access time 
+
+* $\text{AMAT} = \text{hit time} + \text{miss penalty} \times{} \text{miss rate}$
+   * or $\text{AMAT} = \text{hit time} \times \text{hit rate} + \text{miss time} \times \text{miss rate}$
+* effective speed of memory
+

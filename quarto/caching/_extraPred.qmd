@@ -1,0 +1,48 @@
+
+# branch prediction more generally {visibility="hidden"}
+
+### better branch prediction  {.smaller}
+
+
+
+* forward (target $>$ PC) not taken; backward taken
+* intuition: loops:
+ 
+```
+LOOP: ...
+      ...
+      je LOOP
+
+LOOP: ...
+      jne SKIP_LOOP
+      ...
+      jmp LOOP
+SKIP_LOOP:
+
+```
+
+
+### predicting ret: extra copy of stack 
+
+
+
+* predicting ret --- stack in processor registers
+* different than real stack/out of room? just slower
+ ![](/caching/texfig/extraPred-predicting-ret-extra-copy-of-stack.figure.svg)
+
+
+### prediction before fetch 
+
+
+* real processors can take <em>multiple cycles</em> to read instruction memory
+* predict branches <em>before reading their opcodes</em>
+* how --- more extra data structures 
+
+   * tables of recent branches (often many kilobytes)
+
+
+
+### 2004 CPU 
+
+![](/caching/texfig/extraPred-2004-cpu.figure.svg)
+ [Image: approx 2004 AMD press image of Opteron die; <br> approx register/branch prediction location via chip-architect.org (Hans de Vries)]{.mycredit}

@@ -1,0 +1,20 @@
+
+### simulated misses: BST lookups 
+
+<!-- FIXME: alt text -->
+![simulated 16KB direct-mapped cache; excluding BST setup](/caching/bst-one.svg){}
+
+### actual misses: BST lookups 
+
+
+![actual 32KB more complex cache (only one set of measurements + other things on the machine + excluding initial load)](/caching/bst-act.svg){}
+
+### simulated misses: matrix multiplies 
+
+
+![simulated 16KB direct-mapped data cache; excluding initial load](/caching/mm-one.svg){}
+
+### actual misses: matrix multiplies 
+
+
+![actual 32KB more complex cache; excluding initial matrix load](/caching/mm-act.svg){}

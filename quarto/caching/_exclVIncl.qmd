@@ -1,0 +1,15 @@
+
+### inclusive versus exclusive 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/exclVIncl.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/exclVIncl.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/exclVIncl.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

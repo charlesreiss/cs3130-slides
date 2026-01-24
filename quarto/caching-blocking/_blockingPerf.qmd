@@ -1,0 +1,20 @@
+
+### cache blocking and miss rate 
+
+
+![](/caching-blocking/k-block-novec-read_miss_rate.svg){}
+
+
+### what about performance?  {.smaller}
+
+
+![](/caching-blocking/k-block-novec-cyclespercount.svg){}
+ <br> 
+![](/caching-blocking/k-blockC-vec-cyclespercount.svg){}
+
+
+### performance for big sizes 
+
+
+![](/caching-blocking/k-vec-big-block-cpelement.svg){}
+

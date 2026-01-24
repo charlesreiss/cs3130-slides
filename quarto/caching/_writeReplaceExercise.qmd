@@ -1,0 +1,77 @@
+
+### exercise (1)  {.smaller}
+
+![](/caching/texfig/writeReplaceEx1.figure.svg)
+
+* for each of the following accesses, performed alone, would it require (a) reading a value from memory (or next level of cache) and (b) writing a value to the memory (or next level of cache)? 
+   * writing 1 byte to 0x33
+   * reading 1 byte from 0x52
+   * reading 1 byte from 0x50
+
+
+
+### exercise (1, solution)  {.smaller}
+
+
+::: {.r-stack .my-full style="width: 900px"}
+![](/caching/texfig/writeReplaceEx1Soln.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/caching/texfig/writeReplaceEx1Soln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/writeReplaceEx1Soln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/writeReplaceEx1Soln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/writeReplaceEx1Soln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/writeReplaceEx1Soln.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+ 
+
+* [writing 1 byte to 0x33]{.fragment fragment-index=1 .custom .myem-until}: [(set 1, offset 1) no next-level read or write]{.fragment fragment-index=2}
+* [[reading 1 byte from 0x52]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=4 .custom .myem-only}: [(set 1, offset 0) <em>write</em> back 0x32-0x33; <em>read</em> 0x52-0x53]{.fragment fragment-index=4}
+* [[reading 1 byte from 0x50]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}: [(set 0, offset 0) replace 0x30-0x31 (no write back); <em>read</em> 0x50-0x51]{.fragment fragment-index=6}
+
+
+### exercise (2)  {.smaller}
+
+![](/caching/texfig/writeReplaceEx2.figure.svg)
+
+* for each of the following accesses, <em><em>performed alone</em></em>, would it require (a) reading a value from memory and (b) writing a value to the memory? 
+
+   * writing 1 byte to 0x33
+   * reading 1 byte from 0x52
+   * reading 1 byte from 0x50
+
+
+
+### exercise (2, solution)  {.smaller}
+
+
+
+::: {.r-stack .my-full style="width: 900px"}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/writeReplaceEx2Soln.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+ 
+
+* [writing 1 byte to 0x33]{.fragment fragment-index=3 .custom .myem-until}: [(set 1, offset 1) write-through 0x33 modification]{.fragment fragment-index=3}
+* [[reading 1 byte from 0x52]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=4 .custom .myem-only}: [(set 1, offset 0) replace 0x32-0x33; <em>read</em> 0x52-0x53]{.fragment fragment-index=4}
+* [[reading 1 byte from 0x50]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}: [(set 0, offset 0) replace 0x30-0x31; <em>read</em> 0x50-0x51]{.fragment fragment-index=6}
+
+
+### againframe(writeReplaceEx2Soln)

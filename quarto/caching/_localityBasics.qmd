@@ -1,0 +1,38 @@
+
+### memory hierarchy assumptions  {.smaller}
+
+
+* <em>temporal locality</em> <br> ‘‘if a value is accessed now, it will be accessed again soon’’ 
+
+   * caches should keep <em>recently accessed values</em>
+ 
+<hr class="vspace" />
+* <em>spatial locality</em> <br> ‘‘if a value is accessed now, adjacent values will be accessed soon’’ 
+
+   * caches should <em>store adjacent values at the same time</em>
+   
+<hr class="vspace" />
+* natural properties of programs --- think about loops
+
+
+### locality examples  {.smaller}
+
+<!-- \lstset{language=C,style=small} -->
+ 
+```
+double computeMean(int length, double *values) {
+    double total = 0.0;
+    for (int i = 0; i < length; ++i) {
+        total += values[i];
+    }
+    return total / length;
+}
+
+```
+ 
+
+* temporal locality: machine code of the loop
+* spatial locality: machine code of most consecutive instructions
+* temporal locality: <code>total</code>, <code>i</code>, <code>length</code> accessed repeatedly
+* spatial locality: <code>values[i+1]</code> accessed after <code>values[i]</code>
+

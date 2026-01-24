@@ -1,0 +1,16 @@
+
+### split caches; multiple cores (one design) 
+
+![](/caching/texfig/cacheSplitID-split-caches-multiple-cores-one-design.figure.svg)
+
+
+### hierarchy and instruction/data caches  {.smaller}
+
+
+* typically separate data and instruction caches for L1 
+<hr class="vspace" />
+* (almost) never going to read instructions as data or vice-versa
+* avoids instructions evicting data and vice-versa
+* can optimize instruction cache for different access pattern
+* easier to build fast caches: that handles less accesses at a time
+

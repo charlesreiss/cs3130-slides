@@ -1,0 +1,24 @@
+
+### which is better?  {.smaller}
+
+\[ C_{ij} = \sum_{k=1}^n A_{ik}\times B_{kj} \] <!-- \lstset{
+    style=smaller,
+    language=C,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>/* version 1: inner loop is k, middle is j*/
+for (int i = 0; i &lt; N; ++i)
+  for (int j = 0; j &lt; N; ++j)
+    for (int k = 0; k &lt; N; ++k)
+      <span data-fragment-index="2" class="fragment custom myem-only">C[i*N+j]</span> += A\[i * N + k] * B\[k * N + j];
+
+/* version 2: outer loop is k, middle is i */
+for (int k = 0; k &lt; N; ++k)
+  for (int i = 0; i &lt; N; ++i)
+    for (int j = 0; j &lt; N; ++j)
+      C\[i*N+j] += <span data-fragment-index="2" class="fragment custom myem-only">A[i * N + k]</span> * B\[k * N + j];
+</code></pre>
+ exercise: Which version has better spatial/temporal locality for… <br> … accesses to C? … accesses to A? … accesses to B?

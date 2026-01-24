@@ -1,0 +1,52 @@
+
+### pipeline with different hazards  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    style=small,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,andq},
+    moredelim=**[is][\btHL<1|handout:1>]{~1~}{~end~},
+} -->
+ 
+
+* example: 4-stage pipeline: fetch/decode/execute+memory/writeback 
+<pre><code>                 // 4 stage  // 5 stage
+addq %rax, <span data-fragment-index="1" class="fragment custom myem-only">%r8</span>   //          // W
+subq %rax, %r9   // W        // M
+xorq %rax, %r10  // EM       // E
+andq <span data-fragment-index="1" class="fragment custom myem-only">%r8</span>,  %r11  // D        // D
+</code></pre>
+
+* addq/andq is hazard with 5-stage pipeline
+* addq/andq is <em>not</em> a hazard with 4-stage pipeline
+
+
+### exercise: different pipeline  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* split execute into two stages: F/D/E1/E2/M/W
+* result only available after second execute stage
+* where does forwarding, stalls occur?
+ ![](/caching/texfig/diffHazEx.figure.svg)
+
+
+### exercise: different pipeline 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* split execute into two stages: F/D/E1/E2/M/W
+ ![](/caching/texfig/diffHazExSoln.figure.svg)
+

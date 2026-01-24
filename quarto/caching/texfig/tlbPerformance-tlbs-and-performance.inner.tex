@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\tikzset{
+    stage/.style={thick,draw,minimum width=2cm,minimum height=2cm},
+    >=Latex,
+    connect/.style={->,very thick},
+}
+\node[stage] (tlb) {TLB};
+\node[right=1cm of tlb,stage] (l1d) {L1 cache};
+\draw[connect] ([xshift=-1cm]tlb.west) -- (tlb);
+\draw[connect] (tlb) -- (l1d);
+\draw[connect] (l1d) -- ([xshift=1cm]l1d.east);
+
+\draw[<->] ([yshift=-1mm]tlb.south east) -- ([yshift=-1mm]tlb.south west)
+    node[below,midway] { extra time? };
+\end{tikzpicture}

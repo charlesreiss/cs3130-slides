@@ -1,0 +1,33 @@
+
+### simple blocking -- counting misses  {.smaller}
+
+<!-- \lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += 2)
+  for (int i = 0; i &lt; N; i += 1)
+    for (int j = 0; j &lt; N; ++j) {
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+0]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+0)*N+j]</span>;
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+1]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+1)*N+j]</span>;
+    }
+</code></pre>
+ 
+
+* $\\frac{N2}\\cdot{} N$ j-loop executions and (assuming $N$ large):
+* about $1$ misses from $A$ per j-loop  
+
+   * [$N^2/2$ total misses (before blocking: $N^2$)]{.fragment fragment-index=2 .custom .myem-only}
+
+* about $2N\\div{}\\text{block size}$ misses from $B$ per j-loop  
+
+   * $N^3\\div{}\\text{block size}$ total misses (same as before blocking)
+
+* about $N\\div{}\\text{block size}$ misses from $C$ per j-loop  
+
+   * [$N^3\\div{}(2\\cdot{}\\text{block size})$ total misses (before: $N^3\\div{}\\text{block size}$)]{.fragment fragment-index=2 .custom .myem-only}
+
+

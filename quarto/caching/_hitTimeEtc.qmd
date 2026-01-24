@@ -1,0 +1,22 @@
+
+### reasoning about cache performance  {.smaller}
+
+
+* <em>hit time</em>: time to lookup and find value in cache 
+
+   * L1 cache --- typically 1 cycle?
+
+* <em>miss rate</em>: portion of hits (value in cache)
+* <em>miss penalty</em>: extra time to get value if there's a miss 
+
+   * time to access next level cache or memory
+
+* <em>miss time</em>: hit time + miss penalty
+
+
+### average memory access time 
+
+
+* $\\text{AMAT} = \\text{hit time} + \\text{miss penalty} \\times{} \\text{miss rate}$
+* effective speed of memory
+

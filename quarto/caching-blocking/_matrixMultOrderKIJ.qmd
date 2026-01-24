@@ -1,0 +1,27 @@
+
+### recall: counting misses (kij-order)  {.smaller}
+
+<!-- \lstset{style=smaller,language=C++} -->
+ 
+```
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      C[i * N + j] += A[i * N + k] * B[k * N + j];
+
+```
+ 
+
+* for A: about $1$ misses per j-loop 
+
+   * total misses: $N^2$
+
+* for B: about $N\\div{}\\text{block size}$ miss per j-loop 
+
+   * total misses: $N^3\\div{}\\text{block size}$
+
+* for C: about $N\\div{}\\text{block size}$ miss per j-loop 
+
+   * total misses: $N^3\\div{}\\text{block size}$
+
+

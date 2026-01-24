@@ -1,0 +1,25 @@
+
+### building a (direct-mapped) cache 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/directMappedIntro.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/directMappedIntro.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/directMappedIntro.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/directMappedIntro.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/directMappedIntro.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/directMappedIntro.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/directMappedIntro.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching/texfig/directMappedIntro.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+

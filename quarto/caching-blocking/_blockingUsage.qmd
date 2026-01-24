@@ -1,0 +1,5 @@
+
+### array usage (better) 
+
+![](/caching-blocking/texfig/blockingUsage.figure.svg)
+

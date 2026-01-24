@@ -1,0 +1,42 @@
+
+### C and cache misses (assoc)  {.smaller}
+
+
+```c
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[2];
+even_sum += array[512];
+even_sum += array[514];
+odd_sum += array[1];
+odd_sum += array[3];
+odd_sum += array[511];
+odd_sum += array[513];
+
+```
+ [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).<br> observation: array[0], array[256], array[512], array[768] in same set]{.my-small} 
+
+* How many data cache misses on a 2KB 2-way set associative cache with 16B blocks?
+
+
+### C and cache misses (assoc)  {.smaller}
+
+
+```c
+int array[1024]; /* assume aligned */
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+even_sum += array[256];
+even_sum += array[512];
+even_sum += array[768];
+odd_sum += array[1];
+odd_sum += array[257];
+odd_sum += array[513];
+odd_sum += array[769];
+
+```
+ [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).<br> observation: array[0], array[256], array[512], array[768] in same set]{.my-small} 
+
+* How many data cache misses on a 2KB 2-way set associative cache with 16B blocks?
+

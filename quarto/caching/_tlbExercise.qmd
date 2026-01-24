@@ -1,0 +1,40 @@
+
+### TLB example: address splitting 
+
+
+* 16-bit virtual addresses
+* 64-byte pages
+* 8-entry, 2-way TLB
+
+
+### TLB access pattern 
+
+
+
+* 64-byte pages
+ 
+
+::: {.r-stack}
+![](/caching/texfig/tlbPat.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbPat.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/tlbPat.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/tlbPat.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/tlbPat.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/tlbPat.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/tlbPat.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching/texfig/tlbPat.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/caching/texfig/tlbPat.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/caching/texfig/tlbPat.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+
+:::
+

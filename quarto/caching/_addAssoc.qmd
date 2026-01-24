@@ -1,0 +1,40 @@
+
+### adding associativity 
+
+::: {.r-stack .my-full}
+
+![](/caching/texfig/assocPattern.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/assocPattern.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/assocPattern.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/assocPattern.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/assocPattern.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/assocPattern.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/assocPattern.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching/texfig/assocPattern.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/caching/texfig/assocPattern.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/caching/texfig/assocPattern.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/caching/texfig/assocPattern.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+:::
+
+
+### associative lookup possibilities 
+
+
+* none of the blocks for the index are valid
+* none of the valid blocks for the index match the tag 
+
+   * something else is stored there
+
+* one of the blocks for the index is valid and matches the tag
+

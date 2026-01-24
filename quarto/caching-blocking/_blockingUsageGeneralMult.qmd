@@ -1,0 +1,53 @@
+
+### array usage: matrix block 
+
+
+
+::: {.r-stack .my-full}
+![](/caching-blocking/texfig/cacheBlockBlockGeneralMult.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching-blocking/texfig/cacheBlockBlockGeneralMult.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching-blocking/texfig/cacheBlockBlockGeneralMult.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching-blocking/texfig/cacheBlockBlockGeneralMult.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching-blocking/texfig/cacheBlockBlockGeneralMult.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### cache blocking efficiency  {.smaller}
+
+
+* for each of $N^3/IJK$ matrix blocks:
+* load $I\\times{} K$ elements of $A_ik$:  
+
+   * $\\approx{} IK\\div{} \\text{block size}$ misses per matrix block
+   * $\\approx{} N^3/(J\\cdot{}\\text{blocksize})$ misses total
+
+* load $K\\times{} J$ elements of $B_kj$:  
+
+   * $\\approx{} N^3/(I\\cdot{}\\text{blocksize})$ misses total
+
+* load $I\\times{} J$ elements of $C_ij$: 
+
+   * $\\approx{} N^3/(K\\cdot{}\\text{blocksize})$ misses total
+
+* bigger blocks --- more work per load!
+* catch: $IK+KJ+IJ$ elements must fit in cache 
+
+   * otherwise estimates above don't work
+
+
+
+### cache blocking rule of thumb  {.smaller}
+
+
+* fill the <em>most of the cache with useful data</em>
+* and do as much work as possible from that
+* example: my desktop 32KB L1 cache
+* $I=J=K=48$ uses $48^2\\times{} 3$ elements, or $27$KB.
+* assumption: conflict misses aren't important
+

@@ -1,0 +1,29 @@
+
+### generalizing cache blocking  {.smaller}
+
+<!-- \lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<all:2>]{~2}{~},
+    moredelim=**[is][\btHL<all:3>]{~3}{~},
+    moredelim=**[is][\btHL<all:4>]{~4}{~},
+} -->
+ 
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += K) {
+  for (int ii = 0; ii &lt; N; ii += I) {
+    @\\sffamily with I by K block of A hopefully cached:@
+    for (int jj = 0; jj &lt; N; jj += J) {
+      @\\sffamily with K by J block of A, I by J block of B cached:@
+      for i in ii to ii+I:
+        for j in jj to jj+J:
+          for k in kk to kk+K:
+            <span data-fragment-index="2" class="fragment custom myem-only">B[i * N + j]</span> += <span data-fragment-index="3" class="fragment custom myem-only">A[i * N + k]</span>
+                          * <span data-fragment-index="4" class="fragment custom myem-only">A[k * N + j]</span>;
+</code></pre>
+ 
+
+* [$B_ij$]{.fragment fragment-index=2 .custom .myem-only} used $K$ times for one miss --- $N^2/K$ misses
+* [$A_ik$]{.fragment fragment-index=3 .custom .myem-only} used $J$ times for one miss --- $N^2/J$ misses
+* [$A_kj$]{.fragment fragment-index=4 .custom .myem-only} used $I$ times for one miss --- $N^2/I$ misses
+* catch: $IK+KJ+IJ$ elements must <em>fit in cache</em>
+

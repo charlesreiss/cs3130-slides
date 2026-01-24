@@ -1,0 +1,18 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\input{common/cacheUtils}
+\usetikzlibrary{fit,matrix}
+\tikzset{
+    v/.style={visible on=<#1->,alt=<#1>{red}},
+    h/.style={alt=<#1>{red}},
+    tagColor/.style={color=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    offsetColor/.style={color=yellow!30!black},
+}
+\begin{document}
+
+\setSlide{1}
+\input{caching/texfig/lruTrackingExample.inner.tex}
+\setSlide{2}
+\input{caching/texfig/lruTrackingExample.inner.tex}
+\end{document}

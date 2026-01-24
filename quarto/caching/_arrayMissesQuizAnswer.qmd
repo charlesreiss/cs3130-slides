@@ -1,0 +1,34 @@
+
+### quiz exercise solution 
+
+ 
+
+::: {.r-stack}
+![](/caching/texfig/quizAccessSoln1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/quizAccessSoln1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/quizAccessSoln1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### againframe(quizAccessSoln1)
+
+### not the quiz problem 
+
+ 
+
+::: {.r-stack}
+![](/caching/texfig/quizNotSoln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/quizNotSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/quizNotSoln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### againframe(quizNotSoln)

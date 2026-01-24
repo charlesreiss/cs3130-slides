@@ -1,0 +1,42 @@
+
+### exercise (1)  {.smaller}
+
+
+* initial cache: 64-byte blocks, 64 sets, 8 ways/set 
+<hr class="vspace" />
+* If we leave the other parameters listed above unchanged, which will probably reduce the number of <em>capacity misses</em> in a typical program?  (Multiple may be correct.) <br> <table>
+   <tr><td>A.</td><td>quadrupling  the block size [ (256-byte blocks, 64 sets, 8 ways/set)]{.my-small}</td></tr>
+<tr><td>B.</td><td>quadrupling the number of sets</td></tr>
+<tr><td>C.</td><td>quadrupling the number of ways/set</td></tr>
+<tr><td></td></tr>
+</table>
+   
+
+
+### exercise (2)  {.smaller}
+
+
+* initial cache: 64-byte blocks, 8 ways/set, 64KB cache 
+<hr class="vspace" />
+* If we leave the other parameters listed above unchanged, which will probably reduce the number of <em>capacity misses</em> in a typical program? (Multiple may be correct.) <br> <table>
+   <tr><td>A.</td><td>quadrupling the block size [ (256-byte block, 8 ways/set, 64KB cache)]{.my-small}</td></tr>
+<tr><td>B.</td><td>quadrupling the number of ways/set</td></tr>
+<tr><td>C.</td><td>quadrupling the cache size</td></tr>
+<tr><td></td></tr>
+</table>
+   
+
+
+### exercise (3)  {.smaller}
+
+
+* initial cache: 64-byte blocks, 8 ways/set, 64KB cache 
+<hr class="vspace" />
+* If we leave the other parameters listed above unchanged, which will probably reduce the number of <em>conflict misses</em> in a typical program? (Multiple may be correct.) <br> <table>
+   <tr><td>A.</td><td>quadrupling the block size [ (256-byte block, 8 ways/set, 64KB cache)]{.my-small}</td></tr>
+<tr><td>B.</td><td>quadrupling the number of ways/set</td></tr>
+<tr><td>C.</td><td>quadrupling the cache size</td></tr>
+<tr><td></td></tr>
+</table>
+   
+

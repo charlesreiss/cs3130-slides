@@ -1,0 +1,27 @@
+
+### counting misses for B (1)  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += 2)
+  for (int i = 0; i &lt; N; i += 1)
+    for (int j = 0; j &lt; N; ++j) {
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+0]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+0)*N+j]</span>;
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+1]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+1)*N+j]</span>;
+    }
+</code></pre>
+ access pattern for B: <br> B[0*N+0], B[1*N+0], … B[0*N+(N-1)], B[1*N+(N-1)] <br> B[2*N+0], B[3*N+0], … B[2*N+(N-1)], B[3*N+(N-1)] <br> B[4*N+0], B[5*N+0], … B[4*N+(N-1)], B[5*N+(N-1)] <br> … <br> B[0*N+0], B[1*N+0], … B[0*N+(N-1)], B[1*N+(N-1)] <br> …
+
+### counting misses for B (2)  {.smaller}
+
+access pattern for B: <br> B[0*N+0], B[1*N+0], … B[0*N+(N-1)], B[1*N+(N-1)] <br> B[2*N+0], B[3*N+0], … B[2*N+(N-1)], B[3*N+(N-1)] <br> B[4*N+0], B[5*N+0], … B[4*N+(N-1)], B[5*N+(N-1)] <br> … <br> B[0*N+0], B[1*N+0], … B[0*N+(N-1)], B[1*N+(N-1)] <br> … 
+
+* likely cache misses: any access, each time
+* how many cache misses per iteration? equal to # cache blocks in 2 rows
+* about $\\frac{N2}\\cdot{} N\\cdot{}\\frac{2N\\text{block size}}=N^3\\div{}\\text{block size}$ misses
+

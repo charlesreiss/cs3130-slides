@@ -1,0 +1,35 @@
+
+### example access pattern (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/dmExampleAccess.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/dmExampleAccess.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/dmExampleAccess.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/dmExampleAccess.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/dmExampleAccess.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/dmExampleAccess.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/dmExampleAccess.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching/texfig/dmExampleAccess.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/caching/texfig/dmExampleAccess.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/caching/texfig/dmExampleAccess.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/caching/texfig/dmExampleAccess.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/caching/texfig/dmExampleAccess.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+![](/caching/texfig/dmExampleAccess.figure-13.svg){.fragment .fade-in-then-out fragment-index=13}
+
+
+:::
+

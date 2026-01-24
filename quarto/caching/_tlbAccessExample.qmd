@@ -1,0 +1,37 @@
+
+### TLB access pattern example 
+
+[]{.my-small} 2-entry, direct-mapped TLB, 4096 byte pages \\setlength{}\\fboxsep{0.25mm} 
+
+::: {.r-stack}
+![](/caching/texfig/tlbAccessExample.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbAccessExample.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/tlbAccessExample.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/tlbAccessExample.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/tlbAccessExample.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/tlbAccessExample.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/tlbAccessExample.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching/texfig/tlbAccessExample.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/caching/texfig/tlbAccessExample.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/caching/texfig/tlbAccessExample.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/caching/texfig/tlbAccessExample.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/caching/texfig/tlbAccessExample.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+![](/caching/texfig/tlbAccessExample.figure-13.svg){.fragment .fade-in-then-out fragment-index=13}
+
+![](/caching/texfig/tlbAccessExample.figure-14.svg){.fragment .fade-in-then-out fragment-index=14}
+
+
+:::
+

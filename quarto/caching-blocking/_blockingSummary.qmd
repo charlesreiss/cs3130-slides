@@ -1,0 +1,17 @@
+
+### cache blocking: summary  {.smaller}
+
+
+* reorder calculation to reduce cache misses:
+* make <em>explicit choice</em> about what is in cache
+* perform calculations in <em>cache-sized blocks</em>
+* get more spatial and temporal locality
+* temporal locality --- <em>reuse values</em> in many calculations 
+
+   * before they are replaced in the cache
+
+* spatial locality --- use <em>adjacent values</em> in calculations 
+
+   * before cache block is replaced
+
+

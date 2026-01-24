@@ -1,0 +1,52 @@
+\begin{tikzpicture}
+\tikzset{
+    stepCircle/.style={circle,fill=yellow!10,draw,very thick,inner sep=1pt},
+    every pin edge/.style={-,thick},
+}
+
+\node[draw,minimum width=1cm,minimum height=2.5cm] (cpu) {CPU};
+\node[draw,minimum width=3cm,minimum height=4cm,right=4cm of cpu] (cache) {Cache};
+    \node[above=2cm of cache,font=\bfseries] {
+        \only<1-2>{option 1: write-through}\only<3-4>{option 2: write-back}
+    };
+\node[draw,minimum width=3cm,minimum height=6cm,right=4cm of cache] (mem) {RAM};
+    \node[align=center,draw] (storedValue) at ([yshift=-1cm]cache.center) {{\tt ABCD}: \only<1>{FF}\only<2->{\myemph<2,3>{10}} \\ 
+        \only<3->{(\myemph{dirty})}};
+    \node[align=center,draw,anchor=north] (storedValueMem) at ([yshift=-.5cm]mem.center) {\ldots \\ {\tt 11CD}: {\tt 42} \\ {\tt ABCD}: \only<1,3>{FF}\only<2,4->{\myemph<4>{10}} \\ \ldots};
+
+\begin{scope}[every node/.style={inner sep=1pt},every pin/.style={align=center}]
+    \draw[very thick,-Latex] ([yshift=1cm]cpu.east) -- ([yshift=1cm]cache.west)
+        node[-,midway,pin={[name=writeToCache]north:write {\tt 10}\\to {\tt 0xABCD}}] (cacheWrite) {};
+    \node[stepCircle] at (writeToCache.north west) {1};
+    \begin{visibleenv}<2>
+        \draw[very thick,-Latex] ([yshift=1cm]cache.east) coordinate (cacheOut) --
+            ([yshift=1cm]mem.west) coordinate (memIn)
+            node[-,midway,pin={[name=forwardWrite]north:write {\tt 10}\\to {\tt 0xABCD}}] {};
+        \node[stepCircle] at (forwardWrite.north west) {2};
+    \end{visibleenv}
+\end{scope}
+\begin{visibleenv}<4->
+    \node[draw,thick,cross out,minimum width=2cm,minimum height=1cm] at (storedValue) {};
+\end{visibleenv}
+\begin{visibleenv}<4->
+    \node[pin={[align=center,name=readCmd]south:read \\ from \\ {\tt 0x11CD} \\ (conflicts)}] at (cacheWrite) {};
+    \node[stepCircle] at (readCmd.north west) {2};
+    \draw[very thick,-Latex] (cacheOut) -- (memIn)
+        node[midway,pin={[align=center,name=writeBackOut]north:write {\tt 10} \\ to {\tt ABCD}}] {};
+    \node[stepCircle] at (writeBackOut.north west) {3};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[my callout2=storedValue.south,anchor=north] at ([yshift=-1cm]storedValue) {
+        \ldots{} when replaced --- send value to memory
+    };
+\end{visibleenv}
+\begin{visibleenv}<5->
+    \path (cacheOut) -- (memIn)
+        node[midway,pin={[align=center,name=actualRead]south:read\\from\\{\tt 0x11CD}}] {};
+    \node[stepCircle] at (actualRead.north west) {4};
+    \node[my callout2=actualRead.south,anchor=north] at ([xshift=1cm,yshift=-1cm]storedValue) {
+        \ldots{} read new value to store in cache
+    };
+\end{visibleenv}
+% FIXME: hilite hit miss in diagram, separate into animation
+\end{tikzpicture}

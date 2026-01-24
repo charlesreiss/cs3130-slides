@@ -1,0 +1,6 @@
+
+### improvement in read misses 
+
+
+![](/caching-blocking/k-kk-novec-block-read_miss_rate.svg){}
+

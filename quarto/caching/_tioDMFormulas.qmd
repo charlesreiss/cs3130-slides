@@ -1,0 +1,18 @@
+
+### Tag-Index-Offset formulas (direct-mapped)  {.smaller}
+
+
+
+(formulas derivable from prior slides)
+
+<table>
+<tr><td>$S=2^s$</td><td>number of sets</td></tr>
+<tr><td>$s$</td><td>(set) index bits</td></tr>
+<tr><td>$B=2^b$</td><td>block size</td></tr>
+<tr><td>$b$</td><td>(block) offset bits</td></tr>
+<tr><td>$m$</td><td>memory addreses bits</td></tr>
+<tr><td>$t = m - (s+b)$</td><td>tag bits</td></tr>
+<tr><td>$C = B \times{} S$</td><td>[cache size]{.fragment fragment-index=2 .custom .myem-only} (if direct-mapped)</td></tr>
+<tr><td></td></tr>
+</table>
+

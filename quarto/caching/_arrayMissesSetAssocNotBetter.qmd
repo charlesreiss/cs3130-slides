@@ -1,0 +1,18 @@
+
+### set-associative not better?  {.smaller}
+
+
+* 2KB direct-mapped cache, 4B array elements: array[0 to 3] and array[512 to 515] map to same set 
+
+   * 2KB apart --- mapping ‘‘wraps around’’
+   * four misses for this set
+   * access to array[0]+array[2], then array[512]+array[514],
+   * then array[1]+array[3], then array[513]+array[515]
+   * same for each of other 127 sets
+
+* 2KB, 2-way set associative cache: array[0 to 3] and array[256 to 259] and array[512 to 515] and array[756 to 759] map to same set 
+
+   * 1KB apart --- shorter time until mapping wraps around
+   * eight misses + same for other 63 sets
+
+

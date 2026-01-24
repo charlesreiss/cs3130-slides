@@ -1,0 +1,46 @@
+
+### register reuse  {.smaller}
+
+<!-- \lstset{style=small,language=C} -->
+ 
+```
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i)
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+// optimize into:
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i) {
+    float Aik = A[i*N+k]; // hopefully keep in register!
+                          // faster than even cache hit!
+    for (int j = 0; j < N; ++j)
+      B[i*N+j] += Aik * A[k*N+j];
+  }
+}
+
+```
+ 
+
+* can compiler do this for us?
+
+
+### can compiler do register reuse?  {.smaller}
+
+<!-- \lstset{style=small,language=C} -->
+ 
+
+* Not easily --- What if `A=B`? What if `A=&B[10]`
+ 
+```
+for (int k = 0; k < N; ++k)
+  for (int i = 0; i < N; ++i) {
+    // want to preload A[i*N+k] here!
+    for (int j = 0; j < N; ++j) {
+      // but if A = B, modifying here!
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+    }
+  }
+}
+
+```
+

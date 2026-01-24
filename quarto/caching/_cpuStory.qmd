@@ -1,0 +1,16 @@
+
+### stalling/misprediction and latency  {.smaller}
+
+
+
+* hazard handling where pipeline <em>latency</em> matters
+* longer pipeline --- larger penalty
+* part of Intel's Pentium 4 problem (c. 2000) 
+
+   * on release: 50% higher clock rate, <em>2-3x pipeline stages</em> of competitors
+
+* out-of-order, multiple issue processor
+* first-generation review quote:
+ 
+![](anand-p4-review){}
+ [Review quote: Anand Lai Shimpi, ‘‘Intel Pentium 4 1.4 &amp; 1.5 GHz’’, AnandTech, 20 November 2000]{.mycredit}

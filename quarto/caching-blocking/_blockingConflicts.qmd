@@ -1,0 +1,29 @@
+
+### avoiding conflict misses 
+
+
+* problem --- array is scattered throughout memory
+* observation: 32KB cache can store 32KB contiguous array 
+
+   * contiguous array is <em>split evenly</em> among sets
+
+* solution: <em>copy block into contiguous array</em>
+
+
+### avoiding conflict misses (code)  {.smaller}
+
+
+```
+process_block(ii, jj, kk) {
+  float B_copy[I * J];
+  /* pseudocode for loop to save space */
+  for i = ii to ii + I, j = jj to jj + J:
+    B_copy[i * J + j] = B[i * N + j];
+  for i = ii to ii + I, j = jj to jj + J, k:
+    B_copy[i * J + j] += A[k * N + j] * A[i * N + k];
+  for all i, j:
+    B[i * N + j] = B_copy[i * J + j];
+}
+
+```
+

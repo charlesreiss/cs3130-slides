@@ -1,0 +1,109 @@
+\begin{tikzpicture}
+\tikzset{
+    every matrix/.style={nodes={text width=1.2cm,inner sep=0pt,text height=0.9ex,text depth=.1ex,font=\scriptsize\tt},
+        row 1/.append style={nodes={font=\scriptsize\bfseries,draw=none}},},
+    every label/.style={label distance=-2mm,font=\small},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+}
+\matrix[tight matrix,
+        column 1/.append style={nodes={draw=none}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor}},
+        column 4/.append style={nodes={text width=1.5cm,align=center,dataColor}},
+        label={\myemph<2>{$2$ byte blocks}, $4$ sets}] (cache1) at (0,0) {
+    index \& valid \& tag \& value \\
+    00 \& 1 \& 000\& 00 11 \\
+    01 \& 1 \& 001 \& AA BB \\
+    10 \& 0 \& -- \& -- -- \\
+    11 \& 1 \& 001 \& EE \myemph{FF} \\
+};
+\matrix[tight matrix,anchor=north west,
+        column 1/.append style={nodes={draw=none}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor}},
+        column 4/.append style={nodes={text width=3cm,align=center,dataColor}},
+        label={$4$ byte blocks, $2$ sets}] (cache2) at ([yshift=-0.5cm]cache1.south west){
+    index \& valid \& tag \& value \\
+    0 \& 1 \& 000 \& 00 11 22 33\\
+    1 \& 1 \& 001 \& CC DD EE \myemph{FF}\\
+};
+
+\matrix[tight matrix,anchor=north west,
+        column 1/.append style={nodes={draw=none}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor}},
+        column 4/.append style={nodes={text width=1.5cm,align=center,dataColor}},
+        label={$2$ byte blocks, $8$ sets}] (cache3) at ([xshift=1.8cm]cache1.north east) {
+    index \& valid \& tag \& value \\
+    000 \& 1 \& 00 \& 00 11 \\
+    001 \& 1 \& 01 \& F1 F2 \\
+    010 \& 0 \& -- \& -- -- \\
+    011 \& 0 \& -- \& -- -- \\
+    100 \& 0 \& -- \& -- -- \\
+    101 \& 1 \& 00 \& AA BB \\
+    110 \& 0 \& -- \& -- -- \\
+    111 \& 1 \& 00 \& EE \myemph{FF} \\
+};
+\node[anchor=south west,align=left] (example1) at ([yshift=0.5cm]cache1.north west) {
+    address {\tt 0011\myemph<3>{1\myemph<2>{1}}} (stores value {\tt 0xFF}) \\
+    \begin{tabular}{llll}
+    cache & tag & index & offset \\\hline
+    \myemph<2>{2 byte blocks}, \myemph<4>{4 sets} &
+    \only<0>{???}\only<7->{\itag{001}} &
+    \only<0>{???}\only<4->{\iindex{11}} &
+    \only<0>{???}\only<2->{\offset{1}} \\
+    \myemph<2>{2 byte blocks}, \myemph<4>{8 sets} &
+    \only<0>{???}\only<7->{\itag{00}} &
+    \only<0>{???}\only<5->{\iindex{111}} &
+    \only<0>{???}\only<2->{\offset{1}} \\
+    \myemph<3>{4 byte blocks}, \myemph<4>{2 sets} &
+    \only<0>{???}\only<7->{\itag{001}} &
+    \only<0>{???}\only<4->{\iindex{1}} &
+    \only<0>{???}\only<3->{\offset{11}}\\
+    \end{tabular}
+};
+\tikzset{
+    tBox/.style={fill=white,align=left,draw=red,rectangle,line width=2pt,anchor=north west,at=(example1.south west)},
+}
+\begin{visibleenv}<2>
+    \node[my callout2={cache1-2-4.east},align=left] at ([xshift=0.5cm,yshift=0.5cm]cache1-2-4.east) {
+        $2=2^1$ bytes in block \\ 1 bit to say which byte
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[my callout2={cache2-2-4.north},align=left,anchor=south] at ([yshift=0.5cm]cache2-2-4.north) {
+        $4=2^2$ bytes in block \\ 2 bits to say which byte
+    };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \draw[decorate,decoration={brace,amplitude=10pt},thick,xshift=4pt]  (cache1-2-4.north east) -- (cache1.south east);
+    \coordinate (decorationEnd1) at ([xshift=14pt]$(cache1-2-4.north east)!0.5!(cache1.south east)$);
+    \node[my callout2=decorationEnd1,anchor=west,align=left] at ([xshift=.5cm]decorationEnd1) {
+        $2^2 = 4$ sets \\
+        \myemph{2 bits} to index set
+    };
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \draw[decorate,decoration={brace,amplitude=10pt,mirror},thick,xshift=-4pt]  (cache3-2-1.north west) -- (cache3.south west);
+    \coordinate (decorationEnd2) at ([xshift=-14pt]$(cache3-2-1.north west)!0.5!(cache3.south west)$);
+    \node[my callout2=decorationEnd2,anchor=east,align=left] at ([xshift=-.5cm]decorationEnd2) {
+        $2^3 = 8$ sets \\
+        \myemph{3 bits} to index set
+    };
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \node[my callout2=cache2.east,anchor=west,align=left] at ([yshift=1cm,xshift=.5cm]cache2.east) {
+        $2^1 = 2$ sets \\
+        \myemph{1 bit} to index set
+    };
+\end{visibleenv}
+\begin{visibleenv}<7>
+    \node[tBox] {
+        \myemph{tag} --- whatever is left over
+    };
+\end{visibleenv}
+\end{tikzpicture}

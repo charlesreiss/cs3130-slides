@@ -1,0 +1,18 @@
+
+### cache: real memory 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/placeOfCache-cache-real-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/placeOfCache-cache-real-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### the place of cache 
+
+![](/caching/texfig/placeOfCache-the-place-of-cache.figure.svg)
+

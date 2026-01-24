@@ -1,0 +1,15 @@
+
+### recall: data/instruction memory  {.smaller}
+
+
+* model in CPU: one cycle per access 
+<hr class="vspace" />
+* but earlier --- had to talk to memory on different chip
+* can't do that in one cycle 
+<hr class="vspace" />
+* solution: keep copies of part of memory (‘‘cache’’) 
+
+   * copy can be accessed quickly
+   * hope: almost always use copy?
+
+

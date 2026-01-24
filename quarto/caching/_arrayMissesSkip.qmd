@@ -1,0 +1,47 @@
+
+### misses with skipping
+
+```c
+int array1[512]; int array2[512];
+...
+for (int i = 0; i < 512; i += 1)
+    sum += array1[i] * array2[i];
+}
+
+```
+ 
+
+* [Assume everything but <code>array1</code>, <code>array2</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* About how many <i>data cache misses</i> on a 2KB direct-mapped cache with 16B cache blocks? <br> Hint: depends on relative placement of array1, array2
+
+
+### best/worst case  {.smaller}
+
+
+* <code>array1[i]</code> and <code>array2[i]</code> always different sets: 
+
+   * = distance from array1 to array2 not multiple of # sets $\times$ bytes/set
+   * 2 misses every 4 <code>i</code>
+   * blocks of 4 array1[X] values loaded, then used 4 times before loading next block
+   * (and same for array2[X])
+
+* <code>array1[i]</code> and <code>array2[i]</code> same sets: 
+
+   * = distance from array1 to array2 is multiple of # sets $\times$ bytes/set
+   * 2 misses every <code>i</code>
+   * block of 4 array1[X] values loaded, one value used from it,
+   * then, block of 4 array2[X] values replaces it, one value used from it, …
+
+
+
+### worst case in practice? 
+
+
+* can have worst spacing happen by accident: 
+<hr class="vspace" />
+* two structs/arrays placed at start of newly allocated page 
+
+   * worst-case spacing likely small multiple of page size
+
+* columns of matrix with power-of-two width
+

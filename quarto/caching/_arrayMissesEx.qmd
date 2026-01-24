@@ -1,0 +1,66 @@
+
+### arrays and cache misses (1)  {.smaller}
+
+
+```
+int array[1024]; // 4KB array
+int even_sum = 0, odd_sum = 0;
+for (int i = 0; i < 1024; i += 2) {
+    even_sum += array[i + 0];
+    odd_sum +=  array[i + 1];
+}
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many <i>data cache misses</i> on initially empty 2KB direct-mapped cache with 16B cache blocks?
+
+
+### arrays and cache misses (2)  {.smaller}
+
+
+```
+int array[1024]; // 4KB array
+int even_sum = 0, odd_sum = 0;
+for (int i = 0; i < 1024; i += 2)
+    even_sum += array[i + 0];
+for (int i = 0; i < 1024; i += 2)
+    odd_sum +=  array[i + 1];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many <i>data cache misses</i> on initially empty 2KB direct-mapped cache with 16B cache blocks? \only{[Would a set-associative cache be better?]{.fragment fragment-index=2 .custom .myem-only}}
+
+
+### explanation  {.smaller}
+
+
+* 2-way, 2KB set associative cache, 16B blocks
+* 4 offset bits, 6 index bits
+* so addresses multiples $2^10$ bytes apart differ only in tag bits
+* example: array[0$\\rightarrow{}$3], array[256$\\rightarrow{}$259], array[512$\\rightarrow{}$515], array[768$\\rightarrow{}$771]
+* those all use the same set
+* but sets only holds 2 things
+* all misses
+
+
+### arrays and cache misses (2b)  {.smaller}
+
+
+```
+int array[1024]; // 4KB array
+int even_sum = 0, odd_sum = 0;
+for (int i = 0; i < 1024; i += 2)
+    even_sum += array[i + 0];
+for (int i = 0; i < 1024; i += 2)
+    odd_sum +=  array[i + 1];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* How many <i>data cache misses</i> on initially empty <em>4KB</em> direct-mapped cache with 16B cache blocks?
+

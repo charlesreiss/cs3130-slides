@@ -1,0 +1,22 @@
+
+### systematic approach  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; ++k) {
+  for (int i = 0; i < N; ++i) {
+    @$A_{ik}$ loaded once in this loop:@
+    for (int j = 0; j < N; ++j)
+      @$B_{ij}$, $A_{kj}$ loaded each iteration (if $N$ big):@
+      B[i*N+j] += A[i*N+k] * A[k*N+j];
+
+```
+ 
+
+* $N^3$ multiplies, $N^3$ adds
+* values from $A_ik$ loaded $N^2$ times
+* values from $A_kj$ loaded $N^3$ times
+* values from $B_ij$ loaded $N^3$ times
+* net: about one load into cache per operatoin
+

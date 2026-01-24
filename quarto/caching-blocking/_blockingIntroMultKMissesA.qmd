@@ -1,0 +1,29 @@
+
+### counting misses for A (1)  {.smaller}
+
+<!-- \lstset{
+    style=smaller,language=C,escapechar=@,
+} -->
+ 
+```
+for (int kk = 0; kk < N; kk += 2)
+  for (int i = 0; i < N; i += 1)
+    for (int j = 0; j < N; ++j) {
+      C[i*N+j] += A[i*N+kk+0] * B[(kk+0)*N+j];
+      C[i*N+j] += A[i*N+kk+1] * B[(kk+1)*N+j];
+    }
+
+```
+ access pattern for A: <br> [[A[0*N+0], A[0*N+1]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[0*N+0], A[0*N+1] … (repeats N times) <br> [[A[1*N+0], A[1*N+1]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[1*N+0], A[1*N+1] … (repeats N times) <br> … <br> \only{A[(N-1)*N+0], A[(N-1)*N+1], A[(N-1)*N+0], A[(N-1)*N+1] …}&nbsp;<br> \only{A[0*N+2], A[0*N+3], A[0*N+2], A[0*N+3] …}&nbsp;<br> …
+
+### counting misses for A (2)  {.smaller}
+
+[[A[0*N+0], A[0*N+1]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[0*N+0], A[0*N+1] … (repeats N times) <br> [[A[1*N+0], A[1*N+1]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[1*N+0], A[1*N+1] … (repeats N times) <br> … <br> \only{[[A[(N-1)*N+0], A[(N-1)*N+1]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[(N-1)*N+0], A[(N-1)*N+1] …}&nbsp;<br> \only{[[A[0*N+2], A[0*N+3]]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, A[0*N+2], A[0*N+3] …}&nbsp;<br> …  
+
+* likely cache misses: only first iterations of $j$ loop
+* how many cache misses per iteration? usually one 
+
+   * A[0*N+0] and A[0*N+1] usually in same cache block
+
+* about $\\frac{N2}\\cdot{} N$ misses total
+

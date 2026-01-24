@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+    \matrix[tight matrix,matrix stages,
+        row sep=.5cm,
+        nodes={text width=2cm,minimum height=0.5cm,text depth=.1ex,font=\small},
+        column 1/.append style={nodes={text width=.8cm}},
+        column 2/.append style={nodes={text width=2.2cm}},
+        column 3/.append style={nodes={text width=1.8cm}},
+        column 4/.append style={nodes={text width=2.6cm}},
+        column 5/.append style={nodes={text width=2.0cm}},
+        column 6/.append style={nodes={text width=1.8cm}}] (timeline) {
+        time \& fetch \& decode \& execute \& memory \& writeback \\
+        1    \& A \& B \& C \& D \& E \\
+        2    \& ? \& ? \& \only<1-3>{?}\only<4>{C}\only<5>{nop} \& \only<1>{?}\only<2>{nop}\only<3>{D}\only<4->{\color{black!50}C} \& ? \\
+    };
+    \tikzset{
+        stall/.style={thick,blue!80!black,-Latex,font=\small,inner sep=0.1mm},
+        bubble/.style={thick,green!80!black,-Latex,font=\small,inner sep=0.1mm},
+        normal/.style={thick,black!80,-Latex,font=\small,inner sep=0.1mm},
+        normalD/.style={dotted,thick,black!60,-Latex,font=\small,inner sep=0.1mm},
+    }
+    \begin{visibleenv}<2>
+    \draw[bubble] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {B};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \draw[stall] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {S};
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+    \draw[stall] (timeline-2-3.south) -- (timeline-3-4.north) node[above left] {S};
+    \draw[normalD] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {N};
+    \end{visibleenv}
+    \begin{visibleenv}<5>
+    \draw[bubble] (timeline-2-3.south) -- (timeline-3-4.north) node[above left] {B};
+    \draw[normalD] (timeline-2-4.south) -- (timeline-3-5.north) node[above left] {N};
+    \end{visibleenv}
+\end{tikzpicture}

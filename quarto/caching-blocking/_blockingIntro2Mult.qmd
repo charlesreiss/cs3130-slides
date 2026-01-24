@@ -1,0 +1,145 @@
+
+### simple blocking (2)  {.smaller}
+
+<!-- \lstset{
+    style=small,language=C,escapechar=@,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+
+* same thing for $i$ in addition to $k$?
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += 2) {
+  for (int ii = 0; ii &lt; N; ii += 2) {
+    for (int j = 0; j &lt; N; ++j) {
+      /* process a "block": */
+      for (int k = kk; k &lt; kk + 2; ++k)
+        for (int i = 0; i &lt; ii + 2; ++i)
+            C\[i*N+j] += A\[i*N+k] * B\[k*N+j];
+    }
+  }
+}
+</code></pre>
+
+
+### simple blocking --- locality  {.smaller}
+
+<!-- \lstset{style=smaller,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2) {
+  for (int i = 0; i < N; i += 2) {
+    /* load a block around Aik */
+    for (int j = 0; j < N; ++j) {
+      /* process a "block": */
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+  }
+}
+
+```
+ 
+
+* now: more temporal locality in $B$ 
+
+   * previously: access $B_kj$, then don't use it again for a <em>long</em> time
+
+
+
+### simple blocking --- counting misses for A  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize$B_{k+0,j}$@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize$B_{k+0,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+
+```
+ 
+
+* $\\frac{N2}\\cdot{}\\frac{N2}$ iterations of $j$ loop
+* likely 2 misses per loop with $A$ (2 cache blocks) 
+
+   * total misses: $\\frac{N^22}$ (same as only blocking in K)
+
+
+
+### simple blocking --- counting misses for B  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize\myemph{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+
+```
+ 
+
+* $\\frac{N2}\\cdot{}\\frac{N2}$ iterations of $j$ loop
+* likely $2\\div{}\\text{block size}$ misses per iteration with $B$ 
+
+   * total misses: $\\frac{N^32\\cdot{}\\text{block size}}$ (before: $\\frac{N^3\\text{block size}}$)
+
+
+
+### simple blocking --- counting misses for C  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+
+```
+ 
+
+* $\\frac{N2}\\cdot{}\\frac{N2}$ iterations of $j$ loop
+* likely $\\frac{2\\text{block size}}$ misses per iteration with $C$ 
+
+   * total misses: $\\frac{N^32\\cdot{}\\text{block size}}$ (same as blocking only in K)
+
+
+
+### simple blocking --- counting misses (total)  {.smaller}
+
+<!-- \lstset{style=small,language=C,escapechar=@} -->
+ 
+```
+for (int k = 0; k < N; k += 2)
+  for (int i = 0; i < N; i += 2)
+    for (int j = 0; j < N; ++j) {
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+0,j}$@ += @\normalsize$A_{i+0,k+1}$@ * @\normalsize$B_{k+1,j}$@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+0}$@ * @\normalsize{$B_{k+0,j}$}@
+      @\normalsize$C_{i+1,j}$@ += @\normalsize$A_{i+1,k+1}$@ * @\normalsize$B_{k+1,j}$@
+    }
+
+```
+ 
+
+* before: <br> A: $\\frac{N^22}$; B: $\\frac{N^31\\cdot{}\\text{block size}}$; C $\\frac{N^31\\cdot{}\\text{block size}}$
+* after: <br> A: $\\frac{N^22}$; B: $\\frac{N^32\\cdot{}\\text{block size}}$; C $\\frac{N^32\\cdot{}\\text{block size}}$
+

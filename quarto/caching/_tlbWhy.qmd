@@ -1,0 +1,75 @@
+
+### cache accesses and multi-level PTs
+
+
+* four-level page tables --- five cache accesses per program memory access
+* L1 cache hits --- typically a couple cycles each?
+* so add 8 cycles to each program memory access? 
+<hr class="vspace" />
+* not acceptable
+
+
+### program memory active sets 
+
+![](/caching/texfig/tlbWhy-program-memory-active-sets.figure.svg)
+
+
+### page table entries and locality
+
+
+* page table entries have <em>excellent temporal locality</em>
+* typically one or two pages of the stack active
+* typically one or two pages of code active
+* typically one or two pages of heap/globals active 
+<hr class="vspace" />
+* each page contains <em>whole functions</em>, arrays, stack frames, etc. 
+<hr class="vspace" />
+* needed page table entries are <em>very small</em>
+
+
+### page table entry cache
+
+
+* caled a <em>TLB</em> (translation lookaside buffer)
+* <em>(usually very small) cache of page table entries</em> 
+<hr class="vspace" />
+<table>
+   <tr><th>L1 cache</th><th>TLB</th></tr>
+<tr><td>physical addresses</td><td>[[virtual page numbers]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}</td></tr>
+<tr><td>bytes from memory</td><td>[[page table\\tikzmark{copyPTE} entries]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}</td></tr>
+<tr><td>tens of bytes per block</td><td>[[one page table entry per block]{.fragment fragment-index=4 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}</td></tr>
+<tr><td>usually thousands of blocks</td><td>[usually tens of entries]{.fragment fragment-index=6 .custom .myem-only}</td></tr>
+</table>
+
+::: {.myoverbox .low fragment-index=2}
+
+only caches the page table lookup itself<br />
+(generally) just entries from the last-level page tables
+
+:::
+
+::: {.myoverbox .low fragment-index=3}
+
+virtual page number divided into index + tag
+
+:::
+
+::: {.myoverbox .low fragment-index=4}
+
+not much spatial locality between page table entries <br />
+(they're used for kilobytes of data already)
+
+:::
+
+::: {.myoverbox .low fragment-index=5}
+
+`0` block offset bits
+
+:::
+
+::: {.myoverbox .low fragment-index=6}
+
+few active page table entries at a time <br />
+enables highly associative cache designs
+
+:::

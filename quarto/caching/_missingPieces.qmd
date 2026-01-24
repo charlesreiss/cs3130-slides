@@ -1,0 +1,58 @@
+
+### missing pieces 
+
+
+* [multi-cycle memories]{.fragment fragment-index=2 .custom .myem-only}
+* beyond pipelining: out-of-order, multiple issue
+
+
+### againframe(missingPieces)
+
+### multi-cycle memories  {.smaller}
+
+
+* ideal case for memories: single-cycle
+* achieved with <em>caches</em> (next topic) 
+
+   * fast access to small number of things
+ 
+<hr class="vspace" />
+* typical performance: 
+
+   * 90+% of the time: single-cycle
+
+* sometimes many cycles (3--400+)
+
+
+### variable speed memories 
+
+![](/caching/texfig/varSpeedMem.figure.svg)
+
+
+### againframe(missingPieces)
+
+### beyond pipelining: multiple issue  {.smaller}
+
+
+
+* start <em>more than one instruction/cycle</em>
+* multiple parallel pipelines; many-input/output register file
+* <em>hazard handling much more complex</em>
+ ![](/caching/texfig/multiIssueIntro.figure.svg)
+
+
+### beyond pipelining: out-of-order  {.smaller}
+
+
+
+* find <em>later instructions to do</em> instead of stalling
+* lists of available instructions in pipeline registers 
+
+   * take any instruction with available values
+
+* provide <em>illusion that work is still done in order</em>  
+
+   * much more complicated hazard handling logic
+
+ ![](/caching/texfig/oooIntro.figure.svg)
+

@@ -1,0 +1,49 @@
+
+### simple blocking -- with 3?  {.smaller}
+
+<!-- \lstset{
+    style=smaller,language=C,escapechar=@,
+    moredelim=**[is][\btHL<1>]{~1}{~},
+    moredelim=**[is][\btHL<0>]{~2}{~},
+    moredelim=**[is][\btHL<0>]{~3}{~},
+    moredelim=**[is][\btHL<0>]{~4}{~},
+} -->
+ 
+<pre><code>for (int kk = 0; kk &lt; N; kk += <span data-fragment-index="1" class="fragment custom myem-only">3</span>)
+  for (int i = 0; i &lt; N; i += 1)
+    for (int j = 0; j &lt; N; ++j) {
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+0]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+0)*N+j]</span>;
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+1]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+1)*N+j]</span>;
+      <span data-fragment-index="0" class="fragment custom myem-only">C[i*N+j]</span> += <span data-fragment-index="0" class="fragment custom myem-only">A[i*N+kk+2]</span> * <span data-fragment-index="0" class="fragment custom myem-only">B[(kk+2)*N+j]</span>;
+    }
+</code></pre>
+ 
+
+* $\\frac{N<em>3</em>}\\cdot{} N$ j-loop iterations, and (assuming $N$ large):
+* about $1$ misses from $A$ per j-loop iteration 
+
+   * [$N^2/<em>3</em>$ total misses (before blocking: $N^2$)]{.fragment fragment-index=2 .custom .myem-only}
+
+* about $3N\\div{}\\text{block size}$ misses from $B$ per j-loop iteration 
+
+   * $N^3\\div{}\\text{block size}$ total misses (same as before)
+
+* about $3N\\div{}\\text{block size}$ misses from $C$ per j-loop iteration 
+
+   * $N^3\\div{}\\text{block size}$ total misses (same as before)
+
+
+
+### more than 3?  {.smaller}
+
+
+* can we just keep doing this increase from 3 to some large $X$? …
+* assumption: $X$ values from A would stay in cache 
+
+   * $X$ too large --- cache not big enough
+
+* assumption: $X$ blocks from B would help with spatial locality 
+
+   * $X$ too large --- evicted from cache before next iteration
+
+

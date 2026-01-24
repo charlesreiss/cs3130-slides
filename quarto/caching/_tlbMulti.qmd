@@ -1,0 +1,22 @@
+
+### TLB and multi-level page tables 
+
+
+* TLB caches <em>valid last-level page table entries</em>
+* doesn't matter which last-level page table 
+<hr class="vspace" />
+* means TLB output can be used directly to form address
+
+
+### TLB and two-level lookup 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/tlbMulti-tlb-and-two-level-lookup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbMulti-tlb-and-two-level-lookup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

@@ -1,0 +1,24 @@
+
+### view 2: divide and conquer  {.smaller}
+
+<!-- \lstset{style=small} -->
+ 
+```
+partial_square(float *A, float *B,
+               int startI, int endI, ...) {
+  for (int i = startI; i < endI; ++i) {
+    for (int j = startJ; j < endJ; ++j) {
+      ...
+}
+square(float *A, float *B, int N) {
+  for (int ii = 0; ii < N; ii += BLOCK)
+    ...
+      /* segment of A, B in use fits in cache! */
+      partial_square(
+            A, B,
+            ii, ii + BLOCK,
+            jj, jj + BLOCK, ...);
+}
+
+```
+

@@ -1,0 +1,19 @@
+
+### exercise: TLB access pattern  {.smaller}
+
+* 4-entry, 2-way TLB, LRU replacement policy, initially empty
+* 4096 byte pages 
+
+::: {.r-stack}
+
+![](/caching/texfig/tlbAccessEx.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 style="width: 900px"}
+
+![](/caching/texfig/tlbAccessEx.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="width: 900px"}
+
+![](/caching/texfig/tlbAccessEx.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="width: 900px"}
+
+:::
+
+* which are TLB hits? which are TLB misses? final contents of TLB?
+
+

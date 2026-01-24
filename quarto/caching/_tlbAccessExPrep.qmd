@@ -1,0 +1,9 @@
+
+### exercise: TLB access pattern (setup) 
+
+
+* 4-entry, 2-way TLB, LRU replacement policy, initially empty
+* 4096 byte pages
+* how many index bits?
+* TLB index of virtual address 0x12345?
+

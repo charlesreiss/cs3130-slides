@@ -1,0 +1,126 @@
+
+### matrix squaring  {.smaller}
+
+\[ B_{ij} = \sum_{k=1}^n A_{ik}\times A_{kj} \] <!-- \lstset{
+    style=small,
+    language=C,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>/* version 1: inner loop is k, middle is j*/
+for (int i = 0; i &lt; N; ++i)
+  for (int j = 0; j &lt; N; ++j)
+    for (int k = 0; k &lt; N; ++k)
+      <span data-fragment-index="2" class="fragment custom myem-only">B[i*N+j]</span> += A\[i * N + k] * A\[k * N + j];
+
+/* version 2: outer loop is k, middle is i */
+for (int k = 0; k &lt; N; ++k)
+  for (int i = 0; i &lt; N; ++i)
+    for (int j = 0; j &lt; N; ++j)
+      B\[i*N+j] += <span data-fragment-index="2" class="fragment custom myem-only">A[i * N + k]</span> * A\[k * N + j];
+</code></pre>
+
+
+### performance  {.smaller}
+
+
+![](/caching-blocking/k-inout-instrs.svg){}
+ <br> 
+![](/caching-blocking/k-inout-cycles.svg){}
+
+
+### alternate view 1: cycles/instruction 
+
+
+![](/caching-blocking/k-inout-cpi.svg){}
+
+
+### alternate view 2: cycles/operation 
+
+
+![](/caching-blocking/k-inout-cpe.svg){}
+
+
+### loop orders and locality  {.smaller}
+
+
+* loop body: $C_ij += A_ikA_kj$
+* $ki[j]{.fragment fragment-index=2 .custom .myem-only}$ order: $B_i[j]{.fragment fragment-index=2 .custom .myem-only}$, $A_k[j]{.fragment fragment-index=2 .custom .myem-only}$ have [spatial locality]{.fragment fragment-index=1 .custom .myem-only}
+* $kij$ order: $A_ik$ has [temporal locality]{.fragment fragment-index=1 .custom .myem-only}
+* … better than …
+* $ij[k]{.fragment fragment-index=2 .custom .myem-only}$ order: $A_i[k]{.fragment fragment-index=2 .custom .myem-only}$ has spatial locality
+* $ijk$ order: $B_ij$ has temporal locality
+
+
+### matrix squaring  {.smaller}
+
+\[ B_{ij} = \sum_{k=1}^n A_{ik}\times A_{kj} \] <!-- \lstset{
+    style=small,
+    language=C,
+    moredelim=**[is][\btHL<2>]{~2}{~},
+    moredelim=**[is][\btHL<3>]{~3}{~},
+    moredelim=**[is][\btHL<4>]{~4}{~},
+} -->
+ 
+<pre><code>/* version 1: inner loop is k, middle is j*/
+for (int i = 0; i &lt; N; ++i)
+  for (int j = 0; j &lt; N; ++j)
+    for (int k = 0; k &lt; N; ++k)
+      <span data-fragment-index="3" class="fragment custom myem-only">B[i*N+j]</span> += A\[i * N + <span data-fragment-index="2" class="fragment custom myem-only">k</span>] * A\[k * N + j];
+
+/* version 2: outer loop is k, middle is i */
+for (int k = 0; k &lt; N; ++k)
+  for (int i = 0; i &lt; N; ++i)
+    for (int j = 0; j &lt; N; ++j)
+      B\[i*N+<span data-fragment-index="2" class="fragment custom myem-only">j</span>] += <span data-fragment-index="3" class="fragment custom myem-only">A[i * N + k]</span> * A\[k * N + <span data-fragment-index="2" class="fragment custom myem-only">j</span>];
+</code></pre>
+
+
+### L1 misses 
+
+
+![](/caching-blocking/k-inout-l1d_read_miss_rate.svg){}
+
+
+### L1 miss detail (1) 
+
+
+![](/caching-blocking/k-in-l1d-miss-annot-size.svg){}
+
+
+### L1 miss detail (2) 
+
+
+![](/caching-blocking/k-in-l1d-miss-annot4-size.svg){}
+
+
+### addresses  {.smaller}
+
+<table>
+<tr><td>`A[k*114+j]`</td><td>is at</td><td><code>10 <em>0000 00</em>00 0100</code></td></tr>
+<tr><td>`A[k*114+j+1]`</td><td>is at</td><td><code>10 <em>0000 00</em>00 1000</code></td></tr>
+<tr><td>`A[(k+1)*114+j]`</td><td>is at</td><td><code>10 <em>0011 10</em>01 0100</code></td></tr>
+<tr><td>`A[(k+2)*114+j]`</td><td>is at</td><td><code>10 <em>0101 01</em>01 1100</code></td></tr>
+<tr><td>…</td><td></td><td></td></tr>
+<tr><td>`A[(k+9)*114+j]`</td><td>is at</td><td><code>11 <em>0000 00</em>00 1100</code></td></tr>
+</table>
+ 
+<hr class="vspace" />  
+
+* recall: <em>6 index bits</em>, 6 block offset bits (L1)
+
+
+### conflict misses  {.smaller}
+
+
+* powers of two --- lower order bits unchanged
+* `A[k*93+j]` and `A[(k+11)*93+j]`: 
+
+   * <em>1023 elements apart</em> (4092 bytes; 63.9 cache blocks)
+
+* 64 sets in L1 cache: usually maps to same set
+* `A[k*93+(j+1)]` will not be cached (next $i$ loop)
+* even if in same block as `A[k*93+j]`
+

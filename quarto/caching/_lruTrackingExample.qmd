@@ -1,0 +1,12 @@
+
+### LRU bit updating 
+
+::: {.r-stack .my-full}
+
+![](/caching/texfig/lruTrackingExample.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/lruTrackingExample.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

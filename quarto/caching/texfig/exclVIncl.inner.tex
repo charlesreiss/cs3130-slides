@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={<->,ultra thick},
+    cache/.style={draw,very thick},
+    fill 1/.style={pattern color=blue!50!black,pattern=crosshatch},
+    fill 2/.style={pattern color=orange,pattern=dots},
+}
+\node (l2 incl label) at (2.5, 6.5) {L2 inclusive of L1};
+\node[font=\small,anchor=north,align=center] at (l2 incl label.south) {
+    everything in L1 cache duplicated in L2 \\
+    adding to L1 also adds to L2
+};
+\node[anchor=south]  at (1, 2) {L1 cache};
+\node[anchor=south]  at (4, 4) {L2 cache};
+\draw[cache] (0, 0) rectangle ++(2, 2);
+\path[fill 1] (0, 0) rectangle ++(2, 2);
+\path[fill 2] (3, -1.5) rectangle ++(2,1);
+\path[fill 1] (3, -0.5) rectangle ++(2, .5);
+\path[fill 2] (3, 0) rectangle ++(2,.25);
+\path[fill 1] (3, 0.25) rectangle ++(2, .3);
+\path[fill 2] (3, 0.55) rectangle ++(2,.65);
+\path[fill 1] (3, 1.2) rectangle ++(2, .6);
+\path[fill 2] (3, 1.8) rectangle ++(2,.2);
+\path[fill 1] (3, 2) rectangle ++(2, .6);
+\path[fill 2] (3, 2.6) rectangle ++(2,1.4);
+\draw[cache] (3, -1.5) rectangle ++(2, 5.5);
+
+\begin{scope}[xshift=8cm]
+\node (l2 excl label) at (2.5, 6.5) {L2 exclusive of L1};
+\node[font=\small,anchor=north,align=center] at (l2 excl label.south) {
+    L2 contains different data than L1 \\
+    adding to L1 must remove from L2 \\
+    probably evicting from L1 adds to L2
+};
+\node[anchor=south]  at (1, 2) {L1 cache};
+\node[anchor=south]  at (4, 4) {L2 cache};
+\path[fill 1] (0, 0) rectangle ++(2, 2);
+\draw[cache] (0, 0) rectangle ++(2, 2);
+\draw[cache,fill 2] (3, -1.5) rectangle ++(2, 5.5);
+\end{scope}
+\begin{visibleenv}<2>
+    \draw[overlay,red,very thick] (-1,-1.75) rectangle (6.25, 7);
+    \fill[fill opacity=0.95,fill=white] (6.75, -1.75) rectangle (14, 7)
+        node[midway,align=left,font=\small] {
+            inclusive policy: \\
+            no extra work on eviction \\
+            but duplicated data \\
+            ~ \\
+            easier to explain when \\
+            L$k$ shared by multiple L$(k-1)$ caches?
+        };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \draw[overlay,red,very thick] (6.75, -1.75) rectangle (14, 7);
+    \fill[fill opacity=0.95,fill=white](-1,-1.75) rectangle (6.25, 7)
+        node[midway,align=left,font=\small] {
+            exclusive policy: \\
+            avoid duplicated data \\
+            sometimes called \textit{victim cache} \\
+            (contains cache eviction victims) \\
+            ~ \\
+            makes less sense with multicore
+        };
+\end{visibleenv}
+\end{tikzpicture}

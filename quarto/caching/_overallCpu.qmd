@@ -1,0 +1,31 @@
+
+### after forwarding/prediction  {.smaller}
+
+
+* where do we still need to stall? 
+<hr class="vspace" />
+* memory output needed in fetch  
+
+*   <code>ret</code> followed by anything
+* memory output needed in exceute 
+
+*   <code>mrmovq</code> or <code>popq</code> + use  <br>   (in immediatelly following instruction)
+
+
+### overall CPU  {.smaller}
+
+
+* 5 stage pipeline
+* 1 instruction completes <em>every cycle --- except hazards</em>
+* most data hazards: solved by forwarding
+* load/use hazard: 1 cycle of stalling
+* jXX control hazard: branch prediction + squashing 
+
+   * 2 cycle penalty for misprediction
+   * (correct misprediction after jXX finishes execute)
+
+* ret control hazard: 3 cycles of stalling 
+
+   * (fetch next instruction after ret finishes memory)
+
+

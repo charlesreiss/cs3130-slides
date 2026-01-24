@@ -1,0 +1,170 @@
+
+# caching intro {visibility="hidden"}
+
+## memory hierarchy intro {visibility="hidden"}
+
+{{< include /caching/_memHierarchyIntro.qmd >}}
+
+## locality {visibility="hidden"}
+
+{{< include /caching/_localityBasics.qmd >}}
+
+## typical cache hierarchy {visibility="hidden"}
+
+{{< include /caching/_cacheSplitID.qmd >}}
+
+## one-block cache {visibility="hidden"}
+
+{{< include /caching/_oneBlockCache.qmd >}}
+
+## direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_directMappedIntro.qmd >}}
+
+### terminology 
+
+
+* row = set 
+
+   * preview: change how much is in a row
+
+
+
+## tag/index/offset for direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_tioDMIntro.qmd >}}
+
+## aside: cache size{visibility="hidden"}
+
+### cache size 
+
+
+* cache size = amount of <i>data</i> in cache
+* not included metadata (tags, valid bits, etc.)
+
+
+## prelim. formulas {visibility="hidden"}
+
+{{< include /caching/_tioDMFormulas.qmd >}}
+
+## tio for DM: exercise {visibility="hidden"}
+
+{{< include /caching/_tioDMExercise.qmd >}}
+
+## simulating a direct mapped cache {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccess.qmd >}}
+
+## exercise: direct-mapped cache access {visibility="hidden"}
+
+{{< include /caching/_dmAccessExercise.qmd >}}
+
+## mapping misses to sets (DM) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiagDM.qmd >}}
+
+## cache misses on real code {visibility="hidden"}
+
+{{< include /caching/_actMissesDM.qmd >}}
+
+# adding associativity {visibility="hidden"}
+
+{{< include /caching/_addAssoc.qmd >}}
+
+## diagram {visibility="hidden"}
+
+{{< include /caching/_addAssocOp.qmd >}}
+
+## options for replacement {visibility="hidden"}
+
+{{< include /caching/_replacement.qmd >}}
+
+# LRU tracking {visibility="hidden"}
+
+{{< include /caching/_lruTrackingExample.qmd >}}
+
+{{< include /caching/_lruTracking.qmd >}}
+
+## associativity terms {visibility="hidden"}
+
+{{< include /caching/_assocTerms.qmd >}}
+
+## tag/index/offset for set-assoc. caches {visibility="hidden"}
+
+{{< include /caching/_tioFormulas.qmd >}}
+
+## array misses warmup {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupEx.qmd >}}
+
+## array misses warmup (2 set) {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmup2SetEx2.qmd >}}
+
+## array misses and cache results {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupBigEx.qmd >}}
+
+## array misses and skipping around {visibility="hidden"}
+
+{{< include /caching/_arrayMissesSkip.qmd >}}
+
+# array misses and associative caches? {visibility="hidden"}
+
+## mapping misses to sets (3-way) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiag3.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupBigExSA.qmd >}}
+
+# options for handling cache writes {visibility="hidden"}
+
+{{< include /caching/_writePolicy.qmd >}}
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+{{< include /caching/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching/_fastWrites.qmd >}}
+
+## briefly, cache tradeoffs {visibility="hidden"}
+
+{{< include /caching/_tradeoffsBrief.qmd >}}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+## AMAT {visibility="hidden"}
+
+{{< include /caching/_amatFormula.qmd >}}
+
+{{< include /caching/_amatEx.qmd >}}
+
+# TLB {visibility="hidden"}
+
+{{< include /vm/_twoLevelPtLib.qmd >}}
+
+## review: page table lookup (1) {visibility="hidden"}
+
+{{< include /vm/_twoLevelPTAlt.qmd >}}
+
+## why cache page table entries? {visibility="hidden"}
+
+{{< include /caching/_tlbWhy.qmd >}}
+
+## how TLB fits in page table lookup {visibility="hidden"}
+
+{{< include /caching/_tlbMulti.qmd >}}
+
+## how TLBs are organized {visibility="hidden"}
+
+{{< include /caching/_tlbOrgNoCircuit.qmd >}}
+
+## exercise: TLB access pattern {visibility="hidden"}
+
+{{< include /caching/_tlbAccessExPrep.qmd >}}
+
+{{< include /caching/_tlbAccessEx.qmd >}}

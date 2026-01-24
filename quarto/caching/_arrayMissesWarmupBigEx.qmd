@@ -1,0 +1,39 @@
+
+### C and cache misses (warmup 5)
+
+```c
+int array[1024]; /* assume aligned */ int even = 0, odd = 0;
+even += array[0];
+even += array[2];
+even += array[512];
+even += array[514];
+odd += array[1];
+odd += array[3];
+odd += array[511];
+odd += array[513];
+
+```
+ [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).<br> observation: array[0] and array[512] exactly 2KB apart]{.my-small} 
+
+* How many data cache misses on a 2KB direct mapped cache with 16B blocks?
+
+
+### C and cache misses (warmup 6)
+
+
+```c
+int array[1024]; /* assume aligned */ int even = 0, odd = 0;
+even += array[0];
+even += array[2];
+even += array[500];
+even += array[502];
+odd += array[1];
+odd += array[3];
+odd += array[501];
+odd += array[503];
+
+```
+ [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small} 
+
+* How many data cache misses on a 2KB direct mapped cache with 16B blocks?
+

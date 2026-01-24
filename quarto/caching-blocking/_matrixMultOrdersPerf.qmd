@@ -1,0 +1,20 @@
+
+### performance (with A=B)  {.smaller}
+
+
+![](/caching-blocking/k-inout-instrs.svg){}
+ <br> 
+![](/caching-blocking/k-inout-cycles.svg){}
+
+
+### alternate view 1: cycles/instruction 
+
+
+![](/caching-blocking/k-inout-cpi.svg){}
+
+
+### alternate view 2: cycles/operation 
+
+
+![](/caching-blocking/k-inout-cpe.svg){}
+

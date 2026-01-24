@@ -1,0 +1,10 @@
+
+### memory hierarchy goals 
+
+
+* performance of the fastest (smallest) memory 
+
+   * hide 100x latency difference? <em>99+% hit (= value found in cache) rate</em>
+
+* capacity of the largest (slowest) memory
+

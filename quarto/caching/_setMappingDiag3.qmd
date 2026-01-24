@@ -1,0 +1,17 @@
+
+### mapping of sets to memory (3-way) 
+
+
+::: {.r-stack .my-full}
+
+![](/caching/texfig/setMappingDiag3.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/setMappingDiag3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/setMappingDiag3.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/setMappingDiag3.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+

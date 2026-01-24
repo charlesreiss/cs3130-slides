@@ -1,0 +1,10 @@
+## cache blocking: more than two at a time? {visibility="hidden"}
+
+{{< include /caching-blocking/_blockingIntroMultKTo3.qmd >}}
+
+{{< include /caching-blocking/_blockingUsageMult.qmd >}}
+
+## explicit counting {visibility="hidden"}
+
+{{< include /caching-blocking/_explicitCounting.qmd >}}
+

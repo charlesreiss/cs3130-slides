@@ -1,0 +1,50 @@
+
+### C and cache misses (warmup 3)  {.smaller}
+
+
+```
+int array[8];
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+odd_sum += array[1];
+even_sum += array[2];
+odd_sum += array[3];
+even_sum += array[4];
+odd_sum += array[5];
+even_sum += array[6];
+odd_sum += array[7];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny), and array[0] at beginning of cache block.]{.my-small}
+* How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
+
+
+### exercise solution 
+
+ 
+
+::: {.r-stack}
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/arrayMissesWarmup3Answers.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+
+
+### againframe(arrayMissesWarmup3Answers)
+
+### againframe(arrayMissesWarmup3Answers)

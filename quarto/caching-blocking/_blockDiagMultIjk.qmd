@@ -1,0 +1,21 @@
+
+### array usage: $ijk$ order 
+
+
+
+::: {.r-stack .my-full}
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching-blocking/texfig/blockDiagMultIjk.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+

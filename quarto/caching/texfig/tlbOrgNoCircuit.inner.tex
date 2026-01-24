@@ -1,0 +1,75 @@
+\begin{tikzpicture}[circuit logic US]
+\tikzset{
+    myline/.style={-latex,thick},
+    myline thin/.style={-latex,thin},
+    myline bus/.style={-latex,ultra thick},
+    myline no arrow/.style={thick},
+    offsetColor/.style={color=yellow!30!black},
+    tagColor/.style={color=green!60!black},
+    tagStoreFill/.style={fill=green!20},
+    tagColorFill/.style={tagColor,fill=green!60!black},
+    dataColor/.style={color=blue!60!black},
+    dataColorFill/.style={tagColor,fill=blue!60!black},
+    dataStoreFill/.style={fill=blue!20},
+    triangle down/.style = {draw,regular polygon, regular polygon sides=3, shape border rotate=180},
+    N/.style={draw=none,fill=none},
+}
+\matrix[tight matrix,
+        nodes={draw,
+               font=\small\tt,
+               text depth=0.2ex,
+               text height=1.4ex,
+        },
+        row 1/.style={nodes={font=\small\bfseries,minimum height=1cm,text depth=0.6cm}},
+        column 1/.style={nodes={text width=1cm,align=center}},
+        column 2/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 3/.style={nodes={text width=1.65cm,dataColor,dataStoreFill}},
+        column 4/.style={nodes={text width=1cm,dataColor,dataStoreFill}},
+        column 5/.style={nodes={text width=1cm,dataColor,dataStoreFill}},
+        column 6/.style={nodes={text width=.1cm,draw=none}},
+        column 7/.style={nodes={text width=1cm,align=center}},
+        column 8/.style={nodes={text width=1cm,tagColor,tagStoreFill}},
+        column 9/.style={nodes={text width=1.65cm,dataColor,dataStoreFill}},
+        column 10/.style={nodes={text width=1cm,dataColor,dataStoreFill}},
+        column 11/.style={nodes={text width=1cm,dataColor,dataStoreFill}},
+        ] (cache) {
+    valid \& tag \&  physical page \# \& write \& \ldots \& ~ \& valid \& tag \& physical page \# \& write  \& \ldots \\
+    |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \& ~ \&
+    |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \& |[N]| \ldots \\
+    1  \& 10 \& 0x123 \& 1 \& ~ \& ~ \& 1 \& 11 \& 0x12F \& 1 \& ~ \\
+    ~ \&  ~    \& ~     \& ~ \&  ~ \& ~\& ~ \& ~ \& ~    \& ~     \& ~  \\
+    |[alias=bottom-validA]| ~ \&  |[alias=bottom-tagA]| ~ \& |[alias=bottom-ppnA]| ~ \& |[alias=bottom-writeA]| ~  \& |[alias=bottom-miscA]| ~ \& ~ \&
+    |[alias=bottom-validB]| ~ \& |[alias=bottom-tagB]| ~ \& |[alias=bottom-ppnB]| ~  \& |[alias=bottom-writeB]| ~  \& 
+        |[alias=bottom-miscB]| ~\\
+};
+\begin{scope}[every node/.style={draw,rectangle,dashed,inner xsep=0pt,outer sep=0pt,font=\tt}]
+\node (idx) at ([yshift=.75cm,xshift=-.6cm]cache.north west){100};
+\node[left=0cm of idx,tagColor] (tag) {11};
+\end{scope}
+\node[right=0cm of idx,offsetColor,inner xsep=0pt,outer sep=0pt,font=\tt] (po) {010110};
+\draw[thick,dashed,-latex] (idx) |- ([xshift=-.25cm]cache-3-1.west) node[near start,font=\small,fill=white,inner sep=2pt,xshift=-.3cm] {index};
+\draw[very thick,decorate,decoration={brace,mirror}] ([xshift=-.1cm]cache-2-1.north west) -- ([xshift=-.1cm]cache-5-1.south west);
+
+\draw[thick,dashed,-latex,tagColor] (tag) |- ([yshift=-1cm]cache-5-2.south) coordinate (tag cmp 1);
+\draw[thick,dashed,-latex,tagColor] (cache-5-2.south) -- (tag cmp 1);
+\draw[thick,dashed,-latex,tagColor] (tag) |- ([yshift=-2cm]cache-5-8.south) coordinate (tag cmp 2)
+    node[midway,fill=white] {tag};
+\draw[thick,dashed,-latex,tagColor] (cache-5-8.south) -- (tag cmp 2);
+
+\node[right=.25cm of po,inner xsep=0pt,outer sep=0pt] {(program address)};
+
+\draw[very thick,decorate,decoration={brace}] ([yshift=.05cm]tag.north west) -- ([yshift=.05cm]idx.north east)
+    node [midway,above,alt=<2>{red}] {VPN};
+
+\draw[very thick,black!80,decorate,decoration={brace}] ([yshift=.05cm]po.north west) -- ([yshift=.05cm]po.north east)
+    node [midway,above,font=\small,alt=<3>{red}] {page offset};
+
+
+\begin{visibleenv}<4>
+\node[fit=(cache-3-3) (cache-3-5),inner sep=1pt,red,draw,line width=1pt,label={[fill=white,fill opacity=0.9]north:page table entry}] {};
+\end{visibleenv}
+
+\begin{visibleenv}<5>
+\node[fit=(cache-3-1) (cache-3-11),inner sep=1pt,red,draw,line width=3pt] {};
+\end{visibleenv}
+\end{tikzpicture}

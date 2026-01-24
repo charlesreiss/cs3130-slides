@@ -1,0 +1,12 @@
+
+### simulated misses: BST lookups 
+
+
+![](/caching/bst-both){}
+
+
+### simulated misses: matrix multiplies 
+
+
+![](/caching/mm-both){}
+

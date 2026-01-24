@@ -1,0 +1,95 @@
+## less precise approxmation {visibility="hidden"}
+
+{{< include /caching-blocking/_approxMisses.qmd >}}
+
+## warmup: locality exercise {visibility="hidden"}
+
+{{< include /caching-blocking/_localityExercise.qmd >}}
+
+## warmup: miss counting {visibility="hidden"}
+
+{{< include /caching-blocking/_localityExMissCount.qmd >}}
+
+## 2D arrays in C {visibility="hidden"}
+
+{{< include /caching-blocking/_c2DArray.qmd >}}
+
+{{< include /caching-blocking/_2DArrayBlock.qmd >}}
+
+## matrix multiply and loop orders {visibility="hidden"}
+
+{{< include /caching-blocking/_matrixMultIntro.qmd >}}
+
+{{< include /caching-blocking/_matrixMultOrders.qmd >}}
+
+{{< include /caching-blocking/_matrixMultOrdersLocality.qmd >}}
+
+## exercise: which order?{visibility="hidden"}
+
+{{< include /caching-blocking/_matrixMultOrdersEx.qmd >}}
+
+## locality: diagrams{visibility="hidden"}
+
+{{< include /caching-blocking/_blockDiagMultIjk.qmd >}}
+
+{{< include /caching-blocking/_blockDiagMult.qmd >}}
+
+## MM performance{visibility="hidden"}
+
+### againframe(matrixMultTwoVersions)
+
+{{< include /caching-blocking/_matrixMultOrdersPerf.qmd >}}
+
+## miss counting{visibility="hidden"}
+
+{{< include /caching-blocking/_matrixMultOrdersMisses.qmd >}}
+
+## miss count exericse{visibility="hidden"}
+
+{{< include /caching-blocking/_localityExMissCount2.qmd >}}
+
+## jagged edges: conflict misses{visibility="hidden"}
+
+{{< include /caching-blocking/_matrixMultOrdersConflicts.qmd >}}
+
+## warmup, take two: locality exercise {visibility="hidden"}
+
+{{< include /caching-blocking/_localityExercise2.qmd >}}
+
+## cache blocking introduction {visibility="hidden"}
+
+## transformation --- 1D blocking{visibility="hidden"}
+
+{{< include /caching-blocking/_blockingIntroMultXformK.qmd >}}
+
+{{< include /caching-blocking/_blockingIntroMultKMissesA.qmd >}}
+
+{{< include /caching-blocking/_blockingIntroMultKMissesB.qmd >}}
+
+{{< include /caching-blocking/_blockingIntroMultKMissesOverall.qmd >}}
+
+{{< include /caching-blocking/_blockingIntroMultKReadMissGraph.qmd >}}
+
+## two-at-a-time{visibility="hidden"}
+
+{{< include /caching-blocking/_blockingIntro2Mult.qmd >}}
+
+## generalizing{visibility="hidden"}
+
+{{< include /caching-blocking/_blockingDivideAndConquerMult.qmd >}}
+
+## diagram of general{visibility="hidden"}
+
+{{< include /caching-blocking/_blockingUsageGeneralMult.qmd >}}
+
+## counting loads {visibility="hidden"}
+
+{{< include /caching-blocking/_loadingCountsMult.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /caching-blocking/_localityExMissCount3.qmd >}}
+
+## cache blocking review {visibility="hidden"}
+
+{{< include /caching-blocking/_cacheBlockingReview.qmd >}}

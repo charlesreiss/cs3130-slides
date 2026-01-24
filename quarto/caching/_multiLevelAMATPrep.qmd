@@ -1,0 +1,11 @@
+
+### AMAT example  {.smaller}
+
+
+* suppose cache has 10 cycle hit time
+* 80% hit rate
+* 100 cycle miss penalty 
+<hr class="vspace" />
+* AMAT = hit time + miss rate $\\times{}$ miss penalty
+* AMAT = 10 cycles + (100% - 80%) $\\times{}$ 100 cycles = 30 cycles
+

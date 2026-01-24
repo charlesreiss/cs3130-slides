@@ -1,0 +1,96 @@
+
+### handling writes  {.smaller}
+
+
+* what about writing to the cache?
+* two decision points: 
+<hr class="vspace" />
+* if the value is not in cache, do we add it? 
+   * if yes: need to load rest of block --- <i>write-allocate</i>
+   * if no: missing out on locality? <i>write-no-allocate</i>
+* if value is in cache, when do we update next level? 
+   * if immediately: extra writing <i>write-through</i>
+   * if later: need to remember to do so <i>write-back</i>
+
+
+
+### allocate on write?  {.smaller}
+
+
+* processor writes <em>less than whole</em> cache block
+* block not yet in cache
+* two options: 
+<hr class="vspace" />
+* <em>write-allocate</em> 
+   * fetch [rest of cache block]{.fragment fragment-index=2 .custom .myem-only}, replace written part
+   * (then follow write-through or write-back policy)
+* <em>write-no-allocate</em>  
+   * don't use cache at all (send write to memory <i>instead</i>)
+   * guess: not read soon?
+
+
+
+### write-allocate v. write-no-allocate 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/writePolicy-write-allocate-v-write-no-allocate.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/writePolicy-write-allocate-v-write-no-allocate.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/writePolicy-write-allocate-v-write-no-allocate.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/writePolicy-write-allocate-v-write-no-allocate.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/writePolicy-write-allocate-v-write-no-allocate.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### write-through v. write-back 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/writePolicy-write-through-v-write-back.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/writePolicy-write-through-v-write-back.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/writePolicy-write-through-v-write-back.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/writePolicy-write-through-v-write-back.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/writePolicy-write-through-v-write-back.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### writeback policy 
+
+![](/caching/texfig/writebackBits.figure.svg)
+
+
+### write-allocate + write-back 
+
+
+
+::: {.r-stack .my-full}
+![](/caching/texfig/writeAllocateEx.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/writeAllocateEx.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/writeAllocateEx.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/writeAllocateEx.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### write-no-allocate + write-back 
+
+![](/caching/texfig/writeNoAllocateEx.figure.svg)
+

@@ -1,0 +1,157 @@
+# backup slides --- general {visibility="hidden"}
+
+# misses in C, and intuition behind conflicts {visibility="hidden"}
+
+{{< include /caching/_conflictMissesAndC.qmd >}}
+
+## cache miss examples {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmup2SetEx1.qmd >}}
+
+## misc array misses example {visibility="hidden"}
+
+{{< include /caching/_arrayMissesEx.qmd >}}
+
+# simulated misses with set-assoc. caches {visibility="hidden"}
+
+{{< include /caching/_actMissesAssoc.qmd >}}
+
+## inclusive v exclusive {visibility="hidden"}
+
+{{< include /caching/_exclVIncl.qmd >}}
+
+## tag/index/offset formulas {visibility="hidden"}
+
+{{< include /caching/_tioDMFormulas.qmd >}}
+
+## cut example? {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccessCut.qmd >}}
+
+## benchmarking and cache results {visibility="hidden"}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+# varying parameters exercise {visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffsEx.qmd >}}
+
+## misc cache optimizations: prefetching {visibility="hidden"}
+
+{{< include /caching/_miscCacheOpt.qmd >}}
+
+## an old quiz question {visibility="hidden"}
+
+{{< include /caching/_arrayMissesQuizAnswer.qmd >}}
+
+## array misses exercises {visibility="hidden"}
+
+## sparse array miss exericse {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparseConflicts.qmd >}}
+
+# alternate cache miss exericse {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparseAlt.qmd >}}
+
+# array misses and cache results (old sparse) {visibility="hidden"}
+
+{{< include /caching/_arrayMissesExSparse.qmd >}}
+
+## set mapping (text) {visibility="hidden"}
+
+{{< include /caching/_setMappingText.qmd >}}
+
+## more complex array miss example {visibility="hidden"}
+
+{{< include /caching/_arrayMissesEx2.qmd >}}
+
+## tag/index/offset exercise {visibility="hidden"}
+
+## setup{visibility="hidden"}
+
+{{< include /caching/_tioExerciseIntro.qmd >}}
+
+## the exercise{visibility="hidden"}
+
+{{< include /caching/_tioExercise.qmd >}}
+
+## circuit diagram {visibility="hidden"}
+
+{{< include /caching/_assocCircuit.qmd >}}
+
+## backup slides --- cache performance {visibility="hidden"}
+
+### backup slides --- cache performance 
+
+## miss types {visibility="hidden"}
+
+{{< include /caching/_missTypes.qmd >}}
+
+## cache tradeoffs {visibility="hidden"}
+
+## and making caches look bad{visibility="hidden"}
+
+{{< include /caching/_cacheLookBad.qmd >}}
+
+## and AMAT{visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffsHitMiss.qmd >}}
+
+## and msis types{visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffsMissType.qmd >}}
+
+## AMAT {visibility="hidden"}
+
+{{< include /caching/_amatFormula.qmd >}}
+
+## exercise: AMAT (simple case){visibility="hidden"}
+
+{{< include /caching/_amatEx.qmd >}}
+
+## exercise: multi-level cache AMAT{visibility="hidden"}
+
+{{< include /caching/_multiLevelAMAT.qmd >}}
+
+# more backup slides {visibility="hidden"}
+
+### backup slides 
+
+## cut example? {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccessCut.qmd >}}
+
+## benchmarking and cache results {visibility="hidden"}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+## varying parameters exercise {visibility="hidden"}
+
+{{< include /caching/_cacheTradeoffsEx.qmd >}}
+
+## misc cache optimizations: prefetching {visibility="hidden"}
+
+{{< include /caching/_miscCacheOpt.qmd >}}
+
+## how TLBs fit in the pipeline {visibility="hidden"}
+
+{{< include /caching/_tlbPipeline.qmd >}}
+
+## aside: TLB invalidation {visibility="hidden"}
+
+{{< include /caching/_tlbSwitch.qmd >}}
+
+## exercise: splitting for TLBs {visibility="hidden"}
+
+## 1{visibility="hidden"}
+
+{{< include /caching/_tlbSplitEx1.qmd >}}
+
+## 2{visibility="hidden"}
+
+{{< include /caching/_tlbSplitEx2.qmd >}}
+
+## TLBs and context switches {visibility="hidden"}
+
+{{< include /caching/_tlbSwitch.qmd >}}

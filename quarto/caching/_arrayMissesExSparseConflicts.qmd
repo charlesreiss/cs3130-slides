@@ -1,0 +1,80 @@
+
+### C and cache misses (4)  {.smaller}
+
+
+```
+typedef struct {
+    int a_value, b_value;
+    int other_values[6];
+} item;
+item items[5];
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 5; ++i)
+    a_sum += items[i].a_value;
+for (int i = 0; i < 5; ++i)
+    b_sum += items[i].b_value;
+
+```
+ 
+
+* [Assume everything but <code>items</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
+
+
+### C and cache misses (4, rewrite)  {.smaller}
+
+
+```
+int array[40]
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 40; i += 8)
+    a_sum += array[i];
+for (int i = 1; i < 40; i += 8)
+    b_sum += array[i];
+
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny) and array starts at beginning of cache block.]{.my-small}
+* How many <i>data cache misses</i> on a <em>2-way</em> set associative 128B cache with 16B cache blocks and LRU replacement?
+
+
+### C and cache misses (4, solution pt 1)  {.smaller}
+
+
+* ints 4 byte $\\rightarrow{}$ array[0 to 3] and array[16 to 19] in same cache set 
+
+   * 64B = 16 ints stored per way
+   * 4 sets total
+
+* accessing 0, 8, 16, 24, 32, 1, 9, 17, 25, 33
+* 0 (set 0), 8 (set 2), 16 (set 0), 24 (set 2), 32 (set 0)
+* 1 (set 0), 9 (set 2), 17 (set 0), 25 (set 2), 33 (set 0)
+
+
+### C and cache misses (4, solution pt 2)  {.smaller}
+
+<table>
+<tr><td>access</td><td>set 0 after (LRU first)</td><td>result</td></tr>
+<tr><td>---</td><td>---, ---</td></tr>
+<tr><td>array[0]</td><td>---, array[0 to 3]</td><td>miss</td></tr>
+<tr><td>array[16]</td><td>array[0 to 3], array[16 to 19]</td><td>miss</td></tr>
+<tr><td>array[32]</td><td>array[16 to 19], array[32 to 35]</td><td>miss</td></tr>
+<tr><td>array[1]</td><td>array[32 to 35], array[0 to 3]</td><td>miss</td></tr>
+<tr><td>array[17]</td><td>array[0 to 3], array[16 to 19]</td><td>miss</td></tr>
+<tr><td>array[32]</td><td>array[16 to 19], array[32 to 35]</td><td>miss</td></tr>
+<tr><td></td></tr>
+</table>
+ 6 misses for set 0
+
+### C and cache misses (4, solution pt 3)  {.smaller}
+
+<table>
+<tr><td>access</td><td>set 2 after (LRU first)</td><td>result</td></tr>
+<tr><td>---</td><td>---, ---</td></tr>
+<tr><td>array[8]</td><td>---, array[8 to 11]</td><td>miss</td></tr>
+<tr><td>array[24]</td><td>array[8 to 11], array[24 to 27]</td><td>miss</td></tr>
+<tr><td>array[9]</td><td>array[8 to 11], array[24 to 27]</td><td>hit</td></tr>
+<tr><td>array[25]</td><td>array[16 to 19], array[32 to 35]</td><td>hit</td></tr>
+<tr><td></td></tr>
+</table>
+ 2 misses for set 1

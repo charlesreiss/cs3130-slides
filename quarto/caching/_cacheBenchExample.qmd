@@ -1,0 +1,24 @@
+
+### cache organization and miss rate  {.smaller}
+
+
+
+* <em>depends on program</em>; one example:
+* SPEC CPU2000 benchmarks, 64B block size, LRU replacement
+* data cache miss rates: <div class="my-small"> <table>
+   <tr><td>Cache size</td><td>direct-mapped</td><td>2-way</td><td>8-way</td><td>fully assoc.</td></tr>
+<tr><td>1KB</td><td>8.63%</td><td>6.97%</td><td>5.63%</td><td>5.34%</td></tr>
+<tr><td>2KB</td><td>5.71%</td><td>4.23%</td><td>3.30%</td><td>3.05%</td></tr>
+<tr><td>4KB</td><td>3.70%</td><td>2.60%</td><td>2.03%</td><td>1.90%</td></tr>
+<tr><td>16KB</td><td>1.59%</td><td>0.86%</td><td>0.56%</td><td>0.50%</td></tr>
+<tr><td>64KB</td><td>0.66%</td><td>0.37%</td><td>0.10%</td><td>0.001%</td></tr>
+<tr><td>128KB</td><td>0.27%</td><td>0.001%</td><td>0.0006%</td><td>0.0006%</td></tr>
+<tr><td></td></tr>
+</table>
+    </div>
+
+ [ <table>
+<tr><td>Data: Cantin and Hill, ‘‘Cache Performance for SPEC CPU2000 Benchmarks’’</td></tr>
+<tr><td>[http://research.cs.wisc.edu/multifacet/misc/spec2000cache-data/](http://research.cs.wisc.edu/multifacet/misc/spec2000cache-data/)</td></tr>
+</table>
+ ]{.mycredit}

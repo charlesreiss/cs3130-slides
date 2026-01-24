@@ -1,0 +1,20 @@
+
+### cache tradeoffs briefly  {.smaller}
+
+
+* deciding cache size, associativity, etc.?
+* lots of tradeoffs: 
+
+   * more cache hits v. slower cache hits?
+   * faster cache hits v. fewer cache hits?
+   * (N+1)th-level cache v. larger Nth level cache?
+   * …
+
+* details depend on programs run 
+
+   * how often is same block used again?
+   * how often is same index bits used?
+   * how much {temporal,spatial} locality to take advantage of?
+
+* simulation to assess impact of designs
+

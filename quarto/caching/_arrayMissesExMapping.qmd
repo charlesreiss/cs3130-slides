@@ -1,0 +1,15 @@
+
+### mapping arrays to cache sets  {.smaller}
+
+
+* 2KB direct-mapped cache w/ 16B blocks
+* $\\rightarrow{}$ values 2KB apart map to same set 
+
+   * mapping wraps around to beginning of cache
+   * 2K = $2^(\\text{index bits} + \\text{offset bits})$ s
+ 
+<hr class="vspace" />
+* array[0--3] and array[512--515] map to same set
+* array[4--7] and array[516--519] map to same set
+* …
+

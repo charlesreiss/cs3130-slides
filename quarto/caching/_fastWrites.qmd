@@ -1,0 +1,5 @@
+
+### fast writes 
+
+![](/caching/texfig/fastWrites.figure.svg)
+

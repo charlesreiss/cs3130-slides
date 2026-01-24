@@ -1,0 +1,15 @@
+
+### address splitting exercise (3)  {.smaller}
+
+
+* 384-entry, 3-way set-associative TLB
+* 32-bit virtual address; 8KB pages
+* 2-level page table; 4 byte PTEs 
+
+   * \maybeEmph{256} entries in first level; \maybeEmph{2048} in second
+
+* split the address <code>0x12345678</code>  
+
+   * <code>\maybeEmph{\maybeEmph{\maybeEmph{0001 0010}} \maybeEmph{\maybeEmph{0011} \maybeEmph{0100  010}}}\maybeEmph{1 0110 0111 1000}</code> \\iftoggle{heldback \item{} 13-bit page offset [<code></code> 1 0110 0111 1000]{.fragment fragment-index=3 .custom .myem-only}  \item{} $32-13=19$-bit VPN [<code></code> 0001 0010 0011 0100 010]{.fragment fragment-index=4 .custom .myem-only}  \item{} 8-bit first part of VPN [<code></code> 0001 0010]{.fragment fragment-index=5 .custom .myem-only}  \item{} 11-bit second part of VPN [<code></code> 0011 0100 010]{.fragment fragment-index=6 .custom .myem-only}  \item{} 7-bit TLB index [0100 010]{.fragment fragment-index=7 .custom .myem-only}  \item{} $19-7=12$-bit TLB tag [0001 0010 0011]{.fragment fragment-index=8 .custom .myem-only} }
+
+

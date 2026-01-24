@@ -1,0 +1,13 @@
+
+### making any cache look bad  {.smaller}
+
+
+* 1. access enough blocks, to fill the cache
+* 2. access an additional block, replacing something
+* 3. access last block replaced
+* 4. access last block replaced
+* 5. access last block replaced
+* … 
+<hr class="vspace" />
+* but --- typical real programs have <em>locality</em>
+

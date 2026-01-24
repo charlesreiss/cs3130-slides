@@ -1,0 +1,29 @@
+
+### loop ordering compromises  {.smaller}
+
+
+* loop ordering forces compromises:
+* for k: for i: for j: c[i,j] += a[i,k] * b[j,k] 
+<hr class="vspace" />
+* perfect temporal locality in a[i,k]
+* bad temporal locality for c[i,j], b[j,k]
+* perfect spatial locality in c[i,j]
+* bad spatial locality  in b[j,k], a[i,k] 
+<hr class="vspace" />
+* cache blocking: work on blocks rather than rows/columns 
+
+   * have some temporal, spatial locality in everything
+
+
+
+### cache blocking pattern 
+
+
+* no perfect loop order? work on rectangular matrix blocks 
+<hr class="vspace" />
+* size amount used in inner loops based on cache size
+* in practice: 
+
+   * test performance to determine ‘size’ of blocks
+
+

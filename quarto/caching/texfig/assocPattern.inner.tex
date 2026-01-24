@@ -1,0 +1,118 @@
+\begin{tikzpicture}
+\matrix[tight matrix,
+        nodes={font=\small\tt,text depth=.1ex,text height=1ex,minimum height=1cm},
+        row 1/.append style={nodes={font=\small\bfseries,minimum height=.5cm}},
+        column 1/.append style={nodes={draw=none,text width=1.2cm}},
+        column 2/.append style={nodes={align=center,text width=1cm}},
+        column 3/.append style={nodes={align=center,tagColor,text width=1.5cm}},
+        column 4/.append style={nodes={text width=2.5cm,align=center,dataColor,
+            text depth=2.3ex}},
+        column 5/.append style={nodes={draw=none,text width=.1cm}},
+        column 6/.append style={nodes={align=center,text width=1cm}},
+        column 7/.append style={nodes={align=center,tagColor,text width=1.5cm}},
+        column 8/.append style={nodes={text width=2.5cm,align=center,dataColor,
+            text depth=2.3ex}},
+        row 1 column 4/.append style={nodes={text depth=.1ex}},
+        row 1 column 8/.append style={nodes={text depth=.1ex}},
+        label={[font=\small]$2$-way set associative, $2$ byte blocks, $2$ sets}] (cache)  {
+index \& valid \& tag \& value \& ~ \& valid \& tag \& value \\
+0\&
+    % i 0, 0:
+    \zzx{1}{4}{0}\z{5}{1} \& 
+    \z{5}{000000} \& 
+    \z{5}{mem[0x00] mem[0x01]}  \& ~ \&
+    % i 0, 1:
+    \zzx{1}{7}{0}\z{8}{1} \& 
+    \z{8}{011000} \& 
+    \z{8}{mem[0x60] mem[0x61]} \\
+1\& 
+    % i 1, 0:
+    \zzx{1}{6}{0}\z{7}{1} \& 
+    \z{7}{011000} \&
+    \z{7}{mem[0x62] mem[0x63]} \& ~ \&
+    % i 1, 1:
+    0 \& ~ \& ~ \\
+};
+
+\begin{visibleenv}<1>
+    \node[below=1cm of cache,align=left,draw=red,very thick] {
+        multiple places to put values with same index \\
+        avoid misses from two active values using same set \\
+        (``conflict misses'')
+    };
+\end{visibleenv}
+
+\begin{visibleenv}<5->
+    \matrix[tight matrix,anchor=north west,
+            nodes={font=\small,minimum height=.5cm,text depth=.1ex},
+            column 1/.append style={nodes={font=\small\tt,text width=3.3cm,align=left}},
+            row 1/.append style={nodes={font=\small\bfseries}},
+            column 2/.append style={nodes={text width=1.3cm}},
+            ] (pattern) at ([yshift=-.5cm]cache.south west) {
+        address (hex)\& result \\
+        00000000 (00) \& |[v=5]| miss \\
+        00000001 (01) \& |[v=6]| hit \\
+        01100011 (63) \& |[v=7]| miss \\
+        01100001 (61) \& |[v=8]| miss \\
+        01100010 (62) \& |[v=9]| hit \\
+        00000000 (00) \& |[v=10]| hit \\
+        01100100 (64) \& |[v=11]| miss \\
+    };
+    \coordinate (tagTopLeft) at ([xshift=.1ex]pattern-2-1.north west);
+    \coordinate (tagBottomLeft) at ([xshift=.1ex]pattern-8-1.south west);
+    \coordinate (indexTopLeft) at ([xshift=6\oneZero]tagTopLeft);
+    \coordinate (offsetTopLeft) at ([xshift=1\oneZero]indexTopLeft);
+    \coordinate (offsetTopRight) at ([xshift=1\oneZero]offsetTopLeft);
+    \coordinate (tagBottomRight) at (tagBottomLeft -| indexTopLeft);
+    \coordinate (indexBottomRight) at (tagBottomLeft -| offsetTopLeft);
+    \coordinate (offsetBottomRight) at (tagBottomLeft -| offsetTopRight);
+    \fill[tagColor,opacity=0.3] (tagTopLeft) rectangle (tagBottomRight);
+    \fill[offsetColor,opacity=0.3] (offsetTopLeft) rectangle (offsetBottomRight);
+    \begin{scope}[every node/.style={anchor=north,text depth=.2ex,text height=1ex}]
+        \node[tagColor,xshift=-.5cm] at ($(tagBottomLeft)!.5!(tagBottomRight)$) {
+            tag
+        };
+        \node[xshift=-.2cm] at ($(tagBottomRight)!.5!(indexBottomRight)$) {
+            index
+        };
+        \node[offsetColor,xshift=.6cm] at ($(indexBottomRight)!.5!(offsetBottomRight)$) {
+            offset
+        };
+    \end{scope}
+\end{visibleenv}
+
+\begin{visibleenv}<11>
+    \node[my callout2=pattern-8-2.east,anchor=west] at ([xshift=-1cm,yshift=1.2cm]pattern-8-2.east) { 
+        needs to replace block in set 0!
+    };
+    \node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-2-2) (cache-2-8)] {};
+\end{visibleenv}
+
+\begin{visibleenv}<2>
+    \node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-2-2) (cache-2-8),
+        label={[red,xshift=-1cm,font=\bfseries]center:set 0}] {};
+    \node[inner sep=-1pt,draw=red,line width=2pt,fit=(cache-3-2) (cache-3-8),
+        label={[red,xshift=-1cm,font=\bfseries]center:set 1}] {};
+\end{visibleenv}
+
+\begin{visibleenv}<3>
+    \node[inner sep=-1pt,draw=orange,line width=2pt,fit=(cache-2-2) (cache-3-4),
+        label={[orange,font=\bfseries,fill=white]center:way 0}] {};
+    \node[inner sep=-1pt,draw=orange,line width=2pt,fit=(cache-2-6) (cache-3-8),
+        label={[orange,font=\bfseries,fill=white]center:way 1}] {};
+\end{visibleenv}
+
+\begin{visibleenv}<4>
+    \node[anchor=north west,font=\small,align=left] (explain1) at ([yshift=-.5cm]cache.south west) {
+        $m = 8$ bit addresses \\ 
+        $S=2=2^s$ sets \\
+        $s=\myemph<2>{1}$ (set) index bits \\
+    };
+    \node[anchor=north west,font=\small,align=left] (explain2) at ([xshift=.5cm]explain1.north east) {
+        $B=2=2^b$ byte block size \\
+        $b=\myemph<2>{1}$ (block) offset bits \\
+        $t = m - (s+b) = \myemph<2>{6}$ tag bits\\
+    };
+\end{visibleenv}
+
+\end{tikzpicture}

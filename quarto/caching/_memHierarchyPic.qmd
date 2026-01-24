@@ -1,0 +1,23 @@
+
+### 2004 CPU 
+
+
+
+::: {.r-stack}
+![](/caching/texfig/memHierarchyPic.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/memHierarchyPic.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/memHierarchyPic.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/memHierarchyPic.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/memHierarchyPic.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching/texfig/memHierarchyPic.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching/texfig/memHierarchyPic.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+ [Image: approx 2004 AMD press image of Opteron die; <br> approx register location via chip-architect.org (Hans de Vries)]{.mycredit}

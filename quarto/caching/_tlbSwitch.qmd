@@ -1,0 +1,41 @@
+
+### changing page tables  {.smaller}
+
+
+* what happens to TLB when page table base pointer is changed? 
+
+   * e.g. context switch
+
+* most entries in TLB refer to things from <em>wrong process</em> 
+
+   * oops --- read from the wrong process's stack?
+ 
+<hr class="vspace" />
+* option 1: <em>invalidate</em> all TLB entries 
+
+   * side effect on ‘‘change page table base register’’ instruction
+
+* option 2: TLB entries contain process ID 
+
+   * set by OS (special register)
+   * checked by TLB in addition to TLB tag, valid bit
+
+
+
+### editing page tables  {.smaller}
+
+
+* what happens to TLB when OS changes a page table entry?
+* most common choice: has to be handled <em>in software</em> 
+<hr class="vspace" />
+* invalid to valid --- nothing needed 
+
+   * TLB doesn't contain invalid entries
+   * MMU will check memory again
+
+* valid to invalid --- <em>OS needs to tell processor</em> to invalidate it 
+
+   * special instruction (x86: <code>invlpg</code>)
+
+* valid to other valid --- <em>OS needs to tell processor</em> to invalidate it
+

@@ -1,0 +1,18 @@
+
+### exercise: miss estimating (2)  {.smaller}
+
+
+```
+for (int k = 0; k < 1000; k += 1)
+    for (int i = 0; i < 1000; i += 1)
+        for (int j = 0; j < 1000; j += 1)
+            A[k*N+j] += B[i*N+j];
+
+```
+ 
+
+* assuming: 4 elements per block
+* assuming: cache not close to big enough to hold 1K elements 
+<hr class="vspace" />
+* estimate: <i>approximately</i> how many misses for <i>A</i>, <i>B</i>?
+

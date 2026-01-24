@@ -1,0 +1,34 @@
+
+### prefetching  {.smaller}
+
+
+* seems like we can't really improve cold misses…
+* have to have a miss to bring value into the cache? 
+<hr class="vspace" />
+* solution: don't require miss: ‘prefetch' the value before it’s accessed
+* remaining problem: how do we know what to fetch?
+
+
+### common access patterns  {.smaller}
+
+
+* suppose recently accessed 16B cache blocks are at: 
+
+   * 0x48010, 0x48020, 0x48030, 0x48040
+
+* guess what's accessed next 
+<hr class="vspace" />
+* common pattern with <em>instruction fetches</em> and <em>array accesses</em>
+
+
+### prefetching idea  {.smaller}
+
+
+* look for sequential accesses
+* bring in guess at next-to-be-accessed value
+* if right: no cache miss (even if never accessed before)
+* if wrong: possibly evicted something else --- could cause more misses 
+
+   * fortunately, sequential access guesses almost always right
+
+

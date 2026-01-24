@@ -1,0 +1,38 @@
+\begin{tikzpicture}
+    \tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15}}
+    \newcommand{\fddemww}{ \& |[fetch]| F \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\ddemww}{ \& |[decode]| D1 \& |[decode]| D2\& |[execute]| E \& |[memory]| M \& |[writeback]| W1 \& |[writeback]| W2}
+    \newcommand{\f}{ \& |[fetch]| F }
+    \newcommand{\dX}{ \& |[decode]| D1 }
+\matrix[tight matrix noline,
+        nodes={text width=.6cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=5cm,align=left}}] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                    \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11 \& 12 \& 13 \\
+\lstinline|irmovq $0x1234, %rax|    \fddemww \& ~ \& ~ \& ~ \& ~ \& ~ \& ~\\
+\lstinline|mrmovq 4(%rax), %rbx|    \& ~   \fddemww \& ~ \& ~\\
+\lstinline|subq %rbx, %rcx|         \& ~ \& ~   \f  \dX \ddemww \\
+};
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={densely dotted,thick},
+}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=.05cm]tbl-#2-\idx.east) -- ([xshift=.15cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwd{4}{2}{3}{<0>}
+\fwd{6}{3}{4}{<0>}
+\end{tikzpicture}

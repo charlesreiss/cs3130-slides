@@ -1,0 +1,20 @@
+
+### TLB organization (2-way set associative) 
+
+
+<hr class="vspace" /> 
+
+::: {.r-stack}
+![](/caching/texfig/tlbOrganization.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching/texfig/tlbOrganization.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching/texfig/tlbOrganization.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching/texfig/tlbOrganization.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching/texfig/tlbOrganization.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
