@@ -24,9 +24,7 @@ odd_sum += array[7];
 
 ### exercise solution 
 
- 
-
-::: {.r-stack}
+::: {.r-stack .my-full}
 ![](/caching/texfig/arrayMissesWarmup3Answers.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/caching/texfig/arrayMissesWarmup3Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
@@ -44,7 +42,3 @@ odd_sum += array[7];
 
 :::
 
-
-### againframe(arrayMissesWarmup3Answers)
-
-### againframe(arrayMissesWarmup3Answers)

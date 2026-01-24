@@ -1,7 +1,7 @@
 
 ### Tag-Index-Offset exercise  {.smaller}
 
- <table>
+<table>
 <tr><td>$m$</td><td>memory addreses bits (Y86-64: 64)</td></tr>
 <tr><td>$E$</td><td>number of blocks per set (‘‘ways’’)</td></tr>
 <tr><td>$S=2^s$</td><td>number of sets</td></tr>
@@ -9,8 +9,7 @@
 <tr><td>$B=2^b$</td><td>block size</td></tr>
 <tr><td>$b$</td><td>(block) offset bits</td></tr>
 <tr><td>$t = m - (s+b)$</td><td>tag bits</td></tr>
-<tr><td>$C = B \\times{} S \\times{} E$</td><td>cache size (excluding metadata)</td></tr>
-<tr><td></td></tr>
+<tr><td>$C = B \times{} S \times{} E$</td><td>cache size (excluding metadata)</td></tr>
 </table>
   
 

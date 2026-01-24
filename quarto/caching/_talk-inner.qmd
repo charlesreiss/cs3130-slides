@@ -23,11 +23,8 @@
 
 ### terminology 
 
-
-* row = set 
-
+* row = set
    * preview: change how much is in a row
-
 
 
 ## tag/index/offset for direct mapped caches {visibility="hidden"}

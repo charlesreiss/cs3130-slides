@@ -1,38 +1,32 @@
 
-### cache accesses and C code (1)  {.smaller}
+### cache accesses and C code (1)
 
 
-```
+```c
 int scaleFactor;
 
 int scaleByFactor(int value) {
     return value * scaleFactor;
 }
-
 ```
  <hr />
  
-```
+```gnuassembler
 scaleByFactor:
     movl scaleFactor, %eax
     imull %edi, %eax
     ret
-
 ```
  <hr />
- 
 
 * exericse: what data cache accesses does this function do? 
-
    * 4-byte read of scaleFactor
    * 8-byte read of return address
-
-
 
 ### possible scaleFactor use 
 
 
-```
+```c
 for (int i = 0; i < size; ++i) {
     array[i] = scaleByFactor(array[i]);
 }
@@ -43,7 +37,7 @@ for (int i = 0; i < size; ++i) {
 ### misses and code (2)  {.smaller}
 
 
-```
+```gnuassembler
 scaleByFactor:
     movl scaleFactor, %eax
     imull %edi, %eax
@@ -53,16 +47,13 @@ scaleByFactor:
  
 
 * suppose each time this is called in the loop: 
-
    * return address located at address <code>0x7ffffffe43b8</code>
    * scaleFactor located at address <code>0x6bc3a0</code>
-
 * with direct-mapped 32KB cache w/64 B blocks, what is their: <table>
-   <tr><td>&nbsp;</td><td>return address</td><td>scaleFactor</td></tr>
-<tr><td>\\hline{} tag</td><td>\only{0xfffffffc}</td><td>\only{0xd7}</td></tr>
-<tr><td>index</td><td>\only{[0x10e]{.fragment fragment-index=3 .custom .myem-only}}</td><td>\only{[0x10e]{.fragment fragment-index=3 .custom .myem-only}}</td></tr>
-<tr><td>offset</td><td>\only{0x38}</td><td>\only{0x20}</td></tr>
-<tr><td></td></tr>
+<tr><td></td><td>return address</td><td>scaleFactor</td></tr>
+<tr><td>tag</td><td>[0xfffffffc]{.fragment fragment-index=3}</td><td>[0xd7]{.fragment fragment-index=3}</td></tr>
+<tr><td>index</td><td>[[0x10e]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=3}</td><td>[[0x10e]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=3}</td></tr>
+<tr><td>offset</td><td>[0x38]{.fragment fragment-index=3}</td><td>[0x20]{.fragment fragment-index=3}</td></tr>
 </table>
    
 

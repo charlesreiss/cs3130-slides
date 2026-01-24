@@ -1,9 +1,7 @@
 
 ### quiz exercise solution 
 
- 
-
-::: {.r-stack}
+::: {.r-stack .my-full}
 ![](/caching/texfig/quizAccessSoln1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/caching/texfig/quizAccessSoln1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
@@ -14,13 +12,9 @@
 :::
 
 
-### againframe(quizAccessSoln1)
-
 ### not the quiz problem 
 
- 
-
-::: {.r-stack}
+::: {.r-stack .my-full}
 ![](/caching/texfig/quizNotSoln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/caching/texfig/quizNotSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
@@ -30,5 +24,3 @@
 
 :::
 
-
-### againframe(quizNotSoln)

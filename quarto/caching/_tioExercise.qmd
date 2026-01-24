@@ -1,61 +1,55 @@
 
 ### T-I-O exercise: L1  {.smaller}
 
-\\iftoggle{heldback\\def{}\\arraystretch{1.1} <table>
+<table>
 <tr><td>quantity</td><td>value for L1</td></tr>
-<tr><td>\\hline{} block size (given)</td><td>$B=64\\Byte{}$</td></tr>
-<tr><td>\\hline{}</td><td>\\multicolumn{3l$B=2^b$ ($b$: block offset bits)}</td></tr>
-<tr><td>\\pause{} block offset bits</td><td>$b=<em>6</em>$</td></tr>
-<tr><td>\\hline{} \\pause{} blocks/set (given)</td><td>$E=8$</td></tr>
-<tr><td>\\hline{} cache size (given)</td><td>$C = 32\\KB{} = E \\times{} B \\times{} S$</td></tr>
-<tr><td>\\hline{} \\pause{}</td><td>\\multicolumn{3l$S = \\frac{CB\\times{} E}$ ($S$: number of sets)}</td></tr>
-<tr><td>\\pause{} number of sets</td><td>$S = \\frac{32\\KB{}64\\Byte{}\\times{} 8} = <em>64</em>$</td></tr>
-<tr><td>\\hline{} \\pause{}</td><td>\\multicolumn{3l$S = 2^s$ ($s$: set index bits)}</td></tr>
-<tr><td>set index bits</td><td>$s = \\log_2{}(64) = <em>6</em>$</td></tr>
-<tr><td>\\hline{}</td></tr>
+<tr><td>block size (given)</td><td>$B=64\text{Byte}$</td></tr>
+<tr><td colspan="2">$B=2^b$ ($b$: block offset bits)</td></tr>
+<tr><td>block offset bits</td><td>$b=$<em>$6$</em></td></tr>
+<tr><td>blocks/set (given)</td><td>$E=8$</td></tr>
+<tr><td>cache size (given)</td><td>$C = 32\text{KB} = E \times{} B \times{} S$</td></tr>
+<tr><td colspan="2">$S = \frac{C}{B\times E}$ ($S$: number of sets)</td></tr>
+<tr><td>number of sets</td><td>$S = \frac{32\text{KB}}{64\text{Byte}\times 8} =$ <em>$64$</em></td></tr>
+<tr><td colspan="2">$S = 2^s$ ($s$: set index bits)</td></tr>
+<tr><td>set index bits</td><td>$s = \text{log}_2(64)=$ <em>$6$</em></td></tr>
 </table>
-}
 
 ### T-I-O results 
 
-\\iftoggle{heldback<table>
+<table>
 <tr><td>&nbsp;</td><td>L1</td><td>L2</td><td>L3</td></tr>
-<tr><td>\\hline{} sets</td><td>64</td><td>1024</td><td>8192</td></tr>
+<tr><td>sets</td><td>64</td><td>1024</td><td>8192</td></tr>
 <tr><td>block offset bits</td><td>6</td><td>6</td><td>6</td></tr>
 <tr><td>set index bits</td><td>6</td><td>10</td><td>13</td></tr>
-<tr><td>tag bits</td><td>\\multicolumn{3c(the rest)}</td></tr>
-<tr><td></td></tr>
+<tr><td>tag bits</td><td colspan="3">(the rest)</td></tr>
 </table>
-}
 
 ### T-I-O: splitting  {.smaller}
 
-\\iftoggle{heldback<table>
-<tr><td>&nbsp;</td><td>L1</td><td>L2</td><td>L3</td></tr>
-<tr><td>\\hline{} block offset bits</td><td>[6]{.fragment fragment-index=1 .custom .myem-only}</td><td>6</td><td>6</td></tr>
+<table style="font-size: 80%" class="tighttable">
+<tr><td>&nbsp;</td><th>L1</th><th>L2</th><th>L3</th></tr>
+<tr><td>block offset bits</td><td>[6]{.fragment fragment-index=1 .custom .myem-only}</td><td>6</td><td>6</td></tr>
 <tr><td>set index bits</td><td>6</td><td>10</td><td>13</td></tr>
-<tr><td>tag bits</td><td>\\multicolumn{3c(the rest)}</td></tr>
-<tr><td></td></tr>
+<tr><td>tag bits</td><td colspan="3">(the rest)</td></tr>
 </table>
- 
 
-* <code>0x34567</code>: <table>
+::: {style="font-size: 80%" class="tight"}
+
+* <code>0x34567</code>: <table style="font-size: 70%; margin-top: -0.3em" class="tighttable">
    <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
 <tr><td><code></code> [0[011]{.fragment fragment-index=7 .custom .myem-only}]{.fragment fragment-index=4 .custom .myem-only}</td><td><code></code> [[[0100]{.fragment fragment-index=4 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=7 .custom .myem-only}</td><td><code></code> [[[0101]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=7 .custom .myem-only}</td><td><code></code> [[[01]{.fragment fragment-index=3 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=7 .custom .myem-only}[10]{.fragment fragment-index=2 .custom .myem-only}</td><td><code></code> [0111]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
 <tr><td></td></tr>
 </table>
    
-* bits 0-[5]{.fragment fragment-index=1 .custom .myem-only} (all offsets): <code>[100111]{.fragment fragment-index=2 .custom .myem-only}</code> = <code>0x27</code> \only{ \item{} L1: 
-
+* bits 0-[5]{.fragment fragment-index=1 .custom .myem-only} (all offsets): <code>[100111]{.fragment fragment-index=2 .custom .myem-only}</code> = <code>0x27</code> 
+* L1: 
    * bits 6-11 (L1 set): <code>[01 0101]{.fragment fragment-index=3 .custom .myem-only}</code> = <code>0x15</code>
    * bits 12- (L1 tag): [<code></code> 0x34]{.fragment fragment-index=4 .custom .myem-only}
- } \only{ \item{} L2: 
-
+* L2: 
    * bits 6-15 (set for L2): <code>[01 0001 0101]{.fragment fragment-index=5 .custom .myem-only}</code> = <code>0x115</code>
    * bits 16-: <code>0x3</code>
- } \only{ \item{} L3: 
-
+* L3: 
    * bits 6-18 (set for L3): <code>[0 1101 0001 0101]{.fragment fragment-index=7 .custom .myem-only}</code> = <code>0xD15</code>
    * bits 18-: <code>0x0</code>
- }
-}
+
+:::

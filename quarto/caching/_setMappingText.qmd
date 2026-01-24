@@ -3,7 +3,7 @@
 
 
 * 2KB direct-mapped cache with 16B blocks ---
-* set 0: address 0 to 15\\tikzmark{first}, (0 to 15) +\\tikzmark{second} 2KB, (0 to 15) + 4KB, … 
+* set 0: address 0 to 15, (0 to 15) + 2KB, (0 to 15) + 4KB, … 
 
    * block at 0: [array[0] through array[3]]{.fragment fragment-index=4 .custom .myem-only}
    * block at 0+2KB: [array[512] through array[515]]{.fragment fragment-index=4 .custom .myem-only}
@@ -25,7 +25,7 @@
 
 
 * 2KB 2-way set associative cache with 16B blocks: block addresses ---
-* set 0: address 0\\tikzmark{first}, 0 +\\tikzmark{second} 2KB, 0 + 4KB, … 
+* set 0: address 0, 0 + 2KB, 0 + 4KB, … 
 
    * block at 0: [array[0] through array[3]]{.fragment fragment-index=4 .custom .myem-only}
    * block at 0+1KB: [array[256] through array[259]]{.fragment fragment-index=4 .custom .myem-only}

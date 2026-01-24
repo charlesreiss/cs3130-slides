@@ -2,11 +2,11 @@
 ### simulated misses: BST lookups 
 
 
-![](/caching/bst-both){}
+![](/caching/bst-both.svg){}
 
 
 ### simulated misses: matrix multiplies 
 
 
-![](/caching/mm-both){}
+![](/caching/mm-both.svg){}
 

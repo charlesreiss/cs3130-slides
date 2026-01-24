@@ -1,8 +1,7 @@
 
 ### C and cache misses (4)  {.smaller}
 
-
-```
+```c
 typedef struct {
     int a_value, b_value;
     int other_values[6];
@@ -13,7 +12,6 @@ for (int i = 0; i < 5; ++i)
     a_sum += items[i].a_value;
 for (int i = 0; i < 5; ++i)
     b_sum += items[i].b_value;
-
 ```
  
 
@@ -23,14 +21,13 @@ for (int i = 0; i < 5; ++i)
 ### C and cache misses (4, rewrite)  {.smaller}
 
 
-```
+```c
 int array[40]
 int a_sum = 0, b_sum = 0;
 for (int i = 0; i < 40; i += 8)
     a_sum += array[i];
 for (int i = 1; i < 40; i += 8)
     b_sum += array[i];
-
 ```
  
 
@@ -41,11 +38,9 @@ for (int i = 1; i < 40; i += 8)
 ### C and cache misses (4, solution pt 1)  {.smaller}
 
 
-* ints 4 byte $\\rightarrow{}$ array[0 to 3] and array[16 to 19] in same cache set 
-
+* ints 4 byte $\rightarrow$ array[0 to 3] and array[16 to 19] in same cache set 
    * 64B = 16 ints stored per way
    * 4 sets total
-
 * accessing 0, 8, 16, 24, 32, 1, 9, 17, 25, 33
 * 0 (set 0), 8 (set 2), 16 (set 0), 24 (set 2), 32 (set 0)
 * 1 (set 0), 9 (set 2), 17 (set 0), 25 (set 2), 33 (set 0)

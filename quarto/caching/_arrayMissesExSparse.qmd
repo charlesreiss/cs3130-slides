@@ -2,7 +2,7 @@
 ### C and cache misses (3)  {.smaller}
 
 
-```
+```c
 typedef struct {
     int a_value, b_value;
     int boring_values[126];
@@ -24,7 +24,7 @@ for (int i = 0; i < 8; ++i)
 ### C and cache misses (3, rewritten?) 
 
 
-```
+```c
 item array[1024]; // 4 KB array
 int a_sum = 0, b_sum = 0;
 for (int i = 0; i < 1024; i += 128)
@@ -38,7 +38,7 @@ for (int i = 1; i < 1024; i += 128)
 ### C and cache misses (4)  {.smaller}
 
 
-```
+```c
 typedef struct {
     int a_value, b_value;
     int boring_values[126];
