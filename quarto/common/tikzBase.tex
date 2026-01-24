@@ -134,7 +134,7 @@
   }
 
 
-\NewDocumentCommand\alt{D<>{}mm}{%
+\NewDocumentCommand\alt{D<>{}+m+m}{%
   \overlay_parse:n {#1}
   %\bool_log:N \l_overlay_is_correct_bool
   %\str_log:N \l_overlay_current_spec_str
@@ -143,7 +143,15 @@
     {#3}
 }
 
-\NewDocumentCommand\only{D<>{}m}{%
+\NewDocumentCommand\only{D<>{}+m}{%
+  \overlay_parse:n {#1}
+  %\bool_log:N \l_overlay_is_correct_bool
+  %\str_log:N \l_overlay_current_spec_str
+  \bool_if:NT \l_overlay_is_correct_bool
+    {#2}
+}
+
+\NewDocumentCommand\onslide{D<>{}+m}{%
   \overlay_parse:n {#1}
   %\bool_log:N \l_overlay_is_correct_bool
   %\str_log:N \l_overlay_current_spec_str
