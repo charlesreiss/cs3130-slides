@@ -38,8 +38,10 @@
         column sep=-\pgflinewidth,
         nodes={tight matrix node noline},
     },
+    tight matrix noline/.style={tight matrix no line},
     % FIXME: should use argument
     my callout/.style={draw,fill=blue!20!white,rectangle callout,alias=#1-callout},
+    my callout2/.style={draw,fill=blue!20!white,rectangle callout,callout absolute pointer=(#1),below right=5pt of {#1}},
 }
 \pgfdeclarelayer{bg}
 \pgfdeclarelayer{fg}
