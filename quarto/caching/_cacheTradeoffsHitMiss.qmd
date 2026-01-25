@@ -1,18 +1,18 @@
 
 ### cache optimizations  {.smaller}
 
-(assuming typical locality + keeping cache size constant if possible…)   <table>
-<tr><td>&nbsp;</td><td>miss rate</td><td>hit time</td><td>miss penalty</td></tr>
-<tr><td>increase cache size</td><td>\\good{}</td><td>\\bad{}</td><td>---</td></tr>
-<tr><td>increase associativity</td><td>\\good{}</td><td>\\bad{}</td><td>\\bad{}?</td></tr>
-<tr><td>increase block size</td><td>depends</td><td>\\bad{}</td><td>\\bad{}</td></tr>
-<tr><td>add secondary cache</td><td>---</td><td>---</td><td>\\good{}</td></tr>
-<tr><td>write-allocate</td><td>\\good{}</td><td>---</td><td>?</td></tr>
+(assuming typical locality + keeping cache size constant if possible…)
+<table>
+<tr><td>&nbsp;</td><th>miss rate</th><th>hit time</th><th>miss penalty</th></tr>
+<tr><td>increase cache size</td><td>[good]{style="color: darkgreen"}</td><td>[bad]{style="color: darkred"}</td><td>---</td></tr>
+<tr><td>increase associativity</td><td>[good]{style="color: darkgreen"}</td><td>[bad]{style="color: darkred"}</td><td>[bad]{style="color: darkred"}?</td></tr>
+<tr><td>increase block size</td><td>depends</td><td>[bad]{style="color: darkred"}</td><td>[bad]{style="color: darkred"}</td></tr>
+<tr><td>add secondary cache</td><td>---</td><td>---</td><td>[good]{style="color: darkgreen"}</td></tr>
+<tr><td>write-allocate</td><td>[good]{style="color: darkgreen"}</td><td>---</td><td>?</td></tr>
 <tr><td>writeback</td><td>---</td><td>---</td><td>?</td></tr>
-<tr><td>LRU replacement</td><td>\\good{}</td><td>?</td><td>\\bad{}?</td></tr>
-<tr><td>prefetching</td><td>\\good{}</td><td>---</td><td>---</td></tr>
-<tr><td>\\multicolumn{4l[]{.my-small} prefetching = guess what program will use, access in advance}</td></tr>
+<tr><td>LRU replacement</td><td>[good]{style="color: darkgreen"}</td><td>?</td><td>[bad]{style="color: darkred"}?</td></tr>
+<tr><td>prefetching</td><td>[good]{style="color: darkgreen"}</td><td>---</td><td>---</td></tr>
+<tr><td colspan="4">[prefetching = guess what program will use, access in advance]{.my-small}</td></tr>
 </table>
- \[
-\text{average time} = \text{hit time} + \text{miss rate} \times \text{miss penalty}
-\]
+
+$$ \text{average time} = \text{hit time} + \text{miss rate} \times \text{miss penalty} $$

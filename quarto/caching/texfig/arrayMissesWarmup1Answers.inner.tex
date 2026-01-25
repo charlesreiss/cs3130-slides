@@ -30,7 +30,7 @@
     }
     \end{scope}
         \draw[very thick, decorate, decoration={brace}] (16 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
-            node[above,midway,overlay] {one cache block};
+            node[above,midway] {one cache block};
     \matrix[tight matrix,
         nodes={minimum height=0.7cm},
         column 1/.append style={nodes={text width=6cm}},
@@ -58,7 +58,7 @@
     }
     \end{scope}
         \draw[very thick, decorate, decoration={brace}] (12 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
-            node[above,midway,overlay] {one cache block};
+            node[above,midway] {one cache block};
     \foreach \offset/\name in {4/****,24/++++} {
         \path (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
             node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {\name};
@@ -90,7 +90,7 @@
     }
     \end{scope}
         \draw[very thick, decorate, decoration={brace}] (9 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
-            node[above,midway,overlay] {one cache block};
+            node[above,midway] {one cache block};
     \foreach \offset/\name in {4/****,24/++++} {
         \path (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
             node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {\name};

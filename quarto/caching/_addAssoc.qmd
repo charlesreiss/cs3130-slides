@@ -3,7 +3,7 @@
 
 ::: {.r-stack .my-full}
 
-![](/caching/texfig/assocPattern.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/caching/texfig/assocPattern.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/caching/texfig/assocPattern.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 

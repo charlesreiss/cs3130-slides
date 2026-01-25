@@ -3,12 +3,11 @@
 
   (assuming other listed parameters remain constant) <table>
 <tr><td>&nbsp;</td><td>capacity</td><td>conflict</td><td>compulsory</td></tr>
-<tr><td>increase cache size</td><td>\\good{}</td><td>\\good{}</td><td>---</td></tr>
-<tr><td>increase associativity</td><td>---</td><td>\\good{}</td><td>---</td></tr>
-<tr><td>increase block size</td><td>\\bad{}?</td><td>\\bad{}?</td><td>\\good{}</td></tr>
+<tr><td>increase cache size</td><td>[good]{style="color: darkgreen"}</td><td>[good]{style="color: darkgreen"}</td><td>---</td></tr>
+<tr><td>increase associativity</td><td>---</td><td>[good]{style="color: darkgreen"}</td><td>---</td></tr>
+<tr><td>increase block size</td><td>[bad]{style="color: darkred"}?</td><td>[bad]{style="color: darkred"}?</td><td>[good]{style="color: darkgreen"}</td></tr>
 <tr><td>&nbsp;</td></tr>
-<tr><td>LRU replacement</td><td>---</td><td>\\good{}</td><td>---</td></tr>
-<tr><td>prefetching</td><td>---</td><td>---</td><td>\\good{}</td></tr>
-<tr><td></td></tr>
+<tr><td>LRU replacement</td><td>---</td><td>[good]{style="color: darkgreen"}</td><td>---</td></tr>
+<tr><td>prefetching</td><td>---</td><td>---</td><td>[good]{style="color: darkgreen"}</td></tr>
 </table>
 
