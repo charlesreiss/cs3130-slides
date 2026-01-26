@@ -36,5 +36,7 @@
     ...
   }
 </code></pre>
- ![](/unix-api/texfig/execExample1.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+ ![](/unix-api/texfig/execExample1.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/unix-api/texfig/execExample1.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/unix-api/texfig/execExample1.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
 
