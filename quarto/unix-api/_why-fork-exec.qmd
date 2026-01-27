@@ -19,10 +19,10 @@
 
 
 
-### posix_spawn  {.smaller}
+### `posix_spawn` example  {.smaller}
 
 
-```
+```c
 pid_t new_pid;
 const char argv[] = { "ls", "-l", NULL };
 int error_code = posix_spawn(

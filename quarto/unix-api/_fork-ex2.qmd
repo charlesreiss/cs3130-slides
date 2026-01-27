@@ -1,7 +1,7 @@
 
-### a fork question (2) 
+### a fork question (2)  {.smaller}
 
-```
+```c
 int x = 0;
 int main() {
     pid_t pid = fork();
@@ -16,7 +16,7 @@ int main() {
     printf("%d %d\n", x, y);
 }
 ```
-::: {style="font-size: 80%"}
+<!-- ::: {style="font-size: 80%"} -->
 
 Which (possibly multiple) are possible outputs? [(assume trailing newline)]{style="font-size: 60%"}
 <table>
@@ -24,5 +24,5 @@ Which (possibly multiple) are possible outputs? [(assume trailing newline)]{styl
 <tr><td>D. 3 4 (newline) 1 2</td><td>E. 3 4 (newline) 4 6</td><td>F. 4 6 (newline) 4 6</td></tr>
 </table>
 
-:::
+<!-- ::: -->
 

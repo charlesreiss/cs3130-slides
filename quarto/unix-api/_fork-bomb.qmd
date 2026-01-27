@@ -3,7 +3,7 @@
 
 <!-- \lstset{language=C,style=smaller} -->
  
-```
+```c
 while (true) {
     fork();
 }
@@ -17,15 +17,15 @@ while (true) {
    * lots of memory being allocated
    * control-C might only terminate one of the processes
 
-* <em>probably very bad and hard to recover from</em>
+* _probably very bad and hard to recover from_
 
 
 ### some recommendations re: timing  {.smaller}
 
 
-* in timing assignment, you'll need to run <code>fork()</code> multiple times to measure it 
+* in timing assignment, you'll need to run `fork()` multiple times to measure it
 <hr class="vspace" />
 * I recommend:
-* always waitpid <em>successfully</em> before fork()ing a second time
-* test fork()ing exactly once before doing a loop
+  * always `waitpid` _successfully_ before `fork()`ing a second time
+  * test `fork()`ing exactly once before doing a loop
 

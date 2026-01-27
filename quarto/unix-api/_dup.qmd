@@ -18,7 +18,7 @@
 ### reassigning and file table  {.smaller}
 
 
-```
+```c
 // something like this in OS code
 struct process_info { 
     ...
@@ -26,18 +26,18 @@ struct process_info {
     ....
 };
 ...
-process->files[STDOUT_FILENO] = process->files[opened-fd];
+process->files[STDOUT_FILENO] = process->files[opened_fd];
 
 ```
  
 
-* syscall: <code>dup2(<i>opened-fd</i>, STDOUT_FILENO);</code>
+* syscall: `dup2(opened_fd, STDOUT_FILENO);`
 
 
 ### dup2 example  {.smaller}
 
-redirects stdout to output to <code>output.txt</code>: 
-```
+redirects stdout to output to `output.txt`:
+```c
 fflush(stdout);  /* clear printf's buffer */
 int fd = open("output.txt",
               O_WRONLY | O_CREAT | O_TRUNC);

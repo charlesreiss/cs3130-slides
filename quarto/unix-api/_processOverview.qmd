@@ -2,14 +2,12 @@
 ### POSIX process management  {.smaller}
 
 
-* essential operations 
+* essential operations:
 <hr class="vspace" />
-* process information: [<code>getpid</code>]{.fragment fragment-index=2 .custom .myem-only}
-* process creation: [<code>fork</code>]{.fragment fragment-index=3 .custom .myem-only}
-* running programs: [<code>exec*</code>]{.fragment fragment-index=4 .custom .myem-only} 
+* process information: <code>getpid</code>
+* process creation: <code>fork</code>
+* running programs: <code>exec*</code>
 
-   *  
-
-* waiting for processes to finish: <code>[waitpid]{.fragment fragment-index=5 .custom .myem-only}</code> [ (or <code>[wait]{.fragment fragment-index=5 .custom .myem-only}</code>)]{.my-small}
+* waiting for processes to finish: <code>waitpid</code> [ (or <code>wait</code>)]{.my-small}
 * process destruction, ‘signaling’: <code>exit</code>, <code>kill</code>
 

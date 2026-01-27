@@ -2,41 +2,44 @@
 ### exec*  {.smaller}
 
 
-* exec* --- <em>replace</em> current program with new program 
+* exec* --- _replace_ current program with new program
 
-   * * --- multiple variants
+   * `*`: multiple variants
    * same pid, new process image
 
-* <code>int execv(const char *path, const char **argv)</code> 
+* `int execv(const char *path, const char **argv)`
 
    * path: new program to run
-   * argv: array of arguments, termianted by null pointer
+   * argv: array of arguments, terminated by null pointer
 
-* also other variants that take argv in different form and/or environment variables* 
+* also other variants that take argv in different form and/or environment variables
 
-   * []{.my-small} *environment variables = list of key-value pairs
+   * []{.my-small} environment variables = list of key-value pairs
 
 
 
 ### execv example  {.smaller}
 
 
-<pre><code>  ...
-  child_pid = fork();
-  if (child_pid == 0) {
-    /* child process */
-    char *args\[] = <span data-fragment-index="2" class="fragment custom myem-only">{"ls", "-l", NULL}</span>;
-    execv(<span data-fragment-index="3" class="fragment custom myem-only">"/bin/ls"</span>, <span data-fragment-index="2" class="fragment custom myem-only">args</span>);
-    /* execv doesn't return when it works.
-       So, if we got here, it failed. */
-    perror("execv");
-    exit(1);
-  } else if (child_pid &gt; 0) {
-    /* parent process */
-    ...
-  }
-</code></pre>
- ![](/unix-api/texfig/execExample1.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+```c
+...
+child_pid = fork();
+if (child_pid == 0) {
+ /* child process */
+ char *args[] = {"ls", "-l", NULL};
+ execv("/bin/ls", args);
+ /* execv doesn't return when it works.
+    So, if we got here, it failed. */
+ perror("execv");
+ exit(1);
+} else if (child_pid &gt; 0) {
+ /* parent process */
+ ...
+}
+```
+
+
+![](/unix-api/texfig/execExample1.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
 ![](/unix-api/texfig/execExample1.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
 ![](/unix-api/texfig/execExample1.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
 

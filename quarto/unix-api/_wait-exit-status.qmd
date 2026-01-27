@@ -1,26 +1,28 @@
 
 ### exit statuses 
 
-
-<pre><code>int main() {
-    return <span data-fragment-index="1" class="fragment custom myem">0</span>;  /* or exit(0);  */
+```c
+int main() {
+    return 0;  /* or exit(0); */
 }
-</code></pre>
+```
 
 
 ### the status  {.smaller}
 
 
-<pre><code>#include &lt;sys/wait.h&gt;
+```c
+#include <sys/wait.h>
 ...
-  waitpid(child_pid, &amp;status, 0);
-  if (<span data-fragment-index="2" class="fragment custom myem-only">WIFEXITED(status)</span>) {
-    printf("main returned or exit called with %d\\n",
-           <span data-fragment-index="2" class="fragment custom myem-only">WEXITSTATUS(status)</span>);
-  } else if (WIFSIGNALED(status)) {
-    printf("killed by signal %d\\n", WTERMSIG(status));
-  } else {
-      ...
-  }
-</code></pre>
- ‘‘status code’’ encodes <em>both return value and if exit was abnormal</em> <br> W* macros to decode it
+waitpid(child_pid, &amp;status, 0);
+if (WIFEXITED(status)) {
+  printf("main returned or exit called with %d\\n", WEXITSTATUS(status));
+} else if (WIFSIGNALED(status)) {
+  printf("killed by signal %d\\n", WTERMSIG(status));
+} else {
+    ...
+}
+```
+
+- "status code" encodes _both return value and if exit was abnormal_
+- `W*` macros to decode it

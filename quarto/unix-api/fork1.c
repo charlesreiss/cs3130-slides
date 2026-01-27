@@ -6,14 +6,11 @@ int main(int argc, char *argv[]) {
     if (child_pid > 0) {
         /* Parent Process */
         pid_t my_pid = getpid();
-        printf("[%d] parent of [%d]\n",
-               (int) my_pid,
-               (int) child_pid);
+        printf("[%d] parent of [%d]\n", (int) my_pid, (int) child_pid);
     } else if (child_pid == 0) {
         /* Child Process */
         pid_t my_pid = getpid();
-        printf("[%d] child\n",
-               (int) my_pid);
+        printf("[%d] child\n", (int) my_pid);
     } else {
         perror("Fork failed");
     }

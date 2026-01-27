@@ -2,19 +2,20 @@
 ### open/dup/close/etc. and fd array  {.smaller}
 
 
-<pre><code>// something like this in OS code
+```c
+// something like this in OS code
 struct process_info {
   ...
-  <span data-fragment-index="1" class="fragment custom myem">struct open_file_description *files[NUM];</span>  
+  struct open_file_description *files[NUM];
 };
-</code></pre>
+```
  
 
 * open: `files[new_fd] = ...;`
 * dup2(from, to): `files[to] = files[from];`
 * close: `files[fd] = NULL;`
 * fork:  
-```
+```c
   for (int i = ...)
       child->files[i] = parent->files[i];
 

@@ -1,7 +1,7 @@
 
 ### file descriptors  {.smaller}
 
-```
+```c
 struct process_info {  /* <-- in the kernel somewhere */
     ...
     struct open_file_description *files[SIZE];
@@ -11,8 +11,8 @@ struct process_info {  /* <-- in the kernel somewhere */
 process->files[file_descriptor]
 ```
 
-* Unix: every process has <br> array (or similar) of <i>open file descriptions</i>
-* ‘‘open file’’: [terminal · socket · regular file · pipe]{.my-small}
+* Unix: every process has an array (or similar) of _open file descriptions_
+* "open file": terminal,  socket, regular file, pipe
 * file descriptor = index into array 
    * usually what's used with system calls
    * stdio.h FILE*s usually have file descriptor + buffer

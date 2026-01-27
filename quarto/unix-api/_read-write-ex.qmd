@@ -2,7 +2,7 @@
 ### exercise  {.smaller}
 
 
-```
+```c
 int fd = open("output.txt", O_WRONLY|O_CREAT|O_TRUNC, 0666);
 write(fd, "A", 1);
 dup2(STDOUT_FILENO, 100);

@@ -2,7 +2,7 @@
 ### a fork question  {.smaller}
 
 
-```
+```c
 int main() {
     pid_t pid = fork();
     if (pid == 0) {
@@ -16,23 +16,4 @@ int main() {
 ```
 Exercise: Suppose the pid of the parent process is <code>99</code> and child is <code>100</code>. Give <em>two</em> possible outputs. (Assume no crashes, etc.)
 
-
-### a fork question  {.smaller}
-
-
-```
-int main() {
-    pid_t pid = fork();
-    if (pid == 0) {
-        printf("In child\n");
-    } else {
-        printf("Child %d\n", pid);
-    }
-    printf("Done!\n");
-}
-
-```
-Exercise: Suppose the pid of the parent process is <code>99</code> and child is <code>100</code>. Give <em>two</em> possible outputs. (Assume no crashes, etc.)
-
-![](/unix-api/texfig/fork-ex1-soln.figure.svg)
-
+![](/unix-api/texfig/fork-ex1-soln.figure.svg){.fragment .fade-in-then-out fragment-index=1}

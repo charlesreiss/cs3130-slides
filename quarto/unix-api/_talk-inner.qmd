@@ -3,7 +3,6 @@
 
 {{< include /unix-api/_processOverview.qmd >}}
 
-### againframe(posixProcessFunctions)
 
 ## fork {visibility="hidden"}
 
@@ -23,7 +22,7 @@
 
 ## exec {visibility="hidden"}
 
-### againframe(posixProcessFunctions)
+{{< include /unix-api/_processOverview.qmd >}}
 
 {{< include /unix-api/_exec.qmd >}}
 
@@ -35,7 +34,7 @@
 
 ## wait {visibility="hidden"}
 
-### againframe(posixProcessFunctions)
+{{< include /unix-api/_processOverview.qmd >}}
 
 {{< include /unix-api/_wait.qmd >}}
 
@@ -45,7 +44,7 @@
 
 {{< include /unix-api/_fork-exec-wait-diag.qmd >}}
 
-### againframe(posixProcessFunctions)
+{{< include /unix-api/_processOverview.qmd >}}
 
 ## exercises (fork+exec+wait) {visibility="hidden"}
 
@@ -59,9 +58,9 @@
 
 {{< include /unix-api/_shell-features.qmd >}}
 
-# fd management {visibility="hidden"}
+<!-- # fd management {visibility="hidden"}
 
-## I/O redirection: syntax, method preview {visibility="hidden"}
+## I/O redirection: syntax, method preview {visibility="hidden"} -->
 
 # files in POSIX, part 1 {visibility="hidden"}
 

@@ -2,34 +2,37 @@
 ### wait/waitpid  {.smaller}
 
 
-* <code>pid_t waitpid(pid_t pid, int *status, <br>   int options)</code>
-* wait for a child process (with pid=<code>pid</code>) to finish
-* sets <code>*status</code> to its ‘‘status information’’ 
+* `pid_t waitpid(pid_t pid, int *status, int options)`
+* wait for a child process (with pid=`pid`) to finish
+* sets `*status` to its "status information"
 <hr class="vspace" />
-* <code>pid=-1</code> $\\rightarrow{}$ wait for any child process instead 
+* `pid=-1` → wait for _any_ child process instead
 
-   * <code>pid=0</code> almost the same
+   * `pid=0` almost the same
 
-* options? see manual page (command <code>man waitpid</code>) 
+* options? see manual page (command `man waitpid`)
 
-   * <code>0</code> --- no options
+   * `0` --- no options
 
 
 
 ### waitpid example  {.smaller}
 
 
-```
+```c
 #include <sys/wait.h>
 ...
-  child_pid = fork();
-  if (child_pid > 0) {
-      /* Parent process */
-      int status;
-      waitpid(child_pid, &status, 0);
-  } else if (child_pid == 0) {
-      /* Child process */
-      ...
+
+child_pid = fork();
+if (child_pid > 0) {
+    /* Parent process */
+    int status;
+    waitpid(child_pid, &status, 0);
+} else if (child_pid == 0) {
+    /* Child process */
+    ...
+    /* Eventually exit */
+    ...
 
 ```
 
