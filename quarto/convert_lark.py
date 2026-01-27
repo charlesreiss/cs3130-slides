@@ -89,6 +89,7 @@ fontsize_group: _BRACE fontsize any_text _END_BRACE
     | _END_SQUARE_BRACKET -> end_square_bracket
     | _SQUARE_BRACKET -> square_bracket
     | LSTSET -> lstset
+    | LSTINPUTLISTING -> lstinputlisting
     | TIKZSET -> tikz_context
     | NEWCOMMAND -> tikz_context
     | INCLUDE_GRAPHICS -> include_graphics
@@ -176,6 +177,28 @@ _SQUARE_BRACKET: /\[/
 _END_SQUARE_BRACKET: /\]/
 INCLUDE_GRAPHICS.-10: /\\includegraphics\[[^]]+\]\{[^}]+\}/
 SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox|verb|lstinline|includegraphics)\w+\*?/
+LSTINPUTLISTING.0: /\\lstinputlisting
+        (?:\[
+            (?:
+                [^{}]+
+                |
+                \{
+                    (?:
+                        \{
+                            (?:
+                                \{[^}]*\}
+                            |
+                                [^{}]+
+                            )*
+                        \}
+                    |
+                        [^{}]+
+                    )*
+                \}
+            )*
+        \])?\s*
+        \{[^}]+\}
+    /x
 LSTSET.0: /\\lstset\{
         (?:
             [^{}]+
@@ -725,14 +748,7 @@ class _InlineCommand(_MyAstItem):
         else:
             assert '<' not in command, command
             assert '&' not in command, command
-            if command in (r'\lstinputlisting',):
-                file_name = arguments[-1].inner_text
-                file_path = context.base_input_path.parent / file_name
-                output_path = (context.base_output_path.parent / file_path.name)
-                output_path.write_text(file_path.read_text())
-                return '\n```\n{{< include /' + str(
-                    output_path.relative_to(context.base_quarto_path)) + ' >}}\n```\n'
-            elif command in (r'\tt', r'\texttt'):
+            if command in (r'\tt', r'\texttt'):
                 before, after = '<code>', '</code>'
                 if len(arguments) > 0:
                     inner = arguments[0].get_interesting_parts()
@@ -823,6 +839,53 @@ class _InlineCommand(_MyAstItem):
                     result += argument.render(inner_context)
         result += after
         return result
+
+@dataclass
+class Lstinputlisting(_MyAstItem):
+    raw_input: InitVar[str | None] = None
+    file_name: str = field(init=False)
+    options: str | None = field(init=False)
+
+    def __post_init__(self, raw_input):
+        m = re.match(r'''\\lstinputlisting
+                (?:\[(?P<options>
+                    (?:
+                        [^{}]+
+                        |
+                        \{
+                            (?:
+                                \{
+                                    (?:
+                                        \{[^}]*\}
+                                    |
+                                        [^{}]+
+                                    )*
+                                \}
+                            |
+                                [^{}]+
+                            )*
+                        \}
+                    )*
+                )\])?\s*
+                \{(?P<filename>[^}]+)\}
+            ''', str(raw_input), re.X)
+        assert m is not None, raw_input
+        self.options = m.group('options')
+        self.filename = m.group('filename')
+
+    @property
+    def estimated_lines(self) -> int:
+        return 8
+
+    def render(self, context: RenderContext) -> str:
+        file_path = context.base_input_path.parent / self.file_name
+        output_path = (context.base_output_path.parent / file_path.name)
+        output_path.write_text(file_path.read_text())
+        result = ''
+        if self.options is not None:
+            result += f'\n<!-- lsting options: {self.options} -->'
+        result += '\n```\n{{< include /' + str(
+            output_path.relative_to(context.base_quarto_path)) + ' >}}\n```\n'
 
 @dataclass
 class Fontsize(_MyAstItem):
