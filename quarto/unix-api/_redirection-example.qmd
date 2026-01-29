@@ -1,0 +1,38 @@
+
+### shell output redirection example
+
+Run `/bin/echo foo > output.txt`:
+
+
+```c
+char filename[] = "output.txt";
+pid_t pid = fork();
+if (pid == 0) {
+    int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC);
+    char* args[] = {"echo", "foo"};
+    dup2(fd, STDOUT_FILENO);
+    close(fd);
+    execv("/bin/echo", args);
+} else {
+    waitpid(pid, NULL, 0);
+}
+```
+
+### shell input redirection example
+
+
+Run `/bin/cat < input.txt`:
+
+```c
+char filename[] = "input.txt";
+pid_t pid = fork();
+if (pid == 0) {
+    int fd = open(filename, O_RDONLY);
+    char* args[] = {"cat"};
+    dup2(fd, STDIN_FILENO);
+    close(fd);
+    execv("/bin/cat", args);
+} else {
+    waitpid(pid, NULL, 0);
+}
+```

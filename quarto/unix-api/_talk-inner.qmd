@@ -90,6 +90,10 @@
 
 {{< include /unix-api/_dup.qmd >}}
 
+## shell redirection examples {visibility="hidden"}
+
+{{< include /unix-api/_redirection-example.qmd >}}
+
 ## open/close/dup/fork and fd array {visibility="hidden"}
 
 {{< include /unix-api/_dup-close-and-array.qmd >}}
