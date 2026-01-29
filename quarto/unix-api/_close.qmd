@@ -2,7 +2,7 @@
 ### close  {.smaller}
 
 
-```
+```c
 int close(int fd);
 
 ```
@@ -10,13 +10,13 @@ int close(int fd);
 
 * close the file descriptor, deallocating that array index 
 
-   * does not affect other file descriptors <br> that refer to same ‘‘open file description’’
-   * (e.g. in <code>fork()</code>ed child or created via (later) <code>dup2</code>)
+   * does not affect other file descriptors that refer to same "open file description"
+   * (e.g. in `fork()`ed child or created via (later) `dup2`)
 
 * if last file descriptor for open file description, resources deallocated 
 <hr class="vspace" />
-* returns 0 on success
-* returns -1 on error 
+* returns `0 on success
+* returns `-1` on error
 
    * e.g. ran out of disk space while finishing saving file
 

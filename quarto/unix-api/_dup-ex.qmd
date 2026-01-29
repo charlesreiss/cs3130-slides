@@ -11,7 +11,8 @@ write(STDOUT_FILENO, "A", 1);
 dup2(fd, STDOUT_FILENO);
 pid_t pid = fork();
 if (pid == 0) { /* child: */
-    dup2(STDOUT_FILENO, fd); write(fd, "B", 1);
+    dup2(STDOUT_FILENO, fd);
+    write(fd, "B", 1);
 } else {
     write(STDOUT_FILENO, "C", 1);
 }

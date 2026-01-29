@@ -2,19 +2,19 @@
 ### getting file descriptors  {.smaller}
 
 ```c
-int read_fd = open("dir/file1", O_RDONLY);
+int read_fd  = open("dir/file1", O_RDONLY);
 int write_fd = open("/other/file2", O_WRONLY | ...);
-int rdwr_fd = open("file3", O_RDWR);
+int rdwr_fd  = open("file3", O_RDWR);
 ```
  
 
-* used internally by fopen(), etc.
+* used internally by `fopen()`, etc.
 * also for files without normal filenames…:
  
 ```c
-int fd = shm_open("/shared_memory", O_RDWR, 0666); // shared memory
-int socket_fd = socket(AF_INET, SOCK_STREAM, 0); // TCP socket
-int term_fd = posix_openpt(O_RDWR); // pseudo-terminal
-int pipe_fds[2]; pipe(pipefds); // "pipes" (implements ./command | ./other_cmd)
+int fd        = shm_open("/shared_memory", O_RDWR, 0666); // shared memory
+int socket_fd = socket(AF_INET, SOCK_STREAM, 0);          // TCP socket
+int term_fd   = posix_openpt(O_RDWR); // pseudo-terminal
+int pipe_fds[2]; pipe(pipefds);       // "pipes" (implements ./command | ./other_cmd)
 ...
 ```

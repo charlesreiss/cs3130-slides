@@ -4,15 +4,15 @@
 
 * redirection: `./program >output.txt`
 * step 1: open output.txt for writing, get new file descriptor
-* step 2: [make that new file descriptor stdout (number 1)]{.fragment fragment-index=2 .custom .myem-only} 
+* step 2: make that new file descriptor stdout (number 1)
 <hr class="vspace" />
-* tool: <code>int dup2(int oldfd, int newfd)</code> <br> make <code>newfd</code> refer to same open file as <code>oldfd</code> 
+* tool: `int dup2(int oldfd, int newfd)` <br> make `newfd` refer to same open file as `oldfd`
 
    * same <i>open file description</i>
    * shares the current location in the file
    * (even after more reads/writes)
 
-* what if newfd already allocated --- closed, then reused
+* what if `newfd` already allocated --- closed, then reused
 
 
 ### reassigning and file table  {.smaller}

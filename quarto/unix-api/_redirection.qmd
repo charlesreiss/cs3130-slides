@@ -44,10 +44,10 @@
    * (C stdout/stderr/stdin; C++ cout/cerr/cin)
  
 <hr class="vspace" />
-* (probably after forking) open files to redirect
-* … and make them be standard output/error/input 
+1. open files to redirect (probably after forking)
+2. make them be standard output/error/input
 
    * using <code>dup2()</code> library call
 
-* then exec, preserving new standard output/etc.
+3. then exec, preserving new standard output/etc.
 
