@@ -1,0 +1,33 @@
+### this layout is what we want {.smaller}
+
+![](/vm/texfig/recallAddr.figure-1.svg){.absolute top=10 left=700 width="350" height="300"}
+
+- programs know their addresses when compiled
+  - compiler can generate smaller, more efficient code
+- programs have (essentially) unlimited memory
+  - or at least it appears that way
+- programs are not machine-specific (within same ISA)
+  - i.e., don't need to know how much memory is installed
+
+
+
+
+
+### but, this has a number of issues! {.smaller}
+
+![](/vm/texfig/recallAddr.figure-1.svg){.absolute top=10 left=700 width="350" height="300"}
+
+- every program uses the same addresses
+  - could only run one program at a time
+- our machines don't actually have unlimited memory
+
+
+
+### _virtualization_ allows us to address this {.smaller}
+
+- virtualization: allow many users to access the same computing hardware resources as if they were the only user
+
+
+- examples:
+  - virtual machine: multiple OSes running on same hardware
+  - virtual memory: multiple processes using same physical memory

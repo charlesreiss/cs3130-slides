@@ -5,6 +5,8 @@
 
 {{< include /vm/_recallAddr.qmd >}}
 
+{{< include /vm/_motivation.qmd >}}
+
 {{< include /vm/_addrSpaceOnly.qmd >}}
 
 ## address translation overview {visibility="hidden"}

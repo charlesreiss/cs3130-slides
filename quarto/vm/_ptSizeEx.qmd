@@ -3,7 +3,7 @@
 
 
 * suppose 32-bit virtual (program) addresses
-* and each page is 4096 bytes ($2^12$ bytes) 
+* and each page is 4096 bytes ($2^{12}$ bytes)
 <hr class="vspace" />
 * how many virtual pages?
 * [$2^{32} / 2^{12} = 2^{20}$]{.fragment}
@@ -14,20 +14,21 @@
 
 * suppose 32-bit virtual (program) addresses
 * suppose 30-bit physical (hardware) addresses
-* each page is 4096 bytes ($2^12$ bytes)
+* each page is 4096 bytes ($2^{12}$ bytes)
 * page table entries have physical page #, valid bit 
 <hr class="vspace" />
 * how big is the page table (if laid out like ones we've seen)?
-* [$2^20$ entries $\\times{} (18 + 1)$ bits per entry]{.fragment}
+   * [$2^{20}$ entries $\times{} (18 + 1)$ bits per entry]{.fragment}
+   * [19922944 bits = 2490368 bytes]{.fragment}
 
-   * [issue: where can we store that?]{.fragment}
+* [issue: where can we store that?]{.fragment}
 
 
 
 ### exercise: address splitting 
 
 
-* and each page is 4096 bytes ($2^12$ bytes)
-* split the address <code>0x12345678</code> into page number and page offset:
-* [page number `0x12345`; offset: <code>0x678</code>]{.fragment}
+* if each page is 4096 bytes ($2^{12}$ bytes)
+* split the address `0x12345678` into page number and page offset:
+  * [page number: `0x12345`; offset: `0x678`]{.fragment}
 
