@@ -1,0 +1,24 @@
+### fork exercise {.smaller}
+
+- What are two possible outputs of running this program?
+
+```c
+int main() {
+    int x = 0;
+    printf("begin\n"); fflush(stdout);
+    pid_t p[2];
+    for (int i = 0; i < 2; i += 1) {
+        p[i] = fork();
+        if (p[i] == 0) {
+            x += 1;
+            printf("loop x:%d\n", x); fflush(stdout);
+            exit(0);
+        } else {
+            x += 5;
+        }
+    }
+    for (int i = 0; i < 2; i += 1)
+        waitpid(p[i], NULL, 0);
+    printf("end x:%d\n", x); fflush(stdout);
+}
+```

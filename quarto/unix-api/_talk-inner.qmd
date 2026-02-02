@@ -113,3 +113,7 @@
 # POSIX api summary {visibility="hidden"}
 
 {{< include /unix-api/_summary.qmd >}}
+
+## fork exercise 3 {visibility="hidden"}
+
+{{< include /unix-api/_fork-ex3.qmd >}}
