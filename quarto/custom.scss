@@ -151,6 +151,11 @@ code span { color: inherit; }
 
 .reveal .slide table.tighttable td { padding-top: 0em; padding-bottom: 0em; }
 
+.longcode pre code {
+    max-height: inherit;
+}
+
+
 @media print {
     .slide-chalkboard-buttons {
         display: none ! important

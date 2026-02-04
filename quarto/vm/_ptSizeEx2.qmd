@@ -2,7 +2,7 @@
 ### exercise 
 
 
-* 40-bit physical addresses, 36-bit virtual addresses, $2^14$ byte (16384 byte) pages 
+* 40-bit physical addresses, 36-bit virtual addresses, $2^{14}$ byte (16384 byte) pages 
 <hr class="vspace" />
 * Q1: number of virtual pages?
 * Q2: size of physical page numbers?

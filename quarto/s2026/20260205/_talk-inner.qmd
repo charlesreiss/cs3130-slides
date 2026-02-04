@@ -1,29 +1,14 @@
+### last time
 
-# virtual memory {visibility="hidden"}
-
-## address spaces {visibility="hidden"}
-
-{{< include /vm/_recallAddr.qmd >}}
-
-{{< include /vm/_motivation.qmd >}}
-
-{{< include /vm/_addrSpaceOnly.qmd >}}
-
-## address translation overview {visibility="hidden"}
-
-{{< include /vm/_translationOverview.qmd >}}
-
-## simple paging with four pages {visibility="hidden"}
-
-{{< include /vm/_fourPages.qmd >}}
-
-## on address space sizes {visibility="hidden"}
-
-{{< include /vm/_sizeNotes.qmd >}}
-
-## exercise: address splitting {visibility="hidden"}
-
-{{< include /vm/_ptSizeEx.qmd >}}
+*  virtualizing memory
+   *  virtual address $\rightarrow$ physical address
+   *  multiple programs running with different mappings
+   *  virtual address space versus physical address space
+*  dividing address spaces into power-of-two sized pages
+   *  address = page number || page offset
+   *  page size = $2^{\text{page offset bits}}$
+*  page table
+   *  for each virtual page: valid bit + physical page number
 
 ## exercise: simple lookup {visibility="hidden"}
 
@@ -39,7 +24,7 @@
 
 {{< include /vm/_permissionsBits.qmd >}}
 
-## switching address spaces {visibility="hidden"}
+## OS code
 
 {{< include /vm/_osCode.qmd >}}
 
@@ -60,6 +45,7 @@
 ## fork with copy-on-write {visibility="hidden"}
 
 {{< include /unix-api/_fork-cow.qmd >}}
+
 
 ## mmap {visibility="hidden"}
 
@@ -138,3 +124,7 @@
 ## part 5{visibility="hidden"}
 
 {{< include /vm/_multiSplitExPt5.qmd >}}
+
+# backup slides
+
+{{< include /vm/_talk-backup.qmd >}}

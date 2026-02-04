@@ -1,14 +1,13 @@
 
-### running a program 
+### OS memory in programs
 
+![](/vm/texfig/kernelOnly.figure-2.svg){style="height: 200px" .absolute top="5%" right="5%"}
 
-
-::: {.r-stack .my-full}
-
-
-<!-- ![](/vm/texfig/kernelOnly.figure-1.svg){.fragment .fade-in-then-out fragment-index=1} -->
-
-![](/vm/texfig/kernelOnly.figure-2.svg){.fragment .fade-out fragment-index=1 style="height: 400px"}
-
-:::
+*  most OSes: kernel runs using <br/> normal programs' page tables:
+   *  avoids page table change on exception
+   *  $\implies$ kernel code/data needs virtual addresses
+*  typically: high-numbered virtual pages reserved for this
+   *  those page table entries marked non-user-accessible
+      *  (can't allow programs to mess with OS's stuff)
+   *  usually copied in every process's page table
 

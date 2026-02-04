@@ -1,10 +1,10 @@
 
 ### two-level page tables 
 
-
+<!-- FIXME: make parts of these into HTML tables/boxes -->
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/twoLevelPT.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/twoLevelPT.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/twoLevelPT.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 

@@ -1,5 +1,5 @@
 
-### 2-level splitting  {.smaller}
+### exercise setup: 2-level splitting  {.smaller}
 
 
 * 9-bit virtual address

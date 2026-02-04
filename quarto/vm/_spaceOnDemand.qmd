@@ -1,13 +1,21 @@
+### invalid pages
+
+*  model so far: page tables = logical memory of program
+   *  invalid page $\implies$ process accessing it should crash
+   *  wrong permissions $\implies$ process accessing it should crash
+<hr class="vspace" />
+*  but it doesn't need to work that way
+   *  and doesn't work that way in most OSes
+*  gives operating system more flexibility!
+
 
 ### space on demand 
-
-
 
 ::: {.r-stack .my-full}
 
 ![](/vm/texfig/spaceOnDemand-space-on-demand.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="Program memory layout with a zoom-in on many pages of stack space."}
 
-![](/vm/texfig/spaceOnDemand-space-on-demand.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Only the topmost 12 KB of stack space (three pages) is used; the rest is wasted space."}
+![](/vm/texfig/spaceOnDemand-space-on-demand.figure-2.svg){.fragment .fade-in fragment-index=1 fig-alt="Only the topmost 12 KB of stack space (three pages) is used; the rest is wasted space."}
 
 :::
 
@@ -25,7 +33,7 @@ OS would like to only allocate space if needed.
 <!-- FIXME: diagram has bad text overlap -->
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/spaceOnDemand.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/spaceOnDemand.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/spaceOnDemand.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
@@ -43,7 +51,7 @@ OS would like to only allocate space if needed.
 <hr class="vspace" />
 * loading program can be <em>merely creating empty page table</em>
 * everything else can be handled <em>in response to page faults</em>  
-
+   * <i>page fault</i> = exception triggered for invalid/unperissions page
    * no time/space spent loading/allocating unneeded space
 
 

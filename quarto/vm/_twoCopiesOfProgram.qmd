@@ -5,9 +5,9 @@
 
 ::: {.r-stack .my-full}
 
-![](/vm/texfig/progMem.figure-1.svg){.fragment .fade-out fragment-index=1}
+![](/vm/texfig/progMem.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="memory mapping for two copies of vim, one run by user mst3k and another by user xyz4w; they both have a stack, heap/other dynamnic, writeable data, and code+constants reegion, but different sizes for the heap and stack."}
 
-![](/vm/texfig/progMem.figure-2.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/progMem.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="it seems like the code+constnats should be the same data in both processes"}
 
 :::
 
@@ -16,9 +16,11 @@
 
 
 * would like to only have one copy of program code
+* could setup both page tables to point to same code, but...
 <hr class="vspace" />
 * what if <code>mst3k</code>'s vim tries to modify its code?
-* would break process abstraction: 
+   *  (presumably because of bug)
+* would break <code>xyz4w</code>'s vim
+* violates process abstraction:
    * "illusion of own memory"
-
 

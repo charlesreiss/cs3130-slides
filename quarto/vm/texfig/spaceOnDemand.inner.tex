@@ -38,7 +38,7 @@ C: addq \%rbx, \%rax \\
     hardware says ``accessing address {\tt 0x7FFFBFF8}'' \\
     OS looks up what's should be there --- ``stack''
 };
-    \draw[very thick,red,->] ([yshift=-1.3cm,xshift=-1cm]exCode.north) -- ++(1cm,0cm) node[right] {page fault!};
+    \draw[very thick,red,->] ([yshift=-1.0cm,xshift=-1cm]exCode.north) -- ++(1cm,0cm) node[right] {fault!};
 \end{visibleenv}
 \begin{visibleenv}<3>
 \node[inner sep=0.25mm,draw=red,ultra thick,fit=(pt-3-2) (pt-3-3)] {};
@@ -47,7 +47,7 @@ C: addq \%rbx, \%rax \\
     OS updates the page table \\
     then returns to retry the instruction
 };
-\draw[very thick,red,->] ([yshift=-1.3cm,xshift=-1cm]exCode.north) -- ++(2cm,0cm)
-        -- ++(0cm,.6cm) node[midway,right] {restarted} -- ++(-2cm,0cm);
+\draw[very thick,red,->] ([yshift=-1.0cm,xshift=-1cm]exCode.north) -- ++(2cm,0cm)
+        -- ++(0cm,.4cm) node[midway,right] {restarted} -- ++(-2cm,0cm);
 \end{visibleenv}
 \end{tikzpicture}

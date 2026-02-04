@@ -2,10 +2,4 @@
 title: "20260205"
 ---
 
-### last time
-
-{{< include /vm/_talk-inner.qmd >}}
-
-# backup slides
-
-{{< include /vm/_talk-backup.qmd >}}
+{{< include /s2026/20260205/_talk-inner.qmd >}}

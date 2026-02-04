@@ -17,7 +17,7 @@
 
 
 
-### Linux maps: list of maps  {.smaller}
+### Linux maps: list of maps  {.smaller .longcode}
 
 <!-- \lstset{language=} -->
   

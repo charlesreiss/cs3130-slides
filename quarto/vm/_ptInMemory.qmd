@@ -1,13 +1,13 @@
 
-### page tables in memory 
+### page tables in memory {.smaller}
 
 
 
 * where can processor store megabytes of page tables? <em>in memory</em>
 <!-- FIXME: big page table picture marked in memory with memory addressesand page table base register --><!-- FIXME: animation -->
 
-::: {.r-stack}
-![](/vm/texfig/ptInMem1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+::: {.r-stack .my-full}
+![](/vm/texfig/ptInMem1.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/ptInMem1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
@@ -36,7 +36,7 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 

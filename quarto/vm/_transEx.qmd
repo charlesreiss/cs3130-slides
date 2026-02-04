@@ -21,7 +21,7 @@
   
 <div style="font-size: 70%">
 5-bit virtual addresses, 6-bit physical addresses, 8-byte pages
-(virtual addresses) [<code></code> 0x18]{.fragment fragment-index=2 .custom .myem-only} =[00]{.fragment fragment-index=3}; <code>0x03</code> = [0x4A]{.fragment fragment-index=4}; <code>0x0A</code> = [0xDC]{.fragment fragment-index=4}; <code>0x13</code> = [fault]{.fragment fragment-index=5}
+(virtual addresses) [<code></code> 0x18]{.fragment fragment-index=1 .custom .myem-only} =[[00]{.fragment .custom .myem-only fragment-index=2}]{.fragment .fade-in fragment-index=2}; <code>0x03</code> = [[0x4A]{.fragment .custom .myem-only fragment-index=3}]{.fragment fragment-index=3}; <code>0x0A</code> = [[0xDC]{.fragment .custom .myem-only fragment-index=4}]{.fragment fragment-index=4}; <code>0x13</code> = [[fault]{.fragment .custom .myem-only fragment-index=4}]{.fragment fragment-index=5}
 </div>
 
 ::: {.r-stack}
