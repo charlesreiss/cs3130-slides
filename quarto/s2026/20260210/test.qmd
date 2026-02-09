@@ -6,3 +6,6 @@ title: "20260210-test"
 {{< include /vm/_multiSplitExPt1bNew.qmd >}}
 {{< include /vm/_multiSplitExPt2New.qmd >}}
 {{< include /vm/_multiSplitExPt3New.qmd >}}
+{{< include /vm/_multiSplitExPt3bNew.qmd >}}
+{{< include /vm/_multiSplitExPt4New.qmd >}}
+{{< include /vm/_multiSplitExPt5New.qmd >}}
