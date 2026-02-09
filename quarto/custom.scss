@@ -160,6 +160,9 @@ code span { color: inherit; }
 .vm-contents-exercise .solve {
     font-size: 60%; font-family: $font-family-monospace;
 }
+.vm-contents-exercise .solve p {
+    line-height: 1.1;
+}
 .vm-contents-exercise table td {
     font-size: 60%; font-family: $font-family-monospace;
 }
@@ -169,12 +172,17 @@ code span { color: inherit; }
 
 .vm-contents-exercise table .physadd { width: 20%; }
 
-.vm-contents-exercise .colorOne { color: darkcyan; }
-.vm-contents-exercise .colorTwo { color: brown; }
-.vm-contents-exercise .colorThree { color: green; }
-.vm-contents-exercise .colorFour { color: blue; }
-.vm-contents-exercise .colorFive { color: violet; }
-.vm-contents-exercise .ptlabel {font-family: $font-family-sans-serif; font-style: italic; }
+.vm-contents-exercise .colorOne { color: darken(cyan, 20%); }
+.vm-contents-exercise .colorTwo { color: green; }
+.vm-contents-exercise .colorThree { color: darken(blue, 20%); }
+.vm-contents-exercise .colorFour { color: darken(violet, 10%); }
+.vm-contents-exercise .colorFive { color: darken(magenta, 30%); }
+.vm-contents-exercise .ptlabel {
+    font-family: $font-family-sans-serif; font-style: italic;
+    margin: 0; margin-top: 0.5ex;
+    display: inline-block;
+}
+
 
 .nomargin { margin: 0 ! important; padding: 0; }
 .nomargin > p { margin: 0; padding: 0; }

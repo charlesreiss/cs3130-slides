@@ -2,7 +2,7 @@
 ### 2-level exercise (1)  {.vm-contents-exercise}
 
 
-::: {style="font-size:70%"}
+::: {.vm-contents-top}
 
 9-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
 page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;<br/>
@@ -54,7 +54,8 @@ page table base register <code>0x08</code>; translate virtual address <code>0x0F
 [PTE 1:]{.ptlabel} [0xBB]{.fragment .custom .myem-only fragment-index=3}  at [0x0B]{.fragment .custom .myem-only fragment-index=3}<br/>
 0xBB = [101]{.fragment .custom .myem-only fragment-index=4}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>
 [PTE 1:]{.ptlabel} PPN [101]{.fragment .custom .myem-only fragment-index=4} (5) valid [1]{.fragment .custom .myem-only fragment-index=4}<br/>
-[PTE 2 addr:]{.ptlabel} = [101]{.fragment .custom .myem-only fragment-index=4} 000<sub>TWO</sub> + [111]{.fragment .custom .myem-only fragment-index=5 .colorTwo}<sub>TWO</sub> $\times$ 1<br/>
+[PTE 2 addr:]{.ptlabel}<br/> [101]{.fragment .custom .myem-only fragment-index=4} 000<sub>TWO</sub> + [111]{.fragment .custom .myem-only fragment-index=5 .colorTwo}<sub>TWO</sub> $\times$ 1<br/>
+[(101000<sub>TWO</sub> = [101]{.fragment .custom .myem-only fragment-index=4}$\times \text{page size}$)]{style="font-size: 85%; margin-left: 1em;"}<br/>
 [PTE 2:]{.ptlabel} [0xF0]{.fragment .custom .myem-only fragment-index=6} at [0x2F]{.fragment .custom .myem-only fragment-index=6}<br/>
 [PTE 2:]{.ptlabel} PPN [111]{.fragment .custom .myem-only fragment-index=7} (7) valid 1<br/>
 [111]{.fragment .custom .myem-only fragment-index=7} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> =  0x3B $\rightarrow$ 0x0C

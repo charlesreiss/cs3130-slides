@@ -68,13 +68,14 @@ page table base register <code>0x20</code>; translate virtual address <code>0x12
 
 0x129 = [1 00]{.fragment fragment-index=3 .custom .myem-only .colorOne}[10 1]{.fragment fragment-index=6 .custom .myem-only .colorTwo}[001]{.fragment fragment-index=9 .custom .myem-only .colorThree} <br/>
 0x20 + [100]{.fragment fragment-index=3 .custom .myem-only .colorOne}<sub>TWO</sub> $\times$ 1 = [0x24]{.fragment fragment-index=4 .custom .myem-only} <br/>
-PTE 1 value: <br/>
+[PTE 1 value:]{.ptlabel}<br/>
 0xF4 = [111]{.colorFour.fragment fragment-index=5 .custom .myem-only}1 0100<br/>
 PPN [111]{.colorFour .fragment fragment-index=5 .custom .myem-only}, valid 1<br/>
 <div class="fragment nomargin" data-fragment-index=5>
-PTE 2 addr:<br/>
+[PTE 2 addr:]{.ptlabel}<br/>
 [111]{.colorFour .fragment fragment-index=5 .custom .myem-only} 000<sub>TWO</sub> + [101]{.colorTwo .fragment fragment-index=6 .custom .myem-only}<sub>TWO</sub> $\times$ 1 = 0x3D <br/>
-PTE 2 value: 0xDC<br/>
+[(111000<sub>TWO</sub> = [111]{.fragment .custom .myem-only fragment-index=4}$\times \text{page size}$)]{style="font-size: 85%; margin-left: 1em;"}<br/>
+[PTE 2 value:]{.ptlabel} 0xDC<br/>
 PPN [110]{.colorFive .fragment fragment-index=7 .custom .myem-only}; valid 1 <br/>
 M[[110]{.colorFive .fragment fragment-index=7 .custom .myem-only} [001]{.colorThree .fragment fragment-index=8 .custom .myem-only} ([0x31]{.myem-only .custom .fragment fragment-index=9})] = [0x0A]{.custom .myem-only .fragment fragment-index=9}
 </div>
