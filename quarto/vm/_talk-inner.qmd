@@ -124,6 +124,10 @@
 
 {{< include /vm/_multiLevelGen.qmd >}}
 
+## page table counting
+
+{{< include /vm/_threeLevelCountingEx.qmd >}}
+
 ## exercises: multi-level lookup {visibility="hidden"}
 
 ## part 2{visibility="hidden"}
