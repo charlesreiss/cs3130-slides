@@ -1,0 +1,65 @@
+
+### 2-level exercise (1)  {.vm-contents-exercise}
+
+
+::: {style="font-size:70%"}
+
+9-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;<br/>
+page table base register <code>0x08</code>; translate virtual address <code>0x0FB</code><br/>
+
+:::
+
+
+::::: {.columns}
+
+:::: {.column width="31%"}
+
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x00-03</td><td>00 11 22 33</td></tr>
+<tr><td>0x04-07</td><td>44 55 66 77</td></tr>
+<tr><td>[0x08-0B]{.fragment .custom .myem-only fragment-index=3}</td><td>88 99 AA [BB]{.fragment .custom .myem-only fragment-index=3}</td></tr>
+<tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
+<tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
+<tr><td>0x14-17</td><td>1B 2B 3B 4B</td></tr>
+<tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
+<tr><td>0x1C-1F</td><td>1C 2C 3C 4C</td></tr>
+</table>
+
+::::
+
+:::: {.column width="31%"}
+
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x20-23</td><td>D0 D1 D2 D3</td></tr>
+<tr><td>0x24-24</td><td>D4 D5 D6 D7</td></tr>
+<tr><td>0x28-2B</td><td>89 9A AB BC</td></tr>
+<tr><td>[0x2C-2F]{.fragment .custom .myem-only fragment-index=6}</td><td>CD DE EF [F0]{.fragment .custom .myem-only fragment-index=6}</td></tr>
+<tr><td>0x30-33</td><td>BA 0A BA 0A</td></tr>
+<tr><td>0x34-37</td><td>CB 0B CB 0B</td></tr>
+<tr><td>0x38-3B</td><td>DC 0C DC 0C</td></tr>
+<tr><td>0x3C-3F</td><td>EC 0C EC 0C</td></tr>
+</table>
+
+::::
+
+:::: {.column .solve .fragment fragment-index=2 width="37%"}
+
+0x0F3 =  [011]{.fragment .custom .myem-only fragment-index=2 .colorOne} [111]{.colorTwo .fragment .custom .myem-only fragment-index=5} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> <br/>
+[PTE 1 addr:]{.ptlabel} 0x08 + [011]{.colorOne .fragment .custom .myem-only fragment-index=2}<sub>TWO</sub> $\times$ 1<br/>
+[PTE 1:]{.ptlabel} [0xBB]{.fragment .custom .myem-only fragment-index=3}  at [0x0B]{.fragment .custom .myem-only fragment-index=3}<br/>
+0xBB = [101]{.fragment .custom .myem-only fragment-index=4}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>
+[PTE 1:]{.ptlabel} PPN [101]{.fragment .custom .myem-only fragment-index=4} (5) valid [1]{.fragment .custom .myem-only fragment-index=4}<br/>
+[PTE 2 addr:]{.ptlabel} = [101]{.fragment .custom .myem-only fragment-index=4} 000<sub>TWO</sub> + [111]{.fragment .custom .myem-only fragment-index=5 .colorTwo}<sub>TWO</sub> $\times$ 1<br/>
+[PTE 2:]{.ptlabel} [0xF0]{.fragment .custom .myem-only fragment-index=6} at [0x2F]{.fragment .custom .myem-only fragment-index=6}<br/>
+[PTE 2:]{.ptlabel} PPN [111]{.fragment .custom .myem-only fragment-index=7} (7) valid 1<br/>
+[111]{.fragment .custom .myem-only fragment-index=7} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> =  0x3B $\rightarrow$ 0x0C
+
+::::
+
+:::::
+
