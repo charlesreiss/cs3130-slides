@@ -155,6 +155,30 @@ code span { color: inherit; }
     max-height: inherit;
 }
 
+.vm-contents-exercise .vm-contents-top {font-size: 70%;}
+
+.vm-contents-exercise .solve {
+    font-size: 60%; font-family: $font-family-monospace;
+}
+.vm-contents-exercise table td {
+    font-size: 60%; font-family: $font-family-monospace;
+}
+.vm-contents-exercise table th {
+    font-size: 60%; font-family: inherit;
+}
+
+.vm-contents-exercise table .physadd { width: 20%; }
+
+.vm-contents-exercise .colorOne { color: darkcyan; }
+.vm-contents-exercise .colorTwo { color: brown; }
+.vm-contents-exercise .colorThree { color: green; }
+.vm-contents-exercise .colorFour { color: blue; }
+.vm-contents-exercise .colorFive { color: violet; }
+.vm-contents-exercise .ptlabel {font-family: $font-family-sans-serif; font-style: italic; }
+
+.nomargin { margin: 0 ! important; padding: 0; }
+.nomargin > p { margin: 0; padding: 0; }
+
 
 @media print {
     .slide-chalkboard-buttons {
