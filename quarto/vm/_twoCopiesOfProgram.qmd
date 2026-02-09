@@ -18,9 +18,9 @@
 * would like to only have one copy of program code
 * could setup both page tables to point to same code, but...
 <hr class="vspace" />
-* what if <code>mst3k</code>'s vim tries to modify its code?
-   *  (presumably because of bug)
-* would break <code>xyz4w</code>'s vim
+* what if <code>mst3k</code>'s vim has bug and modifies its code
+* expect this to break `mst3k`'s vim, but...
+* would also break <code>xyz4w</code>'s vim 
 * violates process abstraction:
    * "illusion of own memory"
 
