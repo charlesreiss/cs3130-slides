@@ -72,6 +72,8 @@
 
 {{< include /vm/_multiSplitExPt4.qmd >}}
 
+{{< include /vm/_multiSplitExPt4b.qmd >}}
+
 ## part 5{visibility="hidden"}
 
 {{< include /vm/_multiSplitExPt5.qmd >}}

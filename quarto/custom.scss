@@ -172,17 +172,24 @@ code span { color: inherit; }
 
 .vm-contents-exercise table .physadd { width: 20%; }
 
-.vm-contents-exercise .colorOne { color: darken(cyan, 20%); }
-.vm-contents-exercise .colorTwo { color: green; }
-.vm-contents-exercise .colorThree { color: darken(blue, 20%); }
-.vm-contents-exercise .colorFour { color: darken(violet, 10%); }
-.vm-contents-exercise .colorFive { color: darken(magenta, 30%); }
+.vm-contents-exercise .colorOne { color: darken(rgb(0, 255, 0), 10%); }
+.vm-contents-exercise .colorTwo { color: darken(rgb(0, 0, 255), 10%); }
+.vm-contents-exercise .colorThree { color: purple; }
+.vm-contents-exercise .colorFour { color: dark(rgb(255, 255, 0), 10%); -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px; -webkit-text-fill-color: yellow; }
+.vm-contents-exercise .colorFive { color: black; -webkit-text-stroke-color: black; -webkit-text-stroke-width: 1px; -webkit-text-fill-color: lighten(red, 20%); }
 .vm-contents-exercise .ptlabel {
     font-family: $font-family-sans-serif; font-style: italic;
     margin: 0; margin-top: 0.5ex;
     display: inline-block;
 }
 
+.vm-contents-exercise .unhidecolors:not(.visible) .colorOne:not(.myem-only.current-fragment) { color: inherit ! important; }
+.vm-contents-exercise .unhidecolors:not(.visible) .colorTwo:not(.myem-only.current-fragment) { color: inherit ! important; }
+.vm-contents-exercise .unhidecolors:not(.visible) .colorThree:not(.myem-only.current-fragment) { color: inherit ! important; }
+.vm-contents-exercise .unhidecolors:not(.visible) .colorFour { -webkit-text-fill-color: inherit! important; -webkit-text-stroke-width: inherit ! important;}
+.vm-contents-exercise .unhidecolors:not(.visible) .colorFive { -webkit-text-fill-color: inherit ! important; -webkit-text-stroke-width: inherit ! important;}
+.vm-contents-exercise .unhidecolors:not(.visible) .colorFour:not(.myem-only.current-fragment) { color: inherit ! important; }
+.vm-contents-exercise .unhidecolors:not(.visible) .colorFive:not(.myem-only.current-fragment) { color: inherit ! important; }
 
 .nomargin { margin: 0 ! important; padding: 0; }
 .nomargin > p { margin: 0; padding: 0; }
