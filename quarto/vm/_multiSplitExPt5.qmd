@@ -1,8 +1,7 @@
+### 2-level exercise (5)  {.vm-contents-exercise}
 
-### 2-level exercise (5)  {.smaller}
 
-
-::: {style="font-size: 70%"}
+::: {.vm-contents-top}
 
 [10-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 16 byte pages, 2 byte PTE<br/>
 [page tables 1 page; PTE 1st byte: (MSB) 2-bit PPN, valid bit; rest unused]{.my-small}<br/>
@@ -10,23 +9,55 @@ page table base register <code>0x10</code>; translate virtual address <code>0x37
 
 :::
 
-::: {.r-stack}
-![](/vm/texfig/multiSplitExPt5.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 style="height: 450px"}
+::::: {.columns}
 
-![](/vm/texfig/multiSplitExPt5.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 450px"}
+:::: {.column width="31%"}
 
-![](/vm/texfig/multiSplitExPt5.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 450px"}
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x00-03</td><td>00 11 22 33</td></tr>
+<tr><td>0x04-07</td><td>44 55 66 77</td></tr>
+<tr><td>0x08-0B</td><td>88 99 AA BB</td></tr>
+<tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
+<tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
+<tr><td>0x14-17</td><td>1B 2B 3B 4B</td></tr>
+<tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
+<tr><td>0x1C-1F</td><td>1C 2C 3C 4C</td></tr>
+</table>
 
-![](/vm/texfig/multiSplitExPt5.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height: 450px"}
+::::
 
-![](/vm/texfig/multiSplitExPt5.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height: 450px"}
+:::: {.column width="31%"}
 
-![](/vm/texfig/multiSplitExPt5.figure-6.svg){.fragment .fade-in-then-out fragment-index=6 style="height: 450px"}
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x20-23</td><td>D0 D1 D2 D3</td></tr>
+<tr><td>0x24-24</td><td>D4 D5 D6 D7</td></tr>
+<tr><td>0x28-2B</td><td>89 9A AB BC</td></tr>
+<tr><td>0x2C-2F</td><td>CD DE EF F0</td></tr>
+<tr><td>0x30-33</td><td>BA 0A BA 0A</td></tr>
+<tr><td>[0x34-37]{.fragment .custom .myem-only fragment-index=7}</td><td>CB 0B [CB]{.fragment .custom .myem-only fragment-index=7} 0B</td></tr>
+<tr><td>0x38-3B</td><td>DC 0C DC 0C</td></tr>
+<tr><td>0x3C-3F</td><td>EC 0C EC 0C</td></tr>
+</table>
 
-![](/vm/texfig/multiSplitExPt5.figure-7.svg){.fragment .fade-in-then-out fragment-index=7 style="height: 450px"}
+::::
 
-![](/vm/texfig/multiSplitExPt5.figure-8.svg){.fragment .fade-in-then-out fragment-index=8 style="height: 450px"}
+:::: {.column .solve .fragment fragment-index=2 width="37%"}
 
+0x76 = [110]{.fragment .myem-only .custom fragment-index=3} [111]{.fragment .custom .myem-only fragment-index=5} [0110]{.fragment .custom .myem-only fragment-index=5}<br/>
+[PTE 1 address:]{.ptlabel}<br/>
+0x10 + [110]{.fragment .myem-only .custom fragment-index=3}<sub>TWO</sub>$\times 2$ = 0x1C<br />
+[PTE 1:]{.ptlabel}<br/>AC BC $\rightarrow$ PPN [10]{.fragmnet .custom .myem-only fragment-index=4} valid 1 <br/>
+[PTE 2 address:]{.ptlabel}<br />
+10 0000<sub>TWO</sub> + [111]{.fragment .custom .myem-only fragment-index=5}<sub>TWO</sub>$\times 2$ = 0x2E <br/>
+[(100000<sub>TWO</sub> = [10]{.fragment .custom .myem-only fragment-index=4}$\times \text{page size}$)]{style="font-size: 85%; margin-left: 1em;"}<br/>
+[PTE 2:]{.ptlabel}<br/>EF F0 $\rightarrow$ PPN 11 valid 1<br/>
+11 [0110]{.fragment .custom .myem-only fragment-index=5} = [0x36]{.fragment .custom .myem-only fragment-index=6} $\rightarrow$ [0xCB]{.frgament .custom .myem-only fragment-index=7}
 
-:::
+::::
+
+:::::
 

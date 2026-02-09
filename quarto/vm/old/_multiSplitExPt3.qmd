@@ -1,0 +1,27 @@
+
+### 2-level exercise (1)  {.smaller}
+
+
+::: {style="font-size:70%"}
+
+[9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;<br/>
+page table base register <code>0x08</code>; translate virtual address <code>0x0FB</code><br/>
+
+:::
+
+::: {.r-stack}
+
+![](/vm/texfig/multiSplitExPt3.figure-1.svg){.fragment .fade-out fragment-index=2 style="height: 450px"}
+
+![](/vm/texfig/multiSplitExPt3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 450px"}
+
+![](/vm/texfig/multiSplitExPt3.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 450px"}
+
+![](/vm/texfig/multiSplitExPt3.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height: 450px"}
+
+![](/vm/texfig/multiSplitExPt3.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height: 450px"}
+
+
+:::
+

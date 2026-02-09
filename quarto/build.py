@@ -101,7 +101,7 @@ def build_figures(base_directory, incremental):
                     )
             for page, svg_file in svg_files:
                 if incremental:
-                    needs_update = False
+                    needs_update = True
                     if pdf_is_outdated:
                         needs_update = True
                     elif svg_file.exists() and svg_file.stat().st_mtime > pdf_file.stat().st_mtime:

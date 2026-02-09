@@ -1,25 +1,65 @@
 
-### 2-level exercise (2)  {.smaller}
+### 2-level exercise (2)  {.vm-contents-exercise}
 
-::: {style="font-size: 70%"}
 
-[9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+::: {style="font-size:70%"}
+
+9-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
 page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused;<br/>
-page table base register <code>0x10</code>; translate virtual address <code>0x109</code>
+page table base register <code>0x10</code>; translate virtual address <code>0x10B</code><br/>
 
 :::
 
-::: {.r-stack style="height: 450px"}
-![](/vm/texfig/multiSplitExPt3b.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 style="height: 450px"}
 
-![](/vm/texfig/multiSplitExPt3b.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 450px"}
+::::: {.columns}
 
-![](/vm/texfig/multiSplitExPt3b.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 450px"}
+:::: {.column width="31%"}
 
-![](/vm/texfig/multiSplitExPt3b.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height: 450px"}
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x00-03</td><td>00 11 22 33</td></tr>
+<tr><td>0x04-07</td><td>44 55 66 77</td></tr>
+<tr><td>0x08-0B</td><td>88 99 AA BB</td></tr>
+<tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
+<tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
+<tr><td>[0x14-17]{.fragment .custom .myem-only fragment-index=3}</td><td>1B 2B 3B [4B]{.fragment .custom .myem-only fragment-index=3}</td></tr>
+<tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
+<tr><td>0x1C-1F</td><td>1C 2C 3C 4C</td></tr>
+</table>
 
-![](/vm/texfig/multiSplitExPt3b.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height: 450px"}
+::::
 
+:::: {.column width="31%"}
 
-:::
+<table>
+<colgroup><col class="physadd" /><col class="bytes" /></colgroup>
+<tr><th>physical address</th><th>bytes</th></tr>
+<tr><td>0x20-23</td><td>D0 D1 D2 D3</td></tr>
+<tr><td>0x24-24</td><td>D4 D5 D6 D7</td></tr>
+<tr><td>0x28-2B</td><td>89 9A AB BC</td></tr>
+<tr><td>0x2C-2F</td><td>CD DE EF F0</td></tr>
+<tr><td>0x30-33</td><td>BA 0A BA 0A</td></tr>
+<tr><td>0x34-37</td><td>CB 0B CB 0B</td></tr>
+<tr><td>0x38-3B</td><td>DC 0C DC 0C</td></tr>
+<tr><td>0x3C-3F</td><td>EC 0C EC 0C</td></tr>
+</table>
+
+::::
+
+:::: {.column .solve .fragment fragment-index=2 width="37%"}
+
+0x10B =  [100]{.fragment .custom .myem-only fragment-index=2 .colorOne} [001]{.colorTwo .fragment .custom .myem-only fragment-index=5} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> <br/>
+[PTE 1 addr:]{.ptlabel} 0x10 + [100]{.colorOne .fragment .custom .myem-only fragment-index=2}<sub>TWO</sub> $\times$ 1<br/>
+[PTE 1:]{.ptlabel} [0x1B]{.fragment .custom .myem-only fragment-index=3}  at [0x14]{.fragment .custom .myem-only fragment-index=3}<br/>
+0xBB = [101]{.fragment .custom .myem-only fragment-index=4}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>
+[PTE 1:]{.ptlabel} PPN [000]{.fragment .custom .myem-only fragment-index=4} (0) valid [1]{.fragment .custom .myem-only fragment-index=4}<br/>
+[PTE 2 addr:]{.ptlabel}<br/> [000]{.fragment .custom .myem-only fragment-index=4} 000<sub>TWO</sub> + [001]{.fragment .custom .myem-only fragment-index=5 .colorTwo}<sub>TWO</sub> $\times$ 1<br/>
+[PTE 2:]{.ptlabel} [0x11]{.fragment .custom .myem-only fragment-index=6} at [0x01]{.fragment .custom .myem-only fragment-index=6}<br/>
+[PTE 2:]{.ptlabel} PPN [000]{.fragment .custom .myem-only fragment-index=7} (0) valid 1<br/>
+[000]{.fragment .custom .myem-only fragment-index=7} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> =  0x03 $\rightarrow$ 0x33
+
+::::
+
+:::::
 

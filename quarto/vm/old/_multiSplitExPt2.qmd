@@ -1,0 +1,45 @@
+
+### exercise setup: 2-level splitting  {.smaller}
+
+
+* 9-bit virtual address
+* 6-bit physical address
+* [8-byte pages $\rightarrow$ 3-bit page offset (bottom)]{.fragment fragment-index=2 .custom .myem-only}
+* 9-bit VA: 6 bit VPN + 3 bit PO
+* 6-bit PA: 3 bit PPN + 3 bit PO
+* [1 page page tables w/ 1 byte entry $\rightarrow$ 8 entry PTs]{.fragment fragment-index=3 .custom .myem-only}
+* [8 entry page tables $\rightarrow$ 3-bit VPN parts]{.fragment fragment-index=4 .custom .myem-only}
+* 9-bit VA: 3 bit VPN part 1; 3 bit VPN part 2
+
+<!-- FIXME: change images to non-overlays -->
+
+ ![](/vm/texfig/multiSplitExPt2-2-level-splitting.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/multiSplitExPt2-2-level-splitting.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/multiSplitExPt2-2-level-splitting.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/multiSplitExPt2-2-level-splitting.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+
+
+### 2-level example  {.smaller}
+
+<div style="font-size:70%">
+[9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused<br/>
+page table base register <code>0x20</code>; translate virtual address <code>0x129</code><br/>
+</div>
+
+<!-- FIXME: rendered version? -->
+::: {.r-stack}
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-1.svg){.fragment .fade-out fragment-index=2 style="height: 425px"}
+
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 style="height: 425px"}
+
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 style="height: 425px"}
+
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 style="height: 425px"}
+
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 style="height: 425px"}
+
+![](/vm/texfig/multiSplitExPt2-2-level-example.figure-6.svg){.fragment .fade-in-then-out fragment-index=6 style="height: 425px"}
+
+:::
+
