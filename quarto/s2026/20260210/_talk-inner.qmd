@@ -1,4 +1,4 @@
-### last time
+### last time {.smaller}
 
 *  permission bits in page tables
     *  example: let program access but not modify data
