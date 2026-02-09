@@ -4,7 +4,9 @@
 
 
 * where can processor store megabytes of page tables? <em>in memory</em>
-<!-- FIXME: big page table picture marked in memory with memory addressesand page table base register --><!-- FIXME: animation -->
+
+
+<!-- FIXME: alt text -->
 
 ::: {.r-stack .my-full}
 ![](/vm/texfig/ptInMem1.figure-1.svg){.fragment .fade-out fragment-index=2}
@@ -50,6 +52,11 @@
 
 ![](/vm/texfig/ptInMemory-memory-access-with-page-table.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
 
+:::
+
+::: {.myoverbox .fragment fragment-index=7 .fade-in-then-out}
+
+one program memory access becomes multiple cache/memory accesses
 
 :::
 
