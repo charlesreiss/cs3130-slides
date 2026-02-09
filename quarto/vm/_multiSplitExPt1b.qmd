@@ -33,7 +33,7 @@ page table base register <code>0x20</code>; translate virtual address <code>0x12
 <colgroup><col class="physadd" /><col class="bytes" /></colgroup>
 <tr><th>physical address</th><th>bytes</th></tr>
 <tr><td>[0x20-23]{.myem-only .custom .fragment fragment-index=3}</td><td>A0 E2 [D1]{.myem-only .custom .fragment fragment-index=4} F3</td></tr>
-<tr><td>0x24-24</td><td>E4 E5 F6 07</td></tr>
+<tr><td>0x24-27</td><td>E4 E5 F6 07</td></tr>
 <tr><td>0x28-2B</td><td>89 9A AB BC</td></tr>
 <tr><td>0x2C-2F</td><td>CD DE EF F0</td></tr>
 <tr><td>[0x30-33]{.myem-only .custom .fragment fragment-index=8}</td><td>BA 0A [BA]{.myem-only .custom .fragment fragment-index=9} 0A</td></tr>
@@ -46,7 +46,7 @@ page table base register <code>0x20</code>; translate virtual address <code>0x12
 
 :::: {.column .solve .fragment fragment-index=1 width="37%"}
 
-0x31 = [01 0]{.myem-only .custom .fragment fragment-index=2 .colorOne}[010]{.myem-only .custom .fragment fragment-index=7 .colorTwo}<sub>TWO</sub> <br/>
+0x12 = [01 0]{.myem-only .custom .fragment fragment-index=2 .colorOne}[010]{.myem-only .custom .fragment fragment-index=7 .colorTwo}<sub>TWO</sub> <br/>
 PTE addr: <br/>
 0x20 + [010]{.myem-only .custom .fragment fragment-index=2 .colorOne}<sub>TWO</sub> $\times$ 1 = [0x22]{.myem-only .custom .fragment .colorThree fragment-index=3}<br/>
 PTE value: <br/>

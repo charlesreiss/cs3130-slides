@@ -26,6 +26,10 @@
 
 {{< include /vm/_multiSplitExPt1b.qmd >}}
 
+## exercise (alt 2): page table in memory {visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt1c.qmd >}}
+
 ## assignment preview 1 {visibility="hidden"}
 
 {{< include /vm/_asgnSetup.qmd >}}
