@@ -28,20 +28,37 @@
 * trick: tell CPU (via page table) shared part is read-only
 * processor will trigger a fault when it's written
 
-
-### copy-on-write and page tables 
-
+### copy-on-write and page tables
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-1.svg){.fragment .fade-out fragment-index=2}
+![](/vm/texfig/copyOnWrite-pt-only.figure-1.svg){.fragment .fade-out fragment-index=2}
 
-![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/copyOnWrite-pt-only.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/copyOnWrite-pt-only.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/copyOnWrite-copy-on-write-and-page-tables.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
+![](/vm/texfig/copyOnWrite-pt-only.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
 :::
 
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=2 .low}
+
+copy operation actually duplicates page table <br />
+both processes _share all physical pages_ <br />
+but marked _read-only in both tables_
+
+:::
+
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=3 .low}
+
+when either process tries to write a read-only page <br />
+triggers a page fault --- OS actually copies the page
+
+:::
+
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=4 .low}
+
+after allocating a copy, OS reruns the write instruction
+
+:::

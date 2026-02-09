@@ -41,25 +41,13 @@
 
 \node[inner sep=0.25mm,draw=red,ultra thick,fit=(ptA-3-3) (ptA-7-3)] {};
 \node[inner sep=0.25mm,draw=red,ultra thick,fit=(ptB-3-3) (ptB-7-3)] {};
-\node[draw,anchor=north west,align=left] at (noteLoc) {
-    copy operation actually duplicates page table \\
-    both processes \myemph{share all physical pages} \\
-    but marks pages in \myemph{both copies as read-only}
-};
 \end{visibleenv}
 
 \begin{visibleenv}<3>
 \node[inner sep=0.25mm,draw=red,ultra thick,fit=(ptB-7-1) (ptB-7-4)] {};
-\node[draw,anchor=north west,align=left] at (noteLoc) {
-    when either process tries to write read-only page \\
-    triggers a fault --- OS actually copies the page
-};
 \end{visibleenv}
 
 \begin{visibleenv}<4>
 \node[inner sep=0.25mm,draw=red,ultra thick,fit=(ptB-7-1) (ptB-7-4)] {};
-\node[draw,anchor=north west,align=left] at (noteLoc) {
-    after allocating a copy, OS reruns the write instruction
-};
 \end{visibleenv}
 \end{tikzpicture}
