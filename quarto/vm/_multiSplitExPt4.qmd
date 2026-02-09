@@ -4,7 +4,7 @@
 
 ::: {style="font-size: 70%"}
 
-[9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+9-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
 page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused<br/>
 page table base register <code>0x08</code>; translate virtual address <code>0x00B</code>
 
@@ -27,7 +27,7 @@ page table base register <code>0x08</code>; translate virtual address <code>0x00
 
 ::: {style="font-size: 70%"}
 
-[9-bit]{.fragment fragment-index=1 .custom .myem-only} virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
+9-bit virtual addresses, 6-bit physical; 8 byte pages, 1 byte PTE<br/>
 page tables 1 page; PTE: 3 bit PPN (MSB), 1 valid bit, 4 unused<br/>
 page table base register <code>0x08</code>; translate virtual address <code>0x1CB</code>
 
