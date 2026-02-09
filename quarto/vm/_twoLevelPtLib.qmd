@@ -2,29 +2,25 @@
 ### two-level page table lookup 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/twoLevelPtLib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/twoLevelPtLib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/twoLevelPtLib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="The virtual address is split into a VPN and a page offset. The VPN is further split into two parts. In this example, those parts are equally size, but that is not required."}
 
-![](/vm/texfig/twoLevelPtLib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/twoLevelPtLib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The first (most significant) part of the VPN is multiplied by the PTE (page table entry) size, then added to the page table base register to yield the 1st PTE address."}
 
-![](/vm/texfig/twoLevelPtLib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/twoLevelPtLib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="The first PTE addres is retrieved, split into parts and checked for validity and permissions (possibly causing a fault instead of continuing the page table lookup."}
 
-![](/vm/texfig/twoLevelPtLib.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm/texfig/twoLevelPtLib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="The physical page number from the 1st PTE is multiplied by the page size to convert it to a physical address. This physical address is used similar how the page table base register was for the 1st PTE: this physical address is added to the second part of the VPN is multipled by the PTE size to form the 2nd PTE address."}
 
-![](/vm/texfig/twoLevelPtLib.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/vm/texfig/twoLevelPtLib.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 fig-alt="The multiplication by the page size converts the physical page number to a physical address, which we need for the array lookup operation. An equivalent way of doing this conversion would be to add an all zeroes page offset the physical page number to form the physical address."}
 
-![](/vm/texfig/twoLevelPtLib.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+![](/vm/texfig/twoLevelPtLib.figure-6.svg){.fragment .fade-in-then-out fragment-index=6 fig-alt="The second PTE is split into parts, checked for validity and permissions. If no fault occurs, the physical page number from the lookup is used as part of the final physical address."}
 
-![](/vm/texfig/twoLevelPtLib.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+![](/vm/texfig/twoLevelPtLib.figure-7.svg){.fragment .fade-in-then-out fragment-index=7 fig-alt="The PPN from the last PTE is combined with the page offset from the original virtual address to form the final physical address, and memory is accessed there."}
 
-![](/vm/texfig/twoLevelPtLib.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+![](/vm/texfig/twoLevelPtLib.figure-8.svg){.fragment .fade-in-then-out fragment-index=8 fig-alt="In this two-level lookup, there are three memory (or cache) accesses."}
 
-![](/vm/texfig/twoLevelPtLib.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+![](/vm/texfig/twoLevelPtLib.figure-9.svg){.fragment .fade-in-then-out fragment-index=9 fig-alt="The part of the processor that does the whole lookup is called the memory management unit (MMU)."}
 
-![](/vm/texfig/twoLevelPtLib.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
-
-![](/vm/texfig/twoLevelPtLib.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
 
 
 :::

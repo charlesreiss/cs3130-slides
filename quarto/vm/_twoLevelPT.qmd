@@ -1,22 +1,24 @@
 
 ### two-level page tables 
 
+for 16-bit VPN, 256 entries/table
+
 <!-- FIXME: make parts of these into HTML tables/boxes -->
 
-::: {.r-stack .my-full}
-![](/vm/texfig/twoLevelPT.figure-1.svg){.fragment .fade-out fragment-index=2}
+::: {.r-stack .my-full style="height: 70%"}
+![](/vm/texfig/twoLevelPT.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="a first-level table has an entry for VPN 0x0-0xFF, for 0x100-0x1FF, 0x200-0x2FF and so on up to 0xFF-0xFFFF. Its first entry points to one of several second-level page tables with entries for VPN 0x0, 0x1, 0x2, up to 0XFF. Its fourth entry points to a second-level page table with entries for 0x300, 0x301, 0x302, up to 0x3FF."}
 
-![](/vm/texfig/twoLevelPT.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm/texfig/twoLevelPT.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Some of the entries in the first-level table are invalid, representing big holes."}
 
-![](/vm/texfig/twoLevelPT.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm/texfig/twoLevelPT.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="the first-level page table is represented like  page tables we've seen, with a valid bit, and physical page number), and possible other bits."}
 
-![](/vm/texfig/twoLevelPT.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm/texfig/twoLevelPT.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="The physical page numbers in the first-level table are the physical page containing the next page table, not code or data."}
 
-![](/vm/texfig/twoLevelPT.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm/texfig/twoLevelPT.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 fig-alt="With our 16-bit VPN divided up into two pieces, the most significant 8 bits determine the index into the first-level table."}
 
-![](/vm/texfig/twoLevelPT.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/vm/texfig/twoLevelPT.figure-6.svg){.fragment .fade-in-then-out fragment-index=6 fig-alt="The second-level contains valid bits, physical page numbers (this time of data/code), and possibly other bits. In the case of the second-level page table pointed to by the fourth page table entry, its first entry is for VPN 0x300, then 0x301, and so on up to 0x3FF."}
 
-![](/vm/texfig/twoLevelPT.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+![](/vm/texfig/twoLevelPT.figure-7.svg){.fragment .fade-in-then-out fragment-index=7 fig-alt="With this scheme, the least significant 8 bits of the VPN determine the index into a second-level table."}
 
 
 :::
