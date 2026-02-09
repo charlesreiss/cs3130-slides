@@ -1,0 +1,8 @@
+---
+title: "20260210-test"
+---
+
+{{< include /vm/_multiSplitExPt1New.qmd >}}
+{{< include /vm/_multiSplitExPt1bNew.qmd >}}
+{{< include /vm/_multiSplitExPt2New.qmd >}}
+{{< include /vm/_multiSplitExPt3New.qmd >}}
