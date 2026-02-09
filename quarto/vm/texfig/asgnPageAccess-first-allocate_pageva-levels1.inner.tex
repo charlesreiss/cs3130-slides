@@ -12,8 +12,10 @@
 \node[font=\small\tt,anchor=east] at (0, -4.4) {NEW0 + VPN$\times$8};
 \end{visibleenv}
 
+\begin{visibleenv}<2->
 \draw[Latex-Latex,violet,dashed] (3.1, -5) -- (3.1, -4.4) node[midway,right] {virtual page number from va};
 \draw (0, -4.4) rectangle (3, -4.3);
+\end{visibleenv}
 \begin{visibleenv}<2>
 \node[anchor=west,font=\small,inner sep=0mm] (pte) at (4, -3) {
     \begin{tabular}{|l|l|l|} \hline
@@ -28,8 +30,10 @@
     \end{tabular}
 };
 \end{visibleenv}
+\begin{visibleenv}<2->
 \draw[thick] (3, -4.4) -- (pte.south west);
 \draw[thick] (3, -4.3) -- (pte.north west);
+\end{visibleenv}
 
 \begin{visibleenv}<3->
 \draw[fill=yellow] (0, -2) rectangle (3, -1);

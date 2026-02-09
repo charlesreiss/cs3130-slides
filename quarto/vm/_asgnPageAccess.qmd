@@ -23,7 +23,7 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/asgnPageAccess-first-allocate_pageva-levels1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
@@ -38,7 +38,7 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/asgnPageAccess-allocate_pageva-levels1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm/texfig/asgnPageAccess-allocate_pageva-levels1.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/vm/texfig/asgnPageAccess-allocate_pageva-levels1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
