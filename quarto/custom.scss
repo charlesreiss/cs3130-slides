@@ -174,7 +174,9 @@ code span { color: inherit; }
     font-size: 60%; font-family: inherit;
 }
 
-.vm-contents-exercise table .physadd { width: 20%; }
+.vm-contents-exercise table td { overflow: visible ! important; text-wrap: nowrap ! important; }
+
+.vm-contents-exercise table .physadd { width: 30%; }
 
 .vm-contents-exercise .colorOne { color: darken(rgb(0, 255, 0), 10%); }
 .vm-contents-exercise .colorTwo { color: darken(rgb(0, 0, 255), 10%); }

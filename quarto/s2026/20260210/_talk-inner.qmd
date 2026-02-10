@@ -13,6 +13,42 @@
     *  on fault, actually copy the page
 *  storing page tables as arrays in memory
 
+### quiz Q1 {.smaller}
+
+```
+int fd1 = open("f1", O_WRONLY | O_CREAT); int fd2 = open("f2", O_WRONLY | O_CREAT);
+write(fd1, "A", 1);
+dup2(STDOUT_FILENO, fd2); dup2(fd1, STDOUT_FILENO);
+pid_t p = fork();
+if (p == 0) {
+    write(fd1, "B", 1);
+    fd1 = open("f3", O_WRONLY | O_CREAT);
+    dup2(fd1, STDOUT_FILENO);
+    write(STDOUT_FILENO, "C", 1);
+    close(fd1); close(fd2);
+    exit(0);
+} else {
+    write(fd1, "D", 1);
+    write(STDOUT_FILENO, "E");
+    waitpid(p, NULL, 0);
+    exit(1);
+}
+```
+
+*  before fork: fd2 $\rightarrow$ terminal
+   *  from `dup2(STDOUT_FILENO, fd2)`
+*  in child (`p == 0`), STDOUT_FILENO $\rightarrow$ f3
+   *  from dup2; STDOUT not closed, so still open
+
+### quiz Q3 {.smaller}
+
+*  `pushq $0x3fff` with RSP=0x5800
+   *  sets RSP=RSP-8=0x57f8
+   *  writes to memory at 0x57f8
+*  0x57f8 is a virtual address
+   *  virtual page number (VPN) 0x5, offset 0x7f8
+*  table says VPN 0x5 $\rightarrow$ PPN 0xf
+
 ## page table in memory {visibility="hidden"}
 
 {{< include /vm/_ptInMemory.qmd >}}
