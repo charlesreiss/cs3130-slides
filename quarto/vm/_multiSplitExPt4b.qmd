@@ -1,4 +1,4 @@
-### 2-level exercise (3b)  {.vm-contents-exercise}
+### 2-level exercise (4)  {.vm-contents-exercise}
 
 
 ::: {style="font-size:70%"}

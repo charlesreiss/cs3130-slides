@@ -4,8 +4,7 @@
     *  example: let program access but not modify data
     *  example: kernel-only pages for exceptoin handlers
 *  reacting to page faults
-    *  rather than crashing program, fix page table...
-    *  and rerun faulting instruction
+    *  rather than crashing program, fix page table and rerun faulting instruction
 *  allocate/load-on-demand
     *  instead of allocating/loading, record that is allocated
     *  on fault, actually allocate/load a page
