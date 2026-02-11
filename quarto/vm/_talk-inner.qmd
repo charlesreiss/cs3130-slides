@@ -134,9 +134,14 @@
 
 {{< include /vm/_multiSplitExPt2.qmd >}}
 
+
 ## part 3{visibility="hidden"}
 
 {{< include /vm/_multiSplitExPt3.qmd >}}
+
+## exercise interlude: parameters
+
+{{< include /vm/_multiParamExercise.qmd >}}
 
 {{< include /vm/_multiSplitExPt3b.qmd >}}
 

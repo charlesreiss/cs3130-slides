@@ -1,0 +1,57 @@
+### last time {.smaller}
+
+*  storing page tables as arrays in memory
+   *  entry at base + (index=VPN) times PTE size
+*  storing large page tables
+   *  assumption: most virtual pages invalid --- avoid storing valid pages
+   *  short, stubby tree data structure
+*  divide VPN into parts
+   *  first-part used as index into 1st-level (root) table
+   *  entry in root table (if valid) = location of 2nd level table
+   *  repeat until last level
+   *  at last level, find actual data
+
+
+## more than two levels {visibility="hidden"}
+
+{{< include /vm/_multiLevelGen.qmd >}}
+
+## page table counting {visibility="hidden"}
+
+{{< include /vm/_threeLevelCountingEx.qmd >}}
+
+## exercises: multi-level lookup {visibility="hidden"}
+
+## part 2{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt2.qmd >}}
+
+## part 3{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt3.qmd >}}
+
+## exercise interlude: parameters
+
+{{< include /vm/_multiParamExercise.qmd >}}
+
+{{< include /vm/_multiSplitExPt3b.qmd >}}
+
+## part 4{visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt4.qmd >}}
+
+{{< include /vm/_multiSplitExPt4b.qmd >}}
+
+## part 5 {visibility="hidden"}
+
+{{< include /vm/_multiSplitExPt5.qmd >}}
+
+
+
+# caching
+
+{{< include /caching/_talk-inner.qmd}
+
+# backup slides
+
+{{< include /vm/_talk-backup.qmd >}}
