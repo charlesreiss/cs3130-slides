@@ -1,0 +1,34 @@
+### page table counting (2)
+
+*  3-level page tables, 1024 ($2^{10}$ byte pages)
+*  256 entries ($2^8$ per table)
+*  8 byte page table entries
+*  if process can access 10MiB ($10\cdot2^{20}$ bytes) of memory (without page faults):
+   *  minimum size of page tables?
+   *  maximum size of page tables --- assuming no all-invalid page tables/duplicate physical pages
+
+
+### page table counting (2, soln, minimum) {.smaller}
+
+*  minimum: all together, starting at beginning of tables at each level (to avoid invalid entries)
+   *  each third-level table: at most 256KB (if all valid)
+*  use 40 third-level tables (to point to 10MiB of data)
+*  can point to all those with 40 of 256 entries in second-level table
+*  need 1st-level table to point to that second level table
+<hr class="vspace">
+*  $40 + 1 + 1 = 42$ page tables at $256 \times 8=1024$ bytes per table = 42KiB
+   *  $42+10240 = 10282$ KiB including data; $\sim0.4$% overhead
+
+### page table counting (2, soln, maximum) {.smaller}
+
+*  worst case: as many tables with just one valid entry as possible
+*  maximum number of third-level tables = $256 \times 256 = 65536$
+   *  but can't have this many, because if each is non-empty, would imply 65536 data pages
+*  can have 10240 third-level page tables, each pointing to one data page
+*  can only have up to 256 second-level tables
+   *  each second-level table needs to be pointed to by 1st-level table
+*  can only hvae one 1st level table
+<hr class="vspace">
+*  $10240 + 256 + 1 = 10497$ page tables at 1KiB per table = 10497KiB
+   *  $10497+10240 = 20737$ KiB including data; $\sim103$% overhead
+

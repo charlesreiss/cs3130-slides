@@ -1,0 +1,32 @@
+### choosing page table sizes
+
+*  42-bit physical addresses
+*  4 permission bits in page table entries
+*  and want page tables should be <= 1 page in size
+*  if we want 64-bit virtual addresses, how many levels...
+    *  with 4096 ($2^{12}$ byte) pages?
+    *  with 16384 ($2^{16}$ byte) pages?
+
+### choosing page table sizes (4096) {.smaller}
+
+*  12-bit page offset; 42-bit physical; 64-bit virtual
+*  page table entries: at least 35 bits
+   *  valid (1) + permissions (4) + PPN (42 - 12 = 30)
+*  likely choosing 8 byte PTE (closest power of two)
+*  largest page table that fits in one page:
+   *  4096/8 = 512 ($2^9$) entries
+*  9-bit index per level
+*  want 64-12=52 bits of virtual page number
+*  $\left\lceil52 / 9\right\rceil = 6$ levels
+
+### choosing page table sizes (16384) {.smaller}
+
+*  16-bit page offset; 42-bit physical; 64-bit virtual
+*  page table entries: at least 31 bits
+   *  valid (1) + permissions (4) + PPN (42 - 16 = 26)
+*  can choose 4 byte PTE
+*  largest page table that fits in one page:
+   *  16384/4 = 4096 ($2^{12}$) entries
+*  12-bit index per level
+*  want 64-16=48 bits of virtual page number
+*  $\left\lceil48 / 12\right\rceil = 4$ levels

@@ -20,6 +20,10 @@
 
 {{< include /vm/_threeLevelCountingEx.qmd >}}
 
+{{< include /vm/_countingBestWorst.qmd >}}
+
+{{< include /vm/_multiChoice.qmd >}}
+
 ## exercises: multi-level lookup {visibility="hidden"}
 
 ## part 2{visibility="hidden"}
