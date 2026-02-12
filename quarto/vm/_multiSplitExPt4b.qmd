@@ -19,8 +19,8 @@ page table base register <code>0x08</code>; translate virtual address <code>0x1C
 <tr><th>physical address</th><th>bytes</th></tr>
 <tr><td>0x00-03</td><td>00 11 22 33</td></tr>
 <tr><td>0x04-07</td><td>44 55 66 77</td></tr>
-<tr><td>0x08-0B</td><td>88 99 AA BB</td></tr>
-<tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
+<tr><td>0x08-0B</td><td>88 99 0A 0B</td></tr>
+<tr><td>0x0C-0F</td><td>0C 0D 0E 0F</td></tr>
 <tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
 <tr><td>0x14-17</td><td>1B 2B 3B 4B</td></tr>
 <tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>

@@ -21,7 +21,7 @@ page table base register <code>0x10</code>; translate virtual address <code>0x10
 <tr><td>0x00-03</td><td>00 11 22 33</td></tr>
 <tr><td>0x04-07</td><td>44 55 66 77</td></tr>
 <tr><td>0x08-0B</td><td>88 99 AA BB</td></tr>
-<tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
+<tr><td>0x0C-0F</td><td>CC DD EE 0F</td></tr>
 <tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
 <tr><td>[0x14-17]{.fragment .custom .myem-only fragment-index=3}</td><td>[1B]{.fragment .custom .myem-only fragment-index=3} 2B 3B 4B</td></tr>
 <tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
@@ -52,7 +52,7 @@ page table base register <code>0x10</code>; translate virtual address <code>0x10
 0x10B =  [100]{.fragment .custom .myem-only fragment-index=2 .colorOne} [001]{.colorTwo .fragment .custom .myem-only fragment-index=5} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> <br/>
 [PTE 1 addr:]{.ptlabel} 0x10 + [100]{.colorOne .fragment .custom .myem-only fragment-index=2}<sub>TWO</sub> $\times$ 1<br/>
 [PTE 1:]{.ptlabel} [0x1B]{.fragment .custom .myem-only fragment-index=3}  at [0x14]{.fragment .custom .myem-only fragment-index=3}<br/>
-0xBB = [101]{.fragment .custom .myem-only fragment-index=4}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>
+0x1B = [000]{.fragment .custom .myem-only fragment-index=4}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>
 [PTE 1:]{.ptlabel} PPN [000]{.fragment .custom .myem-only fragment-index=4} (0) valid [1]{.fragment .custom .myem-only fragment-index=4}<br/>
 [PTE 2 addr:]{.ptlabel}<br/> [000]{.fragment .custom .myem-only fragment-index=4} 000<sub>TWO</sub> + [001]{.fragment .custom .myem-only fragment-index=5 .colorTwo}<sub>TWO</sub> $\times$ 1<br/>
 [PTE 2:]{.ptlabel} [0x11]{.fragment .custom .myem-only fragment-index=6} at [0x01]{.fragment .custom .myem-only fragment-index=6}<br/>

@@ -1,8 +1,8 @@
 ### page table counting (2)
 
-*  3-level page tables, 1024 ($2^{10}$ byte pages)
-*  256 entries ($2^8$ per table)
-*  8 byte page table entries
+*  3-level page tables, 1024 ($2^{10}$) byte pages
+*  256 entries ($2^8$) per table
+*  4 byte page table entries
 *  if process can access 10MiB ($10\cdot2^{20}$ bytes) of memory (without page faults):
    *  minimum size of page tables?
    *  maximum size of page tables --- assuming no all-invalid page tables/duplicate physical pages
@@ -16,7 +16,7 @@
 *  can point to all those with 40 of 256 entries in second-level table
 *  need 1st-level table to point to that second level table
 <hr class="vspace">
-*  $40 + 1 + 1 = 42$ page tables at $256 \times 8=1024$ bytes per table = 42KiB
+*  $40 + 1 + 1 = 42$ page tables at $256 \times 4=1024$ bytes per table = 42KiB
    *  $42+10240 = 10282$ KiB including data; $\sim0.4$% overhead
 
 ### page table counting (2, soln, maximum) {.smaller}

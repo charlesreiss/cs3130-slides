@@ -1,9 +1,9 @@
 ### counting page tables {.smaller}
 
-*  3-level page tables, 4096 ($2^{12}$ byte pages)
-*  256 entries ($2^8$ per table)
+*  3-level page tables, 4096 ($2^{12}$) byte pages
+*  256 entries ($2^8$) per table
 *  process can access:
    *  `0x0` (VPN parts `0`, `0`, `0`; PO `0`) - `0x7FFFFF` (VPN parts `0`, `0x7`, `0xFF`; PO `0xFFF`)
-   *  `0x880000` (`0`, `0x8`, `0x80`; `0`)- 0x88FFFF (`0`, `0x8`, `0x8F`, `0xFFF`)
-   *  `0x100000000` (`0x10`, `0`, `0`; PO `0`) - 0x100000FFF (`0x10`, `0`, `0`; `0xFFF`)
+   *  `0x880000` (`0`, `0x8`, `0x80`; `0`)- `0x88FFFF` (`0`, `0x8`, `0x8F`, `0xFFF`)
+   *  `0x100000000` (`0x10`, `0`, `0`; PO `0`) - `0x100000FFF` (`0x10`, `0`, `0`; `0xFFF`)
 *  how many page tables does it need?
