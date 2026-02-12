@@ -6,7 +6,7 @@ title: "vm"
 ### changelog
 
 *  early Feb: adjust formatting on page table exercises; add some new exercises about general page table layout
-*  12 Feb 2026: fixup errors in several of the 2-level exercises where physical memory contents was copied to the wrong exercise; correct parens on page able counting exercises
+*  12 Feb 2026: fixup errors in several of the 2-level exercises where physical memory contents did not agree with the given solution; correct parens on page able counting exercises
 
 {{< include ../vm/_talk-inner.qmd >}}
 
