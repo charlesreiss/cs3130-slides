@@ -1,0 +1,27 @@
+### locality exericse (3) {.smaller}
+
+```
+struct Student {
+    char name[128]; long id; float grade;
+};
+struct Student students[1000];
+
+float averageGrade() {
+    float sum = 0.0
+    for (int i = 0; i < 1000; i += 1)
+        sum += students[i].grade;
+    return sum / 1000.0;
+}
+```
+<hr>
+```
+char studentNames[1000][128]; long studentIds[1000]; float studentGrades[1000];
+
+float average() {
+    float sum = 0.0
+    for (int i = 0; i < 1000; i += 1)
+        sum += studentGrades[i];
+    return sum / 1000.0;
+}
+```
+better spatial/temporal locality?
