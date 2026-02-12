@@ -9,6 +9,14 @@
 
 {{< include /caching/_localityBasics.qmd >}}
 
+## locality exercises {visiblity="hidden"}
+
+{{< include /caching/_localityExercise.qmd >}}
+
+{{< include /caching/_localityExercise2.qmd >}}
+
+{{< include /caching/_localityExercise3.qmd >}}
+
 ## typical cache hierarchy {visibility="hidden"}
 
 {{< include /caching/_cacheSplitID.qmd >}}

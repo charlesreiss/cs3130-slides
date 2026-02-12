@@ -11,6 +11,8 @@
    *  repeat until last level
    *  at last level, find actual data
 
+{{< include /vm/_twoLevelPTAlt.qmd >}}
+
 
 ## more than two levels {visibility="hidden"}
 
@@ -54,7 +56,33 @@
 
 # caching
 
-{{< include /caching/_talk-inner.qmd >}}
+# caching intro {visibility="hidden"}
+
+## memory hierarchy intro {visibility="hidden"}
+
+{{< include /caching/_memHierarchyIntro.qmd >}}
+
+## locality {visibility="hidden"}
+
+{{< include /caching/_localityBasics.qmd >}}
+
+## locality exercises {visiblity="hidden"}
+
+{{< include /caching/_localityExercise.qmd >}}
+
+{{< include /caching/_localityExercise2.qmd >}}
+
+{{< include /caching/_localityExercise3.qmd >}}
+
+## typical cache hierarchy {visibility="hidden"}
+
+{{< include /caching/_cacheSplitID.qmd >}}
+
+## one-block cache {visibility="hidden"}
+
+{{< include /caching/_oneBlockCache.qmd >}}
+
+
 
 # backup slides
 
