@@ -54,7 +54,7 @@
 
 # caching
 
-{{< include /caching/_talk-inner.qmd}
+{{< include /caching/_talk-inner.qmd >}}
 
 # backup slides
 
