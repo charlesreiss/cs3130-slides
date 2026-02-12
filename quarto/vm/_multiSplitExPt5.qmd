@@ -22,8 +22,8 @@ page table base register <code>0x10</code>; translate virtual address <code>0x37
 <tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
 <tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
 <tr><td>0x14-17</td><td>1B 2B 3B 4B</td></tr>
-<tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
-<tr><td>0x1C-1F</td><td>1C 2C 3C 4C</td></tr>
+<tr><td>0x18-1B</td><td>3D 5C 7C 9C</td></tr>
+<tr><td>0x1C-1F</td><td>EF F0 13 57</td></tr>
 </table>
 
 ::::

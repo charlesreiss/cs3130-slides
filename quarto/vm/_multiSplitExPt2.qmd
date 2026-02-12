@@ -59,7 +59,7 @@ page table base register <code>0x20</code>; translate virtual address <code>0x12
 <tr><td>[0x30-33]{.myem-only .custom .fragment fragment-index=9}</td><td>BA [0A]{.myem-only .custom .fragment fragment-index=9} BA 0A</td></tr>
 <tr><td>0x34-37</td><td>CB 0B CB 0B</td></tr>
 <tr><td>0x38-3B</td><td>DC 0C DC 0C</td></tr>
-<tr><td>[0x3C-3F]{.myem-only .custom .fragment fragment-index=5}</td><td>EC [0C]{.myem-only .custom .fragment fragment-index=6} EC 0C</td></tr>
+<tr><td>[0x3C-3F]{.myem-only .custom .fragment fragment-index=5}</td><td>EC [DC]{.myem-only .custom .fragment fragment-index=6} EC FC</td></tr>
 </table>
 
 ::::

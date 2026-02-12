@@ -49,7 +49,7 @@ page table base register <code>0x08</code>; translate virtual address <code>0x0F
 
 :::: {.column .solve .fragment fragment-index=2 width="37%"}
 
-0x0F3 =  [011]{.fragment .custom .myem-only fragment-index=2 .colorOne} [111]{.colorTwo .fragment .custom .myem-only fragment-index=5} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> <br/>
+0x0FB =  [011]{.fragment .custom .myem-only fragment-index=2 .colorOne} [111]{.colorTwo .fragment .custom .myem-only fragment-index=5} [011]{.fragment .custom .myem-only fragment-index=8 .colorThree}<sub>TWO</sub> <br/>
 [PTE 1 addr:]{.ptlabel} 0x08 + [011]{.colorOne .fragment .custom .myem-only fragment-index=2}<sub>TWO</sub> $\times$ 1<br/>
 [PTE 1:]{.ptlabel} [0xBB]{.fragment .custom .myem-only fragment-index=3}  at [0x0B]{.fragment .custom .myem-only fragment-index=3}<br/>
 0xBB = [101]{.fragment .custom .myem-only fragment-index=4 .colorFour}[1]{.fragment .custom .myem-only fragment-index=4} 1011<sub>TWO</sub><br/>

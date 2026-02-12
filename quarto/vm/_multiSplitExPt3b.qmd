@@ -23,7 +23,7 @@ page table base register <code>0x10</code>; translate virtual address <code>0x10
 <tr><td>0x08-0B</td><td>88 99 AA BB</td></tr>
 <tr><td>0x0C-0F</td><td>CC DD EE FF</td></tr>
 <tr><td>0x10-13</td><td>1A 2A 3A 4A</td></tr>
-<tr><td>[0x14-17]{.fragment .custom .myem-only fragment-index=3}</td><td>1B 2B 3B [4B]{.fragment .custom .myem-only fragment-index=3}</td></tr>
+<tr><td>[0x14-17]{.fragment .custom .myem-only fragment-index=3}</td><td>[1B]{.fragment .custom .myem-only fragment-index=3} 2B 3B 4B</td></tr>
 <tr><td>0x18-1B</td><td>1C 2C 3C 4C</td></tr>
 <tr><td>0x1C-1F</td><td>1C 2C 3C 4C</td></tr>
 </table>
