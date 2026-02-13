@@ -6,6 +6,7 @@ import lark
 import logging
 import re
 import sys
+import unicodedata
 
 
 from dataclasses import dataclass, field, InitVar
@@ -92,6 +93,7 @@ fontsize_group: _BRACE fontsize any_text _END_BRACE
     | LSTINPUTLISTING -> lstinputlisting
     | TIKZSET -> tikz_context
     | NEWCOMMAND -> tikz_context
+    | LRBOX -> tikz_context_begin_document
     | INCLUDE_GRAPHICS -> include_graphics
     | any_text_raw
 
@@ -106,6 +108,8 @@ whitespace: whitespace_item+
     | NBSP | SIMPLE_ESCAPED
     | TIKZPICTURE | VERBATIM
     | DISPLAYMATH
+    | INLINEMATH
+    | UMLAT
 
 any_empty_item: whitespace
     | SIMPLE_COMMAND when (_BRACE any_text _END_BRACE | _SQUARE_BRACKET any_text _END_SQUARE_BRACKET)* -> outside_command
@@ -120,7 +124,7 @@ any_empty_item: whitespace
 
 COMMENT.5: /
         %.*|
-        \\begin\{comment\}(?s:.)*?\\end\{comment\}
+        \\begin\{comment\}(?s:.*?)\n\s*\\end\{comment\}
     /x
 _IFNOTHELDBACK.10: /\\iftoggle\{heldback\}\{\}\{/
 _BEGIN_FRAMETITLE.10: /\\frametitle/
@@ -130,7 +134,8 @@ _ITEM.10: /\\item/
 _FONTSIZE.10: /\\fontsize/
 WHEN: /<[^>]+>/
 VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
-              \s*\n(?s:.)*?
+              \s*\n
+              (?s:.*?)\n
               \\end\{(?:Verbatim|lstlisting)\}/x
 INLINE_VERBATIM.10: /
         \\lstinline\|[^|]+\|
@@ -142,7 +147,7 @@ INLINE_VERBATIM.10: /
         \\verb\*?![^!]+\!
     /x
 TIKZPICTURE.10: /\\begin\{tikzpicture\}\s*(?:\[[^]]+\])?\s*\n
-                 (?s:.)*?
+                (?s:.*?)
                  \\end\{tikzpicture\}
                 /x
 _BEGIN_FRAME.10: /\\begin\{(?:frame|FragileFrame)\}/
@@ -152,7 +157,8 @@ _MYALTTEXTB.10: /\\myalttextB/
 _MYALTTEXTC.10: /\\myalttextC/
 _MYALTTEXTD.10: /\\myalttextD/
 _PDFTOOLTIP.10: /\\pdftooltip/
-DISPLAYMATH: /\\\[(?s:.)*?\\\]/
+UMLAT.10: /\\\"./
+DISPLAYMATH: /\\\[(?s:[^\]])*\\\]/
 LINEBREAK: /\\\\(?:\[[^]]+\])?/
 NBSP: /~/
 _START_DQUOTE: /``/
@@ -169,18 +175,18 @@ _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
 _BEGIN_DOCUMENT.10: /\\begin\{document\}/
 _END_DOCUMENT.10: /\\end\{document\}/
-BEGIN_GENERIC.0: /\\begin\{(?!comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
-END_GENERIC.0: /\\end\{(?!comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document)\w+\}/
+BEGIN_GENERIC.0: /\\begin\{(?!lrbox|comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document|tikzpicture)\w+\}/
+END_GENERIC.0: /\\end\{(?!lrbox|comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document|tikzpicture)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
 _SQUARE_BRACKET: /\[/
 _END_SQUARE_BRACKET: /\]/
 INCLUDE_GRAPHICS.-10: /\\includegraphics\[[^]]+\]\{[^}]+\}/
 SIMPLE_COMMAND.-10: /\\(?!begin|end|fontsize|_|lstset|tikzset|newsavebox|savebox|verb|lstinline|includegraphics)\w+\*?/
-LSTINPUTLISTING.0: /\\lstinputlisting
+LSTINPUTLISTING.-10: /\\lstinputlisting
         (?:\[
             (?:
-                [^{}]+
+                [^{}\]]
                 |
                 \{
                     (?:
@@ -188,11 +194,11 @@ LSTINPUTLISTING.0: /\\lstinputlisting
                             (?:
                                 \{[^}]*\}
                             |
-                                [^{}]+
+                                [^{}]
                             )*
                         \}
                     |
-                        [^{}]+
+                        [^{}]
                     )*
                 \}
             )*
@@ -290,6 +296,7 @@ SAVEBOX.0: /
     \}
     /x
 LRBOX.0: /\\begin\{lrbox\}(?s:.*?)\\end\{lrbox\}/
+INLINEMATH.-10: /\$[^$]+\$/
 SIMPLE_ESCAPED.-11: /\\[.&_$%\/#{}]/
 _NEXT_CELL.-20: /&/
 NEWLINE.-20: /\n+/
@@ -850,7 +857,7 @@ class Lstinputlisting(_MyAstItem):
         m = re.match(r'''\\lstinputlisting
                 (?:\[(?P<options>
                     (?:
-                        [^{}]+
+                        [^{}\]]
                         |
                         \{
                             (?:
@@ -871,7 +878,7 @@ class Lstinputlisting(_MyAstItem):
             ''', str(raw_input), re.X)
         assert m is not None, raw_input
         self.options = m.group('options')
-        self.filename = m.group('filename')
+        self.file_name = m.group('filename')
 
     @property
     def estimated_lines(self) -> int:
@@ -886,6 +893,7 @@ class Lstinputlisting(_MyAstItem):
             result += f'\n<!-- lsting options: {self.options} -->'
         result += '\n```\n{{< include /' + str(
             output_path.relative_to(context.base_quarto_path)) + ' >}}\n```\n'
+        return result
 
 @dataclass
 class Fontsize(_MyAstItem):
@@ -1859,6 +1867,14 @@ class ToAST(lark.Transformer):
 
     def DISPLAYMATH(self, args):
         return _RawString(args, args)
+
+    def INLINEMATH(self, args):
+        return _RawString(args, args)
+
+    def UMLAT(self, args):
+        base_str = args[-1] + "\N{COMBINING DIAERESIS}"
+        base_str = unicodedata.normalize('NFC', base_str)
+        return _RawString(base_str, base_str)
 
     def dquote(self, args):
         new_args = [_RawString('\N{left double quotation mark}')] + \
