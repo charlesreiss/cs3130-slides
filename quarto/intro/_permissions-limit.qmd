@@ -1,0 +1,12 @@
+
+### permissions 
+
+
+```
+$ ls /u/other/secret
+ls: cannot open directory '/u/other/secret': Permission denied
+$ shutdown
+shutdown: Permission denied
+
+```
+

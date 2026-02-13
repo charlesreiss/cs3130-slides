@@ -1,0 +1,19 @@
+
+### C exercise  {.smaller}
+
+<!-- \lstset{language=C,style=small} -->
+ 
+```
+int array[4] = {10,20,30,40};
+int *p;
+p = &array[0];
+p += 2;
+p[1] += 1;
+
+```
+ array = <br> <table>
+<tr><td>A.</td><td>compile or runtime error</td><td>B.</td><td>{10,20,30,41}</td></tr>
+<tr><td>C.</td><td>{10,20,32,41}</td><td>D.</td><td>{10,21,30,40}</td></tr>
+<tr><td>E.</td><td>{12,21,30,40}</td><td>F.</td><td>none of these</td></tr>
+</table>
+

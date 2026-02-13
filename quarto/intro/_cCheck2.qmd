@@ -1,0 +1,25 @@
+
+### C exercise (2)  {.smaller}
+
+<!-- \lstset{language=C,style=smaller} -->
+ 
+```
+int *array2[4]; int array1[4] = {10,20,30,40};
+void mystery(int **p) {
+    *p = &array1[2];
+}
+int main() {
+    int **q;
+    q = array2;
+    mystery(q);
+    array1[1] = *q;
+    ...
+}
+
+```
+ array1 = <br> <table>
+<tr><td>[A.]{.fragment fragment-index=2 .custom .myem-only}</td><td>compile or runtime error</td><td>B.</td><td>{10,10,30,40}</td></tr>
+<tr><td>C.</td><td>{10,30,30,40}</td><td>D.</td><td>{10,10,20,30}</td></tr>
+<tr><td>E.</td><td>{10,20,10,20}</td><td>[F.]{.fragment fragment-index=2 .custom .myem-only}</td><td>none of these</td></tr>
+</table>
+

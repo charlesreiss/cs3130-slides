@@ -1,0 +1,88 @@
+\begin{tikzpicture}
+\begin{scope}[y=0.9cm]
+\draw (0, 0) rectangle (4, -8);
+\foreach \x/\v in {0/0x040,1/0x038,2/0x030,3/0x028,4/0x020,5/0x018,6/0x010,7/0x008,8/0x000} {
+    \node[font=\tt,anchor=east] at (0, -\x) {\v};
+}
+\node[anchor=north west, overlay,font=\tt,align=left] (decl p) at (4.2, 1) {
+\texttt{int array[3]=}\texttt{\{0x12,0x45,0x67\};} \\
+\texttt{int single = 0x78;} \\
+\texttt{int *ptr;} \\
+\alt<6>{ptr = \&single; \\ }{\alt<9>{ptr = \&array[0]; \\}{}}
+};
+\begin{visibleenv}<3>
+\node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr) at (decl p.south west) {
+*ptr = 0xAB;
+};
+\node[right] at (bad ptr.east) {runtime error};
+\end{visibleenv}
+\begin{visibleenv}<4-5>
+\node[very thick,align=left,font=\tt,anchor=north west] (ptr single) at (decl p.south west) {
+\myemph<4>{ptr = \&single;} \\
+\myemph<4>{ptr = (int*) 0x28;} {\scriptsize\normalfont addr. of single} \\
+};
+\begin{visibleenv}<5>
+\node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single) at (ptr single.south west) {
+ptr = 0x28;
+};
+\node[right] at (bad ptr single.east) {compile error (hopefully)};
+\node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single 2) at ([yshift=-.25cm]bad ptr single.south west) {
+ptr = (int*) single;
+};
+\node[below,align=left] at (bad ptr single 2.south) {pointer to unknown place};
+\end{visibleenv}
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[very thick,align=left,font=\tt,anchor=north west] (ptr set) at (decl p.south west) {
+\myemph<6>{*ptr = 0xFF;} 
+};
+\end{visibleenv}
+\begin{visibleenv}<7-8>
+\node[very thick,align=left,font=\tt,anchor=north west] (ptr single) at (decl p.south west) {
+\myemph<4>{ptr = array;} \\
+\myemph<4>{ptr = \&array[0];} \\
+\myemph<4>{ptr = (int*) 0x2C;} \\
+};
+\begin{visibleenv}<8>
+\node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single) at (ptr single.south west) {
+ptr = array[0];
+};
+\node[right] at (bad ptr single.east) {compile error*};
+\node[cross out,draw=red,very thick,font=\tt,anchor=north west] (bad ptr single 2) at ([yshift=-.25cm]bad ptr single.south west) {
+ptr = (int*) array[0];
+};
+\node[below,align=left] at (bad ptr single 2.south) {pointer to unknown place};
+\end{visibleenv}
+\end{visibleenv}
+\begin{visibleenv}<9>
+\node[very thick,align=left,font=\tt,anchor=north west] (ptr set) at (decl p.south west) {
+\myemph{ptr[2] = 0xFF;} \\
+\myemph{*(ptr + 2) = 0xFF;} \\
+~ \\
+int *temp1; temp1 = ptr + 2; \\ \myemph{*temp1 = 0xFF;} \\
+~ \\
+int *temp2; temp2 = \&ptr[2]; \\ \myemph{*temp2 = 0xFF;} \\
+};
+\end{visibleenv}
+\begin{visibleenv}<10>
+\node[very thick,align=left,font=\tt,anchor=north west] (by ptr pattern) at (decl p.south west) {
+void change\_arg(int *x) \{ \\
+\hspace{1cm} *x = compute\_some\_value(); \\
+\} \\
+\ldots \\
+change\_arg(\&single); 
+};
+\end{visibleenv}
+\begin{visibleenv}<2->
+\begin{scope}[every node/.style={font=\tt\small}]
+    \draw[alt=<9>{fill=red!10}] (0, -1.5) rectangle (4, -1) node[midway]{\alt<9>{array[2]: 0xFF}{array[2]: 0x67}};
+    \draw[] (0, -2) rectangle (4, -1.5) node[midway]{array[1]: 0x45};
+    \draw[] (0, -2.5) rectangle (4, -2) node[midway]{array[0]: 0x12};
+    \draw[alt={<6,10>{fill=red!10}}] (0, -3) rectangle (4, -2.5) node[midway]{\alt<10>{single: \ldots}{\alt<6>{single: 0xFF}{single: 0x78}}};
+    \draw[alt=<4>{fill=red!10}] (0, -4) rectangle (4, -3) node[midway]{%
+        \alt<7->{ptr: 0x2C}{\alt<4->{ptr: 0x28}{ptr = ???}}%
+    };
+\end{scope}
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

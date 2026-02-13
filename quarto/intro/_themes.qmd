@@ -1,0 +1,13 @@
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* sharing machines
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time

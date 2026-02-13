@@ -1,0 +1,25 @@
+
+### multiple cores+threads 
+
+
+
+::: {.r-stack}
+![](texfig/multi-core-time.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](texfig/multi-core-time.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+ 
+<div class="fragment fade-in-and out" data-fragment-index=1 >
+ 
+
+* multiple cores? each core still divided up
+
+</div> 
+
+<div class="fragment fade-in-and out" data-fragment-index=2 >
+
+* one program with multiple <it>threads</it>
+
+</div>

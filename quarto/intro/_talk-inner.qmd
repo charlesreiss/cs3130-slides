@@ -1,0 +1,71 @@
+
+# overall themes {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+# briefly, building {visibility="hidden"}
+
+
+{{< include /intro/_make.qmd >}}
+
+# briefly, virtual memory {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+{{< include /vm/_translationOverview.qmd >}}
+
+{{< include /vm/_addrSpaceOnly.qmd >}}
+
+## interrupts {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+{{< include /kernel/_keyInTimeline.qmd >}}
+
+{{< include /kernel/_timeMulti.qmd >}}
+
+{{< include /intro/_multi-core-time.qmd >}}
+
+## kernel mode / permissions {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+{{< include /intro/_permissions-limit.qmd >}}
+
+# networking {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+## layered design {visibility="hidden"}
+
+{{< include /network/_layers-list.qmd >}}
+
+## addresses and names {visibility="hidden"}
+
+{{< include /network/_names-and-addresses.qmd >}}
+
+## secure communication {visibility="hidden"}
+
+### secure communication? 
+
+* how do you know who your socket is to?
+* who can read what's on the socket?
+* what can you do to restrict this?
+
+# caching {visibility="hidden"}
+
+{{< include /intro/_themes.qmd >}}
+
+{{< include /caching/_memHierarchyPic.qmd >}}
+
+# instruction-level parallelism {visibility="hidden"}
+
+{{< include /intro/_perf-examples.qmd >}}
+
+# C review {visibility="hidden"}
+
+{{< include /intro/_cCheck.qmd >}}
+
+{{< include /intro/_cCheck2.qmd >}}
+
+{{< include /intro/_selectedC.qmd >}}
