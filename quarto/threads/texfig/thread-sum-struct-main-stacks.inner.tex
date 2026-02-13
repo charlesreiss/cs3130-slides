@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\threadSumStackDecl
+\renewcommand{\threadSumFirstStack}{\small first thread stack}
+\renewcommand{\threadSumSecondStack}{\small second thread stack}
+\threadSumStackObjects
+
+    \node[anchor=west,blue!70!black] (info arr) at ([xshift=.5cm]stack 1.east) { info array };
+    \draw[very thick,blue] ([yshift=-0mm]stack 1.west) rectangle ([yshift=1mm]stack 1.east);
+    \draw[-Latex] ([yshift=1.5mm]info arr.east) -- ++(2cm,0cm) node[right,yshift=0mm] { values (stack? heap?)};
+    \draw[-Latex] ([yshift=-0.5mm]info arr.east) -- ++(2cm,0cm);
+    
+    \node[anchor=west,font=\it] (my info ptr) at ([xshift=0cm]stack 2.east) { my\_info };
+    \draw[-Latex] (my info ptr.east) -- ++ (1cm, 0cm) |- ([yshift=-1mm]info arr.east);
+
+    \node[anchor=west,font=\it] (my info ptr 2) at ([xshift=0cm]stack 3.east) { my\_info };
+    \draw[-Latex] (my info ptr 2.east) -- ++ (1.25cm, 0cm) |- ([yshift=1mm]info arr.east);
+\end{tikzpicture}

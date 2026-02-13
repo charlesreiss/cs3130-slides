@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+\tikzset{
+    mylabel/.style={font=\ttfamily},
+    mybox/.style={draw,rectangle,minimum width=5cm,fill=white},
+    myhigh/.style={draw,rectangle,line width=1mm, draw=blue!80!black,opacity=.3},
+    hilite stack/.style={draw=red,ultra thick},
+}
+\node[mybox,minimum height=1cm,pattern=north west lines,pattern color=black!5!white] (kernel) {Used by OS};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of kernel.north east,mylabel] (topLabel) {0xFFFF FFFF FFFF FFFF};
+\node[right=1mm of kernel.south east,mylabel] {0xFFFF 8000 0000 0000};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=1cm of kernel] (stack 1) {main thread stack};
+    \node[anchor=west,blue!70!black] (info arr) at ([xshift=.5cm]stack 1.east) { info array };
+    \draw[very thick,blue] ([yshift=-0mm]stack 1.west) rectangle ([yshift=1mm]stack 1.east);
+    \draw[-Latex] ([yshift=1.5mm]info arr.east) -- ++(3cm,0cm) node[right,yshift=-1mm] { values (stack? heap?)};
+    \draw[-Latex] ([yshift=-0.5mm]info arr.east) -- ++(3cm,0cm);
+\begin{pgfonlayer}{bg}
+\node[right=1mm of stack 1.north east,mylabel] {0x7F\ldots{}};
+\end{pgfonlayer}
+\node[mybox, minimum height=.5cm, below=0.5cm of stack 1] (stack 2) {second thread stack};
+    \node[anchor=west,font=\it] (my info ptr) at ([xshift=0cm]stack 2.east) { my\_info };
+    \draw[-Latex] (my info ptr.east) -- ++ (1.5cm, 0cm) |- ([yshift=1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 2] (stack 3) {third thread stack};
+    \node[anchor=west,font=\it] (my info ptr 2) at ([xshift=0cm]stack 3.east) { my\_info };
+    \draw[-Latex] (my info ptr 2.east) -- ++ (1.25cm, 0cm) |- ([yshift=-1mm]info arr.east);
+\node[mybox, minimum height=.5cm, below=0.25cm of stack 3] (heap) {Heap / other dynamic};
+\node[mybox, minimum height=.5cm, below=0mm of heap] (sdata) {Code / Data};
+\begin{pgfonlayer}{bg}
+\node[right=1mm of sdata.south east,mylabel] (bottomLabel) {0x0000 0000 0040 0000};
+\end{pgfonlayer}
+\coordinate (memBottom) at ($(sdata.south east) + (0mm, -2mm)$);
+\begin{pgfonlayer}{bg}
+\draw[pattern=north west lines, pattern color=black!40!white] (kernel.north west) rectangle (memBottom);
+\end{pgfonlayer}
+\end{tikzpicture}

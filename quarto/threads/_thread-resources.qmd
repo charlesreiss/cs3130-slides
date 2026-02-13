@@ -1,0 +1,64 @@
+
+### thread joining  {.smaller}
+
+
+* pthread_join allows collecting thread return value
+* if you don't join joinable thread, then <em>memory leak</em>! 
+<hr class="vspace" />
+* avoiding memory leak?
+* always join… or
+* ‘‘detach’’ thread to make it not joinable
+
+
+### pthread_detach  {.smaller}
+
+
+<pre><code>void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_create(&amp;show_progress_thread, NULL,
+                   show_progress, NULL);
+
+    /* instead of keeping pthread_t around to join thread later: */
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_detach(show_progress_thread);</span>
+}
+
+int main() {
+    spawn_show_progress_thread();
+    do_other_stuff();
+    ...
+}
+</code></pre>
+ ![](/threads/texfig/pthreadDetach.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+
+### starting threads detached  {.smaller}
+
+
+<pre><code>void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_attr_t attrs;
+    pthread_attr_init(&amp;attrs);
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_attr_setdetachstate(&amp;attrs, PTHREAD_CREATE_DETACHED);</span>
+    pthread_create(&amp;show_progress_thread, attrs,
+                   show_progress, NULL);
+    pthread_attr_destroy(&amp;attrs);
+}
+</code></pre>
+
+
+### setting stack sizes  {.smaller}
+
+
+<pre><code>void *show_progress(void * ...) { ... }
+void spawn_show_progress_thread() {
+    pthread_t show_progress_thread;
+    pthread_attr_t attrs;
+    pthread_attr_init(&amp;attrs);
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_attr_setstacksize(&amp;attrs, 32 * 1024 /* bytes */);</span>
+    pthread_create(&amp;show_progress_thread, attrs,
+                   show_progress, NULL);
+}
+</code></pre>
+

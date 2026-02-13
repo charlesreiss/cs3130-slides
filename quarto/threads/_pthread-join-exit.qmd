@@ -1,0 +1,16 @@
+
+### pthread_join, pthread_exit  {.smaller}
+
+
+* R = <code>pthread_join</code>(X, `&`P): wait for thread X, copies return value into P 
+
+   * like <code>waitpid</code>, but for a thread
+   * thread return value is pointer to anything
+   * R = 0 if successful, error code otherwise
+
+* <code>pthread_exit</code>: exit current thread, returning a value 
+
+   * like <code>exit</code> or returning from main, but for a single thread
+   * same effect as returning from function passed to pthread_create
+
+

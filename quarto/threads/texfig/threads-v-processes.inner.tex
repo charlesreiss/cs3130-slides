@@ -1,0 +1,59 @@
+\begin{tikzpicture}
+\tikzset{
+    box/.style={minimum width=1.75cm,minimum height=0.6cm,draw,thick,font=\small,fill=white},
+    pcb/.style={fill=green!10},
+    memory/.style={fill=yellow!10},
+    tcb/.style={fill=blue!10},
+}
+\matrix[row sep=2.5mm,column sep=2.5mm] (sp proc) {
+    \node[box,pcb] (sp files) {files}; \&
+    \node[box,pcb] (sp pid) {pid}; \&
+    \node[box,pcb] (sp dot) {\ldots};
+    \\
+    \node[box,memory] (sp code) {code}; \&
+    \node[box,memory] {data}; \&
+    \node[box,memory] (sp other mem) {\ldots}; \\
+};
+\matrix[anchor=north,row sep=2.5mm] (sp thread) at (sp proc.south) {
+    \node[box,memory] (sp stack){stack}; \\
+    \node[box,tcb] (sp regs) {registers}; \\
+    \node[box,tcb] (sp pc) {PC}; \\
+    \node[box,tcb] (sp other thread) {\ldots}; \\
+};
+\begin{pgfonlayer}{bg}
+\node[draw,thick,fit=(sp stack) (sp other thread),inner sep=0.3mm,label={[alias=sp thread box label,font=\small]south:thread},fill=black!10] (sp thread box) {};
+\end{pgfonlayer}
+\node[draw,ultra thick,label={north:single-threaded process},fit=(sp proc) (sp thread) (sp thread box label)] (sp box) {};
+%\node[draw=blue,ultra thick,fit=(sp files) (sp pid) (sp dot),label={north:in PCB}] {};
+%\node[draw=green,ultra thick,fit=(sp code) (sp other mem) (sp stack),label={north:in memory}] {};
+%\node[draw=yellow!50!black,ultra thick,fit=(sp regs) (sp tdot),label={south:in TCB or CPU}] {};
+\matrix[row sep=2.5mm,column sep=2.5mm,anchor=north west] (mp proc) at ([xshift=1cm]sp proc.north east) {
+    \node[box,pcb] (mp files) {files}; \&
+    \node[box,pcb] (mp pid) {pid}; \&
+    \node[box,pcb] (mp dot) {\ldots};
+    \\
+    \node[box,memory] (mp code) {code}; \&
+    \node[box,memory] {data}; \&
+    \node[box,memory] (mp other mem) {\ldots}; \\
+};
+\matrix[anchor=north,row sep=2.5mm,column sep=2.5mm] (mp threads) at (mp proc.south) {
+    \node[box,memory] (mp stack 1){stack}; \& 
+    \node[box,memory] (mp stack 2){stack}; \& 
+    \node[box,memory] (mp stack 3){stack}; \\
+    \node[box,tcb] (mp regs 1) {registers}; \&
+    \node[box,tcb] (mp regs 2) {registers}; \&
+    \node[box,tcb] (mp regs 3) {registers}; \\
+    \node[box,tcb] (mp pc 1) {PC}; \&
+    \node[box,tcb] (mp pc 2) {PC}; \&
+    \node[box,tcb] (mp pc 3) {PC}; \\
+    \node[box,tcb] (mp other thread 1) {\ldots}; \&
+    \node[box,tcb] (mp other thread 2) {\ldots}; \&
+    \node[box,tcb] (mp other thread 3) {\ldots}; \\
+};
+\begin{pgfonlayer}{bg}
+\node[draw,thick,fit=(mp stack 1) (mp other thread 1),inner sep=0.3mm,label={[alias=mp thread box label 1,font=\small]south:thread},fill=black!10] (mp thread box 1) {};
+\node[draw,thick,fit=(mp stack 2) (mp other thread 2),inner sep=0.3mm,label={[alias=mp thread box label 2,font=\small]south:thread},fill=black!10] (mp thread box 2) {};
+\node[draw,thick,fit=(mp stack 3) (mp other thread 3),inner sep=0.3mm,label={[alias=mp thread box label 3,font=\small]south:thread},fill=black!10] (mp thread box 3) {};
+\end{pgfonlayer}
+\node[draw,ultra thick,label={north:multi-threaded process},fit=(mp proc) (mp threads) (mp thread box label 2)] (mp box) {};
+\end{tikzpicture}

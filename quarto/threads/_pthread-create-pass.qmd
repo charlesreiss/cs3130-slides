@@ -1,0 +1,75 @@
+
+### passing thread IDs (1)  {.smaller}
+
+
+<pre><code>DataType items\[1000];
+void *thread_function(void *argument) {
+    <span data-fragment-index="2" class="fragment custom myem-only">int thread_id = (int) argument;</span>
+    int start = 500 * thread_id;
+    int end = start + 500;
+    for (int i = start; i &lt; end; ++i) {
+        DoSomethingWith(items\[i]);
+    }
+    ...
+}
+void run_threads() {
+    vector&lt;pthread_t&gt; threads(2);
+    for (int i = 0; i &lt; 2; ++i) {
+        pthread_create(&amp;threads\[i], NULL,
+            thread_function, <span data-fragment-index="2" class="fragment custom myem-only">(void*) i</span>);
+    }
+}
+</code></pre>
+
+
+### passing thread IDs (2)  {.smaller}
+
+
+<pre><code>DataType items\[1000];
+int num_threads;
+void *thread_function(void *argument) {
+    <span data-fragment-index="2" class="fragment custom myem-only">int thread_id = (int) argument;</span>
+    int start = thread_id * (1000 / num_threads);
+    int end = start + (1000 / num_threads);
+    if (thread_id == num_threads - 1) end = 1000;
+    for (int i = start; i &lt; end; ++i) {
+        DoSomethingWith(items\[i]);
+    }
+    ...
+}
+void run_threads() {
+    vector&lt;pthread_t&gt; threads(num_threads);
+    for (int i = 0; i &lt; num_threads; ++i) {
+        pthread_create(&amp;threads\[i], NULL,
+            thread_function, <span data-fragment-index="2" class="fragment custom myem-only">(void*) i</span>);
+    }
+    ...
+}
+</code></pre>
+
+
+### passing data structures  {.smaller}
+
+
+<pre><code>class ThreadInfo {
+public:
+    ...
+};
+
+void *thread_function(void *argument) {
+    ThreadInfo *info = <span data-fragment-index="2" class="fragment custom myem-only">(ThreadInfo *) argument;</span>
+    ...
+    delete info;
+    return NULL;
+}
+
+void run_threads(int N) {
+    vector&lt;pthread_t&gt; threads(num_threads);
+    for (int i = 0; i &lt; num_threads; ++i) {
+        pthread_create(&amp;threads\[i], NULL,
+            thread_function, <span data-fragment-index="2" class="fragment custom myem-only">(void *) new ThreadInfo(...)</span>);
+    }
+    ...
+}
+</code></pre>
+

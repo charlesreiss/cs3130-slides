@@ -1,0 +1,40 @@
+
+### pthread_create  {.smaller}
+
+
+ 
+<pre><code>void *ComputePi(void *argument) { ...  }
+void *PrintClassList(void *argument) { ...  }
+int main() {
+  pthread_t pi_thread, list_thread;
+  if (0 != pthread_create(&amp;<span data-fragment-index="2" class="fragment custom myem-only">pi_thread</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>, <span data-fragment-index="3" class="fragment custom myem-only">ComputePi</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>))
+      handle_error();
+  if (0 != pthread_create(&amp;<span data-fragment-index="2" class="fragment custom myem-only">list_thread</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>, <span data-fragment-index="3" class="fragment custom myem-only">PrintClassList</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>))
+      handle_error();
+  ... /* more code */
+}
+</code></pre>
+ ![](/threads/texfig/pthreadCreateOver.figure.svg)
+
+
+### pthread_create  {.smaller}
+
+
+<pre><code>void *ComputePi(void *argument) { ...  }
+void *PrintClassList(void *argument) { ...  }
+int main() {
+  pthread_t pi_thread, list_thread;
+  if (0 != pthread_create(&amp;<span data-fragment-index="2" class="fragment custom myem-only">pi_thread</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>, <span data-fragment-index="3" class="fragment custom myem-only">ComputePi</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>))
+      handle_error();
+  if (0 != pthread_create(&amp;<span data-fragment-index="2" class="fragment custom myem-only">list_thread</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>, <span data-fragment-index="3" class="fragment custom myem-only">PrintClassList</span>, <span data-fragment-index="4" class="fragment custom myem-only">NULL</span>))
+      handle_error();
+  ... /* more code */
+}
+</code></pre>
+ 
+
+* pthread_create arguments:
+* [thread identifier]{.fragment fragment-index=2 .custom .myem-only}
+* [function to run]{.fragment fragment-index=3 .custom .myem-only}  thread starts here, terminates if this function returns
+* [thread attributes (extra settings) and function argument]{.fragment fragment-index=4 .custom .myem-only}
+

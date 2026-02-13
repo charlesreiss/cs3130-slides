@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=east] at ([yshift=-2cm,xshift=-1cm]current page.north east) {
+        values, results: global variables --- shared
+    };
+    \end{visibleenv}
+\end{scope}
+\end{tikzpicture}

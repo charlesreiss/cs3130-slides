@@ -1,0 +1,54 @@
+
+### thread versus process state  {.smaller}
+
+
+* thread state  
+
+   * registers (including stack pointer, program counter)
+   * …
+
+* process state 
+
+   * address space
+   * open files
+   * process id
+   * list of thread states
+   * …
+
+
+
+### process info with threads 
+
+
+
+::: {.r-stack .my-full}
+![](/threads/texfig/tcb-process-info-with-threads.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/threads/texfig/tcb-process-info-with-threads.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### Linux idea: task_struct  {.smaller}
+
+
+* Linux model: single ‘‘task’’ structure = thread
+* pointers to address space, open file list, etc.
+* pointers <em>can be shared</em> 
+
+   * e.g. shared open files: open fd 4 in one task $\\rightarrow{}$ all sharing can use fd 4
+ 
+<hr class="vspace" />
+* <code>fork()</code>-like system call ‘‘clone’’: <em>choose what to share</em>  
+
+   * <code>clone(0, ...)</code> --- similar to <code>fork()</code>
+   * <code>clone(CLONE_FILES, ...)</code> --- like fork(), but <em>sharing</em> open files
+   * <code>clone(CLONE_VM, new_stack_pointer, ...)</code> --- like fork(), but <em>sharing</em> address space
+ 
+<hr class="vspace" />
+* advantage: no special logic for threads (mostly) 
+
+   * two threads in same process = tasks sharing everything possible
+
+

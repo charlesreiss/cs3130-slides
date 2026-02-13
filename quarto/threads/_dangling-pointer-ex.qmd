@@ -1,0 +1,34 @@
+
+### what's wrong with this?  {.smaller}
+
+
+```
+/* omitted: headers */
+void *create_string(void *ignored_argument) {
+  char string[1024];
+  ComputeString(string);
+  return string;
+}
+int main() {
+  pthread_t the_thread;
+  pthread_create(&the_thread, NULL, create_string, NULL);
+  char *string_ptr;
+  pthread_join(the_thread, (void**) &string_ptr);
+  printf("string is %s\n", string_ptr);
+}
+
+```
+
+
+### program memory 
+
+
+
+::: {.r-stack .my-full}
+![](/threads/texfig/dangling-pointer-ex-program-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/threads/texfig/dangling-pointer-ex-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

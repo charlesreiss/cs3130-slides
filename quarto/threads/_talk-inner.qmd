@@ -1,0 +1,70 @@
+
+# threads {visibility="hidden"}
+
+## why threads? {visibility="hidden"}
+
+{{< include /threads/_why.qmd >}}
+
+## thread v. processes {visibility="hidden"}
+
+{{< include /threads/_threads-v-processes.qmd >}}
+
+## pthread create {visibility="hidden"}
+
+{{< include /threads/_pthread-create.qmd >}}
+
+## exercise: pthread create race {visibility="hidden"}
+
+{{< include /threads/_pthread-create-race-lib.qmd >}}
+
+{{< include /threads/_pthread-create-race.qmd >}}
+
+## pthread join and exit {visibility="hidden"}
+
+{{< include /threads/_pthread-join-exit.qmd >}}
+
+## on error checking {visibility="hidden"}
+
+{{< include /threads/_error-checking.qmd >}}
+
+## parallel calculations in threads {visibility="hidden"}
+
+{{< include /threads/_thread-sum-no-passing.qmd >}}
+
+{{< include /threads/_thread-sum-stack-lib.qmd >}}
+
+{{< include /threads/_thread-sum-two-stacks.qmd >}}
+
+## passing info to threads {visibility="hidden"}
+
+## thread ID as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-id.qmd >}}
+
+## globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-struct.qmd >}}
+
+{{< include /threads/_thread-sum-globals-and-struct-stacks.qmd >}}
+
+## no globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-struct-main.qmd >}}
+
+{{< include /threads/_thread-sum-struct-main-stacks.qmd >}}
+
+## everything on the heap{visibility="hidden"}
+
+{{< include /threads/_thread-sum-structs-heap.qmd >}}
+
+{{< include /threads/_thread-sum-structs-heap-stacks.qmd >}}
+
+## on thread resources, detached threads {visibility="hidden"}
+
+## exercise{visibility="hidden"}
+
+{{< include /threads/_dangling-pointer-ex.qmd >}}
+
+## join, detach, etc.{visibility="hidden"}
+
+{{< include /threads/_thread-resources.qmd >}}

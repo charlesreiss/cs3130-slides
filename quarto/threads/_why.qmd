@@ -1,0 +1,16 @@
+
+### why threads?  {.smaller}
+
+
+* concurrency: different things happening at once 
+
+   * one thread per user of web server?
+   * one thread per page in web browser?
+   * one thread to play audio, one to read keyboard, …?
+   * …
+
+* parallelism: do same thing with more resources 
+
+   * multiple processors to speed-up simulation (life assignment)
+
+

@@ -1,0 +1,5 @@
+
+### program memory (to main stack) 
+
+![](/threads/texfig/thread-sum-struct-main-stacks.figure.svg)
+

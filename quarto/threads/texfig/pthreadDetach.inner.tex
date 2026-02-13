@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([yshift=1cm]current page.south);
+\node[align=left,draw=red,ultra thick,anchor=south,at={(place)},fill=white] {
+    detach = don't care about return value, etc.\\
+    system will deallocate when thread terminates
+};
+\end{scope}
+\end{tikzpicture}

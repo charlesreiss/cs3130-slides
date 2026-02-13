@@ -1,0 +1,67 @@
+\begin{tikzpicture}
+\tikzset{
+    pcb/.style={
+        tight matrix,
+        column 1/.style={nodes={draw,thin,text width=2.5cm,font=\small,minimum height=0.4cm}},
+        column 2/.style={nodes={draw,thin,text width=9cm,font=\fontsize{9}{10}\tt\selectfont,minimum height=0.4cm}},
+    },
+    page/.style={
+        draw,thick,
+        pattern=north west lines,
+        minimum width=2cm,
+        node contents={~},
+    },
+    pointer/.style={
+        draw,very thick,-Latex,
+    },
+    pointer light/.style={
+        draw,thick,-Latex,
+    },
+    tall/.style={
+        minimum height=0.85cm
+    },
+    very tall/.style={
+        minimum height=2cm
+    },
+    one pt/.style={
+        fill=blue!40,
+    },
+    one pt line/.style={
+        draw=blue!80!black,
+    },
+    one memory/.style={
+        fill=green!40,
+    },
+    one memory line/.style={
+        draw=green!80!black,
+    },
+    two pt/.style={
+        fill=orange!40,
+    },
+    two pt line/.style={
+        draw=orange!80!black,
+    },
+    two memory/.style={
+        fill=violet!40,
+        alt=<1-2>{one memory},
+    },
+    two memory line/.style={
+        draw=violet!80!black,
+        alt=<1-2>{one memory line},
+    },
+    fork line/.style={
+        draw=black!30,line width=2mm,-{Latex[length=6mm]}
+    },
+}
+\matrix[pcb,label={[font=\small]north:parent process info}] (proc one) {
+    |[very tall,draw=red,very thick,fill=red!5]| thread infos \&
+    |[very tall,draw=red,very thick,fill=red!5]| 
+    {thread 0: \{PC = 0x123456, rax = 42, rbx = \ldots\} \\
+    thread 1: \{PC = 0x584390, rax = 32, rbx = \ldots\}\\
+    \ldots }\\
+    \\
+    page tables \& |[one pt]| ~ \\
+    |[tall]| open files \& |[tall]| {fd 0: \ldots \\ fd 1: \ldots } \\
+    \ldots \& \ldots \\
+};
+\end{tikzpicture}

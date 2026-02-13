@@ -1,0 +1,84 @@
+
+### pthreads 
+
+
+* POSIX threading API --- ‘‘pthreads’’
+* what we'll teach in this class 
+<hr class="vspace" />
+* not tied to specific implementation
+
+
+### pthreads reference (1)  {.smaller}
+
+
+* Linux: manpages
+* <code>man pthread_create</code> --- Linux manpage 
+
+   * (or <code>man 3 pthread_create</code>)
+
+* <code>man 3posix pthread_create</code> --- POSIX documentation 
+
+   * authoritative: copy of the standard
+   * won't cover Linux extensions
+   * perhaps less readable?
+ 
+<hr class="vspace" />
+* index: <code>man pthread.h</code>  
+
+   * doesn't include Linux extensions
+
+
+
+### pthreads reference (2) 
+
+
+* Arpaci-Dusseau textbook (online) covers pthreads API 
+
+   * (but I like its description of threading topics less otherwise)
+
+* LLNL's tutorial: [https://computing.llnl.gov/tutorials/pthreads/](https://computing.llnl.gov/tutorials/pthreads/)
+* …
+
+
+### pthread API generally 
+
+
+```
+#include <pthread.h>
+
+```
+ 
+
+* defines types starting  with <code>pthread_</code> 
+
+   * all typenames end in <code>_t</code>
+
+* defines functions starting with <code>pthread_</code>
+* some macros (<code>#define</code>s) starting with <code>PTHREAD_</code>
+
+
+### what the pthreads library provides 
+
+
+* creating/starting/stopping/etc. threads
+* coordinating between threads 
+
+   * mutexes, locks, barriers, …
+
+* thread-local storage 
+
+   * data that is unqiue for each thread
+
+
+
+### pthread_t  {.smaller}
+
+
+* pthread_t --- opaque type representing a thread ID 
+
+   * opaque --- maybe a struct, but not allowed to look inside
+   * thread ID --- copying pthread_t doesn't copy thread itself
+ 
+<hr class="vspace" />
+* almost all pthreads types are opaque
+

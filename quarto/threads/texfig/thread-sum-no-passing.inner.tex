@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
+        values, results: global variables --- shared
+    };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
+        two different functions \\
+        happen to be the same except for some numbers
+    };
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+    \node[box,anchor=east] at ([yshift=-1.5cm,xshift=-1cm]current page.north east) {
+        values returned from threads \\
+        via global array instead of return value \\
+        (partly to illustrate that memory is shared, \\
+        partly because this pattern works when we don't join (later))
+    };
+    \end{visibleenv}
+\end{scope}
+\end{tikzpicture}

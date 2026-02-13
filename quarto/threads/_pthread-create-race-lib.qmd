@@ -1,0 +1,26 @@
+
+### a threading race  {.smaller}
+
+
+ 
+<!-- lsting options: 
+    style=small,
+    language=C++,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+ -->
+```
+{{< include /threads/pthread-create-race-code.c >}}
+```
+ My machine: outputs <code>In the thread</code> <em>about 4% of the time</em>. <br> What happened?
+
+### a race  {.smaller}
+
+
+
+* returning from main <em>exits the entire process</em> (all its threads) 
+
+   * same as calling exit; not like other threads
+
+* race: main's return 0 or print_message's printf first?
+ ![](/threads/texfig/pthreadCreateRace.figure.svg)
+

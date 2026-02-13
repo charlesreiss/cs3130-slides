@@ -1,0 +1,45 @@
+
+### againframe(pthreadCreateBrokenP)
+
+### againframe(pthreadCreateRace)
+
+### fixing the race (version 1)  {.smaller}
+
+
+<pre><code>#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+void *print_message(void *ignored_argument) {
+    printf("In the thread\\n");
+    return NULL;
+}
+int main() {
+    printf("About to start thread\\n");
+    pthread_t the_thread;
+    /* missing: error checking */
+    pthread_create(&amp;the_thread, NULL, print_message, NULL);
+    printf("Done starting thread\\n");
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_join(the_thread, NULL);</span>  /* WAIT FOR THREAD */
+    return 0;
+}
+</code></pre>
+
+
+### fixing the race (version 2; not recommended)  {.smaller}
+
+
+<pre><code>#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+void *print_message(void *ignored_argument) {
+    printf("In the thread\\n");
+    return NULL;
+}
+int main() {
+    printf("About to start thread\\n");
+    pthread_t the_thread;
+    /* missing: error checking */
+    pthread_create(&amp;the_thread, NULL, print_message, NULL);
+    printf("Done starting thread\\n");
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_exit(NULL);</span>
+}
+</code></pre>
+

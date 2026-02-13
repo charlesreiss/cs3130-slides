@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\tikzset{
+    box/.style={draw,thick},
+    main box/.style={fill=blue!30},
+    thread box/.style={fill=yellow!30},
+    my label/.style={font=\small},
+    >=Latex,
+}
+\draw[very thick,->] (0,1.25) -- (12,1.25) node[right] {time};
+\path[main box] (0, 0) rectangle (8, 1) node[midway,my label]{main: printf/pthread\_create/printf/return};
+\path[thread box] (5, -.5) rectangle (8, -1.5);
+\path[thread box,fill=yellow!10,dashed] (8, -.5) rectangle (12, -1.5);
+\path (5, -.5) rectangle (12, -1.5) node[midway,my label]{print\_message: printf/return};
+\path[draw,thick,red] (8, 1) -- (8,-1.5) node[below,align=center] {return from main \\ ends all threads \\ in the process};
+\end{tikzpicture}

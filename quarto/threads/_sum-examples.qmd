@@ -1,0 +1,116 @@
+
+### sum example (to main stack, global values)  {.smaller}
+
+
+<pre><code>int <span data-fragment-index="2" class="fragment custom myem-only">values[1024];</span> Q\\tikzmark{array}Q
+struct ThreadInfo {
+    int start, end, result;
+};
+void *sum_thread(void *argument) {
+    ThreadInfo *<span data-fragment-index="3" class="fragment custom myem-only">my_info</span> = Q\\tikzmark{info}Q (ThreadInfo *) argument;
+    int sum = 0;
+    for (int i = my_info-&gt;start; i &lt; my_info-&gt;end; ++i) {
+        sum += values\[i];
+    }
+    <span data-fragment-index="4" class="fragment custom myem-only">my_info-&gt;result = sum;</span>
+    return NULL;
+}
+int sum_all() {
+    pthread_t thread\[2]; <span data-fragment-index="3" class="fragment custom myem-only">ThreadInfo info[2];</span>
+    for (int i = 0; i &lt; 2; ++i) {
+        info\[i].start = i*512; info\[i].end = (i+1)*512;
+        pthread_create(&amp;threads\[i], NULL, sum_thread, &amp;info\[i]);
+    }
+    for (int i = 0; i &lt; 2; ++i)
+        pthread_join(threads\[i], NULL);
+    return info\[0].result + info\[1].result;
+}
+</code></pre>
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={draw=red,very thick,fill=white,align=left}
+}
+    \begin{visibleenv}<2>
+    \node[box,anchor=west] at (pic cs:array) {
+        values: global variable --- shared
+    };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \node[box,anchor=north west] at (pic cs:info) {
+        my\_info: pointer to sum\_all's stack \\
+        only okay because sum\_all waits!
+    };
+    \end{visibleenv}
+\end{tikzpicture}
+```
+-->
+
+
+### program memory (to main stack, global values) 
+
+![](/threads/texfig/sum-examples-program-memory-to-main-stack-global-valu.figure.svg)
+
+
+### sum example (to main stack)  {.smaller}
+
+
+<pre><code>struct ThreadInfo { <span data-fragment-index="2" class="fragment custom myem-only">int *values;</span> int start; int end; int result };
+void *sum_thread(void *argument) {
+    ThreadInfo *<span data-fragment-index="3" class="fragment custom myem-only">my_info</span> = (ThreadInfo *) argument;Q\\tikzmark{info}Q
+    int sum = 0;
+    for (int i = my_info-&gt;start; i &lt; my_info-&gt;end; ++i) {
+        sum += my_info-&gt;values\[i];
+    }
+    <span data-fragment-index="4" class="fragment custom myem-only">my_info-&gt;result = sum;</span>
+    return NULL;
+
+}
+int sum_all(int *values) {
+    ThreadInfo info\[2]; pthread_t thread\[2];
+    for (int i = 0; i &lt; 2; ++i) {
+        <span data-fragment-index="2" class="fragment custom myem-only">info[i].values = values;</span> info\[i].start = i*512; info\[i].end = (i+1)*512;
+        pthread_create(&amp;threads\[i], NULL, sum_thread, (void *) &amp;info\[i]);
+    }
+    for (int i = 0; i &lt; 2; ++i)
+        pthread_join(threads\[i], NULL);
+    return info\[0].result + info\[1].result;
+}
+</code></pre>
+
+
+### program memory (to main stack) 
+
+![](/threads/texfig/sum-examples-program-memory-to-main-stack.figure.svg)
+
+
+### sum example (on heap)  {.smaller}
+
+
+<pre><code>struct ThreadInfo { <span data-fragment-index="3" class="fragment custom myem-only">pthread_t thread;</span> int *values; int start; int end; int result };
+void *sum_thread(void *argument) {
+    ...
+}
+ThreadInfo *start_sum_all(int *values) {
+    ThreadInfo *info = <span data-fragment-index="2" class="fragment custom myem-only">new ThreadInfo[2];</span>
+    for (int i = 0; i &lt; 2; ++i) {
+        info\[i].values = values; info\[i].start = i*512; info\[i].end = (i+1)*512;
+        pthread_create(&amp;info\[i].thread, NULL, sum_thread, (void *) <span data-fragment-index="2" class="fragment custom myem-only">&amp;info[i]</span>);
+    }
+    return info;
+}
+void finish_sum_all(ThreadInfo *info) {
+    for (int i = 0; i &lt; 2; ++i)
+        pthread_join(<span data-fragment-index="3" class="fragment custom myem-only">info[i].thread</span>, NULL);
+    int result = info\[0].result + info\[1].result;
+    delete\[] info;
+    return result;
+}
+</code></pre>
+
+
+### program memory (on heap) 
+
+![](/threads/texfig/sum-examples-program-memory-on-heap.figure.svg)
+

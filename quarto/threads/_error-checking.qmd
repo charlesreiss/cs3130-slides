@@ -1,0 +1,30 @@
+
+### a note on error checking  {.smaller}
+
+
+
+* from pthread_create manpage:
+ 
+![](/threads/pthread-create-errors){}
+ 
+
+* special constants for <i>return value</i> 
+<hr class="vspace" />
+* same pattern for many other pthreads functions 
+
+   * pthread_join, pthread_mutex_… (later), …
+
+* will often omit error checking in slides for brevity
+
+
+### error checking pthread_create 
+
+
+```
+int error = pthread_create(...);
+if (error != 0) {
+    /* print some error message */
+}
+
+```
+

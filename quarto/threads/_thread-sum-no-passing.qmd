@@ -1,0 +1,31 @@
+
+### sum example (only globals)  {.smaller}
+
+
+<pre><code>int <span data-fragment-index="2" class="fragment custom myem-only">values[1024]</span>;  int <span data-fragment-index="2" class="fragment custom myem-only">results[2]</span>;
+void *sum_front(void *ignored_argument) {
+    int sum = 0;
+    for (int i = <span data-fragment-index="3" class="fragment custom myem-only">0</span>; i &lt; <span data-fragment-index="3" class="fragment custom myem-only">512</span>; ++i) { sum += values\[i]; }
+    <span data-fragment-index="4" class="fragment custom myem-only">results[@303@] = sum;</span>
+    return NULL;
+}
+void *sum_back(void *ignored_argument) {
+    int sum = 0;
+    for (int i = <span data-fragment-index="3" class="fragment custom myem-only">512</span>; i &lt; <span data-fragment-index="3" class="fragment custom myem-only">1024</span>; ++i) { sum += values\[i]; }
+    <span data-fragment-index="4" class="fragment custom myem-only">results[@313@] = sum;</span>
+    return NULL;
+}
+int sum_all() {
+    pthread_t sum_front_thread, sum_back_thread;
+    /* missing: error handling */
+    pthread_create(&amp;sum_front_thread, NULL, sum_front, NULL);
+    pthread_create(&amp;sum_back_thread, NULL, sum_back, NULL);
+    pthread_join(sum_front_thread, NULL); pthread_join(sum_back_thread, NULL);
+    return <span data-fragment-index="4" class="fragment custom myem-only">results[0] + results[1]</span>;
+}
+</code></pre>
+ ![](/threads/texfig/thread-sum-no-passing.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/threads/texfig/thread-sum-no-passing.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/threads/texfig/thread-sum-no-passing.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/threads/texfig/thread-sum-no-passing.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+

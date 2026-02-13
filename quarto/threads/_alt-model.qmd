@@ -1,0 +1,12 @@
+
+### aside: alternate threading models  {.smaller}
+
+
+* we'll talk about <em>kernel threads</em>
+* OS scheduler deals <em>directly</em> with threads 
+<hr class="vspace" />
+* alternate idea: library code handles threads
+* kernel doesn't know about threads w/in process
+* <i>hierarchy</i> of schedulers: one for processes, one within each process
+* not currently common model --- awkward with multicore
+
