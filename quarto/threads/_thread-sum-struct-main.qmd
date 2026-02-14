@@ -1,27 +1,8 @@
 
-### sum example (to main stack)  {.smaller}
+### sum example (to main stack) {.smaller .longcode}
 
+```{.c code-line-numbers="|1,6"}
+{{< include /threads/sum-info2.c >}}
+```
 
-<pre><code>struct ThreadInfo { <span data-fragment-index="2" class="fragment custom myem-only">int *values;</span> int start; int end; int result };
-void *sum_thread(void *argument) {
-    ThreadInfo *<span data-fragment-index="3" class="fragment custom myem-only">my_info</span> = (ThreadInfo *) argument;Q\\tikzmark{info}Q
-    int sum = 0;
-    for (int i = my_info-&gt;start; i &lt; my_info-&gt;end; ++i) {
-        sum += my_info-&gt;values\[i];
-    }
-    <span data-fragment-index="4" class="fragment custom myem-only">my_info-&gt;result = sum;</span>
-    return NULL;
-
-}
-int sum_all(int *values) {
-    ThreadInfo info\[2]; pthread_t thread\[2];
-    for (int i = 0; i &lt; 2; ++i) {
-        <span data-fragment-index="2" class="fragment custom myem-only">info[i].values = values;</span> info\[i].start = i*512; info\[i].end = (i+1)*512;
-        pthread_create(&amp;threads\[i], NULL, sum_thread, (void *) &amp;info\[i]);
-    }
-    for (int i = 0; i &lt; 2; ++i)
-        pthread_join(threads\[i], NULL);
-    return info\[0].result + info\[1].result;
-}
-</code></pre>
 

@@ -15,9 +15,8 @@
 
 ## exercise: pthread create race {visibility="hidden"}
 
-{{< include /threads/_pthread-create-race-lib.qmd >}}
-
-{{< include /threads/_pthread-create-race.qmd >}}
+{{< include /threads/_pthread_create-race-problem.qmd >}}
+{{< include /threads/_pthread_create-race-soln.qmd >}}
 
 ## pthread join and exit {visibility="hidden"}
 
@@ -31,11 +30,9 @@
 
 {{< include /threads/_thread-sum-no-passing.qmd >}}
 
-{{< include /threads/_thread-sum-stack-lib.qmd >}}
-
 {{< include /threads/_thread-sum-two-stacks.qmd >}}
 
-## passing info to threads {visibility="hidden"}
+# passing info to threads {visibility="hidden"}
 
 ## thread ID as argument{visibility="hidden"}
 

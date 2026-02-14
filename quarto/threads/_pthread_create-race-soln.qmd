@@ -1,8 +1,4 @@
 
-### againframe(pthreadCreateBrokenP)
-
-### againframe(pthreadCreateRace)
-
 ### fixing the race (version 1)  {.smaller}
 
 

@@ -5,22 +5,19 @@
 
 * from pthread_create manpage:
  
-![](/threads/pthread-create-errors){}
+![](/threads/pthread-create-errors){fig-alt="ERRORS: EAGAIN: Insufficient resources to create another thread, or a system-imposed limit on the number of threads was encountered. The latter case may occur in two ways: the RLIMIT_NPROC soft resource limit was reached; or the kernel's system-wide limit on the number of threads,  /proc/sys/kernel/threads-max, was reached.  EINVAL: Invalid settings in attr. EPERM: No permission to set the scheduling policy and parameters specified in attr."}
  
-
 * special constants for <i>return value</i> 
 <hr class="vspace" />
 * same pattern for many other pthreads functions 
-
    * pthread_join, pthread_mutex_… (later), …
-
 * will often omit error checking in slides for brevity
 
 
 ### error checking pthread_create 
 
 
-```
+```c
 int error = pthread_create(...);
 if (error != 0) {
     /* print some error message */

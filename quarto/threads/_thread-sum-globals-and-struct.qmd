@@ -1,46 +1,19 @@
 
-### sum example (info struct)  {.smaller}
+### sum example (info struct) {.smaller .longcode}
 
-
-<pre><code>int <span data-fragment-index="2" class="fragment custom myem-only">values[1024];</span> Q\\tikzmark{array}Q
-struct ThreadInfo {
-    int start, end, result;
-};
-void *sum_thread(void *argument) {
-    struct ThreadInfo *<span data-fragment-index="3" class="fragment custom myem-only">my_info</span> = Q\\tikzmark{info}Q (struct ThreadInfo *) argument;
-    int sum = 0;
-    for (int i = my_info-&gt;start; i &lt; my_info-&gt;end; ++i) { sum += values\[i]; }
-    <span data-fragment-index="4" class="fragment custom myem-only">my_info-&gt;result = sum;</span>
-    return NULL;
-}
-int sum_all() {
-    pthread_t thread\[2]; <span data-fragment-index="3" class="fragment custom myem-only">struct ThreadInfo info[2];</span>
-    for (int i = 0; i &lt; 2; ++i) {
-        info\[i].start = i*512; info\[i].end = (i+1)*512;
-        pthread_create(&amp;threads\[i], NULL, sum_thread, &amp;info\[i]);
-    }
-    for (int i = 0; i &lt; 2; ++i) { pthread_join(threads\[i], NULL); }
-    return info\[0].result + info\[1].result;
-}
-</code></pre>
- <!--
+```{.c code-line-numbers="|5-6,16|15,17|9,19"}
+{{< include /threads/sum-info1.c >}}
 ```
-\begin{tikzpicture}[overlay,remember picture]
-\tikzset{
-    box/.style={draw=red,very thick,fill=white,align=left}
-}
-    \begin{visibleenv}<2>
-    \node[box,anchor=west] at (pic cs:array) {
-        values: global variable --- shared
-    };
-    \end{visibleenv}
-    \begin{visibleenv}<3>
-    \node[box,anchor=north west] at (pic cs:info) {
-        my\_info: pointer to sum\_all's stack \\
-        only okay because sum\_all waits!
-    };
-    \end{visibleenv}
-\end{tikzpicture}
-```
--->
 
+### sum example (info struct) {.smaller .longcode}
+
+```{.c code-line-numbers="6,13"}
+{{< include /threads/sum-info1.c >}}
+```
+
+::: {.myoverbox .low}
+
+`my_info` = pointer to sum_all's stack <br />
+okay because sum_all doesn't return until thread is done
+
+:::

@@ -10,17 +10,18 @@
 * ‘‘detach’’ thread to make it not joinable
 
 
-### pthread_detach  {.smaller}
+### pthread_detach  
 
 
-<pre><code>void *show_progress(void * ...) { ... }
+```{.c code-line-numbers="|8"}
+void *show_progress(void * ...) { ... }
 void spawn_show_progress_thread() {
     pthread_t show_progress_thread;
-    pthread_create(&amp;show_progress_thread, NULL,
+    pthread_create(&show_progress_thread, NULL,
                    show_progress, NULL);
 
     /* instead of keeping pthread_t around to join thread later: */
-    <span data-fragment-index="1" class="fragment custom myem-only">pthread_detach(show_progress_thread);</span>
+    pthread_detach(show_progress_thread);]
 }
 
 int main() {
@@ -28,37 +29,41 @@ int main() {
     do_other_stuff();
     ...
 }
-</code></pre>
- ![](/threads/texfig/pthreadDetach.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+```
 
+::: {.myoverbox .vlow }
 
-### starting threads detached  {.smaller}
+detach = don't care about return value, etc. <br />
+system will decallocate when thread terminates
 
+:::
 
-<pre><code>void *show_progress(void * ...) { ... }
+### starting threads detached
+
+```{.c code-line-numbers="|6"}
+void *show_progress(void * ...) { ... }
 void spawn_show_progress_thread() {
     pthread_t show_progress_thread;
     pthread_attr_t attrs;
-    pthread_attr_init(&amp;attrs);
-    <span data-fragment-index="1" class="fragment custom myem-only">pthread_attr_setdetachstate(&amp;attrs, PTHREAD_CREATE_DETACHED);</span>
-    pthread_create(&amp;show_progress_thread, attrs,
+    pthread_attr_init(&attrs);
+    pthread_attr_setdetachstate(&attrs, PTHREAD_CREATE_DETACHED);
+    pthread_create(&show_progress_thread, attrs,
                    show_progress, NULL);
-    pthread_attr_destroy(&amp;attrs);
+    pthread_attr_destroy(&attrs);
 }
-</code></pre>
+```
 
 
-### setting stack sizes  {.smaller}
+### setting stack sizes 
 
-
-<pre><code>void *show_progress(void * ...) { ... }
+```{.c code-line-numbers="6"}
+void *show_progress(void * ...) { ... }
 void spawn_show_progress_thread() {
     pthread_t show_progress_thread;
     pthread_attr_t attrs;
-    pthread_attr_init(&amp;attrs);
-    <span data-fragment-index="1" class="fragment custom myem-only">pthread_attr_setstacksize(&amp;attrs, 32 * 1024 /* bytes */);</span>
-    pthread_create(&amp;show_progress_thread, attrs,
+    pthread_attr_init(&attrs);
+    pthread_attr_setstacksize(&attrs, 32 * 1024 /* bytes */);
+    pthread_create(&show_progress_thread, attrs,
                    show_progress, NULL);
 }
-</code></pre>
-
+```

@@ -1,14 +1,15 @@
 
-### what's wrong with this?  {.smaller}
+### what's wrong with this? {.longcode}
 
 
-```
+```{.c code-line-numbers=true}
 /* omitted: headers */
 void *create_string(void *ignored_argument) {
   char string[1024];
   ComputeString(string);
   return string;
 }
+
 int main() {
   pthread_t the_thread;
   pthread_create(&the_thread, NULL, create_string, NULL);
