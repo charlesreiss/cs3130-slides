@@ -8,7 +8,7 @@
 
 ### multi-level parameter exercise (2)
 
-*  16384-byte ($2^{16}$ byte) pages
+*  16384-byte ($2^{14}$ byte) pages
 *  16-byte page table entries
 *  want page tables to be at most one page in size
 *  how many levels do we need to support 64-bit virtual address?

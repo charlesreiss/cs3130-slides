@@ -5,7 +5,7 @@
 *  and want page tables should be <= 1 page in size
 *  if we want 64-bit virtual addresses, how many levels...
     *  with 4096 ($2^{12}$ byte) pages?
-    *  with 16384 ($2^{16}$ byte) pages?
+    *  with 65536 ($2^{16}$ byte) pages?
 
 ### choosing page table sizes (4096) {.smaller}
 
@@ -26,7 +26,7 @@
    *  valid (1) + permissions (4) + PPN (42 - 16 = 26)
 *  can choose 4 byte PTE
 *  largest page table that fits in one page:
-   *  16384/4 = 4096 ($2^{12}$) entries
-*  12-bit index per level
+   *  65536/4 = 16384 ($2^{14}$) entries
+*  14-bit index per level
 *  want 64-16=48 bits of virtual page number
-*  $\left\lceil48 / 12\right\rceil = 4$ levels
+*  $\left\lceil48 / 14\right\rceil = 4$ levels

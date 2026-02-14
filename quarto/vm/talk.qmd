@@ -7,6 +7,7 @@ title: "vm"
 
 *  early Feb: adjust formatting on page table exercises; add some new exercises about general page table layout
 *  12 Feb 2026: fixup errors in several of the 2-level exercises where physical memory contents did not agree with the given solution; correct parens on page able counting exercises
+*  14 Feb 2026: correct erroneous conversion of 16384 to $2^{14}$ in exercises about how many levels of page table are needed; adjusted one instance to 65536 instead of 16384 and adjusted its solution slide accordingly
 
 {{< include ../vm/_talk-inner.qmd >}}
 
