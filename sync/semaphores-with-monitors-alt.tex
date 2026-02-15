@@ -12,7 +12,7 @@ pthread_mutex_t lock;
 unsigned int count;
 /* condition, broadcast when becomes count > 0 */
 pthread_cond_t count_is_positive_cv;
-\end{lstlisting}}
+\end{lstlisting}
 \begin{minipage}{0.45\textwidth}
 \begin{lstlisting}
 void down() {
@@ -45,7 +45,6 @@ void up() {
 \end{frame}
 
 \begin{frame}[fragile,label=semaphoreMonitorBCast2B]{semaphores with monitors: alt w/ signal}
-\begin{tikzpicture}
 \lstset{
     language=C++,
     basicstyle=\fontsize{9}{10}\tt\selectfont,

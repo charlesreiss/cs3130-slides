@@ -4,7 +4,7 @@
 \lstset{
     language=C++,
     basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
-    moredelim={**[is][\btHL]{@1}{1@}},
+    moredelim={**[is][\btHL<1->]{@1}{1@}},
 }
 \tikzset{btHLbox/.append style={fill=blue!20}}
 \newsavebox\rwLockPlusReaders%
@@ -61,7 +61,7 @@ while (@1readers + writers != 01@) {
 mutex_unlock(&lock);
 \end{lstlisting}
 \end{lrbox}
-\mnewsavebox{\rwLockReaderGoWriter}
+\newsavebox\rwLockReaderGoWriter%
 \begin{lrbox}{\rwLockReaderGoWriter}
 \tikzset{btHLbox/.append style={fill=yellow!30}}
 \begin{lstlisting}
@@ -73,7 +73,7 @@ if (waiting_writers != 0) {
 }
 \end{lstlisting}
 \end{lrbox}
-\newsavebox{\rwLockReaderGoEnd}
+\newsavebox\rwLockReaderGoEnd%
 \begin{lrbox}{\rwLockReaderGoEnd}
 \tikzset{btHLbox/.append style={fill=violet!20}}
 \begin{lstlisting}

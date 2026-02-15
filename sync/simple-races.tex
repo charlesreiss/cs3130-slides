@@ -5,9 +5,7 @@
     \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
     $x \leftarrow 1$ & $y \leftarrow 2$ \\
 \end{tabular}
-\iftoggle{heldback}{}{
 \item<2-> must be 1. Thread B can't do anything
-}
 \end{itemize}
 \end{frame}
 
@@ -19,7 +17,6 @@
     $x \leftarrow y + 1$ & $y \leftarrow 2$ \\
                     ~ & $y \leftarrow y \times 2$ \\
 \end{tabular}
-\iftoggle{heldback}{}{
 \item<2-> if A goes first, then B: $1$
 \item<2-> if B goes first, then A: $5$
 \item<2-> if B line one, then A, then B line two: $3$
@@ -29,7 +26,6 @@
     \item A: x $\leftarrow 110_{\text{TWO}} + 1 = 7$; then
     \item B (finish): y bit 1 $\leftarrow$ 0; y bit 0 $\leftarrow$ 0
     \end{itemize}
-}
 \end{itemize}
 \end{frame}
 
@@ -41,7 +37,6 @@
     \bfseries{Thread A} & \bfseries{Thread B} \\ \hline
     $x \leftarrow 1$ & $x \leftarrow 2$ \\
 \end{tabular}
-\iftoggle{heldback}{}{
 \item<2-> 1 or 2
 \item<3-> \ldots but why not 3?
     \begin{itemize}
@@ -50,7 +45,6 @@
     \item A: x bit 1 $\leftarrow 0$
     \item B: x bit 1 $\leftarrow 1$
     \end{itemize}
-}
 \end{itemize}
 \end{frame}
 
