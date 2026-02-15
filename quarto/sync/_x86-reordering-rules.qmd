@@ -1,0 +1,31 @@
+
+### aside: some x86 reordering rules  {.smaller}
+
+
+
+* each core sees its own loads/stores in order 
+
+   * (if a core stores something, it can always load it back)
+
+* stores <i>from other cores</i> appear in a consistent order 
+
+   * (but a core might observe its own stores too early)
+
+* <i>causality</i>: <br> <i>if</i> a core reads X=a and (after reading X=a) writes Y=b, <br> <i>then</i> a core that reads Y=b cannot later read X=older value than a
+ [Source: Intel 64 and IA-32 Software Developer's Manual, Volume 3A, Chapter 8]{.mycredit}
+
+### how do you do anything with this?  {.smaller}
+
+
+* difficult to reason about what modern CPU's reordering rules do
+* typically: don't depend on details, instead: 
+<hr class="vspace" />
+* special instructions with stronger (and simpler) ordering rules 
+
+   * often same instructions that help with implementing locks in other ways
+
+* special instructions that restrict ordering of instructions around them (‘‘fences’’) 
+
+   * loads/stores can't cross the fence
+
+

@@ -1,0 +1,12 @@
+
+### mutex efficiency  {.smaller}
+
+
+* ‘normal’ mutex <em><em>uncontended</em></em> case: 
+
+   * lock: acquire + release spinlock, see lock is free
+   * unlock: acquire + release spinlock, see queue is empty
+ 
+<hr class="vspace" />
+* not much slower than spinlock
+

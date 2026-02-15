@@ -1,0 +1,77 @@
+
+### writer-priority (1)  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+    moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+} -->
+ 
+<pre><code>mutex_t lock; cond_t ok_to_read_cv; cond_t ok_to_write_cv;
+int readers = 0, writers = 0;
+int <span data-fragment-index="2" class="fragment custom myem-only">waiting_writers</span> = 0;
+</code></pre>
+ 
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>ReadLock() {
+  mutex_lock(&amp;lock);
+  while (writers != 0
+         <span data-fragment-index="2" class="fragment custom myem-only">|| waiting_writers != 0</span>) {
+    cond_wait(&amp;ok_to_read_cv, &amp;lock);
+  }
+  ++readers;
+  mutex_unlock(&amp;lock);
+}
+
+ReadUnlock() {
+  mutex_lock(&amp;lock);
+  --readers;
+  if (readers == 0) {
+    cond_signal(&amp;ok_to_write_cv);
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>WriteLock() {
+  mutex_lock(&amp;lock);
+  <span data-fragment-index="2" class="fragment custom myem-only">++waiting_writers;</span>
+  while (readers + writers != 0) {
+    cond_wait(&amp;ok_to_write_cv, &amp;lock);
+  }
+  <span data-fragment-index="2" class="fragment custom myem-only">--waiting_writers;</span>
+  ++writers;
+  mutex_unlock(&amp;lock);
+}
+
+WriteUnlock() {
+  mutex_lock(&amp;lock);
+  --writers;
+  if (<span data-fragment-index="2" class="fragment custom myem-only">waiting_writers != 0</span>) {
+    <span data-fragment-index="3" class="fragment custom myem-only">cond_signal(&amp;ok_to_write_cv);</span>
+  } else {
+    <span data-fragment-index="3" class="fragment custom myem-only">cond_broadcast(&amp;ok_to_read_cv);</span>
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+

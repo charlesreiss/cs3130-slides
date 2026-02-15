@@ -1,0 +1,45 @@
+
+### the lost write 
+
+
+
+::: {.r-stack .my-full}
+
+![](/sync/texfig/lost-write.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/lost-write.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/lost-write.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+### the lost write {.smaller}
+
+`account->balance += amount;` (in two threads; same account)
+
+
+<style>
+table.lostwritetimeline td {font-size: 90%; }
+table.lostwritetimeline th {font-size: 90%; }
+hr.contextswitch { border: 3px solid black; text-align: center;  height: 0px; margin-top: 0.5em; margin-bottom: 0.5em;}
+hr.contextswitch::after { border: none; content: "context switch"; position: fixed; width: fit-content; background: white; transform: translate(-50%, -0.9em); }</style>
+
+<table class="lostwritetimeline">
+<columns>
+<colgroup style="width:40%">
+<colgroup style="width:20%">
+<colgroup style="width:40%">
+</columns>
+<tr><th>Thread A</th><td></td><th>Thread B</th></tr>
+<tr><td>`mov account->balance, %rax`</td></tr>
+<tr><td>`add amount, %rax`</td></tr>
+<tr><td colspan="3"><hr class="contextswitch"></td></tr>
+<tr><td></td><td></td><td>`mov account->balance, %rax`</td></tr>
+<tr><td></td><td></td><td>`add amount, %rax`</td></tr>
+<tr><td colspan="3"><hr class="contextswitch"></td></tr>
+<tr><td>[`mov %rax, account->balance`]{.fragment fragment-index=1 .custom .mybox-one}<br>[<em>"lost write"</em>]{.fragment fragment-index=1}</td></tr>
+<tr><td colspan="3"><hr class="contextswitch"></td></tr>
+<tr><td></td><td></td><td>[`mov %rax, account->balance`]{.fragment fragment-index=1 .custom .mybox-two}<br>[<em>"winner" of race</em>]{.fragment fragment-index=1}</td></tr>
+</table>
+

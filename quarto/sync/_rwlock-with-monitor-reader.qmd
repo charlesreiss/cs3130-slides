@@ -1,0 +1,73 @@
+
+### reader-priority (1)  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+    moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+} -->
+ 
+<pre><code>...
+int <span data-fragment-index="2" class="fragment custom myem-only">waiting_readers</span> = 0;
+</code></pre>
+ 
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>ReadLock() {
+  mutex_lock(&amp;lock);
+  ++waiting_readers;
+  while (writers != 0) {
+    cond_wait(&amp;ok_to_read_cv, &amp;lock);
+  }
+  --waiting_readers;
+  ++readers;
+  mutex_unlock(&amp;lock);
+}
+
+ReadUnlock() {
+  ...
+  if (waiting_readers == 0) {
+    cond_signal(&amp;ok_to_write_cv);
+  }
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>WriteLock() {
+  mutex_lock(&amp;lock);
+  while (<span data-fragment-index="2" class="fragment custom myem-only">waiting_readers +</span>
+         readers + writers != 0) {
+    cond_wait(&amp;ok_to_write_cv);
+  }
+  ++writers;
+  mutex_unlock(&amp;lock);
+}
+WriteUnlock() {
+  mutex_lock(&amp;lock);
+  --writers;
+  if (readers == 0 &amp;&amp; waiting_readers == 0) {
+    cond_signal(&amp;ok_to_write_cv);
+  } else {
+    cond_broadcast(&amp;ok_to_read_cv);
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+

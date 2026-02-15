@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([yshift=1cm]current page.south);
+\tikzset{
+    box/.style={draw=red,ultra thick,fill=white,align=left,at={(place)},anchor=south},
+}
+\begin{visibleenv}<2>
+    \node[box] {
+        turns into instruction to tell processor not to reorder \\
+        plus tells compiler not to reorder
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[box] {
+        turns into mov of constant 0 into \lstinline|lk->locked|
+    };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[box] {
+        reenable interrupts (taking nested locks into account)
+    };
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

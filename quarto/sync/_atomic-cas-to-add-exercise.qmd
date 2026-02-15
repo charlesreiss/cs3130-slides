@@ -1,0 +1,46 @@
+
+### exercise: fetch-and-add with compare-and-swap  {.smaller}
+
+
+
+* exercise: implement fetch-and-add with compare-and-swap
+ 
+```
+compare_and_swap(address, old_value, new_value) {
+    if (memory[address] == old_value) {
+        memory[address] = new_value;
+        return true;   // x86: set ZF flag
+    } else {
+        return false;  // x86: clear ZF flag
+    }
+}
+
+```
+
+
+<!-- \iftoggle(heldback,
+heldbackstuff
+,
+heldbackstuff
+) -->
+
+### solution 
+
+
+```
+\begin{heldbackstuff}
+
+```
+long my_fetch_and_add(long *p, long amount) {
+    long old_value;
+    do {
+        old_value = *p;
+    while (!compare_and_swap(p, old_value, old_value + amount);
+    return old_value;
+}
+
+```
+
+\end{heldbackstuff}
+```
+

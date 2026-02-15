@@ -1,0 +1,34 @@
+
+### implementing consistency: simple 
+
+
+* simplest idea: only one run transaction at a time
+
+
+### implementing consistency: locking  {.smaller}
+
+
+* everytime something read/written: acquire associated lock
+* on end transaction: release lock 
+<hr class="vspace" />
+* if deadlock: [undo everything]{.fragment fragment-index=2 .custom .myem-only}, go back to BeginTransaction(), retry 
+
+   * how to undo?
+   * one idea: keep list of writes instead of writing
+   * apply writes only at EndTransaction()
+
+
+
+### implementing consistency: optimistic  {.smaller}
+
+
+* on read: copy version # for value read
+* on write: record value to be written, but don't write yet
+* on end transaction:  
+
+   * acquire locks on everything
+   * make sure values read haven't been changed since read
+ 
+<hr class="vspace" />
+* if they have changed, just retry transaction
+

@@ -1,0 +1,36 @@
+
+### why reorder here? 
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+thread_A:
+    movl $1, x   /* x <- 1 */
+    movl y, %eax /* return y */
+    ret
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+thread_B:
+    movl $1, y   /* y <- 1 */
+    movl x, %eax /* return x */
+    ret
+
+```
+ 
+:::
+
+::::
+
+
+* thread A: faster to load <code>y</code> right now!
+* … rather than wait for write of <code>x</code> to finish
+

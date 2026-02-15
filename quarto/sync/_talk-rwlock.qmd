@@ -1,0 +1,8 @@
+
+# reader-writer problem {visibility="hidden"}
+
+{{< include /sync/_reader-writer-problem.qmd >}}
+
+# rwlocks {visibility="hidden"}
+
+{{< include /sync/_reader-writer-locks.qmd >}}

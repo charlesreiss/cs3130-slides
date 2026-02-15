@@ -1,0 +1,271 @@
+
+### unbounded buffer producer/consumer  {.smaller}
+
+
+<pre><code>pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+    <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+    buffer.enqueue(item);
+    <span data-fragment-index="4" class="fragment custom myem-only">pthread_cond_signal(&amp;data_ready);</span>
+    <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+}
+Consume() {
+    <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+    while (<span class="fragment custom myem" data-fragment-index="5"><span class="fragment custom myem-only" data-fragment-index="3">buffer.empty()</span></span>) {
+        pthread_cond_wait(&amp;data_ready, &amp;lock);
+    }
+    item = <span data-fragment-index="3" class="fragment custom myem-only">buffer.dequeue()</span>;
+    <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+    return item;
+}
+</code></pre>
+
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=2}
+
+rule: never touch `buffer` withotu acquiring lock
+
+otherwise: what if two threads simulatenously en/dequeue?
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=3}
+
+check if not empty? <br/>
+if so, dequeue <br/>
+(note: have lock)
+
+:::
+
+::: {.myoverbox .low .fragment .fade-in-then-out fragment-index=4}
+
+wake one Consume thread (if any are waiting)
+
+:::
+
+::: {.myoverbox .highright .fragment .fade-in-then-out fragment-index=5}
+
+while loop could run 0 times
+
+<table>
+<tr><th>Thread 1</th><th>Thread 2</th></tr>
+<tr><td>Produce()</td></tr>
+<tr><td>... lock</td></tr>
+<tr><td>... enqueue</td></tr>
+<tr><td>... signal</td></tr>
+<tr><td>... unlock</td></tr>
+<tr><td></td><td>Consume?</td></tr>
+<tr><td></td><td>... lock</td></tr>
+<tr><td></td><td>... empty? no</td></tr>
+<tr><td></td><td>... dequeue</td></tr>
+<tr><td></td><td>... unlock</td></tr>
+<tr><td></td><td>return</td></tr>
+</table>
+
+:::
+
+::: {.myoverbox .highright .fragment .fade-in-then-out fragment-index=6 style="font-size: 75%"}
+
+while loop could run 1 times
+
+<table>
+<tr><th>Thread 1</th><th>Thread 2</th></tr>
+<tr><td></td><td>Consume?</td></tr>
+<tr><td></td><td>... lock</td></tr>
+<tr><td></td><td>... empty? yes</td></tr>
+<tr><td></td><td>... unlock/start wait</td></tr>
+<tr><td>Produce()</td></tr>
+<tr><td>... lock</td></tr>
+<tr><td>... enqueue</td></tr>
+<tr><td>... signal</td><td>stop wait</td></tr>
+<tr><td>... unlock</td><td>lock</td></tr>
+<tr><td></td><td>... empty? no</td></tr>
+<tr><td></td><td>... dequeue</td></tr>
+<tr><td></td><td>... unlock</td></tr>
+<tr><td></td><td>return</td></tr>
+</table>
+
+:::
+
+::: {.myoverbox .highright .fragment .fade-in-then-out fragment-index=7 style="font-size: 65%"}
+
+while loop could run 2+ times
+
+<table class="collines">
+<tr><th>Thread 1</th><th>Thread 2</th><th>Thread 3</th></tr>
+<tr><td></td><td>Consume?</td></tr>
+<tr><td></td><td>... lock</td></tr>
+<tr><td></td><td>... empty? yes</td></tr>
+<tr><td></td><td>... unlock/start wait</td></tr>
+<tr><td>Produce()</td></tr>
+<tr><td>... lock</td></tr>
+<tr><td>... enqueue</td></tr>
+<tr><td>... signal</td><td>stop wait</td></tr>
+<tr><td>... unlock</td><td>lock</td></tr>
+<tr><td></td><td></td><td>Consume?</td></tr>
+<tr><td></td><td></td><td>... lock</td></tr>
+<tr><td></td><td></td><td>... empty? no</td></tr>
+<tr><td></td><td></td><td>... dequeue</td></tr>
+<tr><td></td><td></td><td>... unlock</td></tr>
+<tr><td></td><td></td><td>return</td></tr>
+<tr><td></td><td>... empty? no</td></tr>
+<tr><td></td><td>... dequeue</td></tr>
+<tr><td></td><td>... unlock</td></tr>
+<tr><td></td><td>return</td></tr>
+</table>
+
+:::
+
+
+
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+    \coordinate (place) at ([xshift=-.5cm,yshift=-1.5cm]current page.north east);
+    \coordinate (place lower) at ([xshift=-.5cm,yshift=-4.25cm]current page.north east);
+    \tikzset{
+        box base/.style={draw=red,ultra thick,align=left,anchor=north east,fill=white},
+        box/.style={box base,at={(place)}},
+        box lower/.style={box base,at={(place lower)}},
+        >=Latex,
+    }
+    \begin{visibleenv}<2>
+        \node [box] {
+            rule: never touch \texttt{buffer} \\
+            without acquiring lock \\
+            ~ \\
+            otherwise: what if two threads \\ simultaneously en/dequeue?  \\
+            {\small (both use same array/linked list entry?)} \\
+            {\small (both reallocate array?)}
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node [box lower] {
+            check if not empty \\
+            if so, dequeue \\
+            ~ \\
+            okay because have lock
+        };
+        \draw[<-,very thick,draw=red] (pic cs:after loop) -- ++(6cm,0cm) node[right,align=left] {
+            other threads can\textbf{not} dequeue here
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:signal) -- ++(2cm,0cm) node[right,align=left] {
+            wake one Consume thread \\ \textit{if any are waiting} \\
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<5->
+        \draw[<-,very thick,draw=red] ([yshift=1.5mm]pic cs:empty) -- ++(1cm,-2cm)
+        node[fill=white,draw=red,right,align=left,font=\fontsize{10.5}{10}\selectfont,inner sep=0.1mm] {
+            \myemph<5>{0 iterations}: Produce() called before Consume() \\
+            \myemph<6>{1 iteration}: Produce() signalled, probably \\
+            \myemph<7-8>{2+ iterations}: spurious wakeup or \ldots?
+        };
+        \tikzset{
+            timeline/.style={
+                tight matrix,fill=white,
+                nodes={text width=3.5cm,font=\fontsize{10.5}{11}\selectfont,fill=white,text depth=0.075cm,text height=0.25cm},
+                at={([xshift=-0.75cm,yshift=-1.15cm]current page.north east)},
+                anchor=north east,
+                row 1/.style={nodes={font=\bfseries\small,draw=none,align=center}},
+            },
+            wait for lock/.style={
+                draw,inner sep=0mm,
+                text=black!70,
+                align=center,
+                fill=white,
+                font=\fontsize{11}{12}\selectfont,
+            }
+        }
+        \begin{visibleenv}<5>
+            \matrix[timeline] {
+                Thread 1 \& Thread 2 \\
+                Produce() \\
+                \ldots lock \\
+                \ldots enqueue \\
+                \ldots signal \\
+                \ldots unlock \\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=green!20]| \ldots empty? no \\
+                \& \ldots dequeue \\
+                \& \ldots unlock \\
+                \& return \\
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<6>
+            \matrix[timeline,column 1/.style={nodes={text width=2cm}}] (one wait timeline) {
+                Thread 1 \& Thread 2 \\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                 \& \ldots unlock/start wait \\
+                Produce() \& ~\\
+                \ldots lock \\
+                \ldots enqueue \& ~\\
+                \ldots signal \& stop wait \\
+                \ldots unlock \& lock \\
+                \& |[fill=green!20]| \ldots empty? no \\
+                \& \ldots dequeue \\
+                \& \ldots unlock \\
+                \& return \\
+            };
+            \node[wait for lock,fit=(one wait timeline-6-2) (one wait timeline-8-2)] {
+                waiting for \\
+                data\_ready
+            };
+        \end{visibleenv}
+        \begin{visibleenv}<7-8>
+            \matrix[timeline,
+                    column 1/.style={nodes={text width=2cm}},
+                    column 3/.style={nodes={text width=2cm}},
+                    ] (two wait timeline) {
+                Thread 1 \& Thread 2 \& Thread 3\\
+                \& Consume() \\
+                \& \ldots lock \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                 \& \ldots unlock/start wait \\
+                Produce() \& ~ \\
+                \ldots lock \& \& Consume() \\
+                \ldots enqueue \& ~ \& ~ \\
+                |[alias=two signal]| \ldots signal \& |[alias=two stop wait]| stop wait \& ~ \\
+                \ldots unlock \& ~ \& |[alt=<8>{draw=red}]| lock \\
+                \& \& \ldots empty? no \\
+                \& \& \ldots dequeue \\
+                \& ~ \& \ldots unlock \\
+                \& \ldots lock \& return  \\
+                \& |[fill=red!20]| \ldots empty? yes \\
+                \& \ldots unlock/start wait \\
+            };
+            \node[wait for lock,fit=(two wait timeline-6-2) (two wait timeline-8-2)] {
+                waiting for \\
+                data\_ready
+            };
+            \node[wait for lock,fit=(two wait timeline-10-2) (two wait timeline-13-2)] {
+                waiting for \\
+                lock
+            };
+            \node[wait for lock,fit=(two wait timeline-8-3) (two wait timeline-9-3),
+                  label={[font=\fontsize{11}{12}\selectfont,black!70,align=center]center:waiting for\\lock}] {};
+            \begin{visibleenv}<8>
+                \node[draw=red,thick,inner sep=0mm,fit=(two signal) (two stop wait)] (mark stop wait) {};
+                \draw[thick,red,<-] (mark stop wait.west) -- ++(-1cm,0cm) node[draw=red,text=black,font=\small,left,fill=white,align=right] {
+                    in pthreads: signaled thread not \\
+                    guaranteed to hold lock next \\
+                    ~ \\
+                    alternate design: \\
+                    signaled thread gets lock next \\
+                    called ``Hoare scheduling'' \\
+                    not done by pthreads, Java, \ldots
+                };
+            \end{visibleenv}
+        \end{visibleenv}
+    \end{visibleenv}
+\end{tikzpicture}
+```
+-->
+

@@ -1,0 +1,42 @@
+
+### atomic read-modfiy-write  {.smaller}
+
+
+* really hard to build locks for atomic load store 
+
+   * and normal load/stores aren't even atomic…
+
+* … so processors provide <em>read/modify/write</em> operations 
+<hr class="vspace" />
+* one instruction that<br><i>atomically</i><br>reads <i>and</i> modifies <i>and</i> writes back a value 
+<hr class="vspace" />
+* used by OS to implement higher-level synchronization tools
+
+
+## x86 atomic exchange {visibility="hidden"}
+
+### x86 atomic exchange 
+
+
+```
+lock xchg (%ecx), %eax
+
+```
+ 
+
+* atomic exchange
+* <code>temp $\\leftarrow{}$ M[ECX]}
+       \item \texttt{M[ECX] $\\leftarrow{}$ EAX}
+       \item \texttt{EAX $\\leftarrow{}$ temp</code>
+* … without being interrupted by other processors, etc.
+
+
+### implementing atomic exchange 
+
+
+* make sure other processors don't have cache block 
+
+   * probably need to be able to do this to keep caches in sync
+
+* do read+modify+write operation
+

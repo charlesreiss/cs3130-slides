@@ -1,0 +1,158 @@
+
+### pthread cv usage  {.smaller}
+
+
+<pre><code>// MISSING: init calls, etc.
+pthread_mutex_t lock;
+bool finished;   // data, only accessed with after acquiring lock
+pthread_cond_t finished_cv;  // to wait for 'finished' to be true
+
+void WaitForFinished() {
+  <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+  <span data-fragment-index="3" class="fragment custom myem-only">while (!finished) {</span>
+    <span data-fragment-index="4" class="fragment custom myem-only">pthread_cond_wait(&amp;finished_cv, &amp;lock);</span>
+  }
+  pthread_mutex_unlock(&amp;lock);
+}
+
+void Finish() {
+  <span data-fragment-index="2" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+  finished = true;
+  <span data-fragment-index="5" class="fragment custom myem-only">pthread_cond_broadcast(&amp;finished_cv);</span>
+  pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+
+::: {.myoverbox .low .fragment .fade-in-then-out fragment-index=2}
+
+acquire lock before reading or write `finished`
+
+:::
+
+::: {.myoverbox .low .fragment .fade-in-then-out fragment-index=3}
+
+check whether we need to wait at all <br />
+[(why a loop? we'll explain later)]{.my-small}
+
+:::
+
+::: {.myoverbox .low .fragment .fade-in-then-out fragment-index=4}
+
+know we need to wait <br />
+(`finished` can't change while we have lock) <br />
+so wait, releasing lock...
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=5}
+
+allow all waiters to proceed <br/>
+once we release lock
+
+:::
+
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    >=Latex,
+    explain box/.style={draw=red,text=black,very thick,align=left},
+    point line/.style={very thick,red},
+}
+
+\begin{visibleenv}<2>
+    \node[explain box,anchor=east,fill=white] (acquire text) at ([yshift=-1cm,xshift=-.5cm]current page.east) {
+        acquire lock before \\ reading or writing \texttt{finished}
+    };
+    \draw[point line,<-] ([yshift=1.5mm]pic cs:lock for wait) -- (acquire text);
+    \draw[point line,<-] ([yshift=1.5mm]pic cs:lock for finish) -- (acquire text);
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[explain box,anchor=east,fill=white,fill opacity=0.9] (loop text) at ([xshift=-.5cm]current page.east |- {pic cs:finished loop}) {
+        check whether we need to wait at all \\
+        {\small (why a loop? we'll explain later)}
+    };
+    \draw[point line,<-] ([yshift=1.5mm]pic cs:finished loop) -- (loop text);
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[explain box,anchor=east,fill=white,fill opacity=0.9] (wait text) at ([xshift=-.5cm,yshift=-2cm]current page.east) {
+        know we need to wait  \\
+        (finished can't change while we have lock) \\
+        so wait, releasing lock\ldots
+    };
+    \draw[point line,<-] ([yshift=1.5mm]pic cs:wait) -- (wait text);
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[explain box,anchor=east,fill=white,fill opacity=0.9] (broadcast text) at ([yshift=2cm,xshift=-.5cm]current page.east |- {pic cs:broadcast}) {
+        allow all waiters to proceed \\
+        (once we unlock the lock)
+    };
+    \draw[point line,<-] ([yshift=1.5mm]pic cs:broadcast) -- (broadcast text);
+\end{visibleenv}
+\end{tikzpicture}
+```
+-->
+
+
+### WaitForFinish timeline 1  {.smaller}
+
+<table style="font-size: 80%">
+<tr><th>WaitForFinish thread</th><th>Finish thread</th></tr>
+<tr><td> `mutex_lock(&lock)`</td><td></td></tr>
+<tr><td>(thread has lock)</td><td></td></tr>
+<tr><td> &nbsp;</td><td>`mutex_lock(&lock)`</td></tr>
+<tr><td>&nbsp;</td><td>(start waiting for lock)</td></tr>
+<tr><td> `while (!finished) ...`</td><td></td></tr>
+<tr><td>`cond_wait(&finished_cv, &lock);`</td><td></td></tr>
+<tr><td>(start waiting for cv)</td><td>(done waiting for lock)</td></tr>
+<tr><td> &nbsp;</td><td>`finished = true`</td></tr>
+<tr><td>&nbsp;</td><td>`cond_broadcast(&finished_cv)`</td></tr>
+<tr><td> (done waiting for cv)</td><td>&nbsp;</td></tr>
+<tr><td>(start waiting for lock)</td><td>&nbsp;</td></tr>
+<tr><td> &nbsp;</td><td>`mutex_unlock(&lock)`</td></tr>
+<tr><td> (done waiting for lock)</td></tr>
+<tr><td>`while (!finished) ...`</td><td></td></tr>
+<tr><td>(finished now true, so return)</td></tr>
+<tr><td>`mutex_unlock(&lock)`</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### WaitForFinish timeline 2  {.smaller}
+
+<!-- \lstset{language=C++,style=smaller} -->
+ []{.my-small}  
+ <table>
+<tr><th>WaitForFinish thread</em></th><th>Finish thread</th></tr>
+<tr><td> &nbsp;</td><td>`mutex_lock(&lock)`</td></tr>
+<tr><td>&nbsp;</td><td>`finished = true`</td></tr>
+<tr><td>&nbsp;</td><td>`cond_broadcast(&finished_cv)`</td></tr>
+<tr><td>&nbsp;</td><td>`mutex_unlock(&lock)`</td></tr>
+<tr><td> `mutex_lock(&lock)`</td><td></td></tr>
+<tr><td>`while (!finished) ...`</td><td></td></tr>
+<tr><td>(finished now true, so return)</td></tr>
+<tr><td>`mutex_unlock(&lock)`</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### why the loop  {.smaller}
+
+
+```
+while (!finished) {
+  pthread_cond_wait(&finished_cv, &lock);
+}
+
+```
+ 
+
+* we only <code>broadcast</code> if <code>finished</code> is true
+* so why check <code>finished</code> afterwards? 
+<hr class="vspace" />
+* pthread_cond_wait manual page:  
+
+   * ‘‘<em>Spurious wakeups</em> ... may occur.’’
+
+* spurious wakeup = <code>wait</code> returns even though nothing happened
+

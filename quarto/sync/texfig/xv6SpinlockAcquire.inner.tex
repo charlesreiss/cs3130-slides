@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([yshift=1cm]current page.south);
+\coordinate (place higher) at ([yshift=3cm]current page.south);
+\tikzset{
+    box/.style={draw=red,ultra thick,fill=white,align=left,at={(place)},anchor=south},
+    box higher/.style={draw=red,ultra thick,fill=white,align=left,at={(place higher)},anchor=south},
+}
+\begin{visibleenv}<2>
+    \node[box] {
+        don't let us be interrupted after while have the lock \\
+        problem: interruption might try to do something with the lock \\
+        \ldots but that can never succeed until we release the lock \\
+        \ldots but we won't release the lock until interruption finishes
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[box] {
+        xchg wraps the lock xchg instruction \\
+        same loop as before
+    };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[box] {
+        avoid load store reordering (including by compiler) \\
+        on x86, \texttt{xchg} alone is enough to avoid processor's reordering \\
+        (but compiler may need more hints)
+    };
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

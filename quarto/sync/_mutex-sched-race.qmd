@@ -1,0 +1,25 @@
+
+### mutex and scheduler subtly  {.smaller}
+
+[]{.my-small} <table>
+<tr><td>core 0 (thread A)</td><td>core 1 (thread B)</td></tr>
+<tr><td>\\hline{}  start LockMutex</td><td></td></tr>
+<tr><td>acquire spinlock</td><td></td></tr>
+<tr><td>discover lock taken</td><td></td></tr>
+<tr><td>enqueue thread A</td><td></td></tr>
+<tr><td>thread A set not runnable</td><td></td></tr>
+<tr><td>release spinlock</td><td>start UnlockMutex</td></tr>
+<tr><td></td><td>thread A set runnable</td></tr>
+<tr><td></td><td>finish UnlockMutex</td></tr>
+<tr><td></td><td>run scheduler</td></tr>
+<tr><td></td><td>scheduler switches to A</td></tr>
+<tr><td></td><td>[… with old verison of registers]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
+<tr><td>thread A runs scheduler</td><td></td><td>…</td></tr>
+<tr><td>… finally saving registers</td><td></td><td>…</td></tr>
+<tr><td></td></tr>
+</table>
+ 
+
+* Linux soln.: track ‘thread running’ separately from ‘thread runnable’
+* xv6 soln.: hold scheduler lock until thread A saves registers
+

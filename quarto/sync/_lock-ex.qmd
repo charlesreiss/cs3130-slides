@@ -1,0 +1,103 @@
+
+### exercise  {.smaller}
+
+
+ 
+```
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_unlock(&lock1);
+}
+
+```
+ possible values of one/two after A+B run?
+
+### solution  {.smaller}
+
+
+* B1+A2 
+
+   * A: L(1) A1 U(1) L
+   * B: L(1) B1 L(2) B2 U(2) U(1)
+   * A: L(2) A2 U(2)
+
+* NOT A1+B2 
+
+   * would need to run B1 before A1 before A2 before B2
+   * not possible because Lock1 held for entire B1+B2 operation
+   * so cannot fit A1+A2 in between B1 and B2
+
+
+
+### againframe(lockExSln)
+
+### exercise (alternate 1)  {.smaller}
+
+
+ 
+```
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_unlock(&lock1);
+}
+
+```
+ possible values of one/two after A+B run?
+
+### exercise (alternate 2)  {.smaller}
+
+
+ 
+```
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+string one = "init one", two = "init two";
+void ThreadA() {
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadA";  // (A2)
+    pthread_mutex_unlock(&lock2);
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadA";  // (A1)
+    pthread_mutex_unlock(&lock1);
+}
+void ThreadB() {
+    pthread_mutex_lock(&lock1);
+    one = "one in ThreadB";  // (B1)
+    pthread_mutex_unlock(&lock1);
+    pthread_mutex_lock(&lock2);
+    two = "two in ThreadB";  // (B2)
+    pthread_mutex_unlock(&lock2);
+}
+
+```
+ possible values of one/two after A+B run?

@@ -1,0 +1,28 @@
+
+### exercise  {.smaller}
+
+<!-- \lstset{language=C,style=smaller} -->
+ 
+```
+pthread_barrier_t barrier; int x = 0, y = 0;
+void thread_one() {
+    y = 10;
+    pthread_barrier_wait(&barrier);
+    y = x + y;
+    pthread_barrier_wait(&barrier);
+    pthread_barrier_wait(&barrier);
+    printf("%d %d\n", x, y);
+}
+void thread_two() {
+    x = 20;
+    pthread_barrier_wait(&barrier);
+    pthread_barrier_wait(&barrier);
+    x = x + y;
+    pthread_barrier_wait(&barrier);
+}
+
+```
+ 
+
+* output?  (if both run at once, barrier set for 2 threads)
+

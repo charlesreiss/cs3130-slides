@@ -1,0 +1,13 @@
+
+### problem: busy waits 
+
+
+<pre><code>  <span data-fragment-index="1" class="fragment custom myem-only">while(xchg(&amp;lk-&gt;locked, 1) != 0)</span>
+    ; 
+</code></pre>
+ 
+
+* what if it's going to be a while?
+* waiting for process that's waiting for I/O?
+* really would like to do something else with CPU instead…
+

@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{arrows.meta,graphdrawing,graphs,matrix,quotes,fit,automata}
+\usegdlibrary{force}
+\tikzset{
+    own/.style={thick},
+    other/.style={thick,dashed},
+    action/.style={thick,blue},
+    hiOn/.style={alt=#1{line width=3pt}{}},
+    explainBox/.style={thick,fill=white,draw=red,text=black},
+    hiBox/.style={rounded corners,fill=green,opacity=0.2},
+}
+\begin{document}
+
+\setSlide{1}
+\input{sync/texfig/moesiGraph.inner.tex}
+\end{document}

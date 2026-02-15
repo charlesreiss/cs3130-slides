@@ -1,0 +1,80 @@
+
+### Linux futexes  {.smaller}
+
+
+* <code>futex</code> --- <em>f</em>ast <em>u</em>serspace mu<em>tex</em>
+* goal: implement waiting like ‘proper’ mutexes, but…
+* don't enter kernel mode most of the time 
+<hr class="vspace" />
+* challenge: can't acquire lock to call scheduler from user mode
+
+
+### futex operations  {.smaller}
+
+
+```
+futex(&lock_value, FUTEX_WAIT, expected_value, ...);
+
+```
+ 
+
+* check if <code>lock_value</code> is <code>expected_value</code>  
+
+   * if not --- return immediately
+   * otherwise, sleep until it <code>futex(…, FUTEX_WAKE</code> is called
+
+ 
+```
+futex(&lock_value, FUTEX_WAKE, num_processes);
+
+```
+ 
+
+* wakeup up to <code>num_processes</code> which called FUTEX_WAIT
+
+
+### mutexes with futexes  {.smaller}
+
+
+```
+int lock_value; // UNLOCKED or LOCKED_NO_WAITERS or LOCKED_WAITERS
+Lock() {
+retry:
+    if (CompareAndSwap(&lock_value, UNLOCKED, LOCKED_NO_WAITERS) == SET) {
+        /* acquired lock */
+        return;
+    } else if (CompareAndSwap(&lock_value, LOCKED_NO_WAITERS, LOCKED_WAITERS) == SET) {
+        futex(&lock_value, FUTEX_WAIT, LOCKED_WAITERS, ...);
+    }
+    goto retry;
+}
+Unlock() {
+    if (CompareAndSwap(&lock_value, LOCKED_NO_WAITERS, UNLOCKED) == SET) {
+        return;
+    } else {
+        lock_value = UNLOCKED;
+        futex(&lock_value, FUTEX_WAKE, 1, ...);
+    }
+}
+
+```
+
+
+### implementing futex_wait  {.smaller}
+
+
+* hashtable: address $\rightarrow$ queue of waiting threads 
+<hr class="vspace" />
+* use hashtable to look-up queue
+* lock queue
+* check value hasn't changed 
+
+   * if so abort, releasing lock
+
+* add thread to queue
+* set thread as WAITING (not runnable)
+* unlock queue
+* call scheduler 
+<hr class="vspace" />
+* woken up --- queue used to set RUNNABLE
+

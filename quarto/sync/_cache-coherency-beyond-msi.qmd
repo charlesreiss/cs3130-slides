@@ -1,0 +1,10 @@
+
+### MSI extensions  {.smaller}
+
+
+* real cache coherency protocols sometimes more complex: 
+<hr class="vspace" />
+* separate tracking modifications from whether other caches have copy
+* send values directly between caches (maybe skip write to memory)
+* send messages only to cores which might care (no shared bus)
+

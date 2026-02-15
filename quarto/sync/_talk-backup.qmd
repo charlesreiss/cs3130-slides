@@ -1,0 +1,28 @@
+
+# read-modify-write atomic operations {visibility="hidden"}
+
+{{< include /sync/_read-modify-write.qmd >}}
+
+## but higher-level tools {visibility="hidden"}
+
+{{< include /sync/_atomic-to-higher.qmd >}}
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+
+
+## transaction (more complete) {visibility="hidden"}
+
+{{< include /sync/_transaction-impls.qmd >}}
+
+{{< include /sync/_transaction-durable.qmd >}}
+
+{{< include /sync/_talk-locks-backup.qmd >}}
+
+{{< include /sync/_talk-monitor-backup.qmd >}}
+
+{{< include /sync/_talk-rwlock-backup.qmd >}}
+
+{{< include /sync/_talk-semaphore-backup.qmd >}}

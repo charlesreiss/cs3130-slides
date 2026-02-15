@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([xshift=-1cm,yshift=-1cm]current page.east);
+\tikzset{
+    box/.style={draw=red,ultra thick,align=left,anchor=east,at={(place)},fill=white},
+    box lower/.style={draw=red,ultra thick,align=left,anchor=east,at={(place)},fill=white},
+}
+\begin{visibleenv}<2>
+    \node[box] { set lock variable to 1 (taken) \\ read old value };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[box] { if lock was already locked retry \\ ``spin'' until lock is released elsewhere };
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \node[box] { release lock by setting it to 0 (not taken) \\ allows looping acquire to finish};
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \node[box lower] { Intel's manual says: \\
+                 no reordering of loads/stores across a \texttt{lock} \\
+                 or \texttt{mfence} instruction
+    };
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

@@ -1,0 +1,82 @@
+
+### thinking about race conditions (1) 
+
+
+* what are the possible values of $x$? (initially $x = y = 0$)  <br> <table>
+   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td><!-- \hline -->  $x \leftarrow 1$</td><td>$y \leftarrow 2$</td></tr>
+<tr><td></td></tr>
+</table>
+
+::: {.fragment}   
+
+* must be 1. Thread B can't do anything
+
+:::
+
+
+### thinking about race conditions (2)  {.smaller}
+
+
+* possible values of $x$? (initially $x = y = 0$) <br> <table>
+   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td><!-- \hline -->  $x \leftarrow y + 1$</td><td>$y \leftarrow 2$</td></tr>
+<tr><td>&nbsp;</td><td>$y \leftarrow y \times 2$</td></tr>
+<tr><td></td></tr>
+</table>
+
+::: {.fragment}
+
+* if A goes first, then B: $1$
+* if B goes first, then A: $5$
+* if B line one, then A, then B line two: $3$
+
+:::
+
+
+
+### thinking about race conditions (3)  {.smaller}
+
+
+* what are the possible values of $x$? <br>
+* (initially $x = y = 0$) <br> <table>
+   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td><!-- \hline -->  $x \leftarrow 1$</td><td>$x \leftarrow 2$</td></tr>
+<tr><td></td></tr>
+</table>
+   
+::: {.fragment}
+
+* 1 or 2
+
+:::
+
+::: {.fragment}
+
+* … but why not 3? 
+
+   * B: x bit 0 $\leftarrow 0$
+   * A: x bit 0 $\leftarrow 1$
+   * A: x bit 1 $\leftarrow 0$
+   * B: x bit 1 $\leftarrow 1$
+
+:::
+
+
+### thinking about race conditions (2, reprise)  {.smaller}
+
+
+* possible values of $x$? (initially $x = y = 0$) <br> <table>
+   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td><!-- \hline -->  $x \leftarrow y + 1$</td><td>$y \leftarrow 2$</td></tr>
+<tr><td>&nbsp;</td><td>$y \leftarrow y \times 2$</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+* <em>why not 7?</em>
+
+   * B (start): $y \leftarrow 2 = 0010_{\text{TWO}}$; then y bit 3 $\leftarrow$ 0; y bit 2 $\leftarrow$ 1; then
+   * A: x $\leftarrow 110_{\text{TWO}} + 1 = 7$; then
+   * B (finish): y bit 1 $\leftarrow$ 0; y bit 0 $\leftarrow$ 0
+

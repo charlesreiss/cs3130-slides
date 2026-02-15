@@ -1,0 +1,25 @@
+
+### using atomic exchange?  {.smaller}
+
+
+
+* example: OS wants something done by whichever core tries first
+* does not want it started twice!
+* if two cores try at once, only one should do it
+ 
+```
+int global_flag = 0;
+void DoThingIfFirstToTry() {
+    int my_value = 1;
+    AtomicExchange(&my_value, &global_flag);
+    if (my_value == 0) {
+        /* flag was zero before, so I was first!*/
+        DoThing();
+    } else {
+        /* flag was already 1 when we exchanged */
+        /* I was second, so some other core is handling it */
+    }
+}
+
+```
+

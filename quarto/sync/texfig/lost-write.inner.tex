@@ -1,0 +1,40 @@
+\begin{tikzpicture}
+\node[font=\tt\small] (cpp code) {
+account->balance += amount;
+};
+\node[anchor=west] at (cpp code.east) { (in two threads, same account) };
+\draw[very thick,dotted] (cpp code.south west) -- ++(15cm,0cm);
+
+\node[font=\tt\small,label={north:Thread A},align=left,anchor=north west] (thread A part 1) at ([yshift=-1cm]cpp code.south west) {
+mov account->balance, \%rax \\
+add amount, \%rax \\
+};
+\node[label={north:Thread B},anchor=north west] (thread B top) at ([xshift=.5cm]thread A part 1.north east) {
+\hspace{5cm}
+};
+\node[font=\tt\small,align=left,anchor=north west] (thread B part 1) at (thread B top.west |- thread A part 1.south) {
+mov account->balance, \%rax \\
+add amount, \%rax \\
+};
+\node[align=left,font=\tt\small,anchor=north west] (thread A part 2) at (thread A part 1.west |- thread B part 1.south) {
+mov \%rax, account->balance \\
+};
+\node[align=left,anchor=north west,font=\tt\small] (thread B part 2) at (thread B part 1.west |- thread A part 2.south) {
+mov \%rax, account->balance
+};
+\foreach \place in {thread A part 1,thread B part 1,thread A part 2} {
+    \draw[ultra thick] (\place.south -| thread A part 1.west) -- (\place.south -| thread B part 1.east)
+        node[midway,fill=white,font=\small]{context switch};
+}
+\begin{visibleenv}<2->
+    \node[draw,red,ultra thick,fit=(thread A part 2),
+        label={[red]south:lost write to balance}] {};
+    \node[draw,blue,ultra thick,fit=(thread B part 2),
+        label={[blue]south:``winner'' of the race}] {};
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \node[draw,red,ultra thick,anchor=north,fill=white] at ([xshift=-3cm,yshift=-0.5cm]thread B part 2.south west) {
+        lost track of thread A's money
+    };
+\end{visibleenv}
+\end{tikzpicture}

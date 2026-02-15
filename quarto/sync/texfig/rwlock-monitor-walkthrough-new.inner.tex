@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+\tikzset{
+    timeline/.style={
+        tight matrix,
+        nodes={font=\small\tt},
+        row 1/.style={nodes={font=\small\bfseries}},
+    }
+}
+\matrix[timeline] (timeline) {
+    W \& R \& WW \\
+    0 \& 1 \& 0 \\
+    0 \& 2 \& 0 \\
+    0 \& 2 \& 1 \\
+    0 \& 1 \& 1 \\
+    0 \& 0 \& 1 \\
+    1 \& 0 \& 0 \\
+    1 \& 0 \& 0 \\
+    0 \& 0 \& 0 \\
+    0 \& 1 \& 0 \\
+};
+\end{tikzpicture}

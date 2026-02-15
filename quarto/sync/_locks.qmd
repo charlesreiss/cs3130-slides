@@ -1,0 +1,51 @@
+
+### the lock primitive  {.smaller}
+
+
+
+* locks: an object with (at least) two operations: 
+
+   * <i>acquire</i> or <i>lock</i> --- [wait]{.fragment fragment-index=2 .custom .myem-only} until lock is free, then ‘‘grab’’ it
+   * <i>release</i> or <i>unlock</i> --- let others use lock, wakeup waiters
+
+* typical usage: everyone acquires lock before using shared resource 
+
+   * forget to acquire lock? weird things happen
+
+ 
+```
+Lock(account_lock);
+balance += ...;
+Unlock(account_lock);
+
+```
+
+
+### waiting for lock? 
+
+
+* when waiting --- ideally: 
+<hr class="vspace" />
+* not using processor (at least if waiting a while)
+* OS can context switch to other programs
+
+
+### pthread mutex  {.smaller}
+
+
+```
+#include <pthread.h>
+
+pthread_mutex_t account_lock;
+pthread_mutex_init(&account_lock, NULL);
+    // or: pthread_mutex_t account_lock =
+    //              PTHREAD_MUTEX_INITIALIZER;
+...
+pthread_mutex_lock(&account_lock);
+balance += ...;
+pthread_mutex_unlock(&account_lock);
+...
+pthread_mutex_destroy(&account_lock);
+
+```
+

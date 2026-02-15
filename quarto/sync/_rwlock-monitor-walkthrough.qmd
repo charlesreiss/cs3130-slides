@@ -1,0 +1,45 @@
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8.5}{9.5}\tt\selectfont,
+    moredelim={**[is][\btHL<1->]{@1}{1@}},
+} -->
+
+### simulation of reader/write lock  {.smaller}
+
+
+ 
+
+* writer-priority version
+* W = writers, R = readers, WW = waiting_writers
+ 
+
+::: {.r-stack}
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+![](/sync/texfig/rwlock-monitor-walkthrough.figure-13.svg){.fragment .fade-in-then-out fragment-index=13}
+
+
+:::
+

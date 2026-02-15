@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{scope}[every node/.style={draw,thin,rectangle,minimum width=2cm,text height=.5cm},
+              thick,>=Latex]
+\graph[tree layout,grow=down,fresh nodes,level distance=2cm,sibling distance=2cm] {
+    "CPU0" <->[ultra thick,red!50!black]
+    { "CPU1" <->[thick] { "CPU3" <->[thin] {"CPU8", "CPU9"}, "CPU4" },
+      "CPU2" <->[thick] { "CPU6", "CPU7" }
+    },
+};
+\end{scope}
+\end{tikzpicture}

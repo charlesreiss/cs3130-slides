@@ -1,0 +1,14 @@
+
+### choosing orderings?  {.smaller}
+
+
+* can use monitors to implement lots of lock policies
+* want $X$ to go first/last --- add extra variables 
+
+   * (number of waiters, even lists of items, etc.)
+
+* need way to write condition ‘‘you can go now’’ 
+
+   * e.g. writer-priority: readers can go if no writer waiting
+
+

@@ -1,0 +1,33 @@
+
+### transactions  {.smaller}
+
+
+
+* transaction: set of operations that occurs atomically
+* idea: something higher-level handles locking, etc.:
+ 
+```
+BeginTransaction();
+int FromOldBalance = GetBalance(FromAccount);
+int ToOldBalance = GetBalance(ToAccount);
+SetBalance(FromAccount, FromOldBalance - 100);
+SetBalance(ToAccount, ToOldBalance + 100);
+EndTransaction();
+
+```
+ 
+
+* idea: library/database/etc. makes ‘‘transaction’’ happens all at once
+
+
+### consistency / durability  {.smaller}
+
+
+* ‘‘happens all at once’’ = could mean: 
+<hr class="vspace" />
+* locking to make sure no other operations interfere (consistency)
+* making sure on crash, no partial transaction seen (durability) 
+<hr class="vspace" />
+* []{.my-small} (some systems provide both, some provide only one)
+* we'll just talk about implementing consistency
+

@@ -1,0 +1,54 @@
+
+### monitors/condition variables  {.smaller}
+
+
+* <em>locks</em> for mutual exclusion
+* <em>condition variables</em> for waiting for event 
+
+   * represents <em><em>list of waiting threads</em></em>
+   * operations: wait (for event); signal/broadcast (that event happened)
+
+* related data structures 
+<hr class="vspace" />
+* <em>monitor</em> = lock + 0 or more condition variables + shared data 
+
+   * Java: every object is a monitor (has instance variables, built-in lock, cond. var)
+   * pthreads: build your own: provides you locks + condition variables
+
+
+
+### monitor idea 
+
+
+
+::: {.r-stack .my-full}
+![](/sync/texfig/monitorIdea.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/monitorIdea.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/monitorIdea.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync/texfig/monitorIdea.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### condvar operations 
+
+
+
+::: {.r-stack .my-full}
+![](/sync/texfig/condVarOps.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/condVarOps.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/condVarOps.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync/texfig/condVarOps.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync/texfig/condVarOps.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

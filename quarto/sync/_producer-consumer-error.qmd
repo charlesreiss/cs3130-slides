@@ -1,0 +1,80 @@
+
+### bounded buffer producer/consumer  {.smaller}
+
+
+ 
+<pre><code>pthread_mutex_t lock;
+pthread_cond_t <span data-fragment-index="4" class="fragment custom myem-only">data_ready</span>; <span data-fragment-index="2" class="fragment custom myem-only">pthread_cond_t @4space_ready4@;</span>
+BoundedQueue buffer;
+
+Produce(item) {
+    pthread_mutex_lock(&amp;lock);
+    <span data-fragment-index="2" class="fragment custom myem-only">while (buffer.full()) { pthread_cond_wait(@4&amp;space_ready4@, &amp;lock); }</span>
+    buffer.enqueue(item);
+    pthread_cond_signal(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>);
+    pthread_mutex_unlock(&amp;lock);
+}
+
+Consume() {
+    pthread_mutex_lock(&amp;lock);
+    while (buffer.empty()) {
+        pthread_cond_wait(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>, &amp;lock);
+    }
+    item = buffer.dequeue();
+    [[pthread_cond_signal(@4&amp;space_ready4@);]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}X\\tikzmark{signal}X
+    pthread_mutex_unlock(&amp;lock);
+    return item;
+}
+</code></pre>
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    >=Latex
+}
+\begin{visibleenv}<3>
+\draw[draw=red,thick,<-] ([xshift=0cm,yshift=3mm]pic cs:signal) -- ++(0cm,1cm) node[anchor=south,draw=red,text=black,fill=white,align=left] {
+CANNOT REPLACE WITH: \\
+\usebox{\codeBoxA} % buffer.size()
+what if two waiting producers and \\
+two consumers run right after each other \\
+problem: only one woken up
+};
+\end{visibleenv}
+\end{tikzpicture}
+```
+-->
+
+
+### potential fixes  {.smaller}
+
+
+* unconditionally signal 
+
+   * each consume allows one produce to go
+   * rely on condition variable knowing if no one is waiting
+
+* broadcast if buffer changed from full to not-full 
+
+   * every thread waiting because it was full could go buffer it becomes full again
+
+* explicitly count number of waiting producers --- buffer not full and waiter
+
+
+### how could I have avoided this?  {.smaller}
+
+
+* question: who might be waiting when condition changes
+* almost always multiple threads!
+* if not broadcasting, <em>explain why each waiting thread gets to go</em>
+* my implicit non-explanation: queue will be full again first 
+
+   * not actually true: can keep consuming before producers go
+ 
+<hr class="vspace" />
+* alternate view: consuming causes what threads to go?  
+
+   * not just when the buffer was full
+   * since if I empty the buffer by consuming…
+
+

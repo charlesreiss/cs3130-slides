@@ -1,0 +1,13 @@
+
+### higher level tools  {.smaller}
+
+
+* usually we won't use atomic operations directly
+* instead rely on OS/standard libraries using them
+* (along with context switching, disabling interrupts, …)
+* OS/standard libraries will provide higher-level tools like… 
+<hr class="vspace" />
+* pthread_join
+* locks (pthread_mutex)
+* … and more
+

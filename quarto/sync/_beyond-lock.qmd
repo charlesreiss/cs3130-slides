@@ -1,0 +1,20 @@
+
+### beyond locks  {.smaller}
+
+
+* in practice: want more than locks for synchronization
+* for waiting for arbtirary events (without CPU-hogging-loop): 
+
+   * monitors
+   * semaphores
+
+* for common synchornization patterns: 
+
+   * barriers
+   * reader-writer locks
+
+* higher-level interface: 
+
+   * transactions
+
+

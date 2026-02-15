@@ -1,0 +1,69 @@
+
+### generalizing locks: semaphores  {.smaller}
+
+
+* semaphore has a non-negative integer <em>value</em> and two operations:
+* <em>P()</em> or <em>down</em> or <em>wait</em>: <br> wait for semaphore to become positive ($>0$), <br> then decerement by 1
+* <em>V()</em> or <em>up</em> or <em>signal</em> or <em>post</em>: <br> increment semaphore by 1 (waking up thread if needed) 
+<hr class="vspace" />
+* [P, V from Dutch: <i>proberen</i> (test), <i>verhogen</i> (increment)]{.my-small}
+
+
+### semaphores are kinda integers  {.smaller}
+
+
+* semaphore like an integer, but…
+* <em>cannot read/write directly</em> 
+
+   * down/up operaion only way to access (typically)
+   * exception: initialization
+
+* <em>never negative</em> --- wait instead 
+
+   * down operation wants to make negative? thread waits
+
+
+
+### reserving books  {.smaller}
+
+
+
+* suppose tracking copies of library book…
+ 
+```
+Semaphore free_copies = Semaphore(3);
+void ReserveBook() {
+    // wait for copy to be free
+    free_copies.down();
+    ... // ... then take reserved copy
+}
+
+void ReturnBook() {
+    ... // return reserved copy
+    free_copies.up();
+    // ... then wakekup waiting thread
+}
+
+```
+
+
+### counting resources: reserving books 
+
+
+
+::: {.r-stack .my-full}
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/sync/texfig/semaphore-intro-counting-resources-reserving-books.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+

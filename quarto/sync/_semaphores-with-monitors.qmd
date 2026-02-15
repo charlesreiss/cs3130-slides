@@ -1,0 +1,95 @@
+
+### building semaphore with monitors  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+} -->
+ 
+```
+pthread_mutex_t lock;
+
+```
+ 
+<div class="fragment fade-in" data-fragment-index=2 >
+ 
+```
+unsigned int count;
+
+```
+ 
+</div>
+ 
+<div class="fragment fade-in" data-fragment-index=3 >
+ 
+```
+/* condition, broadcast when becomes count > 0 */
+pthread_cond_t count_is_positive_cv;
+
+```
+ 
+</div>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<div class="fragment fade-in" data-fragment-index=4 >
+ 
+```
+void down() {
+    pthread_mutex_lock(&lock);
+    while (!(count > 0)) {
+        pthread_cond_wait(
+            &count_is_positive_cv,
+            &lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+</div>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<div class="fragment fade-in" data-fragment-index=5 >
+ 
+```
+void up() {
+    pthread_mutex_lock(&lock);
+    count += 1;
+    /* count must now be
+       positive, and at most
+       one thread can go per
+       call to Up() */
+    pthread_cond_signal(
+        &count_is_positive_cv
+    );
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+</div>
+ 
+:::
+
+::::
+ 
+
+* [lock to protect shared state]{.fragment fragment-index=1 .custom .myem-only} 
+
+   * [shared state: semaphore tracks a count]{.fragment fragment-index=2 .custom .myem-only}
+
+* [add cond var for each reason we wait]{.fragment fragment-index=3 .custom .myem-only} 
+
+   * semaphore: wait for count to become positive (for down)
+
+* [wait]{.fragment fragment-index=4 .custom .myem-only} using condvar; [broadcast/signal]{.fragment fragment-index=5 .custom .myem-only} when condition changes
+

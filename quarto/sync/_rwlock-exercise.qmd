@@ -1,0 +1,82 @@
+
+### rwlock exercise (1)  {.smaller}
+
+
+
+* suppose there are multiple waiting writers
+* which one gets waken up first? 
+
+   * whichever gets signal'd or gets lock first
+ 
+<hr class="vspace" />
+* could instead keep in order they started waiting
+* exercise: what extra information should we track? 
+
+   * hint: we might need an array
+
+ 
+```
+mutex_t lock; cond_t ok_to_read_cv, ok_to_write_cv;
+int readers, writers, waiting_writers;
+
+```
+
+
+### rwlock exercise solution?  {.smaller}
+
+
+
+* list of waiting writes?
+ 
+```
+struct WaitingWriter {
+    cond_t cv;
+    bool ready;
+};
+Queue<WaitingWriter*> waiting_writers;
+
+WriteLock(...) {
+  ...
+  if (need to wait) {
+    WaitingWriter self;
+    self.ready = false;
+    ...
+    while(!self.ready) {
+        pthread_cond_wait(&self.cv, &lock);
+    }
+  }
+  ...
+}
+
+```
+
+
+### rwlock exercise solution?  {.smaller}
+
+
+
+* dedicated writing thread with queue  
+
+   * (DoWrite$\\sim{}$Produce; WritingThread$\\sim{}$Consume)
+
+ 
+```
+ThreadSafeQueue<WritingTask*> waiting_writes;
+WritingThread() {
+    while (true) {
+        WritingTask* task = waiting_writer.Dequeue();
+        WriteLock();
+        DoWriteTask(task);
+        task.done = true;
+        cond_broadcast(&task.cv);
+    }
+}
+DoWrite(task) {
+    // instead of WriteLock(); DoWriteTask(...); WriteUnlock()
+    WritingTask task = ...;
+    waiting_writes.Enqueue(&task);
+    while (!task.done) { cond_wait(&task.cv); }
+}
+
+```
+

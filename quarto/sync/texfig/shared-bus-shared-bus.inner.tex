@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=5mm,
+] (net) {
+      \& \& \& \& \&  \\
+    CPU1 \& CPU2 \& CPU3 \& CPU4 \& MEM1 \& MEM2\\
+};
+\foreach \x in {1,2,3,4,5,6} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-6.east);
+\end{tikzpicture}

@@ -1,0 +1,78 @@
+\begin{tikzpicture}
+\tikzset{
+    hilite red on/.style={alt=<#1>{fill=red!10}},
+    hilite blue on/.style={alt=<#1>{fill=blue!10}},
+    >=Latex,
+    queue node/.style={draw,thick,minimum width=.6cm,minimum height=.6cm},
+    queue connect/.style={draw,->,ultra thick},
+}
+\matrix[
+    tight matrix,
+    nodes={draw,thick,text width=4cm,font=\small},
+    label={[font=\small]north:a monitor},
+    ] (monitor) {
+    |[hilite red on={2-}]| lock \\
+    shared data \\
+    |[hilite blue on={4-}]| condvar 1 \\
+    |[hilite blue on={4-}]| condvar 2 \\
+    \ldots \\
+    |[minimum height=0.2mm]| {} \\
+    operation1(\ldots)\\
+    operation2(\ldots) \\
+};
+\begin{visibleenv}<2-3>
+    \node[draw=red,ultra thick,inner sep=0mm,fit=(monitor-2-1) (monitor-5-1)] {};
+\end{visibleenv}
+\begin{visibleenv}<2>
+    \node[red,anchor=north west,align=left] at (monitor-1-1.north east) {
+            lock must be acquired \\
+            before accessing \\
+            any part of monitor's stuff
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \begin{scope}[
+        start chain=going right,
+        every join/.style={queue connect},
+        every node/.style={queue node,on chain,join,fill=red!10},
+    ]
+    \node[anchor=west] (lock queue 1) at ([xshift=1cm]monitor-1-1.east) {};
+    \node (lock queue 2) {};
+    \node (lock queue 3) {};
+    \end{scope}
+    \draw[->,dashed,ultra thick] (monitor-1-1) -- (lock queue 1);
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \node[anchor=west,align=left,text=red!20!black] at ([xshift=0cm]lock queue 3.east) {
+        threads waiting for lock
+    };
+\end{visibleenv}
+\begin{visibleenv}<4->
+    \begin{scope}[
+        start chain=going right,
+        every join/.style={queue connect},
+        every node/.style={queue node,on chain,join,fill=blue!10},
+    ]
+    \node[anchor=west] (condvar 1 queue 1) at ([xshift=1cm,yshift=-1cm]monitor-3-1.east) {};
+    \node (condvar 1 queue 2) {};
+    \node (condvar 1 queue 3) {};
+    \end{scope}
+    \draw[->,dashed,ultra thick] (monitor-3-1.east) -- (condvar 1 queue 1);
+
+    \begin{scope}[
+        start chain=going right,
+        every join/.style={queue connect},
+        every node/.style={queue node,on chain,join,fill=blue!10},
+    ]
+    \node[anchor=west] (condvar 2 queue 1) at ([xshift=1cm,yshift=-1.5cm]monitor-4-1.east) {};
+    \node (condvar 2 queue 2) {};
+    \node (condvar 2 queue 3) {};
+    \end{scope}
+    \draw[->,dashed,ultra thick] (monitor-4-1.east) -- (condvar 2 queue 1);
+    \node[anchor=west,align=left,text=blue!20!black] at ($(condvar 2 queue 3.north east)!0.5!(condvar 1 queue 3.south east)$) {
+        threads waiting for \\
+        condition to be true \\ 
+        about shared data
+    };
+\end{visibleenv}
+\end{tikzpicture}

@@ -1,0 +1,62 @@
+
+### semaphores/CV  {.smaller}
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+<pre><code>int num_waiting = 0;
+bool finished = false;
+sem_t mutex; // initially 1
+sem_t gate;  // initially 0
+void WaitForFinished() {
+    sem_wait(&amp;mutex);
+    if (finished) {
+        sem_post(&amp;mutex);
+    } else {
+        <span data-fragment-index="2" class="fragment custom myem-only">num_waiting += 1;</span>
+        <span data-fragment-index="2" class="fragment custom myem-only">sem_post(&amp;mutex);</span>
+        <span data-fragment-index="2" class="fragment custom myem-only">sem_wait(&amp;gate);</span>
+    }
+}
+
+void Finish() {
+    sem_wait(&amp;mutex);
+    finished = true;
+    <span data-fragment-index="1" class="fragment custom myem-only">while (num_waiting &gt; 0) {</span>
+        <span data-fragment-index="1" class="fragment custom myem-only">num_waiting -= 1;</span>
+        <span data-fragment-index="1" class="fragment custom myem-only">sem_post(&amp;gate);</span>
+    <span data-fragment-index="1" class="fragment custom myem-only">}</span>
+}
+</code></pre>
+
+:::
+
+::: {.column width="45%"}
+
+<pre><code>bool finished = false;
+pthread_mutex_t mutex;
+pthread_cond_t cv;
+
+
+void WaitForFinished() {
+    pthread_mutex_lock(&amp;mutex);
+    while (!finished) {
+        <span data-fragment-index="2" class="fragment custom myem-only">pthread_cond_wait(&amp;cv, &amp;mutex);</span>
+    }
+    pthread_mutex_unlock(&amp;mutex);
+}
+
+void Finish() {
+    pthread_mutex_lock(&amp;mutex);
+    finished = true;
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_cond_broadcast(&amp;cv);</span>
+    pthread_mutex_unlock(&amp;mutex);
+}
+</code></pre>
+
+:::
+
+::::
+

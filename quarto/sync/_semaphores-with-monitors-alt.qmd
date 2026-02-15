@@ -1,0 +1,113 @@
+
+### semaphores with monitors: no condition  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+} -->
+ 
+<pre><code>pthread_mutex_t lock;
+unsigned int count;
+/* condition, broadcast when becomes count &gt; 0 */
+pthread_cond_t count_is_positive_cv;
+</code></pre>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>void down() {
+    pthread_mutex_lock(&amp;lock);
+    while (!(count &gt; 0)) {
+        pthread_cond_wait(
+            &amp;count_is_positive_cv,
+            &amp;lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>void up() {
+    pthread_mutex_lock(&amp;lock);
+    count += 1;
+    <span data-fragment-index="1" class="fragment custom myem-only">pthread_cond_signal</span>(
+        &amp;count_is_positive_cv
+    );
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+ 
+
+* same as where we started…
+
+
+### semaphores with monitors: alt w/ signal  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{9}{10}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+} -->
+ 
+<pre><code>pthread_mutex_t lock;
+unsigned int count;
+/* condition, broadcast when becomes count &gt; 0 */
+pthread_cond_t count_is_positive_cv;
+</code></pre>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+\begin{lstlsiting}
+ void down() 
+ pthread_mutex_lock(&lock); while (!(count > 0)) 
+ pthread_cond_wait( &count_is_positive_cv, &lock);  count -= 1; @1if (count > 0) 1@ @1pthread_cond_signal(1@ &count_is_positive_cv );   pthread_mutex_unlock(&lock);  
+\end{lstlisting}
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>void up() {
+    pthread_mutex_lock(&amp;lock);
+    count += 1;
+    if (count == 1) {
+        <span data-fragment-index="1" class="fragment custom myem-only">pthread_cond_signal</span>(
+            &amp;count_is_positive_cv
+        );
+    }
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+
+
+### on signal/broadcast generally  {.smaller}
+
+
+* whenever using signal need to ask <br> what if more than one thread is waiting?
+* need to explain why those threads will be signalled eventually
+* … <em>even if next thread signalled doesn't run right away</em> 
+<hr class="vspace" />
+* another problem that would be avoided with Hoare scheduling
+

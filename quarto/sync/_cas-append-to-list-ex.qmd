@@ -1,0 +1,21 @@
+
+### exercise: append to singly-linked list  {.smaller}
+
+
+
+* ListNode is a singly-linked list
+* assume: threads <i>only</i> append to list (no deletions, reordering)
+* use <code>compare-and-swap(pointer, old, new)</code>: 
+
+   * atomically change <code>*pointer</code> from <code>old</code> to <code>new</code>
+   * return true if successful
+   * return false (and change nothing) if <code>*pointer</code> is not <code>old</code>
+
+ 
+```
+void append_to_list(ListNode *head, ListNode *new_last_node) {
+    ...
+}
+
+```
+

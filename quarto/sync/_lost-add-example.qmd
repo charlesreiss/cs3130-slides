@@ -1,0 +1,52 @@
+
+### lost adds (program)  {.smaller}
+
+
+```
+.global update_loop
+update_loop:
+    addl $1, the_value // the_value (global variable) += 1
+    dec %rdi           // argument 1 -= 1
+    jg update_loop     // if argument 1 >= 0 repeat
+    ret
+
+```
+ <hr />
+ 
+```
+int the_value;
+extern void *update_loop(void *);
+int main(void) {
+    the_value = 0;
+    pthread_t A, B;
+    pthread_create(&A, NULL, update_loop, (void*) 1000000);
+    pthread_create(&B, NULL, update_loop, (void*) 1000000);
+    pthread_join(A, NULL); pthread_join(B, NULL);
+    // expected result: 1000000 + 1000000 = 2000000
+    printf("the_value = %d\n", the_value);
+}
+
+```
+
+
+### lost adds (results) 
+
+
+![](/sync/parallel-add-histogram.svg){fig-alt="histogram of actual measurements showing results clustered in around 1 million; with most slightly above that and a few below that. The histogram has no visible results above around 1.3 million."}
+
+
+### but how?  {.smaller}
+
+
+* probably not possible on single core 
+
+   * exceptions can't occur in the middle of <code>add</code> instruction
+
+* … but ‘add to memory’ implemented with multiple steps 
+
+   * still needs to load, add, store internally
+   * can be interleaved with what other cores do
+ 
+<hr class="vspace" />
+ [(and actually it's more complicated than that --- we'll talk later)]{.my-small}
+

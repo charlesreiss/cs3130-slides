@@ -1,0 +1,16 @@
+
+{{< include /sync/_talk-locks.qmd >}}
+
+{{< include /sync/_talk-barriers.qmd >}}
+
+# producer/consumer problem {visibility="hidden"}
+
+{{< include /sync/_producer-consumer-intro.qmd >}}
+
+{{< include /sync/_talk-monitor.qmd >}}
+
+{{< include /sync/_talk-rwlock.qmd >}}
+
+{{< include /sync/_talk-semaphore.qmd >}}
+
+{{< include /sync/_talk-xact.qmd >}}

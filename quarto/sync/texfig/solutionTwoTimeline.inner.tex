@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+}
+\begin{scope}
+\tikzset{
+    every label/.style={font=\bfseries},
+    every node/.style={inner sep=0.25mm,font=\tt\small,align=left},
+}
+\node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
+leave note; \\
+if (no milk) \{ \\
+    \hspace{.5cm}    if (\myemph<2>{no note}) \{ \
+};
+\node[anchor=north west] (thread A part 2) at (thread A part 1.south west) {
+\hspace{1cm}       buy milk;
+};
+\node[anchor=north west] (thread A part 3) at (thread A part 2.south west) {
+\hspace{.5cm} \} \\
+\} \\
+remove note;
+};
+\end{scope}
+\begin{visibleenv}<2->
+    \draw[black,very thick,<-] ([yshift=3mm]thread A part 1.south east) -- ++(1cm, 0cm) node[right] (always a note) {
+        but there's \myemph{always a note}
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \draw[ultra thick,black] ([xshift=2cm]thread A part 2.south west) -- (thread A part 2.north east);
+    \node[anchor=north west] at (always a note.south west) {
+        \ldots will never buy milk (twice \textit{or} once)
+    };
+\end{visibleenv}
+\end{tikzpicture}

@@ -1,0 +1,24 @@
+
+### a threaded server?  {.smaller}
+
+
+<pre><code>Deposit(accountNumber, amount) {
+    account = <em>GetAccount(accountId)</em>;
+    account-&gt;balance += amount;
+    <em>SaveAccountUpdates(account);</em>
+}
+</code></pre>
+ 
+
+* maybe GetAccount/SaveAccountUpdates can be slow? 
+
+   * read/write disk sometimes? contact another server sometimes?
+
+* maybe lots of requests to process? 
+
+   * maybe real logic has more checks than Deposit()
+   * …
+
+* all reasons to handle multiple requests at once
+* $\rightarrow$ many threads all running the server loop
+

@@ -1,0 +1,11 @@
+
+### binary semaphores 
+
+
+* <i>binary semaphores</i> --- semaphores that are <em>only zero or one</em> 
+<hr class="vspace" />
+* as powerful as normal semaphores 
+
+   * exercise: simulate counting semaphores with binary semaphores (more than one) and an integer
+
+

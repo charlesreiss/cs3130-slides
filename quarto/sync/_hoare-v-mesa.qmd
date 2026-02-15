@@ -1,0 +1,16 @@
+
+### Hoare versus Mesa monitors  {.smaller}
+
+
+* Hoare-style monitors 
+
+   * signal ‘hands off’ lock to awoken thread
+
+* Mesa-style monitors 
+
+   * any eligible thread gets lock next
+   * (maybe some other idea of priority?)
+ 
+<hr class="vspace" />
+* every current threading library I know of does Mesa-style
+

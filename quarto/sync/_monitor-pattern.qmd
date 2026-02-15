@@ -1,0 +1,43 @@
+
+### monitor pattern  {.smaller}
+
+
+```
+pthread_mutex_lock(&lock);
+while (!condition A) {
+    pthread_cond_wait(&condvar_for_A, &lock);
+}
+... /* manipulate shared data, changing other conditions */
+if (set condition A) {
+    pthread_cond_broadcast(&condvar_for_A);
+    /* or signal, if only one thread cares */
+}
+if (set condition B) {
+    pthread_cond_broadcast(&condvar_for_B);
+    /* or signal, if only one thread cares */
+}
+...
+pthread_mutex_unlock(&lock)
+
+```
+
+
+### monitors rules of thumb  {.smaller}
+
+
+* never touch shared data without holding the lock
+* keep lock held for <em>entire operation</em>: 
+
+   * verifying condition (e.g. buffer not full) <i>up to and including</i>
+   * manipulating data (e.g. adding to buffer)
+
+* create condvar for every kind of scenario waited for
+* always write <em>loop</em> calling cond_wait to wait for condition X
+* broadcast/signal condition variable <em>every time you change X</em>
+* correct but slow to…  
+
+   * broadcast when just signal would work
+   * broadcast or signal when nothing changed
+   * use one condvar for multiple conditions
+
+

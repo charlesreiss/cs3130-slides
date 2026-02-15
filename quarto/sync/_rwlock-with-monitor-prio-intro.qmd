@@ -1,0 +1,18 @@
+
+### reader/writer-priority  {.smaller}
+
+
+* policy question: writers first or readers first? 
+
+   * writers-first: no readers go when writer waiting
+   * readers-first: no writers go when reader waiting
+
+* previous implementation: whatever randomly happens 
+
+   * writers signalled first, maybe gets lock first?
+   * … but non-determinstic in pthreads
+ 
+<hr class="vspace" />
+* can make <em>explicit decision</em>
+* key method: <em>track number of waiting readers/writers</em>
+

@@ -1,0 +1,19 @@
+
+### semaphore intuition  {.smaller}
+
+
+* What do you need to wait for? 
+
+   * critical section to be finished
+   * queue to be non-empty
+   * array to have space for new items
+
+* what can you count that will be 0 when you need to wait? 
+
+   * # of threads that can start critical section now
+   * # of threads that can join another thread without waiting
+   * # of items in queue
+   * # of empty spaces in array
+
+* use up/down operations to maintain count
+

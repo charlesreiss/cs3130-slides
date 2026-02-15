@@ -1,0 +1,15 @@
+
+### mfence  {.smaller}
+
+
+* x86 instruction <code>mfence</code>
+* make sure all loads/stores in progress finish
+* … and make sure no loads/stores were started early 
+<hr class="vspace" />
+* fairly expensive  
+
+   * Intel ‘Skylake’: order 33 cycles + time waiting for pending stores/loads
+ 
+<hr class="vspace" />
+* aside: this instruction is did not exist in the original x86 <br> so xv6 uses something older that's equivalent
+

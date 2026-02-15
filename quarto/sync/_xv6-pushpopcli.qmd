@@ -1,0 +1,29 @@
+
+### xv6 interrupt disabling (1)  {.smaller}
+
+
+```
+...
+acquire(struct spinlock *lk) {
+  pushcli(); // disable interrupts to avoid deadlock
+  ... /* this part basically just for multicore */
+}
+release(struct spinlock *lk)
+{
+  ... /* this part basically just for multicore */
+  popcli();
+}
+
+```
+
+
+### xv6 push/popcli 
+
+
+* pushcli / popcli --- need to be in pairs
+* pushcli --- disable interrupts if not already
+* popcli --- enable interrupts if corresponding pushcli disabled them 
+
+   * don't enable them if they were already disabled
+
+

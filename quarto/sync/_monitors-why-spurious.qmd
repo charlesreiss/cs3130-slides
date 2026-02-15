@@ -1,0 +1,13 @@
+
+### why spurious wakeups?  {.smaller}
+
+
+* makes implementing condition variables simpler 
+<hr class="vspace" />
+* can be hard to avoid loop in more complicated scenarios
+* e.g. signal() saying okay to remove item from queue <br> what if another thread sneaks in and does it first? 
+
+   * maybe signal() could be redesigned to prevent this somehow?
+   * … but that's harder to implement
+
+

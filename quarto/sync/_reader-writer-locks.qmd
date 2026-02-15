@@ -1,0 +1,34 @@
+
+### reader/writer locks  {.smaller}
+
+
+* abstraction: lock that distinguishes readers/writers
+* operations: 
+
+   * read lock: wait until no writers
+   * read unlock: stop being registered as reader
+   * write lock: wait until [no readers and no writers]{.fragment fragment-index=2 .custom .myem-only}
+   * write unlock: stop being registered as writer
+
+
+
+### pthread rwlocks  {.smaller}
+
+
+```
+pthread_rwlock_t rwlock;
+pthread_rwlock_init(&rwlock, NULL /* attributes */);
+...
+    pthread_rwlock_rdlock(&rwlock);
+    ...  /* read shared data */
+    pthread_rwlock_unlock(&rwlock);
+
+    pthread_rwlock_wrlock(&rwlock);
+    ...  /* read+write shared data */
+    pthread_rwlock_unlock(&rwlock);
+
+...
+pthread_rwlock_destroy(&rwlock);
+
+```
+

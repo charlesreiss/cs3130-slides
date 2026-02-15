@@ -1,0 +1,19 @@
+
+### cache coherency exercise solution  {.smaller}
+
+<code></code> <table>
+<tr><td>&nbsp;</td><td>\\multicolumn{3c|<code></code> 0x1000-0x101f}</td><td>\\multicolumn{3c<code></code> 0x2000-0x201f}</td></tr>
+<tr><td><span class="normal"><em></em> action</td><td><span class="normal"> CPU 1</td><td><span class="normal"> CPU 2</td><td><span class="normal"> CPU 3</td><td><span class="normal"> CPU 1</td><td><span class="normal"> CPU 2</td><td><span class="normal"> CPU 3</td></tr>
+<tr><td>\\hline{} &nbsp;</td><td>I</td><td>I</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 1: read <code></code> 0x1000</td><td><em>S</em></td><td>I</td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 2: read <code></code> 0x1000</td><td>S</td><td><em>S</em></td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 1: write <code></code> 0x1000</td><td><em>M</em></td><td><em>I</em></td><td>I</td><td>I</td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 1: read <code></code> 0x2000</td><td>M</td><td>I</td><td>I</td><td><em>S</em></td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 2: read <code></code> 0x1000</td><td><em>S</em></td><td><em>S</em></td><td>I</td><td>S</td><td>I</td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 2: write <code></code> 0x2008</td><td>S</td><td>S</td><td>I</td><td><em>I</em></td><td><em>M</em></td><td>I</td></tr>
+<tr><td><span class="normal"> CPU 3: read <code></code> 0x1008</td><td>S</td><td>S</td><td><em>S</em></td><td>I</td><td>M</td><td>I</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### againframe(cacheCoherenceExSoln)

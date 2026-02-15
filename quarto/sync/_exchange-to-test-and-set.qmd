@@ -1,0 +1,11 @@
+
+### test-and-set: using atomic exchange  {.smaller}
+
+
+* one instruction that…
+* writes a fixed new value
+* and reads the old value 
+<hr class="vspace" />
+* write: mark a locked as TAKEN (no matter what)
+* read: see if it was already TAKEN (if so, only us)
+

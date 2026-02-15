@@ -1,0 +1,26 @@
+
+### life homework (pseudocode)  {.smaller}
+
+
+<pre><code>for (int time = 0; time &lt; MAX_ITERATIONS; ++time) {
+    for (int y = 0; y &lt; size; ++y) {
+        for (int x = 0; x &lt; size; ++x) {
+            to_grid(x, y) = computeValue(from_grid, x, y);
+        }
+    }
+    swap(from_grid, to_grid);
+}
+</code></pre>
+
+
+### life homework  {.smaller}
+
+
+* compute grid of values for time $t$ from grid for time $t-1$
+       \begin{itemize}
+       \item compute new value at $i,j$ based on surrounding values
+       \end{itemize}
+   \vspace{.5cm}
+   \item parallel version: produce parts of grid in different threads
+   \item use barriers to finish time $t$ before going to time $t+1$
+

@@ -1,0 +1,97 @@
+\begin{tikzpicture}
+\tikzset{
+    code/.style={
+    },
+    codebox/.style={
+        code,draw,thick,
+    },
+    event/.style={text width=2.75cm,font=\fontsize{9}{10}\selectfont\tt},
+    cA/.style={fill=blue!10,draw=blue!50!black},
+    cB/.style={fill=green!10,draw=green!50!black},
+    cC/.style={fill=yellow!10,draw=yellow!50!black},
+    cD/.style={fill=violet!10,draw=violet!50!black},
+    timeline/.style={
+        tight matrix,
+        nodes={font=\small\tt,text width=1cm,minimum height=0.5cm},
+        column 1/.style={nodes={cA,event}},
+        column 2/.style={nodes={cB,event}},
+        column 3/.style={nodes={cC,event}},
+        column 4/.style={nodes={cD,event}},
+        row 1/.style={nodes={font=\small\bfseries}},
+    },
+    action box/.style={
+        draw,thick,align=center,
+    },
+    action box invis/.style={
+        align=center,
+    },
+    my callout/.style={
+        draw,fill=white,
+        rectangle callout,
+        align=left,
+        code,
+        callout absolute pointer=(#1)
+    },
+    btHLbox/.style={rectangle,rounded corners,inner sep=0.1mm}
+}
+\matrix[timeline] (timeline) {
+    reader 1 \& reader 2 \& writer 1 \& reader 3 \& W \& R \& WW \\
+    \& \& \& \& 0 \& 0 \& 0 \\
+    ReadLock \& \& \& \& 0 \& 1 \& 0 \\
+    (reading) \& ReadLock \& \& \&0 \& 2 \& 0 \\
+    (reading) \& (reading) \& WriteLock wait \& \& 0 \& 2 \& 1 \\
+    (reading) \& (reading) \& WriteLock wait \& ReadLock wait \&
+    0 \& 2 \& 1 \\
+    ReadUnlock \& (reading) \& WriteLock wait \& ReadLock wait \&
+    0 \& 1 \& 1 \\
+    \& ReadUnlock \& WriteLock wait \& ReadLock wait\&
+    0 \& 0 \& 1 \\
+    \& \& WriteLock \& ReadLock wait \&
+    1 \& 0 \& 0 \\
+    \& \& (read+writing) \& ReadLock wait \&
+    1 \& 0 \& 0 \\
+    \& \& WriteUnlock \& ReadLock wait \&
+    0 \& 0 \& 0 \\
+    \& \& \& ReadLock \&
+    0 \& 1 \& 0 \\
+};
+\foreach \x in {2,3,...,11} {
+    % FIXME:
+    %\path[fill=white,visible on=<1-\x>]
+    %    ($(timeline.north west) + \x*(0,-.5cm)$) rectangle (timeline.south east);
+}
+\begin{visibleenv}<3>
+\node[my callout=timeline-3-1.east,fill=white,anchor=north west] at ([yshift=-1cm,xshift=-2cm]timeline-3-1.south) {
+\usebox{\rwLockPlusReaders}
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[my callout=timeline-5-3.south,fill=white,anchor=north] at ([yshift=-1cm]timeline-5-3.south) {
+\usebox{\rwLockPlusWriters}
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+\node[my callout=timeline-7-1.east,fill=white,anchor=west] at ([xshift=1cm]timeline-7-1.east) {
+\usebox{\rwLockMinusReaders}
+};
+\end{visibleenv}
+\begin{visibleenv}<8>
+\node[my callout=timeline-8-2.east,fill=white,anchor=west] at ([xshift=1cm]timeline-8-2.east) {
+\usebox{\rwLockMinusReadersSignal}
+};
+\end{visibleenv}
+\begin{visibleenv}<9>
+\node[my callout=timeline-9-3.north,fill=white,anchor=south] at ([yshift=1cm]timeline-9-3.north) {
+\usebox{\rwLockWriterGo}
+};
+\end{visibleenv}
+\begin{visibleenv}<11>
+\usebox{\rwLockReaderGoWriter}
+\end{visibleenv}
+\begin{visibleenv}<12>
+\node[my callout=timeline-12-4.north,fill=white,anchor=south] at ([yshift=1cm]timeline-11-4.north) {
+\usebox{\rwLockReaderGoEnd}
+};
+\end{visibleenv}
+\begin{visibleenv}<13> \end{visibleenv}
+\end{tikzpicture}

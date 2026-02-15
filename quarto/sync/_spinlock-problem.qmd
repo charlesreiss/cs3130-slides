@@ -1,0 +1,20 @@
+
+### spinlock problems  {.smaller}
+
+
+* [lock abstraction is not powerful enough]{.fragment fragment-index=4 .custom .myem-only} 
+
+   * lock/unlock operations don't handle ‘‘wait for event’’
+   * common thing we want to do with threads
+   * solution: other synchronization abstractions
+
+* [spinlocks waste CPU time more than needed]{.fragment fragment-index=3 .custom .myem-only} 
+
+   * want to run another thread instead of infinite loop
+   * solution: lock implementation integrated with scheduler
+
+* [spinlocks can send a lot of messages on the shared bus]{.fragment fragment-index=2 .custom .myem-only}  
+
+   * more efficient atomic operations to implement locks
+
+

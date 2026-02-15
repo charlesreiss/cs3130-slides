@@ -1,0 +1,16 @@
+
+### ‘‘solution’’ 3: algorithm  {.smaller}
+
+
+
+* intuition: label notes so Alice knows which is hers (and vice-versa) 
+
+   * computer equivalent: separate noteFromAlice and noteFromBob variables
+
+ ![](/sync/texfig/solutionThree.figure.svg)
+
+
+### too much milk: ‘‘solution’’ 3 (timeline) 
+
+![](/sync/texfig/solutionThreeTimeline.figure.svg)
+

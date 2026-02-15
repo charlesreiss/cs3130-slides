@@ -1,0 +1,93 @@
+
+### a simple race  {.smaller}
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+thread_A:
+    movl $1, x   /* x <- 1 */
+    movl y, %eax /* return y */
+    ret
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+\begin{lstlisting}
+[language=myasm,style=smaller] thread_B: movl $1, y   /* y <- 1 */
+    movl x, %eax /* return x */
+    ret
+\end{lstlisting}
+\end{minipage}
+\\
+\begin{lstlisting}[language=C++,style=smaller]
+x = y = 0;
+pthread_create(&A, NULL, thread_A, NULL);
+pthread_create(&B, NULL, thread_B, NULL);
+pthread_join(A, &A_result); pthread_join(B, &B_result);
+printf("A:%d B:%d\n", (int) A_result, (int) B_result);
+\end{lstlisting}
+\begin{itemize}
+\item<2-> if loads/stores atomic, then possible results:
+    \begin{itemize}
+    \item A:1 B:1 --- both moves into x and y, then both moves into eax execute
+    \item A:0 B:1 --- thread A executes before thread B
+    \item A:1 B:0 --- thread B executes before thread A
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,label=loadReorderExpResults]{a simple race: results}
+\begin{minipage}{0.45\textwidth}
+\begin{lstlisting}[language=myasm,style=smaller]
+thread_A:
+    movl $1, x /* x \<- 1 */ movl y,<!-- eax /* return y */ -->ret 
+\end{lstlisting}
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+thread_B:
+    movl $1, y   /* y <- 1 */
+    movl x, %eax /* return x */
+    ret
+
+```
+ 
+:::
+
+::::
+
+```
+x = y = 0;
+pthread_create(&A, NULL, thread_A, NULL);
+pthread_create(&B, NULL, thread_B, NULL);
+pthread_join(A, &A_result); pthread_join(B, &B_result);
+printf("A:%d B:%d\n", (int) A_result, (int) B_result);
+
+```
+ 
+ 
+```
+\begin{center}
+ []{.my-small} my desktop, 100M trials: <br> <table>
+<tr><td>frequency</td><td>result</td><td>&nbsp;</td></tr>
+<tr><td>\\hline{} $99\,823\,739$</td><td>A:0 B:1</td><td>(‘A executes before B’)</td></tr>
+<tr><td>$171\,161$</td><td>A:1 B:0</td><td>(‘B executes before A’)</td></tr>
+<tr><td>$4\,706$</td><td>A:1 B:1</td><td>(‘execute moves into x+y first’)</td></tr>
+<tr><td>[$394$]{.fragment fragment-index=2 .custom .myem-only}</td><td>[A:0 B:0]{.fragment fragment-index=2 .custom .myem-only}</td><td>[???]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
+<tr><td></td></tr>
+</table>
+ 
+\end{center}
+```
+

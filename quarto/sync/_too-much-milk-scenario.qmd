@@ -1,0 +1,18 @@
+
+### too much milk  {.smaller}
+
+
+
+* roommates Alice and Bob want to keep fridge stocked with milk:
+ <table>
+<tr><td>time</td><td>Alice</td><td>Bob</td></tr>
+<tr><td>\\hline{}\\hline{} 3:00</td><td>look in fridge. no milk</td><td>&nbsp;</td></tr>
+<tr><td>\\hline{} 3:05</td><td>leave for store</td><td>&nbsp;</td></tr>
+<tr><td>\\hline{} 3:10</td><td>arrive at store</td><td>look in fridge. no milk</td></tr>
+<tr><td>\\hline{} 3:15</td><td>buy milk</td><td>leave for store</td></tr>
+<tr><td>\\hline{} 3:20</td><td>return home, put milk in fridge</td><td>arrive at store</td></tr>
+<tr><td>\\hline{} 3:25</td><td>&nbsp;</td><td>buy milk</td></tr>
+<tr><td>\\hline{} 3:30</td><td>&nbsp;</td><td>return home, put milk in fridge</td></tr>
+<tr><td>\\hline{}</td></tr>
+</table>
+ <br> how can Alice and Bob coordinate better?

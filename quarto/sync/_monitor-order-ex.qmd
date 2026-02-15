@@ -1,0 +1,106 @@
+
+### monitor exercise: ordering  {.smaller}
+
+
+
+* suppose we want producer/consumer, but…
+* but want to ensure first call to Consume() <em>always</em> returns first
+* (no matter what ordering cond_signal/cond_broadcast use)
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>pthread_mutex_t lock;
+pthread_cond_t data_ready;
+UnboundedQueue buffer;
+
+Produce(item) {
+  pthread_mutex_lock(&amp;lock);
+  buffer.enqueue(item);
+  pthread_cond_signal(&amp;data_ready);
+  pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>Consume() {
+  pthread_mutex_lock(&amp;lock);
+  while (buffer.empty()) {
+    pthread_cond_wait(&amp;data_ready, &amp;lock);
+  }
+  item = buffer.dequeue();
+  pthread_mutex_unlock(&amp;lock);
+  return item;
+}
+</code></pre>
+ 
+:::
+
+::::
+
+
+<!-- \iftoggle(heldback,isheldback,isheldback) -->
+
+### monitor ordering exercise: solution  {.smaller}
+
+[]{.my-small} (one of many possible solutions) <br> 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+struct Waiter {
+    pthread_cond_t cv;
+    bool done;
+    T item;    
+}
+Queue<Waiter*> waiters;
+
+Produce(item) {
+ pthread_mutex_lock(&lock);
+ if (!waiters.empty()) {
+   Waiter *waiter = waiters.dequeue();
+   waiter->done = true;
+   waiter->item = item;
+   cond_signal(&waiter->cv);
+   ++num_pending;
+ } else {
+   buffer.enqueue(item);
+ }
+ pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+Consume() {
+  pthread_mutex_lock(&lock);
+  if (buffer.empty()) {
+    Waiter waiter;
+    cond_init(&waiter.cv);
+    waiter.done = false;
+    waiters.enqueue(&waiter);
+    while (!waiter.done)
+      cond_wait(&waiter.cv, &lock);
+    item = waiter.item;
+  } else {
+    item = buffer.dequeue();
+  }
+  pthread_mutex_unlock(&lock):
+  return item;
+}
+
+```
+ 
+:::
+
+::::
+

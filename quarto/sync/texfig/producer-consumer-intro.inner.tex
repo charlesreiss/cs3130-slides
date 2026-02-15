@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \node[minimum width=3cm,minimum height=1cm,draw,very thick,fill=blue!20] (producer) {producer};
+    \node[minimum height=0.75cm,draw,very thick,fill=violet!20,
+          anchor=west,rectangle split,rectangle split horizontal,
+          rectangle split parts=4] (buffer) at ([xshift=1.5cm]producer.east) {buffer
+            \hspace{3cm}};
+    \node[minimum width=3cm,minimum height=1cm,draw,very thick,fill=blue!20,
+          anchor=west] (consumer) at ([xshift=1.5cm]buffer.east) {consumer};
+
+    \begin{scope}[very thick,>=Latex]
+        \draw[->] (producer)  -- (buffer);
+        \draw[->] (buffer)  -- (consumer);
+    \end{scope}
+\end{tikzpicture}

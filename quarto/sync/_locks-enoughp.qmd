@@ -1,0 +1,17 @@
+
+### are locks enough? 
+
+
+* do we need more than locks?
+
+
+### example 1: pipes?  {.smaller}
+
+
+* pipes: one thread reads while other writes 
+<hr class="vspace" />
+* want write to complete immediately if buffer space
+* want read operation to <i>wait</i> for write operation 
+<hr class="vspace" />
+* not functionality provided by mutexes/barriers
+

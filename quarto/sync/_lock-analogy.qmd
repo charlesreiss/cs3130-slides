@@ -1,0 +1,14 @@
+
+### lock analogy  {.smaller}
+
+
+* agreement: only change account balances while wearing this hat
+* normally hat kept on table
+* put on hat when editing balance 
+<hr class="vspace" />
+* hopefully, only one person (= thread) can wear hat a time
+* need to wait for them to remove hat to put it on 
+<hr class="vspace" />
+* ‘‘lock (or acquire) the lock’’ = get and put on hat
+* ‘‘unlock (or release) the lock’’ = put hat back on table
+

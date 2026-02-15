@@ -1,0 +1,135 @@
+
+### barriers  {.smaller}
+
+
+* compute minimum of 100M element array with 2 processors
+* algorithm: 
+<hr class="vspace" />
+* compute minimum of 50M of the elements on each CPU 
+
+   * one thread for each CPU
+
+* [wait for all computations to finish]{.fragment fragment-index=2 .custom .myem-only}
+* take minimum of all the minimums
+
+
+### barriers API  {.smaller}
+
+
+* barrier.Initialize(NumberOfThreads)
+* barrier.Wait() --- return after all threads have waited 
+<hr class="vspace" />
+* idea: multiple threads perform computations in parallel
+* threads wait for <em>all other threads</em> to call Wait()
+
+
+### barrier: waiting for finish  {.smaller}
+
+
+```
+barrier.Initialize(2);
+
+```
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ []{.my-small} Thread 0: 
+```
+partial_mins[0] = 
+    /* min of first
+       50M elems */;
+
+barrier.Wait();
+
+
+total_min = min(
+    partial_mins[0],
+    partial_mins[1]
+);
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ []{.my-small} Thread 1: 
+```
+partial_mins[1] =
+    /* min of last
+       50M elems */
+barrier.Wait();
+
+```
+ 
+:::
+
+::::
+
+
+### barriers: reuse  {.smaller}
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+<pre><code><span data-fragment-index="2" class="fragment custom myem-only">results[0][0]</span> = getInitial(0);
+barrier.Wait();
+
+<span data-fragment-index="3" class="fragment custom myem-only">results[1][0]</span> =
+    computeFrom(0, 
+        results[0][0],
+        <span data-fragment-index="3" class="fragment custom myem-only">results[0][1]</span>
+    );
+barrier.Wait();
+
+results[2][0] =
+    computeFrom(0,
+        results[1][0],
+        results[1][1]
+    );
+</code></pre>
+
+:::
+
+::: {.column width="45%"}
+
+<pre><code><span data-fragment-index="3" class="fragment custom myem-only">results[0][1]</span> = getInitial(1);
+barrier.Wait();
+
+results[1][1] =
+    computeFrom(1, 
+        <span data-fragment-index="2" class="fragment custom myem-only">results[0][0],</span>
+        results[0][1]
+    );
+barrier.Wait();
+
+results[2][1] =
+    computeFrom(1,
+        <span data-fragment-index="3" class="fragment custom myem-only">results[1][0]</span>,
+        results[1][1]
+    );
+</code></pre>
+
+:::
+
+::::
+
+
+### pthread barriers  {.smaller}
+
+
+```
+pthread_barrier_t barrier;
+pthread_barrier_init(
+    &barrier,
+    NULL /* attributes */,
+    numberOfThreads
+);
+...
+...
+pthread_barrier_wait(&barrier);
+
+```
+

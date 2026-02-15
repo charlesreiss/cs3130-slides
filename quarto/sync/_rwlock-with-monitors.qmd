@@ -1,0 +1,115 @@
+
+### rwlocks with monitors (attempt 1)  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+    moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+} -->
+ 
+<pre><code>mutex_t lock;
+</code></pre>
+ 
+ 
+<div class="fragment fade-in" data-fragment-index=2 >
+ 
+<pre><code><span data-fragment-index="2" class="fragment custom myem-only">unsigned int readers, writers;</span>
+</code></pre>
+ 
+</div>
+ 
+ 
+<div class="fragment fade-in" data-fragment-index=3 >
+ 
+<pre><code>/* condition, signal when writers becomes 0 */
+<span data-fragment-index="3" class="fragment custom myem-only">cond_t ok_to_read_cv;</span>
+/* condition, signal when readers + writers becomes 0 */
+<span data-fragment-index="3" class="fragment custom myem-only">cond_t ok_to_write_cv;</span>
+</code></pre>
+ 
+</div>
+ 
+ 
+<div class="fragment fade-in" data-fragment-index=4 >
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>ReadLock() {
+mutex_lock(&amp;lock);
+  while (writers != 0) {
+    <span data-fragment-index="4" class="fragment custom myem-only">cond_wait(&amp;ok_to_read_cv, &amp;lock);</span>
+  }
+  ++readers;
+  mutex_unlock(&amp;lock);
+}
+ReadUnlock() {
+  mutex_lock(&amp;lock);
+  --readers;
+  if (readers == 0) {
+    <span data-fragment-index="5" class="fragment custom myem-only">cond_signal(&amp;ok_to_write_cv);</span>
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>WriteLock() {
+  mutex_lock(&amp;lock);
+  while (readers + writers != 0) {
+    cond_wait(&amp;ok_to_write_cv);
+  }
+  ++writers;
+  mutex_unlock(&amp;lock);
+}
+WriteUnlock() {
+  mutex_lock(&amp;lock);
+  --writers;
+  [[cond_signal(&amp;ok_to_write_cv);]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}
+  [[cond_broadcast(&amp;ok_to_read_cv);]{.fragment fragment-index=4 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+ 
+</div>
+ 
+ 
+<div class="fragment fade-in-and out" data-fragment-index=1 >
+ <em>lock to protect shared state</em> 
+</div>
+ 
+<div class="fragment fade-in-and out" data-fragment-index=2 >
+ <em>state: number of active readers, writers</em> 
+</div>
+ 
+<div class="fragment fade-in-and out" data-fragment-index=3 >
+ <em>conditions to wait for (no readers or writers, no writers)</em> 
+</div>
+ 
+<div class="fragment fade-in-and out" data-fragment-index=4 >
+ <em>broadcast --- wakeup all readers when no writers</em> 
+</div>
+ 
+<div class="fragment fade-in-and out" data-fragment-index=5 >
+ <em>wakeup a single writer when no readers or writers</em> 
+</div>
+ 
+<div class="fragment fade-in-and out" data-fragment-index=6 >
+ <em>problem: wakeup readers first or writer first?</em> <br> [ this solution: wake them all up and they fight! inefficient!]{.my-small} 
+</div>
+

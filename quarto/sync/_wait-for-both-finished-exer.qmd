@@ -1,0 +1,53 @@
+
+### exercise: wait for both finished  {.smaller}
+
+
+```
+pthread_mutex_t lock; pthread_cond_t cv;
+bool FirstFinished = false; bool SecondFinished = false;
+
+```
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+void FinishFirst() {
+    pthread_mutex_lock(&lock);
+    FirstFinished = true;
+    ____________________  // (1)
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+void FinishSecond() {
+    pthread_mutex_lock(&lock);
+    SecondFinished = true;
+    ____________________ // (1)
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+:::
+
+::::
+ <br> 
+```
+void WaitForBothFinished() {
+    pthread_mutex_lock(&lock);
+    ___ ( ____________________________ ) { // (2)
+        pthread_cond_wait(&lock, &cv);
+    }
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ Fill in the blanks.

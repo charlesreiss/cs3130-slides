@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+\coordinate (header) at ([yshift=-2cm]current page.north west);
+\tikzset{
+    box/.style={draw=red,thick,fill=white,font=\small,align=left}
+}
+\begin{visibleenv}<2>
+\node[box,anchor=north west] at ([yshift=-1cm]header) {
+    spinlock protecting \texttt{lock\_taken} and \texttt{wait\_queue} \\
+    only held for very short amount of time (compared to mutex itself)
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box,anchor=north west] at ([yshift=-1cm]header) {
+    tracks whether any thread has locked and not unlocked
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box,anchor=north west] at ([yshift=-1cm]header) {
+    list of threads that discovered lock is taken \\
+    and are waiting for it be free \\
+    these threads are \myemph{not runnable}
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[box,anchor=north west] at ([yshift=0cm]header) {
+    instead of setting lock\_taken to false \\
+    choose thread to hand-off lock to
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+\node[box,anchor=north west,fill=white] at ([yshift=0cm]header) {
+    subtly: if UnlockMutex runs here on another core\\
+    need to make sure scheduler on the other core doesn't switch to thread \\
+    while it is still running (would `clone' thread/mess up registers)
+};
+\end{visibleenv}
+\end{tikzpicture}

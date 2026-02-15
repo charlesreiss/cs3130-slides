@@ -1,0 +1,18 @@
+
+### alternative to buses: crossbar 
+
+
+
+::: {.r-stack .my-full}
+![](/sync/texfig/bus-alternatives-alternative-to-buses-crossbar.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/bus-alternatives-alternative-to-buses-crossbar.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### alternatives to buses: trees 
+
+![](/sync/texfig/bus-alternatives-alternatives-to-buses-trees.figure.svg)
+

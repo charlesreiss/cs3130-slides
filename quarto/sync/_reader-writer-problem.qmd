@@ -1,0 +1,10 @@
+
+### reader/writer problem  {.smaller}
+
+
+* some shared data
+* only one thread modifying (read+write) at a time
+* read-only access <em>from multiple threads</em> is safe 
+<hr class="vspace" />
+* could use lock --- but doesn't allow multiple readers
+

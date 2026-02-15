@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\node[align=left,font=\tt] (lock code) {
+Lock() \{ \\
+\hspace{1cm} \myemph{disable interrupts}
+\} 
+};
+\node[anchor=north west,align=left,font=\tt] (unlock code) at ([xshift=1cm]lock code.north east) {
+Unlock() \{ \\
+\hspace{1cm}\myemph{enable interrupts}
+\}
+};
+\end{tikzpicture}

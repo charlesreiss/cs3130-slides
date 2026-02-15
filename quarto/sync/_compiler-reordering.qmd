@@ -1,0 +1,41 @@
+
+### compilers move loads/stores (1)  {.smaller}
+
+
+<pre><code>void WaitForReady() {
+    <span data-fragment-index="2" class="fragment custom myem-only">do {} while (!ready);</span>
+}
+</code></pre>
+ <hr />
+ 
+<pre><code>WaitForOther:
+  movl ready, %eax  // eax &lt;- other_ready
+.L2:
+  <span data-fragment-index="2" class="fragment custom myem-only">testl %eax, %eax</span>
+  <span data-fragment-index="2" class="fragment custom myem-only">je .L2</span>                   // while (eax == 0) repeat
+  ...
+</code></pre>
+
+
+### compilers move loads/stores (2)  {.smaller}
+
+
+<pre><code>void WaitForOther() {
+    is_waiting = 1;
+    do {} while (!other_ready);
+    is_waiting = 0;
+}
+</code></pre>
+ <hr />
+ 
+<pre><code>WaitForOther:  
+  // compiler optimization: don't set is_waiting to 1,
+  // (why? it will be set to 0 anyway)
+  <span data-fragment-index="3" class="fragment custom myem-only">movl other_ready, %eax</span>  // eax &lt;- other_ready
+.L2:
+  testl %eax, %eax          
+  je .L2                    // while (eax == 0) repeat
+  ...
+  <span data-fragment-index="2" class="fragment custom myem-only">movl $0, is_waiting</span>  // is_waiting &lt;- 0
+</code></pre>
+

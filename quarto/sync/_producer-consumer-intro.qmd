@@ -1,0 +1,20 @@
+
+### example: producer/consumer  {.smaller}
+
+![](/sync/texfig/producer-consumer-intro.figure.svg)
+ 
+
+* shared buffer (queue) of fixed size 
+
+   * one or more producers inserts into queue
+   * one or more consumers removes from queue
+
+* producer(s) and consumer(s) don't work in lockstep 
+
+   * (might need to wait for each other to catch up)
+
+* example: C compiler 
+
+   * preprocessor $\rightarrow$ compiler $\rightarrow$ assembler $\rightarrow$ linker
+
+

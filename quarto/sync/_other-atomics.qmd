@@ -1,0 +1,55 @@
+
+### some common atomic operations (1)  {.smaller}
+
+
+```
+// x86: emulate with exchange
+test_and_set(address) {
+    old_value = memory[address];
+    memory[address] = 1;
+    return old_value != 0;  // e.g. set ZF flag
+}
+
+// x86: xchg REGISTER, (ADDRESS)
+exchange(register, address) {
+    temp = memory[address];
+    memory[address] = register;
+    register = temp;
+}
+
+```
+
+
+### some common atomic operations (2)  {.smaller}
+
+
+```
+// x86: mov OLD_VALUE, %eax; lock cmpxchg NEW_VALUE, (ADDRESS)
+compare-and-swap(address, old_value, new_value) {
+    if (memory[address] == old_value) {
+        memory[address] = new_value;
+        return true;   // x86: set ZF flag
+    } else {
+        return false;  // x86: clear ZF flag
+    }
+}
+
+// x86: lock xaddl REGISTER, (ADDRESS)
+fetch-and-add(address, register) {
+    old_value = memory[address];
+    memory[address] += register;
+    register = old_value;
+}
+
+```
+
+
+### common atomic operation pattern 
+
+
+* try to do operation, …
+* detect if it failed
+* if so, repeat 
+<hr class="vspace" />
+* atomic operation does ‘‘try and see if it failed’’ part
+

@@ -1,0 +1,55 @@
+
+### counting semaphores with binary semaphores (1)  {.smaller}
+
+\\tiny{ via Hemmendinger, ‘‘Comments on ‘A correect and unrestrictive implementation of general semaphores’ ’’ (1989); Barz, ‘‘Implementing semaphores by binary semaphores’’ (1983)} 
+```
+// assuming initialValue > 0
+BinarySemaphore mutex(1);
+int value = initialValue ;
+BinarySemaphore gate(1 /* if initialValue >= 1 */);
+    /* gate = # threads that can Down() now */
+
+```
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+void Down() {
+  gate.Down(); 
+  // wait, if needed
+  mutex.Down();
+  value -= 1;
+  if (value > 0) {
+    gate.Up();
+    // because next down should finish
+    // now (but not marked to before)
+  }
+  mutex.Up();
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+void Up() {
+  mutex.Down();
+  value += 1;
+  if (value == 1) {
+    gate.Up(); 
+    // because down should finish now
+    // but could not before
+  }
+  mutex.Up();
+}
+
+```
+ 
+:::
+
+::::
+

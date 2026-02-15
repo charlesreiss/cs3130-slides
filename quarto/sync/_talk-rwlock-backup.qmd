@@ -1,0 +1,12 @@
+
+{{< include /sync/_rwlock-usage-exer.qmd >}}
+
+# implementing rwlocks with monitors {visibility="hidden"}
+
+{{< include /sync/_rwlock-with-monitors.qmd >}}
+
+{{< include /sync/_rwlock-with-monitor-writer.qmd >}}
+
+{{< include /sync/_rwlock-with-monitor-reader.qmd >}}
+
+{{< include /sync/_rwlock-with-monitor-general.qmd >}}

@@ -1,0 +1,18 @@
+
+### Anderson-Dahlin and semaphores  {.smaller}
+
+
+* Anderson/Dahlin complains about semaphores 
+
+   * ‘‘Our view is that programming with locks and condition variables is superior to programming with semaphores.’’
+
+* argument 1: clearer to have <em>separate constructs</em> for 
+
+   * waiting for condition to be come true, and
+   * allowing only one thread to manipulate a thing at a time
+
+* arugment 2: tricky to verify thread calls up exactly once for every down 
+
+   * alternatives allow one to be sloppier (in a sense)
+
+

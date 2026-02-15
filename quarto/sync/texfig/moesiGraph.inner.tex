@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+    \graph [spring layout,nodes={font=\small,state},iterations=1000,
+            edge quotes={font=\small,midway,inner sep=1pt}] {
+        "Invalid"[desired at={(0,0)}] ->["read memory"{fill=white,text width=1.5cm},own,action] "Exclusive";
+        "Invalid" ->[{"read cache"{align=center,text width=1cm,fill=white,near start}},own,action] "Shared";
+        "Invalid" ->["write"{fill=white},own,action,bend left] "Modified";
+        "Exclusive"[desired at={(4,0)}] ->["write"{fill=white},own] "Modified";
+        "Exclusive" ->["read" below,own,loop,out=-120,in=-150,min distance=.5cm] "Exclusive";
+        "Exclusive" ->["hear any"{text width=1cm,fill=white},other] "Shared";
+        %"Exclusive" ->["hear write"{near end,fill=white},other,bend right] "Shared";
+        "Shared"[desired at={(4,-4)}]  ->["write"{fill=white},own,action] "Modified";
+        "Shared"  ->["read",own,loop below,min distance=.5cm] "Shared";
+        "Modified"[desired at={(8,0)}] ->["read or write"{text width=1.2cm},own,loop right,min distance=.5cm] "Modified";
+        %"Shared"  ->["hear write"{near end},bend left,other,left] "Invalid";
+        "Modified"  ->["hear read"{name=modifiedOtherRead,fill=white},other,below,hiOn=<2>] "Owned";
+        "Modified"  ->["hear write"{fill=white},other,bend right,above,action] "Shared";
+        "Owned"[desired at={(8,-4)}]   ->["hear write"{fill=white},other] "Shared";
+        "Owned"     ->["write"{name=ownedWrite},own,action,loop right,min distance=.5cm,hiOn=<3>] "Owned";
+        "Owned"     ->["read",own,loop below,min distance=.5cm] "Owned";
+    };
+    \node at (1,-5) {{\color{blue}blue} = message sent};
+    \begin{visibleenv}<2>
+        \node[explainBox,anchor=north] at ([xshift=-2cm,yshift=-.5cm]Exclusive.south)
+            {send value to caches, but not memory};
+        \node[hiBox,fit=(modifiedOtherRead)] {};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[explainBox,anchor=north,align=left] at ([xshift=-2cm,yshift=-.5cm]Exclusive.south)
+            {writing notifies other caches \\ (unlike Modified state)};
+        \node[hiBox,fit=(ownedWrite)] {};
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \node[explainBox,anchor=north,align=left] at ([xshift=-1cm,yshift=-.5cm]Exclusive.south)
+            {invalidate only due to cache replacement};
+        \node[hiBox,fit=(Invalid)] {};
+    \end{visibleenv}
+\end{tikzpicture}

@@ -1,0 +1,25 @@
+
+### gate intuition/pattern  {.smaller}
+
+
+
+* pattern to allow one thread at a time:
+  
+```
+sem_t gate; // 0 = closed; 1 = open
+ReleasingThread() {
+    ... // finish what the other thread is waiting for
+    while (another thread is waiting and can go) {
+        sem_post(&gate)  // allow EXACTLY ONE thread
+        ... // other bookkeeping
+    }
+    ...
+}
+WaitingThread() {
+    ... // indicate that we're waiting
+    sem_wait(&gate) // wait for gate to be open
+    ... // indicate that we're not waiting
+}
+
+```
+ 

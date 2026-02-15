@@ -1,0 +1,26 @@
+
+### mutexes: intelligent waiting  {.smaller}
+
+
+* want: locks that wait better  
+
+   * example: POSIX mutexes
+
+* instead of running infinite loop, give away CPU 
+<hr class="vspace" />
+* [lock = go to sleep]{.fragment fragment-index=2 .custom .myem-only}, add self to list 
+
+   * sleep = scheduler runs something else
+
+* [unlock = wake up sleeping thread]{.fragment fragment-index=2 .custom .myem-only}
+
+
+### better lock implementation idea  {.smaller}
+
+
+* <i>shared</i> list of waiters
+* [spinlock protects list of waiters]{.fragment fragment-index=2 .custom .myem-only} from concurrent modification 
+<hr class="vspace" />
+* lock = use spinlock to add self to list, then wait without spinlock
+* unlock = use spinlock to remove item from list
+

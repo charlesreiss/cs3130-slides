@@ -1,0 +1,46 @@
+
+### fetch-and-add with CAS (1)  {.smaller}
+
+
+```
+compare-and-swap(address, old_value, new_value) {
+    if (memory[address] == old_value) {
+        memory[address] = new_value;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+```
+ <hr />
+ 
+```
+long my_fetch_and_add(long *pointer, long amount) { ... }
+
+```
+ 
+
+* implementation sketch: 
+
+   * fetch value from pointer <code>old</code>
+   * compute in temporary value result of addition <code>new</code>
+   * try to change value at pointer from <code>old</code> to <code>new</code> [<code>compare-and-swap</code>]
+   * if not successful, repeat
+
+
+
+### fetch-and-add with CAS (2)  {.smaller}
+
+
+```
+long my_fetch_and_add(long *p, long amount) {
+    long old_value;
+    do {
+        old_value = *p;
+    } while (!compare_and_swap(p, old_value, old_value + amount);
+    return old_value;
+}
+
+```
+

@@ -1,0 +1,9 @@
+
+### POSIX mutex restrictions 
+
+
+* pthread_mutex rule: <em>unlock from same thread you lock in</em> 
+<hr class="vspace" />
+* does this actually matter?
+* depends on how pthread_mutex is implemented
+

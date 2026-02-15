@@ -1,0 +1,29 @@
+
+### too much milk: is it possible 
+
+
+* is there a solutions with writing/reading notes? 
+
+   * $\approx$ loading/storing from shared memory
+ 
+<hr class="vspace" />
+* yes, but it's not very elegant
+
+
+### too much milk: solution 4 (algorithm) 
+
+![](/sync/texfig/solutionFour.figure.svg)
+ 
+
+* exercise (hard): prove (in)correctness
+* exercise (hard): extend to three people
+
+
+### Peterson's algorithm 
+
+
+* general version of solution
+* see, e.g., Wikipedia 
+<hr class="vspace" />
+* we'll use special hardware support instead
+

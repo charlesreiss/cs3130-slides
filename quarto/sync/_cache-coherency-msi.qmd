@@ -1,0 +1,90 @@
+
+### cache coherency states  {.smaller}
+
+
+* extra information for <em>each cache block</em> 
+
+   * overlaps with/replaces valid, dirty bits
+
+* stored in <em>each cache</em>
+* update states based on reads, writes <em>and heard messages on bus</em>
+* different caches may have different states for same block
+
+
+### MSI state summary 
+
+<table>
+<tr><td><em>Modified</em></td><td>value may be <em>different than memory</em> <i>and</i> I am the only one who has it</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><em>Shared</em></td><td>value is the <em>same as memory</em></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><em>Invalid</em></td><td>I don't have the value; I will need to ask for it</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### MSI scheme  {.smaller}
+
+<table>
+<tr><td>from state</td><td>hear read</td><td>hear write</td><td>read</td><td>write</td></tr>
+<tr><td>\\hline{} Invalid</td><td>---</td><td>---</td><td><span style="color: blue">blue</span>to Shared</td><td><span style="color: blue">blue</span>to Modified</td></tr>
+<tr><td>Shared</td><td>---</td><td>to Invalid</td><td>---</td><td><span style="color: blue">blue</span>to Modified</td></tr>
+<tr><td>Modified</td><td><span style="color: blue">blue</span>to Shared</td><td><span style="color: blue">blue</span>to Invalid</td><td>---</td><td>---</td></tr>
+<tr><td></td></tr>
+</table>
+ 
+
+* <span style="color: blueblue">blueblue</span>: transition requires sending message on bus
+* example: write while Shared  
+
+   * must send write --- inform others with Shared state
+   * then change to Modified
+
+* example: hear write while Shared 
+
+   * change to Invalid
+   * can send read later to get value from writer
+
+* example: write while Modified 
+
+   * nothing to do --- no other CPU can have a copy
+
+
+
+### MSI example 
+
+
+
+::: {.r-stack .my-full}
+![](/sync/texfig/msiExample.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync/texfig/msiExample.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync/texfig/msiExample.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync/texfig/msiExample.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync/texfig/msiExample.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/sync/texfig/msiExample.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### MSI: update memory 
+
+
+* to write value (enter modified state), need to <em>invalidate</em> others
+* can avoid sending actual value (shorter message/faster) 
+<hr class="vspace" />
+* ‘‘I am writing address $X$'' versus ``I am writing $Y$ to address $X$’’
+
+
+### MSI: on cache replacement/writeback 
+
+
+* still happens --- e.g. want to store something else
+* changes state to <em>invalid</em>
+* requires writeback if modified (= dirty bit)
+

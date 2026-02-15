@@ -1,0 +1,54 @@
+
+### exercise: spin wait  {.smaller}
+
+
+
+* consider implementing ‘waiting’ functionality of pthread_join 
+<hr class="vspace" />
+* thread calls ThreadFinish() when done
+* complete code below:
+ 
+```
+finished: .quad 0
+ThreadFinish:
+    _________________________
+    ret
+ThreadWaitForFinish:
+    _________________________
+    lock xchg %eax, finished
+    cmp $0, %eax
+    ____ ThreadWaitForFinish
+    ret
+
+```
+ []{.my-small} <table>
+<tr><td>A. <code>mfence; mov \$1, finished</code></td><td>C. <code>mov \$0, %eax</code></td><td>E. je</td></tr>
+<tr><td>B. <code>mov \$1, finished; mfence</code></td><td>D. <code>mov \$1, %eax</code></td><td>F. jne</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### exercise: spin wait  {.smaller}
+
+
+```
+finished: .quad 0
+ThreadFinish:
+    __________A______________
+    ret
+ThreadWaitForFinish:            /* or without using a writing instruction: */
+    _________B______________    mov %eax, finished
+    lock xchg %eax, finished    mfence
+    cmp $0, %eax                cmp $0, %eax
+    __C_ ThreadWaitForFinish    je ThreadWaitForFinish
+    ret                         ret
+
+```
+ []{.my-small} <table>
+<tr><td>A. <code>mfence; mov \$1, finished</code></td><td>C. <code>mov \$0, %eax</code></td><td>E. je</td></tr>
+<tr><td>B. <code>mov \$1, finished; mfence</code></td><td>D. <code>mov \$1, %eax</code></td><td>F. jne</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### againframe(exerSpinWaitSoln)

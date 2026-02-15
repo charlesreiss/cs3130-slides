@@ -1,0 +1,132 @@
+
+### monitors with semaphores: locks  {.smaller}
+
+
+```
+sem_t semaphore;  // initial value 1
+
+Lock() {
+    sem_wait(&semaphore);
+}
+
+Unlock() {
+    sem_post(&semaphore);
+}
+
+```
+
+
+### monitors with semaphores: [broken] cvs  {.smaller}
+
+
+
+* start with only wait/signal:
+ 
+```
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+    lock.Unlock();
+    sem_wait(&threads_to_wakeup);
+    lock.Lock();
+}
+Signal() {
+    sem_post(&threads_to_wakeup);
+}
+
+```
+ 
+
+* problem: <em>signal wakes up non-waiting threads (in the far future)</em>
+
+
+### monitors with semaphores: cvs (better)  {.smaller}
+
+
+
+* start with only wait/signal:
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+sem_t private_lock;  // initially 1
+int num_waiters;
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+  sem_wait(&private_lock);
+  ++num_waiters;
+  sem_post(&private_lock);
+  lock.Unlock();
+  sem_wait(&threads_to_wakeup);
+  lock.Lock();
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+Signal() {
+  sem_wait(&private_lock);
+  if (num_waiters > 0) {
+    sem_post(&threads_to_wakeup);
+    --num_waiters;
+  }
+  sem_post(&private_lock);
+}
+
+```
+ 
+:::
+
+::::
+
+
+### monitors with semaphores: broadcast  {.smaller}
+
+
+
+* now allows broadcast:
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+sem_t private_lock;  // initially 1
+int num_waiters;
+sem_t threads_to_wakeup;  // initially 0
+Wait(Lock lock) {
+  sem_wait(&private_lock);
+  ++num_waiters;
+  sem_post(&private_lock);
+  lock.Unlock();
+  sem_wait(&threads_to_wakeup);
+  lock.Lock();
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+Broadcast() {
+  sem_wait(&private_lock);
+  while (num_waiters > 0) {
+    sem_post(&threads_to_wakeup);
+    --num_waiters;
+  }
+  sem_post(&private_lock);
+}
+
+```
+ 
+:::
+
+::::
+

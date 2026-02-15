@@ -1,0 +1,46 @@
+
+### wait for both finished  {.smaller}
+
+
+<pre><code>// MISSING: init calls, etc.
+pthread_mutex_t lock;
+bool finished[2];
+pthread_cond_t both_finished_cv;
+
+void WaitForBothFinished() {
+  pthread_mutex_lock(&amp;lock);
+  while (<span data-fragment-index="2" class="fragment custom myem-only">_____________________________</span>) {
+    pthread_cond_wait(&amp;both_finished_cv, &amp;lock);
+  }
+  pthread_mutex_unlock(&amp;lock);
+}
+
+void Finish(int index) {
+  pthread_mutex_lock(&amp;lock);
+  finished[index] = true;
+  <span data-fragment-index="3" class="fragment custom myem-only">_____________________________________</span>
+  pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+
+::: {.myoverbox .highright fragment-index=2 .fade-in-then-out .fragment}
+
+A. `finished[0] && finished[1]`<br/>
+B. `finished[0] || finished[1]`<br/>
+C. `!finished[0] || !finished[1]`<br/>
+D. `finsihed[0] != finished[1]`<br/>
+E. something else
+
+:::
+
+::: {.myoverbox .highright fragment-index=3 .fade-in-then-out .fragment style="font-size: 80%"}
+
+A. `pthread_cond_signal(&both_finished_cv)`<br/>
+B. `pthread_cond_broadcast(&both_finished_cv)`<br/>
+C. `if (finished[1-index])`<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`pthread_cond_signal(&both_finished_cv);`<br/>
+D. `if (finished[1-index])`<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`pthread_cond_broadcast(&both_finished_cv);`<br/>
+E. something else
+
+:::

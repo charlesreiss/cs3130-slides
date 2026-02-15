@@ -65,6 +65,14 @@ $font-family-monospace: "Source Code Pro","Courier New",monospace;
     font-style: italic;
 }
 
+.reveal .fragment.mybox-one.current-fragment {
+    border: 3px red solid;
+}
+
+.reveal .fragment.mybox-two.current-fragment {
+    border: 3px blue solid;
+}
+
 .reveal code {
     color: inherit;
 }
@@ -144,6 +152,14 @@ div.myoverbox.lowright {
     transform: translate(0%, 0%);
 }
 
+div.myoverbox.highright {
+    bottom: auto;
+    top: 5%;
+    left: auto;
+    right: 5%;
+    transform: translate(0%, 0%);
+}
+
 code span { color: inherit; }
 
 .reveal .slide .tight p { line-height: 1; margin: 0.1em; }
@@ -200,6 +216,7 @@ code span { color: inherit; }
 .nomargin { margin: 0 ! important; padding: 0; }
 .nomargin > p { margin: 0; padding: 0; }
 
+.reveal .slide table.collines td:not(:last-child){border-right: 2px solid black;}
 
 @media print {
     .slide-chalkboard-buttons {

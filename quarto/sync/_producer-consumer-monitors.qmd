@@ -1,0 +1,42 @@
+
+### bounded buffer producer/consumer  {.smaller}
+
+
+<pre><code>pthread_mutex_t lock;
+pthread_cond_t <span data-fragment-index="4" class="fragment custom myem-only">data_ready</span>; <span data-fragment-index="2" class="fragment custom myem-only">pthread_cond_t <span data-fragment-index="4" class="fragment custom myem-only">space_ready</span>;</span>
+BoundedQueue buffer;
+Produce(item) {
+    pthread_mutex_lock(&amp;lock);
+    <span data-fragment-index="2" class="fragment custom myem-only">while (buffer.full()) { pthread_cond_wait(<span data-fragment-index="4" class="fragment custom myem-only">&amp;space_ready</span>, &amp;lock); }</span>
+    buffer.enqueue(item);
+    pthread_cond_signal(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>);
+    pthread_mutex_unlock(&amp;lock);
+}
+Consume() {
+    pthread_mutex_lock(&amp;lock);
+    while (buffer.empty()) {
+        pthread_cond_wait(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>, &amp;lock);
+    }
+    item = buffer.dequeue();
+    <span class="fragment custom meym-only" data-fragment-index="2"><span class="fragment custom myem-only" data-fragment-index="3">pthread_cond_signal(<span data-fragment-index="4" class="fragment custom myem-only">&amp;space_ready</span>);</span></span>
+    pthread_mutex_unlock(&amp;lock);
+    return item;
+}
+</code></pre>
+
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=3 .high}
+
+correct (but slow?) to replace <br/>
+`pthread_cond_signal(&data_ready)` with<br/>
+`pthread_cond_broadcast(&data_ready)`
+
+:::
+
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=4 .vlow}
+
+correct (but slow) to replace <br/>
+`data_ready` and `space_ready` with<br/>
+with combined condvar `ready` and use broadcast<br/>
+(just more "spurious wakeups")
+
+:::

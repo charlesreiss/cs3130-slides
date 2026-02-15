@@ -1,0 +1,14 @@
+
+### implementing durability  {.smaller}
+
+
+* what if there's a crash
+* we might have written some things but not others
+* most common approach: write-ahead logging 
+<hr class="vspace" />
+* write list of intended operations + marker that list is complete
+* then do operations 
+<hr class="vspace" />
+* after crash: check for intended operations
+* redo them <i>only if list is complete</i>
+

@@ -1,0 +1,156 @@
+
+### rwlock exercise  {.smaller}
+
+
+
+* suppose we want something in-between reader and writer priority:
+* reader-priority except if writers wait more than 1 second
+* exercise: what do we change?
+ <!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+    moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+} -->
+, 
+:::: {.columns}
+
+::: {.column width="50%"}
+ 
+<pre><code>...
+int waiting_readers = 0;
+ReadLock() {
+  mutex_lock(&amp;lock);
+  ++waiting_readers;
+  while (writers != 0) {
+    cond_wait(&amp;ok_to_read_cv, &amp;lock);
+  }
+  --waiting_readers;
+  ++readers;
+  mutex_unlock(&amp;lock);
+}
+
+ReadUnlock() {
+  mutex_lock(&amp;lock);
+  --readers;
+  if (waiting_readers == 0 &amp;&amp;
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="50%"}
+ 
+<pre><code>WriteLock() {
+  mutex_lock(&amp;lock);
+  while (waiting_readers + readers + writers != 0) {
+    cond_wait(&amp;ok_to_write_cv);
+  }
+  ++writers;
+  mutex_unlock(&amp;lock);
+}
+WriteUnlock() {
+  mutex_lock(&amp;lock);
+  --writers;
+  if (waiting_readers == 0) {
+    cond_signal(&amp;ok_to_write_cv);
+  } else {
+    cond_broadcast(&amp;ok_to_read_cv);
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+
+
+### rwlock exercise soln  {.smaller}
+
+<!-- \lstset{
+    language=C++,
+    basicstyle=\fontsize{8}{9}\tt\selectfont,
+    morekeywords=pthread_mutex_t,
+    morekeywords=pthread_cond_t,
+    moredelim={**[is][\btHL<2|handout:0>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:0>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:0>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:0>]{@5}{5@}},
+    moredelim={**[is][\btHL<4,6|handout:0>]{@B4}{4@}},
+    moredelim={**[is][\btHL<5,6|handout:0>]{@B5}{5@}},
+} -->
+ 
+:::: {.columns}
+
+::: {.column width="50%"}
+ 
+<pre><code>...
+int waiting_readers = 0;
+ReadLock() {
+  mutex_lock(&amp;lock);
+  ++waiting_readers;
+  while (writers != 0
+  <span data-fragment-index="2" class="fragment custom myem-only"> || WritersWaitingTooLong()</span>) {
+    cond_wait(&amp;ok_to_read_cv, &amp;lock);
+  }
+  --waiting_readers;
+  ++readers;
+  mutex_unlock(&amp;lock);
+}
+
+ReadUnlock() {
+  mutex_lock(&amp;lock);
+  --readers;
+  if ((waiting_readers == 0 
+       <span data-fragment-index="2" class="fragment custom myem-only">|| WritersWaitingTooLong()</span>
+      ) &amp;&amp; readers == 0)) {
+    cond_signal(&amp;ok_to_write_cv);
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="50%"}
+ 
+<pre><code>WriteLock() {
+  mutex_lock(&amp;lock);
+  <span data-fragment-index="2" class="fragment custom myem-only">RecordStartWaiting();</span>
+  while (readers + writers != 0 ||
+         <span data-fragment-index="2" class="fragment custom myem-only">(waiting_readers != 0 &amp;&amp;</span>
+         <span data-fragment-index="2" class="fragment custom myem-only">!WritersWaitingTooLong())</span>) {
+    cond_wait(&amp;ok_to_write_cv);
+  }
+  <span data-fragment-index="2" class="fragment custom myem-only">RecordStopWaiting();</span>
+  ++writers;
+  mutex_unlock(&amp;lock);
+}
+WriteUnlock() {
+  mutex_lock(&amp;lock);
+  --writers;
+  if (waiting_readers == 0 
+   <span data-fragment-index="2" class="fragment custom myem-only">|| WritersWaitingTooLong()</span>) {
+    cond_signal(&amp;ok_to_write_cv);
+  } else {
+    cond_broadcast(&amp;ok_to_read_cv);
+  }
+  mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+
+
+### againframe(rwlockExercise2Soln)

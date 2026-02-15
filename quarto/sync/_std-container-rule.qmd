@@ -1,0 +1,35 @@
+
+### C++ containers and locking  {.smaller}
+
+
+* can you use a vector from multiple threads?
+* … question: how is it implemented? 
+
+   * dynamically allocated array
+   * reallocated on size changes
+ 
+<hr class="vspace" />
+* can access from multiple threads … <em>as long as not append/erase/etc.</em>?
+* assuming it's implemented like we expect…  
+
+   * but can we really depend on that?
+   * e.g. could shrink internal array after a while with no expansion save memory?
+
+
+
+### C++ standard rules for containers  {.smaller}
+
+
+* multiple threads can <em>read anything at the same time</em>
+* can only read element <em>if no other thread is modifying it</em> 
+<hr class="vspace" />
+* can safely <em>add/remove elements if no other threads</em> are accessing container 
+
+   * (sometimes can safely add/remove in extra cases)
+ 
+<hr class="vspace" />
+* exception: vectors of bools --- can't safely read and write at same time 
+
+   * might be implemented by putting multiple bools in one int
+
+

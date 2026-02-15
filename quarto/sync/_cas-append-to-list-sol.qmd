@@ -1,0 +1,26 @@
+
+### append to singly-linked list  {.smaller}
+
+
+```
+/* assumption: other threads may be appending to list,
+ *             but nodes are not being removed, reordered, etc.
+ */
+void append_to_list(ListNode *head, ListNode *new_last_node) {
+  memory_ordering_fence();
+  ListNode *current_last_node;
+  do {
+    current_last_node = head;
+    while (current_last_node->next) {
+      current_last_node = current_last_node->next;
+    }
+  } while (
+    !compare-and-swap(&current_last_node->next,
+                      NULL, new_last_node)
+  );
+}
+
+```
+
+
+### againframe(appendToListSol)

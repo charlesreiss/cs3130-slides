@@ -1,0 +1,22 @@
+
+### pthread mutexes: addt'l features  {.smaller}
+
+
+* mutex attributes (<code>pthread_mutexattr_t</code>) allow: 
+
+   * (reference: <code>man pthread.h</code>)
+ 
+<hr class="vspace" />
+* error-checking mutexes 
+
+   * locking mutex twice in same thread?
+   * unlocking already unlocked mutex?
+   * …
+
+* mutexes shared between processes 
+
+   * otherwise: must be only threads of same process
+   * (unanswered question: where to store mutex?)
+
+* …
+

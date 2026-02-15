@@ -1,0 +1,76 @@
+
+### fairer spinlocks  {.smaller}
+
+
+* so far --- everything on spinlocks 
+
+   * mutexes, condition variables --- built with spinlocks
+
+* spinlocks are pretty ‘unfair’ 
+
+   * where fair = get lock if waiting longest
+
+* last CPU that held spinlock more likely to get it again 
+
+   * already has the lock in its cache…
+
+* but there are many other ways to spinlocks…
+
+
+### ticket spinlocks  {.smaller}
+
+
+```
+unsigned int serving_number;
+unsigned int next_number;
+
+Lock() {
+    // "take a number"
+    unsigned int my_number = atomic_read_and_increment(&next_number);
+    // wait until "now serving" that number
+    while (atomic_read(&serving_number) != my_number) {
+        /* do nothing */
+    }
+    // MISSING: code to prevent reordering reads/writes
+}
+
+Unlock() {
+    // serve next number
+    serving_number += 1;
+    // MISSING: code to prevent reordering reads/writes
+}
+
+```
+
+
+### ticket spinlocks and cache contention  {.smaller}
+
+
+* still have contention to write next_number
+* … but no retrying writes! 
+
+   * should limit ‘ping-ponging’?
+
+* threads loop performing a read repeatedly while waiting 
+
+   * value will be broadcasted to all processors
+   * ‘free’ if using a bus
+   * not-so-free if another way of connecting CPUs
+
+
+
+### beyond ticket spinlocks  {.smaller}
+
+
+* Linux kernel used to use ticket spinlocks
+* now uses variant of MCS spinlocks --- locks have linked-list queue! 
+
+   * careful use of atomic operations to modify queue
+
+* still try
+* goal: even less contention 
+
+   * unlocking value doesn't require broadcasting to all CPUs
+   * each processor waits on its own cache block
+
+

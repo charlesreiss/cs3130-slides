@@ -1,0 +1,153 @@
+
+### producer/consumer constraints  {.smaller}
+
+
+* consumer waits for producer(s) if buffer is empty
+* producer waits for consumer(s) if buffer is full
+* any thread waits while a thread is manipulating the buffer 
+<hr class="vspace" />
+* <em>one semaphore per constraint</em>: 
+```
+sem_t full_slots;   // consumer waits if empty
+sem_t empty_slots;  // producer waits if full
+sem_t mutex;        // either waits if anyone changing buffer
+FixedSizedQueue buffer;
+
+```
+
+
+
+### producer/consumer pseudocode  {.smaller}
+
+
+<pre><code>sem_init(&amp;[[full_slots]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, ..., 0 /* # buffer slots initially used */);
+sem_init(&amp;[[empty_slots]{.fragment fragment-index=2 .custom .myem-only}]{.fragment fragment-index=3 .custom .myem-only}, ..., BUFFER_CAPACITY);
+sem_init(&amp;mutex, ..., 1 /* # thread that can use buffer at once */);
+buffer.set_size(BUFFER_CAPACITY);
+...
+Produce(item) {
+    [[sem_wait(&amp;empty_slots);]{.fragment fragment-index=4 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}Q\\tikzmark{empty}Q  // wait until free slot, reserve it
+    [[sem_wait(&amp;mutex);]{.fragment fragment-index=4 .custom .myem-only}]{.fragment fragment-index=5 .custom .myem-only}
+    buffer.enqueue(item);
+    <span data-fragment-index="6" class="fragment custom myem-only">sem_post(&amp;mutex);</span>   Q\\tikzmark{unempty}Q
+    <span data-fragment-index="6" class="fragment custom myem-only">sem_post(&amp;full_slots);</span>  // tell consumers there is more data
+}
+
+Consume() {
+    sem_wait(&amp;full_slots);Q\\tikzmark{full}Q  // wait until queued item, reserve it
+    <span data-fragment-index="5" class="fragment custom myem-only">sem_wait(&amp;mutex);</span>
+    item = buffer.dequeue();
+    sem_post(&amp;mutex);
+    <span data-fragment-index="5" class="fragment custom myem-only">sem_post(&amp;empty_slots);</span>  // let producer reuse item slot
+    return item;
+}
+</code></pre>
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+    \coordinate (place) at ([yshift=-3cm]current page.south);
+\tikzset{
+    box generic/.style={draw=red,very thick,fill=white,align=left},
+    box/.style={box generic,anchor=center,at={(place)}},
+    box 2/.style={box generic,anchor=center,at={([yshift=2cm]place)}},
+    box next to empty/.style={box generic,anchor=north west,at={(pic cs:empty)}},
+    box next to unempty/.style={box generic,anchor=north west,at={(pic cs:unempty)}},
+}
+    \begin{visibleenv}<2>
+        \node[box] {
+            \texttt{full\_slots} $\le$ number of items on queue \\
+            \texttt{empty\_slots} $\le$ number of free slots on queue \\
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \node[box] {
+            exercise: when is \texttt{full\_slots} value + \texttt{empty\_slots} value \\ \myemph{not}
+            equal to size of the queue?
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<4-5>
+        \node[box next to empty] (reorder empty question) {
+            Can we do \\
+        \texttt{sem\_wait(\&mutex);} \\
+        \texttt{sem\_wait(\&empty\_slots);} \\
+            instead?
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<5>
+        \node[box generic,anchor=north west] at (reorder empty question.south west) {
+            \myemph{No.} Consumer waits on \texttt{sem\_wait(\&mutex)} \\
+            so can't \\texttt{sem\_post(\&empty\_slots)} \\
+            (result: producer waits forever \\
+            problem called \textit{deadlock})
+        };
+    \end{visibleenv}
+    \begin{visibleenv}<6>
+        \node[box next to unempty] (reorder unempty question) {
+            Can we do \\
+        \texttt{sem\_post(\&full\_slots);} \\
+        \texttt{sem\_post(\&mutex);} \\
+            instead? \\
+            Yes --- post never waits
+        };
+    \end{visibleenv}
+\end{tikzpicture}
+```
+-->
+
+
+### producer/consumer: cannot reorder mutex/empty  {.smaller}
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+```
+ProducerReordered() {
+  // BROKEN: WRONG ORDER
+  sem_wait(&mutex);
+  sem_wait(&empty_slots);
+
+  ...
+
+  sem_post(&mutex);
+
+```
+
+:::
+
+::: {.column width="45%"}
+
+```
+Consumer() {
+  sem_wait(&full_slots);
+
+  // can't finish until
+  // Producer's sem_post(&mutex):
+  sem_wait(&mutex);
+
+  ...
+    
+  // so this is not reached
+  sem_post(&full_slots);
+
+```
+
+:::
+
+::::
+
+
+### againframe(pcSemaphoreCode)
+
+### producer/consumer summary  {.smaller}
+
+
+* producer: wait (down) empty_slots, post (up) full_slots
+* consumer: wait (down) full_slots, post (up) empty_slots 
+<hr class="vspace" />
+* two producers or consumers? 
+
+   * still works!
+
+

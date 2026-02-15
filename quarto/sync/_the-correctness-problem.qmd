@@ -1,0 +1,11 @@
+
+### the correctness problem  {.smaller}
+
+
+* two threads?
+* introduces <i>non-determinism</i>
+* which one runs first? 
+<hr class="vspace" />
+* allows for ‘‘race condition’’ bugs
+* … to be avoided with synchronization constructs
+

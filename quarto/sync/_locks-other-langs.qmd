@@ -1,0 +1,38 @@
+
+### Java synchronized primitive  {.smaller}
+
+
+```
+Object MilkLock = new Object();
+
+/* lock implicity acquired/released on
+   entering/leaving this block */
+synchronized (MilkLock) {
+    if (no milk) {
+        buy milk
+    }
+}
+
+```
+
+
+### C++11 mutexes  {.smaller}
+
+
+```
+#include <mutex>
+
+std::mutex MilkLock;
+{
+    std::lock_guard nameDoesNotMatter(MilkLock);
+    /* nameDoesNotMatter's constructor acquires lock */
+    if (no milk) {
+        buy milk
+    }
+    /* nameDoesNotMatter's destructor called automatically
+       and releases lock
+     */
+}
+
+```
+

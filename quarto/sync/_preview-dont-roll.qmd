@@ -1,0 +1,44 @@
+
+### preview: general sync  {.smaller}
+
+
+* lots of coordinating threads beyond locks
+* will talk about two general tools later: 
+
+   * monitors/condition variables
+   * semaphores [if time]
+
+* big added feature: wait for arbitrary thing to happen 
+<hr class="vspace" />
+* also some less general tools: barriers
+
+
+### a bad idea  {.smaller}
+
+
+
+* one <em>bad</em> idea to wait for an event:
+ 
+```
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; bool ready = false;
+void WaitForReady() {
+    pthread_mutex_lock(&lock);
+    do {
+        pthread_mutex_unlock(&lock);
+        /* only time MarkReady() can run */
+        pthread_mutex_lock(&lock);
+    } while (!ready);
+    pthread_mutex_unlock(&lock);
+}
+void MarkReady() {
+    pthread_mutex_lock(&lock);
+    ready = true;
+    pthread_mutex_unlock(&lock);
+}
+
+```
+ 
+
+* wastes processor time; MarkReady can stall waiting for unlock window
+ ![](/sync/texfig/preview-dont-roll-a-bad-idea.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+

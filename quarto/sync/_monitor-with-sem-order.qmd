@@ -1,0 +1,46 @@
+
+### monitors with semaphores: chosen order  {.smaller}
+
+
+
+* if we want to make sure threads woken up <em>in order</em>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+ThreadSafeQueue<sem_t> waiters;
+Wait(Lock lock) {
+  sem_t private_semaphore;
+  ... /* init semaphore
+         with count 0 */
+  waiters.Enqueue(&semaphore);
+  lock.Unlock();
+  sem_post(private_semaphore);
+  lock.Lock();
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+Signal() {
+  sem_t *next = waiters.DequeueOrNull();
+  if (next != NULL) {
+    sem_post(next);
+  }
+}
+
+```
+ 
+:::
+
+::::
+ 
+
+* (but now implement queue with semaphores…)
+

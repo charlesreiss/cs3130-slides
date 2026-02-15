@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+}
+\begin{scope}
+\tikzset{
+    every label/.style={font=\bfseries},
+    every node/.style={inner sep=0.25mm,font=\tt\small,align=left},
+}
+\node[label={north:Alice},align=left,anchor=north west] (thread A part 1) {
+leave note from Alice; \\
+if (no milk) \{ \\
+\hspace{.5cm} if (no note from Bob) \{ \\
+\hspace{1cm} buy milk \\
+\hspace{.5cm} \} \\
+\} \\
+remove note from Alice; \\
+};
+\node[label={north:Bob},anchor=north west] (thread B part 1) at ([xshift=2cm]thread A part 1.north east) {
+leave note from Bob; \\
+if (no milk) \{ \\
+\hspace{.5cm} if (no note from Alice) \{
+\hspace{1cm} buy milk \\
+\hspace{.5cm} \} \\
+\} \\
+remove note from Bob;
+};
+\end{scope}
+\end{tikzpicture}

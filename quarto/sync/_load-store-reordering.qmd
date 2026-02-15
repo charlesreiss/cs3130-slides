@@ -1,0 +1,8 @@
+
+### why load/store reordering? 
+
+
+* fast processor designs can execute instructions out of order
+* goal: do something instead of waiting for slow memory accesses, etc.
+* more on this later in the semester
+

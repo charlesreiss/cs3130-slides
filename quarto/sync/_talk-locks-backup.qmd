@@ -1,0 +1,170 @@
+
+# backup sides {visibility="hidden"}
+
+###  
+
+
+
+### backup slides 
+
+
+
+## higher-level tools from RMW {visibility="hidden"}
+
+{{< include /sync/_use-rmw.qmd >}}
+
+## recall: POSIX mutexes {visibility="hidden"}
+
+{{< include /sync/_pthreads-mutex-review.qmd >}}
+
+## even/odd idea for life hw {visibility="hidden"}
+
+{{< include /sync/_life-even-odd.qmd >}}
+
+## x86-64 spinlock {visibility="hidden"}
+
+{{< include /sync/_x86-spinlock.qmd >}}
+
+## exercise: spin-wait {visibility="hidden"}
+
+{{< include /sync/_exer-spin-wait.qmd >}}
+
+## spinlock problems {visibility="hidden"}
+
+{{< include /sync/_spinlock-problem.qmd >}}
+
+## motivation: threaded ATM server? {visibility="hidden"}
+
+{{< include /sync/_lost-write-motivate-atm-server.qmd >}}
+
+## locks that sleep {visibility="hidden"}
+
+### againframe(spinLockProblems)
+
+{{< include /sync/_mutexes-intro.qmd >}}
+
+## pseudocode{visibility="hidden"}
+
+{{< include /sync/_mutex-pseudocode.qmd >}}
+
+## need for scheduler integration{visibility="hidden"}
+
+{{< include /sync/_mutex-sched-race.qmd >}}
+
+## analysis: uncontended case{visibility="hidden"}
+
+{{< include /sync/_mutex-uncontend.qmd >}}
+
+## disabling interrupts for locks {visibility="hidden"}
+
+{{< include /sync/_lock-by-disable-interrupts.qmd >}}
+
+## aside: standard container rules {visibility="hidden"}
+
+{{< include /sync/_std-container-rule.qmd >}}
+
+## processor reordering {visibility="hidden"}
+
+{{< include /sync/_non-atomic-loadstore.qmd >}}
+
+## why reorder? {visibility="hidden"}
+
+{{< include /sync/_load-store-reorder-spec.qmd >}}
+
+{{< include /sync/_load-store-reordering.qmd >}}
+
+## GCC atomic/sync stuff {visibility="hidden"}
+
+{{< include /sync/_no-reordering-gcc-ex.qmd >}}
+
+## exercise: atomic add {visibility="hidden"}
+
+{{< include /sync/_atomic-cas-to-add-exercise.qmd >}}
+
+## xv6's spinlock debugging {visibility="hidden"}
+
+{{< include /sync/_xv6-spinlock.qmd >}}
+
+## CAS for fetch-and-add {visibility="hidden"}
+
+{{< include /sync/_atomic-cas-to-add-example.qmd >}}
+
+## exercise: CAS for appending to list {visibility="hidden"}
+
+{{< include /sync/_cas-append-to-list-ex.qmd >}}
+
+{{< include /sync/_cas-append-to-list-sol.qmd >}}
+
+## more atomic operations {visibility="hidden"}
+
+{{< include /sync/_other-atomics.qmd >}}
+
+## cache coherency detail {visibility="hidden"}
+
+## adding more state: MSI {visibility="hidden"}
+
+{{< include /sync/_cache-coherency-msi.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /sync/_cache-coherency-ex.qmd >}}
+
+{{< include /sync/_cache-coherency-ex-soln.qmd >}}
+
+# processor load/store reordering {visibility="hidden"}
+
+{{< include /sync/_load-store-reordering.qmd >}}
+
+## C++atomic/sync stuff {visibility="hidden"}
+
+{{< include /sync/_no-reordering-cpp.qmd >}}
+
+## x86-64 reordering rules {visibility="hidden"}
+
+{{< include /sync/_x86-reordering-rules.qmd >}}
+
+## test-and-test-and-set {visibility="hidden"}
+
+### againframe(spinLockProblems)
+
+{{< include /sync/_test-and-test-and-set.qmd >}}
+
+## beyond MSI {visibility="hidden"}
+
+{{< include /sync/_cache-coherency-beyond-msi.qmd >}}
+
+# too much milk: locks from load/store? {visibility="hidden"}
+
+## setup: buying milk {visibility="hidden"}
+
+{{< include /sync/_too-much-milk-scenario.qmd >}}
+
+## wrong solution 1: missed notes {visibility="hidden"}
+
+{{< include /sync/_too-much-milk1.qmd >}}
+
+## wrong solution 2: read own note {visibility="hidden"}
+
+{{< include /sync/_too-much-milk2.qmd >}}
+
+## wrong solution 3: too little milk {visibility="hidden"}
+
+{{< include /sync/_too-much-milk3.qmd >}}
+
+## correct solution: Peterson's algorithm {visibility="hidden"}
+
+{{< include /sync/_too-much-milk4.qmd >}}
+
+## mfence {visibility="hidden"}
+
+{{< include /sync/_mfence.qmd >}}
+
+# cache coherency {visibility="hidden"}
+
+# preview: processor buses {visibility="hidden"}
+
+{{< include /sync/_shared-bus.qmd >}}
+
+## problem setup / snooping {visibility="hidden"}
+
+{{< include /sync/_cache-coherency-intro.qmd >}}

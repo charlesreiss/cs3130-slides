@@ -1,0 +1,23 @@
+
+### xv6 spinlock: debugging stuff  {.smaller}
+
+
+<pre><code>void acquire(struct spinlock *lk) {
+  ...
+  <span data-fragment-index="2" class="fragment custom myem-only">if(holding(lk))</span>
+    panic("acquire")
+  ...
+  // Record info about lock acquisition for debugging.
+  <span data-fragment-index="3" class="fragment custom myem-only">lk-&gt;cpu = mycpu();</span>
+  <span data-fragment-index="4" class="fragment custom myem-only">getcallerpcs(&amp;lk, lk-&gt;pcs);</span>
+}
+void release(struct spinlock *lk) {
+  <span data-fragment-index="2" class="fragment custom myem-only">if(!holding(lk))</span>
+    panic("release");
+
+  <span data-fragment-index="4" class="fragment custom myem-only">lk-&gt;pcs[0] = 0;</span>
+  <span data-fragment-index="3" class="fragment custom myem-only">lk-&gt;cpu = 0;</span>
+  ...
+}
+</code></pre>
+

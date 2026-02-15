@@ -1,0 +1,64 @@
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+    \& \& \& \\
+    CPU1 \& CPU2 \& CPU3 \& MEM1 \\
+};
+\foreach \x in {1,2,3,4} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-4.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\fontsize{9}{10}\ttfamily\selectfont,text width=1.5cm,execute at begin node={\strut}},
+        row 1/.append style={nodes={font=\fontsize{9}{10}\bfseries\selectfont}},
+        column 3/.append style={nodes={font=\fontsize{9}{10}\sffamily\selectfont}},
+    },
+}
+\matrix[cache,anchor=north] (cache1) at (net-2-1.south east){
+    address \& value \& state\\
+    lock \& \only<1>{locked}\only<2-5,7>{\myemph<2,7>{---}}\only<6>{\myemph<6>{unlocked}} \& \only<1,6>{Modified}\only<2-5,7>{\myemph{Invalid}} \\
+};
+\matrix[cache,anchor=north] (cache2) at ([xshift=.75cm]net-2-2.south east){
+    address \& value \& state\\
+    lock \& \only<1,3,5-6>{---}\only<2,4,7>{\myemph{locked}} \& \only<1,3,5,6>{\myemph<2,4>{Invalid}}\only<2,4,7>{\myemph{Modified}} \\
+};
+\matrix[cache,anchor=north] (cache3) at ([xshift=1.5cm]net-2-3.south east){
+    address \& value \& state\\
+    lock \& \only<1-2,4>{---}\only<3,5>{\myemph{locked}} \& \only<1-2,4,6-7>{\myemph<4>{Invalid}}\only<3,5>{\myemph{Modified}} \\
+};
+\begin{visibleenv}<2,4>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) node[above] {``I want to modify \texttt{lock}?''} -- (net-1-4.center) --(net-2-4.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU2 read-modify-writes lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<3,5>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-3.north) -- (net-1-3.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-2.center) --(net-2-2.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU3 read-modify-writes lock \\ (to see it is still locked)
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU1 sets lock to unlocked
+};
+\end{visibleenv}
+\begin{visibleenv}<7>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-4.center) --(net-2-4.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``I want to modify \texttt{lock}''} -- (net-1-3.center) --(net-2-3.north);
+\node[align=center,draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    some CPU (this example: CPU2) acquires lock
+};
+\end{visibleenv}
+\end{tikzpicture}

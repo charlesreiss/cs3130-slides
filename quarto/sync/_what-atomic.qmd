@@ -1,0 +1,12 @@
+
+### so, what is actually atomic  {.smaller}
+
+
+* for now we'll assume: load/stores of ‘words’  
+
+   * (64-bit machine = 64-bits words)
+ 
+<hr class="vspace" />
+* in general: <em>processor designer will tell you</em>
+* their job to design caches, etc. to work as documented
+

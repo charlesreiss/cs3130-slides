@@ -1,0 +1,34 @@
+
+### read-copy-update (high-level overview)  {.smaller}
+
+
+* idea: read-mostly data structure
+* when reading: 
+
+   * read normally <em>via shared pointer</em>
+
+* when writing: 
+
+   * make a copy
+   * atomically update the <em>shared pointer</em>
+   * delete the old version <em>eventually</em>
+
+* tricky part: when is it safe to delete old version 
+
+   * implementation: <em>scheduler integration</em>
+
+
+
+### RCU operations  {.smaller}
+
+
+* read lock --- record: ‘‘I am reading now’’
+* read unlock --- record: ‘‘I am done reading now’’
+* publish --- atomically update pointer 
+<hr class="vspace" />
+* after publish: wait until 
+
+   * all threads currently running have context switched
+   * … and none of them set the ‘‘I am reading now’’ bit
+
+

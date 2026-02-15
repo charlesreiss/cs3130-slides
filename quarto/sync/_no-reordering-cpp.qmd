@@ -1,0 +1,82 @@
+
+### C++: preventing reordering  {.smaller}
+
+
+* to help <em>implementing things like pthread_mutex_lock</em> 
+<hr class="vspace" />
+* C++ 2011 standard: <i>atomic</i> header, <i>std::atomic</i> class
+* prevent CPU reordering <i>and</i> prevent compiler reordering
+* also provide other tools for implementing locks (more later) 
+<hr class="vspace" />
+* could also hand-write assembly code 
+
+   * compiler can't know what assembly code is doing
+
+
+
+### C++: preventing reordering example  {.smaller}
+
+
+```
+#include <atomic>
+void Alice() {
+    note_from_alice = 1;
+    do {
+        std::atomic_thread_fence(std::memory_order_seq_cst);
+    } while (note_from_bob);
+    if (no_milk) {++milk;}
+}
+
+```
+ <hr />
+ 
+```
+Alice:
+  movl $1, note_from_alice  // note_from_alice <- 1
+.L2:
+  mfence  // make sure store visible on/from other cores
+  cmpl $0, note_from_bob  // if (note_from_bob == 0) repeat fence
+  jne .L2
+  cmpl $0, no_milk
+  ...
+
+```
+
+
+### C++ atomics: no reordering  {.smaller}
+
+
+```
+std::atomic<int> note_from_alice, note_from_bob;
+void Alice() {
+    note_from_alice.store(1);
+    do {
+    } while (note_from_bob.load());
+    if (no_milk) {++milk;}
+}
+
+```
+ <hr />
+ 
+```
+Alice:
+  movl $1, note_from_alice
+  mfence
+.L2:
+  movl note_from_bob, %eax
+  testl %eax, %eax
+  jne .L2
+  ...
+
+```
+
+
+### GCC: built-in atomic functions 
+
+
+* used to implement std::atomic, etc.
+* predate std::atomic 
+<hr class="vspace" />
+* builtin functions starting with <code>__sync</code> and <code>__atomic</code>
+* these are what xv6 uses
+

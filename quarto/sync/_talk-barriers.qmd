@@ -1,0 +1,12 @@
+
+# barriers {visibility="hidden"}
+
+{{< include /sync/_barriers.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /sync/_barrier-ex.qmd >}}
+
+# life HW {visibility="hidden"}
+
+{{< include /sync/_life-hw-intro.qmd >}}

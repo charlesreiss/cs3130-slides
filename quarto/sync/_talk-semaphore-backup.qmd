@@ -1,0 +1,26 @@
+
+# Anderson-Dahlin complaint about semaphores {visibility="hidden"}
+
+{{< include /sync/_textbook-semaphore-complaint.qmd >}}
+
+# relating monitors and semaphores {visibility="hidden"}
+
+## implementing monitors with semaphores {visibility="hidden"}
+
+{{< include /sync/_monitors-with-semaphores.qmd >}}
+
+## implementing semaphores with monitors {visibility="hidden"}
+
+{{< include /sync/_semaphores-with-monitors.qmd >}}
+
+# aside: binary semaphores {visibility="hidden"}
+
+{{< include /sync/_binary-semaphores.qmd >}}
+
+## counting to binary semaphores {visibility="hidden"}
+
+{{< include /sync/_count-to-binary.qmd >}}
+
+# semaphore gate pattern {visibility="hidden"}
+
+{{< include /sync/_gate-pattern.qmd >}}

@@ -1,0 +1,12 @@
+
+## exercise: conditional signal in produce? {visibility="hidden"}
+
+{{< include /sync/_monitor-ex-ps-cond-signal.qmd >}}
+
+## exercise: ConsumeTwo {visibility="hidden"}
+
+{{< include /sync/_monitor-exercise.qmd >}}
+
+## exercise: ordering {visibility="hidden"}
+
+{{< include /sync/_monitor-order-ex.qmd >}}

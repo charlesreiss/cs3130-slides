@@ -1,0 +1,38 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (place) at ([xshift=-.5cm,yshift=-.75cm]current page.east);
+\tikzset{
+    box/.style={at={(place)},draw=red,very thick,font=\small,align=left,anchor=east,fill=white},
+}
+\begin{visibleenv}<2>
+\node[box] {
+    \texttt{mycpu()} --- per-core information
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    \texttt{intena} --- were interrupts enabled before first pushcli()?
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    \texttt{ncli} --- \# calls to pushcli - \# calls to popcli \\
+    intended usage: each pushcli has matching popcli
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    pushcli --- always disable interrupts
+};
+\end{visibleenv}
+\begin{visibleenv}<6>
+\node[box] {
+    popcli --- renable interrupts if last popcli \\
+    (and interrupts were enabled before) \\
+    (each pushcli had a matching popcli call)
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

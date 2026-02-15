@@ -1,0 +1,58 @@
+
+### rwlock effects exercise  {.smaller}
+
+
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+```
+pthread_rwlock_t lock;
+void ThreadA() {
+  pthread_rwlock_rdlock(&lock);
+  puts("a");
+  ...
+  puts("A");
+  pthread_rwlock_unlock(&lock);
+}
+void ThreadB() {
+  pthread_rwlock_rdlock(&lock);
+  puts("b");
+  ...
+  puts("B");
+  pthread_rwlock_unlock(&lock);
+}
+
+```
+ 
+:::
+
+::: {.column width="45%"}
+ 
+```
+void ThreadC() {
+  pthread_rwlock_wrlock(&lock);
+  puts("c");
+  ...
+  puts("C");
+  pthread_rwlock_unlock(&lock);
+}
+void ThreadD() {
+  pthread_rwlock_wrlock(&lock);
+  puts("d");
+  ...
+  puts("D");
+  pthread_rwlock_unlock(&lock);
+}
+
+```
+ 
+:::
+
+::::
+exercise: which of these outputs are possible? <br> <table>
+<tr><td>1. aAbBcCdD</td><td>2. abABcdDC</td><td>3. cCabBAdD</td></tr>
+<tr><td>4. cdCDaAbB</td><td>5. caACdDbB</td></tr>
+<tr><td></td></tr>
+</table>
+

@@ -1,0 +1,84 @@
+\begin{tikzpicture}
+\matrix[
+    matrix of nodes,
+    nodes in empty cells,
+    row 1/.style={nodes={minimum height=1cm,minimum width=1cm}},
+    row 2/.style={nodes={draw,rectangle,minimum height=1cm,minimum width=1cm}},
+    column sep=2.75cm,
+] (net) {
+      \& \& \\
+    CPU1 \& CPU2 \& MEM1 \\
+};
+\foreach \x in {1,2,3} {
+    \draw[thick] (net-2-\x.north) -- (net-1-\x.center);
+}
+\draw[thick,Latex-Latex] (net-1-1.west) -- (net-1-3.east);
+\tikzset{
+    cache/.style={
+        tight matrix,
+        nodes={font=\small\ttfamily,text width=1.8cm,execute at begin node={\strut}},
+        row 1/.append style={nodes={font=\small\bfseries}},
+        column 3/.append style={nodes={font=\sffamily\small}},
+    },
+}
+\matrix[cache,anchor=north] (cache1) at (net-2-1.south east){
+    address \& value \& state\\
+    0xA300 \& \only<1-2>{\sout<2->{100}}\only<2-3>{\sout<3->{\myemph<2>{101}}}\only<3->{\myemph<3,5>{102}} 
+           \& \only<1>{Shared}\only<2-4>{\myemph<2>{Modified}}\only<5->{\myemph<5>{Shared}}\\
+    0xC400 \& 200 \& Shared\\
+    0xE500 \& 300 \& Shared \\
+};
+\matrix[cache,anchor=north] (cache2) at ([xshift=1.5cm]net-2-2.south east){
+    address \& value \& state\\
+    0x9300 \& 172 \& Shared \\ 
+    \sout<2->{0xA300} \& \sout<2->{100}\only<6->{\myemph<6>{102}} \& \only<1>{Shared}\only<2-5>{\myemph<2>{Invalid}}\only<6>{\myemph<6>{Shared}} \\
+    0xC500 \& 200 \& Shared\\
+};
+\begin{visibleenv}<2>
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) 
+        node[above,xshift=2cm] {``CPU1 is writing 0xA3000''} -- (net-1-2.center) --(net-2-2.north);
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-3.center) --(net-2-3.north);
+\node[draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache1.south west){
+    CPU1 writes 101 to 0xA300
+};
+\node[my callout2=cache2-3-2,anchor=north,align=left] at ([yshift=-.5cm]cache2-3-2.south) {
+    cache sees write: \\ invalidate 0xA300
+};
+\node[my callout2=net-2-3.center,anchor=south] at ([yshift=1.5cm,xshift=-1.5cm]net-2-3.center) {
+    maybe update memory?
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[draw,thick,draw=blue,rectangle,anchor=north west] (writeTo) at ([yshift=-1cm]cache1.south west){
+    CPU1 writes 102 to 0xA300
+};
+\node[my callout2=cache1-2-3,anchor=north,align=left] at ([xshift=2cm,yshift=-.5cm]cache1-2-2.south) {
+    modified state --- nothing communicated! \\
+    will ``fix'' later if there's a read
+};
+\node[my callout2=net-2-3.center,anchor=south] at ([yshift=1.5cm,xshift=-2cm]net-2-3.center) {
+    nothing changed yet (\myemph{writeback})
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) -- (net-1-1.center) --(net-2-1.north);
+    \draw[blue,very thick,-Latex]  (net-2-2.north) -- (net-1-2.center) node[above] {``What is 0xA300?''} -- (net-1-3.center) --(net-2-3.north);
+\node[draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache2.south west){
+    CPU2 reads 0xA300
+};
+\node[my callout2=cache1-2-2,anchor=north] at ([yshift=-.5cm]cache1-2-3.south) {
+    modified state --- must update for CPU2!
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+    \draw[blue,dashed,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) -- (net-1-3.center) --(net-2-3.north);
+    \draw[blue,very thick,-Latex]  (net-2-1.north) -- (net-1-1.center) node[above,xshift=1cm] {``Write 102 into 0xA300''} -- (net-1-3.center) --(net-2-3.north);
+\node[draw,thick,draw=blue,rectangle,anchor=north west] at ([yshift=-1cm]cache2.south west){
+    CPU2 reads 0xA300
+};
+\node[my callout2=cache1-2-2,anchor=north,align=left] at ([yshift=-.5cm]cache1-2-3.south) {
+    written back to memory early \\
+    (could also become Invalid at CPU1)
+};
+\end{visibleenv}
+\end{tikzpicture}

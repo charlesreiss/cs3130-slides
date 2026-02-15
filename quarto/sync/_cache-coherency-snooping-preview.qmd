@@ -1,0 +1,10 @@
+
+### using a shared the bus  {.smaller}
+
+
+* want to change a value other processors might have?
+* use bus to tell them ‘‘get rid of your copy’’ 
+<hr class="vspace" />
+* want to start using value other processor might have reserved?
+* use bus to say ‘‘I'd like to use this value now’’
+
