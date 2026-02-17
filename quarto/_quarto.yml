@@ -13,7 +13,7 @@ format:
     progress: false
     margin: 0.02
     width: 1050
-    height: 600
+    height: 700
     code-line-numbers: false
     self-contained-math: true
     slide-number: "c"
