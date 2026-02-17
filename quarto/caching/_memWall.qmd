@@ -1,0 +1,48 @@
+
+### Imagine you are working at Intel in the 1980s
+
+![](/caching/memory-wall_hennessy-patterson.png){.absolute height=474px width=883.153px}
+
+<div style="position: absolute; top: 200px; left: 150px; font-size: small;">
+Circles: Processor<br />
+Diamonds: Memory
+</div>
+
+<div style="position: absolute; top:100px; left:350px; width:600px; height:600px; background-color: #fff;"></div> 
+
+<div style="position: absolute; top: 550px; left: 50px; font-size: x-small;">
+Image from "Computer Architecture: A Quantitative Approach"
+</div>
+
+
+
+### Imagine you are working at Intel in the 1980s
+
+![](/caching/memory-wall_hennessy-patterson.png){.absolute height=474px width=883.153px}
+
+<div style="position: absolute; top: 105px; left: 200px; color: red;">
+The "Memory Wall"
+</div>
+
+<div style="position: absolute; top: 550px; left: 50px; font-size: x-small;">
+Image from "Computer Architecture: A Quantitative Approach"
+</div>
+
+
+
+### Imagine you are working at Intel in the 1980s
+
+![](/caching/memory-wall_hennessy-patterson.png){.absolute height=474px width=883.153px}
+
+<div style="position: absolute; top: 105px; left: 200px; color: red;">
+The "Memory Wall"
+</div>
+
+<div style="position: absolute; top: 550px; left: 50px; font-size: x-small;">
+Image from "Computer Architecture: A Quantitative Approach"
+</div>
+
+<div style="position:absolute; top:260px; left:200px; font-size: 20px;">
+1989: Intel 80486<br />with 8 KB cache<br />
+<img src="../caching/80486.jpg" style="width:100px;">
+</div>

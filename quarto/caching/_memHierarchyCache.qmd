@@ -1,0 +1,4 @@
+
+### the place of cache
+
+![](/caching/texfig/memHierarchyIntro-the-place-of-cache-1.figure.svg)

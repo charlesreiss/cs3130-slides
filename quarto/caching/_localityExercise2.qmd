@@ -1,10 +1,8 @@
 
 ### locality exercise (2)
-
-<!-- \lstset{language=C,style=small} -->
  
-```
-/* version 2 */
+```c
+/* version 1 */
 for (int i = 0; i < N; ++i)
     for (int j = 0; j < N; ++j)
         A[i] += B[j] * C[i * N + j]
@@ -17,4 +15,7 @@ for (int ii = 0; ii < N; ii += 32)
                 A[i] += B[j] * C[i * N + j];
 
 ```
- exercise: which has better temporal locality in A? in B? in C? <br> how about spatial locality?
+
+- exercise: which has better temporal locality in A? in B? in C?
+
+- how about spatial locality?

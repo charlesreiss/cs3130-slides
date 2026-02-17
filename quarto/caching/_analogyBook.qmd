@@ -1,0 +1,11 @@
+
+### cache analogy: you finding words in books
+
+- library: main memory
+  - contains all the words in all books
+
+- copy of books you took home: L2 cache
+  - faster to look in books already at home
+
+- copy of individual book pages in your backpack: L1 cache
+  - fastest to look at book pages you have with you

@@ -1,6 +1,6 @@
-### locality exericse (3) {.smaller}
+### locality exercise (3) {.smaller}
 
-```
+```c
 struct Student {
     char name[128]; long id; float grade;
 };
@@ -14,8 +14,10 @@ float averageGrade() {
 }
 ```
 <hr>
-```
-char studentNames[1000][128]; long studentIds[1000]; float studentGrades[1000];
+```c
+char studentNames[1000][128];
+long studentIds[1000];
+float studentGrades[1000];
 
 float average() {
     float sum = 0.0

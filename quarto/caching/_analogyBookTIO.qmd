@@ -1,0 +1,8 @@
+
+### cache analogy: you finding words in books
+
+block size is 1 book page
+
+- book title: tag
+- page number: index
+- word index on book page: offset

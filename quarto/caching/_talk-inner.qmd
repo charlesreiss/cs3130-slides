@@ -1,15 +1,21 @@
 
 # caching intro {visibility="hidden"}
 
-## memory hierarchy intro {visibility="hidden"}
+## memory wall {visibility="hidden"}
 
-{{< include /caching/_memHierarchyIntro.qmd >}}
+{{< include /caching/_memWall.qmd >}}
+
+## memory hierarchy {visibility="hidden"}
+
+{{< include /caching/_memHierarchyCache.qmd >}}
+{{< include /caching/_memHierarchyDie.qmd >}}
+{{< include /caching/_memHierarchyGoals.qmd >}}
 
 ## locality {visibility="hidden"}
 
 {{< include /caching/_localityBasics.qmd >}}
 
-## locality exercises {visiblity="hidden"}
+## locality exercises {visibility="hidden"}
 
 {{< include /caching/_localityExercise.qmd >}}
 
@@ -20,6 +26,10 @@
 ## typical cache hierarchy {visibility="hidden"}
 
 {{< include /caching/_cacheSplitID.qmd >}}
+
+## cache analogy {visibility="hidden"}
+
+{{< include /caching/_analogyBook.qmd >}}
 
 ## one-block cache {visibility="hidden"}
 
@@ -36,6 +46,8 @@
 
 
 ## tag/index/offset for direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_analogyBookTIO.qmd >}}
 
 {{< include /caching/_tioDMIntro.qmd >}}
 

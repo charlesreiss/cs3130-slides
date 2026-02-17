@@ -17,7 +17,5 @@
 ![](/caching/texfig/oneBlockCache.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
 
 ![](/caching/texfig/oneBlockCache.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
-
-
 :::
 

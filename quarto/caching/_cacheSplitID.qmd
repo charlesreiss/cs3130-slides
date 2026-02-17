@@ -12,5 +12,5 @@
 * (almost) never going to read instructions as data or vice-versa
 * avoids instructions evicting data and vice-versa
 * can optimize instruction cache for different access pattern
-* easier to build fast caches: that handles less accesses at a time
+* easier to build fast caches: handle fewer accesses at a time
 
