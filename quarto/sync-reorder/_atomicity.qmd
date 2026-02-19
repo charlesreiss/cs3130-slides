@@ -1,0 +1,21 @@
+
+### atomic operation  {.smaller}
+
+
+* <i>atomic operation</i> = operation that runs to completion or not at all
+* we will use these to let threads work together 
+<hr class="vspace" />
+* most machines: loading/storing [ (aligned)]{.my-small} words is atomic 
+
+   * so can't get $3$ from $x \leftarrow 1$ and $x \leftarrow 2$ running in parallel
+   * aligned $\approx$ address of word is multiple of word size (typically done by compilers)
+
+* but some instructions are not atomic; examples: 
+
+   * x86: integer <code>add</code> constant to memory location
+   * many CPUs: loading/storing values that cross cache blocks 
+
+      * e.g. if cache blocks <code>0x40</code> bytes, load/store 4 byte from addr. <code>0x3E</code> is not atomic
+
+
+

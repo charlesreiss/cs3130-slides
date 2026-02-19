@@ -1,0 +1,100 @@
+
+## motivation: threaded ATM server? {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-write-motivate-atm-server.qmd >}}
+
+## higher-level tools from RMW {visibility="hidden"}
+
+{{< include /sync-reorder/_use-rmw.qmd >}}
+
+## processor reordering {visibility="hidden"}
+
+{{< include /sync-reorder/_non-atomic-loadstore.qmd >}}
+
+## why reorder? {visibility="hidden"}
+
+{{< include /sync-reorder/_load-store-reorder-spec.qmd >}}
+
+{{< include /sync-reorder/_load-store-reordering.qmd >}}
+
+## GCC atomic/sync stuff {visibility="hidden"}
+
+{{< include /sync-reorder/_no-reordering-gcc-ex.qmd >}}
+
+## exercise: atomic add {visibility="hidden"}
+
+{{< include /sync-reorder/_atomic-cas-to-add-exercise.qmd >}}
+
+## CAS for fetch-and-add {visibility="hidden"}
+
+{{< include /sync-reorder/_atomic-cas-to-add-example.qmd >}}
+
+## exercise: CAS for appending to list {visibility="hidden"}
+
+{{< include /sync-reorder/_cas-append-to-list-ex.qmd >}}
+
+{{< include /sync-reorder/_cas-append-to-list-sol.qmd >}}
+
+## more atomic operations {visibility="hidden"}
+
+{{< include /sync-reorder/_other-atomics.qmd >}}
+
+## cache coherency detail {visibility="hidden"}
+
+## adding more state: MSI {visibility="hidden"}
+
+{{< include /sync-reorder/_cache-coherency-msi.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /sync-reorder/_cache-coherency-ex.qmd >}}
+
+{{< include /sync-reorder/_cache-coherency-ex-soln.qmd >}}
+
+## C++atomic/sync stuff {visibility="hidden"}
+
+{{< include /sync-reorder/_no-reordering-cpp.qmd >}}
+
+## x86-64 reordering rules {visibility="hidden"}
+
+{{< include /sync-reorder/_x86-reordering-rules.qmd >}}
+
+## beyond MSI {visibility="hidden"}
+
+{{< include /sync-reorder/_cache-coherency-beyond-msi.qmd >}}
+
+# too much milk: locks from load/store? {visibility="hidden"}
+
+## setup: buying milk {visibility="hidden"}
+
+{{< include /sync-reorder/_too-much-milk-scenario.qmd >}}
+
+## wrong solution 1: missed notes {visibility="hidden"}
+
+{{< include /sync-reorder/_too-much-milk1.qmd >}}
+
+## wrong solution 2: read own note {visibility="hidden"}
+
+{{< include /sync-reorder/_too-much-milk2.qmd >}}
+
+## wrong solution 3: too little milk {visibility="hidden"}
+
+{{< include /sync-reorder/_too-much-milk3.qmd >}}
+
+## correct solution: Peterson's algorithm {visibility="hidden"}
+
+{{< include /sync-reorder/_too-much-milk4.qmd >}}
+
+## mfence {visibility="hidden"}
+
+{{< include /sync-reorder/_mfence.qmd >}}
+
+# cache coherency {visibility="hidden"}
+
+# preview: processor buses {visibility="hidden"}
+
+{{< include /sync-reorder/_shared-bus.qmd >}}
+
+## problem setup / snooping {visibility="hidden"}
+
+{{< include /sync-reorder/_cache-coherency-intro.qmd >}}

@@ -1,0 +1,51 @@
+## correctness problem {visibility="hidden"}
+
+{{< include /sync-reorder/_the-correctness-problem.qmd >}}
+
+# the lost write {visibility="hidden"}
+
+## motivation: threaded ATM server? {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-write-motivate-atm-server.qmd >}}
+
+## example {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-write.qmd >}}
+
+# race conditions and atomicity {visibility="hidden"}
+
+## thinking about simple races {visibility="hidden"}
+
+{{< include /sync-reorder/_simple-races.qmd >}}
+
+## atomicity definition {visibility="hidden"}
+
+{{< include /sync-reorder/_atomicity.qmd >}}
+
+## example: x86 add not atomic {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-add-example.qmd >}}
+
+## what is atomic? {visibility="hidden"}
+
+{{< include /sync-reorder/_what-atomic.qmd >}}
+
+# revisiting atomicity {visibility="hidden"}
+
+## compiler reordering {visibility="hidden"}
+
+{{< include /sync-reorder/_compiler-reordering.qmd >}}
+
+<!-- FIXME: processor reordering thing -->
+
+## fix compiler reordering {visibility="hidden"}
+
+### fixing compiler reordering?
+
+* isn't there a way to tell compiler not to do these optimizations?
+* yes, but that is <em>still not enough</em>!
+* <em>processors</em> sometimes do this kind of reordering too (between cores)
+
+# pthreads and load/store reordering {visibility="hidden"}
+
+{{< include /sync-reorder/_no-reordering.qmd >}}

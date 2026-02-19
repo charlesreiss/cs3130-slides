@@ -15,7 +15,7 @@
 :::
 
 
-### thinking about race conditions (2)  {.smaller}
+### thinking about race conditions (2)
 
 
 * possible values of $x$? (initially $x = y = 0$) <br> <table>
@@ -35,7 +35,7 @@
 
 
 
-### thinking about race conditions (3)  {.smaller}
+### thinking about race conditions (3)
 
 
 * what are the possible values of $x$? <br>
@@ -63,7 +63,7 @@
 :::
 
 
-### thinking about race conditions (2, reprise)  {.smaller}
+### thinking about race conditions (2, reprise)
 
 
 * possible values of $x$? (initially $x = y = 0$) <br> <table>

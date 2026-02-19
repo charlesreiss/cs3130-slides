@@ -1,5 +1,6 @@
 
-{{< include /sync/_talk-locks.qmd >}}
+{{< include /sync-reorder/_talk-inner.qmd >}}
+{{< include /sync-locks/_talk-inner.qmd >}}
 
 {{< include /sync/_talk-barriers.qmd >}}
 

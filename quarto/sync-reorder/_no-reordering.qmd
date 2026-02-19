@@ -1,23 +1,13 @@
 
 ### pthreads and reordering  {.smaller}
 
-
 * many pthreads functions <em>prevent reordering</em> 
-
    * everything before function call actually happens before
-
 * includes <em>preventing some optimizations</em> 
-
    * e.g. keeping global variable in register for too long
- 
 <hr class="vspace" />
 * pthread_create, pthread_join, other tools we'll talk about … 
-
    * basically: if pthreads is waiting for/starting something, no weird ordering
-
 * implementation part 1: prevent compiler reordering
 * implementation part 2: use special instructions 
-
    * example: x86 <code>mfence</code> instruction
-
-

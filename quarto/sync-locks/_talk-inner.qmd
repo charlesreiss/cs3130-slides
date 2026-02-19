@@ -1,0 +1,25 @@
+# definitions: mutual exclusion, critical section {visibility="hidden"}
+
+{{< include /sync-locks/_mutual-exclusion-defn.qmd >}}
+
+# locks {visibility="hidden"}
+
+{{< include /sync-locks/_lock-analogy.qmd >}}
+
+{{< include /sync-locks/_locks.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /sync-locks/_lock-ex.qmd >}}
+
+## pthread_mutex: lock where you unlock {visibility="hidden"}
+
+{{< include /sync-locks/_pthread-mutex-restriction.qmd >}}
+
+# preview: more advance sync {visibility="hidden"}
+
+{{< include /sync-locks/_preview-dont-roll.qmd >}}
+
+## beyond locks {visibility="hidden"}
+
+{{< include /sync-locks/_beyond-lock.qmd >}}

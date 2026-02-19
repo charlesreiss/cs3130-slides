@@ -1,0 +1,54 @@
+### compilers move loads/stores (1)
+
+```c
+void WaitForReady() {
+  do {} while (!ready);
+}
+```
+<hr/>
+```gnuassembler
+WaitForReady:
+  movl ready, %eax         // eax <- other_ready
+
+  // value only loaded before loop
+.L2:
+  testl %eax, %eax
+  je .L2                   // while (eax == 0) repeat
+  ...
+```
+
+::: {.myoverbox .vlow}
+
+C standard says: can assume no other thread <br/>
+So, it's fine to load `ready` in advance and reuse that
+
+:::
+
+
+### compilers move loads/stores (2)
+
+
+```c
+void WaitForReady() {
+  is_waiting = 1;
+  do {} while (!ready);
+  is_waiting = 0;
+}
+```
+<hr/>
+```gnuassembler
+WaitForOther:
+  movl ready, %eax
+.L2:
+  testl %eax, %eax
+  je .L2                // while (eax == 0) repeat
+  movl $0, is_waiting
+  ret
+```
+::: {.myoverbox .vlow}
+
+C standard says: can assume no other thread <br/>
+So, can do assignments `is_waiting` anytime before return <br />
+And `is_waiting = 1; is_waiting = 0` same as `is_waiting = 0`
+
+:::

@@ -19,7 +19,9 @@
 
 {{< include /sync/_transaction-durable.qmd >}}
 
-{{< include /sync/_talk-locks-backup.qmd >}}
+{{< include /sync-reorder/_talk-backup.qmd >}}
+
+{{< include /sync-locks/_talk-backup.qmd >}}
 
 {{< include /sync/_talk-monitor-backup.qmd >}}
 

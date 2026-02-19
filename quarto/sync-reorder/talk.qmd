@@ -1,0 +1,10 @@
+---
+title: "sync-reorder"
+
+---
+
+{{< include /sync-reorder/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-reorder/_talk-backup.qmd >}}

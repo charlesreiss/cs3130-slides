@@ -1,8 +1,8 @@
 
-### lost adds (program)  {.smaller}
+### lost adds (program)
 
 
-```
+```gnuassembler
 .global update_loop
 update_loop:
     addl $1, the_value // the_value (global variable) += 1
@@ -13,7 +13,7 @@ update_loop:
 ```
  <hr />
  
-```
+```c
 int the_value;
 extern void *update_loop(void *);
 int main(void) {
