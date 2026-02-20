@@ -175,6 +175,8 @@ code span { color: inherit; }
 
 .reveal .slide table.tighttable td { padding-top: 0em; padding-bottom: 0em; }
 
+.reveal .slide table.race-timeline td:not(:first-child) {padding-left: 3rem;}
+
 .longcode pre code {
     max-height: inherit;
 }
