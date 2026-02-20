@@ -1,5 +1,5 @@
 
-### lost adds (program)
+### lost adds (program) {.smaller}
 
 
 ```gnuassembler

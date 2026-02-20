@@ -25,7 +25,7 @@ So, it's fine to load `ready` in advance and reuse that
 :::
 
 
-### compilers move loads/stores (2)
+### compilers move loads/stores (2) {.smaller}
 
 
 ```c

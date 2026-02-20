@@ -2,10 +2,10 @@
 ### thinking about race conditions (1) 
 
 
-* what are the possible values of $x$? (initially $x = y = 0$)  <br> <table>
-   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+* what are the possible values of $x$? (initially $x = y = 0$)  <br>
+<table class="race-timeline">
+<tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
 <tr><td><!-- \hline -->  $x \leftarrow 1$</td><td>$y \leftarrow 2$</td></tr>
-<tr><td></td></tr>
 </table>
 
 ::: {.fragment}   
@@ -15,14 +15,14 @@
 :::
 
 
-### thinking about race conditions (2)
+### thinking about race conditions (2) {.smaller}
 
 
-* possible values of $x$? (initially $x = y = 0$) <br> <table>
-   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
-<tr><td><!-- \hline -->  $x \leftarrow y + 1$</td><td>$y \leftarrow 2$</td></tr>
+* possible values of $x$? (initially $x = y = 0$) <br>
+<table class="race-timeline">
+<tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td>$x \leftarrow y + 1$</td><td>$y \leftarrow 2$</td></tr>
 <tr><td>&nbsp;</td><td>$y \leftarrow y \times 2$</td></tr>
-<tr><td></td></tr>
 </table>
 
 ::: {.fragment}
@@ -35,14 +35,14 @@
 
 
 
-### thinking about race conditions (3)
+### thinking about race conditions (3) {.smaller}
 
 
 * what are the possible values of $x$? <br>
-* (initially $x = y = 0$) <br> <table>
-   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
-<tr><td><!-- \hline -->  $x \leftarrow 1$</td><td>$x \leftarrow 2$</td></tr>
-<tr><td></td></tr>
+* (initially $x = y = 0$) <br>
+<table class="race-timeline">
+<tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+<tr><td>$x \leftarrow 1$</td><td>$x \leftarrow 2$</td></tr>
 </table>
    
 ::: {.fragment}
@@ -63,14 +63,14 @@
 :::
 
 
-### thinking about race conditions (2, reprise)
+### thinking about race conditions (2, reprise) {.smaller}
 
 
-* possible values of $x$? (initially $x = y = 0$) <br> <table>
-   <tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
+* possible values of $x$? (initially $x = y = 0$) <br>
+<table class="race-timeline">
+<tr><td><em>Thread A</em></td><td><em>Thread B</em></td></tr>
 <tr><td><!-- \hline -->  $x \leftarrow y + 1$</td><td>$y \leftarrow 2$</td></tr>
 <tr><td>&nbsp;</td><td>$y \leftarrow y \times 2$</td></tr>
-<tr><td></td></tr>
 </table>
 
 
