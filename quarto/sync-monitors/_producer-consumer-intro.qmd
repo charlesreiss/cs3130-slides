@@ -1,8 +1,7 @@
 
-### example: producer/consumer  {.smaller}
+### example: producer/consumer  {.smaller .nostretch}
 
-![](/sync-monitors/texfig/producer-consumer-intro.figure.svg)
- 
+![](/sync-monitors/texfig/producer-consumer-intro.figure.svg){.nostretch width=1000px}
 
 * shared buffer (queue) of fixed size 
 

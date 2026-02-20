@@ -1,42 +1,62 @@
 
-### bounded buffer producer/consumer  {.smaller}
+### bounded buffer producer/consumer --- full code {.smaller}
+
+```{.c code-line-numbers="true"}
+{{< include /sync-monitors/bounded-producer-consumer.c >}}
+```
 
 
-<pre><code>pthread_mutex_t lock;
-pthread_cond_t <span data-fragment-index="4" class="fragment custom myem-only">data_ready</span>; <span data-fragment-index="2" class="fragment custom myem-only">pthread_cond_t <span data-fragment-index="4" class="fragment custom myem-only">space_ready</span>;</span>
-BoundedQueue buffer;
-Produce(item) {
-    pthread_mutex_lock(&amp;lock);
-    <span data-fragment-index="2" class="fragment custom myem-only">while (buffer.full()) { pthread_cond_wait(<span data-fragment-index="4" class="fragment custom myem-only">&amp;space_ready</span>, &amp;lock); }</span>
-    buffer.enqueue(item);
-    pthread_cond_signal(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>);
-    pthread_mutex_unlock(&amp;lock);
-}
-Consume() {
-    pthread_mutex_lock(&amp;lock);
-    while (buffer.empty()) {
-        pthread_cond_wait(<span data-fragment-index="4" class="fragment custom myem-only">&amp;data_ready</span>, &amp;lock);
-    }
-    item = buffer.dequeue();
-    <span class="fragment custom meym-only" data-fragment-index="2"><span class="fragment custom myem-only" data-fragment-index="3">pthread_cond_signal(<span data-fragment-index="4" class="fragment custom myem-only">&amp;space_ready</span>);</span></span>
-    pthread_mutex_unlock(&amp;lock);
-    return item;
-}
-</code></pre>
+### bounded buffer p/c--- added {.smaller}
 
-::: {.myoverbox .fragment .fade-in-then-out fragment-index=3 .high}
+```{.c code-line-numbers="3,7-9,20"}
+{{< include /sync-monitors/bounded-producer-consumer.c >}}
+```
 
-correct (but slow?) to replace <br/>
-`pthread_cond_signal(&data_ready)` with<br/>
-`pthread_cond_broadcast(&data_ready)`
+::: {.myoverbox .fragment fragment-index=1 .midright}
+
+add new condition variable<br/>
+for new reason to wait
+
+wait on that condition</br>
+while reason to wait is true
+
+signal that condition<br/>
+when one thread can stop waiting
 
 :::
 
-::: {.myoverbox .fragment .fade-in-then-out fragment-index=4 .vlow}
+### bounded buffer p/c --- signal/broadcast {.smaller}
 
-correct (but slow) to replace <br/>
-`data_ready` and `space_ready` with<br/>
-with combined condvar `ready` and use broadcast<br/>
-(just more "spurious wakeups")
+```{.c code-line-numbers="20"}
+{{< include /sync-monitors/bounded-producer-consumer.c >}}
+```
+
+::: {.myoverbox .fragment fragment-index=1 .high}
+
+`signal` better than `broadcast` in this case<br/>
+only one waiting thread can do something useful
+
+correct (but slow) to `broadcast` instead
 
 :::
+
+### bounded buffer p/c --- signal/broadcast {.smaller}
+
+```{.c code-line-numbers="true"}
+{{< include /sync-monitors/bounded-producer-consumer.c >}}
+```
+
+:::: {.myoverbox .fragment fragment-index=1 .midright style="width: 45%"}
+
+correct but slow to use just one condition variable:
+
+::: {style="font-size: 80%"}
+
+*  `data_ready`, `space_ready` $\Rightarrow$ `ready`
+
+*  always use `broadcast` 
+   *  let each thread figure out if it was supposed to be woken up
+
+:::
+
+::::

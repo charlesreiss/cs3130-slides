@@ -2,7 +2,7 @@
 ### mutex/cond var init/destroy  {.smaller}
 
 
-```
+```c
 pthread_mutex_t mutex;
 pthread_cond_t cv;
 pthread_mutex_init(&mutex, NULL);

@@ -18,6 +18,10 @@ $font-family-monospace: "Source Code Pro","Courier New",monospace;
     margin-bottom: 0.2em;
 }
 
+.reveal .slide ul li > p {
+    margin-bottom: 0em;
+}
+
 .reveal .slide ul li ul li {
     margin-top: 0em;
     margin-bottom: 0.05em;
@@ -164,9 +168,19 @@ div.myoverbox.highright {
     transform: translate(0%, 0%);
 }
 
+
+div.myoverbox.midright {
+    bottom: auto;
+    top: 50%;
+    left: auto;
+    right: 5%;
+    transform: translate(0%, -50%);
+}
+
 code span { color: inherit; }
 
 .reveal .slide .tight p { line-height: 1; margin: 0.1em; }
+.reveal .slide .tightp p { line-height: 1; margin: 0.1em; }
 .reveal .slide .tight ul li { margin-top: 0.1em; margin-bottom: 0.05em; }
 
 .reveal .slide table.cellborders td { border: 2px solid; }
@@ -222,7 +236,7 @@ code span { color: inherit; }
 .nomargin { margin: 0 ! important; padding: 0; }
 .nomargin > p { margin: 0; padding: 0; }
 
-.reveal .slide table.collines td:not(:last-child){border-right: 2px solid black;}
+.reveal .slide table.collines td:not(:last-child) {border-right: 2px solid black;}
 
 @media print {
     .slide-chalkboard-buttons {
