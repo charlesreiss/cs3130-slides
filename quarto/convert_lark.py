@@ -135,13 +135,13 @@ _END_ISHELDBACK.10: /\\end\{isheldback\}/
 _BEGIN_FRAMETITLE.10: /\\frametitle/
 _BEGIN_ITEMIZE.10: /\\begin\{itemize\}/
 _END_ITEMIZE.10: /\\end\{itemize\}/
-_ITEM.10: /\\item/
+_ITEM.10: /\\item(?:\[\])?/
 _FONTSIZE.10: /\\fontsize/
 WHEN: /<[^>]+>/
-VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[[^]]+\])?
+VERBATIM.10: /\\begin\{(?:Verbatim|lstlisting|minted)\}\s*(?:\[[^]]+\])?
               \s*\n
               (?s:.*?)\n
-              \\end\{(?:Verbatim|lstlisting)\}/x
+              \\end\{(?:Verbatim|lstlisting|minted)\}/x
 INLINE_VERBATIM.10: /
         \\lstinline\|[^|]+\|
         |
@@ -555,6 +555,7 @@ class TikzContext(_MyAstItem):
         self.text = ''
         for arg in args:
             self.text += str(arg)
+        self.text = self.text.replace('|handout:0', '')
         if self.text.startswith(r'\newcommand<>'):
             m = re.search(r'''
                     \\newcommand<>\{(?P<command>[^}]+)\}\[1\]
@@ -565,9 +566,9 @@ class TikzContext(_MyAstItem):
                 ''',
                 r'\\NewDocumentCommand\g<command>{D<>{} m}',
                 self.text, flags=re.X)
-            logging.debug('self.text = %s', self.text)
         elif r'\newcommand<' in self.text:
             assert False
+        logging.debug('self.text = %s', self.text)
 
     @property
     def inner_text(self):
@@ -580,6 +581,9 @@ class TikzContext(_MyAstItem):
 # For things like lrbox which seem broken if done in the preamble
 @dataclass
 class TikzContextBeginDocument(TikzContext):
+    def __init__(self, *args):
+        super().__init__(*args)
+
     def render(self, context: RenderContext) -> str:
         context.add_tikz_begin_document(self.text + '\n')
         return ''
@@ -764,6 +768,23 @@ class _InlineCommand(_MyAstItem):
                 for index in when.middle_indices:
                     before += '['
                     after += ']{.fragment fragment-index=' + str(index) + ' .custom .myem-only}'
+            elif command in (r'\only',):
+                before = ''
+                after = ''
+                if when.is_after_fragment:
+                    assert not when.is_multiple
+                    before += '['
+                    after += ']{.fragment fragment-index=' + str(when.after_index) + '}'
+                elif when.is_before_fragment:
+                    assert not when.is_multiple
+                    before += '['
+                    after += ']{.fragment fragment-index=' + str(when.before_index+1) + 'until}'
+                else:
+                    start = min(when.middle_indices)
+                    end = max(when.middle_indices)
+                    before += '[['
+                    after += ']{.fragment fragment-index=' + str(start) + ' .fade-in}'
+                    after += ']{.fragment fragment-index=' + str(end+1) + ' .fade-out}'
             else:
                 when_str = ''
                 if when.raw_when is not None:
@@ -810,6 +831,9 @@ class _InlineCommand(_MyAstItem):
             elif command in (r'\hline',):
                 start_arg = None
                 before, after = '<!-- \hline -->', ''
+            elif command in (r'\textbackslash',):
+                start_arg = None
+                before, after = '\\', ''
             elif command in (r'\vspace',):
                 start_arg = None
                 if arguments[0].inner_text.startswith('-'):
@@ -1148,6 +1172,7 @@ class Verbatim(_MyAstItem):
     contents: str
     command_chars: str | None = None
     moredelim: list[(str, str, str)] | None = None
+    language: str | None = None
 
     @property
     def estimated_lines(self) -> float:
@@ -1155,20 +1180,22 @@ class Verbatim(_MyAstItem):
 
     def __init__(self, token):
         pattern = r'''
-              \\begin\{(?:Verbatim|lstlisting)\}\s*(?:\[
+              \\begin\{(?:Verbatim|lstlisting|minted)\}\s*(?:\[
                 (?:
                     [^\[\]]+
                     |
                     \[[^\]]*\]
                 )+
-              \])?
+              \])?(?:\{(?P<language>[^}]+)\})?
               \s*\n(?P<contents>(?s:.)*?)
-              \\end\{(?:Verbatim|lstlisting)\}
+              \\end\{(?:Verbatim|lstlisting|minted)\}
         '''
         logging.debug('about to match %s', token.value)
         m = re.match(pattern, token.value, re.X)
         assert m is not None, token.value
         self.contents = m.group('contents')
+        if m.group('language') is not None:
+            self.language = m.group('language').lower()
         m = re.search(r'commandchars=([^]]+)', token.value)
         if m != None:
             self.command_chars = m.group(1)
@@ -1278,7 +1305,11 @@ class Verbatim(_MyAstItem):
             result += '</code></pre>\n'
             return result
         else:
-            return f'\n```\n{self.contents}\n```\n'
+            language_str = ''
+            # FIXME: infer language from lstset
+            if self.language:
+                language_str = self.language
+            return f'\n```{language_str}\n{self.contents}\n```\n'
 
 @dataclass
 class Visibleenv(_MyAstItem):
@@ -1439,6 +1470,7 @@ class Tikzpicture(_MyAstItem):
             if len(context.get_gd_libraries()) > 0:
                 out_fh.write('\\usegdlibrary{' + (','.join(list(context.get_gd_libraries()))) + '}\n')
             for lstset in context.lstset:
+                lstset = lstset.replace('|handout:0', '')
                 out_fh.write('\\lstset{' + lstset + '}\n')
             out_fh.write(context.tikz_preamble)
             out_fh.write(r'''\begin{document}''' + '\n')
