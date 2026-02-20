@@ -6,7 +6,7 @@
 
 ::: {.column width="45%"}
  
-```
+```gnuassembler
 thread_A:
     movl $1, x   /* x <- 1 */
     movl y, %eax /* return y */
@@ -18,7 +18,7 @@ thread_A:
 
 ::: {.column width="45%"}
  
-```
+```gnuassembler
 thread_B:
     movl $1, y   /* y <- 1 */
     movl x, %eax /* return x */

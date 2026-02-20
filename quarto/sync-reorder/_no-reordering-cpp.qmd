@@ -19,25 +19,23 @@
 
 ```
 #include <atomic>
-void Alice() {
-    note_from_alice = 1;
+void WaitForReady() {
+    is_waiting = 1;
     do {
         std::atomic_thread_fence(std::memory_order_seq_cst);
-    } while (note_from_bob);
-    if (no_milk) {++milk;}
+    } while (!ready);
 }
 
 ```
  <hr />
  
 ```
-Alice:
-  movl $1, note_from_alice  // note_from_alice <- 1
+WaitForReady:
+  movl $1, is_waiting // is_waiting <- 1
 .L2:
   mfence  // make sure store visible on/from other cores
-  cmpl $0, note_from_bob  // if (note_from_bob == 0) repeat fence
-  jne .L2
-  cmpl $0, no_milk
+  cmpl $0, ready // if (ready == 0) repeat fence
+  jz .L2
   ...
 
 ```
@@ -47,12 +45,11 @@ Alice:
 
 
 ```
-std::atomic<int> note_from_alice, note_from_bob;
-void Alice() {
-    note_from_alice.store(1);
+std::atomic<int> is_waiting, ready;
+void WaitForReaady() {
+    is_waiting.store(1);
     do {
-    } while (note_from_bob.load());
-    if (no_milk) {++milk;}
+    } while (ready.load());
 }
 
 ```
@@ -60,12 +57,12 @@ void Alice() {
  
 ```
 Alice:
-  movl $1, note_from_alice
+  movl $1, is_waiting
   mfence
 .L2:
-  movl note_from_bob, %eax
+  movl ready, %eax
   testl %eax, %eax
-  jne .L2
+  jz .L2
   ...
 
 ```

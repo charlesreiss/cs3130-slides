@@ -3,25 +3,25 @@
 
 
 ```
-void Alice() {
+void WaitForReady() {
     int one = 1;
-    __atomic_store(&note_from_alice, &one, __ATOMIC_SEQ_CST);
+    __atomic_store(&is_waiting, &one, __ATOMIC_SEQ_CST);
     do {
-    } while (__atomic_load_n(&note_from_bob, __ATOMIC_SEQ_CST));
-    if (no_milk) {++milk;}
+    } while (!__atomic_load_n(&ready, __ATOMIC_SEQ_CST));
+    ...
 }
 
 ```
  <hr />
  
 ```
-Alice:
-  movl $1, note_from_alice
+WaitForReady:
+  movl $1, is_waiting
   mfence
 .L2:
-  movl note_from_bob, %eax
+  movl ready, %eax
   testl %eax, %eax
-  jne .L2
+  jz .L2
   ...
 
 ```
@@ -31,27 +31,25 @@ Alice:
 
 
 ```
-void Alice() {
-    note_from_alice = 1;
+void WaitForReady() {
+    is_waiting = 1;
     do {
         __atomic_thread_fence(__ATOMIC_SEQ_CST);
-    } while (note_from_bob);
-    if (no_milk) {++milk;}
+    } while (!ready);
+    ...
 }
 
 ```
  <hr />
  
 ```
-Alice:
-  movl $1, note_from_alice  // note_from_alice <- 1
+WaitForReady:
+  movl $1, is_waiting // is_waiting <- 1
 .L3:
   mfence  // make sure store is visible to other cores before loading
           // on x86: not needed on second+ iteration of loop
-  cmpl $0, note_from_bob  // if (note_from_bob == 0) repeat fence
-  jne .L3
-  cmpl $0, no_milk
+  cmpl $0, ready // if (ready == 0) repeat fence
+  jz .L3
   ...
-
 ```
 

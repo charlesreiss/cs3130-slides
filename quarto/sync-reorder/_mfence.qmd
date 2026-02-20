@@ -11,5 +11,5 @@
    * Intel ‘Skylake’: order 33 cycles + time waiting for pending stores/loads
  
 <hr class="vspace" />
-* aside: this instruction is did not exist in the original x86 <br> so xv6 uses something older that's equivalent
+* aside: this instruction did not exist in the original x86 <br> so xv6 uses something older that's equivalent
 
