@@ -1,0 +1,30 @@
+
+### delayed message 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/fail-lost-delay-ack-delayed-message.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/fail-lost-delay-ack-delayed-message.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/fail-lost-delay-ack-delayed-message.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### delayed acknowledgements 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/fail-lost-delay-ack-delayed-acknowledgements.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/fail-lost-delay-ack-delayed-acknowledgements.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/fail-lost-delay-ack-delayed-acknowledgements.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\matrix[draw,alt=<2>{draw=red},ultra thick,label={[label distance=-2mm,draw,fill=white]north:wifi frame}] {
+    \node {from: (us)  | to: (gateway) 00:00:5E:00:53:03}; \\[1.2em]
+    \node (ip) {from: (us) \myemph<4>{192.0.2.24} | to: (DNS server) 198.51.100.34 }; \\[1.2em]
+    \node (udp) {to port: 53 (DNS) | from port: \ldots | message: foo.com address = ???}; \\
+};
+\begin{pgfonlayer}{bg}
+\node[inner sep=-1mm,fit=(ip) (udp),draw,very thick,label={[label distance=-.5mm,inner sep=1mm,draw,fill=white]north:IP packet},fill=yellow!10,alt=<3>{red,fill=red!10}] (ip box) {};
+\node[inner sep=-1.5mm,fit=(udp),draw,thick,label={[label distance=-.5mm,inner sep=1mm,draw,fill=white]north:UDP packet},fill=blue!10] {};
+\end{pgfonlayer}
+\begin{visibleenv}<3>
+\draw[ultra thick,red,Latex-] ([xshift=-3cm]ip box.north east) -- ++(.5cm, 1cm) node[above,align=left,fill=white,fill opacity=0.95,draw=red] {copied + forwarded \\ by several routers \\ to get to DNS server};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\draw[ultra thick,red,Latex-] ([xshift=-9cm]ip box.north east) -- ++(.5cm, 1cm) node[above,align=left,fill=white,fill opacity=0.95,draw=red,xshift=3cm] {
+    assumption here: our machine's IP is global one \\
+    often, instead private --- if so \\
+    one router will ``translate'' to public one \\
+    (table of public IP+port <-> private IP+port in use)
+};
+\end{visibleenv}
+\end{tikzpicture}

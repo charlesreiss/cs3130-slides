@@ -1,0 +1,110 @@
+
+### upcoming lab 
+
+
+* request + receive message split into pieces
+* you are responsible for: 
+
+   * requesting parts in order
+   * [resending requests if messages lost/corrupted]{.fragment fragment-index=2 .custom .myem-only}
+
+* [‘‘acknowledge’’ receiving part X to request part X+1]{.fragment fragment-index=2 .custom .myem-only}
+
+
+### protocol  {.smaller}
+
+
+* <code>GET$x$</code> --- retrieve message $x$ (x = 0, 1, 2, or 3) 
+
+   * other end acknowledges by giving data
+   * if they don't reply, you need to send again
+   * higher numbered messages have errors/etc. that are harder to handle
+
+* <code>ACK$n$</code>  
+
+   * request message part $n + 1$ by acknowledging message part $n$
+   * not quite same purpose as acknowledgments in prior examples
+   * [(in lab, the response is your ‘acknowledgment’ of your request;]{.fragment fragment-index=2 .custom .myem-only} <br> [you retry if you don't get it)]{.fragment fragment-index=2 .custom .myem-only}
+
+
+
+### callback-based programming (1)  {.smaller}
+
+
+```
+/* library code you don't write */
+/* lab: part of waitForAllTimeoutsAndMessagesThenExit() */
+void mainLoop() {
+    while (notExiting) {
+        Event event = waitForAndGetNextEvent();
+        if (event.type == RECIEVED) {
+            recvd(...);
+        } else if (event.type == TIMEOUT) {
+            (event.timeout_function)(...);
+        }
+        ...
+    }
+}
+
+```
+
+
+### callback-based programming (2)  {.smaller}
+
+
+```
+/* your code, called by library */
+void recvd(...) {
+    ...
+    setTimeout(..., timerCallback, ...);
+}
+
+void timerCallback(...) {
+    ...
+}
+
+int main() {
+    send(.../* first message */);
+    ... /* other initial setup */
+    waitForAllTimeoutsAndMessagesThenExit(); // runs mainLoop()
+}
+
+```
+
+
+### callback-based programing (3)  {.smaller}
+
+
+```
+packet = getNextPacket()
+doSomething(packet);
+sleep(10);
+doAnotherThing();
+packet = getNextPacket();
+doYetAnotherThing(packet);
+
+```
+ turns into code like: 
+```
+afterTimeout() {
+    doAnotherThing(); mode = 2;
+}
+recvdPacket(packet) {
+    if (mode == 1) {
+        doSomething(packet);
+        setTimeout(10, afterTimeout);
+    } else if (mode == 2)
+        doYetAnotherThing(packet);
+    } else ...
+}
+
+```
+
+
+### callback-based programming uses 
+
+
+* writing scripts in a webpage
+* many graphical user interface libraries
+* sometimes servers that handle lots of connections
+

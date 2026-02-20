@@ -1,0 +1,5 @@
+
+### IPv4 addresses and routing tables 
+
+![](/network/texfig/routing.figure.svg)
+

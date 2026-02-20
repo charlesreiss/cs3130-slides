@@ -1,0 +1,132 @@
+
+### putting it all together (1)  {.smaller}
+
+
+* 1. [connect to local wifi network]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * a. [ask local network for configuration]{.fragment fragment-index=2 .custom .myem-only} --- DHCP
+   * a. [find out MAC addresses on local network]{.fragment fragment-index=2 .custom .myem-only}
+
+* 2. [open http://foo.com/bar in web browser]{.fragment fragment-index=3 .custom .myem-only}  
+
+   * a. [lookup foo.com]{.fragment fragment-index=3 .custom .myem-only} --- DNS
+   * b. [start connection to foo.com + correct port]{.fragment fragment-index=3 .custom .myem-only}
+   * c. [translate URL into HTTP message + read response]{.fragment fragment-index=3 .custom .myem-only}
+
+
+
+### putting it all together (2)  {.smaller}
+
+
+* 1. connect to local wifi network 
+
+   * a. [ask local network for configuration]{.fragment fragment-index=2 .custom .myem-only}
+ 
+<hr class="vspace" />
+* (DHCP) us -> all on local network: give me an address
+* (DHCP) local router -> us: use the following:  <table>
+   <tr><td>your IP</td><td>192.0.2.43</td></tr>
+<tr><td>local network</td><td>192.0.2.0 through 192.0.2.255</td></tr>
+<tr><td>gateway to other networks</td><td>192.0.2.1</td></tr>
+<tr><td>DNS server</td><td>198.51.100.34</td></tr>
+<tr><td>valid for</td><td>8 hours (ask later to renew)</td></tr>
+<tr><td></td></tr>
+</table>
+   
+
+
+### putting it all together (3)  {.smaller}
+
+
+* 1. connect to local wifi network 
+
+   * b. [find out MAC addresses on local network]{.fragment fragment-index=2 .custom .myem-only}
+ 
+<hr class="vspace" />
+* us -> all local: who has 192.0.2.1 (geteway's IP address)?
+* gateway -> us: I am 192.0.2.1, my MAC address is 00:00:5E:00:53:03
+
+
+### putting it all together (4a) 
+
+
+
+* 2. open http://foo.com/bar in web browser 
+
+   * a. [lookup foo.com]{.fragment fragment-index=2 .custom .myem-only}
+
+ 
+<div class="fragment fade-in" data-fragment-index=2 >
+ 
+
+::: {.r-stack}
+![](/network/texfig/altogether-putting-it-all-together-4a.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/altogether-putting-it-all-together-4a.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/altogether-putting-it-all-together-4a.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/network/texfig/altogether-putting-it-all-together-4a.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+ 
+</div>
+
+
+### putting it all together (4c)  {.smaller}
+
+
+* 2. open http://foo.com/bar in web browser 
+
+   * a. [lookup foo.com]{.fragment fragment-index=1 .custom .myem-only}
+ 
+<hr class="vspace" />
+* ISP's DNS server receives request
+* either sends back [cached response]{.fragment fragment-index=2 .custom .myem-only} (if recent, valid one)
+* or looks up in hierarchy of DNS servers 
+
+   * ISP server -> root server: who is foo.com
+   * root server -> ISP server: try .com servers at 200.4.3.2
+   * ISP server -> .com servers: …
+   * …
+
+
+
+### putting it all together (5)  {.smaller}
+
+
+* 2. [open http://foo.com/bar in web browser]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * b. [start connection to foo.com + correct port]{.fragment fragment-index=2 .custom .myem-only}
+ 
+<hr class="vspace" /> ![](/network/texfig/altogether-putting-it-all-together-5.figure.svg)
+
+* web browser creates socket, asks to connect to foo.com <br> In OS: []{.my-small} <table>
+   <tr><td>source port</td><td>destination IP</td><td>dest port</td><td>program/pid/fd</td></tr>
+<tr><td><!-- \hline --> …</td><td>…</td><td>…</td><td>…</td></tr>
+<tr><td>(OS assigned)</td><td>203.0.113.44 (foo.com)</td><td>80 (http)</td><td>browser/705/41</td></tr>
+<tr><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+<tr><td></td></tr>
+</table>
+   
+* OS sends message (via multiple routers) to start connection
+
+
+### putting it all together (6)  {.smaller}
+
+
+* 2. [open http://foo.com/bar in web browser]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * c. [translate URL to HTTP message + read response]{.fragment fragment-index=2 .custom .myem-only}
+ 
+<hr class="vspace" />
+* browser: <code>write(fd, "GET /bar HTTP/1.1…", …)</code>
+* browser: read response 
+<hr class="vspace" />
+* message is split into multiple chunks 
+
+   * (and forwarded through gateway)
+
+* acknowledgments, resending, etc. done by OSes at both ends
+

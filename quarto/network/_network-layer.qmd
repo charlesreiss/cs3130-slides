@@ -1,0 +1,14 @@
+
+### the network layer  {.smaller}
+
+
+* the Internet Protocol (IP) version 4 or version 6 
+
+   * there are also others, but quite uncommon today
+
+* allows send messages to/recv messages from other networks 
+
+   * ‘‘internetwork’’
+
+* messages usually called ‘‘packets’’
+

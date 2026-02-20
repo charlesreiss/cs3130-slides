@@ -1,0 +1,10 @@
+---
+title: "network"
+
+---
+
+{{< include ../network/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../network/_talk-backup.qmd >}}

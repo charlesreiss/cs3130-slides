@@ -1,0 +1,32 @@
+
+### exercise: lost acknowledgement  {.smaller}
+
+![](/network/texfig/fail-lost-lost-ack-ex-exercise-lost-acknowledgement.figure.svg)
+ exercise: how to fix this? <table>
+<tr><td>A.</td><td>machine A needs to send ‘‘Got ‘got it!’ ’’</td></tr>
+<tr><td>B.</td><td>machine B should resend ‘‘Got it!’’ on its own</td></tr>
+<tr><td>C.</td><td>machine A should resend the original message on its own</td></tr>
+<tr><td>D.</td><td>none of these</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### answers  {.smaller}
+
+
+* send ‘‘Got ‘got it!’ ’’? 
+
+   * same problem: Now send ‘Got Got Got it’?
+
+* resend ‘‘Got it!’’ own its own? 
+
+   * how many times? --- B doesn't have that info
+
+* resend original message? 
+
+   * yes!
+   * as far as machine A can see, <i>exact same situation</i> as losing original message
+
+
+
+### againframe(lostAckExExplain)

@@ -1,0 +1,15 @@
+
+### an Ethernet frame 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/example-frame.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/example-frame.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/example-frame.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

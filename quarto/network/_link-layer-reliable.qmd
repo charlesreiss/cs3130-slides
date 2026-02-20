@@ -1,0 +1,12 @@
+
+### link layer reliablity?  {.smaller}
+
+
+* Ethernet + Wifi have checksums 
+<hr class="vspace" />
+* Q1: Why doesn't this give us uncorrupted messages? 
+
+   * Why do we still have checksums at the higher layers?
+
+* Q2: What's a benefit of doing this if we're also doing it in the higher layer?
+

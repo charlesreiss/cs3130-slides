@@ -1,0 +1,24 @@
+
+### networking layers 
+
+<table>
+<tr><td><!-- \hline -->  [application]{.fragment fragment-index=7 .custom .myem-only}</td><td>HTTP, SSH, SMTP, …</td><td>application-defined meanings</td></tr>
+<tr><td><!-- \hline --> [transport]{.fragment fragment-index=6 .custom .myem-only}</td><td>TCP, UDP, …</td><td>reach correct program,\\linebreak{} [reliability/streams]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
+<tr><td><!-- \hline --> [network]{.fragment fragment-index=5 .custom .myem-only}</td><td>IPv4, IPv6</td><td>reach correct machine\\linebreak{}(across networks)</td></tr>
+<tr><td><!-- \hline --> [link]{.fragment fragment-index=4 .custom .myem-only}</td><td>Ethernet, Wi-Fi, …</td><td>coordinate shared wire/radio</td></tr>
+<tr><td><!-- \hline --> physical</td><td>Ethernet, Wi-Fi, …</td><td>encode bits for wire/radio</td></tr>
+<tr><td><!-- \hline --></td></tr>
+</table>
+
+
+### layers terminology 
+
+<table>
+<tr><td><!-- \hline --> application</td><td>application-defined meanings</td><td>&nbsp;</td></tr>
+<tr><td><!-- \hline --> transport</td><td>reach correct program,\\linebreak{} reliablity/streams</td><td>segments/datagrams</td></tr>
+<tr><td><!-- \hline --> network</td><td>reach correct machine\\linebreak{}(across networks)</td><td>packets</td></tr>
+<tr><td><!-- \hline --> link</td><td>coordinate shared wire/radio</td><td>frames</td></tr>
+<tr><td><!-- \hline --> physical</td><td>encode bits for wire/radio</td><td>&nbsp;</td></tr>
+<tr><td><!-- \hline --></td></tr>
+</table>
+

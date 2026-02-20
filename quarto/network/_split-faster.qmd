@@ -1,0 +1,14 @@
+
+### going faster 
+
+
+* so far: send one message, wait for acknowledgment 
+<hr class="vspace" />
+* very slow!
+* instead, can send a bunch of parts and get them acknowledged together
+
+
+### transmission window (ex: size 4) 
+
+![](/network/texfig/split-faster-transmission-window-ex-size-4.figure.svg)
+ Send a <i>window</i> of parts speculatively, then wait for ACKs.

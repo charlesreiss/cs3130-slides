@@ -1,0 +1,15 @@
+
+### lost acknowledgements 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/fail-lost-lost-ack-explain.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/fail-lost-lost-ack-explain.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/fail-lost-lost-ack-explain.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

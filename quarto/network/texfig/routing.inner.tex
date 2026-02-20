@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+\tikzset{>=Latex},
+\node[draw,thick] (router) {router};
+\node[aspect=3.2,draw,cloud,anchor=east,minimum width=2.5cm] (network 1) at ([xshift=-1cm,yshift=.5cm] router.west) {
+    network 1
+};
+\node[aspect=3.2,draw,cloud,anchor=west,minimum width=2.5cm] (network 2) at ([xshift=1cm,yshift=.5cm] router.east) {
+    network 2
+};
+\node[aspect=3.2,draw,cloud,anchor=south,minimum width=2.5cm] (network 3) at ([yshift=0.75cm] router.north) {
+    network 3
+};
+\foreach \x in {1,2,3} { \draw[<->,very thick] (router) -- (network \x); }
+\node[anchor=north,font=\small,draw,thick,inner sep=0.5mm] (table) at ([yshift=-.25cm]router.south) {
+\begin{tabular}{l|l}
+if I receive data for\ldots & send it to\ldots \\ \hline
+128.143.0.0---128.143.255.255 & network 1, 11.4.3.2 \\
+192.107.102.0--192.107.102.255 & network 1, 11.4.3.2 \\
+\ldots & \ldots \\
+4.0.0.0--7.255.255.255 & network 2, 12.4.6.4 \\
+64.8.0.0--64.15.255.255 & network 2, 45.4.0.1  \\
+\ldots & \ldots \\
+anything else & network 3, 199.44.33.1 \\
+\end{tabular}
+};
+\draw[thick,dotted] (router.south west) -- (table.north west);
+\draw[thick,dotted] (router.south east) -- (table.north east);
+\end{tikzpicture}

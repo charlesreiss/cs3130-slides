@@ -1,0 +1,22 @@
+
+### message corrupted  {.smaller}
+
+
+* corruption: e.g., a bit flip  
+
+   * sent: <code>I LIKE CATS</code> (<code>49204C494B452043415453</code>)
+   * recv: <code>I LIKE BATS</code> (<code>49204C494B4520<em>42</em>415453</code>)
+
+* instead of sending ‘‘message’’, send ‘‘message’’ + checksum  
+
+   * checksum is some calculation using the original message
+   * ex: checksum(<code>I LIKE CATS</code>) = 0xD9
+   * send <code>49204C494B452043415453<em>D9</em></code>
+<!-- \vspace{.5cm}\item say Hash(``message'') = 0xABCDEF12\item then send ``0xABCDEF12,message'' -->
+<hr class="vspace" />
+* receiver then also computes the checksum with the same data  
+
+   * if matches: keep the message
+   * if does not match: pretend like the message was lost (i.e., drop the message)
+
+

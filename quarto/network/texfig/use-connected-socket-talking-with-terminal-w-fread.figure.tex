@@ -1,0 +1,18 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\lstset{
+    language=C++,style=smaller,
+    moredelim={**[is][\btHL<2|handout:2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3|handout:3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4|handout:4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5|handout:5>]{@5}{5@}},
+    moredelim={**[is][\btHL<6|handout:6>]{@6}{6@}},
+}
+\begin{document}
+
+\setSlide{1}
+\input{network/texfig/use-connected-socket-talking-with-terminal-w-fread.inner.tex}
+\setSlide{2}
+\input{network/texfig/use-connected-socket-talking-with-terminal-w-fread.inner.tex}
+\end{document}

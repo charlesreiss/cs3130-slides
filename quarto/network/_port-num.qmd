@@ -1,0 +1,22 @@
+
+### port numbers  {.smaller}
+
+
+* we run multiple programs on a machine 
+
+   * IP addresses identifying machine --- not enough
+
+* so, add 16-bit <i>port numbers</i> 
+
+   * think: multiple PO boxes at address
+ 
+<hr class="vspace" />
+* 0--49151: typically assigned for particular services 
+
+   * 80 = http, 443 = https, 22 = ssh, …
+
+* 49152--65535: allocated on demand 
+
+   * default ‘‘return address’’ for client connecting to server
+
+

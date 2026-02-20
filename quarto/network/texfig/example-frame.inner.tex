@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\tikzset{
+    small label/.style={font=\small},
+    box/.style={thick},
+}
+\matrix[tight matrix no line,
+    nodes={font=\tt\small\strut,text width=0.7cm},
+] {
+|[alias=destMacStart]| 4c \& cc \& 6a \& ba \& 1c \& |[alias=destMacEnd]| b9 \& 
+|[alias=sourceMacStart]| d8 \& 07 \& b6 \& d9 \& ae \& |[alias=sourceMacEnd]| 50 \&
+|[alias=etherTypeStart]| 08 \& |[alias=etherTypeEnd]| 00 \\[1cm]
+|[alias=ipTypeHLen,alias=ipHeadStart]| \alt<2->{\setlength{\fboxsep}{0pt}\colorbox{orange!20}{4}}{4}5 \& 
+|[alias=ipDiffServ]| 00 \& 
+|[alias=ipLenStart]| 00 \& |[alias=ipLenEnd]| 60\&
+|[alias=ipIdStart]| db \& |[alias=ipIdEnd]| 89 \&
+|[alias=ipFlagsAndFragStart]| 40 \& |[alias=ipFlagsAndFragEnd]| 00 \& 
+|[alias=ipTTL]| f2 \& 
+|[alias=ipProto]| 06 \& 
+|[alias=ipChkSumSt]| cf \& |[alias=ipChkSumEnd]| cd \&
+|[alias=ipSrcStart]| 34 \& 60 \& e6 \& |[alias=ipSrcEnd,alias=ipFirstLine]| a2 \\[1cm]
+|[alias=ipDstStart]| c0 \& a8 \& 01 \& |[alias=ipDstEnd]| 95 \&
+|[alias=tcpHeadStart,alias=srcPortStart]| 01 \& |[alias=srcPortEnd]| bb \& |[alias=dstPortStart]| aa \& |[alias=dstPortEnd]| c4 \& |[alias=seqNumStart]| 40 \& 2b \& d6 \& |[alias=seqNumEnd]| 46 \& 
+    |[alias=ackNumStart]| 7c \& 9d \& 15 \& |[alias=tcpHeadFirstLine,alias=ackNumEnd]| e4 \\[.7cm] 
+|[alias=tcpSecondLine,alias=tcpFlagsStart]| 80 \& |[alias=tcpFlagsEnd]| 18 \& |[alias=tcpWinStart]| 40 \& |[alias=tcpWinEnd]| 02 \& 
+|[alias=checkSumStart]| 65 \& |[alias=checkSumEnd]| fe \& |[alias=urgentStart]| 00 \& |[alias=urgentEnd]| 00 \&
+|[alias=tcpOptStart]| 01 \& 01 \& 08 \& 0a \& 03 \& 83 \& 98 \& 62 \\[.7cm]
+19 \& 70 \& 27 \& |[alias=tcpOptEnd]| 9e \& |[alias=tcpDataStart]| 17 \& 03 \& 03 \& 00 \& 27 \& 00 \& 00 \& 00 \& 00 \& 00 \& 00 \& |[alias=tcpDataFirstLine]| 00 \\
+|[alias=tcpDataSecondLine]| c8 \& b9 \& ab \& 81 \& 50 \& e0 \& ef \& 1a \& d8 \& 97 \& 73 \& 76 \& 9a \& ee \& 33 \& d4 \\
+ 9a \& cb \& 17 \& 29 \& f0 \& fa \& 1c \& 13 \& 4c \& b0 \& 07 \& ef \& 92 \& 8b \& 0a \& |[alias=tcpEnd]| a9 \\
+};
+\begin{pgfonlayer}{bg}
+    \tikzset{
+        every label/.style={font=\small\bfseries,align=center},
+        every node/.style={label distance=-0.5mm},
+    }
+    \node[fill=blue!20,inner sep=0mm, fit=(destMacStart) (destMacEnd),label={[fill=blue!20]north:destination\\MAC address}] {};
+    \node[fill=violet!20,inner sep=0mm, fit=(sourceMacStart) (sourceMacEnd),label={[fill=violet!20]north:source\\MAC address}] {};
+    \node[fill=yellow!30,inner sep=0mm, fit=(etherTypeStart) (etherTypeEnd),label={[fill=yellow!30]north:frame\\type}] {};
+    \begin{visibleenv}<1>
+    \node[fill=red!20,very thick,inner sep=0mm,fit=(ipHeadStart) (tcpEnd),label={[fill=red!20]north:frame's data}] {};
+    \end{visibleenv}
+    \begin{visibleenv}<2->
+    \draw[very thick,decorate,decoration={brace}] ([yshift=.7cm,xshift=1.9cm]ipFirstLine.north east) -- ([xshift=1.9cm]tcpEnd.south east) node[midway,right,font=\small,align=left] {IP\\packet};
+    \node[font=\small\bfseries,align=center,anchor=south,fill=orange!20,overlay] at ([yshift=-2mm,xshift=.25cm]ipTypeHLen.north west) {vers.};
+    %\node[font=\small\bfseries,align=center,anchor=south west,fill=violet!20] at ([yshift=-2mm,xshift=-.5cm] ipTypeHLen.north east) {h. len.};
+    \node[fill=green!20,inner sep=0mm, fit=(ipLenStart) (ipLenEnd),label={[fill=green!20]north:length}] {};
+    \node[fill=yellow!20,inner sep=0mm, fit=(ipProto),label={[fill=yellow!20]north:protocol}] {};
+    \node[fill=blue!20,inner sep=0mm, fit=(ipDstStart) (ipDstEnd),label={[fill=blue!20]north:destination\\IPv4 address}] {};
+    \node[fill=violet!20,inner sep=0mm, fit=(ipSrcStart) (ipSrcEnd),label={[fill=violet!20]north:source\\IPv4 address}] {};
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+    \path[fill=red!20] (tcpHeadStart.north west) -- (tcpHeadFirstLine.north east) -- (tcpEnd.south east) -| (tcpSecondLine.north west) -| cycle;
+    \node[anchor=south,fill=red!20,font=\small\bfseries] at ([xshift=2cm,yshift=-2mm]tcpHeadStart.north) {packet's data};
+    \end{visibleenv}
+    \begin{visibleenv}<3->
+    \draw[very thick,decorate,decoration={brace}] ([xshift=.2cm]tcpHeadFirstLine.north east) -- ([xshift=.2cm]tcpEnd.south east) node[midway,right,font=\small,align=left] {TCP\\segment};
+    \node[fill=blue!20,inner sep=0mm, fit=(dstPortStart) (dstPortEnd),label={[fill=blue!20]north:dest.\\port}] {};
+    \node[fill=violet!20,inner sep=0mm, fit=(srcPortStart) (srcPortEnd),label={[fill=violet!20]north:source\\port}] {};
+    \node[fill=orange!20,inner sep=0mm, fit=(seqNumStart) (seqNumEnd),label={[fill=orange!20]north:sequence num.}] {};
+    \node[fill=orange!20,inner sep=0mm, fit=(tcpFlagsStart) (tcpFlagsEnd),label={[fill=orange!20]north:flags}] {};
+    \path[fill=red!20] (tcpDataStart.north west) -- (tcpDataFirstLine.north east) -- (tcpEnd.south east) -| (tcpDataSecondLine.north west) -| cycle;
+    \node[anchor=south,fill=red!20,font=\small\bfseries] at ([xshift=2cm,yshift=-2mm]tcpDataStart.north) {segment's data};
+    \path[draw,dotted,very thick] ([xshift=0mm]tcpHeadStart.north west) |- ([yshift=7mm]tcpSecondLine.north west) -- (tcpSecondLine.west |- tcpEnd.south east);
+    \end{visibleenv}
+\end{pgfonlayer}
+\end{tikzpicture}

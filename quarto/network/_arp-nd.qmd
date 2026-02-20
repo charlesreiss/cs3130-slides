@@ -1,0 +1,38 @@
+
+### two types of addresses? 
+
+
+* MAC addreses: on link layer
+* IP addresses: on network layer 
+<hr class="vspace" />
+* how do we know which MAC address to use?
+
+
+### a table on my desktop  {.smaller}
+
+my desktop: <br> 
+```
+$ arp -an
+? (128.143.67.140) at 3c:e1:a1:18:bd:5f [ether] on enp0s31f6
+? (128.143.67.236) at <incomplete> on enp0s31f6
+? (128.143.67.11) at 30:e1:71:5f:39:10 [ether] on enp0s31f6
+? (128.143.67.92) at <incomplete> on enp0s31f6
+? (128.143.67.5) at d4:be:d9:b0:99:d1 [ether] on enp0s31f6
+
+```
+ … 
+
+* network address to link-layer address + interface
+* only tracks things directly connected to my local network 
+
+   * non-local traffic sent to local router
+
+
+
+### how is that table made? 
+
+
+* ask all machines on local network (same switch)
+* ‘‘Who has 128.148.67.140’’
+* the correct one replies
+

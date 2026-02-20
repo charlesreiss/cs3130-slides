@@ -1,0 +1,23 @@
+
+### firewalls  {.smaller}
+
+
+* don't want to expose network service to everyone?
+* solutions: 
+
+   * service picky about who it accepts connections from
+   * filters in OS on machine with services
+   * filters on router
+
+* later two called ‘‘firewalls’’
+
+
+### firewall rules examples?  {.smaller}
+
+
+* ALLOW tcp port 443 (https) FROM everyone
+* ALLOW tcp port 22 (ssh) FROM <em>my desktop's IP address</em>
+* BLOCK tcp port 22 (ssh) FROM everyone else
+* ALLOW from address X to address Y
+* …
+

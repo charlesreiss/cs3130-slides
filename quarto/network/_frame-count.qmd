@@ -1,0 +1,12 @@
+
+### exercise  {.smaller}
+
+
+* suppose A connected to network 1
+* network 1 connected via router to network 2
+* and B connected to network 2 
+<hr class="vspace" />
+* A already has TCP connection open to B
+* A sends 2000 bytes of data, which is split into 2 segments (of 1400 + 600 bytes)
+* how many frames sent?
+

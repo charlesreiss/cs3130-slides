@@ -1,0 +1,16 @@
+
+### URLs and HTTP (1)  {.smaller}
+
+
+
+* <code>http://www.foo.com:80/foo/bar?quux[#q1]{.fragment fragment-index=2 .custom .myem-only}</code>
+* lookup IP address of www.foo.com
+* connect via TCP to port 80:
+  
+<pre><code>GET /foo/bar?quux HTTP/1.1
+Host: \\emphThree{www.foo.com:80}
+</code></pre>
+ 
+
+* exercise: why include the Host there?
+

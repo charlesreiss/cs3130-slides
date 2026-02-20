@@ -1,0 +1,37 @@
+
+### mailbox model 
+
+
+
+* <i>mailbox</i> abstraction: send/receive messages
+ 
+
+::: {.r-stack}
+![](/network/texfig/mailbox-model-mailbox-model.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/mailbox-model-mailbox-model.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/mailbox-model-mailbox-model.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/network/texfig/mailbox-model-mailbox-model.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### connections over mailboxes  {.smaller}
+
+
+* real Internet: mailbox-style communication 
+
+   * send ‘‘letters’’ (packets) to particular mailboxes
+   * have ‘‘envelope’’ (header) saying where they go
+ 
+<hr class="vspace" />
+* ‘‘best-effort’’ 
+
+   * no guarantee on order, when received
+   * no guarantee on <i>if</i> received
+
+* sockets implemented on top of this
+

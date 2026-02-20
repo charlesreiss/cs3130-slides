@@ -1,0 +1,6 @@
+
+### finding the read() 
+
+
+* when message comes in, <br> how does OS know which <code>read()</code>/<code>recv()</code>/<code>recvfrom()</code> call its for?
+

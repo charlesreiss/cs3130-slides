@@ -1,0 +1,5 @@
+
+### connections 
+
+![](/network/texfig/connection-model.figure.svg)
+

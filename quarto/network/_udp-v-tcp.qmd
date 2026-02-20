@@ -1,0 +1,22 @@
+
+### transport layer protocols: UDP vs. TCP  {.smaller}
+
+
+* TCP: stream to other program 
+
+   * [reliable]{.fragment fragment-index=2 .custom .myem-only} transmission of [as much data as you want]{.fragment fragment-index=3 .custom .myem-only}
+   * ‘‘connecting’’ fails if server not responding
+   * [write(fd, "a", 1); write(fd, "b", 1) = write(fd, "ab", 2)]{.fragment fragment-index=3 .custom .myem-only}
+   * (at least) one socket per remote program being talked to
+
+* UDP: messages sent to program, but no reliablity/streams 
+
+   * [unreliable]{.fragment fragment-index=2 .custom .myem-only} transmission of [short messages]{.fragment fragment-index=3 .custom .myem-only}
+   * [write(fd, "a", 1); write(fd, "b", 1) $\not=$ write(fd, "ab", 2)]{.fragment fragment-index=3 .custom .myem-only}
+   * ‘‘connecting’’ just sets default destination
+   * can sendto()/recvfrom() multiple other programs with one socket 
+
+      * (but don't have to)
+
+
+

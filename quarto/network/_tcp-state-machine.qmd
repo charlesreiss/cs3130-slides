@@ -1,0 +1,34 @@
+
+### TCP state machine  {.smaller}
+
+
+* TIME_WAIT, ESTABLISHED, …? 
+<hr class="vspace" />
+* OS tracks ‘‘state’’ of TCP connection 
+
+   * am I just starting the connection?
+   * is other end ready to get data?
+   * am I trying to close the connection?
+   * do I need to resend something?
+
+* standardized set of state names
+
+
+### TIME_WAIT  {.smaller}
+
+
+* remember delayed messages? 
+<hr class="vspace" />
+* problem for TCP ports
+* if I reuse port number, I can get message from old connection
+* solution: TIME_WAIT to make sure connection really done 
+
+   * done after sending last message in connection
+
+
+
+### TCP state machine picture 
+
+
+![](/network/TcpState){}
+ [via Wikimedia/User:Scil100; CC-BY-SA]{.mycredit}

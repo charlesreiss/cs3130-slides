@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\begin{visibleenv}<2>
+\node[anchor=south,draw=red,ultra thick,align=center,fill=white] at ([yshift=1cm]current page.south) {
+    ugh, reading a line of input without fgets \\
+    and without doing 1 char at a time \\
+    is pretty annoying
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

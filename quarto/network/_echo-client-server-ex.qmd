@@ -1,0 +1,28 @@
+
+### echo client/server  {.smaller}
+
+
+<pre><code>void client_for_connection(int socket_fd) {
+    int n; char send_buf\[MAX_SIZE]; char recv_buf\[MAX_SIZE];
+    while (prompt_for_input(send_buf, MAX_SIZE)) {
+        n = <span data-fragment-index="2" class="fragment custom myem-only">write(socket_fd, send_buf, strlen(send_buf))</span>;
+        if (n != strlen(send_buf)) {...error?...}
+        n = <span data-fragment-index="3" class="fragment custom myem-only">read(socket_fd, recv_buf, MAX_SIZE)</span>;
+        if (n &lt;= 0) return; // error or EOF 
+        write(STDOUT_FILENO, recv_buf, n);
+    }
+}
+</code></pre>
+ <hr />
+ 
+<pre><code>void server_for_connection(int socket_fd) {
+    int read_count, write_count; char request_buf\[MAX_SIZE];
+    while (1) {
+        read_count = <span data-fragment-index="2" class="fragment custom myem-only">read(socket_fd, request_buf, MAX_SIZE)</span>;
+        if (read_count &lt;= 0) return; // error or EOF 
+        write_count = <span data-fragment-index="3" class="fragment custom myem-only">write(socket_fd, request_buf, read_count)</span>;
+        if (read_count != write_count) {...error?...}
+    }
+}
+</code></pre>
+

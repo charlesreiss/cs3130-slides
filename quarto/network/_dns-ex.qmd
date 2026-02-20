@@ -1,0 +1,18 @@
+
+### exercise  {.smaller}
+
+
+* suppose initially 
+
+   * *.foo.com DNS server (‘nameserver’) = 10.2.3.4, valid 200 s
+   * www.foo.com = 10.1.2.3, valid 100 s
+
+* if at time 0 seconds, changed to: 
+
+   * *.foo.com DNS server = 10.3.4.5, valid 100 s
+   * www.foo.com DNS server = 10.3.5.1, valid 400 s
+
+* ex 0: when will new DNS server/www.foo.com start being used?
+* ex 1: when can we shut down old DNS server?
+* ex 2: when can we shut down old www.foo.com?
+

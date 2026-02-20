@@ -1,0 +1,23 @@
+
+### sockets and server sockets 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/connection-setup.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/connection-setup.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/connection-setup.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/network/texfig/connection-setup.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/network/texfig/connection-setup.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/network/texfig/connection-setup.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/network/texfig/connection-setup.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+

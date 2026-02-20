@@ -1,0 +1,76 @@
+
+### connections in TCP/IP  {.smaller}
+
+
+* connection identified by <i>5-tuple</i> 
+
+   * used by OS to lookup ‘‘where is the socket?’’
+
+* []{.my-small}(protocol=TCP/UDP, local IP addr., local port, remote IP addr., remote port) 
+<hr class="vspace" />
+* local IP address, port number can be set with <code>bind()</code> function 
+
+   * <i>typically</i> always done for servers, not done for clients
+   * system will choose default if you don't
+
+
+
+### connections on my desktop  {.smaller}
+
+
+```
+cr4bd@reiss-t3620>/u/cr4bd
+$ netstat --inet --inet6 --numeric
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 128.143.67.91:49202     128.143.63.34:22        ESTABLISHED
+tcp        0      0 128.143.67.91:803       128.143.67.236:2049     ESTABLISHED
+tcp        0      0 128.143.67.91:50292     128.143.67.226:22       TIME_WAIT  
+tcp        0      0 128.143.67.91:54722     128.143.67.236:2049     TIME_WAIT  
+tcp        0      0 128.143.67.91:52002     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:732       128.143.67.236:63439    TIME_WAIT  
+tcp        0      0 128.143.67.91:40664     128.143.67.236:2049     TIME_WAIT  
+tcp        0      0 128.143.67.91:54098     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:49302     128.143.67.236:63439    TIME_WAIT  
+tcp        0      0 128.143.67.91:50236     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 128.143.67.91:22        172.27.98.20:49566      ESTABLISHED
+tcp        0      0 128.143.67.91:51000     128.143.67.236:111      TIME_WAIT  
+tcp        0      0 127.0.0.1:50438         127.0.0.1:631           ESTABLISHED
+tcp        0      0 127.0.0.1:631           127.0.0.1:50438         ESTABLISHED
+
+```
+
+
+### non-connection sockets 
+
+
+* TCP servers waiting for connections + <br> UDP sockets with no particular remote host
+* Linux: OS keeps 5-tuple with ‘‘wildcard’’ remote address
+
+
+### ‘‘listening’’ sockets on my desktop  {.smaller}
+
+
+```
+cr4bd@reiss-t3620>/u/cr4bd
+$ netstat --inet --inet6 --numeric --listen
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 127.0.0.1:38537         0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:36777         0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:41099           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:45291           0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:51949         0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:41071         0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:32881         0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:38673         0.0.0.0:*               LISTEN     
+....
+tcp6       0      0 :::42689                :::*                    LISTEN
+udp        0      0 128.143.67.91:60001     0.0.0.0:*
+udp        0      0 128.143.67.91:60002     0.0.0.0:*
+...
+udp6       0      0 :::59938                :::* 
+
+```
+

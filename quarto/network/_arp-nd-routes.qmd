@@ -1,0 +1,41 @@
+
+### what about non-local machines?  {.smaller}
+
+
+* when configuring network specify: 
+<hr class="vspace" />
+* range of addresses to expect on local network  
+
+   * 128.148.67.0-128.148.67.255 on my desktop
+   * ‘‘netmask’’
+
+* <i>gateway</i> machine to send to for things outside my local network 
+
+   * 128.143.67.1 on my desktop
+   * my desktop looks up the corresponding MAC address
+
+
+
+### routes on my desktop  {.smaller}
+
+
+```
+$ /sbin/route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         128.143.67.1    0.0.0.0         UG    100    0        0 enp0s31f6
+128.143.67.0    0.0.0.0         255.255.255.0   U     100    0        0 enp0s31f6
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 enp0s31f6
+
+```
+ 
+
+* network configuration says: 
+<hr class="vspace" />
+* (line 2) to get to 128.143.67.0--128.143.67.255, send directly on local network 
+
+   * ‘‘genmask’’ is mask (for bitwise operations) to specify how big range is
+
+* (line 3) to get to 169.254.0.0--169.254.255.255, send directly on local network
+* (line 1) to get anywhere else, use ‘‘gateway’’ 128.143.67.1
+

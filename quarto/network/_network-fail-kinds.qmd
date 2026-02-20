@@ -1,0 +1,9 @@
+
+### network limitations/failures 
+
+
+* [messages lost]{.fragment fragment-index=2 .custom .myem-only}
+* [messages delayed/reordered]{.fragment fragment-index=3 .custom .myem-only}
+* [messages limited in size]{.fragment fragment-index=4 .custom .myem-only}
+* [messages corrupted]{.fragment fragment-index=5 .custom .myem-only}
+

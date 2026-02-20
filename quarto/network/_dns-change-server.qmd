@@ -1,0 +1,31 @@
+
+### DNS time-to-live 
+
+
+* don't want DNS entries cached forever
+* solution: time-to-live
+* ‘‘www.cs.virginia.edu is 128.148.67.11 <em>for next 86400 seconds</em>’’
+
+
+### DNS exercise (1)  {.smaller}
+
+
+* ‘‘www.cs.virginia.edu is 128.148.67.11 <em>for next 86400 seconds</em>’’
+* (given record above) if sysadmin changes IP address DNS server returns for www.cs.virginia.edu, then what will happen to machines accessing website? 
+
+   * A. they'll start using the new address after 86400 seconds, and use the old one before then.
+   * B. different machines will use the new address at different times, but no longer than 86400 seconds from when it changes
+   * C. machines will start using the new address almost immediately, but after some small delay after it is changed
+   * D. machines may keep using the old address until they are rebooted
+   * E. something else?
+
+
+
+### DNS exercise (2)  {.smaller}
+
+
+* if sysadmin wants to change the IP address of www.cs.virginia.edu, how do they do this without downtime? 
+<hr class="vspace" />
+* they can change the IP address the server returns and/or the time-to-live?
+* what should they change and when to smoothly transition to a new address?
+

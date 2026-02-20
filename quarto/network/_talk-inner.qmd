@@ -1,0 +1,157 @@
+
+# intro {visibility="hidden"}
+
+# sockets {visibility="hidden"}
+
+### sockets is the de-facto API for networking 
+
+
+* open <i>connection</i> then … 
+
+   * read+write just like a terminal file
+ 
+<hr class="vspace" />
+* doesn't look like individual messages
+* ‘‘connection abstraction’’
+
+
+# mailbox model {visibility="hidden"}
+
+{{< include /network/_mailbox-model.qmd >}}
+
+# review: connection abstraction {visibility="hidden"}
+
+{{< include /network/_connection-model.qmd >}}
+
+# layers preview {visibility="hidden"}
+
+{{< include /network/_layers-list.qmd >}}
+
+## layer wrapping {visibility="hidden"}
+
+{{< include /network/_layer-wrapping.qmd >}}
+
+# handling network failures {visibility="hidden"}
+
+### againframe(layerOverview)
+
+### reality: you don't own the network! 
+
+
+
+* the internet is a series of connected networks
+* packets traverse routers within and between networks
+* those networks provide ‘‘best-effort’’ service
+ 
+```
+\begin{center}
+ 
+![](/network/network-of-network){}
+ 
+\end{center}
+```
+
+
+{{< include /network/_network-fail-kinds.qmd >}}
+
+## acknowledgments {visibility="hidden"}
+
+### againframe(netFailTypes)
+
+{{< include /network/_fail-lost.qmd >}}
+
+## exercise: lost acks{visibility="hidden"}
+
+{{< include /network/_fail-lost-lost-ack-ex.qmd >}}
+
+## solution: lost acks{visibility="hidden"}
+
+{{< include /network/_fail-lost-lost-ack-explain.qmd >}}
+
+## delayed acks{visibility="hidden"}
+
+### againframe(netFailTypes)
+
+{{< include /network/_fail-lost-delay-ack.qmd >}}
+
+## splitting into multiple {visibility="hidden"}
+
+### againframe(netFailTypes)
+
+{{< include /network/_fail-split.qmd >}}
+
+## checksums {visibility="hidden"}
+
+### againframe(netFailTypes)
+
+{{< include /network/_fail-corrupt.qmd >}}
+
+## aside: going faster {visibility="hidden"}
+
+{{< include /network/_split-faster.qmd >}}
+
+# lab API {visibility="hidden"}
+
+{{< include /network/_labApi.qmd >}}
+
+# UDP v TCP {visibility="hidden"}
+
+{{< include /network/_udp-v-tcp.qmd >}}
+
+# layers, revisited {visibility="hidden"}
+
+### againframe(layerOverview)
+
+# addresses versus names {visibility="hidden"}
+
+{{< include /network/_mailbox-names.qmd >}}
+
+{{< include /network/_names-and-addresses.qmd >}}
+
+# IP {visibility="hidden"}
+
+### againframe(layerOverview)
+
+{{< include /network/_network-layer.qmd >}}
+
+## IPv4 addresses {visibility="hidden"}
+
+{{< include /network/_ipv4.qmd >}}
+
+## IPv6 addresses {visibility="hidden"}
+
+{{< include /network/_ipv6.qmd >}}
+
+## routing idea {visibility="hidden"}
+
+{{< include /network/_routing.qmd >}}
+
+# TCP/UDP {visibility="hidden"}
+
+### againframe(layerOverview)
+
+## port numbers {visibility="hidden"}
+
+{{< include /network/_port-num.qmd >}}
+
+## OS tracking connections {visibility="hidden"}
+
+{{< include /network/_conn-tcp.qmd >}}
+
+# DNS {visibility="hidden"}
+
+### againframe(nameAndAddr)
+
+{{< include /network/_dns.qmd >}}
+
+## URLs and URIs {visibility="hidden"}
+
+{{< include /network/_urls.qmd >}}
+
+## HTTP {visibility="hidden"}
+
+{{< include /network/_http.qmd >}}
+
+# NAT {visibility="hidden"}
+
+{{< include /network/_nat.qmd >}}

@@ -1,0 +1,44 @@
+
+### autoconfiguration  {.smaller}
+
+
+* problem: how does my machine get IP address 
+<hr class="vspace" />
+* otherwise: 
+
+   * have sysadmin type one in?
+   * just choose one?
+   * [ask machine on local network to assign it]{.fragment fragment-index=2 .custom .myem-only}
+ 
+<hr class="vspace" />
+* often local router machine runs service to assign IP addresses 
+
+   * knows what IP addresses are available
+   * sysadmin might configure in mapping from MAC addresses to IP addresses
+
+
+
+### DHCP high-level  {.smaller}
+
+
+* protocol done over UDP 
+<hr class="vspace" />
+* but since we don't have IP address yet, use <code>0.0.0.0</code>
+* and since we don't know server address, use <code>255.255.255.255</code> 
+
+   * = ‘‘everyone on the local network’’
+
+* local server replies to request with address + [time limit]{.fragment fragment-index=2 .custom .myem-only}
+* later: can send messages to local server to renew/give up address
+
+
+### exercise: why time limit?  {.smaller}
+
+
+* DHCP ‘‘lease’’
+* rather than getting address forever 
+<hr class="vspace" />
+* but DHCP has way of releasing taken address 
+<hr class="vspace" />
+* why impose a time limit
+

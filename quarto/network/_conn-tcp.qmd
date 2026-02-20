@@ -1,0 +1,16 @@
+
+### connections in TCP/IP  {.smaller}
+
+
+* connection identified by <i>4-tuple</i> 
+
+   * used by OS to lookup ‘‘where is the socket?’’
+
+* []{.my-small}(local IP address, local port, remote IP address, remote port) 
+<hr class="vspace" />
+* local IP address, port number can be set with <code>bind()</code> function 
+
+   * <i>typically</i> always done for servers, not done for clients
+   * system will choose default if you don't
+
+

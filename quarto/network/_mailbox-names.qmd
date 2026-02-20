@@ -1,0 +1,8 @@
+
+### mailbox model: importance of naming 
+
+
+
+* <i>mailbox</i> abstraction: send/receive messages
+ ![](/network/texfig/mailbox-names.figure.svg)
+

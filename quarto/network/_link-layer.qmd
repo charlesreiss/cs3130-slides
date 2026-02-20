@@ -1,0 +1,33 @@
+
+### the link layer  {.smaller}
+
+
+* Ethernet, Wi-Fi, Bluetooth, DOCSIS (cable modems), … 
+<hr class="vspace" />
+* allows send/recv messages to machines on [‘‘same’’ network segment]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * typically: wireless range+channel or connected to a single switch/router
+   * could be larger (if <i>bridging</i> multiple network segments)
+   * could be smaller (switch/router uses ‘‘virtual LANs’’)
+
+* typically: source+destination specified with MAC addresses 
+
+   * MAC = media access control
+   * usually manufacturer assigned / hard-coded into device
+   * unique address per port/wifi transmitter/etc.
+
+* can specify destination of ‘‘anyone’’ (called <i>broadcast</i>)
+* messages usually called ‘‘frames’’
+
+
+### link layer jobs  {.smaller}
+
+
+* divide raw bits into messages
+* identify who message is for on shared radio/wire
+* handle if two+ machines use radio/wire at same time
+* drop/resend messages if corruption detected 
+
+   * resending more common in radio schemes (wifi, etc.)
+
+

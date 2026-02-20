@@ -1,0 +1,28 @@
+
+### network layer quality of service  {.smaller}
+
+if packet … <br> []{.my-small} <table>
+<tr><td>event</td><td>on IPv4/v6</td></tr>
+<tr><td><!-- \hline --> collides with another</td><td>out of scope --- handled by link layer</td></tr>
+<tr><td>[not received]{.fragment fragment-index=2 .custom .myem-only}\\tikzmark{not recv}</td><td>lost silently</td></tr>
+<tr><td>header corrupted</td><td>usually discarded silently</td></tr>
+<tr><td>data corrupted</td><td>received corrupted</td></tr>
+<tr><td>too long</td><td>dropped with notice or ‘‘fragmented’’ + recombined</td></tr>
+<tr><td>reordered (v. other messages)</td><td>received out of order</td></tr>
+<tr><td>destination unknown</td><td>usually dropped with notice</td></tr>
+<tr><td>too much being sent</td><td>discard excess</td></tr>
+<tr><td></td></tr>
+</table>
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\begin{visibleenv}<2>
+\node[align=left,my callout=not recv,anchor=north west] at ([xshift=0cm,yshift=-3cm]pic cs:not recv) {
+    includes dropped by link layer \\
+    (e.g. if detected corrupted there)
+};
+\end{visibleenv}
+\end{tikzpicture}
+```
+-->
+

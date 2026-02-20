@@ -1,0 +1,16 @@
+
+### link layer quality of service  {.smaller}
+
+if frame gets… <br> []{.my-small} <table>
+<tr><td>event</td><td>on Ethernet</td><td>on WiFi</td></tr>
+<tr><td><!-- \hline --> collides with another</td><td>detected + may resend</td><td>resend</td></tr>
+<tr><td>not received</td><td>lose silently</td><td>resent</td></tr>
+<tr><td>header corrupted</td><td>usually discard silently</td><td>usually resend</td></tr>
+<tr><td>data corrupted</td><td>usually discard silently</td><td>usually resend</td></tr>
+<tr><td>too long</td><td>not allowed to send</td><td>not allowed to send</td></tr>
+<tr><td>reordered (v. other messages)</td><td>received out of order</td><td>received out of order</td></tr>
+<tr><td>destination unknown</td><td>lose silently</td><td>usually resend??</td></tr>
+<tr><td>too much being sent</td><td>discard excess?</td><td>discard excess?</td></tr>
+<tr><td></td></tr>
+</table>
+

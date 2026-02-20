@@ -1,0 +1,53 @@
+
+### HTTP: HyperText Transfer Protocol  {.smaller}
+
+
+* primary application-layer protocol for the Web
+* standard port: 80 (non-encrypted), 443 (encrypted)
+* uses TCP (or TCP + TLS for encrypted version)
+* client-server protocol 
+
+   * server = always on machine, never initiaites contact
+   * client = sometimes on machine, initiates contact
+
+* ex. URL: <code>http://www.foo.com/bar</code>
+
+
+### HTTP: HyperText Transfer Protocol  {.smaller}
+
+
+
+* <code>http://www.foo.com/bar</code>
+* HTTP client (example: web browser) connects via TCP to www.foo.com
+* sends something like
+ 
+```
+GET /bar HTTP/1.1
+Host: www.foo.com
+...
+
+```
+ 
+
+* server replies with status code + (usually) some data 
+
+   * 200 OK, 403 Unauthorized 404 Not Found, 500 Internal Server Error, …
+
+
+
+### HTTP miscellany  {.smaller}
+
+
+* other HTTP commands besides GET
+* POST --- sending forms
+* HEAD --- get metadata about file (without getting its data)
+* PUT, DELETE, …  
+<hr class="vspace" />
+* all requests/replies have many possible headers 
+
+   * filetype inforation
+   * login-related information (usually)
+   * metadata used for caching webpages
+   * …
+
+

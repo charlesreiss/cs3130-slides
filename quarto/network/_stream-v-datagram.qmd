@@ -1,0 +1,40 @@
+
+### writing files?  {.smaller}
+
+<!-- \lstset{language=C,style=small} -->
+ 
+```
+write(file, "H", 1);
+write(file, "i", 1);
+write(file, "\n", 1);
+
+```
+ <hr />
+ 
+```
+write(file, "Hi\n", 3);
+
+```
+ <hr />
+ 
+
+* with files/the terminal: both do the same thing 
+
+   * can read back result in same way
+
+* also: don't need to worry about data being lost/reordered
+* stream sockets: same kind of interface
+
+
+### alternative: datagram  {.smaller}
+
+
+* alternative: datagram sockets
+* send ‘‘datagrams’’ 
+
+   * individual messages
+   * if too long --- too bad
+   * can be lost/corrupted/etc.
+
+* interface for using UDP
+

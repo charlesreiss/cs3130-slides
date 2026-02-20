@@ -1,0 +1,20 @@
+
+### names and addresses  {.smaller}
+
+[]{.my-small} <table>
+<tr><td><em>name</em></td><td><em>address</em></td></tr>
+<tr><td><!-- \hline --> \\large{}<em>logical identifier</em></td><td>\\large{}<em>location/how to locate</em></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>variable <code>counter</code></td><td>memory address <code>0x7FFF9430</code></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>DNS name <code>www.virginia.edu</code></td><td>IPv4 address <code>128.143.22.36</code></td></tr>
+<tr><td>DNS name <code>mail.google.com</code></td><td>IPv4 address <code>216.58.217.69</code></td></tr>
+<tr><td>DNS name <code>mail.google.com</code></td><td>IPv6 address <code>2607:f8b0:4004:80b::2005</code></td></tr>
+<tr><td>DNS name <code>reiss-t3620.cs.virginia.edu</code></td><td>IPv4 address <code>128.143.67.91</code></td></tr>
+<tr><td>DNS name <code>reiss-t3620.cs.virginia.edu</code></td><td>MAC address <code>18:66:da:2e:7f:da</code></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>service name <code>https</code></td><td>port number <code>443</code></td></tr>
+<tr><td>service name <code>ssh</code></td><td>port number <code>22</code></td></tr>
+<tr><td></td></tr>
+</table>
+

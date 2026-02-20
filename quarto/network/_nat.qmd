@@ -1,0 +1,73 @@
+
+### why IPv4 and IPv6? 
+
+
+* ran out of IPv4 addresses 
+
+   * $2^{32}$ <i>seemed</i> like a lot of addresses
+   * now there are more internet <i>users</i> than addresses
+
+* possible solutions: 
+```
+\begin{enumerate}
+ \item{} IPv6: use more bits for addresses, enough to never run out \item{} NAT: user one IPv4 address for an entire network of devices 
+\end{enumerate}
+```
+
+
+
+### NAT: network address translation  {.smaller}
+
+
+* <i>convert</i> many private addrs. to one public addr.
+* locally: use private IP addresses for local addresses
+* outside: private IP addresses become a single public one
+* commonly how home networks work (and some ISPs)
+* certain IPv4 address blocks reserved for private/internal use 
+
+   * <code>192.168.X.X</code>
+   * <code>172.16.X.X</code>--<code>172.31.X.X</code>
+   * <code>10.X.X.X</code>
+   * …
+
+
+
+### NAT idea 
+
+![](/network/texfig/nat-nat-idea.figure.svg)
+
+
+### NAT illusion  {.smaller}
+
+
+* NAT illusion:
+* private IP address communicating directly with public IP 
+<hr class="vspace" />
+* inside network, talking to outside: 
+
+   * use private local address
+   * use public remote address
+   * never see router's address
+
+* outside network, talking to inside 
+
+   * use public local address
+   * use router's public address
+
+
+
+### implementing NAT  {.smaller}
+
+[]{.my-small} <table>
+<tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
+<tr><td><!-- \hline --> 128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+<tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
+<tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
+<tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
+<tr><td></td></tr>
+</table>
+ 
+
+* table of the translations
+* need to update as new connections made
+

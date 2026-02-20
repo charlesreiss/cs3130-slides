@@ -1,0 +1,9 @@
+
+### layer encapsulation  {.smaller}
+
+
+* upper layers implemented using lower layers 
+<hr class="vspace" />
+* example: implement reliable + large messages (transport layer) <br> by sending multiple unreliable messages across networks (network layer)
+* example: implement reaching machine across networks (network layer) <br> by sending multiple messages on local networks (link layer)
+

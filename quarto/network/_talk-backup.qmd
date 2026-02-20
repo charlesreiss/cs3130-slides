@@ -1,0 +1,125 @@
+
+### The Internet 
+
+
+* Perhaps the most successful computer application ever
+* Can you name a computer program that doesn't use the internet?
+
+
+###  
+
+
+```
+\begin{center}
+
+![](/network/internet_users.png){}
+
+\end{center}
+```
+
+
+###  
+
+
+```
+\begin{center}
+
+![](/network/internet_reasons.png){}
+
+\end{center}
+```
+
+
+###  
+
+
+```
+\begin{center}
+
+![](/network/internet_data.png){}
+
+\end{center}
+```
+
+
+# ethernet / 802.11 / \ldots {visibility="hidden"}
+
+{{< include /network/_link-layer.qmd >}}
+
+## exercise: why resend? {visibility="hidden"}
+
+{{< include /network/_link-layer-reliable.qmd >}}
+
+## link layer quality-of-service {visibility="hidden"}
+
+{{< include /network/_link-layer-qos.qmd >}}
+
+## network layer quality-of-service {visibility="hidden"}
+
+{{< include /network/_network-layer-qos.qmd >}}
+
+# firewalls {visibility="hidden"}
+
+{{< include /network/_firewalls.qmd >}}
+
+## aside: TCP state machine {visibility="hidden"}
+
+{{< include /network/_tcp-state-machine.qmd >}}
+
+## DIG trace {visibility="hidden"}
+
+{{< include /network/_dig-trace.qmd >}}
+
+## UDP sockets {visibility="hidden"}
+
+{{< include /network/_udp-sockets.qmd >}}
+
+## ARP / IPv6 ND routing {visibility="hidden"}
+
+{{< include /network/_arp-nd-routes.qmd >}}
+
+## ARP / IPv6 ND {visibility="hidden"}
+
+### againframe(nameAndAddr)
+
+{{< include /network/_arp-nd.qmd >}}
+
+# and HTTP? (exercise) {visibility="hidden"}
+
+{{< include /network/_url-and-http.qmd >}}
+
+## DNS: dig +trace {visibility="hidden"}
+
+{{< include /network/_dig-trace.qmd >}}
+
+# spoofing? {visibility="hidden"}
+
+{{< include /network/_spoofing.qmd >}}
+
+## example: echo client/server {visibility="hidden"}
+
+## server setup{visibility="hidden"}
+
+{{< include /network/_conn-setup-server-manual.qmd >}}
+
+## client setup{visibility="hidden"}
+
+{{< include /network/_conn-setup-client-manual.qmd >}}
+
+## read/write code{visibility="hidden"}
+
+{{< include /network/_echo-client-server-ex.qmd >}}
+
+## more normal connection setup {visibility="hidden"}
+
+{{< include /network/_conn-setup-server.qmd >}}
+
+{{< include /network/_conn-setup-client.qmd >}}
+
+## other connection setup options {visibility="hidden"}
+
+{{< include /network/_conn-setup-server-multi.qmd >}}
+
+{{< include /network/_conn-setup-gethostbyname.qmd >}}
+
+{{< include /network/_conn-setup-server-1023-note.qmd >}}

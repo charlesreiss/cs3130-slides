@@ -1,0 +1,25 @@
+
+### dealing with network message lost 
+
+![](/network/texfig/fail-lost-dealing-with-network-message-lost.figure.svg)
+
+
+### handling lost message: acknowledgements 
+
+![](/network/texfig/lostAck.figure.svg)
+
+
+### handling lost message 
+
+
+
+::: {.r-stack .my-full}
+![](/network/texfig/lostMsg.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/network/texfig/lostMsg.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/network/texfig/lostMsg.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
