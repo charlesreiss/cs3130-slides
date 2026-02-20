@@ -68,13 +68,6 @@
         condition to be true \\ 
         about shared data
     };
-    \node[anchor=south west,align=left] (oplist)  at ([yshift=.5cm,xshift=-3.5cm]monitor.north east) {
-        \textcolor{blue!80!black}{condvar} operations: \\
-        \myemph<2-3>{\textbf<2>{Wait(cv, lock)}} --- \myemph<3>{unlock} lock, \myemph<2>{add current thread} to cv queue \\
-        \ldots and \myemph<3>{reacquire} lock before returning \\
-        \myemph<4>{\textbf<4>{Broadcast(cv)}} --- remove all from condvar queue \\
-        \myemph<5>{\textbf<5>{Signal(cv)}} --- remove one from condvar queue \\
-    };
     \tikzset{
         queue change/.style={dashed,ultra thick,red},
     }

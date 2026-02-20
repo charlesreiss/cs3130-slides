@@ -3,7 +3,7 @@
 
 
  
-```
+```c
 pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
 string one = "init one", two = "init two";
@@ -44,13 +44,11 @@ void ThreadB() {
 
 
 
-### againframe(lockExSln)
-
 ### exercise (alternate 1)  {.smaller}
 
 
  
-```
+```c
 pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
 string one = "init one", two = "init two";
@@ -78,7 +76,7 @@ void ThreadB() {
 
 
  
-```
+```c
 pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
 string one = "init one", two = "init two";

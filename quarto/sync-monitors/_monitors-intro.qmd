@@ -1,20 +1,15 @@
 
 ### monitors/condition variables  {.smaller}
 
-
 * <em>locks</em> for mutual exclusion
 * <em>condition variables</em> for waiting for event 
-
    * represents <em><em>list of waiting threads</em></em>
    * operations: wait (for event); signal/broadcast (that event happened)
-
 * related data structures 
 <hr class="vspace" />
 * <em>monitor</em> = lock + 0 or more condition variables + shared data 
-
    * Java: every object is a monitor (has instance variables, built-in lock, cond. var)
    * pthreads: build your own: provides you locks + condition variables
-
 
 
 ### monitor idea 
@@ -22,32 +17,43 @@
 
 
 ::: {.r-stack .my-full}
-![](/sync-monitors/texfig/monitorIdea.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/sync-monitors/texfig/monitorIdea.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/sync-monitors/texfig/monitorIdea.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="A monitor consists of a lock, shared data, condvars and associated operations. This might be represented as a class (in which case the operations would be methods) or as less formally grouped values (as we will do in C, since C does not have language support for classes)."}
 
-![](/sync-monitors/texfig/monitorIdea.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/sync-monitors/texfig/monitorIdea.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The lock must be used before accessing any of the shared data or condvars of the monitor."}
 
-![](/sync-monitors/texfig/monitorIdea.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/sync-monitors/texfig/monitorIdea.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="The lock can store a list of waiting threads."}
+
+![](/sync-monitors/texfig/monitorIdea.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="Each of the condvars can store a list of threads waiting for some condition to be true about the data."}
 
 
 :::
 
 
-### condvar operations 
+### condvar operations  
 
 
+::: {style="font-size: 50%; margin: 0"}
 
-::: {.r-stack .my-full}
-![](/sync-monitors/texfig/condVarOps.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+[condvar]{style="color: darkblue"} operations:
 
-![](/sync-monitors/texfig/condVarOps.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+*  [[<b>Wait(cv, lock)</b>]{.myem-only .custom .fragment fragment-index=2}]{.myem-only .custom .fragment fragment-index=3} --- [unlock]{.myem-only .custom .fragment fragment-index=3} lock, [add current thread]{.myem-only .custom .fragment fragment-index=2} to cv queue <br/>
+    ... and [reacquire]{.myem-only .custom .fragment fragment-index=3} lock before returning
+*  [<b>Broadcast(cv)</b>]{.fragment .myem-only .custom fragment-index=4} --- remove all from condvar queue
+*  [<b>Signal(cv)</b>]{.fragment .myem-only .custom fragment-index=5} --- remove one from condvar queue
 
-![](/sync-monitors/texfig/condVarOps.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+:::
 
-![](/sync-monitors/texfig/condVarOps.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+::: {.r-stack style="position: relative; top: -50px"}
+![](/sync-monitors/texfig/condVarOps.figure-1.svg){.fragment .fade-out fragment-index=2 width="1000px" fig-alt="These operations work in the context of a monitor, with a list of threads waiting for the lock, and lists of threads waiting stored in each condvar."}
 
-![](/sync-monitors/texfig/condVarOps.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/sync-monitors/texfig/condVarOps.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width="1000px" fig-alt="The current thread gets added to the condvar's list of waiting threads."}
+
+![](/sync-monitors/texfig/condVarOps.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width="1000px" fig-alt="Unlocking the lock allows another thread from the queue waiting on the lock to go after the current thread is safely on the condvar's list"}
+
+![](/sync-monitors/texfig/condVarOps.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width="1000px" fig-alt="Broadcasting makes all the threads listing on a specific condvar's list start waiting for the lock, adding them to the lock's queue."}
+
+![](/sync-monitors/texfig/condVarOps.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 width="1000px" fig-alt="Signal chooses an arbitrary thread from the condvar's list to the list waiting for a lock. The thread selected is arbitrary; it need not be the first or last one added to the condvar."}
 
 
 :::
