@@ -19,7 +19,7 @@
 \graphicspath{{}{./}{../}{../../}{../../common/}}
 \input{common/listingsLib}
 
-\usetikzlibrary{arrows.meta,calc,patterns,positioning,matrix,shapes.multipart,fit,decorations.pathreplacing,shapes.callouts}
+\usetikzlibrary{arrows.meta,calc,patterns,positioning,matrix,shapes.multipart,fit,decorations.pathreplacing,shapes.callouts,shapes.misc}
 \tikzset{ 
     ampersand replacement=\&,
     tight matrix node/.style={draw,rectangle,inner sep=1pt, outer sep=0pt,text width=1cm,minimum height=.4cm,anchor=center},
@@ -66,6 +66,7 @@
     \str_set:Nn \l_overlay_current_spec_str {#1}
     \exp_args:No \overlay_parse_alts:n {\l_overlay_current_spec_str}
   }
+\cs_generate_variant:Nn  \overlay_parse:n {e}
 \cs_new_protected:Npn \overlay_parse_alts:n #1
   {
     \overlay_parse_alts:w #1 | \q_recursion_tail | \q_recursion_stop
@@ -137,7 +138,7 @@
 
 
 \NewDocumentCommand\alt{D<>{}+m+m}{%
-  \overlay_parse:n {#1}
+  \overlay_parse:e {#1}
   %\bool_log:N \l_overlay_is_correct_bool
   %\str_log:N \l_overlay_current_spec_str
   \bool_if:NTF \l_overlay_is_correct_bool
@@ -146,7 +147,7 @@
 }
 
 \NewDocumentCommand\only{D<>{}+m}{%
-  \overlay_parse:n {#1}
+  \overlay_parse:e {#1}
   %\bool_log:N \l_overlay_is_correct_bool
   %\str_log:N \l_overlay_current_spec_str
   \bool_if:NT \l_overlay_is_correct_bool
@@ -154,7 +155,7 @@
 }
 
 \NewDocumentCommand\onslide{D<>{}+m}{%
-  \overlay_parse:n {#1}
+  \overlay_parse:e {#1}
   %\bool_log:N \l_overlay_is_correct_bool
   %\str_log:N \l_overlay_current_spec_str
   \bool_if:NT \l_overlay_is_correct_bool
@@ -224,13 +225,13 @@
 
 \tikzset{
     alt/.code args={<#1>#2#3}{%
-      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} %
     },%
     slidealt/.code args={<#1>#2#3}{%
-      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} %
     },%
     beameralt/.code args={<#1>#2#3}{%
-      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} %
     },%
     invisible/.style={opacity=0},%
     visible on/.style={slidealt=#1{}{invisible}},%
