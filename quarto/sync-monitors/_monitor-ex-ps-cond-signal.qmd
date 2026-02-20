@@ -1,0 +1,70 @@
+
+### BROKEN: producer/consumer signal  {.smaller}
+
+
+
+* exercise: example why signal here is BROKEN? hint: two consume()+two produce()
+ 
+<pre><code>pthread_mutex_t lock; pthread_cond_t data_ready; UnboundedQueue buffer;
+Produce(item) {
+    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+    buffer.enqueue(item);
+    /* GOOD CODE: pthread_cond_signal(&amp;data_ready); */
+    /* BAD CODE: */ if (buffer.size() == 1) pthread_cond_signal(&amp;item);
+    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+}
+Consume() {
+    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+    while (<span data-fragment-index="0" class="fragment custom myem-only">buffer.empty()</span>) {X\\tikzmark{empty}X
+        pthread_cond_wait(&amp;data_ready, &amp;lock);
+    }X\\tikzmark{after loop}X
+    item = <span data-fragment-index="0" class="fragment custom myem-only">buffer.dequeue()</span>;
+    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+    return item;
+}
+</code></pre>
+ ![](/sync-monitors/texfig/PCSignal.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+
+### bad case (setup)  {.smaller}
+
+ <table>
+<tr><td>thread 0</td><td>1</td><td>2</td><td>3</td></tr>
+<tr><td>\\hline{} Consume():</td><td></td><td></td></tr>
+<tr><td>lock</td><td></td><td></td></tr>
+<tr><td>empty? wait on cv</td><td>Consume():</td></tr>
+<tr><td></td><td>lock</td><td></td></tr>
+<tr><td></td><td>empty? wait on cv</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>Produce():</td><td></td></tr>
+<tr><td></td><td></td><td>lock</td><td>Produce():</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### againframe(PCSignalBadSetup)
+
+### bad case  {.smaller}
+
+ <table>
+<tr><td>thread 0</td><td>1</td><td>2</td><td>3</td></tr>
+<tr><td>\\hline{} Consume():</td><td></td><td></td></tr>
+<tr><td>lock</td><td></td><td></td></tr>
+<tr><td>empty? wait on cv</td><td>Consume():</td></tr>
+<tr><td></td><td>lock</td><td></td></tr>
+<tr><td></td><td>empty? wait on cv</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>Produce():</td><td></td></tr>
+<tr><td></td><td></td><td>lock</td><td>Produce():</td></tr>
+<tr><td></td><td></td><td></td><td>wait for lock</td></tr>
+<tr><td></td><td></td><td>enqueue</td><td></td></tr>
+<tr><td>wait for lock</td><td></td><td>size = 1? signal</td></tr>
+<tr><td></td><td></td><td>unlock</td><td>gets lock</td></tr>
+<tr><td></td><td></td><td></td><td>enqueue</td></tr>
+<tr><td></td><td></td><td></td><td><em>size $\not=$ 1</em>: don't signal</td></tr>
+<tr><td></td><td></td><td></td><td>unlock</td></tr>
+<tr><td>gets lock</td><td></td><td></td><td></td></tr>
+<tr><td>dequeue</td><td></td><td></td><td></td></tr>
+<tr><td></td><td>still waiting</td><td></td><td></td></tr>
+</table>
+
+
+### againframe(PCSignalBad)

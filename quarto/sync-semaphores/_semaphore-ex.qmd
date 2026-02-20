@@ -1,0 +1,48 @@
+
+### semaphore exercise  {.smaller}
+
+
+```
+int value;  sem_t empty, ready;  // with some initial values
+
+void PutValue(int argument) {
+    sem_wait(&empty);
+    value = argument;
+    sem_post(&ready);
+}
+
+int GetValue() {
+    int result;
+    _________________
+    result = value;
+    _________________
+    return result;
+}
+
+```
+ []{.my-small} GetValue() waits for PutValue() to happen, retrieves value, then allows next PutValue(). <br> PutValue() waits for prior GetValue(), places value, then allows next GetValue(). ![](/sync-semaphores/texfig/semEx.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+
+### semaphore exercise [solution]  {.smaller}
+
+
+```
+int value;
+sem_t empty, ready;
+void PutValue(int argument) {
+    sem_wait(&empty);
+    value = argument;
+    sem_post(&ready);
+}
+int GetValue() {
+    int result;
+    sem_wait(&ready);
+    result = value;
+    sem_post(&empty);
+    return result;
+}
+
+```
+
+
+### againframe(semExSoln)

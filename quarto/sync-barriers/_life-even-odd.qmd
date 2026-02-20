@@ -1,0 +1,23 @@
+
+### life homework even/odd  {.smaller}
+
+naive way has an operation that needs locking: 
+<pre><code>for (int time = 0; time &lt; MAX_ITERATIONS; ++time) {
+    ... compute to_grid ...
+    <span data-fragment-index="2" class="fragment custom myem-only">swap(from_grid, to_grid);</span>
+}
+</code></pre>
+ but this alternative needs less locking: 
+<pre><code>Grid grids\[2];
+for (int time = 0; time &lt; MAX_ITERATIONS; ++time) {
+    from_grid = &amp;grids\[time % 2];
+    to_grid = &amp;grids\[(time % 2) + 1];
+    ... compute to_grid ...
+}
+</code></pre>
+
+
+###  
+
+![](/sync-barriers/texfig/life-even-odd.figure.svg)
+

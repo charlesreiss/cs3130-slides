@@ -1,0 +1,19 @@
+
+# transactions, briefly {visibility="hidden"}
+
+{{< include /sync-xact/_transaction-defn.qmd >}}
+
+### transaction implementation ideas  {.smaller}
+
+
+* [(for consistency)]{.my-small}
+* simple idea: do one transaction at a time
+* more efficient(?) idea:  
+
+   * get list of operations
+   * lock everything operations use (in consistent order to prevent deadlock)
+   * do operations on list
+   * unlock everything
+
+* (also other strategies with different flexibility/efficiency)
+

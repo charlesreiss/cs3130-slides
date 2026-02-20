@@ -1,0 +1,10 @@
+---
+title: "sync-atomics"
+
+---
+
+{{< include /sync-atomics/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-atomics/_talk-backup.qmd >}}

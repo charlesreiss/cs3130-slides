@@ -1,0 +1,10 @@
+---
+title: "sync-xact"
+
+---
+
+{{< include /sync-xact/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-xact/_talk-backup.qmd >}}

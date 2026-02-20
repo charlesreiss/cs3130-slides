@@ -1,0 +1,10 @@
+---
+title: "sync-cc"
+
+---
+
+{{< include /sync-cc/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-cc/_talk-backup.qmd >}}

@@ -1,0 +1,42 @@
+
+# monitors {visibility="hidden"}
+
+## introduction {visibility="hidden"}
+
+{{< include /sync-monitors/_monitors-intro.qmd >}}
+
+## example: WaitForFinished {visibility="hidden"}
+
+{{< include /sync-monitors/_monitors-example-finished.qmd >}}
+
+## producer/consumer idea
+
+{{< include /sync-monitors/_producer-consumer-intro.qmd >}}
+
+## unbounded queue with monitors {visibility="hidden"}
+
+{{< include /sync-monitors/_unbounded-producer-consumer-monitors.qmd >}}
+
+## Hoare scheduling note {visibility="hidden"}
+
+{{< include /sync-monitors/_hoare-v-mesa.qmd >}}
+
+## bounded producer/consumer with monitors {visibility="hidden"}
+
+{{< include /sync-monitors/_producer-consumer-monitors.qmd >}}
+
+## general monitor pattern {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-pattern.qmd >}}
+
+## monitor POSIX API details {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-api.qmd >}}
+
+## exercise: wait for both finished {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-ex-both-finishes.qmd >}}
+
+## exercise: barrier {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-exercise2.qmd >}}

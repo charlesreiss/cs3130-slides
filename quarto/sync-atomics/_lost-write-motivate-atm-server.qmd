@@ -1,0 +1,49 @@
+
+### example application: ATM server 
+
+* commands: withdraw, deposit
+* one correctness goal: don't lose money
+
+### ATM server
+
+
+[(pseudocode)]{.my-small} 
+```c
+ServerLoop() {
+    while (true) {
+        ReceiveRequest(&operation, &accountNumber, &amount);
+        if (operation == DEPOSIT) {
+            Deposit(accountNumber, amount);
+        } else ...
+    }
+}
+
+Deposit(accountNumber, amount) {
+    account = GetAccount(accountNumber);
+    account->balance += amount;
+    SaveAccountUpdates(account);
+}
+```
+
+
+### multiple threads  {.smaller}
+
+
+```c
+main() {
+    for (int i = 0; i < NumberOfThreads; ++i) {
+        pthread_create(&server_loop_threads[i], NULL,
+                       ServerLoop, NULL);
+    }
+    ...
+}
+
+ServerLoop() {
+    while (true) {
+        ReceiveRequest(&operation, &accountNumber, &amount);
+        if (operation == DEPOSIT) {
+            Deposit(accountNumber, amount);
+        } else ...
+    }
+}
+```

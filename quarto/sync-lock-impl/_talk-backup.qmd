@@ -1,0 +1,12 @@
+
+
+## disabling interrupts for locks in xv6 {visibility="hidden"}
+
+{{< include /sync-lock-impl/_xv6-pushpopcli.qmd >}}
+{{< include /sync-lock-impl/_xv6-pushpopcli-detail.qmd >}}
+
+## xv6's spinlock and its debugging {visibility="hidden"}
+
+{{< include /sync-lock-impl/_xv6-spinlock.qmd >}}
+{{< include /sync-lock-impl/_xv6-spinlock-debug.qmd >}}
+

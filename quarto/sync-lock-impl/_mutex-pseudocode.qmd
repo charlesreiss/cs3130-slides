@@ -1,0 +1,70 @@
+
+### one possible implementation  {.smaller}
+
+
+<pre><code>struct Mutex { 
+    <span data-fragment-index="2" class="fragment custom myem-only">SpinLock guard_spinlock;</span>
+    <span data-fragment-index="3" class="fragment custom myem-only">bool lock_taken = false;</span>
+    <span data-fragment-index="4" class="fragment custom myem-only">WaitQueue wait_queue;</span>
+};
+</code></pre>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>LockMutex(Mutex *m) {
+  LockSpinlock(&amp;m-&gt;guard_spinlock);
+  if (m-&gt;lock_taken) {
+    put current thread on m-&gt;wait_queue
+    mark current thread as waiting
+    /* xv6: myproc()-&gt;state = SLEEPING; */
+    [[UnlockSpinlock(&amp;m-&gt;guard_spinlock);]{.fragment fragment-index=7 .custom .myem-only}]{.fragment fragment-index=8 .custom .myem-only}
+    [[run scheduler (context switch)]{.fragment fragment-index=7 .custom .myem-only}]{.fragment fragment-index=8 .custom .myem-only}
+  } else {
+    m-&gt;lock_taken = true;
+    UnlockSpinlock(&amp;m-&gt;guard_spinlock);
+  }
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>UnlockMutex(Mutex *m) {
+  LockSpinlock(&amp;m-&gt;guard_spinlock);
+  if (m-&gt;wait_queue not empty) {
+    <span data-fragment-index="6" class="fragment custom myem-only">remove a thread from m-&gt;wait_queue</span> 
+    <span data-fragment-index="6" class="fragment custom myem-only">mark thread as no longer waiting</span>
+    /* xv6: myproc()-&gt;state = RUNNABLE; */
+  } else {
+     m-&gt;lock_taken = false;
+  }
+  UnlockSpinlock(&amp;m-&gt;guard_spinlock);
+}
+</code></pre>
+ 
+:::
+
+::::
+ 
+
+::: {.r-stack}
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/sync-lock-impl/texfig/mutex-pseudocode.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+

@@ -1,0 +1,10 @@
+---
+title: "sync-rwlocks"
+
+---
+
+{{< include /sync-rwlocks/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-rwlocks/_talk-backup.qmd >}}

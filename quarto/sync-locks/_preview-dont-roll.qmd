@@ -19,7 +19,7 @@
 
 * one <em>bad</em> idea to wait for an event:
  
-```
+```c
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; bool ready = false;
 void WaitForReady() {
     pthread_mutex_lock(&lock);
@@ -40,5 +40,11 @@ void MarkReady() {
  
 
 * wastes processor time; MarkReady can stall waiting for unlock window
- ![](/sync/texfig/preview-dont-roll-a-bad-idea.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+::: {style="position: absolute; opacity: 0.15; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(25deg); font-size: 300%; width: 100%;"}
+
+DO NOT USE THIS CODE
+
+:::
+
 

@@ -1,0 +1,9 @@
+---
+title: "sync-lock-impl"
+---
+
+{{< include /sync-lock-impl/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-lock-impl/_talk-backup.qmd >}}

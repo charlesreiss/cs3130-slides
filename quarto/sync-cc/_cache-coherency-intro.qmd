@@ -1,0 +1,15 @@
+
+## the cache coherency problem{visibility="hidden"}
+
+### the cache coherency problem 
+
+
+
+::: {.r-stack .my-full}
+![](/sync-cc/texfig/cache-coherency-intro.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync-cc/texfig/cache-coherency-intro.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

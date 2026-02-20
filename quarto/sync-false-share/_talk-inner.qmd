@@ -1,0 +1,8 @@
+
+## false sharing {visibility="hidden"}
+
+{{< include /sync-false-share/_false-sharing.qmd >}}
+
+## exercise{visibility="hidden"}
+
+{{< include /sync-false-share/_false-sharing-ex.qmd >}}

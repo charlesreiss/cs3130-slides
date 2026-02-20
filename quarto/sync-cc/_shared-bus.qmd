@@ -1,0 +1,42 @@
+
+### connecting CPUs and memory 
+
+
+* multiple processors, common memory
+* how do processors communicate with memory?
+
+
+### shared bus  {.smaller}
+
+![](/sync-cc/texfig/shared-bus-shared-bus.figure.svg)
+ 
+
+* one possible design 
+
+   * we'll revisit later when we talk about I/O
+
+* <em>tagged</em> messages --- everyone gets everything, filters
+* contention if multiple communicators 
+
+   * some hardware enforces only one at a time
+
+
+
+### shared buses and scaling 
+
+
+* shared buses perform poorly with ‘‘too many’’ CPUs
+* so, there are other designs 
+<hr class="vspace" />
+* we'll gloss over these for now
+
+
+### shared buses and caches  {.smaller}
+
+
+* remember caches?
+* memory is <em>pretty slow</em>
+* each CPU wants to keep local copies of memory 
+<hr class="vspace" />
+* what happens when multiple CPUs cache same memory?
+

@@ -1,49 +1,24 @@
 
-### example application: ATM server 
-
-* commands: withdraw, deposit
-* one correctness goal: don't lose money
-
-### ATM server
+### a threaded server?  {.smaller}
 
 
-[(pseudocode)]{.my-small} 
-```c
-ServerLoop() {
-    while (true) {
-        ReceiveRequest(&operation, &accountNumber, &amount);
-        if (operation == DEPOSIT) {
-            Deposit(accountNumber, amount);
-        } else ...
-    }
+<pre><code>Deposit(accountNumber, amount) {
+    account = <em>GetAccount(accountId)</em>;
+    account-&gt;balance += amount;
+    <em>SaveAccountUpdates(account);</em>
 }
+</code></pre>
+ 
 
-Deposit(accountNumber, amount) {
-    account = GetAccount(accountNumber);
-    account->balance += amount;
-    SaveAccountUpdates(account);
-}
-```
+* maybe GetAccount/SaveAccountUpdates can be slow? 
 
+   * read/write disk sometimes? contact another server sometimes?
 
-### multiple threads  {.smaller}
+* maybe lots of requests to process? 
 
+   * maybe real logic has more checks than Deposit()
+   * …
 
-```c
-main() {
-    for (int i = 0; i < NumberOfThreads; ++i) {
-        pthread_create(&server_loop_threads[i], NULL,
-                       ServerLoop, NULL);
-    }
-    ...
-}
+* all reasons to handle multiple requests at once
+* $\rightarrow$ many threads all running the server loop
 
-ServerLoop() {
-    while (true) {
-        ReceiveRequest(&operation, &accountNumber, &amount);
-        if (operation == DEPOSIT) {
-            Deposit(accountNumber, amount);
-        } else ...
-    }
-}
-```

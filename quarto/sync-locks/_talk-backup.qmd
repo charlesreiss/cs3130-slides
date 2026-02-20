@@ -2,64 +2,23 @@
 
 ### backup slides 
 
+## Other languages {visibility="hidden"}
+
+{{< include /sync-locks/_locks-other-langs.qmd >}}
+
+## Generalizing {visibility="hidden"}
+
+{{< include /sync-locks/_locks-enoughp.qmd >}}
+
+## Pthread Mutex Extra {visibility="hidden"}
+
+{{< include /sync-locks/_pthread-mutex-addtl.qmd >}}
+
 ## recall: POSIX mutexes {visibility="hidden"}
 
 {{< include /sync-locks/_pthreads-mutex-review.qmd >}}
 
-## even/odd idea for life hw {visibility="hidden"}
-
-{{< include /sync/_life-even-odd.qmd >}}
-
-## x86-64 spinlock {visibility="hidden"}
-
-{{< include /sync-locks/_x86-spinlock.qmd >}}
-
-## exercise: spin-wait {visibility="hidden"}
-
-{{< include /sync-locks/_exer-spin-wait.qmd >}}
-
-## spinlock problems {visibility="hidden"}
-
-{{< include /sync-locks/_spinlock-problem.qmd >}}
-
-## motivation: threaded ATM server? {visibility="hidden"}
-
-{{< include /sync-reorder/_lost-write-motivate-atm-server.qmd >}}
-
-## locks that sleep {visibility="hidden"}
-
-### againframe(spinLockProblems)
-
-{{< include /sync-locks/_mutexes-intro.qmd >}}
-
-## pseudocode{visibility="hidden"}
-
-{{< include /sync-locks/_mutex-pseudocode.qmd >}}
-
-## need for scheduler integration{visibility="hidden"}
-
-{{< include /sync-locks/_mutex-sched-race.qmd >}}
-
-## analysis: uncontended case{visibility="hidden"}
-
-{{< include /sync-locks/_mutex-uncontend.qmd >}}
-
-## disabling interrupts for locks {visibility="hidden"}
-
-{{< include /sync-locks/_lock-by-disable-interrupts.qmd >}}
-
 ## aside: standard container rules {visibility="hidden"}
 
 {{< include /sync-locks/_std-container-rule.qmd >}}
-
-
-## xv6's spinlock debugging {visibility="hidden"}
-
-{{< include /sync-locks/_xv6-spinlock.qmd >}}
-{{< include /sync-locks/_xv6-spinlock-debug.qmd >}}
-
-
-## test-and-test-and-set {visibility="hidden"}
-
-{{< include /sync-locks/_test-and-test-and-set.qmd >}}
 

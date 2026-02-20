@@ -1,0 +1,10 @@
+
+### simulation of reader/write lock (1)  {.smaller}
+
+
+ 
+
+* writer-priority version; 2 readers, then writer, then reader
+* W = writers, R = readers, WW = waiting_writers
+ ![](/sync-rwlocks/texfig/rwlock-monitor-walkthrough-new.figure.svg)
+

@@ -1,0 +1,87 @@
+
+### MSI complaints 
+
+
+* <em>modifying</em> (read then write) a value often three messages:
+* initial read from memory
+* invalidate other caches (and maybe write to memory) on initial write
+* final writeback
+
+
+### scheme 2: MESI  {.smaller}
+
+<table>
+<tr><td><em>Modified</em></td><td>value is <em>different than memory</em> <i>and</i> I am the only one who has it</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><em><em>Exclusive</em></em></td><td>value is <em>same as memory</em> <i>and</i> I am the only one who has it</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><em>Shared</em></td><td>value is the <em>same as memory</em></td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td><em>Invalid</em></td><td>I don't have the value; I will need to ask for it</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### read for ownership 
+
+
+* reading to modify a value soon?
+* read into Exclusive state even if reading from cache
+* <em>invalidate</em> and read
+* second way to enter exclusive state
+
+
+### MESI complaints 
+
+
+* have to update memory to share a modified value … even though caches <em>read from other caches</em>
+* read from which cache?
+
+
+### scheme 3: MOESI 
+
+![](/sync-cc/texfig/moesiGraph.figure.svg)
+
+
+### MOESI example 
+
+
+
+::: {.r-stack .my-full}
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/sync-cc/texfig/mesi-moesi-moesi-example.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+
+
+### MSI versus MESI versus MOESI 
+
+<table>
+<tr><td>CPU1: read</td><td>0xA300</td><td>&nbsp;</td></tr>
+<tr><td>CPU1: write</td><td>0xA300</td><td>MSI: <em>invalidate</em></td></tr>
+<tr><td>CPU1: read</td><td>0xA300</td><td>&nbsp;</td></tr>
+<tr><td>CPU2: read</td><td>0xA300</td><td>MSI/MESI: <em>memory write</em></td></tr>
+<tr><td>CPU2: write</td><td>0xA300</td><td>MSI: <em>invalidate</em></td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### Other cache coherency options 
+
+
+* can <em>invalidate</em> instead of updating other caches on write
+* invalidation message faster to send than new value
+* tradeoff: faster <em>if</em> other cache won't use value
+

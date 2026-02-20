@@ -1,0 +1,1 @@
+{{< include /sync-barriers/_life-even-odd.qmd >}}

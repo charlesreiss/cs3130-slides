@@ -1,0 +1,9 @@
+---
+title: "sync-misc"
+---
+
+{{< include /sync-misc/_talk-inner.qmd >}}
+
+# backup slides
+
+{{< include /sync-misc/_talk-backup.qmd >}}

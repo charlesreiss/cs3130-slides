@@ -1,0 +1,28 @@
+
+### x86-64 spinlock with xchg  {.smaller}
+
+
+
+* lock variable in shared memory: <code>the_lock</code>
+* if 1: someone has the lock; if 0: lock is free to take
+ 
+<pre><code>acquire:
+    <span data-fragment-index="2" class="fragment custom myem-only">movl $1, %eax</span>             // %eax &lt;- 1
+    <span data-fragment-index="2" class="fragment custom myem-only">@5lock5@ xchg %eax, the_lock</span>  // swap %eax and the_lock
+                                    // sets the_lock to 1 (taken)
+                                    // sets %eax to prior val. of the_lock
+    <span data-fragment-index="3" class="fragment custom myem-only">test %eax, %eax</span>           // if the_lock wasn't 0 before:
+    <span data-fragment-index="3" class="fragment custom myem-only">jne acquire</span>               //   try again
+    ret
+
+release:
+    <span data-fragment-index="5" class="fragment custom myem-only">mfence</span>                    // for memory order reasons
+    <span data-fragment-index="4" class="fragment custom myem-only">movl $0, the_lock</span>         // then, set the_lock to 0 (not taken)
+    ret
+</code></pre>
+ ![](/sync-lock-impl/texfig/x86-spinlock.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/sync-lock-impl/texfig/x86-spinlock.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/sync-lock-impl/texfig/x86-spinlock.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/sync-lock-impl/texfig/x86-spinlock.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+![](/sync-lock-impl/texfig/x86-spinlock.figure-5.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=5}
+

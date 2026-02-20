@@ -1,0 +1,6 @@
+
+## transaction (more complete) {visibility="hidden"}
+
+{{< include /sync-xact/_transaction-impls.qmd >}}
+
+{{< include /sync-xact/_transaction-durable.qmd >}}

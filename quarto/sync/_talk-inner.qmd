@@ -2,16 +2,17 @@
 {{< include /sync-reorder/_talk-inner.qmd >}}
 {{< include /sync-locks/_talk-inner.qmd >}}
 
-{{< include /sync/_talk-barriers.qmd >}}
+{{< include /sync-barriers/_talk-inner.qmd >}}
+{{< include /sync-false-share/_talk-inner.qmd >}}
 
 # producer/consumer problem {visibility="hidden"}
 
-{{< include /sync/_producer-consumer-intro.qmd >}}
+{{< include /sync-monitors/_talk-inner.qmd >}}
 
-{{< include /sync/_talk-monitor.qmd >}}
+{{< include /sync-rwlocks/_talk-inner.qmd >}}
 
-{{< include /sync/_talk-rwlock.qmd >}}
+{{< include /sync-semaphores/_talk-inner.qmd >}}
 
-{{< include /sync/_talk-semaphore.qmd >}}
+{{< include /sync-xact/_talk-inner.qmd >}}
 
-{{< include /sync/_talk-xact.qmd >}}
+{{< include /sync-misc/_talk-inner.qmd >}}

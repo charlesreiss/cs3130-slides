@@ -1,0 +1,10 @@
+---
+title: "sync-monitors"
+
+---
+
+{{< include /sync-monitors/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-monitors/_talk-backup.qmd >}}

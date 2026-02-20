@@ -1,0 +1,132 @@
+
+### building semaphore with monitors (version B)  {.smaller}
+
+<!-- \lstset{
+            language=C++,
+            basicstyle=\fontsize{9}{10}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+        } -->
+ 
+<pre><code>pthread_mutex_t lock;
+unsigned int count;
+/* condition, broadcast when becomes count &gt; 0 */
+pthread_cond_t count_is_positive_cv;
+</code></pre>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>void down() {
+    pthread_mutex_lock(&amp;lock);
+    while (!(count &gt; 0)) {
+        pthread_cond_wait(
+            &amp;count_is_positive_cv,
+            &amp;lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>void up() {
+    pthread_mutex_lock(&amp;lock);
+    count += 1;
+    /* condition *just* became true */
+    if (count == 1) {
+        pthread_cond_broadcast(
+            &amp;count_is_positive_cv
+        );
+    }
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+ 
+
+* before: signal every time
+* can check if condition just became true instead?
+* but do we really need to <em>broadcast</em>?
+
+
+### exercise: why broadcast?  {.smaller}
+
+<!-- \lstset{
+            language=C++,
+            basicstyle=\fontsize{9}{10}\tt\selectfont,
+            morekeywords=pthread_mutex_t,
+            morekeywords=pthread_cond_t,
+            moredelim={**[is][\btHL<1|handout:1>]{@1}{1@}},
+        } -->
+ 
+<pre><code>pthread_mutex_t lock;
+unsigned int count;
+/* condition, broadcast when becomes count &gt; 0 */
+pthread_cond_t count_is_positive_cv;
+</code></pre>
+ 
+:::: {.columns}
+
+::: {.column width="45%"}
+ 
+<pre><code>void down() {
+    pthread_mutex_lock(&amp;lock);
+    while (!(count &gt; 0)) {
+        pthread_cond_wait(
+            &amp;count_is_positive_cv,
+            &amp;lock);
+    }
+    count -= 1;
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::: {.column width="45%"}
+ 
+<pre><code>void up() {
+    pthread_mutex_lock(&amp;lock);
+    count += 1;
+    if (count == 1) { /* became &gt; 0 */
+        <span data-fragment-index="1" class="fragment custom myem-only">pthread_cond_broadcast</span>(
+            &amp;count_is_positive_cv
+        );
+    }
+    pthread_mutex_unlock(&amp;lock);
+}
+</code></pre>
+ 
+:::
+
+::::
+ 
+
+* exercise: why can't this be <code>pthread_cond_signal</code>?
+* hint: think of two threads calling down + two calling up?
+* brute force: only so many orders they can get the lock in
+
+
+### broadcast problem 
+
+\\iftoggle{heldback
+
+::: {.r-stack .my-full}
+![](/sync-semaphores/texfig/semaphores-with-monitors-bcast-broadcast-problem.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/sync-semaphores/texfig/semaphores-with-monitors-bcast-broadcast-problem.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/sync-semaphores/texfig/semaphores-with-monitors-bcast-broadcast-problem.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+}

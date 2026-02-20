@@ -1,0 +1,34 @@
+
+# read-modify-write atomic operations {visibility="hidden"}
+
+{{< include /sync-atomics/_read-modify-write.qmd >}}
+
+## but higher-level tools {visibility="hidden"}
+
+{{< include /sync-atomics/_atomic-to-higher.qmd >}}
+
+## motivation: threaded ATM server? {visibility="hidden"}
+
+{{< include /sync-atomics/_lost-write-motivate-atm-server.qmd >}}
+
+## higher-level tools from RMW {visibility="hidden"}
+
+{{< include /sync-atomics/_use-rmw.qmd >}}
+
+## exercise: atomic add {visibility="hidden"}
+
+{{< include /sync-atomics/_atomic-cas-to-add-exercise.qmd >}}
+
+## CAS for fetch-and-add {visibility="hidden"}
+
+{{< include /sync-atomics/_atomic-cas-to-add-example.qmd >}}
+
+## exercise: CAS for appending to list {visibility="hidden"}
+
+{{< include /sync-atomics/_cas-append-to-list-ex.qmd >}}
+
+{{< include /sync-atomics/_cas-append-to-list-sol.qmd >}}
+
+## more atomic operations {visibility="hidden"}
+
+{{< include /sync-atomics/_other-atomics.qmd >}}

@@ -1,0 +1,26 @@
+
+# counting semaphores {visibility="hidden"}
+
+## introduction {visibility="hidden"}
+
+{{< include /sync-semaphores/_semaphore-intro.qmd >}}
+
+## examples {visibility="hidden"}
+
+{{< include /sync-semaphores/_semaphore-examples.qmd >}}
+
+## POSIX semaphores {visibility="hidden"}
+
+{{< include /sync-semaphores/_posix-semaphores.qmd >}}
+
+## semaphore exercise {visibility="hidden"}
+
+{{< include /sync-semaphores/_semaphore-ex.qmd >}}
+
+## semaphore intuition {visibility="hidden"}
+
+{{< include /sync-semaphores/_semaphore-intuition.qmd >}}
+
+# producer/consumer with counting semaphores {visibility="hidden"}
+
+{{< include /sync-semaphores/_producer-consumer-semaphore.qmd >}}

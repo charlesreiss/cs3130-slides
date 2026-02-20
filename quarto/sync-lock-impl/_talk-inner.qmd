@@ -1,0 +1,64 @@
+# too much milk: locks from load/store? {visibility="hidden"}
+
+## setup: buying milk {visibility="hidden"}
+
+{{< include /sync-lock-impl/_too-much-milk-scenario.qmd >}}
+
+## wrong solution 1: missed notes {visibility="hidden"}
+
+{{< include /sync-lock-impl/_too-much-milk1.qmd >}}
+
+## wrong solution 2: read own note {visibility="hidden"}
+
+{{< include /sync-lock-impl/_too-much-milk2.qmd >}}
+
+## wrong solution 3: too little milk {visibility="hidden"}
+
+{{< include /sync-lock-impl/_too-much-milk3.qmd >}}
+
+## correct solution: Peterson's algorithm {visibility="hidden"}
+
+{{< include /sync-lock-impl/_too-much-milk4.qmd >}}
+
+## x86-64 spinlock {visibility="hidden"}
+
+{{< include /sync-lock-impl/_x86-spinlock.qmd >}}
+
+## exercise: spin-wait {visibility="hidden"}
+
+{{< include /sync-lock-impl/_exer-spin-wait.qmd >}}
+
+## spinlock problems {visibility="hidden"}
+
+{{< include /sync-lock-impl/_spinlock-problem.qmd >}}
+
+## locks that sleep {visibility="hidden"}
+
+{{< include /sync-lock-impl/_motivation-no-busy-waits.qmd >}}
+
+{{< include /sync-lock-impl/_mutexes-intro.qmd >}}
+
+## pseudocode{visibility="hidden"}
+
+{{< include /sync-lock-impl/_mutex-pseudocode.qmd >}}
+
+## need for scheduler integration{visibility="hidden"}
+
+{{< include /sync-lock-impl/_mutex-sched-race.qmd >}}
+
+## analysis: uncontended case{visibility="hidden"}
+
+{{< include /sync-lock-impl/_mutex-uncontend.qmd >}}
+
+## disabling interrupts for locks {visibility="hidden"}
+
+{{< include /sync-lock-impl/_lock-by-disable-interrupts.qmd >}}
+
+## test-and-test-and-set {visibility="hidden"}
+
+{{< include /sync-lock-impl/_test-and-test-and-set.qmd >}}
+
+## misc Linux lock stuff
+
+{{< include /sync-lock-impl/_linux-futex.qmd >}}
+{{< include /sync-lock-impl/_linux-ticket-spinlock.qmd >}}

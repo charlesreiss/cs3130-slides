@@ -32,7 +32,7 @@ int main(void) {
 ### lost adds (results) 
 
 
-![](/sync/parallel-add-histogram.svg){fig-alt="histogram of actual measurements showing results clustered in around 1 million; with most slightly above that and a few below that. The histogram has no visible results above around 1.3 million."}
+![](/sync-reorder/parallel-add-histogram.svg){fig-alt="histogram of actual measurements showing results clustered in around 1 million; with most slightly above that and a few below that. The histogram has no visible results above around 1.3 million."}
 
 
 ### but how?  {.smaller}

@@ -1,0 +1,10 @@
+---
+title: "sync-barriers"
+
+---
+
+{{< include /sync-barriers/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include /sync-barriers/_talk-backup.qmd >}}

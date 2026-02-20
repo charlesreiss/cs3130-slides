@@ -1,0 +1,35 @@
+## problem setup / snooping {visibility="hidden"}
+
+{{< include /sync-cc/_cache-coherency-intro.qmd >}}
+
+# preview: processor buses {visibility="hidden"}
+
+{{< include /sync-cc/_shared-bus.qmd >}}
+
+## cache coherency high-level
+
+{{< include /sync-cc/_cache-coherency.qmd >}}
+{{< include /sync-cc/_cache-coherency-snooping-preview.qmd >}}
+
+## cache coherency detail {visibility="hidden"}
+
+## adding more state: MSI {visibility="hidden"}
+
+{{< include /sync-cc/_cache-coherency-msi.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /sync-cc/_cache-coherency-ex.qmd >}}
+
+{{< include /sync-cc/_cache-coherency-ex-soln.qmd >}}
+
+## beyond MSI {visibility="hidden"}
+
+{{< include /sync-cc/_cache-coherency-beyond-msi.qmd >}}
+
+{{< include /sync-cc/_bus-alternatives.qmd >}}
+
+
+## MESI / MOESI
+
+{{< include /sync-cc/_mesi-moesi.qmd >}}
