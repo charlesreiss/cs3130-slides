@@ -1,29 +1,16 @@
+### wait for both finished (0) {.smaller}
 
-### wait for both finished  {.smaller}
+```{.c code-line-numbers=true}
+{{< include /sync-monitors/wait-for-both-finished-exercise.c >}}
+```
 
+### wait for both finished (1) {.smaller}
 
-<pre><code>// MISSING: init calls, etc.
-pthread_mutex_t lock;
-bool finished[2];
-pthread_cond_t both_finished_cv;
+```{.c code-line-numbers=8}
+{{< include /sync-monitors/wait-for-both-finished-exercise.c >}}
+```
 
-void WaitForBothFinished() {
-  pthread_mutex_lock(&amp;lock);
-  while (<span data-fragment-index="2" class="fragment custom myem-only">_____________________________</span>) {
-    pthread_cond_wait(&amp;both_finished_cv, &amp;lock);
-  }
-  pthread_mutex_unlock(&amp;lock);
-}
-
-void Finish(int index) {
-  pthread_mutex_lock(&amp;lock);
-  finished[index] = true;
-  <span data-fragment-index="3" class="fragment custom myem-only">_____________________________________</span>
-  pthread_mutex_unlock(&amp;lock);
-}
-</code></pre>
-
-::: {.myoverbox .highright fragment-index=2 .fade-in-then-out .fragment}
+::: {.myoverbox .highright}
 
 A. `finished[0] && finished[1]`<br/>
 B. `finished[0] || finished[1]`<br/>
@@ -33,7 +20,14 @@ E. something else
 
 :::
 
-::: {.myoverbox .highright fragment-index=3 .fade-in-then-out .fragment style="font-size: 80%"}
+### wait for both finished (2) {.smaller}
+
+```{.c code-line-numbers=17}
+{{< include /sync-monitors/wait-for-both-finished-exercise.c >}}
+```
+
+
+::: {.myoverbox .highright}
 
 A. `pthread_cond_signal(&both_finished_cv)`<br/>
 B. `pthread_cond_broadcast(&both_finished_cv)`<br/>

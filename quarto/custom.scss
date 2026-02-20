@@ -121,6 +121,12 @@ section > ul {
 .reveal code .highlight-line a:first-child::before {
     background-color: white;
 }
+
+.reveal code.has-line-highlights > span:not(.highlight-line) {
+  opacity: 0.85 ! important;
+}
+
+
 i { font-style: italic; }
 
 div.myoverbox {
