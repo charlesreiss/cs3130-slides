@@ -182,7 +182,7 @@ _BEGIN_MINIPAGE.10: /\\begin\{minipage\}/
 _END_MINIPAGE.10: /\\end\{minipage\}/
 _BEGIN_DOCUMENT.10: /\\begin\{document\}/
 _END_DOCUMENT.10: /\\end\{document\}/
-BEGIN_GENERIC.0: /\\begin\{(?!isheldback|lrbox|comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document|tikzpicture)\w+\}/
+BEGIN_GENERIC.0: /\\begin\{(?!isheldback|lrbox|comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document|tikzpicture|lstlisting)\w+\}/
 END_GENERIC.0: /\\end\{(?!lrbox|comment|onlyenv|minipage|tabular|itemize|Verbatim|visibleenv|frame|FragileFrame|document|tikzpicture)\w+\}/
 _BRACE.-10: /\{/
 _END_BRACE.-10: /\}/
