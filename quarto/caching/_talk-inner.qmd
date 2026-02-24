@@ -68,6 +68,10 @@
 
 {{< include /caching/_tioDMExercise.qmd >}}
 
+## sizing a direct mapped cache {visibility="hidden"}
+
+{{< include /caching/_sizeExercise.qmd >}}
+
 ## simulating a direct mapped cache {visibility="hidden"}
 
 {{< include /caching/_dmExampleAccess.qmd >}}

@@ -1,0 +1,25 @@
+
+### cache size exercise {.smaller}
+
+- A system uses a direct-mapped cache with 32 byte blocks.
+- Two memory accesses are made:
+
+  - Read `0x08249`
+  - Read `0x0c658`
+
+- What is the fewest number of cache sets this cache could have to prevent the second read from evicting the first?
+- What is the size of this cache?
+
+
+<!--
+0x08249: 1000 0010 0100 1001
+               iii iiio oooo
+0x0c658: 1100 0110 0101 1000
+
+index: 6 bits
+2^6 = 64 sets
+
+
+32 bytes * 64 sets = 2^(5+6) = 2^11 = 2048 bytes
+-->
+             
