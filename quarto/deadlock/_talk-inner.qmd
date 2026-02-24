@@ -42,17 +42,10 @@
 
 ## techniques overview {visibility="hidden"}
 
+<!-- FIXME: convert overlays to native HTML format, interleave with more specific slides -->
 {{< include /deadlock/_deadlock-prevention-lib.qmd >}}
 
-### againframe(deadlockPrevent)
-
-### againframe(deadlockPrevent)
-
-### againframe(deadlockPrevent)
-
 ## example: no waiting {visibility="hidden"}
-
-### againframe(deadlockPrevent)
 
 ## example: livelock {visibility="hidden"}
 
@@ -60,20 +53,12 @@
 
 ## preventing livelock {visibility="hidden"}
 
-### againframe(deadlockPrevent)
-
 {{< include /deadlock/_prevent-livelock.qmd >}}
 
 ## example: revoke {visibility="hidden"}
-
-### againframe(deadlockPrevent)
 
 {{< include /deadlock/_revocable-locks.qmd >}}
 
 ## example: consistent order {visibility="hidden"}
 
-### againframe(deadlockPrevent)
-
 {{< include /deadlock/_prevention-ordering-examples.qmd >}}
-
-### againframe(deadlockPrevent)
