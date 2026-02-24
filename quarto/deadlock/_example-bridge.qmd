@@ -1,10 +1,8 @@
 
 ### the one-way bridge 
 
-
-
 ::: {.r-stack .my-full}
-![](/deadlock/texfig/example-bridge.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/deadlock/texfig/example-bridge.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/deadlock/texfig/example-bridge.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 

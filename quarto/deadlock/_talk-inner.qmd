@@ -1,9 +1,8 @@
-
-{{< include /deadlock/_dependency-lib.qmd >}}
-
 # deadlock examples {visibility="hidden"}
 
 ## a one-way bridge {visibility="hidden"}
+
+<!-- FIXME: alt text -->
 
 {{< include /deadlock/_example-bridge.qmd >}}
 
