@@ -1,6 +1,4 @@
 
-{{< include /sync-rwlocks/_rwlock-usage-exer.qmd >}}
-
 # implementing rwlocks with monitors {visibility="hidden"}
 
 {{< include /sync-rwlocks/_rwlock-with-monitors.qmd >}}

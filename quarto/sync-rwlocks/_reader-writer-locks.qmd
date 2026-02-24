@@ -15,7 +15,7 @@
 ### pthread rwlocks  {.smaller}
 
 
-```
+```c
 pthread_rwlock_t rwlock;
 pthread_rwlock_init(&rwlock, NULL /* attributes */);
 ...

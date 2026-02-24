@@ -6,3 +6,7 @@
 # rwlocks {visibility="hidden"}
 
 {{< include /sync-rwlocks/_reader-writer-locks.qmd >}}
+
+## rwlock usage exercise {visibility="hidden"}
+
+{{< include /sync-rwlocks/_rwlock-usage-exer.qmd >}}

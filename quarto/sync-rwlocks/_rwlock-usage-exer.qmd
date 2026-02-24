@@ -1,12 +1,10 @@
-
 ### rwlock effects exercise  {.smaller}
-
 
 :::: {.columns}
 
 ::: {.column width="45%"}
  
-```
+```c
 pthread_rwlock_t lock;
 void ThreadA() {
   pthread_rwlock_rdlock(&lock);
@@ -29,7 +27,7 @@ void ThreadB() {
 
 ::: {.column width="45%"}
  
-```
+```c
 void ThreadC() {
   pthread_rwlock_wrlock(&lock);
   puts("c");
