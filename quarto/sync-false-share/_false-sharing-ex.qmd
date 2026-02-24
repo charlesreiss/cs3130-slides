@@ -1,53 +1,55 @@
 
-### exercise (1)  {.smaller}
+### exercise (1)  {.smaller .longcode}
 
-
-<pre><code>int <span data-fragment-index="0" class="fragment custom myem-only">values[1024]</span>; int <span data-fragment-index="0" class="fragment custom myem-only">results[2]</span>;
+```c
+int values[1024]; int results[2];
 void *sum_front(void *ignored_argument) {
-    results\[0] = 0;
-    for (int i = <span data-fragment-index="0" class="fragment custom myem-only">0</span>; i &lt; <span data-fragment-index="0" class="fragment custom myem-only">512</span>; ++i)
-        results\[0] += values\[i];
+    results[0] = 0;
+    for (int i = 0; i < 512; ++i)
+        results[0] += values[i];
     return NULL;
 }
 void *sum_back(void *ignored_argument) {
-    results\[1] = 0;
-    for (int i = <span data-fragment-index="0" class="fragment custom myem-only">512</span>; i &lt; <span data-fragment-index="0" class="fragment custom myem-only">1024</span>; ++i)
-        results\[1] += values\[i];
+    results[1] = 0;
+    for (int i = 512; i < 1024; ++i)
+        results[1] += values[i];
     return NULL;
 }
 int sum_all() {
     pthread_t sum_front_thread, sum_back_thread;
-    pthread_create(&amp;sum_front_thread, NULL, sum_front, NULL);
-    pthread_create(&amp;sum_back_thread, NULL, sum_back, NULL);
+    pthread_create(&sum_front_thread, NULL, sum_front, NULL);
+    pthread_create(&sum_back_thread, NULL, sum_back, NULL);
     pthread_join(sum_front_thread, NULL);
     pthread_join(sum_back_thread, NULL);
-    return <span data-fragment-index="0" class="fragment custom myem-only">results[0] + results[1]</span>;
+    return results[0] + results[1];
 }
-</code></pre>
+```
+
  Where is false sharing likely to occur? How to fix?
 
-### exercise (2)  {.smaller}
+### exercise (2)  {.smaller .longcode}
 
-
-<pre><code>struct ThreadInfo { <span data-fragment-index="0" class="fragment custom myem-only">int *values;</span> int start; int end; int result };
+```c
+struct ThreadInfo { int *values; int start; int end; int result };
 void *sum_thread(void *argument) {
-    ThreadInfo *<span data-fragment-index="0" class="fragment custom myem-only">my_info</span> = (ThreadInfo *) argument;Q\\tikzmark{info}Q
+    ThreadInfo *my_info = (ThreadInfo *) argument;
     int sum = 0;
-    for (int i = my_info-&gt;start; i &lt; my_info-&gt;end; ++i) {
-        my_info-&gt;result += my_info-&gt;values\[i];
+    for (int i = my_info->start; i < my_info->end; ++i) {
+        my_info->result += my_info->values[i];
     }
     return NULL;
 
 }
+
 int sum_all(int *values) {
-    ThreadInfo info\[2]; pthread_t thread\[2];
-    for (int i = 0; i &lt; 2; ++i) {
-        <span data-fragment-index="0" class="fragment custom myem-only">info[i].values = values;</span> info\[i].start = i*512; info\[i].end = (i+1)*512;
-        pthread_create(&amp;threads\[i], NULL, sum_thread, (void *) &amp;info\[i]);
+    ThreadInfo info[2]; pthread_t thread[2];
+    for (int i = 0; i < 2; ++i) {
+        info[i].values = values; info[i].start = i*512; info[i].end = (i+1)*512;
+        pthread_create(&threads[i], NULL, sum_thread, (void *) &info[i]);
     }
-    for (int i = 0; i &lt; 2; ++i)
-        pthread_join(threads\[i], NULL);
-    return info\[0].result + info\[1].result;
+    for (int i = 0; i < 2; ++i)
+        pthread_join(threads[i], NULL);
+    return info[0].result + info[1].result;
 }
-</code></pre>
- Where is false sharing likely to occur?
+```
+Where is false sharing likely to occur now?

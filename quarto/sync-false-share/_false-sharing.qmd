@@ -22,7 +22,7 @@
 ### modifying things in parallel (code)  {.smaller}
 
 
-```
+```c
 void *sum_up(void *raw_dest) {
     int *dest = (int *) raw_dest;
     for (int i = 0; i < 64 * 1024 * 1024; ++i) {
@@ -47,7 +47,8 @@ void sum_twice(int distance) {
 ### performance v. array element gap 
 
 (assuming <code>sum_up</code> compiled to not omit memory accesses) 
-![](/sync-false-sharing/sum-up){}
+
+![](/sync-false-share/sum-up.svg){fig-alt="Graph of time (in cycles) versus distance between array elements in bytes, showing times around 47 million cycles from 0 to around 60 bytes, then around 34 million cycles from 64 bytes and upwards."}
 
 
 ### false sharing 
