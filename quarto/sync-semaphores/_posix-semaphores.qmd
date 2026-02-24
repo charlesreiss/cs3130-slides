@@ -1,8 +1,8 @@
 
-### POSIX semaphores  {.smaller}
+### POSIX semaphores
 
 
-```
+```c
 #include <semaphore.h>
 ...
 sem_t my_semaphore;

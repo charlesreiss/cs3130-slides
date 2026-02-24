@@ -24,13 +24,13 @@
 
 
 
-### reserving books  {.smaller}
+### reserving books
 
 
 
 * suppose tracking copies of library book…
  
-```
+```c
 Semaphore free_copies = Semaphore(3);
 void ReserveBook() {
     // wait for copy to be free
@@ -50,9 +50,10 @@ void ReturnBook() {
 ### counting resources: reserving books 
 
 
+<!-- FIXME: convert to HTML-based diagram -->
 
 ::: {.r-stack .my-full}
-![](/sync-semaphores/texfig/semaphore-intro-counting-resources-reserving-books.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/sync-semaphores/texfig/semaphore-intro-counting-resources-reserving-books.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/sync-semaphores/texfig/semaphore-intro-counting-resources-reserving-books.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 

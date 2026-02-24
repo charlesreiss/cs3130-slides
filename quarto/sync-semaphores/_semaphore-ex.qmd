@@ -1,16 +1,14 @@
 
-### semaphore exercise  {.smaller}
+### semaphore exercise {.smaller}
 
 
-```
+```c
 int value;  sem_t empty, ready;  // with some initial values
-
 void PutValue(int argument) {
     sem_wait(&empty);
     value = argument;
     sem_post(&ready);
 }
-
 int GetValue() {
     int result;
     _________________
@@ -18,15 +16,38 @@ int GetValue() {
     _________________
     return result;
 }
-
 ```
- []{.my-small} GetValue() waits for PutValue() to happen, retrieves value, then allows next PutValue(). <br> PutValue() waits for prior GetValue(), places value, then allows next GetValue(). ![](/sync-semaphores/texfig/semEx.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+[GetValue() waits for PutValue() to happen, retrieves value, then allows next PutValue().]{.my-small} <br/>
+[PutValue() waits for prior GetValue(), places value, then allows next GetValue().]{.my-small}
+
+What goes in the blanks?
+
+:::: {.columns .tight}
+
+::: {.column}
+
+a.  `sem_post(&empty)` / `sem_wait(&ready)` 
+b.  `sem_wait(&ready)` / `sem_post(&empty)` 
+c.  `sem_post(&ready)` / `sem_wait(&empty)`
+
+:::
+
+::: {.column}
+
+d.  `sem_post(&ready)` / `sem_post(&empty)`
+e.  `sem_wait(&empty)` / `sem_post(&ready)`
+f.  something else
+
+:::
+
+::::
 
 
 ### semaphore exercise [solution]  {.smaller}
 
 
-```
+```c
 int value;
 sem_t empty, ready;
 void PutValue(int argument) {
@@ -43,6 +64,3 @@ int GetValue() {
 }
 
 ```
-
-
-### againframe(semExSoln)

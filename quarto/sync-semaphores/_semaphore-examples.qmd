@@ -1,8 +1,8 @@
 
-### implementing mutexes with semaphores  {.smaller}
+### implementing mutexes with semaphores
 
 
-```
+```c
 struct Mutex {
     Semaphore s; /* with inital value 1 */
     /* value = 1 --> mutex if free */
@@ -20,10 +20,10 @@ MutexUnlock(Mutex *m) {
 ```
 
 
-### implementing join with semaphores  {.smaller}
+### implementing join with semaphores
 
 
-```
+```c
 struct Thread {
     ...
     Semaphore finish_semaphore; /* with initial value 0 */
