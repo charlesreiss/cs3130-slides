@@ -3,11 +3,11 @@
 
 {{< include /sync-xact/_transaction-defn.qmd >}}
 
-### transaction implementation ideas  {.smaller}
-
+### transaction implementation ideas {.smaller}
 
 * [(for consistency)]{.my-small}
 * simple idea: do one transaction at a time
+
 * more efficient(?) idea:  
 
    * get list of operations
