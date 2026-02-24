@@ -1,0 +1,80 @@
+
+{{< include /deadlock/_dependency-lib.qmd >}}
+
+# deadlock examples {visibility="hidden"}
+
+## a one-way bridge {visibility="hidden"}
+
+{{< include /deadlock/_example-bridge.qmd >}}
+
+## with locks {visibility="hidden"}
+
+{{< include /deadlock/_example-rename.qmd >}}
+
+## with memory {visibility="hidden"}
+
+{{< include /deadlock/_example-memory.qmd >}}
+
+## dining philosophers {visibility="hidden"}
+
+### lab next week 
+
+
+* applying solutions to deadlock to classic <i>dining philosphers</i> problem
+
+
+{{< include /deadlock/_dining-philosophers.qmd >}}
+
+# deadlock definition {visibility="hidden"}
+
+## short intuition {visibility="hidden"}
+
+{{< include /deadlock/_definition-intro.qmd >}}
+
+## conditions for deadlock {visibility="hidden"}
+
+{{< include /deadlock/_deadlock-requirements.qmd >}}
+
+# exercise {visibility="hidden"}
+
+{{< include /deadlock/_is-deadlock-ex.qmd >}}
+
+# deadlock prevention {visibility="hidden"}
+
+## techniques overview {visibility="hidden"}
+
+{{< include /deadlock/_deadlock-prevention-lib.qmd >}}
+
+### againframe(deadlockPrevent)
+
+### againframe(deadlockPrevent)
+
+### againframe(deadlockPrevent)
+
+## example: no waiting {visibility="hidden"}
+
+### againframe(deadlockPrevent)
+
+## example: livelock {visibility="hidden"}
+
+{{< include /deadlock/_livelock.qmd >}}
+
+## preventing livelock {visibility="hidden"}
+
+### againframe(deadlockPrevent)
+
+{{< include /deadlock/_prevent-livelock.qmd >}}
+
+## example: revoke {visibility="hidden"}
+
+### againframe(deadlockPrevent)
+
+{{< include /deadlock/_revocable-locks.qmd >}}
+
+## example: consistent order {visibility="hidden"}
+
+### againframe(deadlockPrevent)
+
+{{< include /deadlock/_prevention-ordering-examples.qmd >}}
+
+### againframe(deadlockPrevent)

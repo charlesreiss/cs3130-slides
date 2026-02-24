@@ -1,0 +1,93 @@
+
+### moving two files  {.smaller}
+
+
+```
+struct Dir {
+  mutex_t lock; HashMap entries;
+};
+void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
+  mutex_lock(&from_dir->lock);
+  mutex_lock(&to_dir->lock);
+    
+  Map_put(to_dir->entries, filename,
+        Map_get(from_dir->entries, filename));
+  Map_erase(from_dir->entries, filename);
+
+  mutex_unlock(&to_dir->lock);
+  mutex_unlock(&from_dir->lock);
+}
+
+```
+ Thread 1: <code>MoveFile(A, B, "foo")</code> <br> Thread 2: <code>MoveFile(B, A, "bar")</code>
+
+### moving two files: lucky timeline (1) {.smaller}
+
+<table class="race-timeline wide">
+<tr class="top noborder"><th>Thread 1</th><th>Thread 2</th></tr>
+<tr><th>`MoveFile(A, B, "foo")`</th><th>`MoveFile(B, A, "bar")`</th></tr>
+<tr><td>`lock(&A->lock);`</td><td></td></tr>
+<tr><td>`lock(&B->lock);`</td><td></td></tr>
+<tr><td>(do move)</td><td></td></tr>
+<tr><td>`unlock(&B->lock);`</td><td></td></tr>
+<tr><td>`unlock(&A->lock);`</td><td></td></tr>
+<tr><td></td><td>`lock(&B->lock);`</td></tr>
+<tr><td></td><td>`lock(&A->lock);`</td></tr>
+<tr><td></td><td>(do move)</td></tr>
+<tr><td></td><td>`unlock(&A->lock);`</td></tr>
+<tr><td></td><td>`unlock(&B->lock);`</td></tr>
+</table>
+
+
+### moving two files: lucky timeline (2)  {.smaller}
+
+<table class="race-timeline" style="font-size: 90%">
+<tr class="top noborder"><th>Thread 1</th><th>Thread 2</th></tr>
+<tr><th>`MoveFile(A, B, "foo")`</th><th>`MoveFile(B, A, "bar")`</th></tr>
+<tr><td>`lock(&A->lock);`</td><td></td></tr>
+<tr><td>`lock(&B->lock);`</td><td></td></tr>
+<tr><td></td><td class="fade">`lock(&B->lock`...</td></tr>
+<tr><td>(do move)</td><td class="fade">(waiting for B lock)</td></tr>
+<tr><td>`unlock(&B->lock);`</td><td></td></tr>
+<tr><td></td><td>`lock(&B->lock);`</td></tr>
+<tr><td></td><td class="fade">`lock(&A->lock`...</td></tr>
+<tr><td>`unlock(&A->lock);`</td><td></td></tr>
+<tr><td></td><td>`lock(&A->lock);`</td></tr>
+<tr><td></td><td>(do move)</td></tr>
+<tr><td></td><td>`unlock(&A->lock);`</td></tr>
+<tr><td></td><td>`unlock(&B->lock);`</td></tr>
+</table>
+
+
+### moving two files: unlucky timeline  {.smaller}
+
+
+<table class="race-timeline">
+<tr class="top noborder"><th>Thread 1</th><th>Thread 2</th></tr>
+<tr><th>`MoveFile(A, B, "foo")`</th><th>`MoveFile(B, A, "bar")`</th></tr>
+<tr><td>`lock(&A->lock);`</td><td></td></tr>
+<tr><td></td><td>`lock(&B->lock)`</td></tr>
+<tr><td>`lock(&B->lock;`..._stalled_</td><td></td></tr>
+<tr><td class="fade">(waiting for lock on B)</td><td>`lock(&A->lock;`..._stalled_</td></tr>
+<tr><td class="fade">(waiting for lock on B)</td><td class="fade">(waiting for lock on A)</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>~~(do move)~~_unreachable_</td><td>~~(do move)~~_unreachable_</td></tr>
+<tr><td>~~`unlock(&B->lock)`~~_unreachable_</td><td>~~`unlock(&A->lock);`~~_unreachable_</td></tr>
+<tr><td>~~`unlock(&A->lock)`~~_unreachable_</td><td>~~`unlock(&B->lock);`~~_unreachable_</td></tr>
+</table>
+
+
+### moving two files: dependencies 
+
+![](/deadlock/texfig/example-rename-moving-two-files-dependencies.figure.svg)
+
+
+### moving three files: dependencies 
+
+![](/deadlock/texfig/example-rename-moving-three-files-dependencies.figure.svg)
+
+
+### moving three files: unlucky timeline 
+
+![](/deadlock/texfig/moveFileDeadlockTimeline2.figure.svg)
+

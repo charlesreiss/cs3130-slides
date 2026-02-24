@@ -1,0 +1,16 @@
+
+### deadlock versus starvation  {.smaller}
+
+
+* starvation: one+ unlucky (no progress),  one+ lucky (yes progress) 
+
+   * example: low priority threads versus high-priority threads
+
+* deadlock: no one involved in deadlock makes progress 
+<hr class="vspace" />
+* starvation: once starvation happens, taking turns will resolve 
+
+   * low priority thread just needed a chance…
+
+* deadlock: once it happens, taking turns won't fix
+

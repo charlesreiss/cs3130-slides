@@ -1,0 +1,16 @@
+
+### recovering from deadlock?  {.smaller}
+
+
+* what if it's too late? 
+<hr class="vspace" />
+* kill a thread involved in the deadlock? 
+
+   * hopefully won't mess things up???
+
+* tell owner to release a resource 
+
+   * need code written to do this???
+
+* same concept as <em>locks you can steal</em>
+

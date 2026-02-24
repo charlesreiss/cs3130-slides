@@ -1,0 +1,48 @@
+\begin{tikzpicture}
+% FIXME: dining philosophers
+\path[draw,ultra thick] (0, 0) circle (3cm);
+\foreach \x in {0,72,144,216,288} {
+    \begin{visibleenv}<1>
+    \path[fill=black!75,draw,thick] (\x:1.8cm) -- (\x+0.5:2.9cm) -- (\x-0.5:2.9cm) -- cycle;
+    \end{visibleenv}
+    \begin{visibleenv}<2>
+    \path[fill=black!25,draw=black!25,thick] (\x:1.8cm) -- (\x+0.5:2.9cm) -- (\x-0.5:2.9cm) -- cycle;
+    \draw[dashed] (\x:2.9cm) -- (\x+26.5:3.2cm);
+    \draw[dashed] (\x:1.8cm) -- (\x+26.5:2.3cm);
+    \end{visibleenv}
+    \begin{visibleenv}<2-3>
+    \path[fill=red!75,draw=red!75!black,thick] (\x+26.5:3.2cm) -- (\x+26:3.2cm) -- (\x+26:2.3cm) -- cycle;
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+    \draw[dashed,very thick,fill=red!10] (\x+52:2.8cm) circle (0.4cm);
+    \end{visibleenv}
+    \draw[rounded corners,thick] (\x+27:3.9cm) -- (\x+45:3.9cm) -- (\x+46:3.3cm) -- (\x+26:3.3cm) -- cycle;
+    \draw[fill=white,very thick] (\x+36:3.6cm) circle (0.4cm);
+    \draw[thick] (\x+36:2.5cm) circle (0.4cm);
+    \draw[thin] (\x+36:2.5cm) circle (0.35cm);
+}
+\begin{visibleenv}<1>
+\node[anchor=west,align=left] at (3.5, 0) {
+    five philosophers either think or eat \\
+    to eat: \\
+    grab chopstick on left, then \\
+    grab chopstick on right, then \\
+    then eat, then \\
+    return chopsticks
+};
+\end{visibleenv}
+\begin{visibleenv}<2>
+\node[anchor=north west,align=left] at (3.5, 1) {
+    everyone eats at the same time? \\
+    grab left chopstick, then\ldots \\
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[anchor=north west,align=left] at (3.5, 1) {
+    everyone eats at the same time? \\
+    grab left chopstick, then \\
+    try to grab right chopstick, \ldots \\
+    we're at an impasse
+};
+\end{visibleenv}
+\end{tikzpicture}

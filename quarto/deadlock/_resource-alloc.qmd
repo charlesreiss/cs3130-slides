@@ -1,0 +1,26 @@
+
+### resource allocation graphs  {.smaller}
+
+
+* nodes: resources or threads
+* edge thread$\rightarrow$resource: thread waiting for resource
+* edge resource$\rightarrow$thread: resource is ‘‘owned’’ by thread 
+
+   * holds lock on
+   * will be deallocated by
+   * …
+
+
+
+### resource allocate graphs 
+
+![](/deadlock/texfig/resource-alloc-resource-allocate-graphs.figure.svg)
+
+
+### searching for cycles 
+
+
+* cycle $\rightarrow$ deadlock happened! 
+<hr class="vspace" />
+* finding cycles: recall 2150 topological sort (maybe???)
+

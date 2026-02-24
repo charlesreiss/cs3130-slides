@@ -1,0 +1,33 @@
+
+### Linux out-of-memory killer  {.smaller}
+
+
+* Linux by default <i>overcommits</i> memory 
+
+   * tell processes they have <em>more memory than is available</em>
+   * (some recommend disabling this feature)
+
+* problem: what if wrong? 
+
+   * could wait for program to finish, free memory…
+   * but could be waiting forever because of deadlock
+
+* solution: kill a process 
+
+   * (and try to choose one that's not important)
+
+
+
+### database transactions  {.smaller}
+
+
+* databases operations organized into <i><em>transactions</em></i> 
+
+   * happens <em>all at once or not at all</em>
+
+* until transaction is <i>committed</i>, not finalized
+* code to <em>undo</em> transaction in case it's not okay 
+<hr class="vspace" />
+* database deadlock solution: invoke undo transaction code
+* … then rerun transaction later
+

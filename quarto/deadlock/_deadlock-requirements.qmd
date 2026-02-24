@@ -1,0 +1,28 @@
+
+### deadlock requirements  {.smaller}
+
+
+* <em>mutual exclusion</em> 
+
+   * one thread at a time can use a resource
+
+* <em>hold and wait</em> 
+
+   * thread holding a resources waits to acquire <i>another</i> resource
+
+* <em>no preemption of resources</em> 
+
+   * resources are only released voluntarily
+   * thread trying to acquire resources can't ‘steal’
+
+* <em>circular wait</em>  
+
+   * there exists a set $\{T_1,\ldots,T_n\}$ of waiting threads such that 
+
+      * $T_1$ is waiting for a resource held by $T_2$
+      * $T_2$ is waiting for a resource held by $T_3$
+      * …
+      * $T_n$ is waiting for a resource held by $T_1$
+
+
+

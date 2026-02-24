@@ -1,0 +1,15 @@
+
+### using deadlock detection for prevention  {.smaller}
+
+
+* suppose you know the <i>maximum resources</i> a process could request
+* make decision <em>when starting process</em> (‘‘<i>admission control</i>’’) 
+<hr class="vspace" />
+* ask ‘‘what if every process was waiting for maximum resources’’ 
+
+   * including the one we're starting
+
+* would it cause deadlock? then <em>don't let it start</em> 
+<hr class="vspace" />
+* called Banker's algorithm
+

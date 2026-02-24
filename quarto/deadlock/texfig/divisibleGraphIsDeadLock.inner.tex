@@ -1,0 +1,54 @@
+\begin{tikzpicture}
+    \newcommand{\mycircle}[1]{
+        \node[resource circle] (#1) {};
+    }
+    \matrix[resource,row sep=2mm,label={[align=left,xshift=-1cm]north east:{memory in \\6 (1MB) units}}] (resource A) {
+    \mycircle{A one} \\
+    \mycircle{A two} \\
+    \mycircle{A three} \\
+    \mycircle{A four} \\
+    \mycircle{A five} \\
+    \mycircle{A six} \\
+};
+\node[thread] (thread one) at ([xshift=-3cm,yshift=-3cm]resource A) {
+  thread 1
+};
+\node[thread] (thread two) at ([xshift=3cm,yshift=-3cm]resource A) {
+  thread 2
+};
+\node[thread] (thread three) at ([xshift=-2cm, yshift=3cm]resource A) {
+    thread 3
+};
+
+    \path[dependency future] (A one.west) .. controls ([xshift=-1cm]A one.west) .. (thread three.south)
+    ;
+
+    \path[dependency,double] (thread one.east) ..  controls ([xshift=1cm]thread one.east) .. (resource A.south)
+    node[midway,dependency reason,font=\small,below,xshift=1cm] {
+      waiting for \\ 2MB
+    };
+    \path[dependency future] (A four.west) ..  controls ([yshift=2cm]thread one.north) .. (thread one.north);
+    \path[dependency future] (A three.west) ..  controls ([yshift=2cm]thread one.north) .. (thread one.north)
+    node[pos=0.8,dependency reason,font=\small,fill=white] {
+        owns 
+    };
+    \path[dependency,double] (thread two.west) ..  controls ([xshift=-1cm]thread two.west) .. (resource A.south)
+    ;
+\path[dependency future] (A six.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north);
+\path[dependency future] (A five.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north)
+    node[midway,dependency reason,font=\small,fill=white] {
+        owns 
+    };
+    \node[resource,red] (lock) at ([xshift=-.5cm,yshift=-2cm]thread three.south) {lock};
+    \path[dependency] (thread three.south) .. controls ([yshift=-1cm]thread three.south) .. (lock.north);
+    \path[dependency future] (lock.south) .. controls ([xshift=-1cm,yshift=-1cm]lock.south) .. (thread one.120);
+    \begin{visibleenv}<2->
+    \node[draw,very thick,anchor=west,align=left] at ([xshift=4cm,yshift=0cm]resource A) {
+        deadlock: \\
+        thread 3 can't finish \\
+        until thread 1 releases lock, but \\
+        thread 1 can't finish \\
+        until thread 3 releases memory
+    };
+    \end{visibleenv}
+\end{tikzpicture}

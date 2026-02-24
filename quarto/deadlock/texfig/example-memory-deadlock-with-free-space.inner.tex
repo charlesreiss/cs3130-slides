@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrWaitFor(1 MB) \Q AllocateOrWaitFor(1 MB) \\
+  AllocateOrWaitFor(1 MB) \Q AllocateOrWaitFor(1 MB) \\
+  (do calculation) \Q (do calculation) \\
+  Free(1 MB) \Q Free(1 MB) \\
+  Free(1 MB) \Q Free(1 MB) \\
+};
+\node[anchor=north,align=center] at (timeline.south) { 
+  2 MB of space --- deadlock possible with unlucky order
+};
+\end{tikzpicture}

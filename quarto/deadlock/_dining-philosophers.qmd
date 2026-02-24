@@ -1,0 +1,15 @@
+
+### dining philosophers 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/dining-philosophers.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/dining-philosophers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/dining-philosophers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

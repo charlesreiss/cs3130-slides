@@ -1,0 +1,25 @@
+
+### dining philosophers --- ordering 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/dining-philosophers-order.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/deadlock/texfig/dining-philosophers-order.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+

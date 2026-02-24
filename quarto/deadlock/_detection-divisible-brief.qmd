@@ -1,0 +1,92 @@
+
+### aside: divisible resources  {.smaller}
+
+
+* deadlock is possible with divislbe resources like memory,…
+* example: suppose 6MB of RAM for threads total: 
+
+   * thread 1 has 2MB allocated, waiting for 2MB
+   * thread 2 has 2MB allocated, waiting for 2MB
+   * thread 3 has 1MB allocated, waiting for keypress
+
+* cycle: thread 1 waiting on memory owned by thread 2?
+* not a deadlock --- thread 3 can still finish 
+
+   * and after it does, thread 1 or 2 can finish
+
+* … but would be deadlock 
+
+   * … if thread 3 waiting lock held by thread 1
+   * … with 5MB of RAM
+
+
+
+### divisible resources: not deadlock 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/divisibleGraphNotDead.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/deadlock/texfig/divisibleGraphNotDead.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+
+
+### divisible resources: is deadlock 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/divisibleGraphIsDeadLock.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/divisibleGraphIsDeadLock.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### divisible resources: is deadlock 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/divisibleGraphIsDeadSpace.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### deadlock detection with divisible resources  {.smaller}
+
+
+* for each resource: track which threads have those resources
+* for each thread: resources they are waiting for
+* repeatedly: 
+
+   * find a thread where all the resources it needs are available
+   * remove that thread and mark the resources it has as free --- it can complete now!
+
+* either: all threads eliminated <i>or</i> found deadlock
+

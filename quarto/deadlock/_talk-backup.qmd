@@ -1,0 +1,62 @@
+
+# backup slides {visibility="hidden"}
+
+###  
+
+
+
+### backup slides 
+
+
+
+## v. starvation {visibility="hidden"}
+
+{{< include /deadlock/_deadlock-v-starve.qmd >}}
+
+## livelock {visibility="hidden"}
+
+{{< include /deadlock/_livelock.qmd >}}
+
+## preventing livelock {visibility="hidden"}
+
+{{< include /deadlock/_prevent-livelock.qmd >}}
+
+## revokable locks{visibility="hidden"}
+
+{{< include /deadlock/_revocable-locks.qmd >}}
+
+## deadlock detection {visibility="hidden"}
+
+{{< include /deadlock/_detection-intro.qmd >}}
+
+## problem with divisible resources?{visibility="hidden"}
+
+{{< include /deadlock/_detection-divisible-brief.qmd >}}
+
+## real detection?{visibility="hidden"}
+
+{{< include /deadlock/_detection-real.qmd >}}
+
+## with pipes {visibility="hidden"}
+
+{{< include /deadlock/_example-pipe.qmd >}}
+
+## pre-requesting maximum resources {visibility="hidden"}
+
+{{< include /deadlock/_prerequest-maximum.qmd >}}
+
+## aborting locks {visibility="hidden"}
+
+{{< include /deadlock/_example-memory.qmd >}}
+
+{{< include /deadlock/_prevention-abort-examples.qmd >}}
+
+## dining philosophers solutions {visibility="hidden"}
+
+{{< include /deadlock/_dining-philosophers-order.qmd >}}
+
+{{< include /deadlock/_dining-philosophers-abort.qmd >}}
+
+## detection to prevention{visibility="hidden"}
+
+{{< include /deadlock/_detection-to-prevention.qmd >}}

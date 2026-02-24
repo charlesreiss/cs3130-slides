@@ -1,0 +1,37 @@
+
+### how is deadlock possible?  {.smaller}
+
+Given list: A, B, C, D, E 
+```
+RemoveNode(LinkedListNode *node) {
+    pthread_mutex_lock(&node->lock);
+    pthread_mutex_lock(&node->prev->lock);
+    pthread_mutex_lock(&node->next->lock);
+    node->next->prev = node->prev; node->prev->next = node->next;
+    pthread_mutex_unlock(&node->next->lock); pthread_mutex_unlock(&node->prev->lock);
+    pthread_mutex_unlock(&node->lock);
+}
+
+```
+ Which of these (all run in parallel) can deadlock? <br> <table>
+<tr><td>A. RemoveNode(B) and RemoveNode(C)</td></tr>
+<tr><td>B. RemoveNode(B) and RemoveNode(D)</td></tr>
+<tr><td>C. RemoveNode(B) and RemoveNode(C) and RemoveNode(D)</td></tr>
+<tr><td>D. A and C   E. B and C</td></tr>
+<tr><td>F. all of the above   G. none of the above</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### how is deadlock --- solution  {.smaller}
+
+<table>
+<tr><td>Remove B</td><td>Remove C</td></tr>
+<tr><td>lock B</td><td>lock C</td></tr>
+<tr><td>lock A (prev)</td><td>wait to lock B (prev)</td></tr>
+<tr><td>wait to lock C (next)</td><td></td></tr>
+</table>
+ <hr />
+ With B and D --- only overlap in in node C --- no circular wait possible <br> (thread can't be waiting while holding something other thread wants)
+
+### againframe(isDeadlockPTimeline1)

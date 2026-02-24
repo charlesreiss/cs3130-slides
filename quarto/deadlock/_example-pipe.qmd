@@ -1,0 +1,37 @@
+
+### pipe() deadlock  {.smaller}
+
+<em>BROKEN</em> example: 
+```
+int child_to_parent_pipe[2], parent_to_child_pipe[2];
+pipe(child_to_parent_pipe); pipe(parent_to_child_pipe);
+if (fork() == 0) {
+    /* child */
+    write(child_to_parent_pipe[1], buffer, HUGE_SIZE);
+    read(parent_to_child_pipe[0], buffer, HUGE_SIZE);
+    exit(0);
+} else {
+    /* parent */
+    write(parent_to_child_pipe[1], buffer, HUGE_SIZE);
+    read(child_to_parent_pipe[0], buffer, HUGE_SIZE);
+}
+
+```
+ This will <em>hang forever</em> (if <code>HUGE_SIZE</code> is big enough).
+
+### deadlock waiting  {.smaller}
+
+
+* child writing to pipe waiting for free buffer space
+* … which will not be available until parent reads 
+<hr class="vspace" />
+* parent writing to pipe waiting for free buffer space
+* … which will not be available until child reads
+
+
+{{< include /deadlock/_dependency-lib.qmd >}}
+
+### circular dependency 
+
+![](/deadlock/texfig/example-pipe-circular-dependency.figure.svg)
+

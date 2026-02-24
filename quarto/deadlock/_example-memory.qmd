@@ -1,0 +1,20 @@
+
+### deadlock with free space 
+
+![](/deadlock/texfig/example-memory-deadlock-with-free-space.figure.svg)
+
+
+### deadlock with free space (unlucky case) 
+
+![](/deadlock/texfig/example-memory-deadlock-with-free-space-unlucky-case.figure.svg)
+
+
+### free space: dependency graph 
+
+![](/deadlock/texfig/freeSpaceDepend.figure.svg)
+
+
+### deadlock with free space (lucky case) 
+
+![](/deadlock/texfig/example-memory-deadlock-with-free-space-lucky-case.figure.svg)
+

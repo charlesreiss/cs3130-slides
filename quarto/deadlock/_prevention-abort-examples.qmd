@@ -1,0 +1,33 @@
+
+### AllocateOrFail  {.smaller}
+
+![](/deadlock/texfig/prevention-abort-examples-allocateorfail.figure.svg)
+ 
+
+* okay, now what? 
+
+   * give up?
+   * both try again? --- maybe this will keep happening? (called <em>livelock</em>)
+   * try one-at-a-time? --- gaurenteed to work, but tricky to implement
+
+
+
+### AllocateOrSteal  {.smaller}
+
+![](/deadlock/texfig/prevention-abort-examples-allocateorsteal.figure.svg)
+ 
+
+* problem: can one actually implement this?
+* problem: can one kill thread and keep system in consistent state?
+
+
+### fail/steal with locks 
+
+
+* pthreads provides pthread_mutex_trylock --- ‘‘lock or fail’’
+* some databases implement <i>revocable locks</i>  
+
+   * do equivalent of throwing exception in thread to ‘steal’ lock
+   * need to carefully arrange for operation to be cleaned up
+
+

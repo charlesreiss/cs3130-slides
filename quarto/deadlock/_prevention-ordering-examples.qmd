@@ -1,0 +1,49 @@
+
+### acquiring locks in consistent order (1)  {.smaller}
+
+
+<pre><code>MoveFile(Dir* from_dir, Dir* to_dir, string filename) {
+  if <span data-fragment-index="2" class="fragment custom myem-only">(from_dir-&gt;path &lt; to_dir-&gt;path)</span> {
+    lock(&amp;from_dir-&gt;lock);
+    lock(&amp;to_dir-&gt;lock);
+  } else {
+    lock(&amp;to_dir-&gt;lock);
+    lock(&amp;from_dir-&gt;lock);
+  }
+  ...
+}
+</code></pre>
+ ![](/deadlock/texfig/moveFileOrdering.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/deadlock/texfig/moveFileOrdering.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+
+
+### acquiring locks in consistent order (2)  {.smaller}
+
+
+
+* often by convention, e.g. Linux kernel comments:
+ 
+```
+/*
+ * ...
+ * Lock order:
+ *	contex.ldt_usr_sem
+ *	  mmap_sem
+ *	    context.lock
+ */
+
+```
+ <hr />
+ 
+```
+/*
+ * ...
+ * Lock order:
+ *   1. slab_mutex (Global Mutex)
+ *   2. node->list_lock
+ *   3. slab_lock(page) (Only on some arches and for debugging)
+ * ...
+ */
+ 
+```
+

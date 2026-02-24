@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\node[resource] (directory A) {
+    directory B 
+};
+\node[resource] (directory B) at ([yshift=-6cm]directory A) {
+    directory A
+};
+\node[thread] (thread one) at ([xshift=-4cm,yshift=-3cm]directory A) {
+  thread 1
+};
+\node[thread] (thread two) at ([xshift=4cm,yshift=-3cm]directory A) {
+  thread 2
+};
+
+\path[dependency] (thread one.north) ..  controls ([yshift=2cm]thread one.north) .. (directory A.west)
+    node[midway,dependency reason,left] {
+      waiting for lock
+    };
+\path[dependency] (thread two.south) ..  controls ([yshift=-2cm]thread two.south) .. (directory B.east)
+    node[midway,dependency reason,right] {
+      waiting for lock
+    };
+\path[dependency future] (directory A.east) .. controls ([yshift=2cm]thread two.north) .. (thread two.north)
+    node[midway,dependency reason,right] {
+      lock held by
+    };
+\path[dependency future] (directory B.west) .. controls ([yshift=-2cm]thread one.south) .. (thread one.south)
+    node[midway,dependency reason,left] {
+      lock held by
+    };
+\end{tikzpicture}

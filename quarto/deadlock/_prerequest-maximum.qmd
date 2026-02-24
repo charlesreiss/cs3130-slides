@@ -1,0 +1,14 @@
+
+### allocating all at once?  {.smaller}
+
+
+* for resources like disk space, memory 
+<hr class="vspace" />
+* figure out maximum allocation <em>when starting thread</em> 
+
+   * ‘‘only’’ need conservative estimate
+
+* only start thread if those resources are available 
+<hr class="vspace" />
+* okay solution for embedded systems?
+

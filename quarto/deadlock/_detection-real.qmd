@@ -1,0 +1,20 @@
+
+### aside: deadlock detection in reality  {.smaller}
+
+
+* requires: 
+
+   * instrumenting contended resources
+   * ‘‘undo’’ to get out of deadlock
+ 
+<hr class="vspace" />
+* common example: for locks in a database 
+
+   * database typically has customized locking code
+   * ‘‘undo’’ exists as side-effect of code for handling power/disk failures
+
+* related idea: <i>avoid</i> deadlock with detection on ‘‘what if’’  scenario 
+
+   * see Banker's algorithm
+
+

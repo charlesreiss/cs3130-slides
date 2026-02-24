@@ -1,0 +1,32 @@
+
+### stealing locks???  {.smaller}
+
+
+* how do we make stealing locks possible 
+<hr class="vspace" />
+* unclean: just kill the thread 
+
+   * problem: inconsistent state?
+
+* clean: have code to undo partial oepration 
+
+   * some databases do this
+
+* won't go into detail in this class
+
+
+### revokable locks?  {.smaller}
+
+
+```
+try {
+    AcquireLock();
+    use shared data
+} catch (LockRevokedException le) {
+    undo operation hopefully?
+} finally {
+    ReleaseLock();
+}
+
+```
+

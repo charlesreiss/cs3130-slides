@@ -1,0 +1,51 @@
+
+### abort and retry limits? 
+
+
+* abort-and-retry
+* pthread's mutexes: 
+
+   * <code>pthread_mutex_trylock</code>
+   * <code>pthread_mutex_timedlock</code>
+
+* how many times will you retry?
+
+
+### moving two files: abort-and-retry  {.smaller}
+
+
+```
+struct Dir { mutex_t lock; HashMap entries; };
+void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
+  while (true) {
+    mutex_lock(&from_dir->lock);
+    if (mutex_trylock(&to_dir->lock) == LOCKED) break;
+    mutex_unlock(&from_dir->lock);
+  }
+    
+  Map_put(to_dir->entries, filename, Map_get(from_dir->entries, filename));
+  from_dir->entries.erase(filename);
+
+  mutex_unlock(&to_dir->lock);
+  mutex_unlock(&from_dir->lock);
+}
+
+```
+ Thread 1: <code>MoveFile(A, B, "foo")</code>; Thread 2: <code>MoveFile(B, A, "bar")</code>
+
+### moving two files: lots of bad luck? 
+
+![](/deadlock/texfig/moveFileLivelockTimeline.figure.svg)
+
+
+### livelock  {.smaller}
+
+
+* livelock: keep aborting and retrying without end 
+<hr class="vspace" />
+* like deadlock --- no one's making progress 
+
+   * potentially forever
+
+* unlike deadlock --- threads are not waiting
+

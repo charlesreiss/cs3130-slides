@@ -1,0 +1,23 @@
+
+### deadlock prevention techniques 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/deadlock-prevention-lib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+

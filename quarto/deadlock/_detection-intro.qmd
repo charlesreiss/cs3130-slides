@@ -1,0 +1,48 @@
+
+### deadlock detection 
+
+
+* why? debugging or fix deadlock by aborting operations
+* idea: search for cyclic dependencies
+
+
+### detecting deadlocks on locks  {.smaller}
+
+
+
+* let's say I want to detect deadlocks that only involve mutexes 
+
+   * goal: help programmers debug deadlocks
+
+* … by modifying my threading library:
+ 
+```
+struct Thread {
+    ... /* stuff for implementing thread */
+    /* what extra fields go here? */
+
+
+};
+
+struct Mutex {
+    ... /* stuff for implementing mutex */
+    /* what extra fields go here? */
+
+
+};
+
+```
+
+
+### deadlock detection  {.smaller}
+
+
+* why? debugging or fix deadlock by aborting operations
+* idea: search for cyclic dependencies
+* need: 
+
+   * list of all contended resources
+   * what thread is waiting for what?
+   * what thread ‘owns’ what?
+
+

@@ -1,0 +1,17 @@
+
+### deadlock  {.smaller}
+
+
+* deadlock --- circular waiting for [resources]{.fragment fragment-index=2 .custom .myem-only} 
+<hr class="vspace" />
+* resource = something needed by a thread to do work 
+
+   * locks
+   * CPU time
+   * disk space
+   * memory
+   * …
+
+* often non-deterministic in practice
+* most common example: <em>when acquiring multiple locks</em>
+

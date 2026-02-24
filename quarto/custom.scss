@@ -196,7 +196,13 @@ code span { color: inherit; }
 
 .reveal .slide table.tighttable td { padding-top: 0em; padding-bottom: 0em; }
 
+.reveal .slide table.race-timeline tr.top th {text-align:center;}
+.reveal .slide table.race-timeline tr.noborder th {border: 0;}
 .reveal .slide table.race-timeline td:not(:first-child) {padding-left: 3rem;}
+.reveal .slide table.race-timeline th:not(:first-child) {padding-left: 3rem;}
+.reveal .slide table.race-timeline.wide td:not(:first-child) {padding-left: 8rem;}
+.reveal .slide table.race-timeline.wide th:not(:first-child) {padding-left: 8rem;}
+.reveal .slide table.race-timeline td.fade {opacity: 70%;}
 
 .longcode pre code {
     max-height: inherit;

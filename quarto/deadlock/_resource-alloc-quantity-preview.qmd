@@ -1,0 +1,12 @@
+
+### resource allocation graphs and quantity  {.smaller}
+
+
+* so far: assuming resource is fully taken or not at all taken
+* what about resources like memory? 
+
+   * two processes can take parts of resource
+   * … but deadlock still possible
+
+* there's a version of resource allocation graphs for this case
+

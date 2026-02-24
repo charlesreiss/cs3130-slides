@@ -1,0 +1,95 @@
+
+### divided resources  {.smaller}
+
+
+* what about resources like memory? 
+<hr class="vspace" />
+* allocating 1MB of memory: 
+
+   * thread ‘owns’ the 1MB, but…
+   * another thread can use can use any other 1MB
+ 
+<hr class="vspace" />
+* want to track all of memory together
+* ‘‘partial ownership’’  
+
+   * locked half the memory
+
+
+
+### dividable/interchangeable resources 
+
+![](/deadlock/texfig/divideResource.figure.svg)
+
+
+### deadlock detection  {.smaller}
+
+
+* cycle-finding not enough 
+<hr class="vspace" />
+* new idea: try to simulate progress 
+
+   * anything not waiting releases resources (as it finishes)
+   * anything waiting on only free resources no one else wants takes resources
+
+* see if everything gets resources eventually
+
+
+### deadlock detection (with variable resources)  {.smaller}
+
+
+ [ (pseudocode)]{.my-small}  
+```
+class Resources { map<ResourceType, int> amounts; ... };
+Resources free_resources;
+map<Thread, Resources> requested;
+map<Thread, Resources> owned;
+
+```
+  
+<div class="fragment fade-in" data-fragment-index=2 >
+ 
+<pre><code>...
+do { done = true;
+  for (Thread t : all threads with owned or requested resources) {
+    // if everything requested is free, finish
+    if (<span data-fragment-index="3" class="fragment custom myem-only">requested[t] &lt;= free_resources</span>Q\\tikzmark{le}Q) {
+      <span data-fragment-index="4" class="fragment custom myem-only">requested[t] = no_resources;</span>
+      <span data-fragment-index="4" class="fragment custom myem-only">free_resources += owned[t];</span>
+      <span data-fragment-index="4" class="fragment custom myem-only">owned[t] = no_resources;</span>
+      <span data-fragment-index="5" class="fragment custom myem-only">done = false;</span>Q\\tikzmark{done}Q
+    }
+  }
+} while (!done);
+if (owned.size() &gt; 0) { DeadlockDetected() }
+</code></pre>
+ 
+</div>
+ <!--
+```
+\begin{tikzpicture}[overlay,remember picture]
+\tikzset{
+    box/.style={align=left,draw=red,thick,fill=white},
+}
+\begin{visibleenv}<3|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:le) {
+    $\le$ --- free resources include \textit{everything} being requested \\
+    (enough memory, disk, each lock requested, etc.) \\
+    note: not requesting anything right now? --- always true
+};
+\end{visibleenv}
+\begin{visibleenv}<4|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:le) {
+    assume requested resources taken\\
+    then everything taken released
+};
+\end{visibleenv}
+\begin{visibleenv}<5|handout:0>
+\node[box,anchor=south] at ([yshift=.5cm]pic cs:done) {
+    keep going until nothing changes
+};
+\end{visibleenv}
+\end{tikzpicture}
+```
+-->
+

@@ -1,0 +1,10 @@
+---
+title: "deadlock"
+
+---
+
+{{< include ../deadlock/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../deadlock/_talk-backup.qmd >}}

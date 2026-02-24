@@ -1,0 +1,25 @@
+
+### finding no deadlock (take free) 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/deadlock/texfig/resource-alloc-quantity-examples.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+

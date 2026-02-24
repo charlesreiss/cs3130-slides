@@ -1,0 +1,31 @@
+
+### dining philosophers --- aborting 
+
+
+
+::: {.r-stack .my-full}
+![](/deadlock/texfig/dining-philosophers-abort.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/deadlock/texfig/dining-philosophers-abort.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+
+:::
+

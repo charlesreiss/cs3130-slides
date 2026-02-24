@@ -1,0 +1,13 @@
+
+### AllocateOrFail  {.smaller}
+
+![](/deadlock/texfig/prevent-abort-short.figure.svg)
+ 
+
+* okay, now what? 
+
+   * give up?
+   * both try again? --- maybe this will keep happening? (called <em>livelock</em>)
+   * try one-at-a-time? --- gaurenteed to work, but tricky to implement
+
+

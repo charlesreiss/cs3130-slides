@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline,anchor=north] (timeline fail) {
+  Thread 1 \Q Thread 2 \\
+  AllocateOrSteal(1 MB) \\
+  \Q  AllocateOrSteal(1 MB) \\
+  AllocateOrSteal(1 MB){ } \Q \myemph{Thread killed to free 1MB} \\
+  {\normalfont (do work)} \\
+};
+\end{tikzpicture}

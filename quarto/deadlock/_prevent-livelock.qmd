@@ -1,0 +1,8 @@
+
+### preventing livelock 
+
+
+* make schedule random --- e.g. random waiting after abort
+* make threads run one-at-a-time if lots of aborting
+* other ideas?
+
