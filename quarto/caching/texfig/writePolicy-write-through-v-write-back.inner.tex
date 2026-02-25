@@ -7,7 +7,7 @@
 \node[draw,minimum width=1cm,minimum height=2.5cm] (cpu) {CPU};
 \node[draw,minimum width=3cm,minimum height=4cm,right=4cm of cpu] (cache) {Cache};
     \node[above=2cm of cache,font=\bfseries] {
-        \only<1-2>{option 1: write-through}\only<3-4>{option 2: write-back}
+        \only<1-2>{option 1: write-through}\only<3-5>{option 2: write-back}
     };
 \node[draw,minimum width=3cm,minimum height=6cm,right=4cm of cache] (mem) {RAM};
     \node[align=center,draw] (storedValue) at ([yshift=-1cm]cache.center) {{\tt ABCD}: \only<1>{FF}\only<2->{\myemph<2,3>{10}} \\ 

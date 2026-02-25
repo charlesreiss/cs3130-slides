@@ -8,7 +8,7 @@
 \node[draw,minimum width=3cm,minimum height=4cm,right=4cm of cpu] (cache) {};
     \node[anchor=south] at ([yshift=1cm]cache.center) {Cache};
     \node[above=2cm of cache,font=\bfseries] {
-        \only<1-2>{option 1: write-allocate}\only<4-5>{option 2: write-no-allocate}
+        \only<1-3>{option 1: write-allocate}\only<4-5>{option 2: write-no-allocate}
     };
 \node[draw,minimum width=3cm,minimum height=6cm,right=4cm of cache] (mem) {RAM};
     \node[align=center,draw,anchor=north] (storedValue) at ([yshift=1cm]cache.center) {

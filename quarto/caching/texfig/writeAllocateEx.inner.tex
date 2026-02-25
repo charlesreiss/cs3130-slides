@@ -59,11 +59,12 @@ index \& valid \& tag \& value \& dirty \& ~\& valid \& tag \& value \& dirty \&
     \node[inner sep=-1pt,line width=2pt,red,draw,fit=(cache-2-7) (cache-2-10)] {};
 \end{visibleenv}
 \node[anchor=north west,align=left] at ([yshift=-.1cm]cache.south west) {
-    \myemph{writing} {\t 0xFF} into address {\tt 0x04}? \\
+    \myemph{writing} {\tt 0xFF} into address {\tt 0x04}? \\
     index 0, tag 000001 \\
     \only<2->{step 1: find \myemph{least recently used} block} \\
     \only<3->{step 2: possibly writeback old block} \\
     \only<4->{step 3a: read in new block -- to get mem[0x05]} \\
-    \only<4->{step 3b: update LRU information}
+    \only<4->{step 3b: update LRU information} \\
+    \only<1->{} %null to keep the image the same size
 };
 \end{tikzpicture}
