@@ -1,5 +1,5 @@
 
-### exercise (1)  {.smaller}
+### cache write exercise (1)  {.smaller}
 
 ![](/caching/texfig/writeReplaceEx1.figure.svg)
 
@@ -10,10 +10,10 @@
 
 
 
-### exercise (1, solution)  {.smaller}
+### cache write exercise (1, solution)  {.smaller}
 
 
-::: {.r-stack .my-full style="width: 900px"}
+::: {.r-stack .my-full style="width: 900px; height: 300px;"}
 ![](/caching/texfig/writeReplaceEx1Soln.figure-1.svg){.fragment .fade-out fragment-index=2}
 
 ![](/caching/texfig/writeReplaceEx1Soln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
@@ -35,7 +35,7 @@
 * [[reading 1 byte from 0x50]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}: [(set 0, offset 0) replace 0x30-0x31 (no write back); <em>read</em> 0x50-0x51]{.fragment fragment-index=6}
 
 
-### exercise (2)  {.smaller}
+### cache write exercise (2)  {.smaller}
 
 ![](/caching/texfig/writeReplaceEx2.figure.svg)
 
@@ -47,11 +47,11 @@
 
 
 
-### exercise (2, solution)  {.smaller}
+### cache write exercise (2, solution)  {.smaller}
 
 
 
-::: {.r-stack .my-full style="width: 900px"}
+::: {.r-stack .my-full style="width: 900px; height: 300px;"}
 
 ![](/caching/texfig/writeReplaceEx2Soln.figure-1.svg){.fragment .fade-out fragment-index=2}
 
@@ -74,4 +74,3 @@
 * [[reading 1 byte from 0x50]{.fragment fragment-index=5 .custom .myem-only}]{.fragment fragment-index=6 .custom .myem-only}: [(set 0, offset 0) replace 0x30-0x31; <em>read</em> 0x50-0x51]{.fragment fragment-index=6}
 
 
-### againframe(writeReplaceEx2Soln)

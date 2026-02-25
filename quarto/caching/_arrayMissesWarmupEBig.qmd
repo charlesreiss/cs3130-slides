@@ -1,5 +1,5 @@
 
-### C and cache misses (warmup 5)
+### C and cache misses (5)
 
 ```c
 int array[1024]; /* assume aligned */ int even = 0, odd = 0;
@@ -13,12 +13,13 @@ odd += array[511];
 odd += array[513];
 
 ```
- [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).<br> observation: array[0] and array[512] exactly 2KB apart]{.my-small} 
+[ Assume everything but `array` is kept in registers (and the compiler does not do anything funny).
+<br> observation: `array[0]` and `array[512]` exactly 2KB apart]{.my-small} 
 
 * How many data cache misses on a 2KB direct mapped cache with 16B blocks?
 
 
-### C and cache misses (warmup 6)
+### C and cache misses (6)
 
 
 ```c
@@ -33,7 +34,7 @@ odd += array[501];
 odd += array[503];
 
 ```
- [ Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny).]{.my-small} 
+ [ Assume everything but `array` is kept in registers (and the compiler does not do anything funny).]{.my-small} 
 
 * How many data cache misses on a 2KB direct mapped cache with 16B blocks?
 

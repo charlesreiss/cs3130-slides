@@ -11,26 +11,27 @@ for (int i = 0; i < 512; i += 1)
 ```
  
 
-* [Assume everything but <code>array1</code>, <code>array2</code> is kept in registers (and the compiler does not do anything funny).]{.my-small}
-* About how many <i>data cache misses</i> on a 2KB direct-mapped cache with 16B cache blocks? <br> Hint: depends on relative placement of array1, array2
+* [Assume everything but `array1`, `array2` is kept in registers (and the compiler does not do anything funny).]{.my-small}
+* About how many _data cache misses_ on a 2KB direct-mapped cache with 16B cache blocks?
+<br>Hint: depends on relative placement of `array1`, `array2`
 
 
 ### best/worst case  {.smaller}
 
 
-* <code>array1[i]</code> and <code>array2[i]</code> always different sets: 
+* `array1[i]` and `array2[i]` always different sets: 
 
-   * = distance from array1 to array2 not multiple of # sets $\times$ bytes/set
-   * 2 misses every 4 <code>i</code>
-   * blocks of 4 array1[X] values loaded, then used 4 times before loading next block
-   * (and same for array2[X])
+   * = distance from `array1` to `array2` not multiple of `#sets` $\times$ `bytes/set`
+   * 2 misses every 4 `i`
+   * blocks of 4 `array1[X]` values loaded, then used 4 times before loading next block
+   * (and same for `array2[X]`)
 
-* <code>array1[i]</code> and <code>array2[i]</code> same sets: 
+* `array1[i]` and `array2[i]` same sets: 
 
-   * = distance from array1 to array2 is multiple of # sets $\times$ bytes/set
-   * 2 misses every <code>i</code>
-   * block of 4 array1[X] values loaded, one value used from it,
-   * then, block of 4 array2[X] values replaces it, one value used from it, …
+   * = distance from `array1` to `array2` is multiple of `#sets` $\times$ `bytes/set`
+   * 2 misses every `i`
+   * block of 4 `array1[X]` values loaded, one value used from it,
+   * then, block of 4 `array2[X]` values replaces it, one value used from it, …
 
 
 

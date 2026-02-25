@@ -18,7 +18,7 @@ odd_sum += array[7];
 ```
  
 
-* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny), and array[0] at beginning of cache block.]{.my-small}
+* [Assume everything but `array` is kept in registers (and the compiler does not do anything funny), and `array[0]` at beginning of cache block.]{.my-small}
 * How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
 
 

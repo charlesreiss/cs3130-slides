@@ -11,6 +11,8 @@
 {{< include /caching/_memHierarchyDie.qmd >}}
 {{< include /caching/_memHierarchyGoals.qmd >}}
 
+# locality {visibility="hidden"}
+
 ## locality {visibility="hidden"}
 
 {{< include /caching/_localityBasics.qmd >}}
@@ -22,6 +24,8 @@
 {{< include /caching/_localityExercise2.qmd >}}
 
 {{< include /caching/_localityExercise3.qmd >}}
+
+# typical cache hierarchy {visibility="hidden"}
 
 ## typical cache hierarchy {visibility="hidden"}
 
@@ -48,6 +52,8 @@
 ## tag/index/offset for direct mapped caches {visibility="hidden"}
 
 {{< include /caching/_analogyBookTIO.qmd >}}
+
+# tag-index-offset {visibility="hidden"}
 
 {{< include /caching/_tioDMIntro.qmd >}}
 
@@ -114,17 +120,14 @@
 
 {{< include /caching/_tioFormulas.qmd >}}
 
-## array misses warmup {visibility="hidden"}
+# C code and caches {visibility="hidden"}
 
-{{< include /caching/_arrayMissesWarmupEx.qmd >}}
+## array misses exercises {visibility="hidden"}
 
-## array misses warmup (2 set) {visibility="hidden"}
-
-{{< include /caching/_arrayMissesWarmup2SetEx2.qmd >}}
-
-## array misses and cache results {visibility="hidden"}
-
-{{< include /caching/_arrayMissesWarmupBigEx.qmd >}}
+{{< include /caching/_arrayMissesWarmupAOrdered.qmd >}}
+{{< include /caching/_arrayMissesWarmupBInterleaved.qmd >}}
+{{< include /caching/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
+{{< include /caching/_arrayMissesWarmupEBig.qmd >}}
 
 ## array misses and skipping around {visibility="hidden"}
 
@@ -136,9 +139,9 @@
 
 {{< include /caching/_setMappingDiag3.qmd >}}
 
-## exercise {visibility="hidden"}
+## array misses exercise (associative) {visibility="hidden"}
 
-{{< include /caching/_arrayMissesWarmupBigExSA.qmd >}}
+{{< include /caching/_arrayMissesWarmupFBigAssociative.qmd >}}
 
 # options for handling cache writes {visibility="hidden"}
 
@@ -151,6 +154,8 @@
 ## fast writes: write buffers {visibility="hidden"}
 
 {{< include /caching/_fastWrites.qmd >}}
+
+# cache design and memory performance {visibility="hidden"}
 
 ## briefly, cache tradeoffs {visibility="hidden"}
 

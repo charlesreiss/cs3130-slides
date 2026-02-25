@@ -17,8 +17,8 @@
 ### allocate on write?  {.smaller}
 
 
-* processor writes <em>less than whole</em> cache block
-* block not yet in cache
+* say processor writes <em>less than whole</em> cache block
+* and block not yet in cache
 * two options: 
 <hr class="vspace" />
 * <em>write-allocate</em> 
@@ -68,7 +68,7 @@
 :::
 
 
-### writeback policy 
+### write-back policy 
 
 ![](/caching/texfig/writebackBits.figure.svg)
 

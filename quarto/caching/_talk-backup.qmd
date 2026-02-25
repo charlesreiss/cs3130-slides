@@ -6,7 +6,7 @@
 
 ## cache miss examples {visibility="hidden"}
 
-{{< include /caching/_arrayMissesWarmup2SetEx1.qmd >}}
+{{< include /caching/_arrayMissesWarmupCTwoSet.qmd >}}
 
 ## misc array misses example {visibility="hidden"}
 
@@ -115,8 +115,6 @@
 {{< include /caching/_multiLevelAMAT.qmd >}}
 
 # more backup slides {visibility="hidden"}
-
-### backup slides 
 
 ## cut example? {visibility="hidden"}
 
