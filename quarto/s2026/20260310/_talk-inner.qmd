@@ -1,0 +1,54 @@
+### last time
+
+*  C code and cache misses
+   *  mapping arrays to cache sets
+   *  need for alignment
+   *  spatial locality; "unlucky" spacing by powers of two
+*  on write miss ---
+   *  add to cache = _write-allocate_
+   *  keep uncached = _write-no-allocate_
+*  if modifying cached value, modify next level...
+   *   when evicted = _write-back_
+   *   immediately = _write-through_
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+{{< include /caching/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching/_fastWrites.qmd >}}
+
+## briefly, cache tradeoffs {visibility="hidden"}
+
+{{< include /caching/_tradeoffsBrief.qmd >}}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+# TLB {visibility="hidden"}
+
+{{< include /vm/_twoLevelPtLib.qmd >}}
+
+## review: page table lookup (1) {visibility="hidden"}
+
+{{< include /vm/_twoLevelPTAlt.qmd >}}
+
+## why cache page table entries? {visibility="hidden"}
+
+{{< include /caching/_tlbWhy.qmd >}}
+
+## how TLB fits in page table lookup {visibility="hidden"}
+
+{{< include /caching/_tlbMulti.qmd >}}
+
+## how TLBs are organized {visibility="hidden"}
+
+{{< include /caching/_tlbOrgNoCircuit.qmd >}}
+
+## exercise: TLB access pattern {visibility="hidden"}
+
+{{< include /caching/_tlbAccessExPrep.qmd >}}
+
+{{< include /caching/_tlbAccessEx.qmd >}}
+
+{{< include /threads/_talk-inner.qmd >}}
