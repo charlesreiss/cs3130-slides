@@ -250,6 +250,11 @@ code span { color: inherit; }
 .nomargin > p { margin: 0; padding: 0; }
 
 .reveal .slide table.collines td:not(:last-child) {border-right: 2px solid black;}
+.reveal .slide .collines > table td:not(:last-child) {border-right: 2px solid black;}
+.reveal .slide .rowlines > table td {border-top: 2px solid black; border-bottom: 2px solid black;}
+.reveal .slide table.rowlines td {border-top: 2px solid black; border-bottom: 2px solid black;}
+
+.reveal .slide.much-smaller { font-size: 50%; }
 
 @media print {
     .slide-chalkboard-buttons {

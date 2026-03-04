@@ -45,6 +45,14 @@
 
 {{< include /caching/_tlbOrgNoCircuit.qmd >}}
 
+
+
+## exercise: splitting for TLBs {visibility="hidden"}
+
+{{< include /caching/_tlbSplitEx1.qmd >}}
+
+{{< include /caching/_tlbSplitEx2.qmd >}}
+
 ## exercise: TLB access pattern {visibility="hidden"}
 
 {{< include /caching/_tlbAccessExPrep.qmd >}}
