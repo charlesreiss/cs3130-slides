@@ -17,5 +17,5 @@
 | terminates all threads | other threads unaffected |
 | collect status with `waitpid` | collect return value with `pthread_join` |
 | implicitly done by returning from `main` | implicitly done by returning from function started with `pthread_create` |
-: {.collines}
+: {.collines .spaced}
 

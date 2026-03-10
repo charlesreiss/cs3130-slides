@@ -1,6 +1,8 @@
 
 ### cache write exercise (1)  {.smaller}
 
+<!-- FIXME: alt text or convert to HTML -->
+
 ![](/caching/texfig/writeReplaceEx1.figure.svg)
 
 * for each of the following accesses, performed alone, would it require (a) reading a value from memory (or next level of cache) and (b) writing a value to the memory (or next level of cache)? 
@@ -12,6 +14,7 @@
 
 ### cache write exercise (1, solution)  {.smaller}
 
+<!-- FIXME: alt text or convert to HTML -->
 
 ::: {.r-stack .my-full style="width: 900px; height: 300px;"}
 ![](/caching/texfig/writeReplaceEx1Soln.figure-1.svg){.fragment .fade-out fragment-index=2}
@@ -36,6 +39,8 @@
 
 
 ### cache write exercise (2)  {.smaller}
+
+<!-- FIXME: alt text or convert to HTML -->
 
 ![](/caching/texfig/writeReplaceEx2.figure.svg)
 

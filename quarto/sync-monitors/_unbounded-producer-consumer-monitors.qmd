@@ -125,7 +125,7 @@ while loop could run 2+ times
 <tr><td>... enqueue</td><td></td><td></td></tr>
 <tr><td>... signal</td><td>stop wait</td><td></td></tr>
 <tr><td>... unlock</td><td>lock</td><td></td></tr>
-<tr><td></td><td></td><td>Consume?</td></tr>
+<tr><td>(waiting for lock)</td><td></td><td>Consume?</td></tr>
 <tr><td></td><td></td><td>... lock</td></tr>
 <tr><td></td><td></td><td>... empty? no</td></tr>
 <tr><td></td><td></td><td>... dequeue</td></tr>

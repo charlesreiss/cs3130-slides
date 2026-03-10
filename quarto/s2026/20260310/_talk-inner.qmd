@@ -1,3 +1,5 @@
+###
+
 ### last time {.smaller}
 
 *  C code and cache misses
@@ -10,6 +12,32 @@
 *  if modifying cached value, modify next level...
    *   when evicted = _write-back_
    *   immediately = _write-through_
+
+### quiz Q2 {.smaller}
+
+```
+int GetStudentScore(char *name, int assignment_index) {
+    for (int i = 0; i < 1000; i += 1) {
+        if (strcmp(name, students[i].name) == 0)
+            return students[i].scores[assignment_index];
+    }
+    return -1;
+}
+```
+
+*  all names near beginning: fewer things accessed each call
+    *  better temporal locality --- accessed more freuqently
+*  hashtable
+    *  if good hash function, things only accessed twice if same student chosen twice
+    *  ... but much more efficient (fewer total accesses)
+*  binary search
+   *  accesses students[500].name first every time
+   *  fewer total accesses
+   *  $\implies$ better temporal locality
+
+### midterm1 regrades
+
+*  we'd strongly prefer them by next Monday
 
 ## exercise: write/replacement policies {visibility="hidden"}
 
@@ -46,7 +74,6 @@
 {{< include /caching/_tlbOrgNoCircuit.qmd >}}
 
 
-
 ## exercise: splitting for TLBs {visibility="hidden"}
 
 {{< include /caching/_tlbSplitEx1.qmd >}}
@@ -60,3 +87,16 @@
 {{< include /caching/_tlbAccessEx.qmd >}}
 
 {{< include /threads/_talk-inner.qmd >}}
+
+{{< include /sync-reorder/_talk-inner.qmd >}}
+
+# backup slides
+
+## benchmarking and cache results {visibility="hidden"}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+###
+
+###
+

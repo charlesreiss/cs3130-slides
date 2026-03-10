@@ -149,6 +149,8 @@
 
 ## exercise: write/replacement policies {visibility="hidden"}
 
+<!-- FIXME: alt text/etc. -->
+
 {{< include /caching/_writeReplaceExercise.qmd >}}
 
 ## fast writes: write buffers {visibility="hidden"}
@@ -188,6 +190,12 @@
 ## how TLBs are organized {visibility="hidden"}
 
 {{< include /caching/_tlbOrgNoCircuit.qmd >}}
+
+## exercise: splitting for TLBs {visibility="hidden"}
+
+{{< include /caching/_tlbSplitEx1.qmd >}}
+
+{{< include /caching/_tlbSplitEx2.qmd >}}
 
 ## exercise: TLB access pattern {visibility="hidden"}
 

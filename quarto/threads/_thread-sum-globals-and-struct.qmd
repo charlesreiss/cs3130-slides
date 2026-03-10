@@ -11,7 +11,7 @@
 {{< include /threads/sum-info1.c >}}
 ```
 
-::: {.myoverbox .low}
+::: {.myoverbox .vlow}
 
 `my_info` = pointer to sum_all's stack <br />
 okay because sum_all doesn't return until thread is done
