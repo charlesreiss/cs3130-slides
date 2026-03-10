@@ -1,0 +1,64 @@
+###
+
+### last time
+
+*  reviewing cache write policies
+*  TLBs
+    *  VPN $\rightarrow$ last-level page table entry
+    *  split up VPN into {TLB tag, TLB index}
+*  multi-threaded processes
+*  concurrency / parallelism
+*  thread creation
+    *  pthread_create
+    *  returning from main exits whole process
+
+## on error checking {visibility="hidden"}
+
+{{< include /threads/_error-checking.qmd >}}
+
+## parallel calculations in threads {visibility="hidden"}
+
+{{< include /threads/_thread-sum-no-passing.qmd >}}
+
+{{< include /threads/_thread-sum-two-stacks.qmd >}}
+
+# passing info to threads {visibility="hidden"}
+
+## thread ID as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-id.qmd >}}
+
+## globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-struct.qmd >}}
+
+{{< include /threads/_thread-sum-globals-and-struct-stacks.qmd >}}
+
+## no globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-struct-main.qmd >}}
+
+{{< include /threads/_thread-sum-struct-main-stacks.qmd >}}
+
+## everything on the heap{visibility="hidden"}
+
+{{< include /threads/_thread-sum-structs-heap.qmd >}}
+
+{{< include /threads/_thread-sum-structs-heap-stacks.qmd >}}
+
+## on thread resources, detached threads {visibility="hidden"}
+
+## exercise{visibility="hidden"}
+
+{{< include /threads/_dangling-pointer-ex.qmd >}}
+
+## join, detach, etc.{visibility="hidden"}
+
+{{< include /threads/_thread-resources.qmd >}}
+{{< include /sync-reorder/_talk-inner.qmd >}}
+
+# backup slides
+
+## pthread join and exit {visibility="hidden"}
+
+{{< include /threads/_pthread-join-exit.qmd >}}
