@@ -7,10 +7,6 @@
 
 {{< include /sync-atomics/_atomic-to-higher.qmd >}}
 
-## motivation: threaded ATM server? {visibility="hidden"}
-
-{{< include /sync-atomics/_lost-write-motivate-atm-server.qmd >}}
-
 ## higher-level tools from RMW {visibility="hidden"}
 
 {{< include /sync-atomics/_use-rmw.qmd >}}

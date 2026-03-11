@@ -18,16 +18,15 @@
 ### x86 atomic exchange 
 
 
-```
-lock xchg (%ecx), %eax
-
+```gnuassembler
+lock xchg (%rcx), %eax
 ```
  
 
 * atomic exchange
-* <code>temp $\\leftarrow{}$ M[ECX]}
-       \item \texttt{M[ECX] $\\leftarrow{}$ EAX}
-       \item \texttt{EAX $\\leftarrow{}$ temp</code>
+* $\mathtt{temp} \leftarrow \mathtt{M[RCX]}$
+* $\mathtt{M[RCX]} \leftarrow \mathtt{EAX}$
+* $\mathtt{EAX} \leftarrow \mathtt{temp}$
 * … without being interrupted by other processors, etc.
 
 
