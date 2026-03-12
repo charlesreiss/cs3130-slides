@@ -19,8 +19,8 @@
     put current thread on m-&gt;wait_queue
     mark current thread as waiting
     /* xv6: myproc()-&gt;state = SLEEPING; */
-    [[UnlockSpinlock(&amp;m-&gt;guard_spinlock);]{.fragment fragment-index=7 .custom .myem-only}]{.fragment fragment-index=8 .custom .myem-only}
-    [[run scheduler (context switch)]{.fragment fragment-index=7 .custom .myem-only}]{.fragment fragment-index=8 .custom .myem-only}
+    <span class="fragment custom myem-only" data-fragment-index="7"><span class="fragment custom myem-only" data-fragment-index="8">UnlockSpinlock(&amp;m-&gt;guard_spinlock);</span></span>
+    <span class="fragment custom myem-only" data-fragment-index="7"><span class="fragment custom myem-only" data-fragment-index="8">run scheduler (context switch)</span></span>
   } else {
     m-&gt;lock_taken = true;
     UnlockSpinlock(&amp;m-&gt;guard_spinlock);
@@ -48,23 +48,39 @@
 :::
 
 ::::
- 
 
-::: {.r-stack}
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+::: {.myoverbox .fragment fragment-index=2 .vlow .fade-in-then-out}
 
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
-
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
-
-![](/sync-lock-impl/texfig/mutex-pseudocode.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
-
+spinlock protecting `lock_taken` and `wait_queue` <br/>
+only held for very short amount of time (compared to mutex itself)
 
 :::
 
+::: {.myoverbox .fragment fragment-index=3 .vlow .fade-in-then-out}
+
+tracks whether any thread has locked and not unlocked
+
+:::
+
+::: {.myoverbox .fragment fragment-index=4 .vlow .fade-in-then-out}
+
+list of threads that discovered lock is taken <br/>
+and are waiting for it be free <br>
+these threads are _not runnable_
+
+:::
+
+::: {.myoverbox .fragment fragment-index=6 .vlow .fade-in-then-out}
+
+instead of setting `lock_taken` to false <br/>
+choose thread to hand-off lock to
+
+:::
+
+::: {.myoverbox .fragment fragment-index=7 .vlow .fade-in-then-out}
+
+subtly: if UnlockMutex runs here on another core <br/>
+need to make sure scheduler on the other core doesn't switch to thread <br/>
+while it is still running (would 'clone' thread/mess up registers)
+
+:::

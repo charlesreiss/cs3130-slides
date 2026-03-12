@@ -28,7 +28,30 @@ if (no milk) {
 * <em>exercise: why doesn't this work?</em>
 
 
-### too much milk ‘‘solution’’ 1 (timeline) 
+### too much milk ‘‘solution’’ 1 (timeline)  {.smaller}
 
-![](/sync-lock-impl/texfig/solutionOneTimeline.figure.svg)
+|Alice|Bob|
+|--|--|
+| if (no milk) { | |
+| &nbsp;&nbsp;&nbsp;&nbsp;if (no note) { | |
+| | |
+| | if (no milk) { |
+| | &nbsp;&nbsp;&nbsp;&nbsp;if (no note) { |
+| | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leave note; | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buy milk; | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove note; | |
+| | |
+| | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leave note; |
+| | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buy milk; |
+| | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove note; |
+| | |
+| &nbsp;&nbsp;&nbsp;&nbsp;} | |
+| } | |
+| | |
+| | &nbsp;&nbsp;&nbsp;&nbsp;} |
+| | } |
+: {.codetable }
+
+
 

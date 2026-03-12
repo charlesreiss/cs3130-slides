@@ -8,7 +8,7 @@
  
 <pre><code>acquire:
     <span data-fragment-index="2" class="fragment custom myem-only">movl $1, %eax</span>             // %eax &lt;- 1
-    <span data-fragment-index="2" class="fragment custom myem-only">@5lock5@ xchg %eax, the_lock</span>  // swap %eax and the_lock
+    <span data-fragment-index="2" class="fragment custom myem-only">lock xchg %eax, the_lock</span>  // swap %eax and the_lock
                                     // sets the_lock to 1 (taken)
                                     // sets %eax to prior val. of the_lock
     <span data-fragment-index="3" class="fragment custom myem-only">test %eax, %eax</span>           // if the_lock wasn't 0 before:

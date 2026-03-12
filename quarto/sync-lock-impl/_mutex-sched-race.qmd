@@ -1,9 +1,9 @@
 
 ### mutex and scheduler subtly  {.smaller}
 
-[]{.my-small} <table>
-<tr><td>core 0 (thread A)</td><td>core 1 (thread B)</td></tr>
-<tr><td>\\hline{}  start LockMutex</td><td></td></tr>
+<table class="collines" style="font-size: 80%">
+<tr><th>core 0 (thread A)</th><th>core 1 (thread B)</th></tr>
+<tr><td>start LockMutex</td><td></td></tr>
 <tr><td>acquire spinlock</td><td></td></tr>
 <tr><td>discover lock taken</td><td></td></tr>
 <tr><td>enqueue thread A</td><td></td></tr>
@@ -14,9 +14,8 @@
 <tr><td></td><td>run scheduler</td></tr>
 <tr><td></td><td>scheduler switches to A</td></tr>
 <tr><td></td><td>[… with old verison of registers]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
-<tr><td>thread A runs scheduler</td><td></td><td>…</td></tr>
-<tr><td>… finally saving registers</td><td></td><td>…</td></tr>
-<tr><td></td></tr>
+<tr><td>thread A runs scheduler</td><td>…</td></tr>
+<tr><td>… finally saving registers</td><td>…</td></tr>
 </table>
  
 

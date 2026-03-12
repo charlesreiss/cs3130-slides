@@ -17,10 +17,32 @@
 
 
 
-### naive interrupt enable/disable (1)  {.smaller}
+### naive interrupt enable/disable (1)
 
-![](/sync-lock-impl/texfig/naiveEnableDisable1.figure.svg)
- 
+:::: {.columns}
+
+::: {.column}
+
+```
+Lock() {
+    disable interrupts;
+}
+```
+
+:::
+
+::: {.column}
+
+```
+Unlock() {
+    enable interrupts;
+}
+```
+
+:::
+
+::::
+
 
 * problem: user can <em>hang the system</em>: 
 <pre><code>            Lock(some_lock);
@@ -36,10 +58,34 @@
 
 
 
-### naive interrupt enable/disable (2)  {.smaller}
+### naive interrupt enable/disable (2)
 
-![](/sync-lock-impl/texfig/naiveEnableDisable2.figure.svg)
  
+:::: {.columns}
+
+::: {.column}
+
+```
+Lock() {
+    disable interrupts;
+}
+```
+
+:::
+
+::: {.column}
+
+```
+Unlock() {
+    enable interrupts;
+}
+```
+
+:::
+
+::::
+
+
 
 * problem: nested locks 
 <pre><code>        Lock(milk_lock);

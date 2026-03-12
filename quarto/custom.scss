@@ -258,6 +258,9 @@ code span { color: inherit; }
 
 .reveal .slide.much-smaller { font-size: 50%; }
 
+.reveal .slide table.codetable td { font-family: $font-family-monospace; font-size: 80%; }
+.reveal .slide table.codetable td:not(:last-child) { padding-right: 5em; }
+
 @media print {
     .slide-chalkboard-buttons {
         display: none ! important
