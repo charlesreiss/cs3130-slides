@@ -56,9 +56,13 @@
 
 {{< include /threads/_thread-resources.qmd >}}
 {{< include /sync-reorder/_talk-inner.qmd >}}
+{{< include /sync-locks/_talk-inner.qmd >}}
+{{< include /sync-barriers/_talk-inner.qmd >}}
 
 # backup slides
 
 ## pthread join and exit {visibility="hidden"}
 
 {{< include /threads/_pthread-join-exit.qmd >}}
+
+{{< include /sync-reorder/_talk-backup.qmd >}}

@@ -1,5 +1,21 @@
 
-### a threaded server?  {.smaller}
+### example: Threaded ATM server
+
+*  suppose we have a server for ATMs
+*  many threads for many ATMs running something like
+
+```c
+ServerLoop() {
+    request = GetRequest();
+    if (request->type == DEPOSIT) {
+        Deposit(request->accountNumber, request->amount);
+    } else if (...) {
+        ...
+    }
+}
+```
+
+### Deposit?  {.smaller}
 
 
 <pre><code>Deposit(accountNumber, amount) {
@@ -8,17 +24,5 @@
     <em>SaveAccountUpdates(account);</em>
 }
 </code></pre>
- 
 
-* maybe GetAccount/SaveAccountUpdates can be slow? 
-
-   * read/write disk sometimes? contact another server sometimes?
-
-* maybe lots of requests to process? 
-
-   * maybe real logic has more checks than Deposit()
-   * …
-
-* all reasons to handle multiple requests at once
-* $\rightarrow$ many threads all running the server loop
 

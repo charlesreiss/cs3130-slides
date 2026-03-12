@@ -21,7 +21,7 @@ void spawn_show_progress_thread() {
                    show_progress, NULL);
 
     /* instead of keeping pthread_t around to join thread later: */
-    pthread_detach(show_progress_thread);]
+    pthread_detach(show_progress_thread);
 }
 
 int main() {

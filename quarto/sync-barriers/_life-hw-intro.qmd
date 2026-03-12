@@ -13,14 +13,11 @@
 </code></pre>
 
 
-### life homework  {.smaller}
+### life homework
 
 
 * compute grid of values for time $t$ from grid for time $t-1$
-       \begin{itemize}
-       \item compute new value at $i,j$ based on surrounding values
-       \end{itemize}
-   \vspace{.5cm}
-   \item parallel version: produce parts of grid in different threads
-   \item use barriers to finish time $t$ before going to time $t+1$
+  *  compute new value at $i,j$ based on surrounding values
+* parallel version: produce parts of grid in different threads
+* use barriers to finish time $t$ before going to time $t+1$
 

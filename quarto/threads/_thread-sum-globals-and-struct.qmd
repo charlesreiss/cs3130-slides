@@ -1,7 +1,7 @@
 
 ### sum example (info struct) {.smaller .longcode}
 
-```{.c code-line-numbers="|5-6,16|15,17|9,19"}
+```{.c code-line-numbers="|5-6,16|15|9,19"}
 {{< include /threads/sum-info1.c >}}
 ```
 
