@@ -47,7 +47,8 @@ Produce(item) {
 
 ### monitor ordering exercise: solution  {.smaller}
 
-[]{.my-small} (one of many possible solutions) <br> 
+(one of many possible solutions) <br> 
+
 :::: {.columns}
 
 ::: {.column width="45%"}

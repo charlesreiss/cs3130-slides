@@ -72,7 +72,7 @@ ConsumeTwo() {
 
 ### monitor exercise: solution (2)  {.smaller}
 
-[]{.my-small} (one of many possible solutions) <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using two CVs): 
+(one of many possible solutions) <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using two CVs): 
 ```
 Produce() {
   pthread_mutex_lock(&lock);
@@ -101,7 +101,7 @@ ConsumeTwo() {
 
 ### monitor exercise: slower solution  {.smaller}
 
-[]{.my-small} (one of many possible solutions) <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using one CV): 
+(one of many possible solutions) <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using one CV): 
 ```
 Produce() {
   pthread_mutex_lock(&lock);
