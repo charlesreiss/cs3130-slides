@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=4.5cm,
+      minimum height=0.6cm,
+        font=\fontsize{9.5}{10.5}\selectfont\tt\lstset{language=C++,style=small},
+        },
+    column sep=0.25cm,
+    row 1/.style={nodes={font=\fontsize{10}{11}\selectfont\bfseries,align=center}},
+    row 2/.style={nodes={font=\fontsize{10}{11}\selectfont\bfseries\tt}},
+  waiting/.style={text=black!40},
+  },
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \Q Thread 3\\
+  MoveFile(A, B, "foo") \Q MoveFile(B, C, "bar") \Q MoveFile(C, A, "quux") \\
+  {lock(\&A->lock);} \Q ~ \Q ~\\
+  \Q {lock(\&B->lock);} \\
+  \Q \Q {lock(\&C->lock);} \\
+  {lock(\&B->lock\ldots}{ }\normalfont{\myemph{stalled}} \Q \\
+  \Q {lock(\&C->lock\ldots}{ }\normalfont{\myemph{stalled}} \\
+  \Q \Q {lock(\&A->lock\ldots}{ }\normalfont{\myemph{stalled}} \\
+};
+\begin{scope}[red!70!black]
+\draw[dashed,-Latex,thick,in=-90] ([xshift=-.75cm]timeline-6-1.east) to (timeline-4-2.south);
+\draw[dashed,-Latex,thick,in=-90] ([xshift=-.75cm]timeline-7-2.east) to (timeline-5-3.south);
+\draw[dashed,-Latex,thick] ([xshift=-.75cm]timeline-8-3.east) to[out=0,in=0] (timeline-3-3.center) to ([xshift=-1cm]timeline-3-1.east);
+\end{scope}
+\end{tikzpicture}
