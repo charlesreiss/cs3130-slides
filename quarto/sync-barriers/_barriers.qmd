@@ -26,16 +26,15 @@
 ### barrier: waiting for finish  {.smaller}
 
 
-```
+```c
 barrier.Initialize(2);
-
 ```
  
 :::: {.columns}
 
 ::: {.column width="45%"}
  []{.my-small} Thread 0: 
-```
+```c
 partial_mins[0] = 
     /* min of first
        50M elems */;
@@ -54,7 +53,7 @@ total_min = min(
 
 ::: {.column width="45%"}
  []{.my-small} Thread 1: 
-```
+```c
 partial_mins[1] =
     /* min of last
        50M elems */
