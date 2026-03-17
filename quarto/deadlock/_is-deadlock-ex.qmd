@@ -33,5 +33,3 @@ RemoveNode(LinkedListNode *node) {
 </table>
  <hr />
  With B and D --- only overlap in in node C --- no circular wait possible <br> (thread can't be waiting while holding something other thread wants)
-
-### againframe(isDeadlockPTimeline1)

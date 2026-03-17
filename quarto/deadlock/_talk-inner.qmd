@@ -42,10 +42,21 @@
 
 ## techniques overview {visibility="hidden"}
 
-<!-- FIXME: convert overlays to native HTML format, interleave with more specific slides -->
-{{< include /deadlock/_deadlock-prevention-lib.qmd >}}
+### deadlock prevention techniques 
+<!-- infinite resources, no shared resources, no waiting -->
 
-## example: no waiting {visibility="hidden"}
+::: {.r-stack .my-full}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
 
 ## example: livelock {visibility="hidden"}
 
@@ -55,10 +66,28 @@
 
 {{< include /deadlock/_prevent-livelock.qmd >}}
 
+### deadlock prevention techniques <!-- revoke -->
+
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-7.svg)
+
 ## example: revoke {visibility="hidden"}
 
 {{< include /deadlock/_revocable-locks.qmd >}}
 
+### deadlock prevention techniques <!-- all at once -->
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-6.svg)
+
+
+
+
+### deadlock prevention techniques <!-- consistent order -->
+
+![](/deadlock/texfig/deadlock-prevention-lib.figure-5.svg)
+
 ## example: consistent order {visibility="hidden"}
 
 {{< include /deadlock/_prevention-ordering-examples.qmd >}}
+
+
