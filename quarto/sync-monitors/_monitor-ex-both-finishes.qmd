@@ -15,7 +15,7 @@
 A. `finished[0] && finished[1]`<br/>
 B. `finished[0] || finished[1]`<br/>
 C. `!finished[0] || !finished[1]`<br/>
-D. `finsihed[0] != finished[1]`<br/>
+D. `finished[0] != finished[1]`<br/>
 E. something else
 
 :::
