@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+\tikzset{
+  timeline/.style={
+    tight matrix no line,
+    ampersand replacement=\Q,
+    nodes={text width=7cm,
+      minimum height=0.6cm,
+        font=\small\tt\lstset{language=C++,style=small},
+        },
+    column sep=1cm,
+    row 1/.style={nodes={font=\bfseries,align=center}},
+    row 2/.style={nodes={font=\bfseries\tt}},
+  },
+  waiting/.style={text=black!40},
+}
+\matrix[timeline] (timeline) {
+  Thread 1 \Q Thread 2 \\
+  MoveFile(A, B, "foo") \Q MoveFile(B, A, "bar") \\
+  {lock(\&A->lock) $\rightarrow$ LOCKED} \Q \\
+  \Q {lock(\&B->lock) $\rightarrow$ LOCKED} \\
+  {trylock(\&B->lock) $\rightarrow$ FAILED} \Q \\
+  \Q {trylock(\&A->lock) $\rightarrow$ FAILED} \\
+  {unlock(\&A->lock)} \Q \\
+  \Q {unlock(\&B->lock)} \\
+  {lock(\&A->lock) $\rightarrow$ LOCKED} \Q \\
+  \Q {lock(\&B->lock) $\rightarrow$ LOCKED} \\
+  {trylock(\&B->lock) $\rightarrow$ FAILED} \Q \\
+  \Q {trylock(\&A->lock) $\rightarrow$ FAILED} \\
+  {unlock(\&A->lock)} \Q \\
+  \Q {unlock(\&B->lock)} \\
+};
+\draw[very thick] (timeline-2-1.south west) -- (timeline-2-2.south east);
+\end{tikzpicture}

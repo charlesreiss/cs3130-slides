@@ -8,14 +8,14 @@
 
    * problem: inconsistent state?
 
-* clean: have code to undo partial oepration 
+* clean: have code to undo partial operation 
 
    * some databases do this
 
 * won't go into detail in this class
 
 
-### revokable locks?  {.smaller}
+### revocable locks?  {.smaller}
 
 
 ```

@@ -8,6 +8,6 @@
 
    * give up?
    * both try again? --- maybe this will keep happening? (called <em>livelock</em>)
-   * try one-at-a-time? --- gaurenteed to work, but tricky to implement
+   * try one-at-a-time? --- guaranteed to work, but tricky to implement
 
 
