@@ -303,7 +303,13 @@ SAVEBOX.0: /
     \}
     /x
 LRBOX.0: /\\begin\{lrbox\}(?s:.*?)\\end\{lrbox\}/
-INLINEMATH.-10: /\$[^$]+\$/
+INLINEMATH.-10: /\$(?:
+        (?:
+            [^$\\]
+        |
+            \\.
+        )+
+    )\$/x
 SIMPLE_ESCAPED.-11: /\\[.&_$%\/#{}]/
 _NEXT_CELL.-20: /&/
 NEWLINE.-20: /\n+/
@@ -682,7 +688,7 @@ class When(_MyAstItem):
             count += 1
         if self.before_index is not None:
             count += 1
-        return count > 0
+        return count > 1
 
     @property
     def number(self) -> int:
@@ -772,11 +778,11 @@ class _InlineCommand(_MyAstItem):
                 before = ''
                 after = ''
                 if when.is_after_fragment:
-                    assert not when.is_multiple
+                    assert not when.is_multiple, when
                     before += '['
                     after += ']{.fragment fragment-index=' + str(when.after_index) + '}'
                 elif when.is_before_fragment:
-                    assert not when.is_multiple
+                    assert not when.is_multiple, when
                     before += '['
                     after += ']{.fragment fragment-index=' + str(when.before_index+1) + 'until}'
                 else:
