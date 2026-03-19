@@ -1,0 +1,18 @@
+
+### why not just asymmetric encryption?  {.smaller}
+
+
+* given public-key encryption + digital signatures…
+* why bother with the symmetric stuff? 
+<hr class="vspace" />
+* symmetric stuff much faster
+* symmetric stuff much better at supporting larger messages
+
+
+### TLS: Transport Layer Security 
+
+
+* the secure communication protocol for the web
+* what makes accessing websites secure
+* the "s" in <i>https</i>
+

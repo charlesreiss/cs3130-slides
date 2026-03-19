@@ -1,0 +1,24 @@
+
+### nonces (2)  {.smaller}
+
+
+* another solution to replay attacks:
+* B$\rightarrow$A: [next number <em>#91523</em>] [signature from B] <br> A$\rightarrow$B: <em>#91523</em> Did you order lunch? [next number <em>#90382</em>] [signature from A] <br> B$\rightarrow$A: <em>#90382</em> Yes. [next number <em>#14578</em>] [signature from B] <br> … <br> A$\rightarrow$B: <em>#6824</em> There's a guy at the door, says he's here to repair the AC. Should I let him in? [next number <em>#36129</em>][signature from A] 
+<hr class="vspace" />
+* (assuming A actually checks the numbers)
+
+
+### confusion about who's sending?  {.smaller}
+
+
+* in addition to nonces, either 
+
+   * write down more who is sending + other context so message can't be reused and/or
+   * use unique set of keys for each principal you're talking to
+ 
+<hr class="vspace" />
+* with symmetric encryption, also ‘‘reflection attacks’’ 
+
+   * A sends message to B, attacker sends A's message back to A as if it's from B
+
+

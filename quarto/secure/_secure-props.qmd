@@ -1,0 +1,21 @@
+
+### possible security properties? (1) 
+
+
+* what we'll talk about:
+* confidentiality --- information shared only with those who should have it
+* authenticity --- message genuinely comes from right principal (and not manipulated)
+
+
+### possible security properties? (2)  {.smaller}
+
+
+* important ones we won't talk about…:
+* repudiation --- if A sends message to B, B can't prove to C it came from A 
+
+   * (takes extra effort to get along with authenticity)
+
+* forward-secrecy --- if A compromised now, E can't use that to decode past conversations with B
+* anonymity --- A can talk to B without B knowing who it is
+* …
+

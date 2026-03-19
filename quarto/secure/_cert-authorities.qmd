@@ -1,0 +1,143 @@
+
+### how does A know B's $K_{pub}$ is actually B's?  {.smaller}
+
+
+* if A asks B for B's public key, M could send M's key instead 
+<hr class="vspace" />
+* could try to verify somehow 
+
+   * e.g., call them on the phone, visit in person
+   * not scalable to do for every website
+ 
+<hr class="vspace" />
+* [need some way to delegate trust]{.fragment fragment-index=2 .custom .myem-only}
+
+
+### certificate idea  {.smaller}
+
+
+* let's say A has B's public key already.
+* if C wants B's public key and knows A's already: 
+<hr class="vspace" />
+* [A can generate a ‘‘certificate'’ certifying B’s public key]{.fragment fragment-index=2 .custom .myem-only}: 
+
+   * ‘‘B's public key is XXX’’ <em>AND</em>
+   * Sign(A's private key, ‘‘B's public key is XXX’’)
+
+* [B sends a copy of this ‘‘certificate’’ to C]{.fragment fragment-index=3 .custom .myem-only}
+* if C trusts A, now C has B's public key 
+
+   * if C does not trust A, well, can't trust this either
+
+
+
+### certificate authorities  {.smaller}
+
+
+* websites (and others) go to <i>certificates authorities</i> (CA) with their public key
+* certificate authorities sign messages like: <br> ‘‘The public key for foo.com is XXX.’’
+* signed message called <i>certificate</i>
+* browsers use the certificates to verify website identity 
+
+   * website can forward certificate instead of browser contacting CA directly
+
+
+
+### example web certificate (1)  {.smaller}
+
+
+```
+    Version: 3 (0x2)
+    Serial Number: 7b:df:f6:ae:2e:d7:db:74:d3:c5:77:ac:bc:44:bf:1b
+    Signature Algorithm: sha256WithRSAEncryption
+    Issuer:
+        countryName               = US
+        stateOrProvinceName       = MI
+        localityName              = Ann Arbor
+        organizationName          = Internet2
+        organizationalUnitName    = InCommon
+        commonName                = InCommon RSA Server CA
+    Validity
+        Not Before: Apr 25 00:00:00 2023 GMT
+        Not After : Apr 24 23:59:59 2024 GMT
+    Subject:
+        countryName               = US
+        stateOrProvinceName       = Virginia
+        organizationName          = University of Virginia
+        commonName                = canvas.its.virginia.edu
+....
+    X509v3 extensions:
+....
+        X509v3 Subject Alternative Name: DNS:canvas.its.virginia.edu
+
+```
+
+
+### example web certificate (2)  {.smaller}
+
+
+```
+....
+    Subject Public Key Info:
+        Public Key Algorithm: rsaEncryption
+            RSA Public-Key: (2048 bit)
+            Modulus:
+                00:a2:fb:5a:fb:2d:d2:a7:75:7e:eb:f4:e4:d4:6c:
+                94:be:91:a8:6a:21:43:b2:d5:9a:48:b0:64:d9:f7:
+                f1:88:fa:50:cf:d0:f3:3d:8b:cc:95:f6:46:4b:42:
+
+....
+Signature Algorithm: sha256WithRSAEncryption
+Signature Value:
+    24:3a:67:c8:0d:ef:eb:8c:eb:ba:8f:d5:11:d2:1e:ea:44:eb:
+    fe:af:93:7d:d9:4a:2b:44:a3:7f:47:50:aa:d1:b3:9c:a8:a8:
+....
+
+```
+
+
+### certificate chains (CA = certificate authority)  {.smaller}
+
+
+* <code>canvas.its.virginia.edu</code> has a valid certificate 
+
+   * that certificate is signed by ‘‘InCommon RSA Server CA’’
+
+* but, why do we trust that certificate?
+* well, <i>their</i> certificate is signed by ‘‘USERTrust RSA Certification Authority’’
+* ok, but why do we trust <i>their</i> certificate? 
+<hr class="vspace" />
+* [trusted public keys hardcoded in OS/browser]{.fragment fragment-index=5 .custom .myem-only}
+
+
+### certificate hierarchy 
+
+
+
+::: {.r-stack .my-full}
+![](/secure/texfig/cert-authorities-certificate-hierarchy.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/secure/texfig/cert-authorities-certificate-hierarchy.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### how many trust anchors?  {.smaller}
+
+
+* Mozilla Firefox (as of 27 Feb 2023) 
+
+   * 155 trust anchors
+   * operated by 55 distinct entities
+
+* Microsoft Windows (as of 27 Feb 2023) 
+
+   * 237 trust anchors
+   * operated by 86 distinct entities
+
+* Google Chrome (as of 02 Apr 2025) 
+
+   * 134 trust anchors
+
+

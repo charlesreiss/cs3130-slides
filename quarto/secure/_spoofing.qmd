@@ -1,0 +1,8 @@
+
+### spoofing 
+
+
+* if I only allow connections from my desktop's IP addresses, <br> how would you attack this? 
+<hr class="vspace" />
+* hint: how do we know what address messages come from?
+

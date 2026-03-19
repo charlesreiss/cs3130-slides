@@ -1,0 +1,53 @@
+
+### exercise 
+
+
+* exercise: how should website certificates verify identity?
+
+
+### how do certificate authorities verify  {.smaller}
+
+
+* for web sites, set by CA/Browser Forum
+* organization of: 
+
+   * everyone who ships code with list of valid certificate authorities 
+
+      * Apple, Google, Microsoft, Mozilla, Opera, Cisco, Qihoo 360, Brave, …
+
+   * certificate authorities
+
+* decide on rules (‘‘baseline requirements’’) for what CAs do
+
+
+### BR domain name identity validation  {.smaller}
+
+
+* options involve CA choosing random value and: 
+<hr class="vspace" />
+* sending it to domain contact (with domain registrar) and receive response with it, or
+* observing it placed in DNS or website or sent from server in other specific way 
+<hr class="vspace" />
+* exercise: problems this doesn't deal with?
+
+
+### some other things public CAs do  {.smaller}
+
+
+* keep their private keys in tamper-resistant hardware
+* maintain publicly-accessible database of [<i>revoked</i> certificates]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * some browsers check these, sometimes
+
+* [certificate transparency]{.fragment fragment-index=3 .custom .myem-only} 
+
+   * [public logs]{.fragment fragment-index=3 .custom .myem-only} of every certificate issued
+   * some browsers reject non-logged certificates
+   * so you can tell if bad certificate exists for your website
+
+* ‘CAA’ records in the domain name system 
+
+   * can indicate [which CAs are allowed to issue certificates in DNS]{.fragment fragment-index=4 .custom .myem-only}
+   * (but CAs apparently not required to use DNSSEC (certificate infrastructure for signing domain name records) when looking this up)
+
+

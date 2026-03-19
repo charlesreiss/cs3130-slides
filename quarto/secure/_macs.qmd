@@ -1,0 +1,69 @@
+
+### message authentication codes (MACs)  {.smaller}
+
+
+* goal: use shared secret <i>key</i> to verify message origin 
+<hr class="vspace" />
+* one function: $MAC(\text{key}, \text{message}) = \text{tag}$
+* knowing $MAC$ and the message and the tag, it should be hard to: 
+
+   * find the value of $MAC(\text{key}, \text{other message})$ --- (‘‘forge’’ the tag)
+   * find the key
+
+
+
+### contrast: MAC v checksum  {.smaller}
+
+
+* message authentication code acts like checksum, but… 
+<hr class="vspace" />
+* checksum can be recomputed without any key
+* checksum meant to protect against accidents, not malicious attacks 
+
+   * checksum can be faster to compute + shorter
+
+
+
+### using MAC without encryption  {.smaller}
+
+
+* in advance: choose + share MAC key 
+<hr class="vspace" />
+* A prepares message: 
+
+   * A computes ‘Please pay \$100 to M.’
+   * A computes $MAC$(MAC key, ‘Please pay \$100 to M.’) = @@@
+
+* A $\rightarrow$ B: Please pay \$100 to M. @@@
+* B processes message: 
+
+   * B recomputes $MAC$(MAC key, ‘Please pay \$100 to M.’)
+   * <em>rejects</em> if it doesn't match @@@
+
+
+
+### using MAC with encryption  {.smaller}
+
+
+* in advance: choose + share encryption key and MAC key 
+<hr class="vspace" />
+* A prepares message: 
+
+   * A computes $E$(encrypt key, ‘The secret formula is…’) = ***
+   * A computes $MAC$(MAC key, ***) = @@@
+
+* A $\rightarrow$ B: *** @@@
+* B processes message: 
+
+   * B recomputes $MAC$(MAC key, ***)
+   * <em>rejects</em> if it doesn't match @@@
+   * B computes $D$(key, ***) = ‘The secret formula is …’
+
+
+
+### ‘‘authenticated encryption’’ 
+
+
+* often encryption + MAC packaged together
+* name: authenticated encryption
+

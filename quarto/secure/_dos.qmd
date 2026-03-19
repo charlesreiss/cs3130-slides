@@ -1,0 +1,51 @@
+
+### denial of service (1)  {.smaller}
+
+
+* so far: worried about network attacker disrupting confidentiality/authenticity 
+<hr class="vspace" />
+* what if we're just worried about just breaking things
+* well, if they control network, nothing we can do…
+* but often worried about less
+
+
+### denial of service (2)  {.smaller}
+
+
+* if you just want to inconvenience…
+* attacker just sends lots of stuff to my server
+* my server becomes overloaded?
+* my network becomes overloaded? 
+<hr class="vspace" />
+* but: doesn't this require a lot of work for attacker?
+* exercise: why is this often not a big obstacle
+
+
+### denial of service: asymmetry  {.smaller}
+
+
+* work for attacker > work for defender
+* how much computation per message? 
+
+   * complex search query?
+   * something that needs tons of memory?
+   * something that needs to read tons from disk?
+
+* how much sent back per message? 
+<hr class="vspace" />
+* resources for attacker > resources of defender
+* how many machines can attacker use?
+
+
+### denial of service: reflection/amplification  {.smaller}
+
+
+* instead of sending messages directly…  attacker can send messages ‘‘from’’ you to third-party
+* third-party sends back replies that overwhelm network
+* example: short DNS query with lots of things in response 
+<hr class="vspace" />
+* ‘‘amplification’’ = 
+
+   * third-party inadvertantly turns small attack into big one
+
+

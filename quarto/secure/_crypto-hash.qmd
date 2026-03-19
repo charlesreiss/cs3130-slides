@@ -1,0 +1,32 @@
+
+### motivation for hashes: summary for signature 
+
+
+* digital signatures typically have size limit
+* … but we want to sign very large messages 
+<hr class="vspace" />
+* solution: get secure ‘‘summary’’ of message 
+
+   * also useful for other tasks
+
+
+
+### cryptographic hash  {.smaller}
+
+
+* hash(M) = X 
+<hr class="vspace" />
+* given X: hard to find message other than by guessing
+* given X, M: hard to find second message so that hash(second message) = X 
+<hr class="vspace" />
+* example uses: 
+
+   * substitute for original message in digital signature
+   * building message authentication codes
+   * building tools for storing passwords/generating keys from passwords 
+
+      * (but don't just use plain hash --- too easy to guess passwords)
+
+
+* example algorithm: SHA256
+

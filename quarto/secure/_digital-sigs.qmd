@@ -1,0 +1,30 @@
+
+### digital signatures 
+
+symmetric encryption : asymmetric encryption :: <br> message authentication codes : digital signatures
+
+### digital signatures  {.smaller}
+
+
+* pair of functions: 
+
+   * sign: $S(\text{private key}, \text{message}) = \text{signature}$
+   * verify: $V(\text{public key}, \text{signature}, \text{message}) = 1$ (‘‘yes, correct signature’’)
+
+* (public key, private key) = key pair 
+
+   * public key can be shared with everyone
+   * knowing $S$, $V$, $\text{public key}$, $\text{message}$, $\text{signature}$ <br> doesn't make it too easy to find another message + signature so that<br> $V(\text{public key}, \text{other message}, \text{other signature}) = 1$
+
+
+
+### using digital signatures  {.smaller}
+
+
+* in advance: A generates private key + public key
+* in advance: A sends public key to B (and maybe others) securely 
+<hr class="vspace" />
+* A computes $S$(private key, ‘Please pay ...’) = *******
+* send on network: <br> A $\rightarrow$ B: ‘Please pay ...’, ********
+* B computes $V$(public key, ‘Please pay ...’, *******) = 1
+

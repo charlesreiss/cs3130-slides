@@ -1,0 +1,15 @@
+
+### calling things encryption  {.smaller}
+
+
+* in this class, <i>(symmetric) encryption</i> means confidentiality but not authenticity 
+
+   * has malleability problem: attacker can generate a new, valid ciphertext without knowing <code>key</code>.
+
+* matches most common thing a library calls encryption 
+<hr class="vspace" />
+* but, sometimes encryption will be ‘‘authenticated encryption’’ 
+
+   * encryption + message authentication code
+
+

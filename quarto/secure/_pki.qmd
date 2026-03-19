@@ -1,0 +1,16 @@
+
+### public-key infrastructure  {.smaller}
+
+
+* ecosystem with certificate authorities <br> and certificates for everyone
+* called ‘‘public-key infrastructure’’ 
+<hr class="vspace" />
+* several of these: 
+
+   * for verifying identity of websites
+   * for verifying origin of domain name records (kind-of)
+   * for verifying origin of applications in some OSes/app stores/etc.
+   * for encrypted email in some organizations
+   * …
+
+

@@ -1,0 +1,29 @@
+
+### shared secrets impractical  {.smaller}
+
+
+* problem: shared secrets usually aren't practical 
+<hr class="vspace" />
+* [need secure communication before I can do secure communication?]{.fragment fragment-index=2 .custom .myem-only}
+* [scaling problems]{.fragment fragment-index=3 .custom .myem-only}  
+
+   * millions of websites $\times$ billions of browsers = how many keys?
+   * hard to talk to new people
+
+
+
+### alternative encryption scheme  {.smaller}
+
+
+* want to avoid needing to pre-share secret keys 
+<hr class="vspace" />
+* but, ok making some sacrifices:
+* [confidentiality in only one direction]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * e.g., one set of keys only enables secure communication from A $\rightarrow$ B
+
+* [slower performance]{.fragment fragment-index=3 .custom .myem-only}  
+
+   * encryption and decryption can take longer than symmetric encryption
+
+

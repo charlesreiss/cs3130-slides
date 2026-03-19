@@ -1,0 +1,21 @@
+
+### things modern TLS usually does  {.smaller}
+
+
+* (not all these properties provided by all TLS versions and modes) 
+<hr class="vspace" />
+* confidentiality/authenticity  
+
+   * server = one ID'd by certificate
+   * client = same throughout whole connection
+
+* forward secrecy 
+
+   * can't decrypt old conversations (data for KeyShares is temporary)
+
+* fast 
+
+   * most communication done with more efficient symmetric ciphers
+   * 1 set of messages back and forth to setup connection
+
+

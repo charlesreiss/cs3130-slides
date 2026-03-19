@@ -1,0 +1,59 @@
+
+### replay attacks  {.smaller}
+
+
+* A$\rightarrow$B: Did you order lunch? [signature 1 by A] 
+
+   * signature 1 by A = Sign(A's private signing key, ‘‘Did you order lunch?’’)
+   * check with Verify(A's public key, signature 1 by A, ‘‘Did you order lunch?’’)
+
+* B$\rightarrow$A: Yes. [signature 1 by B] 
+
+   * signature 1 by B = Sign(B's private key, ‘‘Yes.’’)
+   * will check with Verify(B's public key, signature 1 by B, ‘‘Yes.’’)
+
+* A$\rightarrow$B: Vegetarian? [signature 2 by A]  <br> B$\rightarrow$A: No, not this time. [signature 2 by B]  <br> … <br> A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A] 
+<hr class="vspace" />
+* since attacker can't forge signed messages, everything's okay?
+
+
+### replay attacks  {.smaller}
+
+
+* A$\rightarrow$B: Did you order lunch? [signature 1 by A] <br> B$\rightarrow$A: Yes. [signature 1 by B]  <br> A$\rightarrow$B: Vegetarian? [signature 2 by A] <br> B$\rightarrow$A: No, not this time. [signature 2 by B] <br> … <br> A$\rightarrow$B: There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A] 
+<hr class="vspace" />
+* how can attacker hijack the reponse to A's inquiry?
+* [as an attacker, I can copy/paste B's earlier message!]{.fragment fragment-index=2 .custom .myem-only}  
+
+   * just keep the same signature, so it can be verified!
+   * Verify(B's public key, ‘‘Yes.’’, signature 2 from B) = 1
+
+
+
+### nonces  {.smaller}
+
+
+* one solution to replay attacks:
+* A$\rightarrow$B: <em>#1</em> Did you order lunch? [signature 1 from A] 
+
+   * signature from A = Sign(A's private key, ‘‘<em>#1</em> Did you order lunch?’’)
+
+* B$\rightarrow$A: <em>#1</em> Yes. [signature 1 from B] <br> A$\rightarrow$B: <em>#2</em> Vegetarian? [signature 2 from A] <br> B$\rightarrow$A: <em>#2</em> No, not this time. [signature 2 from B] <br> … <br> A$\rightarrow$B: <em>#54</em> There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ from A] <br> 
+<hr class="vspace" />
+* (assuming A actually checks the numbers)
+
+
+### replay attacks (alt)  {.smaller}
+
+
+* M$\rightarrow$B: #54 Did you order lunch? [signature by M] <br> B$\rightarrow$M: #54 Yes. [signature intended for M by B]  <br> <hr />
+
+* A$\rightarrow$B: #54 There's a guy at the door, says he's here to repair the AC. Should I let him in? [signature $N$ by A] 
+<hr class="vspace" />
+* how can M hijack the response to A's inquiry?
+* [as an attacker, I can copy/paste B's earlier message!]{.fragment fragment-index=3 .custom .myem-only}  
+
+   * just keep the same signature, so it can be verified!
+   * Verify(B's public key, ‘‘#54 Yes.’’, signature intended for M by B) = 1
+
+

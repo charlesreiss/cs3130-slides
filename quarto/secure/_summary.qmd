@@ -1,0 +1,25 @@
+
+### network security summary (1)  {.smaller}
+
+
+* communicating securely with math 
+
+   * secret value (shared key, public key) that attacker can't have
+   * symmetric: shared keys used for (de)encryption + auth/verify; fast
+   * asymmetric: public key used by any for encrypt + verify; slower
+   * asymmetric: private key used by holder for decrypt + sign; slower
+
+* protocol attacks --- repurposing encrypt/signed/etc. messages
+* certificates --- verifiable forwarded public keys
+* key agreement --- for generated shared-secret ‘‘in public’’ 
+
+   * publish key shares from private data
+   * combine private data with key share for shared secret
+
+
+
+### network security summary (2) 
+
+
+* TLS: combine all cryptography stuff to make ‘‘secure channel’’
+

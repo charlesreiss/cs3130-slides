@@ -1,0 +1,29 @@
+
+### symmetric encryption  {.smaller}
+
+
+* some magic math! 
+<hr class="vspace" />
+* we'll be given two functions by expert: 
+
+   * encrypt: $E(\text{key}, \text{message}) = \text{ciphertext}$
+   * decrypt: $D(\text{key}, \text{ciphertext}) = \text{message}$
+
+* key = shared secret 
+
+   * ideally small (easy to share) and chosen at random
+   * unsolved problem: how to share it?
+
+
+
+### symmetric encryption properties (1)  {.smaller}
+
+
+* our functions: 
+
+   * encrypt: $E(\text{key}, \text{message}) = \text{ciphertext}$
+   * decrypt: $D(\text{key}, \text{ciphertext}) = \text{message}$
+
+* knowing $E$ and $D$, it should be hard to <br> [learn anything about the message]{.fragment fragment-index=2 .custom .myem-only} from the ciphertext without key
+* ‘‘hard’’ $\approx$ would have to try every possible key
+

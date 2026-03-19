@@ -1,0 +1,14 @@
+
+### tools, but...  {.smaller}
+
+
+* have building blocks, but less than straightforward to use 
+<hr class="vspace" />
+* lots of issues from using building blocks poorly
+* start of art solution: formal proof sytems 
+
+   * mathematical proof that attacker doing X implies encryption/MAC/etc. broken
+   * ideally a somewhat machine-checkable proof
+
+* (we aren't going to be that formal…)
+

@@ -1,0 +1,21 @@
+
+### typical TLS handshake 
+
+
+
+::: {.r-stack .my-full}
+![](/secure/texfig/tls-handshake-summary.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/secure/texfig/tls-handshake-summary.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/secure/texfig/tls-handshake-summary.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/secure/texfig/tls-handshake-summary.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/secure/texfig/tls-handshake-summary.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/secure/texfig/tls-handshake-summary.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+

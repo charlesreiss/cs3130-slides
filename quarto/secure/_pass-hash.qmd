@@ -1,0 +1,19 @@
+
+### password hashing  {.smaller}
+
+
+* cryptographic hash functions need (basically) guessing to ‘reverse’
+* idea: store cryptographic hash of password instead of password 
+
+   * attacker who gets hash doesn't get password
+   * but can still check entered password is correct
+ 
+<hr class="vspace" />
+* problem: with fast hash function, can try lots of guesses fast
+* fix: special slow/resource-intensive cryptograph hash functions 
+
+   * Argon2i
+   * scrypt
+   * PBKDF2
+
+

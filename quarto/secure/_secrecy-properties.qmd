@@ -1,0 +1,21 @@
+
+### secrecy properties  {.smaller}
+
+
+* actually that's not secret enough, usually want to resist <br> recovery of info about message [or key]{.fragment fragment-index=2 .custom .myem-only} even given… 
+<hr class="vspace" />
+* [partial info about the message]{.fragment fragment-index=3 .custom .myem-only}, or
+* [lots of other (message, ciphertext) pairs]{.fragment fragment-index=4 .custom .myem-only}, or 
+
+   * ‘‘known plaintext’’
+
+* lots of (message, ciphertext) pairs for <i>[other messages the attacker chooses]{.fragment fragment-index=5 .custom .myem-only}</i>, or 
+
+   * ‘‘chosen plaintext’’
+
+* lots of (message, ciphertext) pairs encrypted under similar keys, or 
+
+   * ‘‘related key’’
+
+* …
+

@@ -1,0 +1,18 @@
+
+### Matrix vulnerabilties  {.smaller}
+
+
+* one example from [https://nebuchadnezzar-megolm.github.io/static/paper.pdf](https://nebuchadnezzar-megolm.github.io/static/paper.pdf)
+* system for confidential multi-user chat 
+<hr class="vspace" />
+* protocol + goals: 
+
+   * each device (my phone, my desktop) has public key
+   * to talk to me, you verify one of my public keys
+   * to add devices, my client can forward my other devices' public keys
+
+* bug: 
+
+   * when receiving new keys, clients did not check who they were forwarded from correctly
+
+

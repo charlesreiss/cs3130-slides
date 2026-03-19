@@ -1,0 +1,17 @@
+
+### cryptographic hash uses  {.smaller}
+
+
+* find shorter ‘summary’ to substitute for data 
+
+   * what hashtables use them for, but…
+   * we care that adversaries can't cause collisions!
+ 
+<hr class="vspace" />
+* deal with message limits in signatures/etc.
+* password hashing --- but be careful! [next slide]
+* constructing message authentication codes 
+
+   * hash message + secret info (+ some other details)
+
+

@@ -1,0 +1,16 @@
+
+### TLS state machine attack  {.smaller}
+
+
+* from [https://mitls.org/pages/attacks/SMACK](https://mitls.org/pages/attacks/SMACK)
+* protocol: 
+
+   * step 1: verify server identity
+   * step 2: receive messages from server
+
+* attack: 
+
+   * if server sends ‘‘here's your next message’’, <br> instead of ‘‘here's my identity’’ <br>
+   * then broken client ignores verifying server's identity
+
+

@@ -1,0 +1,92 @@
+
+### encryption is not enough 
+
+
+* if B receives an encrypted message from A, and…
+* it makes sense when decrypted, why isn't that good enough? 
+<hr class="vspace" />
+* problem: an active attacker M <br> can <i>selectively</i> manipulate the encrypted message
+
+
+### simple encryption idea (1)  {.smaller}
+
+
+* suppose encrypting message
+* one possible idea: generate unique number N (e.g. counter)
+* combine N and key to produce message size-bit bitstring Y
+* say Y=f(X, key) where $f$ is some ‘secure’ function: 
+
+   * $f$ is something like a hash function, but supports arbitrary size output
+   * $f$ is effectively irreversible
+   * $f$ is effectively equally/unpredictably distributed
+
+* use Y XOR message as encrypted value
+
+
+### simple encryption idea (2)  {.smaller}
+
+
+* E(K, message) = (N, f(N, key) XOR message) = (N, C)
+* If we know (N, C) and don't know key, can we figure out anything about <i>message</i>? 
+
+   * violates f(N, key) being equally/unpredictably distributed
+
+* If we know (N, C) and message, can we find out about <i>key</i> 
+
+   * violates f(N, key) being irreversible
+
+* If we know (N, C) and message, can we decrypt (N', C')? 
+
+   * remember: each encrypted message chooses unique N
+   * not if f(N, key) and f(N', key) don't have predictable relationship
+
+
+
+### manipulating simple encryption  {.smaller}
+
+
+* E(K, message) = (N, f(N, key) xor message) = (N, C)
+* If we know (N, C) and message, we can generate an encryption of (all zeroes):
+* (N, C xor message) = (N, f(N, key) xor (message xor message)) = (N, f(N, key) xor 0)
+* And can generate encryption of some other message Q:
+* (N, C xor message xor Q) = (N, f(N, key) xor Q)
+
+
+### manipulating messages, more generally  {.smaller}
+
+
+* as an active attacker 
+<hr class="vspace" />
+* if we know part of plaintext <br> can sometimes make it read anything else by flipping bits 
+
+   * ‘‘Pay \$100 to Bob’’ $\rightarrow$ ‘‘Pay \$999 to Bob’’
+
+* we can sometimes shorten 
+
+   * ‘‘Pay \$100 to ABC Corp if they …’’ $\rightarrow$ ‘‘Pay \$100 to ABC Corp’’
+
+* we can sometimes corrupt selected parts of message and check what the response is 
+
+   * e.g. what changes don't make B reject message as malformed?
+   * with repeated tries, often reveals part of message's values
+
+
+
+### maybe don't xor?  {.smaller}
+
+
+* these XOR-based constructions are very common 
+
+   * example: probably used within most connections to websites
+
+* there are other ideas, but…
+* but can still generate meaningful manipulated messages 
+
+   * usually just need to work on larger units than bits
+ 
+<hr class="vspace" />
+* actual solution: additional <i>message authentication code</i>  
+
+   * sometimes provided pre-combined with encryption and called <i>authenticated encryption</i>
+
+

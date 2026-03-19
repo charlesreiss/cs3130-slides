@@ -1,0 +1,22 @@
+
+{{< include /secure/_crypto-hash-use.qmd >}}
+
+{{< include /secure/_replay-extra.qmd >}}
+
+{{< include /secure/_other-attacks-matrix.qmd >}}
+
+## aside: key agreement to public key encrypt {visibility="hidden"}
+
+{{< include /secure/_key-agree-pubkey.qmd >}}
+
+## secrecy properties {visibility="hidden"}
+
+{{< include /secure/_secrecy-properties.qmd >}}
+
+## motivation: need for authentication {visibility="hidden"}
+
+{{< include /secure/_encrypt-not-enough.qmd >}}
+
+## Diffie-Hellman details {visibility="hidden"}
+
+{{< include /secure/_key-agreement-dh.qmd >}}

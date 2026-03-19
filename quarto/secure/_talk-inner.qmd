@@ -1,0 +1,168 @@
+
+# attackers and security properties {visibility="hidden"}
+
+{{< include /secure/_eavesdrop.qmd >}}
+
+# security properties {visibility="hidden"}
+
+{{< include /secure/_secure-props.qmd >}}
+
+# tools with shared keys {visibility="hidden"}
+
+## secrets generally {visibility="hidden"}
+
+{{< include /secure/_secrets.qmd >}}
+
+## symmetric encryption {visibility="hidden"}
+
+{{< include /secure/_sym-encrypt.qmd >}}
+
+{{< include /secure/_sym-encrypt-process.qmd >}}
+
+## aside: terminology {visibility="hidden"}
+
+{{< include /secure/_aside-what-encrypt.qmd >}}
+
+## message authentication codes {visibility="hidden"}
+
+{{< include /secure/_macs.qmd >}}
+
+# exercise {visibility="hidden"}
+
+{{< include /secure/_sym-ex.qmd >}}
+
+# motivation: distributing shared secrets? {visibility="hidden"}
+
+{{< include /secure/_motivate-public-keys.qmd >}}
+
+# tools without shared keys {visibility="hidden"}
+
+## asymmetric encryption {visibility="hidden"}
+
+{{< include /secure/_asym-encrypt.qmd >}}
+
+## digital signatures {visibility="hidden"}
+
+{{< include /secure/_digital-sigs.qmd >}}
+
+# encryption + authentication pitfalls {visibility="hidden"}
+
+{{< include /secure/_protocol-oops.qmd >}}
+
+## replay attacks {visibility="hidden"}
+
+{{< include /secure/_replay-attacks.qmd >}}
+
+## other attacks {visibility="hidden"}
+
+### other attacks without breaking math 
+
+
+* cautionary tale: <br> it's easy to accidentally use secure encryption/signature/MAC/etc. algorithm <br> in a way that is very insecure
+
+
+{{< include /secure/_other-attacks.qmd >}}
+
+# on the lab {visibility="hidden"}
+
+### on the lab 
+
+
+
+# certificate authorities {visibility="hidden"}
+
+{{< include /secure/_cert-authorities.qmd >}}
+
+{{< include /secure/_pki.qmd >}}
+
+## how certificates verified {visibility="hidden"}
+
+{{< include /secure/_cert-auth-verified.qmd >}}
+
+# preview: additional tools {visibility="hidden"}
+
+### additional crypto tools needed for web security 
+
+
+* cryptographic hash functions (summarize data)
+* ‘secure’ random numbers
+* key agreement
+
+
+# cryptographic hashes {visibility="hidden"}
+
+{{< include /secure/_crypto-hash.qmd >}}
+
+## password hashing {visibility="hidden"}
+
+{{< include /secure/_pass-hash.qmd >}}
+
+# random numbers {visibility="hidden"}
+
+{{< include /secure/_random-numbers.qmd >}}
+
+# key agreement {visibility="hidden"}
+
+{{< include /secure/_key-agreement.qmd >}}
+
+# putting it together: TLS {visibility="hidden"}
+
+{{< include /secure/_tls.qmd >}}
+
+## handshake {visibility="hidden"}
+
+{{< include /secure/_tls-handshake-summary.qmd >}}
+
+## after handshake {visibility="hidden"}
+
+{{< include /secure/_tls-after-handshake.qmd >}}
+
+## TLS properties {visibility="hidden"}
+
+{{< include /secure/_tls-handshake-props.qmd >}}
+
+## summary {visibility="hidden"}
+
+{{< include /secure/_summary.qmd >}}
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+
+
+## encryption + authentication pitfalls {visibility="hidden"}
+
+{{< include /secure/_protocol-oops.qmd >}}
+
+## other attacks {visibility="hidden"}
+
+### other attacks without breaking math 
+
+
+
+{{< include /secure/_other-attacks.qmd >}}
+
+## how certificates verified {visibility="hidden"}
+
+{{< include /secure/_cert-auth-verified.qmd >}}
+
+## password hashing {visibility="hidden"}
+
+{{< include /secure/_pass-hash.qmd >}}
+
+## aside: key agreement to public key encrypt {visibility="hidden"}
+
+{{< include /secure/_key-agree-pubkey.qmd >}}
+
+# misc. security issues {visibility="hidden"}
+
+## denial of service {visibility="hidden"}
+
+{{< include /secure/_dos.qmd >}}
+
+## amplification example{visibility="hidden"}
+
+## firewalls {visibility="hidden"}
+
+{{< include /network/_firewalls.qmd >}}

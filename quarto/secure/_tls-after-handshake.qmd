@@ -1,0 +1,13 @@
+
+### TLS: after handshake  {.smaller}
+
+
+* use key shares results to get <em>several</em> symmetric keys 
+
+   * take hash(something + shared secret) to derive each key
+
+* separate keys for each direction (server $\rightarrow$ client and vice-versa)
+* often separate keys for encryption and MAC 
+<hr class="vspace" />
+* later messages use encryption + MAC + nonces
+

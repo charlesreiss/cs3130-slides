@@ -1,0 +1,19 @@
+
+### random numbers  {.smaller}
+
+
+* want keys, etc. to be unguessable and evenly distributed 
+<hr class="vspace" />
+* solution: random numbers
+* but: many random number functions are not cryptographically secure! 
+
+   * example NOT SECURE: ~~C <code>rand()</code>; Python's <code>random.random</code>~~
+   * better: Python's <code>secrets</code>, <code>os.urandom</code>; Linux <code>getrandom()</code>, <code>/dev/urandom</code>
+ 
+<hr class="vspace" />
+* extra effort to ensure <em>not guessable</em>
+* need to incorporate ‘‘entropy’’ from unpredictable sources 
+
+   * deliberately unstable circuit; exact timing of input/output; etc.
+
+

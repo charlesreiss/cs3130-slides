@@ -1,0 +1,36 @@
+
+### random numbers 
+
+
+* need a lot of keys that no one else knows 
+<hr class="vspace" />
+* common task: choose a <i>random</i> number
+* question: what does <i>random</i> mean here?
+
+
+### cryptographically secure random numbers  {.smaller}
+
+
+* security properties we might want for random numbers: 
+<hr class="vspace" />
+* attacker cannot guess (part of) number better than chance
+* knowing prior ‘random' numbers shouldn’t help predict next ‘random’ numbers
+* compromising machine now shouldn't reveal older random numbers
+
+
+### exercise: how to generate? 
+
+
+
+### /dev/urandom  {.smaller}
+
+
+* Linux kernel random number generator 
+<hr class="vspace" />
+* collects ‘‘entropy’’ from hard-to-predict events 
+
+   * e.g. exact timing of I/O interrupts
+   * e.g. some processor's built-in random number circuit
+
+* turned into as many random bytes as you want
+

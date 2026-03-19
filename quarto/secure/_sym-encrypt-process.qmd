@@ -1,0 +1,10 @@
+
+### symmetric encryption procedure  {.smaller}
+
+
+* in advance: A and B share encryption key 
+<hr class="vspace" />
+* A computes $E$(key, ‘The secret formula is…’) = ***
+* send on network: <br> A $\rightarrow$ B: ***
+* B computes $D$(key, ***) = ‘The secret formula is …’
+

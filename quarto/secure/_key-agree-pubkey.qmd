@@ -1,0 +1,21 @@
+
+### key agreement and asym. encryption  {.smaller}
+
+
+* can construct public-key encryption from key agreeement 
+<hr class="vspace" />
+* private key: generated random value Y
+* public key: key share generated from that Y
+* PE(public key, message) = 
+
+   * generate random value Z
+   * combine with public key to get shared secret
+   * use symmetric encryption + MAC using shared secret as keys
+   * output: (key share generated from Z) (sym. encrypted data) (mac tag)
+
+* PD(private key, message) = 
+
+   * extract (key share generated from Z)
+   * combine with private key to get shared secret, …
+
+

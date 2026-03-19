@@ -1,0 +1,49 @@
+
+### secure communication context  {.smaller}
+
+
+* ‘‘secure’’ communication
+* mostly talk about on network
+* between <i>principals</i> $\approx$ people/servers/programs 
+<hr class="vspace" />
+* but same ideas apply to, e.g., messages on disk 
+
+   * communicating with yourself
+
+
+
+### A to B  {.smaller}
+
+
+* running example: A talking with B 
+
+   * maybe sometimes also with C
+
+* attacker E --- eavesdropper 
+
+   * passive
+   * gets to read all messages over network
+
+* attacker M --- machine-in-the-middle 
+
+   * active
+   * gets to read and replace and add messages on the network
+
+
+
+### privileged network position  {.smaller}
+
+
+* intercept radio signal?
+* control local wifi router? 
+
+   * maybe doesn't just forward messages
+
+* compromise network equipment?
+* send packets with ‘wrong’ source address 
+
+   * called ‘‘spoofing’’
+
+* fool DNS servers to ‘steal’ name?
+* fool routers to send you other's data?
+

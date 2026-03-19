@@ -1,0 +1,34 @@
+
+### key agreement  {.smaller}
+
+
+* problem: A has B's public encryption key <br> wants to choose shared secret 
+<hr class="vspace" />
+* some ideas: 
+
+   * A chooses a key, sends it encrypted to B
+   * A sends a public key encrypted to B, B chooses a key and sends back
+
+* TLS, SSH use special key agreement primitive instead 
+
+   * easier to use temporary keys to limit effect of key compromise
+
+
+
+### Diffie-Hellman-style key agreement  {.smaller}
+
+
+* public/private-key-like: 
+
+   * ‘‘key share’’ (public)
+   * private (random) value
+
+* key share = GenerateKeyShare(private value)
+* KeyGen(A's private value, B's key share) = new shared secret
+* KeyGen(B's private value, A's key share) = same shared secret 
+<hr class="vspace" />
+* math providers gaurentee: 
+
+   * hard to derive shared secret without one of the private values
+
+

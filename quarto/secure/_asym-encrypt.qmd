@@ -1,0 +1,87 @@
+
+### asymmetric encryption 
+
+
+* we'll have two functions: 
+
+   * encrypt: $PE(\text{public key}, \text{message}) = \text{ciphertext}$
+   * decrypt: $PD(\text{private key}, \text{ciphertext}) = \text{message}$
+
+* (public key, private key) = ‘‘key pair’’
+
+
+### key pairs  {.smaller}
+
+
+* ‘private key’ = kept secret 
+
+   * not shared with <i>anyone</i>
+
+* ‘public key’ = safe to give to everyone 
+
+   * some hard-to-reverse function of private key
+ 
+<hr class="vspace" />
+* concept will appear in some other cryptographic primitives
+
+
+### asymmetric encryption properties  {.smaller}
+
+
+* functions: 
+
+   * encrypt: $PE(\text{public key}, \text{message}) = \text{ciphertext}$
+   * decrypt: $PD(\text{private key}, \text{ciphertext}) = \text{message}$
+
+* should have: 
+
+   * knowing $PE$, $PD$, the public key, and ciphertext shouldn't make it too easy to find message
+   * knowing $PE$, $PD$, the public key, ciphertext, and message shouldn't help in finding private key
+
+
+
+### secrecy properties with asymmetric  {.smaller}
+
+
+* not going to be able to make things as hard as ‘‘try every possible private key’’
+* but going to make it impractical 
+<hr class="vspace" />
+* like with symmetric encryption want to prevent recovery of <i>any info about message</i>
+* also have some other attacks to worry about: 
+
+   * e.g. no info about key should be revealed based on our reactions to decrypting maliciously chosen ciphertexts
+
+
+
+### using asymmetric v symmetric  {.smaller}
+
+
+* both: 
+
+   * use secret data to generate key(s)
+
+* asymmetric (AKA public-key) encryption 
+
+   * one ‘‘keypair’’ per recipient
+   * private key kept by recipient
+   * public key sent to all potential senders
+   * encryption is one-way without private key
+
+* symmetric encryption 
+
+   * one key per (recipient + sender)
+   * secret key kept by recipient + sender
+   * if you can encrypt, you can decrypt
+
+
+
+### using asymmetric encryption  {.smaller}
+
+
+* in advance: B generates private key + public key
+* in advance: B sends public key to A (and maybe others) securely 
+<hr class="vspace" />
+* A computes $PE$(public key, ‘The secret formula is…’) = *******
+* send on network: <br> A $\rightarrow$ B: ********
+* B computes $PD$(private key, *******) = ‘The secret formula is …’
+
