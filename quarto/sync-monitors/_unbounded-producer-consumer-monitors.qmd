@@ -125,16 +125,14 @@ while loop could run 2+ times
 <tr><td>... enqueue</td><td></td><td></td></tr>
 <tr><td>... signal</td><td>stop wait</td><td></td></tr>
 <tr><td>... unlock</td><td>lock</td><td></td></tr>
-<tr><td>(waiting for lock)</td><td></td><td>Consume?</td></tr>
+<tr><td></td><td>(waiting for lock)</td><td>Consume?</td></tr>
 <tr><td></td><td></td><td>... lock</td></tr>
 <tr><td></td><td></td><td>... empty? no</td></tr>
 <tr><td></td><td></td><td>... dequeue</td></tr>
 <tr><td></td><td></td><td>... unlock</td></tr>
-<tr><td></td><td></td><td>return</td></tr>
-<tr><td></td><td>... empty? no</td><td></td></tr>
-<tr><td></td><td>... dequeue</td><td></td></tr>
-<tr><td></td><td>... unlock</td><td></td></tr>
-<tr><td></td><td>return</td><td></td></tr>
+<tr><td></td><td>... lock</td><td>return</td></tr>
+<tr><td></td><td>... empty? yes</td><td></td></tr>
+<tr><td></td><td>... unlock/start wait</td><td></td></tr>
 </table>
 
 :::
