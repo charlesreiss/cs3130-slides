@@ -2,7 +2,9 @@
 ### splitting messages: try 1 
 
 ![](/network/texfig/fail-split-splitting-messages-try-1.figure.svg)
- reconstructed message: <br> The meeting is at 12pm.
+ <br>
+ reconstructed message: <br>
+ The meeting is at 12pm.
 
 ### splitting messages: try 1 --- problem 1 
 
@@ -29,17 +31,17 @@
 ### splitting messages: try 2 
 
 ![](/network/texfig/fail-split-splitting-messages-try-2.figure.svg)
- reconstructed message: <br> The meeting is at 12pm.
+ <br>reconstructed message: <br> The meeting is at 12pm.
 
 ### splitting messages: try 2 --- missed ack 
 
 ![](/network/texfig/fail-split-splitting-messages-try-2-----missed-ack.figure.svg)
- reconstructed message: <br> The meeting is at 12pm.
+ <br>reconstructed message: <br> The meeting is at 12pm.
 
 ### splitting messages: try 2 --- problem 
 
 ![](/network/texfig/fail-split-splitting-messages-try-2-----problem.figure.svg)
- A thinks: part 1 + part 2 acknowleged!
+ <br>A thinks: part 1 + part 2 acknowleged!
 
 ### splitting messages: version 3 
 

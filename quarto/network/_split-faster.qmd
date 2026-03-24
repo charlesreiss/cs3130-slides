@@ -11,4 +11,4 @@
 ### transmission window (ex: size 4) 
 
 ![](/network/texfig/split-faster-transmission-window-ex-size-4.figure.svg)
- Send a <i>window</i> of parts speculatively, then wait for ACKs.
+ <br>Send a <i>window</i> of parts speculatively, then wait for ACKs.

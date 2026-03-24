@@ -3,7 +3,7 @@
 
 []{.my-small} <table>
 <tr><td><em>name</em></td><td><em>address</em></td></tr>
-<tr><td><!-- \hline --> \\large{}<em>logical identifier</em></td><td>\\large{}<em>location/how to locate</em></td></tr>
+<tr><td><!-- \hline --> <em>logical identifier</em></td><td><em>location/how to locate</em></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>variable <code>counter</code></td><td>memory address <code>0x7FFF9430</code></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
