@@ -1,5 +1,23 @@
 
-### IPv4 addresses and routing tables 
+### global routing {.smaller}
+
+- IP addresses identify machines on the global internet
+
+- address grouped geographically
+  - for example, 100.128.0.0-100.255.255.255 all used in the US
+
+- routing: finding a path for packets from source to destination across internet
+  - _routers_ are network equipment that send packets to other routers
+  - routers advertise what IP address ranges they can route to
+  - intuition: get packets closer with each hop
+
+- analogy: airplane routing
+  - want to fly CHO to LAX
+  - route: CHO-ATL-LAX
+
+- routing protocols determine routes from all sources to all destinations
+
+### IPv4 addresses and forwarding
 
 ![](/network/texfig/routing.figure.svg)
 

@@ -14,13 +14,13 @@
 ### protocol  {.smaller}
 
 
-* <code>GET$x$</code> --- retrieve message $x$ (x = 0, 1, 2, or 3) 
+* `GET(x)` --- retrieve message $x$ (x = 0, 1, 2, or 3) 
 
    * other end acknowledges by giving data
    * if they don't reply, you need to send again
    * higher numbered messages have errors/etc. that are harder to handle
 
-* <code>ACK$n$</code>  
+* `ACK(n)`  
 
    * request message part $n + 1$ by acknowledging message part $n$
    * not quite same purpose as acknowledgments in prior examples

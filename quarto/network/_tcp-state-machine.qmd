@@ -30,5 +30,3 @@
 ### TCP state machine picture 
 
 
-![](/network/TcpState){}
- [via Wikimedia/User:Scil100; CC-BY-SA]{.mycredit}

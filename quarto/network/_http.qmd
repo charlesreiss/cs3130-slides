@@ -3,6 +3,9 @@
 
 
 * primary application-layer protocol for the Web
+  - introduced in 1991
+  - version 1.1 in 1997, version 2 in 2015, version 3 in 2022
+* text-based protocol
 * standard port: 80 (non-encrypted), 443 (encrypted)
 * uses TCP (or TCP + TLS for encrypted version)
 * client-server protocol 
@@ -18,27 +21,28 @@
 
 
 * <code>http://www.foo.com/bar</code>
-* HTTP client (example: web browser) connects via TCP to www.foo.com
-* sends something like
+* HTTP client (example: web browser):
+  * does a DNS lookup for www.foo.com (gets 123.156.189.12)
+  * connects via TCP to 123.156.189.12 port 80
+  * sends something like:
  
-```
-GET /bar HTTP/1.1
-Host: www.foo.com
-...
-
-```
+      ```
+      GET /bar HTTP/1.1
+      Host: www.foo.com
+      ...
+      ```
  
 
 * server replies with status code + (usually) some data 
 
-   * 200 OK, 403 Unauthorized 404 Not Found, 500 Internal Server Error, …
+   * 200 OK, 403 Unauthorized, 404 Not Found, 500 Internal Server Error, …
 
 
 
-### HTTP miscellany  {.smaller}
+### HTTP  {.smaller}
 
 
-* other HTTP commands besides GET
+* GET --- get resource
 * POST --- sending forms
 * HEAD --- get metadata about file (without getting its data)
 * PUT, DELETE, …  

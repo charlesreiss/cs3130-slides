@@ -4,24 +4,27 @@
 
 * ran out of IPv4 addresses 
 
-   * $2^{32}$ <i>seemed</i> like a lot of addresses
-   * now there are more internet <i>users</i> than addresses
+   * $2^{32}$ _seemed_ like a lot of addresses
+   * now there are more internet _users_ than addresses
 
 * possible solutions: 
-```
-\begin{enumerate}
- \item{} IPv6: use more bits for addresses, enough to never run out \item{} NAT: user one IPv4 address for an entire network of devices 
-\end{enumerate}
-```
+  - IPv6: use more bits for addresses, enough to never run out
+    - pro: clean, scalable solution that will always work
+    - con: every thing on the network needs to be updated
+  - NAT: user one IPv4 address for an entire network of devices
+    - pro: can be implemented by any network
+    - con: essentially a hack
+
 
 
 
 ### NAT: network address translation  {.smaller}
 
 
-* <i>convert</i> many private addrs. to one public addr.
-* locally: use private IP addresses for local addresses
-* outside: private IP addresses become a single public one
+* _convert_ many private addresses to one public address
+  * within the local network: use private IP addresses for local addresses
+  * outside the local network: private IP addresses become a single public one
+    * public address: address that can be routed on the internet
 * commonly how home networks work (and some ISPs)
 * certain IPv4 address blocks reserved for private/internal use 
 
@@ -30,6 +33,16 @@
    * <code>10.X.X.X</code>
    * …
 
+
+### you can see this yourself!  {.smaller}
+
+- on your computer:
+  - go to https://whatismyipaddress.com/
+  - go to your computer's network settings and look at the IP address
+
+- they don't match!
+  - difference between the public and private address
+  - public address might match your colleagues'
 
 
 ### NAT idea 

@@ -1,0 +1,10 @@
+
+### networking layers 
+
+<table>
+<tr style="border-top: 2px solid black;"><td>application</td><td>HTTP, SSH, SMTP, …</td><td>application-defined meanings</td></tr>
+<tr style="border-top: 2px solid black;"><td>transport</td><td>TCP, UDP, …</td><td>reach correct program reliability/streams</td></tr>
+<tr style="border-top: 2px solid black;"><td>network</td><td>IPv4, IPv6</td><td>reach correct machine (across networks)</td></tr>
+<tr style="border-top: 2px solid black;"><td>link</td><td>Ethernet, Wi-Fi, …</td><td>coordinate shared wire/radio</td></tr>
+<tr style="border-top: 2px solid black;"><td>physical</td><td>Ethernet, Wi-Fi, …</td><td>encode bits for wire/radio</td></tr>
+</table>

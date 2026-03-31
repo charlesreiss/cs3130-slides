@@ -100,7 +100,17 @@
 
 {{< include /network/_split-faster.qmd >}}
 
+# layers {visibility="hidden"}
 
+{{< include /network/_layers-overview.qmd >}}
+
+# UDP v TCP {visibility="hidden"}
+
+{{< include /network/_udp-v-tcp.qmd >}}
+
+# lab API {visibility="hidden"}
+
+{{< include /network/_labApi.qmd >}}
 
 
 
@@ -111,8 +121,6 @@
 {{< include /network/_names-and-addresses.qmd >}}
 
 # IP {visibility="hidden"}
-
-
 
 {{< include /network/_network-layer.qmd >}}
 
@@ -129,28 +137,22 @@
 {{< include /network/_routing.qmd >}}
 
 
-# lab API {visibility="hidden"}
-
-{{< include /network/_labApi.qmd >}}
-
-# UDP v TCP {visibility="hidden"}
-
-{{< include /network/_udp-v-tcp.qmd >}}
-
 
 # layers, revisited {visibility="hidden"}
 
-## port numbers {visibility="hidden"}
-
-{{< include /network/_port-num.qmd >}}
+{{< include /network/_layers-overview.qmd >}}
 
 ## OS tracking connections {visibility="hidden"}
 
 {{< include /network/_conn-tcp.qmd >}}
 
+## port numbers {visibility="hidden"}
+
+{{< include /network/_port-num.qmd >}}
+
 # DNS {visibility="hidden"}
 
-### againframe(nameAndAddr)
+{{< include /network/_names-and-addresses.qmd >}}
 
 {{< include /network/_dns.qmd >}}
 
@@ -162,6 +164,14 @@
 
 {{< include /network/_http.qmd >}}
 
+# layers, revisited {visibility="hidden"}
+
+{{< include /network/_layers-overview.qmd >}}
+
 # NAT {visibility="hidden"}
 
 {{< include /network/_nat.qmd >}}
+
+# layers, revisited {visibility="hidden"}
+
+{{< include /network/_layers-overview.qmd >}}
