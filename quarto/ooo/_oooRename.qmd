@@ -11,10 +11,8 @@
 
 ### register renaming state 
 
-<!-- \lstset{language=myasm,style=small} -->
-   
 
-::: {.r-stack}
+::: {.r-stack .my-full}
 ![](/ooo/texfig/rrState.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/ooo/texfig/rrState.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
@@ -27,16 +25,15 @@
 
 ### register renaming example (1) 
 
-<!-- \lstset{language=myasm,style=small} -->
-   ![](/ooo/texfig/rrExample1.figure.svg)
+![](/ooo/texfig/rrExample1.figure.svg)
 
 
 ### register renaming example (2) 
 
-<!-- \lstset{language=myasm,style=small} -->
    
 
-::: {.r-stack}
+::: {.r-stack .my-full}
+
 ![](/ooo/texfig/rrExample2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/ooo/texfig/rrExample2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}

@@ -27,7 +27,7 @@
 ] (instrs) {
     |[align=center]| original \& |[align=center]| renamed \\
     \lstinline|subq %r8, %r9| \& \lstinline|subq %x13, %x17| $\rightarrow$ \lstinline|%x18|, \lstinline|%cc5| \\
-    \lstinkine|jle D| \& \lstinline|jle %cc5, D| \\
+    \lstinline|jle D| \& \lstinline|jle %cc5, D| \\
 };
 \tikzset{
     box/.style={

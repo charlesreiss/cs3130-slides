@@ -12,11 +12,13 @@
  ![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-1.figure.svg)
  
 
-* exercise: how long to compute $A\times (B\times (C\times D))$? \\iftoggle{heldback  
+* exercise: how long to compute $A\times (B\times (C\times D))$? 
 
-   * $3\times 3$ cycles + any time to forward values
-   * no parallelism!
- }
+::: {.fragment .fade-in}
+
+$3\times 3$ cycles + any time to forward values
+
+:::
 
 
 ### execution units AKA functional units (2)  {.smaller}
@@ -26,5 +28,6 @@
 * where actual work of instruction is done
 * e.g. the actual ALU, or data cache
 * sometimes unpipelined:
- ![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-2.figure.svg)
+
+![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-2.figure.svg)
 
