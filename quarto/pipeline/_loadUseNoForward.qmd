@@ -1,14 +1,24 @@
 
-### why can't we\ldots  {.smaller}
-
+### why can't we...  {.smaller}
 
 
 ::: {.r-stack}
-![](/pipeline/texfig/loadUseNoForward.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/pipeline/texfig/loadUseNoForward.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/loadUseNoForward.figure-1.svg){width=800px .fragment .fade-out fragment-index=1}
 
+![](/pipeline/texfig/loadUseNoForward.figure-2.svg){width=800px .fragment .fade-in fragment-index=1}
 
 :::
- ![](/pipeline/texfig/loadUseNoForward_2.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+
+::: {.myoverbox .vlow .fragment fragment-index=3}
+
+clock cycle needs to be long enough <br/>
+to go through data cache AND <br/>
+to go through math circuits! <br/>
+(which we were trying to avoid by putting them in separate stages)
+
+:::
+
+
+![](/pipeline/texfig/loadUseNoForward_2.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
 

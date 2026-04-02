@@ -1,19 +1,18 @@
 
-### control hazard  {.smaller}
+### control hazard
 
 
-```
+```gnuassembler
 0x00: cmpq %r8, %r9
 0x08: je   0xFFFF
 0x10: addq %r10, %r11
-
 ```
- 
 
 ::: {.r-stack}
-![](/pipeline/texfig/controlHazard.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/pipeline/texfig/controlHazard.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/controlHazard.figure-1.svg){.fragment .fade-out fragment-index=2 width=1000px}
+
+![](/pipeline/texfig/controlHazard.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=1000px}
 
 
 :::

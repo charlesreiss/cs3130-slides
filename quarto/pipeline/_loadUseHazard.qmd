@@ -1,18 +1,11 @@
 
 ### unsolved problem  {.smaller}
 
-<!-- \lstset{
-    language=myasm,
-    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
-    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
-    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
-} -->
- 
-
 ::: {.r-stack}
-![](/pipeline/texfig/loadUseHazard.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/pipeline/texfig/loadUseHazard.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/loadUseHazard.figure-1.svg){.fragment .fade-out fragment-index=2 width=1000px}
+
+![](/pipeline/texfig/loadUseHazard.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=1000px}
 
 
 :::

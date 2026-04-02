@@ -2,7 +2,7 @@
 ### data hazard compiler solution  {.smaller}
 
 
-```
+```{.gnuassembler style="font-size: 150%"}
 addq %r8, %r9
 nop
 nop

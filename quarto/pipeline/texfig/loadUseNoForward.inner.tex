@@ -11,11 +11,5 @@
     \draw[line width=0.75mm,red,-Latex] ([xshift=.5cm]math out 2) -- (dcache.east) -- ([xshift=.25cm]dcache.east)
         -- ++(0cm, 3cm) -| ([xshift=.725cm]regfile read out) -- ([xshift=0.125cm]math out 2);
     \end{visibleenv}
-    \node[align=center,overlay,draw=red,ultra thick,fill=white,anchor=north] at ([xshift=-4cm,yshift=-1cm]dcache.south) {
-        clock cycle needs to be long enough \\
-        to go through data cache AND \\
-        to go through math circuits! \\
-        (which we were trying to avoid by putting them in separate stages)
-    };
 \end{pgfonlayer}
 \end{tikzpicture}

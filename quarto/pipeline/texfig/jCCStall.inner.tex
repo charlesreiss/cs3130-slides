@@ -14,13 +14,6 @@
     movq \%r11, 0(\%r12) \&~ \& ~ \& ~ \& ~ \& ~ \fdemw \& ~ \& ~\\
     \ldots \\
     };
-    \node[anchor=south west,align=left,font=\tt\fontsize{10}{11}\selectfont] at ([yshift=-1cm]timeline.north west) {
-cmpq \%r8, \%r9 \\
-jne LABEL // not taken \\
-xorq \%r10, \%r11 \\
-movq \%r11, 0(\%r12) \\
-...
-};
 \begin{visibleenv}<2>
     \node[draw=red,line width=1mm,inner sep=0mm,fit=(timeline-2-4),
         label={[fill=white,fill opacity=0.8,text opacity=1.0,text=red]west:compare sets flags}] {};

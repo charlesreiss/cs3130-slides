@@ -9,13 +9,13 @@
  ![](/pipeline/texfig/forwardPathsEx.figure.svg)
  
 
-* in subq, %r8 is \\rule{3cm2pt} addq. 
+* in subq, %r8 is _____ addq. 
 
-* in xorq, %r9 is \\rule{3cm2pt} addq. 
+* in xorq, %r9 is _____ addq. 
 
-* in andq, %r9 is \\rule{3cm2pt} addq. 
+* in andq, %r9 is _____ addq. 
 
-* in andq, %r9 is \\rule{3cm2pt} xorq. 
+* in andq, %r9 is _____ xorq. 
   
 
    * assume regfile cannot read value while being written

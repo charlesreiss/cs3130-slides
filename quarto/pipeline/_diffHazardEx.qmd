@@ -12,10 +12,11 @@
 * split execute into two stages: F/D/E1/E2/M/W
 * result only available near end of second execute stage
 * where does forwarding, stalls occur?
- ![](/pipeline/texfig/diffHazEx.figure.svg)
+
+![](/pipeline/texfig/diffHazEx.figure.svg){width=1000px}
 
 
-### exercise: different pipeline 
+### exercise: different pipeline  {.smaller}
 
 <!-- \lstset{
     language=myasm,
@@ -29,15 +30,16 @@
  
 
 ::: {.r-stack}
-![](/pipeline/texfig/diffHazExSoln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/pipeline/texfig/diffHazExSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/diffHazExSoln.figure-1.svg){.fragment .fade-out fragment-index=2 width=1000px}
 
-![](/pipeline/texfig/diffHazExSoln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/pipeline/texfig/diffHazExSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=1000px}
 
-![](/pipeline/texfig/diffHazExSoln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/pipeline/texfig/diffHazExSoln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=1000px}
 
-![](/pipeline/texfig/diffHazExSoln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/pipeline/texfig/diffHazExSoln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width=1000px}
+
+![](/pipeline/texfig/diffHazExSoln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 width=1000px}
 
 
 :::

@@ -1,5 +1,5 @@
 
-### diminishing returns: uneven split 
+### diminishing returns: uneven split  {.smaller}
 
 
 
@@ -8,11 +8,11 @@
  
 
 ::: {.r-stack}
-![](/pipeline/texfig/deeperPipelineUneven.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/pipeline/texfig/deeperPipelineUneven.figure-1.svg){.fragment .fade-out fragment-index=2 width=800px}
 
-![](/pipeline/texfig/deeperPipelineUneven.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/deeperPipelineUneven.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=800px}
 
-![](/pipeline/texfig/deeperPipelineUneven.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/pipeline/texfig/deeperPipelineUneven.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=800px}
 
 
 :::

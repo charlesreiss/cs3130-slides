@@ -1,7 +1,6 @@
 
 ### a data hazard  {.smaller}
 
-![](/pipeline/texfig/addqDataHazard.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
  <!-- \lstset{
     style=small,
     moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
@@ -9,35 +8,50 @@
     moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
     moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
 } -->
- 
-<pre><code>// initially %r8 = 800,
-//           %r9 = 900, etc.
-addq %r8, %r9   // R8 + R9 -&gt; R9
-addq %r9, %r8   // R9 + R8 -&gt; R9
+
+::::: {.columns}
+
+:::: {.column}
+
+```gnuassembler
+addq %r8, %r9   // R8 + R9 -> R9
+addq %r9, %r8   // R9 + R8 -> R9
 addq ...
-addq ...        
-</code></pre>
- 
+addq ...
+```
+
+::::
+
+:::: {.column}
+
+![](/pipeline/texfig/pipelinedCpu.figure.svg){width=100%}
+
+::::
+
+:::::
 
 ::: {.r-stack}
-![](/pipeline/texfig/addqDataHazard_2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/pipeline/texfig/addqDataHazard_2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/addqDataHazardTable.figure-1.svg){.fragment .fade-out fragment-index=2 width=800px}
 
+![](/pipeline/texfig/addqDataHazardTable.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=800px}
 
 :::
 
+### data hazard 
 
-### data hazard  {.smaller}
-
-
-```
+```gnuassembler
 addq %r8, %r9  // (1)
 addq %r9, %r8  // (2)
-
 ```
- ![](/pipeline/texfig/DataHazardTime.figure.svg)
- 
+
+<table>
+<tr><th>step#</th><th>pipeline implementation</th><th>ISA specification</th></tr>
+<tr><td>1    </td><td>read r8, r9 for (1)</td><td>read r8, r9 for (1) </td></tr>
+<tr><td>2    </td><td>read r9, r8 for (2)</td><td>write r9 for (1) </td></tr>
+<tr><td>3    </td><td>write r9 for (1)</td><td>read r9, r8 for (2) </td></tr>
+<tr><td>4    </td><td>write r8 for (2)</td><td>write r8 ror (2) </td></tr>
+</table> 
 
 * pipeline reads <em>older value</em>…
 * instead of value ISA says was just written

@@ -4,19 +4,6 @@
 \usetikzlibrary{calc, matrix, fit, arrows.meta}
 \ifdefined\codeBoxA\else\newsavebox\codeBoxA\fi
 \begin{document}
-\begin{lrbox}{\codeBoxA}
-\begin{lstlisting}[style=size10]
-        cmpq %r8, %r9
-        jne LABEL
-        xorq %r10, %r11
-        movq %r11, 0(%r12)
-        ...
-
-LABEL:  addq %r8, %r9
-        imul %r13, %r14
-        ...
-\end{lstlisting}
-\end{lrbox}
 
 \setSlide{1}
 \input{pipeline/texfig/jCCYes.inner.tex}

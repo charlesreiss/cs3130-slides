@@ -1,16 +1,24 @@
 
 ### jXX: stalling? 
 
+```gnuassembler
+cmpq %r8, %r9 
+jne LABEL // not taken 
+xorq %r10, %r11 
+movq %r11, 0(%r12) 
+...
+```
 
+<hr>
 
-::: {.r-stack .my-full}
-![](/pipeline/texfig/jCCStall.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+::: {.r-stack}
+![](/pipeline/texfig/jCCStall.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 width=1000px}
 
-![](/pipeline/texfig/jCCStall.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/pipeline/texfig/jCCStall.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=1000px}
 
-![](/pipeline/texfig/jCCStall.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/pipeline/texfig/jCCStall.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=1000px}
 
-![](/pipeline/texfig/jCCStall.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/pipeline/texfig/jCCStall.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width=1000px}
 
 
 :::
@@ -19,7 +27,7 @@
 ### making guesses  {.smaller}
 
 
-```
+```gnuassembler
         cmpq %r8, %r9
         jne LABEL
         xorq %r10, %r11
@@ -38,6 +46,18 @@ LABEL:  addq %r8, %r9
 
 
 ### jXX: speculating right (1) 
+
+```gnuassembler
+        cmpq %r8, %r9
+        jne LABEL
+        xorq %r10, %r11
+        movq %r11, 0(%r12)
+        ...
+
+LABEL:  addq %r8, %r9
+        imul %r13, %r14
+        ...
+```
 
 ![](/pipeline/texfig/jCCYes.figure.svg)
 
