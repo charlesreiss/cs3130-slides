@@ -10,8 +10,8 @@
 * A asks B to pay Sue \$100 by sending message with these parts: 
 
    * ‘‘2023-11-03: pay \$100’’
-   * $E(K_1, \text{``2023-11-03 Sue''})$
-   * $MAC(K_2, \text{``2023-11-03: pay \$100''})$
+   * $E(K_1,$ "2023-11-03 Sue"$)$
+   * $MAC(K_2,$ "2023-11-03: pay \$100"$)$
 
 * 1. can eavesdropper learn: (a) who is being paid, (b) how much?
 * 2. can machine-in-middle change: (a) who is being paid, (b) how much?

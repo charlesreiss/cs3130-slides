@@ -19,8 +19,8 @@
         \scriptsize on behalf of the Internet2 (not-for-profit)
         }
     };
-    \node[cert] (collab) at (-4, -5) {
-        collab.its.virginia.edu
+    \node[cert] (canvas) at (-4, -5) {
+        canvas.its.virginia.edu
     };
     \node[overlay] (other incommon) at (-7, -5) {
         \ldots
@@ -33,7 +33,7 @@
     };
     \begin{scope}[very thick,->]
         \draw (usertrust) -- (incommon);
-        \draw (incommon) -- (collab);
+        \draw (incommon) -- (canvas);
         \draw[overlay] (incommon) -- (other incommon);
         \draw[overlay] (incommon) -- (other incommon 2);
         \draw (usertrust) -- (other usertrust);

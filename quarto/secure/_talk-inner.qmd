@@ -63,9 +63,7 @@
 
 {{< include /secure/_other-attacks.qmd >}}
 
-# on the lab {visibility="hidden"}
 
-### on the lab 
 
 
 
@@ -75,9 +73,11 @@
 
 {{< include /secure/_pki.qmd >}}
 
+<!--
 ## how certificates verified {visibility="hidden"}
 
 {{< include /secure/_cert-auth-verified.qmd >}}
+-->
 
 # preview: additional tools {visibility="hidden"}
 

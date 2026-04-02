@@ -27,7 +27,7 @@
 * KeyGen(A's private value, B's key share) = new shared secret
 * KeyGen(B's private value, A's key share) = same shared secret 
 <hr class="vspace" />
-* math providers gaurentee: 
+* math providers guarantee: 
 
    * hard to derive shared secret without one of the private values
 

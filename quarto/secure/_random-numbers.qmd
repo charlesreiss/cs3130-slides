@@ -18,7 +18,9 @@
 * compromising machine now shouldn't reveal older random numbers
 
 
+<!--
 ### exercise: how to generate? 
+-->
 
 
 
