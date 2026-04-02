@@ -1,0 +1,56 @@
+
+### opportunity  {.smaller}
+
+<!-- \lstset{
+    style=small,
+    moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
+    moredelim=**[is][\btHL<3|handout:0>]{@3@}{@},
+    moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
+    moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
+} -->
+ 
+<pre><code>// initially %r8 = 800,
+//           %r9 = 900, etc.
+0x0: addq %r8, %r9 
+0x2: addq %r9, %r8
+...
+</code></pre>
+ ![](/pipeline/texfig/forwardOpp.figure.svg)
+
+
+### exploiting the opportunity 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/forwardCirc.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/forwardCirc.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/forwardCirc.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### opportunity 2  {.smaller}
+
+<!-- \lstset{
+    style=small,
+    moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
+    moredelim=**[is][\btHL<3|handout:0>]{@3@}{@},
+    moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
+    moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
+} -->
+ 
+<pre><code>// initially %r8 = 800,
+//           %r9 = 900, etc.
+0x0: addq %r8, %r9 
+0x2: nop
+0x3: addq %r9, %r8
+...
+</code></pre>
+ ![](/pipeline/texfig/forwardOpp2.figure.svg)
+
+
+### againframe(forwardCirc)

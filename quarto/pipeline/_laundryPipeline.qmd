@@ -1,0 +1,61 @@
+
+### Human pipeline: laundry 
+
+[]{.my-small} 
+
+::: {.r-stack}
+![](/pipeline/texfig/laundryPipeline-human-pipeline-laundry.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/laundryPipeline-human-pipeline-laundry.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### Waste (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/laundryPipeline-waste-1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/laundryPipeline-waste-1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### Waste (2) 
+
+![](/pipeline/texfig/laundryPipeline-waste-2.figure.svg)
+
+
+### Latency --- Time for One 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/laundryPipeline-latency-----time-for-one.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/laundryPipeline-latency-----time-for-one.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/laundryPipeline-latency-----time-for-one.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### Throughput --- Rate of Many 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/laundryPipeline-throughput-----rate-of-many.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/laundryPipeline-throughput-----rate-of-many.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/laundryPipeline-throughput-----rate-of-many.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

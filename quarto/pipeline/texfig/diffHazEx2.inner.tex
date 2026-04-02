@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\matrix[tight matrix no line,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \\
+(1) \lstinline|addq %rcx, %r9|       \\
+~ \\
+(2) \lstinline|jne foo| {\normalfont \small (not taken)}   \\
+~ \\
+(3) \lstinline|subq %rax, %r9|       \\
+~ \\
+(4) \lstinline|call bar| \\
+~ \\
+(5) \lstinline|bar: pushq %r9| \\
+};
+\end{tikzpicture}

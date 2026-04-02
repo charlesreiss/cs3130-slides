@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+\cpuset
+\cpucomponent
+\cpuconnect
+\stagestyles
+\begin{pgfonlayer}{fg}
+    \stageboxes
+\end{pgfonlayer}
+\begin{visibleenv}<1>
+\node[draw=red,line width=.5mm,anchor=north,align=left] at ([yshift=-1cm]regfile.south) {
+    divide running instruction into steps \\
+    one way: fetch / decode / execute / memory / writeback
+};
+\end{visibleenv}
+\begin{pgfonlayer}{fg}
+    \begin{visibleenv}<2->
+    \stageregs
+    \end{visibleenv}
+\end{pgfonlayer}
+\begin{visibleenv}<2>
+\node[draw=red,line width=.5mm,anchor=north,align=left] at ([yshift=-1cm]regfile.south) {
+    add `pipeline registers' to hold values from instruction
+};
+\end{visibleenv}
+\end{tikzpicture}

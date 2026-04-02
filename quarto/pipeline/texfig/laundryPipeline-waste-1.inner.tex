@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\laundryLabels{0}
+\laundryLoadNoPipeDefault{0}{1}{whites}
+\laundryLoadPipeDefault{0}{1+1.5}{colors}
+\laundryLoadPipeDefault{0}{1+1.5+1.7}{sheets}
+\node[minimum width=0.2cm,wasted] at ({1+1.5+1.5},-1) (waste1) {};
+\node[minimum width=0.2cm,wasted] at ({1+1.5+1.7+1.5},-1) (waste2) {};
+\begin{visibleenv}<2->
+\node[my callout2=waste2.north,fill=red!30!white] at ([yshift=2cm]waste1.north) {wasted time!};
+\node[my callout2=waste1.north,fill=red!30!white] at ([yshift=2cm]waste1.north) {wasted time!};
+\end{visibleenv}
+\end{tikzpicture}

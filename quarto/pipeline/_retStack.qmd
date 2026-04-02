@@ -1,0 +1,19 @@
+
+### predicting ret: extra copy of stack  {.smaller}
+
+
+
+* predicting ret --- ministack in processor registers
+* push on ministack on call; pop on ret
+* ministack overflows? discard oldest, mispredict it later
+ ![](/pipeline/texfig/retStack-predicting-ret-extra-copy-of-stack.figure.svg)
+
+
+### 4-entry return address stack  {.smaller}
+
+![](/pipeline/texfig/retStack-4-entry-return-address-stack.figure.svg)
+ 
+
+* on <code>call</code>: increment index, save return address in that slot
+* on <code>ret</code>: read prediction from index, decrement index
+

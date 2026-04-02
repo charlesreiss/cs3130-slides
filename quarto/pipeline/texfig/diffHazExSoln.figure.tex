@@ -1,0 +1,22 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4>]{~3~}{~end~},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/diffHazExSoln.inner.tex}
+\setSlide{2}
+\input{pipeline/texfig/diffHazExSoln.inner.tex}
+\setSlide{3}
+\input{pipeline/texfig/diffHazExSoln.inner.tex}
+\setSlide{4}
+\input{pipeline/texfig/diffHazExSoln.inner.tex}
+\setSlide{5}
+\input{pipeline/texfig/diffHazExSoln.inner.tex}
+\end{document}

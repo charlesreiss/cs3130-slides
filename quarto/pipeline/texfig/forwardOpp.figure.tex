@@ -1,0 +1,16 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\input{cpu-lib}
+\usetikzlibrary{circuits.logic.US,fit,matrix}
+\lstset{
+    style=small,
+    moredelim=**[is][\btHL<2>]{@2@}{@},
+    moredelim=**[is][\btHL<3>]{@3@}{@},
+    moredelim=**[is][\btHL<4>]{@4@}{@},
+    moredelim=**[is][\btHL<5>]{@5@}{@},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/forwardOpp.inner.tex}
+\end{document}

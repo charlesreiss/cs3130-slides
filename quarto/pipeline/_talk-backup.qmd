@@ -1,0 +1,12 @@
+
+## alt exercise {visibility="hidden"}
+
+{{< include /pipeline/_forwardPathsEx2.qmd >}}
+
+## diminishing return plots {visibility="hidden"}
+
+{{< include /pipeline/_deeperPipelinePlots.qmd >}}
+
+## effect of branch prediction {visibility="hidden"}
+
+{{< include /pipeline/_predEffect.qmd >}}

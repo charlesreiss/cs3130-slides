@@ -1,0 +1,19 @@
+
+### diminishing returns: uneven split 
+
+
+
+* Can we split up some logic (e.g. adder) arbitrarily?
+* Probably not...
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/deeperPipelineUneven.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/deeperPipelineUneven.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/deeperPipelineUneven.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

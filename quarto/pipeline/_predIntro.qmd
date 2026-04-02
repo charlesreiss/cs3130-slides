@@ -1,0 +1,64 @@
+
+### jXX: stalling? 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/jCCStall.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/jCCStall.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/jCCStall.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/jCCStall.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### making guesses  {.smaller}
+
+
+```
+        cmpq %r8, %r9
+        jne LABEL
+        xorq %r10, %r11
+        movq %r11, 0(%r12)
+        ...
+
+LABEL:  addq %r8, %r9
+        imul %r13, %r14
+        ...
+
+```
+ 
+
+* speculate (guess): <em>jne</em> won't go to LABEL
+* right: 2 cycles faster!; wrong: undo guess before too late
+
+
+### jXX: speculating right (1) 
+
+![](/pipeline/texfig/jCCYes.figure.svg)
+
+
+### jXX: speculating wrong 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/jCCNo.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/jCCNo.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### ‘‘squashed’’ instructions 
+
+
+* on misprediction need to undo partially executed instructions
+* mostly: remove from pipeline registers
+* more complicated pipelines: replace written values in cache/registers/etc.
+

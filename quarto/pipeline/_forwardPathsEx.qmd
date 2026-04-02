@@ -1,0 +1,25 @@
+
+### exercise: forwarding paths  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+} -->
+ 
+ ![](/pipeline/texfig/forwardPathsEx.figure.svg)
+ 
+
+* in subq, %r8 is \\rule{3cm2pt} addq. 
+
+* in xorq, %r9 is \\rule{3cm2pt} addq. 
+
+* in andq, %r9 is \\rule{3cm2pt} addq. 
+
+* in andq, %r9 is \\rule{3cm2pt} xorq. 
+  
+
+   * assume regfile cannot read value while being written
+   * A: not forwarded from
+   * B-D: forwarded to decode from {execute,memory,writeback} stage of
+
+

@@ -1,0 +1,19 @@
+
+### exercise: forwarding paths (2)  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+} -->
+ ![](/pipeline/texfig/forwardPathsEx2.figure.svg)
+ 
+
+* in subq, %r8 is \\rule{3cm2pt} addq.
+* in subq, %r9 is \\rule{3cm2pt} addq.
+* in andq, %r9 is \\rule{3cm2pt} subq.
+* in andq, %r9 is \\rule{3cm2pt} addq. 
+
+   * A: not forwarded from
+   * B-D: forwarded to decode from {execute,memory,writeback} stage of
+
+

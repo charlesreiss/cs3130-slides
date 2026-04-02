@@ -1,0 +1,53 @@
+
+### makeatletter()
+
+### pgfdeclareshape(myregister)
+
+### inheritsavedanchors(from=rectangle)
+
+### inheritanchorborder(from=rectangle)
+
+### inheritanchor(from=rectangle]center
+from=rectanglenorth
+ \inheritanchor[from=rectangle,south)
+
+### inheritanchor(from=rectangle]west
+\inheritanchor[from=rectangle,east)
+
+### inheritanchor(from=rectangle]north east
+\inheritanchor[from=rectangle,north west)
+
+### inheritanchor(from=rectangle]south east
+\inheritanchor[from=rectangle,south west)
+
+### inheritbackgroundpath(from=rectangle)
+
+### saveddimen(\halfbaselength,
+\pgf@x=0.5\wd\pgfnodeparttextbox
+\pgfmathsetlength\pgf@xc/pgf/inner xsep
+ \advance\pgf@x by \pgf@xc
+  
+    \advance\pgf@x by \wd\pgfnodeparttextbox
+\pgfmathsetlength\pgf@xb/pgf/minimum width
+ \divide\pgf@xb by 2
+ \ifdim\pgf@x<\pgf@xb
+ \pgf@x=\pgf@xb
+\fi
+)
+
+### backgroundpath(
+\southwest\northeast
+\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+ \pgf@yb=\pgf@ya
+\northeast \pgf@xb=\pgf@x
+\pgf@xc = \pgf@xa
+\advance\pgf@xc by \halfbaselength
+ \pgf@yc=\pgf@ya
+\advance\pgf@yc by \halfbaselength
+ \pgf@xa\pgf@ya
+ \pgf@xc\pgf@yc
+ \pgf@xb\pgf@yb
+ \pgfpathclose
+)
+
+### makeatother()

@@ -1,0 +1,41 @@
+
+### adding stages (one way) 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/cpu-to-stages-adding-stages-one-way.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/cpu-to-stages-adding-stages-one-way.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### running some instructions 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/pipeline/texfig/cpu-to-stages-running-some-instructions.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### why registers? 
+
+
+* example: fetch/decode
+* need to store current instruction somewhere … while fetching next one
+

@@ -1,0 +1,16 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{matrix,positioning}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<2>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4>]{~3~}{~end~},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/loadUseHazard.inner.tex}
+\setSlide{2}
+\input{pipeline/texfig/loadUseHazard.inner.tex}
+\end{document}

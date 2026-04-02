@@ -1,0 +1,23 @@
+
+### addq processor timing  {.smaller}
+
+![](/pipeline/texfig/addqTimeline.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+ 
+ <!-- \lstset{
+    style=small,
+    moredelim=**[is][\btHL<2|handout:0>]{@2@}{@},
+    moredelim=**[is][\btHL<3|handout:0>]{@3@}{@},
+    moredelim=**[is][\btHL<4|handout:0>]{@4@}{@},
+    moredelim=**[is][\btHL<5|handout:0>]{@5@}{@},
+    moredelim=**[is][\btHL<6|handout:0>]{@6@}{@},
+} -->
+ 
+<pre><code>// init. %r8=800, %r9=900, etc.
+<span data-fragment-index="2" class="fragment custom myem-only">addq %r8, %r9</span>   // R8+R9-&gt;R9
+<span data-fragment-index="3" class="fragment custom myem-only">addq %r10, %r11</span> // R10+R11-&gt;R11
+<span data-fragment-index="4" class="fragment custom myem-only">addq %r12, %r13</span> // R12+R13-&gt;R13
+<span data-fragment-index="5" class="fragment custom myem-only">addq %r14, %r15</span> // R14+R15-&gt;R15
+<span data-fragment-index="6" class="fragment custom myem-only">addq %r9, %r8</span>   // R9+R8-&gt;R8
+</code></pre>
+ ![](/pipeline/texfig/addqTimeline_2.figure.svg)
+

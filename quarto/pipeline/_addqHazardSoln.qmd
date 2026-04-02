@@ -1,0 +1,67 @@
+
+### data hazard compiler solution  {.smaller}
+
+
+```
+addq %r8, %r9
+nop
+nop
+addq %r9, %r8
+
+```
+ 
+
+* one solution: <em>change the ISA</em> 
+
+   * all `addq`s take effect <em>three instructions later</em> <br> [(assuming can read register value while it is being written back)]{.fragment fragment-index=2 .custom .myem-only}
+
+* make it <em>compiler's  job</em>
+* problem: recompile everytime processor changes?
+
+
+### stalling/nop pipeline diagram (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/addqHazardSoln-stallingnop-pipeline-diagram-1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/addqHazardSoln-stallingnop-pipeline-diagram-1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### stalling/nop pipeline diagram (2) 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/addqHazardSoln-stallingnop-pipeline-diagram-2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/addqHazardSoln-stallingnop-pipeline-diagram-2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### data hazard hardware solution  {.smaller}
+
+
+```
+addq %r8, %r9
+// hardware inserts: nop
+// hardware inserts: nop
+addq %r9, %r8
+
+```
+ 
+
+* how about hardware add nops?
+* called <em>stalling</em>
+* extra logic: 
+
+   * sometimes don't change PC
+   * sometimes put do-nothing values in pipeline registers
+
+

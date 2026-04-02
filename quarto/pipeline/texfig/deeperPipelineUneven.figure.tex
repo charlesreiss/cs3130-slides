@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\usetikzlibrary{chains}
+\input{cpu-lib}
+\tikzset{
+    hReg/.style={draw,myregister,minimum width=.4cm,minimum height=2cm,label={[font=\small,align=center]-90:#1}},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/deeperPipelineUneven.inner.tex}
+\setSlide{2}
+\input{pipeline/texfig/deeperPipelineUneven.inner.tex}
+\setSlide{3}
+\input{pipeline/texfig/deeperPipelineUneven.inner.tex}
+\end{document}

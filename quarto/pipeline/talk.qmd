@@ -1,0 +1,10 @@
+---
+title: "pipeline"
+
+---
+
+{{< include ../pipeline/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../pipeline/_talk-backup.qmd >}}

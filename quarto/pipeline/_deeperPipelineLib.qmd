@@ -1,0 +1,36 @@
+
+### usepgfplotslibrary(fillbetween)
+
+### deeper pipeline  {.smaller}
+
+\\countStyles{} \\circuitStyles{} 
+
+::: {.r-stack}
+![](/pipeline/texfig/deeperPipelineLib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/pipeline/texfig/deeperPipelineLib.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+
+:::
+ 
+<div class="fragment fade-in" data-fragment-index=9 >
+ 
+<hr class="vspace" /> 
+
+* Problem: [How much faster can we get?]{.fragment fragment-index=10 .custom .myem-only}
+* Problem: [Can we even do this?]{.fragment fragment-index=11 .custom .myem-only}
+ 
+</div>
+

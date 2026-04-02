@@ -1,0 +1,44 @@
+
+### exercise: different pipeline  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* split execute into two stages: F/D/E1/E2/M/W
+* result only available near end of second execute stage
+* where does forwarding, stalls occur?
+ ![](/pipeline/texfig/diffHazEx.figure.svg)
+
+
+### exercise: different pipeline 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* split execute into two stages: F/D/E1/E2/M/W
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/diffHazExSoln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/diffHazExSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/diffHazExSoln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/diffHazExSoln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/pipeline/texfig/diffHazExSoln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

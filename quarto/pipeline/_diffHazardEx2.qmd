@@ -1,0 +1,74 @@
+
+### exercise: control hazard timing+forwarding? 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* with F/D/E/M/W: what is fetched when? what is forwarded?
+ ![](/pipeline/texfig/sameHazEx1.figure.svg)
+
+
+### [solution]: control hazard timing+forwarding? 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* with F/D/E/M/W: what is fetched when? what is forwarded?
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/sameHazEx1Soln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/sameHazEx1Soln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/sameHazEx1Soln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/sameHazEx1Soln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/pipeline/texfig/sameHazEx1Soln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/pipeline/texfig/sameHazEx1Soln.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### againframe(sameHazEx1Soln)
+
+### exercise: with different pipeline 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* with F/D/E1/E2/M/W
+ ![](/pipeline/texfig/diffHazEx2.figure.svg)
+
+
+### [solution]: with different pipeline 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+* with F/D/E1/E2/M/W
+ ![](/pipeline/texfig/diffHazEx2Soln.figure.svg)
+

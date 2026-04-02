@@ -1,0 +1,5 @@
+
+### ex.: dependencies and hazards (2) 
+
+![](/pipeline/texfig/hazardVDepEx2.figure.svg)
+

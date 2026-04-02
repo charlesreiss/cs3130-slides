@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\node[anchor=north east] at ([xshift=-.5cm,yshift=-1cm]current page.north east)
+    {\resizebox{!}{0.16\mypaperwidth}{\usebox{\pipeCpuBox}}};
+\end{scope}
+\end{tikzpicture}

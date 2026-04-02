@@ -1,0 +1,12 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{matrix}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/forwardPathsEx.inner.tex}
+\end{document}

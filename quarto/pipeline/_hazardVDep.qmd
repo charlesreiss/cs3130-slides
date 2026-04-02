@@ -1,0 +1,15 @@
+
+### hazards versus dependencies  {.smaller}
+
+
+* dependency --- X needs result of instruction Y? 
+
+   * has potential for being messed up by pipeline
+   * (since part of X may run before Y finishes)
+
+* hazard --- will it not work in some pipeline? 
+
+   * <em>before</em> extra work is done to ‘‘resolve’’ hazards
+   * multiple kinds: so far, <i>data hazards</i>, <i>control hazards</i>
+
+

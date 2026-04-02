@@ -1,0 +1,49 @@
+\begin{tikzpicture}
+    \tikzset{
+        logic/.style 2 args={draw,rectangle,align=center,anchor=north west,minimum width=#1,on chain,join,
+                      inner sep=4pt,outer sep=1pt,minimum height=0.75cm,
+                      label={[font=\small]-90:#2},fill=blue!30,font=\scriptsize},
+        myl/.style 2 args={label={[align=right]180:#2 ps\\per cycle}},
+        myReg/.style={hReg={10 ps},minimum height=0.75cm,on chain,join},
+        every join/.style={-Latex,very thick},
+        my chain/.style={start chain,node distance=5mm},
+    }
+    \matrix {
+    \begin{scope}[my chain]
+        \node[logic={5cm}{100 ps},myl={1 stage}{110}] {logic (all)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain]
+        \node[logic={2.5cm}{50 ps},myl={2 stage}{60}] {logic (1/2)};
+        \node[myReg] {};
+        \node[logic={2.5cm}{50 ps}] {logic (2/2)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain]
+        \node[logic={1.5cm}{33 ps},myl={5 stage}{43}] {logic (1/3)};
+        \node[myReg] {};
+        \node[logic={1.5cm}{33 ps}] {logic (2/3)};
+        \node[myReg] {};
+        \node[logic={1.5cm}{33 ps}] {logic (3/3)};
+        \node[myReg] {};
+    \end{scope} \\
+    \begin{scope}[my chain, node distance=20mm, every node/.style={inner sep=0pt}]
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+        \node[on chain] {\vdots};
+    \end{scope}
+    \\
+    \begin{scope}[my chain,node distance=7mm]
+        \node[logic={0.1cm}{1 ps},myl={100 stage}{11}] {\strut};
+        \node[myReg] {};
+        \node[logic={0.1cm}{1 ps}] {\strut};
+        \node[myReg] {};
+        \node[logic={0.1cm}{1 ps}] {\strut};
+        \node[myReg] {};
+        \node[logic={0.1cm}{1 ps}] {\strut};
+        \node[myReg] {};
+        \node[on chain,join] {\ldots};
+    \end{scope} \\
+    };
+\end{tikzpicture}

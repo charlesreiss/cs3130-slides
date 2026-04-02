@@ -1,0 +1,28 @@
+
+### diminishing returns: register delays 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/regDelayLat.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/regDelayLat.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/regDelayLat.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### diminishing returns: register delays 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/regDelayThru.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/regDelayThru.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

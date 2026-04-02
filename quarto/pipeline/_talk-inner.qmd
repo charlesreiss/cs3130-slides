@@ -1,0 +1,74 @@
+
+# review: single-cycle proccesor {visibility="hidden"}
+
+{{< include /pipeline/_single-cycle-cpu.qmd >}}
+
+# pipelining idea {visibility="hidden"}
+
+## laundry idea {visibility="hidden"}
+
+{{< include /pipeline/_laundryPipeline.qmd >}}
+
+## applying to single-cycle processor {visibility="hidden"}
+
+{{< include /pipeline/_cpu-to-stages.qmd >}}
+
+## exercise: throughput/latency {visibility="hidden"}
+
+{{< include /pipeline/_throughLat.qmd >}}
+
+## slowest stage matters{visibility="hidden"}
+
+{{< include /pipeline/_deeperPipelineDiminish.qmd >}}
+
+{{< include /pipeline/_deeperPipelineUneven.qmd >}}
+
+# challenge: hazards {visibility="hidden"}
+
+## data hazards intro {visibility="hidden"}
+
+## example execution: wrong result, stalling resolution{visibility="hidden"}
+
+{{< include /pipeline/_addqHazard.qmd >}}
+
+{{< include /pipeline/_addqHazardSoln.qmd >}}
+
+## control hazards {visibility="hidden"}
+
+{{< include /pipeline/_controlHazard.qmd >}}
+
+## idea: branch prediction{visibility="hidden"}
+
+{{< include /pipeline/_predIntro.qmd >}}
+
+## data hazard fix: forwarding {visibility="hidden"}
+
+{{< include /pipeline/_addqForward.qmd >}}
+
+## exercise: what forwarding{visibility="hidden"}
+
+{{< include /pipeline/_forwardPathsEx.qmd >}}
+
+## can't always forward: load-use {visibility="hidden"}
+
+{{< include /pipeline/_loadUseHazard.qmd >}}
+
+## can forward: load-to-store{visibility="hidden"}
+
+{{< include /pipeline/_loadToStoreFwd.qmd >}}
+
+{{< include /pipeline/_loadUseNoForward.qmd >}}
+
+## dependency v hazard {visibility="hidden"}
+
+{{< include /pipeline/_hazardVDep.qmd >}}
+
+{{< include /pipeline/_hazardVDepEx.qmd >}}
+
+## with different pipeline? {visibility="hidden"}
+
+{{< include /pipeline/_diffHazard.qmd >}}
+
+## exercise{visibility="hidden"}
+
+{{< include /pipeline/_diffHazardEx.qmd >}}

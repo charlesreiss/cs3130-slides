@@ -1,0 +1,54 @@
+
+### exercise: predict+forward (1)  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+} -->
+ 
+ ![](/pipeline/texfig/forwardPathsPredict1.figure.svg)
+ 
+ 
+
+* if jle is <i>correctly predicted</i>: 
+
+   * in andq, %r9 is \\rule{3cm2pt} addq.
+   * in andq, %r8 is \\rule{3cm2pt} subq.
+ 
+  
+
+   * A: not forwarded from [assume read while writing requires forwarding]
+   * B-D: forwarded to decode from {execute,memory,writeback} stage of
+
+
+
+### exercise: predict+forward (2)  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+} -->
+ 
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/forwardPathsPredict2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/forwardPathsPredict2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+ 
+ 
+
+* if jle is <i>mispredicted</i> + resolved after jle's execute: 
+
+   * in andq, %r9 is \\rule{3cm2pt} addq.
+   * in andq, %r9 is \\rule{3cm2pt} subq.
+ 
+  
+
+   * A: not forwarded from [assume read while writing requires forwarding]
+   * B-D: forwarded to decode from {execute,memory,writeback} stage of
+
+

@@ -1,0 +1,20 @@
+
+### simple CPU 
+
+![](/pipeline/texfig/single-cycle-cpu-simple-cpu.figure.svg)
+
+
+### running instructions 
+
+
+
+::: {.r-stack .my-full}
+![](/pipeline/texfig/single-cycle-cpu-running-instructions.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/single-cycle-cpu-running-instructions.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/single-cycle-cpu-running-instructions.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

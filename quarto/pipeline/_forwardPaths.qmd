@@ -1,0 +1,66 @@
+
+### some forwarding paths 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq},
+    moredelim=**[is][\btHL<2-3|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<2-4|handout:0>]{~23~}{~end~},
+    moredelim={**[is][\btHL<2-4,8|handout:0>]{~237~}{~end~}},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+    moredelim=**[is][\btHL<5|handout:0>]{~4~}{~end~},
+    moredelim=**[is][\btHL<5-6|handout:0>]{~45~}{~end~},
+    moredelim=**[is][\btHL<6|handout:0>]{~5~}{~end~},
+    moredelim=**[is][\btHL<7|handout:0>]{~6~}{~end~},
+    moredelim=**[is][\btHL<8|handout:0>]{~7~}{~end~},
+} -->
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/forwardTime.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/forwardTime.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/pipeline/texfig/forwardTime.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/pipeline/texfig/forwardTime.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/pipeline/texfig/forwardTime.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/pipeline/texfig/forwardTime.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/pipeline/texfig/forwardTime.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+
+:::
+
+
+### multiple forwarding paths (1) 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+} -->
+ 
+
+::: {.r-stack}
+![](/pipeline/texfig/multForwardA.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/pipeline/texfig/multForwardA.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### multiple forwarding paths (2) 
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<3|handout:0>]{~3~}{~end~},
+} -->
+ ![](/pipeline/texfig/multForwardB.figure.svg)
+

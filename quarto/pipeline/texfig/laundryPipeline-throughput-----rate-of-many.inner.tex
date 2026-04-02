@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+\laundryLabels{0}
+\begin{pgfonlayer}{bg}
+\laundryLoadNoPipeLong{0}{1-1.5}{extra,fadeWeak}
+\end{pgfonlayer}
+\laundryLoadPipeLong{0}{1}{whites}
+\laundryLoadPipeLong{0}{1+2.5}{colors}
+\laundryLoadPipeLong{0}{1+2.5+2.5}{sheets}
+\laundryLoadPipeLong{0}{1+2.5+2.5+2.5}{extra}
+\laundryLoadPipeLong{0}{1+2.5+2.5+2.5+2.5}{extra2}
+\coordinate (whitesEnd) at ({1+2.5+2.5+1.3},-3.5);
+\coordinate (colorsEnd) at ({1+2.5+2.5+2.5+1.3},-3.5);
+\draw[very thick,red] ([yshift=-1cm]whitesEnd) -- ++(0,2);
+\draw[very thick,red] ([yshift=-1cm]colorsEnd) -- ++(0,2);
+\draw[very thick,red,Latex-Latex] ([yshift=-1.1cm]whitesEnd) -- ([yshift=-1.1cm]colorsEnd)
+    node[xshift=-1cm,midway,below,black] (timeBetweenE){time between finishes (0.83 h)};
+\begin{visibleenv}<2->
+    \node[below=.2cm of timeBetweenE] {
+        $\frac{1 \text{ load}}{0.83 \text{h}} = \color{red}1.2 \text{ loads/h}$
+    };
+\end{visibleenv}
+\begin{visibleenv}<3->
+    \coordinate (colorsStart) at ({1+2.5},-3.5);
+    \coordinate (sheetsStart) at ({1+2.5+2.5},-3.5);
+    \draw[very thick,red] (colorsStart) -- ++(0,3);
+    \draw[very thick,red] (sheetsStart) -- ++(0,3);
+    \draw[very thick,red,Latex-Latex] ([yshift=-.1cm]colorsStart) -- ([yshift=-.1cm]sheetsStart)
+        node[xshift=-1cm,midway,below,black] (timeBetweenS){time between starts (0.83 h)};
+\end{visibleenv}
+\end{tikzpicture}

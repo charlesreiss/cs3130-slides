@@ -1,0 +1,5 @@
+
+### diminishing returns: register delays 
+
+![](/pipeline/texfig/deeperPipelineDiminish.figure.svg)
+

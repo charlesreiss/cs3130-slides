@@ -1,0 +1,49 @@
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+    forwardLineC/.style={green!70!black,dashed,thick,-Latex},
+    isNop/.style={black!30},
+};
+\matrix[tight matrix no line,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=6cm,align=left}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \\
+(1) \lstinline|addq %rcx, %r9|   \& F \& D \& E1 \& E2 \& M \& W \\
+~ \\
+(2) \lstinline|jne foo| {\normalfont \small (not taken)}   \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
+(2b) {\normalfont \small mispredicted }                    \& ~ \& ~ \& F \& D  \& E1 \& |[isNop]| E2 \& |[isNop]| M \& |[isNop]| W \\
+(2c) {\normalfont \small mispredicted }                    \& ~ \& ~ \& ~ \& F \& D  \& |[isNop]| E1 \& |[isNop]| E2 \& |[isNop]| M \& |[isNop]| W \\
+(2d) {\normalfont \small mispredicted }                    \& ~ \& ~ \& ~ \& ~ \& F \& |[isNop]| D  \& |[isNop]|  E1 \& |[isNop]| E2 \& |[isNop]| M \& |[isNop]| W \\
+
+(3) \lstinline|subq %rax, %r9|                             \& ~ \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
+(4) \lstinline|call bar|                                   \& ~ \& ~ 
+        \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
+(5) \lstinline|bar: pushq %r9| \& ~ \& ~ \& ~ \& ~
+        \& ~ \& ~ \& ~ \& F \& D* \& D \& E1 \& E2 \& M \& W \\
+};
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+3}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdB}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+3}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+\newcommand{\fwdC}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+3}
+    \draw[forwardLineC] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+3}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\fwdC{2}{2}{4}{<0>}
+\fwd{4}{4}{8}{<0>}
+\fwd{9}{8}{10}{<0>}
+\fwd{9}{9}{10}{<0>}
+\end{tikzpicture}

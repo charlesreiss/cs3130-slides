@@ -1,0 +1,14 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{fit,arrows.meta,matrix}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4>]{~3~}{~end~},
+}
+\begin{document}
+
+\setSlide{1}
+\input{pipeline/texfig/diffHazEx2Soln.inner.tex}
+\end{document}

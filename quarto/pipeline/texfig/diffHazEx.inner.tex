@@ -1,0 +1,39 @@
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\matrix[tight matrix no line,
+        nodes={text width=.75cm,font=\tt,minimum height=.7cm,align=center},
+        column 1/.style={nodes={text width=7cm,align=left}},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \\
+(1) \lstinline|addq %rcx, %r9|       \& F \& D \& E1\& E2\& M \& W \& ~ \& ~ \& ~ \\
+(2) \lstinline|addq %r9, %rbx|       \& ~ \& F \& D \& D \& E1\& E2\& M \& W \& ~ \\
+(3) \lstinline|addq %rax, %r9|       \& ~ \& ~ \& F \& F \& D \& E1\& E2\& M \& W  \\
+(4) \lstinline|movq %r9, 8(%rbx)|   \& ~ \& ~ \& ~ \& F \& D \& E1\& E2\& M \& W  \\
+(5) \lstinline|movq %rcx, %r9|     \& ~ \& ~ \& ~ \& ~ \& F \& D \& E1 \& E2 \& M \& W \\
+};
+\begin{visibleenv}<1>
+    \fill[white] (tbl-3-2.north west) rectangle (tbl-6-11.south east);
+\end{visibleenv}
+\newcommand{\fwd}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLine,hiForwardOn=#4] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\newcommand{\fwdA}[4]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.east) -- ([xshift=-.05cm]tbl-#3-\idx.east);
+}
+
+\newcommand{\fwdNo}[3]{
+    \pgfmathtruncatemacro{\idx}{#1+2}
+    \draw[forwardLineB] ([xshift=-.15cm]tbl-#2-\idx.west) -- ([xshift=-.05cm]tbl-#3-\idx.west);
+}
+\foreach \x in {1,...,10} {
+    \draw[dotted] (tbl-1-\x.north east) -- (tbl-6-\x.south east);
+}
+\end{tikzpicture}

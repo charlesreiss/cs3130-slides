@@ -1,0 +1,36 @@
+
+### exercise: throughput/latency (1)  {.smaller}
+
+![](/pipeline/texfig/throughLat-exercise-throughputlatency-1.figure.svg)
+ 
+
+* suppose cycle time is 500 ps
+* exercise: latency of one instruction? <div class="my-small"><table>
+   <tr><td>A. 100 ps</td><td>B. 500 ps</td><td>C. 2000 ps</td><td>D. 2500 ps</td><td>E. something else</td></tr>
+<tr><td></td></tr>
+</table>
+   </div>
+
+* exercise: throughput overall? <div class="my-small"><table>
+   <tr><td>A. 1 instr/100 ps</td><td>B. 1 instr/500 ps</td><td>C. 1 instr/2000ps</td><td>D. 1 instr/2500 ps</td></tr>
+<tr><td>E. something else</td></tr>
+<tr><td></td></tr>
+</table>
+   </div>
+
+
+
+### exercise: throughput/latency (2)  {.smaller}
+
+![](/pipeline/texfig/throughLat-exercise-throughputlatency-2.figure.svg)
+ 
+ 
+
+* double number of pipeline stages (to 10) + decrease cycle time from 500 ps to 250 ps --- throughput? <div class="my-small"><table>
+   <tr><td>A. 1 instr/100 ps</td><td>B. 1 instr/250 ps</td><td>C. 1 instr/1000ps</td><td>D. 1 instr/5000 ps</td></tr>
+<tr><td>E. something else</td></tr>
+<tr><td></td></tr>
+</table>
+   </div>
+
+
