@@ -11,7 +11,7 @@ format:
       theme: whiteboard
       boardmarker-width: 3
     progress: false
-    margin: 0.02
+    margin: 0.04
     width: 1050
     height: 600
     code-line-numbers: false
