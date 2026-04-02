@@ -1,0 +1,69 @@
+
+### modern CPU design (instruction flow) 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/realCpus.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/realCpus.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/realCpus.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/realCpus.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/realCpus.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### instruction queue operation 
+
+<!-- \lstset{language=myasm} -->
+     
+
+::: {.r-stack}
+![](/ooo/texfig/iQueueOp.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/iQueueOp.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/iQueueOp.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/iQueueOp.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/iQueueOp.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/ooo/texfig/iQueueOp.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/ooo/texfig/iQueueOp.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/ooo/texfig/iQueueOp.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/ooo/texfig/iQueueOp.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/ooo/texfig/iQueueOp.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/ooo/texfig/iQueueOp.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/ooo/texfig/iQueueOp.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+
+:::
+
+
+### data flow 
+
+<!-- \lstset{language=myasm} -->
+     
+
+::: {.r-stack}
+![](/ooo/texfig/iQueueFlow.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/iQueueFlow.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/iQueueFlow.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

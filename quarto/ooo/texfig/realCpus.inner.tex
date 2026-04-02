@@ -1,0 +1,84 @@
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.75cm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    every label/.style={align=center,red!50!black},
+}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stage,on chain] (fetch1) {Fetch};
+\node[stage,on chain,join] (decode1) {Decode};
+\end{scope}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[iqueue,on chain,join,anchor=north west] (instrQueue) at ([xshift=.5cm,yshift=.5cm]decode1.east) {Instr\\ Queue};
+\end{scope}
+
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[below=1.25cm of fetch1,on chain,stage] (fetch2) {Fetch};
+\node[stage,on chain,join] (decode2) {Decode};
+\end{scope}
+\draw[->,thick] (decode1) -- (instrQueue.west |- decode1);
+\draw[->,thick] (decode2) -- (instrQueue.west |- decode2);
+\node[stageSmall,anchor=north west] (intAdd) at ([xshift=.5cm]instrQueue.north east) {ALU 1};
+\node[stageSmall,anchor=north] (intAddB) at ([yshift=-.5cm]intAdd) {ALU 2};
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stageSmall,on chain,anchor=north] (mult1) at ([yshift=-.5cm]intAddB) {ALU 3 \\ (stage 1)};
+\node[stageSmall,on chain] (mult2) {ALU 3 \\ (stage 2)};
+\end{scope}
+\node[stageSmall,anchor=north west] (ls) at ([yshift=-2.5cm]intAdd.south west) {load/store};
+\node[anchor=north west] (extraExec) at ([yshift=-.1cm]ls.south west) {\ldots};
+
+\draw[->,thick] (instrQueue.east |- intAdd) -- (intAdd);
+\draw[->,thick] (instrQueue.east |- intAddB) -- (intAddB);
+\draw[->,thick] (instrQueue.east |- mult1) -- (mult1);
+\draw[->,thick] (instrQueue.east |- ls) -- (ls);
+\draw[->,thick] (mult1) -- (mult2);
+\node[iqueue] (reorder) at ([xshift=8cm]instrQueue.west) {Reorder \\ Buffer};
+\node[stageTall,anchor=west] (writeback) at ([xshift=.5cm]reorder.east) {Write-\\back};
+\draw[->,thick] (intAdd) -- (reorder.west |- intAdd);
+\draw[->,thick] (intAddB) -- (reorder.west |- intAddB);
+\draw[->,thick] (mult2) -- (reorder.west |- mult2);
+\draw[->,thick] (ls) -- (reorder.west |- ls);
+\draw[->,thick] (reorder) -- (writeback);
+
+\tikzset{info/.style={align=left,font=\fontsize{14}{15}\selectfont}}
+\begin{visibleenv}<2>
+\node[fit=(fetch1) (fetch2),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    fetch  multiple instructions/cycle
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[fit=(instrQueue),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    keep list of \myemph{pending instructions} \\
+    ~ \\
+    run instructions from list \myemph{when operands available}  \\
+    ~ \\
+    forwarding handled here
+};
+\end{visibleenv}
+\begin{visibleenv}<4,6>
+\node[fit=(intAdd) (mult1) (mult2) (ls) (extraExec),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    multiple ``execution units'' to run instructions \\
+    e.g. possibly many ALUs \\
+    ~ \\
+    sometimes pipelined, sometimes not
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[fit=(reorder),hi] {};
+\node[info,anchor=north west] at ([yshift=-1.5cm]fetch2.south west) {
+    collect results of finished instructions \\
+    ~ \\
+    helps with forwarding, squashing \\
+};
+\end{visibleenv}
+\end{tikzpicture}

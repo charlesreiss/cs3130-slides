@@ -1,0 +1,70 @@
+
+### reorder buffer: on rename 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-rename.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-rename.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-rename.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-rename.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-rename.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### reorder buffer: on commit 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-commit.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-commit.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-commit.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-commit.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-on-commit.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+
+
+### reorder buffer: commit mispredict (one way) 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/branch-mispred-reorder-buffer-commit-mispredict-one-way.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-commit-mispredict-one-way.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-commit-mispredict-one-way.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/branch-mispred-reorder-buffer-commit-mispredict-one-way.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+
+
+### better? alternatives  {.smaller}
+
+
+* can take snapshots of register map on each branch 
+
+   * don't need to reconstruct the table
+   * (but how to efficiently store them)
+
+* can reconstruct register map before we commit the branch instruction 
+
+   * need to let reorder buffer be accessed even more?
+
+* can track more/different information in reorder buffer
+

@@ -1,0 +1,10 @@
+---
+title: "ooo"
+
+---
+
+{{< include ../ooo/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../ooo/_talk-backup.qmd >}}

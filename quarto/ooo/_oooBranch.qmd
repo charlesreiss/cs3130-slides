@@ -1,0 +1,22 @@
+
+### condition codes and OOO 
+
+
+* need to handle reading condition codes in OOO processor
+* option 1: rename like a normal register
+* option 2: handle in reorder buffer
+
+
+### renaming and condition codes 
+
+<!-- \lstset{language=myasm,style=small} -->
+   
+
+::: {.r-stack}
+![](/ooo/texfig/pushqOption1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/pushqOption1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

@@ -1,0 +1,9 @@
+
+### correlating predictor 
+
+
+
+* global history <i>and</i> local info good together
+* one idea: <em>combine history register + PC</em> (‘‘gshare’’)
+ ![](/bpred/texfig/corr-predict.figure.svg)
+

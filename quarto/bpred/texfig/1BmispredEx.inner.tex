@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\begin{visibleenv}<2->
+\node[anchor=north east,font=\small] at ([xshift=-1cm,yshift=-4cm]current page.north east) {
+\begin{tabular}{l|l|l|l|l}
+i = & branch & pred & outcome & correct? \\
+0 & mod 3 & ??? & \myemph<2>{T} & ??? \\
+1 & == 50 & ??? & \myemph<3>{F} & ??? \\
+1 & mod 3 & \myemph<2>{T} & F & --- \\
+2 & == 50 & \myemph<3>{F} & F & \checkmark \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+\end{tabular}
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

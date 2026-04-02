@@ -1,0 +1,68 @@
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|addq %r10, %r8| \& |[appear on=2]| \lstinline|addq %x19, %x13| $\rightarrow$ \lstinline|%x18| \\
+    |[alt=<4>{draw=red,ultra thick}]| \lstinline|movq %r8, (%rax)| \& |[appear on=3]| \lstinline|movq %x18, (%x04)| $\rightarrow$ \myemph<4>{(memory)}\\
+    \lstinline|subq %r8, %r11|     \& |[appear on=5]| \lstinline|subq %x18, %x07| $\rightarrow$ \lstinline|%x20| \\
+|[alt=<4>{draw=red,ultra thick}]| \lstinline|movq 8(%r11), %r11| \&
+    |[appear on=6]|  \lstinline|movq 8(%x20)|, (memory) $\rightarrow$ \lstinline|%x21|   \\
+    \lstinline|movq $100, %r8|  \& 
+            |[appear on=7]| \lstinline|movq $100| $\rightarrow$ \lstinline|%x23|\\
+    \lstinline|addq %r11, %r8| \&
+            |[appear on=8]| \lstinline|addq %x21, %x23| $\rightarrow$ \lstinline|%x24| 
+        \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-1.25cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west,
+    ] (rmap) at ([yshift=-1cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%r8 \& \xAfter{2}{\%x13}\showAfter{2}{\xAfter{7}{\%x18}}\showAfter{7}{\xAfter{8}{\%x23}}\showAfter{8}{\%x24}\\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \xAfter{5}{\%x07}\showAfter{5}{\xAfter{6}{\%x20}}\showAfter{6}{\%x21} \\
+\%r12 \& \%x05 \\
+\%r13 \& \%x02 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\xAfter{5}{\%x20} \\
+\xAfter{6}{\%x21} \\
+\xAfter{7}{\%x23} \\
+\xAfter{8}{\%x24} \\
+\ldots \\
+};
+\begin{visibleenv}<4>
+\node[box] {
+    could be that \%rax = 8+\%r11 \\
+    could load before value written! \\
+    possible data hazard! \\
+    \myemph{not handled via register renaming} \\
+    option 1: run load+stores in order \\
+    option 2: compare load/store addresses
+};
+\end{visibleenv}
+\end{tikzpicture}

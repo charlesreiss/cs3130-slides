@@ -1,0 +1,70 @@
+
+### local patterns and collisions (1)  {.smaller}
+
+
+```
+i = 10000;
+do {
+    p = malloc(...);
+    if (p == NULL) goto error;  // BRANCH 1
+    ...
+} while (i-- != 0); // BRANCH 2
+
+```
+ <hr />
+ 
+
+* what if branch 1 and branch 2 hash to same table entry?
+* pattern: TNTNTNTNTNTNTNTNT…
+* actually no problem to predict!
+
+
+### local patterns and collisions (2)  {.smaller}
+
+
+```
+i = 10000;
+do {
+    if (i % 2 == 0) goto skip; // BRANCH 1
+    ...
+    p = malloc(...);
+    if (p == NULL) goto error;  // BRANCH 2
+skip: ...
+} while (i-- != 0); // BRANCH 3
+
+```
+ <hr />
+ 
+
+* what if branch 1 and branch 2 and branch 3 hash to same table entry?
+* pattern: TTNNTTNNTTNNTTNNTT
+* also no problem to predict!
+
+
+### local patterns and collisions (3)  {.smaller}
+
+
+```
+i = 10000;
+do {
+    if (A) goto one  // BRANCH 1
+    ...
+one:
+    if (B) goto two  // BRANCH 2
+    ...
+two:
+    if (A or B) goto three // BRANCH 3
+    ...
+    if (A and B) goto three // BRANCH 4
+    ...
+three:
+    ... // changes A, B
+} while (i-- != 0); 
+
+```
+ <hr />
+ 
+
+* what if branch 1-4 hash to same table entry?
+* <em>better for prediction of branch 3 and 4</em>
+

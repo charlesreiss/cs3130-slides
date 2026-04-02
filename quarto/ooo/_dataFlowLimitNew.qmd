@@ -1,0 +1,13 @@
+
+### data flow model and limits (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/dataFlowLimitNew.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/dataFlowLimitNew.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

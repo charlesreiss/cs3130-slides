@@ -1,0 +1,30 @@
+
+### exercise  {.smaller}
+
+
+
+* use 2-bit predictor on this loop 
+
+   * executed in outer loop (not shown) many, many times
+
+* what is the conditional branch misprediction rate?
+ 
+```
+int i = 0;
+while (true) {
+  if (i % 3 == 0) goto next;
+  ...
+next:
+  i += 1;
+  if (i == 50) break;
+}
+
+```
+
+
+### exercise soln (1) 
+
+![](/bpred/texfig/2BmispredExSoln.figure.svg)
+
+
+### againframe(2BmispredExSoln)

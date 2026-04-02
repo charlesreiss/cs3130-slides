@@ -1,0 +1,74 @@
+
+## introduction {visibility="hidden"}
+
+## multiple issue {visibility="hidden"}
+
+{{< include /ooo/_missingPiecesMI.qmd >}}
+
+## out-of-order issue {visibility="hidden"}
+
+{{< include /ooo/_missingPiecesOOO.qmd >}}
+
+## real CPUs {visibility="hidden"}
+
+{{< include /ooo/_realCpuIntro.qmd >}}
+
+## complex hazards examples {visibility="hidden"}
+
+{{< include /ooo/_oooHazards.qmd >}}
+
+## superscalar overall design {visibility="hidden"}
+
+{{< include /ooo/_oooPipeline.qmd >}}
+
+## overall effect {visibility="hidden"}
+
+{{< include /ooo/_oooOverallExec.qmd >}}
+
+## register renaming {visibility="hidden"}
+
+### an OOO pipeline (register renaming) {.nostretch}
+
+![](/ooo/texfig/oooPipelineRename.figure.svg){width=900px}
+
+{{< include /ooo/_oooRename.qmd >}}
+
+## renaming exercise? {visibility="hidden"}
+
+{{< include /ooo/_oooRenameEx.qmd >}}
+
+## instruction dispatch {visibility="hidden"}
+
+### an OOO pipeline (starting instruction) {.nostretch}
+
+![](/ooo/texfig/oooPipelineRegread.figure.svg){width=900px}
+
+{{< include /ooo/_oooDispatch.qmd >}}
+
+## dispatch exercise 1 {visibility="hidden"}
+
+{{< include /ooo/_oooDispatchEx1.qmd >}}
+
+## functional units {visibility="hidden"}
+
+### an OOO pipeline (execution units) {.nostretch}
+
+![](/ooo/texfig/oooPipelineExecute.figure.svg){width=900px}
+
+{{< include /ooo/_realCpuFU.qmd >}}
+
+## instruction dispatch (two-cycle multiplier) {visibility="hidden"}
+
+{{< include /ooo/_oooDispatchAlt.qmd >}}
+
+## complex instructions and condition codes {visibility="hidden"}
+
+{{< include /ooo/_oooMicrocodeSummary.qmd >}}
+
+## OOO limits {visibility="hidden"}
+
+{{< include /ooo/_oooLimitations.qmd >}}
+
+## the data flow limit {visibility="hidden"}
+
+{{< include /intro/_perf-examples.qmd >}}

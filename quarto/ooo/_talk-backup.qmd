@@ -1,0 +1,48 @@
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+
+
+## data flow limit {visibility="hidden"}
+
+{{< include /ooo/_dataFlowLimitNew.qmd >}}
+
+## reassociation and data flow {visibility="hidden"}
+
+{{< include /ooo/_reassocDataFlow.qmd >}}
+
+## real OOO sizes {visibility="hidden"}
+
+{{< include /ooo/_oooSkylakeSizes.qmd >}}
+
+## predicting indirect branches {visibility="hidden"}
+
+{{< include /bpred/_predict-indirect.qmd >}}
+
+## handling branch misprediction {visibility="hidden"}
+
+### againframe(oooPipe)
+
+{{< include /ooo/_branch-mispred.qmd >}}
+
+## handling exceptions {visibility="hidden"}
+
+{{< include /ooo/_exceptions-and-ooo.qmd >}}
+
+## BROOM pipeline {visibility="hidden"}
+
+{{< include /ooo/_broomPipeline.qmd >}}
+
+## data flow limit {visibility="hidden"}
+
+{{< include /ooo/_dataFlowLimit.qmd >}}
+
+## multiple accumulator transformation {visibility="hidden"}
+
+{{< include /ooo/_dataFlowMult.qmd >}}
+
+## OOO microcode (long version) {visibility="hidden"}
+
+{{< include /ooo/_oooMicrocodeSummary.qmd >}}

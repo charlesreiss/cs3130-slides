@@ -1,0 +1,21 @@
+
+### predicting ret: ministack of return addresses  {.smaller}
+
+
+
+* predicting ret --- ministack in processor registers 
+
+   * push on ministack on call; pop on ret
+
+* ministack overflows? discard oldest, mispredict it later
+ ![](/bpred/texfig/retStack-predicting-ret-ministack-of-return-addre.figure.svg)
+
+
+### 4-entry return address stack  {.smaller}
+
+![](/bpred/texfig/retStack-4-entry-return-address-stack.figure.svg)
+ 
+
+* on <code>call</code>: increment index, save return address in that slot
+* on <code>ret</code>: read prediction from index, decrement index
+

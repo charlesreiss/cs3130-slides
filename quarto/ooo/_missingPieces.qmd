@@ -1,0 +1,36 @@
+
+### missing pieces 
+
+
+* [multi-cycle memories]{.fragment fragment-index=2 .custom .myem-only}
+* beyond pipelining: out-of-order, multiple issue
+
+
+### againframe(missingPieces)
+
+### multi-cycle memories  {.smaller}
+
+
+* ideal case for memories: single-cycle
+* achieved with <em>caches</em> (next topic) 
+
+   * fast access to small number of things
+ 
+<hr class="vspace" />
+* typical performance: 
+
+   * 90+% of the time: single-cycle
+
+* sometimes many cycles (3--400+)
+
+
+### variable speed memories 
+
+![](/ooo/texfig/varSpeedMem.figure.svg)
+
+
+### againframe(missingPieces)
+
+{{< include /pipe/_missingPiecesMI.qmd >}}
+
+{{< include /pipe/_missingPiecesOOO.qmd >}}

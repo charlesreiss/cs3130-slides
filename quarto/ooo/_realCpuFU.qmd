@@ -1,0 +1,30 @@
+
+### execution units AKA functional units (1)  {.smaller}
+
+
+
+* where actual work of instruction is done
+* e.g. the actual ALU, or data cache
+* sometimes pipelined: 
+
+   * (here: 1 op/cycle; 3 cycle latency)
+
+ ![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-1.figure.svg)
+ 
+
+* exercise: how long to compute $A\times (B\times (C\times D))$? \\iftoggle{heldback  
+
+   * $3\times 3$ cycles + any time to forward values
+   * no parallelism!
+ }
+
+
+### execution units AKA functional units (2)  {.smaller}
+
+
+
+* where actual work of instruction is done
+* e.g. the actual ALU, or data cache
+* sometimes unpipelined:
+ ![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-2.figure.svg)
+

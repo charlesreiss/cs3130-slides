@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\lstset{language=myasm}
+\NewDocumentCommand\ready{D<>{1-} }{\only<#1>{\myemph{ready}}}
+\NewDocumentCommand\done{D<>{1-} }{\only<#1>{done}}
+\NewDocumentCommand\run{D<>{1-} }{\only<#1>{\myemph{\it running}}}
+\NewDocumentCommand\wait{D<>{1-} m}{\only<#1>{waiting for #2}}
+\begin{document}
+
+\setSlide{1}
+\input{ooo/texfig/iQueueFlow.inner.tex}
+\setSlide{2}
+\input{ooo/texfig/iQueueFlow.inner.tex}
+\setSlide{3}
+\input{ooo/texfig/iQueueFlow.inner.tex}
+\end{document}

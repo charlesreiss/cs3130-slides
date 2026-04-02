@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.75cm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    every label/.style={align=center,red!50!black},
+}
+\begin{scope}[start chain=going right,every join/.style={->,thick},node distance=5mm]
+\node[stageSmall,on chain,anchor=north] (mult1) {ALU \\ (stage 1)};
+\node[stageSmall,on chain] (mult2) {ALU \\ (stage 2)};
+\node[stageSmall,on chain] (mult3) {ALU \\ (stage 3)};
+\end{scope}
+        \node [left=1cm of mult1,align=right] (valueInput) {input values \\ (one/cycle)};
+        \node [right=1cm of mult3,align=left] (valueOutput) {output values \\ (one/cycle)};
+        \draw[->,thick] (valueInput) -- (mult1);
+        \draw[->,thick] (mult3) -- (valueOutput);
+    \end{tikzpicture}

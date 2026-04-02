@@ -1,0 +1,21 @@
+
+### static branch prediction  {.smaller}
+
+
+
+* forward (target $>$ PC) not taken; backward taken
+* intuition: loops:
+ 
+```
+LOOP: ...
+      ...
+      je LOOP
+
+LOOP: ...
+      jne SKIP_LOOP
+      ...
+      jmp LOOP
+SKIP_LOOP:
+
+```
+

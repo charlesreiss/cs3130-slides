@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\begin{visibleenv}<2->
+\node[anchor=north east,font=\small] at ([xshift=-1cm,yshift=-4cm]current page.north east) {
+\begin{tabular}{l|l|l|l|l}
+i = & branch & pred & outcome & correct? \\
+0 & mod 3 & ??? & \myemph<2>{T} & ??? \\
+1 & mod 3 & \myemph<2>{T} & \myemph<3>{F} & no \\
+2 & mod 3 & \myemph<3>{F} & \myemph<4>{F} & yes \\
+3 & mod 3 & \myemph<4>{F} & T & no \\
+\ldots & \ldots & \ldots & \ldots & \ldots \\
+\end{tabular}
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

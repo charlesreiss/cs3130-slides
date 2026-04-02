@@ -1,0 +1,24 @@
+
+### exercise: static prediction  {.smaller}
+
+
+```
+.global foo
+foo:
+    xor %eax, %eax // eax <- 0
+foo_loop_top:
+    test $0x1, %edi
+    je foo_loop_bottom  // if (edi & 1 == 0) goto for_loop_bottom
+    add %edi, %eax 
+foo_loop_bottom:
+    dec %edi            // edi = edi - 1
+    jg for_loop_top // if (edi > 0) goto for_loop_top
+    ret
+
+```
+ 
+
+* suppose %edi = 3 (initially)
+* and using forward-not-taken, backwards-taken strategy:
+* how many mispreditions for je? for jg?
+

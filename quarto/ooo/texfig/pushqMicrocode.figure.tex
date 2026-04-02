@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{matrix}
+\lstset{language=myasm,style=small,morekeywords=iaddq}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{document}
+
+\setSlide{1}
+\input{ooo/texfig/pushqMicrocode.inner.tex}
+\setSlide{2}
+\input{ooo/texfig/pushqMicrocode.inner.tex}
+\end{document}

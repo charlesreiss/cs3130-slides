@@ -1,0 +1,10 @@
+
+{{< include /bpred/_talk-basic.qmd >}}
+
+{{< include /bpred/_talk-advanced.qmd >}}
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+

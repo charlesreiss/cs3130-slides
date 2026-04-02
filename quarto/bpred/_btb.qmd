@@ -1,0 +1,26 @@
+
+### branch target buffer 
+
+
+* what if we can't decode LABEL from machine code for <code>jmp LABEL</code> or <code>jle LABEL</code> fast?
+* what if we can't decode that there's a RET, CALL, etc. fast?
+* both issues for deeper pipelines 
+
+   * want to fetch instruction X before decoding instruction X-1
+
+
+
+### BTB: cache for branch targets 
+
+
+
+::: {.r-stack .my-full}
+![](/bpred/texfig/btbStructure.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/btbStructure.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/bpred/texfig/btbStructure.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

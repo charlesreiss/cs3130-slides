@@ -1,0 +1,134 @@
+
+### out-of-order and hazards  {.smaller}
+
+
+* out-of-order execution makes hazards harder to handle 
+
+<hr class="vspace" />
+
+* problems for forwarding: 
+   * [value in last stage may not be most up-to-date]{.fragment fragment-index=3 .custom .myem-only}
+   * older value may be written back before newer value?
+* problems for branch prediction: 
+   * mispredicted instructions may complete execution before squashing
+* which instructions to dispatch? 
+   * how to quickly find instructions that are ready?
+
+
+### read-after-write examples (1)  {.smaller}
+
+![](/ooo/texfig/rawExamples1.figure.svg){width=800px}
+
+<hr />
+ 
+::: {.myoverbox .fade-in-then-out .fragment fragment-index=1 .vlow}
+
+normal pipeline: two options for %r8? <br> choose the one from <i>earliest stage</i> <br> because it's from the most recent instruction 
+
+:::
+ 
+<div class="fragment fade-in" data-fragment-index=2 >
+
+![](/ooo/texfig/rawExamples1_2.figure.svg){width=900px}
+ 
+</div>
+
+::: {.myoverbox .high fragment-index=3 .fragment .fade-in-then-out}
+
+out-of-order execution:<br/>
+`%r8` from earliest stage might be from delayed instruction<br/>
+can't use same forwarding logic
+
+:::
+
+
+### register version tracking  {.smaller}
+
+
+* goal: track <em>different versions of registers</em>
+* out-of-order execution: may compute versions at different times
+* only forward the <em>correct version</em> 
+<hr class="vspace" />
+* strategy for doing this: preprocess instructions represent version info
+* makes forwarding, etc. lookup easier
+
+
+### rewriting hazard examples (1)  {.smaller}
+
+<table class="collines">
+<tr><td><tt>addq %r10, %r8</tt></td><td><tt>addq %r10<sub>v1</sub>, %r8<sub>v1</sub> $\rightarrow$ %r8<sub>v2</sub></tt></td></tr>
+<tr><td><tt>addq %r11, %r8</tt></td><td><tt>addq %r11<sub>v1</sub>, %r8<sub>v2</sub> $\rightarrow$ %r8<sub>v3</sub></tt></td></tr>
+<tr><td><tt>addq %r12, %r8</tt></td><td><tt>addq %r12<sub>v1</sub>, %r8<sub>v3</sub> $\rightarrow$ %r8<sub>v4</sub></tt></td></tr>
+</table>
+ <hr />
+ 
+
+* read different version than the one written 
+
+   * represent with three argument psuedo-instructions
+
+* forwarding a value? must match version <i>exactly</i> 
+<hr class="vspace" />
+* for now: version numbers
+* later: something simpler to implement
+
+
+### write-after-write example  {.smaller}
+
+<!-- \lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2|handout:0>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4|handout:0>]{~3~}{~end~},
+    moredelim={**[is][\btHL<2,4|handout:0>]{~23~}{~end~}},
+} -->
+             
+
+::: {.r-stack}
+![](/ooo/texfig/wawExamples.figure-1.svg){.fragment .fade-out fragment-index=2 width=900px}
+
+![](/ooo/texfig/wawExamples.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=900px}
+
+![](/ooo/texfig/wawExamples.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=900px}
+
+![](/ooo/texfig/wawExamples.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width=900px}
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=2}
+
+many instructions producing differnt version of `%r8` <br />
+most recently run instruction may be writing _outdated version_
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=3}
+
+multiple instructions that haven't started<br/>
+could need _different versions_ of `%r8`
+
+:::
+
+
+### keeping multiple versions  {.smaller}
+
+
+* for write-after-write problem: need to keep copies of multiple versions 
+
+   * both the new version and the old version needed by delayed instructions
+
+* for read-after-write problem: need to distinguish different versions
+* solution: <em>have lots of extra registers</em>
+* <em>… and assign each version a new ‘real’ register</em> 
+<hr class="vspace" />
+* called <em>register renaming</em>
+
+
+### register renaming 
+
+
+* rename <i>architectural registers</i> to <i>physical registers</i>
+* different physical register for each version of architectural
+* track which physical registers are ready
+* compare physical register numbers to do forwarding
+

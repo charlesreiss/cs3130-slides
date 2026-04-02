@@ -1,0 +1,70 @@
+
+### local pattern predictor (incomplete) 
+
+ 
+
+::: {.r-stack}
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/bpred/texfig/local-pattern-predict-local-pattern-predictor-incomplete.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+
+:::
+
+
+### recent pattern to prediction?  {.smaller}
+
+
+* easy cases:
+* just saw TTTTTT: predict T
+* just saw NNNNNN: predict N
+* just saw TNTNTN: predict T 
+<hr class="vspace" />
+* hard cases:
+* TTNTTTT 
+
+   * predict T? loop with many iterations (NTTTTTTTNTTTTTTTNTTTTTT…)
+   * predict T? if statement mostly taken (TTTTNTTNTTTTTTTTTTNTTTT…)
+   * predict N? loop with 5 iterations  (NTTTTNTTTTNTTTTNTTTTNTT…)
+
+* (many more)
+
+
+### history of history 
+
+ 
+
+::: {.r-stack}
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/bpred/texfig/local-pattern-predict-history-of-history.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+
+:::
+

@@ -1,0 +1,19 @@
+
+### OOO limitations  {.smaller}
+
+
+* [can't always find instructions to run]{.fragment fragment-index=2 .custom .myem-only} 
+
+   * plenty of instructions, but all depend on unfinished ones
+   * [programmer can adjust program to help this]{.fragment fragment-index=2 .custom .myem-only}
+
+* need to track all uncommitted instructions 
+
+   * can only go so far ahead
+   * e.g. Intel Skylake: 224-entry reorder buffer, 168 physical registers
+
+* branch misprediction has a big cost (relative to pipelined) 
+
+   * e.g. Intel Skylake: up to approx. 16 cycles (v. 2 for simple pipelined CPU)
+
+

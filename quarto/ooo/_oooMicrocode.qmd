@@ -1,0 +1,55 @@
+
+### renaming with microcode 
+
+<!-- \lstset{language=myasm,style=small,morekeywords=iaddq} -->
+   
+
+::: {.r-stack}
+![](/ooo/texfig/pushqMicrocode.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/pushqMicrocode.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+
+
+### renaming and condition codes 
+
+<!-- \lstset{language=myasm,style=small} -->
+   
+
+::: {.r-stack}
+![](/ooo/texfig/renameCC.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/renameCC.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/renameCC.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### renaming trickiness (1)  {.smaller}
+
+
+* need to expose input + outputs
+* hidden dependencies on stack pointer, condition codes, memory, etc.
+* stack pointer + condition codes 
+
+   * turn into visible register somehow
+   * alternative: force to execute in-order
+
+* memory: complex techniques we won't discuss
+
+
+### renaming trickiness (2)  {.smaller}
+
+
+* opportunity to translate complex instructions into simpler
+* commonly used for memory operands, probably some stack instructions 
+
+   * `popq %rcx` $\rightarrow$ addq, store
+   * `addq %rax, (%rbx)` $\rightarrow$ load, addq, store
+   * …
+
+

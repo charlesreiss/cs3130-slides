@@ -1,0 +1,29 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\ifdefined\exCode\else\newsavebox\exCode\fi
+\begin{document}
+\begin{lrbox}{\exCode}
+\begin{lstlisting}[language=C,style=smaller]
+int i = 0;
+while (true) {
+  if (i % 3 == 0) goto next;
+  ...
+next:
+  i += 1;
+  if (i == 50) break;
+}
+\end{lstlisting}
+\end{lrbox}
+
+\setSlide{1}
+\input{bpred/texfig/1BmispredExSoln.inner.tex}
+\setSlide{2}
+\input{bpred/texfig/1BmispredExSoln.inner.tex}
+\setSlide{3}
+\input{bpred/texfig/1BmispredExSoln.inner.tex}
+\setSlide{4}
+\input{bpred/texfig/1BmispredExSoln.inner.tex}
+\setSlide{5}
+\input{bpred/texfig/1BmispredExSoln.inner.tex}
+\end{document}

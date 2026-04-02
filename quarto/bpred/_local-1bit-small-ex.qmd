@@ -1,0 +1,41 @@
+
+### exercise (1)  {.smaller}
+
+
+
+* use 1-bit predictor on this loop
+* what is the conditional jump misprediction rate?
+ 
+```
+int i = 0;
+while (true) {
+  if (i % 3 == 0) goto next; 
+  ...
+next:
+  if (i % 10 > 2) goto next2; 
+  ...
+next2:
+  i += 1;
+}
+
+```
+
+
+### exercise soln (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/bpred/texfig/1BmispredExSoln.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/1BmispredExSoln.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/bpred/texfig/1BmispredExSoln.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/bpred/texfig/1BmispredExSoln.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/bpred/texfig/1BmispredExSoln.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

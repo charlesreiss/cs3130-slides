@@ -1,0 +1,6 @@
+
+### register renaming exercise 
+
+<!-- \lstset{language=myasm,style=small} -->
+   ![](/ooo/texfig/oooRenameEx.figure.svg)
+

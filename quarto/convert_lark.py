@@ -553,6 +553,13 @@ class Lstset(_MyAstItem):
         context.add_lstset(self.setting)
         return '<!-- ' + str(self.token) + ' -->\n'
 
+def _renumber(x, count):
+    number = int(x.group('number'))
+    if number == count + 1:
+        return f'<#1>'
+    else:
+        return f'#{number+1}'
+
 @dataclass
 class TikzContext(_MyAstItem):
     text: str
@@ -564,13 +571,23 @@ class TikzContext(_MyAstItem):
         self.text = self.text.replace('|handout:0', '')
         if self.text.startswith(r'\newcommand<>'):
             m = re.search(r'''
-                    \\newcommand<>\{(?P<command>[^}]+)\}\[1\]
-                ''', self.text, re.X)
-            assert m is not None
-            self.text = re.sub(r'''
-                    \\newcommand<>\{(?P<command>[^}]+)\}\[1\]
+                    \\newcommand<>\{(?P<command>[^}]+)\}(?:\[(?P<count>\d+)\])?
                 ''',
-                r'\\NewDocumentCommand\g<command>{D<>{} m}',
+                self.text, re.X)
+            assert m is not None, self.text
+            count = m.group('count')
+            if count is None:
+                count = 0
+            else:
+                count = int(count)
+            command = r'\NewDocumentCommand' + m.group('command') + '{D<>{1-} '
+            for _ in range(count):
+                command += 'm'
+            command += '}'
+            self.text = command + self.text[m.end(0):]
+            self.text = re.sub(
+                r'''\#(?P<number>\d+)''',
+                lambda x: _renumber(x, count),
                 self.text, flags=re.X)
         elif r'\newcommand<' in self.text:
             assert False

@@ -1,0 +1,106 @@
+
+### an OOO pipeline {.nostretch}
+
+![](/ooo/texfig/oooPipeline.figure.svg){width=900px}
+
+### an OOO pipeline (branch prediction) {.nostretch}
+
+![](/ooo/texfig/oooPipelineBP.figure.svg){width=900px}
+
+::: {.myoverbox .vlow}
+
+branch prediction needs to happen berfore instructions decoded <br />
+done with cache-like tables of information about recent branches
+
+:::
+
+### an OOO pipeline (register renaming) {.nostretch}
+
+![](/ooo/texfig/oooPipelineRename.figure.svg){width=900px}
+
+::: {.myoverbox .vlow .fragment .fade-out fragment-index=1}
+
+register renaming after decoding <br />
+where mapping from architectural to physical names kept
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in fragment-index=1}
+
+"dispatch" instructions = add to instructigon queue <br/>
+also requires preparing reorder buffer (for handling squashing)
+
+:::
+
+### an OOO pipeline (instruction queue) {.nostretch}
+
+![](/ooo/texfig/oooPipelineIQ.figure.svg){width=900px}
+
+::: {.myoverbox .vlow}
+
+instruction queue holds pending renamed isntructions <br />
+combined with register-ready info to <i>issue</i> instructions <br/>
+(<i>issue</i> = start executing)
+
+:::
+
+### an OOO pipeline (starting instruction) {.nostretch}
+
+![](/ooo/texfig/oooPipelineRegread.figure.svg){width=900px}
+
+::: {.myoverbox .vlow .fragment .fade-out fragment-index=1}
+
+after selecting from instruction queue, <br/>
+read from large register file and handle forwarding
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in fragment-index=1}
+
+typically read 6+ registers at a time <br/>
+extra data paths for forwarding (not drawn)
+
+:::
+
+### an OOO pipeline (execution units) {.nostretch}
+
+![](/ooo/texfig/oooPipelineExecute.figure.svg){width=900px}
+
+::: {.myoverbox .vlow}
+
+many <i>execution units</i> actually do math or cache load/store<br />
+some may have multiple pipeline stages<br />
+some may take variable time (data cache, integer divide, ...)
+
+:::
+
+
+### an OOO pipeline (writeback) {.nostretch}
+
+
+![](/ooo/texfig/oooPipelineWB.figure.svg){width=900px}
+
+::: {.myoverbox .vlow}
+
+writeback to physical registers <br />
+register file typically supports writing 3+ registers at a time
+
+:::
+
+### an OOO pipeline (commit) {.nostretch}
+
+![](/ooo/texfig/oooPipelineCommit.figure.svg){width=900px}
+
+::: {.myoverbox .vlow .fragment .fade-out fragment-index=1}
+
+new commit (sometimes <i>retire</i>) stage finalized instruction <br/>
+figures out when physical registers can be reused
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in fragment-index=1}
+
+also tracks bookkeeping information if we need to undo instruction <br />
+(because of branch mispredicdtion/segfault/etc.) <br />
+
+:::

@@ -1,0 +1,10 @@
+---
+title: "bpred"
+
+---
+
+{{< include ../bpred/_talk-inner.qmd >}}
+
+# Backup slides
+
+{{< include ../bpred/_talk-backup.qmd >}}

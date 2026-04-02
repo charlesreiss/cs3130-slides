@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+\node[font=\small] (table) {
+\begin{tabular}{lllll}
+i= & branch & predicted & outcome & correct? \\
+0 & mod 3 & 01 (N) & T & \\
+1 & break & 01 (N) & N & \checkmark \\
+1 & mod 3 & 10 (T) & N & \\
+2 & break & 00 (N) & N & \checkmark \\
+2 & mod 3 & 01 (N) & N & \checkmark \\
+3 & break & 00 (N) & N & \checkmark \\
+3 & mod 3 & 00 (N) & T & \\
+4 & break & 00 (N) & N & \checkmark \\
+\ldots & \ldots & \ldots & \ldots  & \ldots \\
+48 & mod 3 & 00 (N)  & T & \\
+49 & break & 00 (N) & N & \checkmark \\
+49 & mod 3 & 01 (N) & N & \checkmark \\
+50 & break & 00 (N) & T & \\
+0 & mod 3 & 00 (N) & T &\\
+1 & break & 01 (N) & N & \checkmark \\
+1 & mod 3 & 01 (N) & N & \checkmark \\
+2 & break & 00 (N) & N & \checkmark \\
+\end{tabular}
+};
+\node[anchor=north west,align=left,font=\small](conclude) at (table.north east) {
+mod 3: correct for i=1,2,4,5,7,8,\ldots,49 \\
+(33/50) \\
+mod 3: ends up always predicting not taken \\
+break: correct for i=2,3,\ldots,48 \\
+(49/50) \\
+break: ends up always predicting not taken \\
+overall: 82/100
+};
+\node[anchor=north west] at (conclude.south west) {
+\usebox{\exCode}
+};
+\end{tikzpicture}

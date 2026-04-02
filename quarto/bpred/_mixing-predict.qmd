@@ -1,0 +1,9 @@
+
+### mixing predictors  {.smaller}
+
+
+
+* different predictors good at different times
+* one idea: have two predictors, + predictor to predict which is right
+ ![](/bpred/texfig/mixing-predict.figure.svg)
+

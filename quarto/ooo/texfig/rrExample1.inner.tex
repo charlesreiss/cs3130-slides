@@ -1,0 +1,40 @@
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=3.5cm}},
+    column 2/.style={nodes={text width=6cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|add %r10, %r8| \& |[appear on=2]| \lstinline|add %x19, %x13| $\rightarrow$ \lstinline|%x18| \\
+    \lstinline|add %r11, %r8| \& |[appear on=3]| \lstinline|add %x07, %x18| $\rightarrow$ \lstinline|%x20| \\
+    \lstinline|add %r12, %r8| \& |[appear on=4]| \lstinline|add %x05, %x20| $\rightarrow$ \lstinline|%x21| \\
+};
+    \matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=4cm}},
+    anchor=north west,
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+    \%r8 \& \xAfter{2}{\%x13}\showAfter{2}{\xAfter{3}{\%x18}}\showAfter{3}{\xAfter{4}{\%x20}}\showAfter{4}{\%x21}\\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \%x07 \\
+\%r12 \& \%x05 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={free reg list},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\xAfter{3}{\%x20} \\
+\xAfter{4}{\%x21} \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\end{tikzpicture}

@@ -1,0 +1,114 @@
+\begin{tikzpicture}
+\tikzset{
+    every node/.style={font=\small},
+    >=Latex,
+    stage/.style={draw,rectangle,align=center,minimum height=1cm},
+    stageSmall/.style={draw,rectangle,align=center,minimum height=.5cm,inner sep=0.5mm},
+    stageTall/.style={draw,rectangle,align=center,minimum height=2.2cm,font=\fontsize{9.5}{10.5}\selectfont},
+    iqueue/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split horizontal,rectangle split parts=3,
+        inner sep=.5mm,minimum height=4.0cm},
+    buffer/.style={fill=blue!30,align=center,draw,rectangle split,rectangle split parts=5, inner sep=.5mm},
+    hi/.style={red,ultra thick,draw},
+    register map/.style={
+        tight matrix,
+        nodes={font=\fontsize{9}{10}\tt\selectfont},
+        row 1/.style={nodes={font=\bfseries\small}},
+        column 2/.append style={nodes={text width=1.7cm}}
+    },
+}
+\matrix[
+    anchor=north,
+    register map,
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys. reg \\ for new instrs},
+] (rename map) {
+    arch. reg \& phys. reg \\
+    \%rax       \& \%x12 \\
+    \%rcx       \& \%x17 \\
+    \%rbx       \& \%x13 \\
+    \%rdx       \& \sout<1->{\%x07}\only<1->{~\%x19} \\
+    \ldots    \& \ldots \\
+};
+\matrix[tight matrix,anchor=north west,
+    label={[alias=free label]north:free list},
+    nodes={font=\fontsize{9}{10}\tt\selectfont},
+] (free list) at ([yshift=-1cm]rename map.south west)
+{
+    \sout{\%x19} \\
+    \%x13 \\
+    \ldots \\
+    \alt<4->{\myemph<4-5>{\%x23}}{\ldots} \\
+};
+\matrix[
+    anchor=north west,
+    tight matrix,
+    label={north:reorder buffer (ROB)},
+    nodes={font=\fontsize{9}{10}\selectfont},
+    row 1/.style={nodes={font=\bfseries\fontsize{8}{9}\selectfont,minimum height=.65cm}},
+    row 12/.append style={nodes={alt=<4>{text=red}}},
+    column 1/.append style={nodes={text width=.75cm}},
+    column 2/.append style={nodes={text width=1cm,font=\fontsize{8}{9}\tt\selectfont}},
+    column 3/.append style={nodes={text width=2cm,font=\fontsize{8}{9}\tt\selectfont}},
+    column 4/.append style={nodes={text width=.75cm}},
+    column 5/.append style={nodes={text width=1.5cm}}
+] (rob) at ([xshift=6cm]rename map.north east) {
+    instr num. \& PC \& dest. reg \& done? \& mispred? / except? \\
+    |[alias=last instr loc]| 14 \& 0x1233 \& \%rbx / \%x24 \& \alt<4->{\myemph<4>{\checkmark}}{~} \& |[alias=last instr loc end]| ~ \\ 
+    |[alias=last instr loc after]| 15 \& 0x1239 \& \%rax / \%x30 \& ~ \& ~ \\ 
+    16 \& 0x1242 \& \%rcx / \%x31 \& \alt<2->{\myemph<2>{\checkmark}}{~} \& ~ \\ 
+    17 \& 0x1244 \& \%rcx / \%x32 \& ~ \& ~ \\ 
+    18 \& 0x1248 \& \%rdx / \%x34 \& \alt<2->{\myemph<2>{\checkmark}}{~} \& ~ \\
+    19 \& 0x1249 \& \%rax / \%x38 \& \alt<2->{\myemph<2>{\checkmark}}{~}  \& ~ \\
+    20 \& 0x1254 \& PC \&  ~ \& ~ \\
+    21 \& 0x1260 \& \%rcx / \%x17 \& ~ \& ~ \\
+    \ldots \& \ldots \& \ldots \& \ldots \& \ldots \\
+    31 \& 0x129f \& \%rax / \%x12 \& ~ \& \alt<2->{\myemph<2>{\checkmark}}{~}  \\
+    |[alias=new instr loc]| \alt<4->{32}{~} \& \alt<4->{0x1230}{~} \& \alt<4->{\%rdx / \%x19}{~} \& ~ \& ~ \\
+    |[alias=new instr loc after]|~ \& ~ \& ~ \& ~ \& ~ \\
+};
+\begin{visibleenv}<1-4>
+\draw[very thick,<-] (last instr loc) -- ++(-1cm,0cm) node[left,align=right] {remove \\ here \\ on commit};
+\end{visibleenv}
+\begin{visibleenv}<5->
+\draw[very thick,<-] (last instr loc after) -- ++(-1cm,0cm) node[font=\small,left,align=right] {remove here \\ when committed};
+\end{visibleenv}
+\coordinate (message loc) at ([xshift=.5cm,yshift=.7cm]free list.south east);
+\tikzset{
+    box/.style={draw=red,very thick,at={(message loc)},anchor=north west,align=left,fill=white},
+}
+\begin{visibleenv}<2>
+\node[box] {
+    instructions marked done in reorder buffer when computed \\
+    but not removed (`committed') yet 
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    commit stage tracks architectural to physical register map \\
+    for committed instructions
+};
+\end{visibleenv}
+\begin{visibleenv}<4-5>
+\node[box] {
+    when next-to-commit instruction is done \\
+    update this register map and free register list \\
+    and remove instr. from reorder buffer
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\draw[very thick,alt=<5>{red}] (last instr loc.west) -- (last instr loc end.east);
+\end{visibleenv}
+\begin{visibleenv}<3->
+\matrix[
+    anchor=north east,
+    register map,
+    label={[alias=rename map label,align=center]north:arch $\rightarrow$ phys reg\\for committed},
+] (rename map) at ([xshift=-3cm,yshift=-2cm]rob.north west){
+    arch. reg \& phys. reg \\
+    \%rax       \& \%x30 \\
+    \%rcx       \& \%x28 \\
+    \%rbx       \& \sout<4->{\%x23}\only<4->{~\myemph<4>{\%x24}} \\
+    \%rdx       \& \%x21 \\
+    \ldots    \& \ldots \\
+};
+\end{visibleenv}
+\end{tikzpicture}

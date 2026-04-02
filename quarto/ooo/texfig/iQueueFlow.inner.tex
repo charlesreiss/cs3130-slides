@@ -1,0 +1,80 @@
+\begin{tikzpicture}
+\matrix[tight matrix,
+    nodes={font=\small,minimum height=.5cm},
+    row 1/.style={nodes={font=\small\it}},
+    column 1/.style={nodes={text width=.5cm}},
+    column 2/.style={nodes={text width=4cm}},
+    column 3/.style={nodes={text width=3cm}},
+    ] (iQueue) {
+    \# \&  instruction \& status \\
+    1 \& \lstinline|addq %rax, %rdx| \& done \\
+    2 \& \lstinline|addq %rbx, %rdx| \& done \\
+    3 \& \lstinline|addq %rcx, %rdx| \& done \\
+    4 \& \lstinline|cmpq %r8, %rdx| \& done\\
+    5 \& \lstinline|jne ...| \& done \\
+    6 \& \lstinline|addq %rax, %rdx| \& done \\
+    7 \& \lstinline|addq %rbx, %rdx| \& done \\
+    8 \& \lstinline|addq %rcx, %rdx| \& done \\
+    9 \& \lstinline|cmpq %r8, %rdx| \& done \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+};
+
+\tikzset{
+    x/.style={}
+}
+
+\matrix[tight matrix no line,
+    nodes={font=\small,text width=1cm,align=right,minimum height=.5cm},
+    column 1/.style={nodes={text width=4cm}},
+    column 2/.style={nodes={text width=2cm,x=2}},
+    column 3/.style={nodes={x=4}},
+    column 4/.style={nodes={x=5}},
+    column 5/.style={nodes={x=7}},
+    column 6/.style={nodes={x=9}},
+    column 7/.style={nodes={x=10}},
+    column 8/.style={nodes={x=11}},
+    row 1/.style={nodes={font=\small\it}},
+    anchor=north west
+    ] (time) at ([yshift=-.5cm]iQueue.south west) {
+    execution unit \& cycle\# 1 \& 2  \& 3  \& 4 \& 5 \& 6 \& 7 \& \ldots \\
+    ALU 1         \& 1          \& 2 \& 3  \& 4 \& 5 \& 8 \& 9 \\
+    ALU 2         \& ---        \& ---\& ---\& 6 \& 7 \& --- \& \ldots \\
+    };
+\draw (time-1-1.south west) -- (time-1-9.south east);
+\draw (time-1-1.north east) -- (time-3-1.south east);
+
+\tikzset{c/.style={draw,font=\small\it,inner sep=.25mm},g/.style={draw,font=\small,inner sep=.25mm}}
+\tikzset{mark/.style={alt=<3>{red}{}}}
+%\node[c,above right=.25cm of iQueue-2-3] (aX) {\%rax};
+%\node[c,right=.5cm of aX] (bX) {\%rbx};
+%\node[c,right=.5cm of bX] (cX) {\%rcx};
+\node[g,right=1cm of iQueue-2-3] (i1) {1: add};
+\node[g,right=2.25cm of iQueue-3-3] (i2) {2: add};
+\node[g,right=3.5cm of iQueue-4-3] (i3) {3: add};
+\node[g,right=4.75cm of iQueue-5-3] (i4) {4: cmp};
+\node[g,right=6cm of iQueue-6-3] (i5) {5: jne};
+\node[g,right=1cm of iQueue-7-3] (i6) {6: add};
+\node[g,right=2.25cm of iQueue-8-3] (i7) {7: add};
+\node[g,right=3.5cm of iQueue-9-3] (i8) {8: add};
+\node[g,right=4.75cm of iQueue-10-3] (i9) {9: cmp};
+\begin{scope}[>=Latex,->,thick]
+%\draw (aX) |- (i1);
+%\draw (aX) |- (i6);
+\draw (i1) -- (i2);
+\draw (i2) -- (i3);
+\draw (i3) -- (i6);
+\draw (i6) -- (i7);
+\draw (i7) -- (i8);
+\draw (i8) -- (i9);
+
+\draw (i3) -- (i4);
+\draw (i4) -- (i5);
+\end{scope}
+\begin{visibleenv}<2>
+\node[draw=red,very thick,fill=white] at ([xshift=-9cm]i5) {rule: arrows must go forward in time};
+\end{visibleenv}
+
+\begin{visibleenv}<3>
+\node[draw=red,very thick, fill=white] at ([xshift=-5cm]i6) {longest path determines speed};
+\end{visibleenv}
+\end{tikzpicture}

@@ -1,0 +1,9 @@
+
+### interlude: real CPUs 
+
+
+* modern CPUs: 
+<hr class="vspace" />
+* execute <em>multiple instructions at once</em>
+* execute instructions <em>out of order</em> --- whenever <em>values available</em>
+

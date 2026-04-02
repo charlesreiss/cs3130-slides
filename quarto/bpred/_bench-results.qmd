@@ -1,0 +1,27 @@
+
+### benchmark results 
+
+
+* from 1993 paper
+* (not representative of modern workloads?)
+* rate for conditional branches on benchmark
+* variable table sizes
+
+
+### 2-bit ctr + local history 
+
+from McFarling, ‘‘Combining Branch Predictors’’ (1993) 
+![](/bpred/mcf-local-bimodal){}
+
+
+### 2-bit (bimodal) + local + global hist 
+
+from McFarling, ‘‘Combining Branch Predictors’’ (1993) 
+![](/bpred/mcf-local-bimodal-global){}
+
+
+### global + hash(global+PC) (gshare/gselect) 
+
+from McFarling, ‘‘Combining Branch Predictors’’ (1993) 
+![](/bpred/mcf-global-gshare){}
+

@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\matrix [matrix of nodes, nodes={draw,rectangle,row sep=-\pgflinewidth,font=\scriptsize, text width=3cm},
+         label={-90:stack in memory}] (realStack) {
+    baz saved registers \\
+    baz return address \\
+    bar saved registers \\
+    bar return address \\
+    foo local variables \\
+    foo saved registers \\
+    foo return address \\
+    foo saved registers \\
+ };
+
+\matrix [matrix of nodes,row sep=-\pgflinewidth,nodes={draw,rectangle,font=\scriptsize,text width=3cm},
+         label={[align=center]-90:(partial?) stack\\in CPU registers},right=1cm of realStack] (fakeStack) {
+    baz return address \\
+    bar return address \\
+    foo return address \\
+ };
+\end{tikzpicture}

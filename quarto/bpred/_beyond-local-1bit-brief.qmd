@@ -1,0 +1,21 @@
+
+### beyond local 1-bit predictor  {.smaller}
+
+
+* can predict using more historical info 
+<hr class="vspace" />
+* whether taken last several times 
+
+   * example: taken 3 out of 4 last times $\rightarrow$ predict taken
+
+* pattern of how taken recently 
+
+   * example: if last few are T, N, T, N, T, N; next is probably T
+   * makes two branches hashing to same entry not so bad
+
+* outcomes of last N conditional jumps (‘‘global history’’) 
+
+   * take into account conditional jumps in surrounding code
+   * example: loops with if statements will have regular patterns
+
+

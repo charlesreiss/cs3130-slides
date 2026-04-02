@@ -1,0 +1,50 @@
+
+## saturating counter {visibility="hidden"}
+
+{{< include /bpred/_local-saturating.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /bpred/_local-sat-ex.qmd >}}
+
+## pattern-based predictors {visibility="hidden"}
+
+## intuition: local branch patterns{visibility="hidden"}
+
+{{< include /bpred/_local-patterns-intuition.qmd >}}
+
+## local pattern based predictor{visibility="hidden"}
+
+{{< include /bpred/_local-pattern-predict.qmd >}}
+
+## local pattern predictor and collisions{visibility="hidden"}
+
+{{< include /bpred/_local-and-collision.qmd >}}
+
+## global pattern predictor {visibility="hidden"}
+
+{{< include /bpred/_global-history-predictor.qmd >}}
+
+# combined approaches {visibility="hidden"}
+
+## correlating branch predictor {visibility="hidden"}
+
+{{< include /bpred/_corr-predict.qmd >}}
+
+## mixing predictors {visibility="hidden"}
+
+{{< include /bpred/_mixing-predict.qmd >}}
+
+# specialized predictors {visibility="hidden"}
+
+## loop count predictors {visibility="hidden"}
+
+{{< include /bpred/_loop-count-predict.qmd >}}
+
+# branch predictor performance? {visibility="hidden"}
+
+{{< include /bpred/_bench-results.qmd >}}
+
+# reversed engineering Haswell BP {visibility="hidden"}
+
+{{< include /bpred/_re-haswell.qmd >}}

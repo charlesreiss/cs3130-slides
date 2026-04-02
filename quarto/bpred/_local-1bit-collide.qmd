@@ -1,0 +1,41 @@
+
+### collisions?  {.smaller}
+
+
+* two branches could have same hashed PC
+* nothing in table tells us about this 
+
+   * versus direct-mapped cache: had <i>tag bits</i> to tell
+ 
+<hr class="vspace" />
+* is it worth it?
+* adding tag bits makes table <i>much</i> larger and/or slower
+* but does anything go wrong when there's a collision?
+
+
+### collision results  {.smaller}
+
+
+* possibility 1: both branches usually taken 
+
+   * no actual conflict --- prediction is better(!)
+
+* possibility 2: both branches usually not taken 
+
+   * no actual conflict --- prediction is better(!)
+
+* possibility 3: one  branch taken, one not taken 
+
+   * performance probably worse
+
+
+
+### 1-bit predictor for loops 
+
+
+* predicts first and last iteration wrong 
+
+   * example: branch to beginning --- but same for branch from beginning to end
+
+* everything else correct
+

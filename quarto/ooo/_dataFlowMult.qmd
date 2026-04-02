@@ -1,0 +1,15 @@
+
+### better data-flow 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/dataFlowMult.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/dataFlowMult.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/dataFlowMult.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+

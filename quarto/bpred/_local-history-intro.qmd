@@ -1,0 +1,7 @@
+
+### using local history 
+
+
+* for each branch: remember recent outcomes
+* prediction: based on recent pattern
+

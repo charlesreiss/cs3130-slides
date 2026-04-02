@@ -1,0 +1,61 @@
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=3.5cm}},
+    column 2/.style={nodes={text width=6cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|add %r10, %r8| \& \ldots \\
+    \lstinline|add %r11, %r8| \& \ldots \\
+    \lstinline|add %r12, %r8| \& \ldots \\
+};
+\matrix[tight matrix,label={[align=center,alias=rmap label,inner sep=0.4mm]north:arch $\rightarrow$ phys register map},
+    nodes={font=\tt\small,text width=1.5cm},
+    column 2/.style={nodes={text width=4cm}},
+    anchor=north west,
+    alt=<2>{fill=red!10}
+    ] (rmap) at ([yshift=-.75cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\%r11 \& \%x07 \\
+\%r12 \& \%x05 \\
+\ldots \& \ldots \\
+};
+\matrix[tight matrix,label={[alias=free label]free reg list},anchor=west,nodes={font=\tt\small},
+        alt=<3>{fill=red!10}] (free) at ([xshift=1cm]rmap.east) {
+\%x18 \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\tikzset{
+    box/.style={draw=red,very thick,at={([yshift=1cm,xshift=-1cm]free.north)},anchor=south west,align=left},
+    hilite fit/.style={fit=#1,draw=red,ultra thick,inner sep=.5mm},
+}
+\begin{visibleenv}<2>
+    \node[hilite fit=(rmap) (rmap label)] {};
+    \node[box] {
+        table for architectural (external) \\
+        and physical (internal) name \\
+        (for next instr. to process)
+    };
+\end{visibleenv}
+\begin{visibleenv}<3>
+    \node[hilite fit=(free) (free label)] {};
+    \node[box] {
+        list of available physical registers \\
+        added to as instructions finish
+    };
+\end{visibleenv}
+\end{tikzpicture}

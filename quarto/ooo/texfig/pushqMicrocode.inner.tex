@@ -1,0 +1,58 @@
+\begin{tikzpicture}
+\tikzset{
+    appear on/.style={
+        alt=<#1->{}{invisible},
+        alt=<#1>{draw=red,very thick},
+    },
+}
+\matrix[tight matrix no line,
+    column 1/.style={nodes={text width=5cm}},
+    column 2/.style={nodes={text width=8cm,text depth=.1cm}},
+] (instrs) {
+    |[align=center]| original \& |[align=center]| renamed \\
+    \lstinline|pushq %r8| \& |[appear on=2]| \lstinline|iaddq $8, %x11| $\rightarrow$ \lstinline|%x18| \\
+    ~ \& |[appear on=2]| \lstinline|movq %x13, 0(%x18)| $\rightarrow$ (memory) \\
+    ~ \& ~ \\
+};
+\tikzset{
+    box/.style={
+        draw=red,ultra thick,
+        anchor=west,
+        align=left,
+        font=\small,
+        fill=white,
+        at={([xshift=-2cm,yshift=2cm]free.east)},
+    }
+}
+\matrix[tight matrix,label={[align=center]north:arch $\rightarrow$ phys \\ register map},
+    nodes={font=\tt\small,text width=1.5cm,minimum height=0.45cm},
+    column 2/.style={nodes={text width=6cm}},
+    anchor=north west
+    ] (rmap) at ([yshift=-1.5cm]instrs.south west) {
+\%rax \& \%x04 \\
+\%rcx \& \%x09 \\
+\ldots \& \ldots \\
+\%rsp \& \xAfter{2}{\%x11}\showAfter{2}{\%x18} \\
+\ldots \& \ldots \\
+\%r8 \& \%x13 \\
+\%r9 \& \%x17 \\
+\%r10 \& \%x19 \\
+\ldots \& \ldots \\
+};
+    \matrix[tight matrix,label={[align=center]free\\regs},anchor=west,nodes={font=\tt\small}] (free) at ([xshift=1cm]rmap.east) {
+\xAfter{2}{\%x18} \\
+\%x20 \\
+\%x21 \\
+\%x23 \\
+\%x24 \\
+\ldots \\
+};
+\begin{visibleenv}<2>
+\node[box] {
+    pushq is really complicated \\
+    one implementation option: \\
+    split into simpler ``microinstructions'' \\
+    also exposes \%rsp to register renmaing
+};
+\end{visibleenv}
+\end{tikzpicture}

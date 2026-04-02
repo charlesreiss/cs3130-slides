@@ -1,0 +1,14 @@
+
+### indirect branch prediction  {.smaller}
+
+
+* <code>jmp *%rax</code> or <code>jmp *(%rax, %rcx, 8)</code>
+* BTB can provide a prediction
+* but can do better with more context
+* example---predict based on other recent computed jumps 
+
+   * good for polymophic method calls
+ 
+<hr class="vspace" />
+* table lookup with Hash(last few jmps) <br> instead of Hash(this jmp)
+

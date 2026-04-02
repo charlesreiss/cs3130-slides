@@ -1,0 +1,29 @@
+
+### loop count predictors (1)  {.smaller}
+
+
+```
+for (int i = 0; i < 64; ++i)
+    ...
+
+```
+ 
+
+* can we predict this perfectly with predictors we've seen
+* yes --- local or global history with 64 entries 
+<hr class="vspace" />
+* but this is very important --- more efficient way?
+
+
+### loop count predictors (2)  {.smaller}
+
+
+* loop count predictor idea: look for NNNNNNT+repeat (or TTTTTTN+repeat)
+* track for each possible loop branch: 
+
+   * how many repeated Ns (or Ts) so far
+   * how many repeated Ns (or Ts) last time before one T (or N)
+   * something to indicate this pattern is useful?
+
+* known to be used on Intel
+

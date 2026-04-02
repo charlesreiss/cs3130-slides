@@ -1,0 +1,4 @@
+
+## exercise: static prediction{visibility="hidden"}
+
+{{< include /bpred/_staticPredictEx.qmd >}}

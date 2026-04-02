@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+\matrix[tight matrix,anchor=north west,
+    nodes={minimum height=0.5cm,text depth=.15cm},
+    column 1/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=1.8cm}},
+    column 2/.style={nodes={font=\fontsize{10}{11}\selectfont\tt,text width=3cm}},
+] (code) {
+0x40041B \& movq \$4, \%rax \\
+|[alias=the target]| 0x400423 \& ... \\
+0x400429 \& decq \%rax \\
+|[alias=the branch,fill=blue!15]| 0x40042A \& |[fill=blue!15]| jz 0x400423 \\
+0x40042B \& ... \\
+};
+\draw[dotted,thick,->] (the branch.west) -- ++(-.2cm,0cm) |- (the target.west);
+\matrix[tight matrix,
+    nodes={minimum height=.45cm,fill=white},
+    column 1/.style={nodes={text width=1cm,font=\small}},
+    column 2/.style={nodes={text width=1.5cm,font=\small\tt}},
+    column 3/.style={nodes={text width=2cm,font=\small}},
+    column 4/.style={nodes={text width=2cm,font=\small}},
+    column 5/.style={nodes={text width=1.5cm,font=\small\tt}},
+    row 1/.style={nodes={align=left,minimum height=1cm,font=\small}},
+    anchor=north west
+] (results) at ([xshift=1cm]code.north east) {
+iter. \& {table \\before} \& prediction \& outcome \& {table\\after} \\
+1 \& 01 \& not taken \& taken \& 10\\
+2 \& 10 \& taken \& taken \& 11 \\
+3 \& 11 \& taken \& taken \& 11 \\
+4 \& 11 \& taken \& not taken \& 10 \\
+1 \& 10 \& taken \& taken \& 11 \\
+2 \& 11 \& taken \& taken \& 11 \\
+3 \& 11 \& taken \& taken \& 11 \\
+4 \& 11 \& taken \& not taken \& 10 \\
+1 \& 10 \& taken \& taken \& 11 \\
+    \ldots \& |[font=\small]| \ldots \& \ldots \& \ldots \& |[font=\small]| \ldots\\
+};
+\end{tikzpicture}

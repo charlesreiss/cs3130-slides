@@ -1,0 +1,21 @@
+
+### global history predictor: idea 
+
+
+* one predictor idea: ignore the PC
+* just record taken/not-taken pattern for all branches
+* lookup in big table like for local patterns
+
+
+### global history predictor (1) 
+
+
+
+::: {.r-stack .my-full}
+![](/bpred/texfig/ghExample1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/ghExample1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

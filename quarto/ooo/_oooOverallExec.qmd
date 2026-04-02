@@ -1,0 +1,17 @@
+
+### an OOO pipeline diagram 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/oooOverallExec.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/oooOverallExec.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/oooOverallExec.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/oooOverallExec.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+
+:::
+

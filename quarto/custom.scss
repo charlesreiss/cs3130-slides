@@ -142,6 +142,8 @@ div.myoverbox {
     padding: 3px 3px 3px 3px;
 } 
 
+.reveal div.myoverbox > p { margin: 0; }
+
 div.myoverbox.big {
     font-size: 40px;
     padding: 5px 5px 5px 5px;

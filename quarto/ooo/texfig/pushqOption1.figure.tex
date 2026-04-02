@@ -1,0 +1,17 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\lstset{language=myasm,style=small}
+\newcommand{\xAfter}[2]{%
+    \alt<#1->{\myemph<#1>{\sout{#2}}}{#2}%
+}
+\newcommand{\showAfter}[2]{%
+    \alt<#1->{\myemph<#1>{#2}}{}%
+}
+\begin{document}
+
+\setSlide{1}
+\input{ooo/texfig/pushqOption1.inner.tex}
+\setSlide{2}
+\input{ooo/texfig/pushqOption1.inner.tex}
+\end{document}

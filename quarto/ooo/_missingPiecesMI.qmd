@@ -1,0 +1,11 @@
+
+### beyond pipelining: multiple issue  {.smaller}
+
+
+
+* start <em>more than one instruction/cycle</em>
+* multiple parallel pipelines; many-input/output register file
+* <em>hazard handling much more complex</em>
+
+![](/ooo/texfig/missingPiecesMI.figure.svg){width=1000px}
+

@@ -1,0 +1,63 @@
+\begin{tikzpicture}
+\tikzset{
+    >=Latex,
+    connect/.style={draw,ultra thick},
+}
+% FIXME: PC --> hash function --> table
+\node[draw,very thick,label={north:PC of branch},font=\tt] (pc) {0x4004\myemph<\showSelectionFrame>{2}A};
+\node[anchor=north west,draw,very thick,fill=yellow!10,anchor=north west] (hash)
+    at ([xshift=-.5cm,yshift=-1cm]pc.south east) {hash function};
+\matrix[tight matrix,
+    nodes={minimum height=.6cm},
+    column 1/.style={nodes={
+        draw=none,
+        font=\small\tt,
+        alt={<\showSelectionFrame>{text=black!50}},
+    }},
+    column 2/.style={nodes={text width=3.5cm,font=\small,alt=<\showSelectionFrame>{text=black!50,draw=black!50}}},
+    row 1/.style={nodes={draw=none,text=black,font=\small\it,draw=none,minimum height=0.1cm}},
+    row 4/.style={nodes={alt=<\showSelectionFrame>{text=black,fill=blue!10}}},
+    row 4 column 2/.style={nodes={alt=<\showSelectionFrame>{draw=black,very thick}}},
+    anchor=north west,
+] (tbl) at ([xshift=4cm]pc.north east) {
+    index \& {prediction/\\last result?} \\
+    0 \& taken (1)\\
+    1 \& not taken (0)\\
+    2 \& taken (1) \\
+    3 \& taken (1) \\
+    |[draw=none]| \ldots \& |[draw=none]| \ldots \\
+    14 \& not taken (0) \\
+    15 \& taken (1) \\
+};
+\draw[connect,ultra thick,->] (pc.south) |- (hash.west);
+\begin{visibleenv}<\beforeShowSelectFrame>
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-2-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-3-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-5-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-7-1.west);
+\draw[connect,dotted,black!50,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-8-1.west);
+\end{visibleenv}
+\begin{visibleenv}<\showSelectionFrame>
+\draw[connect,ultra thick,->] (hash.east) -- ++(.4cm,0cm) |- (tbl-4-1.west);
+\end{visibleenv}
+\begin{visibleenv}<2>
+\coordinate (callout hash loc) at ([xshift=-.5cm]hash.south);
+\node[my callout2=callout hash loc,align=left,anchor=north] at ([xshift=2cm,yshift=-2cm]hash.south) {
+    typical choice: some bits of branch address \\
+    for our example: will use bits 4-7
+};
+\end{visibleenv}
+\begin{visibleenv}<4->
+\draw[connect,->,alt=<4>{red}] ([yshift=-.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,-3cm) node[below,align=center] {
+    prediction \\
+    to fetch stage
+};
+\end{visibleenv}
+\begin{visibleenv}<5->
+\draw[connect,<-,alt=<5>{red}] ([yshift=.2cm]tbl-4-2.east) -- ++(1cm,0cm) -- ++(0cm,1.5cm) node[above,align=center] {
+    actual outcome \\
+    (from later stage)
+};
+\end{visibleenv}
+\end{tikzpicture}

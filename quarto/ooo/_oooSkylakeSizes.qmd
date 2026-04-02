@@ -1,0 +1,22 @@
+
+### Intel Skylake OOO design  {.smaller}
+
+
+* 2015 Intel design --- codename ‘Skylake’
+* 94-entry instruction queue-equivalent
+* 168 physical integer registers
+* 168 physical floating point registers
+* 4 ALU functional units 
+
+   * but some can handle more/different types of operations than others
+
+* 2 load functional units 
+
+   * but pipelined: supports multiple pending cache misses in parallel
+
+* 1 store functional unit
+* 224-entry reorder buffer 
+
+   * determines how far ahead branch mispredictions, etc. can happen
+
+

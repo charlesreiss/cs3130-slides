@@ -1,0 +1,26 @@
+
+# branch prediction strategies, briefly {visibility="hidden"}
+
+## static prediction {visibility="hidden"}
+
+{{< include /bpred/_staticPredict.qmd >}}
+
+## with local history {visibility="hidden"}
+
+{{< include /bpred/_local-1bit.qmd >}}
+
+## collisions{visibility="hidden"}
+
+{{< include /bpred/_local-1bit-collide.qmd >}}
+
+## exercise{visibility="hidden"}
+
+{{< include /bpred/_local-1bit-ex.qmd >}}
+
+## predicting targets {visibility="hidden"}
+
+{{< include /bpred/_btb.qmd >}}
+
+## predicting indirect branches {visibility="hidden"}
+
+{{< include /bpred/_predict-indirect.qmd >}}

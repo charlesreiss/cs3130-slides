@@ -1,0 +1,17 @@
+
+### computed jumps?  {.smaller}
+
+
+```
+jmp *%rax
+
+```
+ 
+
+* how do we predict target of this?
+* simple idea: BTB stores last-seen target
+* one of several strategies: 
+<hr class="vspace" />
+* construct hash of addresses of last several jumps
+* lookup hash in table of last target for that jump
+

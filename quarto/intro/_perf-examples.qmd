@@ -1,15 +1,12 @@
-<!-- \lstset{language=myasm,style=smaller,morekeywords={decq}} -->
-<!-- \lstset{language=myasm,style=smaller,morekeywords={decq}} -->
-
 ### some performance examples 
 
 
 
 ::: {.r-stack .my-full}
-![](texfig/perf-examples.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](texfig/perf-examples.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/intro/texfig/perf-examples.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
+![](/intro/texfig/perf-examples.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
 :::
 

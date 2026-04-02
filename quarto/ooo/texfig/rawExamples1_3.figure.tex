@@ -1,0 +1,31 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{matrix,arrows.meta}
+\lstset{
+    language=myasm,
+    morekeywords={mrmovq,irmovq,rmmovq,rrmovq,addq},
+    moredelim=**[is][\btHL<2>]{~2~}{~end~},
+    moredelim=**[is][\btHL<4>]{~3~}{~end~},
+}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    %hiForwardOn/.style={alt=#1{blue}{}},
+    hiForwardOn/.style={},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+}
+\tikzset{fetch/.style={fill=yellow!15},decode/.style={fill=orange!15},execute/.style={fill=green!15},
+    memory/.style={fill=blue!15},writeback/.style={fill=violet!15},commit/.style={fill=magenta!20}}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\F}{ \& |[fetch]| F}
+\newcommand{\fd}{ \& |[fetch]| F \& |[decode]| D}
+\newcommand{\demw}{ \& |[decode]| D \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\emw}{ \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mw}{  \& |[memory]| M \& |[writeback]| W}
+\newcommand{\mem}{  \& |[memory]| M}
+\newcommand{\cmt}{ \& |[commit]| C }
+\begin{document}
+
+\setSlide{1}
+\input{ooo/texfig/rawExamples1_3.inner.tex}
+\end{document}

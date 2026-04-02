@@ -1,0 +1,49 @@
+
+### beyond 1-bit predictor  {.smaller}
+
+
+* devote <i>more space</i> to storing history
+* main goal: <em>rare exceptions don't immediately change prediction</em> 
+<hr class="vspace" />
+* example: branch taken 99% of the time
+* 1-bit predictor: wrong about 2% of the time 
+
+   * 1% when branch not taken
+   * 1% of taken branches right after branch not taken
+
+* new predictor: wrong about 1% of the time 
+
+   * 1% when branch not taken
+
+
+
+### 2-bit saturating counter 
+
+
+
+::: {.r-stack .my-full}
+![](/bpred/texfig/local-saturating-2-bit-saturating-counter.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/bpred/texfig/local-saturating-2-bit-saturating-counter.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/bpred/texfig/local-saturating-2-bit-saturating-counter.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+
+:::
+
+
+### example 
+
+![](/bpred/texfig/local-saturating-example.figure.svg)
+
+
+### generalizing saturating counters  {.smaller}
+
+
+* 2-bit counter: ignore one exception to taken/not taken 
+<hr class="vspace" />
+* 3-bit counter: ignore more exceptions
+* <code>000</code>$\;\leftrightarrow\;$<code>001</code>$\;\leftrightarrow\;$<code>010</code>$\;\leftrightarrow\;$<code>011</code>$\;\leftrightarrow\;$<code>100</code>$\;\leftrightarrow\;$<code>101</code>$\;\leftrightarrow\;$<code>110</code>$\;\leftrightarrow\;$<code>111</code>
+* <code>000</code>-<code>011</code>: not taken
+* <code>100</code>-<code>111</code>: taken
+

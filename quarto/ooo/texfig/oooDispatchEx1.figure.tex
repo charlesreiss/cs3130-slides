@@ -1,0 +1,14 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{matrix,arrows.meta}
+\lstset{language=myasm}
+\newcommand{\readyAfter}[1]{%
+    \alt<#1->{\sout{pending} \myemph<#1>{ready}}{pending}%
+}
+\begin{document}
+
+\setSlide{1}
+\input{ooo/texfig/oooDispatchEx1.inner.tex}
+\setSlide{2}
+\input{ooo/texfig/oooDispatchEx1.inner.tex}
+\end{document}

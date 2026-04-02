@@ -1,0 +1,6 @@
+
+### instruction queue and dispatch 
+
+ <!-- \lstset{language=myasm} -->
+ ![](/ooo/texfig/oooDispatch.figure.svg)
+

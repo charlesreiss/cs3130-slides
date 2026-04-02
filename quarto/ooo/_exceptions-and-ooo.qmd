@@ -1,0 +1,31 @@
+
+### exceptions and OOO (one strategy) 
+
+
+
+::: {.r-stack .my-full}
+![](/ooo/texfig/exceptions-and-ooo.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/ooo/texfig/exceptions-and-ooo.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+
+:::
+

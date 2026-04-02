@@ -1,0 +1,23 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{arrows.meta,matrix}
+\ifdefined\codeBox\else\newsavebox\codeBox\fi
+\begin{document}
+\begin{lrbox}{\codeBox}
+\begin{lstlisting}[language=C,style=smaller]
+i = 10000;
+do {
+  if (i % 2 == 0) goto skip;
+  ...
+  if (p == NULL) goto error;
+skip:
+  ...
+} while (i-- != 0);
+\end{lstlisting}
+\end{lrbox}
+
+\setSlide{1}
+\input{bpred/texfig/ghExample1.inner.tex}
+\setSlide{2}
+\input{bpred/texfig/ghExample1.inner.tex}
+\end{document}

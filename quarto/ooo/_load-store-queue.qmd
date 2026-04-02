@@ -1,0 +1,18 @@
+
+### handling memory accesses?  {.smaller}
+
+
+* one idea:
+* list of done + uncommited loads+stores 
+<hr class="vspace" />
+* execute load early + double-check on commit 
+
+   * have data cache watch for changes to addresses on list
+   * if changed, treat like branch misprediction
+
+* loads check list of stores so you read back own values
+* actually finish store on commit 
+
+   * maybe treat like branch misprediction if conflict?
+
+
