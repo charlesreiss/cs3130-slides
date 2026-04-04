@@ -1,0 +1,37 @@
+### last time {.smaller}
+
+*  secure communication with math
+*  confidentiality via encryption
+*  authenticity via message authentication codes (MACs) or signatures
+*  cryptographic hash function ("secure summary")
+*  OS and hardware help random numbers
+
+### homework notes
+
+*  life HW
+   *  on threading with barriers
+*  (thread) pool HW
+   *  on threading with monitors
+   *  new this semester
+   *  (based on an assignment I've given in old curriculum)
+   *  replaces pipelining (next topic) HW
+
+### finishing up secure communication
+
+# key agreement {visibility="hidden"}
+
+{{< include /secure/_key-agreement.qmd >}}
+
+# putting it together: TLS {visibility="hidden"}
+
+{{< include /secure/_tls.qmd >}}
+
+## handshake {visibility="hidden"}
+
+{{< include /secure/_tls-handshake-summary.qmd >}}
+
+## after handshake {visibility="hidden"}
+
+{{< include /secure/_tls-after-handshake.qmd >}}
+
+{{< include /pipeline/_talk-inner.qmd >}}
