@@ -1,4 +1,8 @@
 
+## dependency v hazard {visibility="hidden"}
+
+{{< include /pipeline/_hazardVDepEx.qmd >}}
+
 ## alt exercise {visibility="hidden"}
 
 {{< include /pipeline/_forwardPathsEx2.qmd >}}
