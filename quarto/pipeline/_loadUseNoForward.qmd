@@ -20,5 +20,5 @@ to go through math circuits! <br/>
 :::
 
 
-![](/pipeline/texfig/loadUseNoForward_2.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+![](/pipeline/texfig/invalidOverlay.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
 

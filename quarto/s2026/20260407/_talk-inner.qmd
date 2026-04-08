@@ -1,7 +1,10 @@
 ### last time {.smaller}
 
 *  secure communication with math
+   *  (our focus) for confidentiality, authenticity
+   *  (our focus) versus eavesdropper, machine-in-the-middle
 *  confidentiality via encryption
+*  shared secrets versus keypairs (public and private)
 *  authenticity via message authentication codes (MACs) or signatures
 *  cryptographic hash function ("secure summary")
 *  OS and hardware help random numbers
@@ -14,7 +17,9 @@
    *  on threading with monitors
    *  new this semester
    *  (based on an assignment I've given in old curriculum)
-   *  replaces pipelining (next topic) HW
+
+###
+
 
 ### finishing up secure communication
 
@@ -38,5 +43,7 @@
 
 ### backup slides
 
+
+{{< include /secure/_talk-backup.qmd >}}
 
 {{< include /pipeline/_talk-backup.qmd >}}
