@@ -1,0 +1,60 @@
+### last time {.smaller}
+
+*  TLS handshake
+   *  key exchange; asymmetric (public/private keys) to setup symmetric (shared secret)
+*  pipelining idea
+   *  laundry analogy
+   *  execute different "stages" of multiple instructions at once
+   *  instructions "follow" each other to next stage
+*  latency versus throughput
+*  fetch / decode [register read] / execute / memory / writeback
+*  problem of hazards
+*  stalling (pause instruction until values ready)
+
+
+{{< include /pipeline/_controlHazard.qmd >}}
+
+## idea: branch prediction{visibility="hidden"}
+
+{{< include /pipeline/_predIntro.qmd >}}
+
+## data hazard fix: forwarding {visibility="hidden"}
+
+{{< include /pipeline/_addqForward.qmd >}}
+
+## exercise: what forwarding{visibility="hidden"}
+
+{{< include /pipeline/_forwardPathsEx.qmd >}}
+
+## can't always forward: load-use {visibility="hidden"}
+
+{{< include /pipeline/_loadUseHazard.qmd >}}
+
+## can forward: load-to-store{visibility="hidden"}
+
+{{< include /pipeline/_loadToStoreFwd.qmd >}}
+
+{{< include /pipeline/_loadUseNoForward.qmd >}}
+
+## dependency v hazard {visibility="hidden"}
+
+{{< include /pipeline/_hazardVDep.qmd >}}
+
+{{< include /pipeline/_hazardVDepEx.qmd >}}
+
+## with different pipeline? {visibility="hidden"}
+
+{{< include /pipeline/_diffHazard.qmd >}}
+
+## exercise{visibility="hidden"}
+
+{{< include /pipeline/_diffHazardEx.qmd >}}
+
+### backup slides
+
+
+## example execution: wrong result, stalling resolution{visibility="hidden"}
+
+{{< include /pipeline/_addqHazard.qmd >}}
+
+{{< include /pipeline/_addqHazardSoln.qmd >}}
