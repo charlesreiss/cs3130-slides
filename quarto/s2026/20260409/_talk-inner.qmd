@@ -12,6 +12,8 @@
 *  stalling (pause instruction until values ready)
 
 
+
+
 {{< include /pipeline/_controlHazard.qmd >}}
 
 ## idea: branch prediction{visibility="hidden"}
@@ -28,6 +30,8 @@
 
 {{< include /pipeline/_forwardPathsEx2.qmd >}}
 
+{{< include /pipeline/_forwardPredictEx.qmd >}}
+
 ## can't always forward: load-use {visibility="hidden"}
 
 {{< include /pipeline/_loadUseHazard.qmd >}}
@@ -37,6 +41,10 @@
 {{< include /pipeline/_loadToStoreFwd.qmd >}}
 
 {{< include /pipeline/_loadUseNoForward.qmd >}}
+
+## throughput exercise
+
+{{< include /pipeline/_speedExercise.qmd >}}
 
 ## dependency v hazard {visibility="hidden"}
 
@@ -51,11 +59,12 @@
 ## exercise{visibility="hidden"}
 
 {{< include /pipeline/_diffHazardEx.qmd >}}
-{{< include /pipeline/_diffHazardEx2.qmd >}}
 
 {{< include /ooo/_talk-inner.qmd >}}
 
 ### backup slides
+
+{{< include /pipeline/_diffHazardEx2.qmd >}}
 
 ## example execution: wrong result, stalling resolution{visibility="hidden"}
 

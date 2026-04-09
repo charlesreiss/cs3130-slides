@@ -59,6 +59,10 @@
 
 {{< include /pipeline/_loadUseNoForward.qmd >}}
 
+## throughput exercise
+
+{{< include /pipeline/_speedExercise.qmd >}}
+
 ## dependency v hazard {visibility="hidden"}
 
 {{< include /pipeline/_hazardVDep.qmd >}}

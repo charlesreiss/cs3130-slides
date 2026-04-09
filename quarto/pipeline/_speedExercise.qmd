@@ -1,0 +1,10 @@
+### exercise {.smaller}
+
+*  suppose 5-stage pipeline
+   *  using forwarding, stalling like we discussed
+*  1 ns cycle time
+*  5% are branches
+   *  60% correct predictions
+*  1% are uses of value just after loading it from memory
+*  assume negligible cache misses
+*  estimated throughput?
