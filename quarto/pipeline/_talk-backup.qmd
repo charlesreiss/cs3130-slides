@@ -1,11 +1,12 @@
 
 ## dependency v hazard {visibility="hidden"}
 
-{{< include /pipeline/_hazardVDepEx.qmd >}}
+{{< include /pipeline/_diffHazardEx2.qmd >}}
 
 ## alt exercise {visibility="hidden"}
 
 {{< include /pipeline/_forwardPathsEx2.qmd >}}
+{{< include /pipeline/_forwardPredictEx.qmd >}}
 
 ## diminishing return plots {visibility="hidden"}
 
