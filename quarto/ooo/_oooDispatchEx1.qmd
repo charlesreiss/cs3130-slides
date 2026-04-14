@@ -1,13 +1,13 @@
 
-### instruction queue and dispatch 
+### instruction queue and dispatch ex
 
  <!-- \lstset{language=myasm} -->
  
 
-::: {.r-stack}
+::: {.r-stack .my-full}
+
 ![](/ooo/texfig/oooDispatchEx1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/ooo/texfig/oooDispatchEx1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
 
 :::

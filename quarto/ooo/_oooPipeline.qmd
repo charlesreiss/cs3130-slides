@@ -9,7 +9,7 @@
 
 ::: {.myoverbox .vlow}
 
-branch prediction needs to happen berfore instructions decoded <br />
+branch prediction needs to happen before instructions decoded <br />
 done with cache-like tables of information about recent branches
 
 :::
@@ -27,7 +27,7 @@ where mapping from architectural to physical names kept
 
 ::: {.myoverbox .vlow .fragment .fade-in fragment-index=1}
 
-"dispatch" instructions = add to instructigon queue <br/>
+"dispatch" instructions = add to instruction queue <br/>
 also requires preparing reorder buffer (for handling squashing)
 
 :::
@@ -38,7 +38,7 @@ also requires preparing reorder buffer (for handling squashing)
 
 ::: {.myoverbox .vlow}
 
-instruction queue holds pending renamed isntructions <br />
+instruction queue holds pending renamed instructions <br />
 combined with register-ready info to <i>issue</i> instructions <br/>
 (<i>issue</i> = start executing)
 
@@ -101,6 +101,6 @@ figures out when physical registers can be reused
 ::: {.myoverbox .vlow .fragment .fade-in fragment-index=1}
 
 also tracks bookkeeping information if we need to undo instruction <br />
-(because of branch mispredicdtion/segfault/etc.) <br />
+(because of branch misprediction/segfault/etc.) <br />
 
 :::

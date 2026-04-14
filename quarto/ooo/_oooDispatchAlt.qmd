@@ -18,6 +18,12 @@
 
 ![](/ooo/texfig/oooDispatchAlt.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
 
+![](/ooo/texfig/oooDispatchAlt.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/ooo/texfig/oooDispatchAlt.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/ooo/texfig/oooDispatchAlt.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
 
 :::
 

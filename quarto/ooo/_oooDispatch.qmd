@@ -1,5 +1,37 @@
 
 ### instruction queue and dispatch 
 
-![](/ooo/texfig/oooDispatch.figure.svg)
+
+
+::: {.r-stack .my-full}
+
+![](/ooo/texfig/oooDispatch.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/oooDispatch.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/oooDispatch.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/oooDispatch.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/oooDispatch.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/ooo/texfig/oooDispatch.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/ooo/texfig/oooDispatch.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/ooo/texfig/oooDispatch.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/ooo/texfig/oooDispatch.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/ooo/texfig/oooDispatch.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+![](/ooo/texfig/oooDispatch.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
+
+![](/ooo/texfig/oooDispatch.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
+
+![](/ooo/texfig/oooDispatch.figure-13.svg){.fragment .fade-in-then-out fragment-index=13}
+
+![](/ooo/texfig/oooDispatch.figure-14.svg){.fragment .fade-in-then-out fragment-index=14}
+
+:::
 

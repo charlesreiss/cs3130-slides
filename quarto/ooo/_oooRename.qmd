@@ -25,8 +25,19 @@
 
 ### register renaming example (1) 
 
-![](/ooo/texfig/rrExample1.figure.svg)
+::: {.r-stack .my-full}
 
+![](/ooo/texfig/rrExample1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/ooo/texfig/rrExample1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/ooo/texfig/rrExample1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/ooo/texfig/rrExample1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/rrExample1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+:::
 
 ### register renaming example (2) 
 
@@ -41,6 +52,14 @@
 ![](/ooo/texfig/rrExample2.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
 ![](/ooo/texfig/rrExample2.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/ooo/texfig/rrExample2.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/ooo/texfig/rrExample2.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/ooo/texfig/rrExample2.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/ooo/texfig/rrExample2.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
 
 
 :::
