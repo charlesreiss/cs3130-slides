@@ -1,12 +1,12 @@
 
-### static branch prediction  {.smaller}
+### static branch prediction
 
 
 
 * forward (target $>$ PC) not taken; backward taken
 * intuition: loops:
  
-```
+```gnuassembler
 LOOP: ...
       ...
       je LOOP

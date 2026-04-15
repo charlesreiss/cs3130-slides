@@ -1,5 +1,5 @@
 
-### exercise (pt 1)  {.smaller}
+### exercise (pt 1) {.smaller}
 
 
 
@@ -7,9 +7,13 @@
 
    * executed in outer loop (not shown) many, many times
 
-* what is the conditional jump misprediction rate for `i % 3 == 0`?
- 
-```
+* what is the conditional jump misprediction rate for `i % 3 == 0`?  for `i == 50`? overall?
+
+::::: {.columns}
+
+:::: {.column style="font-size: 150%; width: 30%"}
+
+```c
 int i = 0;
 while (true) {
   if (i % 3 == 0)
@@ -20,71 +24,24 @@ next:
   if (i == 50)
     break; 
 }
-
 ```
- ![](/bpred/texfig/1BmispredExPt1.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/bpred/texfig/1BmispredExPt1.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/bpred/texfig/1BmispredExPt1.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-![](/bpred/texfig/1BmispredExPt1.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
 
+::::
 
-### againframe(1BmispredExPt1)
+:::: {.column .fragment width=68%}
 
-### exercise (pt 2)  {.smaller}
+<table>
+<tr><th>i=</th><th>branch</th><th>pred</th><th>outcome</th><th>correct?</th></tr>
+<tr><td>0</td><td>mod 3</td><td>???</td><td>T</td><td>???</td></tr>
+<tr><td>1</td><td>== 50</td><td>???</td><td>F</td><td>???</td></tr>
+<tr><td>1</td><td>mod 3</td><td>T</td><td>F</td><td>---</td></tr>
+<tr><td>2</td><td>== 50</td><td>F</td><td>F</td><td>$\checkmark$</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+</table>
 
+::::
 
-
-* use 1-bit predictor on this loop 
-
-   * executed in outer loop (not shown) many, many times
-
-* what is the conditional jump misprediction rate for `i == 50`?
- 
-```
-int i = 0;
-while (true) {
-  if (i % 3 == 0)
-    goto next; 
-  ...
-next:
-  i += 1;
-  if (i == 50)
-    break; 
-}
-
-```
- ![](/bpred/texfig/1BmispredExPt2.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/bpred/texfig/1BmispredExPt2.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/bpred/texfig/1BmispredExPt2.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-
-
-### exercise (full)  {.smaller}
-
-
-
-* use 1-bit predictor on this loop 
-
-   * executed in outer loop (not shown) many, many times
-
-* what is the conditional jump misprediction rate?
- 
-```
-int i = 0;
-while (true) {
-  if (i % 3 == 0)
-    goto next; 
-  ...
-next:
-  i += 1;
-  if (i == 50)
-    break; 
-}
-
-```
- ![](/bpred/texfig/1BmispredEx.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/bpred/texfig/1BmispredEx.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/bpred/texfig/1BmispredEx.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-
+:::::
 
 ### exercise soln (1) 
 
@@ -105,4 +62,3 @@ next:
 :::
 
 
-### againframe(1BmispredExSoln)

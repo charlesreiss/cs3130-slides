@@ -2,7 +2,7 @@
 ### exercise: inferring cache accesses (1)  {.smaller}
 
 
-```
+```c
 char *array;
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
@@ -24,7 +24,7 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
 ### solution  {.smaller}
 
 
-```
+```c
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 if (mystery) { *pointer = 1; }
@@ -41,19 +41,16 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) { /* pointer accessed */ }
 * to get index 6, offset 0 array[<code>0b<em><i>1 10</i></em>00 0000</code>] = array[<code>0x180</code>]
 
 
-### againframe(inferCache1Soln)
-
 ### aside  {.smaller}
 
 
-```
+```c
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 if (mystery) { *pointer += 1; }
 if (TimeAccessTo(&array[index]) > THRESHOLD) {
     /* pointer accessed */
 }
-
 ```
  
 
@@ -65,7 +62,7 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
 ### exercise: inferring cache accesses (2)  {.smaller}
 
 
-```
+```c
 char *other_array = ...;
 char *array;
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
@@ -86,7 +83,7 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 ### solution  {.smaller}
 
 
-```
+```c
 array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
 other_array[mystery] += 1;
@@ -103,9 +100,6 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
  <div class="my-small">
 <code>0x200400… 0<em>000 0100 00</em>00 0000</code><br />
 <code>+ X… ?<em>000 0100 00</em>?? ????</code><br />
-<code><!-- \hline --> 0x200400+X… ?<em>000 1000 00</em>?? ????</code><br />
-<code></code>
+<code><!-- \hline --> 0x200400+X… ?<em>000 1000 00</em>?? ????</code>
 </div>
 
-
-### againframe(inferCache2Soln)

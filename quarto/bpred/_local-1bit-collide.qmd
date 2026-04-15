@@ -30,12 +30,12 @@
 
 
 
-### 1-bit predictor for loops 
+### 1-bit predictor and loops
 
-
-* predicts first and last iteration wrong 
-
-   * example: branch to beginning --- but same for branch from beginning to end
-
+* loops have jump at beginning/end
+   *  static prediction got these 100%
+* 1-bit prediction: predicts first and last iteration wrong 
+   *  first wrong: last time loop ran, did not continue, but should
+   *  last wrong: last time loop ran, did continue, but should not
 * everything else correct
 

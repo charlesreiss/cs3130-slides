@@ -93,7 +93,7 @@
 
 ## concept: forcing branch misprediction {visibility="hidden"}
 
-### againframe(readWithoutRead)
+{{< include /spectre/_read-value-pattern-spec.qmd >}}
 
 {{< include /spectre/_mistrain-bp.qmd >}}
 

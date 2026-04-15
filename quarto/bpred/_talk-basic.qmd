@@ -1,9 +1,22 @@
 
 # branch prediction strategies, briefly {visibility="hidden"}
 
+### branch prediction
+
+*  guess where jumps, etc. go
+*  very important for out-of-order processor performance
+   *  takes many cycles before misprediction detected
+   *  takes some time to undo misprediction
+   *  lots of instructions per cycle "missed" on misprediction
+*  modern laptop/desktop CPUs devote a lot of space to branch prediction
+
 ## static prediction {visibility="hidden"}
 
 {{< include /bpred/_staticPredict.qmd >}}
+
+## exercise: static prediction{visibility="hidden"}
+
+{{< include /bpred/_staticPredictEx.qmd >}}
 
 ## with local history {visibility="hidden"}
 
@@ -17,7 +30,35 @@
 
 {{< include /bpred/_local-1bit-ex.qmd >}}
 
+## saturating counter {visibility="hidden"}
+
+{{< include /bpred/_local-saturating.qmd >}}
+
+## exercise {visibility="hidden"}
+
+{{< include /bpred/_local-sat-ex.qmd >}}
+
+### briefly: other prediction ideas {.smaller}
+
+*  branches often have cyclic behavior
+   *  example: `for (int i = 0; i < 5; ++i)`
+   *  example: `if (first or last item) {...}`
+   *  prediction idea: try to find/count fixed loops
+   *  prediction idea: identify patterns like TTNNNTTNNNT$\rightarrow$T
+*  branches are correlated
+   *  example: flag checked in multiple places
+   *  example: special case for first iteration of loop
+   *  prediction idea: identify patterns across multiple branches
+
+## predicting returns {visibility="hidden"}
+
+{{< include /bpred/_retStack.qmd >}}
+
 ## predicting targets {visibility="hidden"}
+
+### branch prediction before fetch/decode
+
+![](/ooo/texfig/oooPipelineBP.figure.svg)
 
 {{< include /bpred/_btb.qmd >}}
 

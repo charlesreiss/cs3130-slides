@@ -1,13 +1,16 @@
 
-### branch target buffer 
+### branch target buffer  {.smaller}
 
-
-* what if we can't decode LABEL from machine code for <code>jmp LABEL</code> or <code>jle LABEL</code> fast?
-* what if we can't decode that there's a RET, CALL, etc. fast?
-* both issues for deeper pipelines 
-
-   * want to fetch instruction X before decoding instruction X-1
-
+* suppose we have OOO processor that fetches 4 instructions/cycle
+* given `jmp LABEL` is 1st instruction we fetch
+  * want to fetch code at LABEL _ideally in same cycle_ to avoid slowdown
+  * if not same cycle, in next cycle
+  * likely we won't decode `LABEL` for several cycles
+* if it's `jle LABEL` instead...
+  * also want to predict if it will go to LABEL just as fast
+  * may not figure out its a jle for several cycles
+<hr>
+* solution: special predictor for what instruction will be
 
 
 ### BTB: cache for branch targets 

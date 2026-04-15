@@ -1,6 +1,5 @@
 
-### exercise  {.smaller}
-
+### exercise  
 
 
 * use 2-bit predictor on this loop 
@@ -9,7 +8,7 @@
 
 * what is the conditional branch misprediction rate?
  
-```
+```c
 int i = 0;
 while (true) {
   if (i % 3 == 0) goto next;
@@ -26,5 +25,3 @@ next:
 
 ![](/bpred/texfig/2BmispredExSoln.figure.svg)
 
-
-### againframe(2BmispredExSoln)

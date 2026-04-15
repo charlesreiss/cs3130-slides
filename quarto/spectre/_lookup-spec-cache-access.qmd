@@ -2,7 +2,7 @@
 ### revisiting an earlier example (1)  {.smaller}
 
 
-```
+```c
 char *array;
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);
@@ -32,9 +32,7 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
 if (something false) {
     access *pointer;
 }
-
 ```
- 
 
 * what can we do to make access more/less likely to happen?
 

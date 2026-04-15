@@ -1,12 +1,4 @@
 
-## saturating counter {visibility="hidden"}
-
-{{< include /bpred/_local-saturating.qmd >}}
-
-## exercise {visibility="hidden"}
-
-{{< include /bpred/_local-sat-ex.qmd >}}
-
 ## pattern-based predictors {visibility="hidden"}
 
 ## intuition: local branch patterns{visibility="hidden"}

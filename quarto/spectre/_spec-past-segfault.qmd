@@ -43,7 +43,7 @@ Probe();
 <pre><code>Prime();
 if (<span data-fragment-index="2" class="fragment custom myem-only">something false</span>) {
     int value = <span data-fragment-index="3" class="fragment custom myem-only">ReadMemoryMarkedNonReadableInPageTable();</span>
-    access other_array\[value <span data-fragment-index="4" class="fragment custom myem-only">* ...</span>];
+    access other_array[value <span data-fragment-index="4" class="fragment custom myem-only">* ...</span>];
 }
 Probe();
 </code></pre>

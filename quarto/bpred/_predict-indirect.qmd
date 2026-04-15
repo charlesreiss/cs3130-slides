@@ -2,13 +2,14 @@
 ### indirect branch prediction  {.smaller}
 
 
-* <code>jmp *%rax</code> or <code>jmp *(%rax, %rcx, 8)</code>
-* BTB can provide a prediction
-* but can do better with more context
-* example---predict based on other recent computed jumps 
-
-   * good for polymophic method calls
- 
-<hr class="vspace" />
-* table lookup with Hash(last few jmps) <br> instead of Hash(this jmp)
+* `jmp *%rax` or `jmp *(%rax, %rcx, 8)` or `call *%rax` or ...
+  * example: implementing switch statement
+  * example: implementing polymorphic method call
+* want to predict _target address_
+* BTB could store one possibility
+* really want to take advantage of context
+  * example: guess whether we'll call Rectangle.GetArea or Circle.GetArea
+<hr class="vspace"/>
+* prediction idea: instead of tables containing taken/not taken...
+* ... have table containing predicted target
 
