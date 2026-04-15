@@ -1,7 +1,7 @@
 
 ### predict: repeat last 
 
-\\newcommand{}\\showSelectionFrame{3-} \\newcommand{}\\beforeShowSelectFrame{1-2} 
+  
 
 ::: {.r-stack}
 ![](/bpred/texfig/local-1bit-predict-repeat-last.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
@@ -20,7 +20,7 @@
 
 ### example 
 
-\\newcommand{}\\showSelectionFrame{1-} 
+ 
 
 ::: {.r-stack}
 ![](/bpred/texfig/1bitPredExample.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
