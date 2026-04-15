@@ -13,6 +13,7 @@
 
 
 
+{{< include /pipeline/_addqHazardSoln.qmd >}}
 
 {{< include /pipeline/_controlHazard.qmd >}}
 
@@ -27,8 +28,6 @@
 ## exercise: what forwarding{visibility="hidden"}
 
 {{< include /pipeline/_forwardPathsEx.qmd >}}
-
-{{< include /pipeline/_forwardPathsEx2.qmd >}}
 
 {{< include /pipeline/_forwardPredictEx.qmd >}}
 
@@ -59,8 +58,6 @@
 ## exercise{visibility="hidden"}
 
 {{< include /pipeline/_diffHazardEx.qmd >}}
-
-{{< include /ooo/_talk-inner.qmd >}}
 
 ### backup slides
 

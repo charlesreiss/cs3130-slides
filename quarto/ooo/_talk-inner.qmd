@@ -65,6 +65,17 @@
 
 {{< include /ooo/_oooMicrocodeSummary.qmd >}}
 
+## reassociation and data flow {visibility="hidden"}
+
+{{< include /ooo/_reassocDataFlow.qmd >}}
+
+## data flow as loop optimization
+
+{{< include /ooo/_dataFlowLimit.qmd >}}
+
+{{< include /ooo/_dataFlowMult.qmd >}}
+
+
 ## OOO limits {visibility="hidden"}
 
 {{< include /ooo/_oooLimitations.qmd >}}

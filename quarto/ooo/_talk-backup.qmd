@@ -23,8 +23,6 @@
 
 ## handling branch misprediction {visibility="hidden"}
 
-### againframe(oooPipe)
-
 {{< include /ooo/_branch-mispred.qmd >}}
 
 ## handling exceptions {visibility="hidden"}
@@ -46,3 +44,10 @@
 ## OOO microcode (long version) {visibility="hidden"}
 
 {{< include /ooo/_oooMicrocodeSummary.qmd >}}
+
+## data flow as loop optimization
+
+{{< include /ooo/_dataFlowLimit.qmd >}}
+
+{{< include /ooo/_dataFlowMult.qmd >}}
+

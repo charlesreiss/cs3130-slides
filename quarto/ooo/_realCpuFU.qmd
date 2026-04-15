@@ -1,5 +1,5 @@
 
-### execution units AKA functional units (1)  {.smaller}
+### execution units AKA functional units (1a)  {.smaller}
 
 
 
@@ -20,6 +20,30 @@ $3\times 3$ cycles + any time to forward values
 
 :::
 
+### execution units AKA functional units (1b) {.smaller}
+
+![](/ooo/texfig/realCpuFU-execution-units-aka-functional-units-1.figure.svg)
+
+
+* exercise: how long to compute $(A\times B)\times (C\times D)$?
+
+::: {.fragment .fade-in}
+
+assuming just one ALU:
+
++------------+-+-+-+-+-+-+-+
+|            |1|2|3|4|5|6|7|
++============+=+=+=+=+=+=+=+
+|$A\times B$ |1|2|3| | | | |
++------------+-+-+-+-+-+-+-+
+|$C\times D$ | |1|2|3| | | |
++------------+-+-+-+-+-+-+-+
+|<i>final</i>| | | | |1|2|3|
++------------+-+-+-+-+-+-+-+
+
+* exercise part 2: how much would second ALU help?
+
+:::
 
 ### execution units AKA functional units (2)  {.smaller}
 

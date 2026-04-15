@@ -1,22 +1,4 @@
+### data flow visualization
 
-### reassociation 
-
-
-
-* with pipelined, 5-cycle latency multiplier; how long does each take to compute?
- 
-
-::: {.r-stack}
-![](/ooo/texfig/reassocDataFlow.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
-
-![](/ooo/texfig/reassocDataFlow.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/ooo/texfig/reassocDataFlow.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-![](/ooo/texfig/reassocDataFlow.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
-![](/ooo/texfig/reassocDataFlow.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
-
-
-:::
+![](/ooo/texfig/reassocDataFlow.figure.svg)
 

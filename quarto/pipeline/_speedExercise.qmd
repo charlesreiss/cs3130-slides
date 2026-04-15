@@ -8,3 +8,13 @@
 *  1% are uses of value just after loading it from memory
 *  assume negligible cache misses
 *  estimated throughput?
+
+### exercise solution {.smaller}
+
+*  97% 1 cycle (until next useful instruction fetched)
+*  40% of 5% = 2% 3 cycles
+   *  2 "wasted" fetches for misprediction
+*  1% 2 cycles
+   *  1 "wasted" fetch for data hazard stall
+*  average cycles/instruction = 1$\times$97% + 3$\times$2% + 1$\times$1% = 1.05
+*  1 billion instructions / second $\div$ 1.05 cycles/instruction = 0.952 billion instr/sec

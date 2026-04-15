@@ -1,12 +1,6 @@
 \begin{tikzpicture}
-\iftoggle{heldback}{
 \tikzset{
     answer/.style={}
-}
-}{
-\tikzset{
-    answer/.style={alt=<5->{red,very thick}}
-}
 }
 \tikzset{
     >=Latex,
@@ -19,7 +13,6 @@ imulq \%rbx, \%rax \\
 imulq \%rcx, \%rax \\
 imulq \%rdx, \%rax 
 };
-\begin{visibleenv}<2->
 \node[var] (firstRax) at ([yshift=-.5cm]first.south west) {\%rax};
 \node[var,anchor=west] (firstRbx) at ([xshift=.4cm]firstRax.east) {\%rbx};
 \node[var,anchor=west] (firstRcx) at ([xshift=.4cm]firstRbx.east) {\%rcx};
@@ -34,7 +27,6 @@ imulq \%rdx, \%rax
     \draw[wire] (firstAddC.south) |- (firstAddD.west);
     \draw[wire] (firstRdx.south) |- (firstAddD.east);
     \draw[wire] (firstAddD.south) |- ++(.5cm, -.25cm);
-\end{visibleenv}
 
 \node[draw,answer,font=\tt\small,align=left,label={north:$(a\times b)\times (c\times d)$},right=2.75cm of first] (second) {
 imulq \%rbx, \%rax \\
@@ -42,7 +34,6 @@ imulq \%rcx, \%rdx \\
 imulq \%rdx, \%rax 
 };
 
-\begin{visibleenv}<2->
 \node[var] (secondRax) at ([yshift=-.5cm]second.south west) {\%rax};
 \node[var,anchor=west] (secondRbx) at ([xshift=.4cm]secondRax.east) {\%rbx};
 \node[var,anchor=west] (secondRcx) at ([xshift=.4cm]secondRbx.east) {\%rcx};
@@ -57,13 +48,5 @@ imulq \%rdx, \%rax
     \draw[wire] (secondAddB.south) |- (secondAddLast.west);
     \draw[wire] (secondAddD.south) |- (secondAddLast.east);
     \draw[wire] (secondAddLast.south) |- ++(.5cm, -.25cm);
-\end{visibleenv}
 
-\iftoggle{heldback}{
-}{
-    \begin{visibleenv}<4>
-        \node[right=0cm of first,align=left] {$15$\\cycles};
-        \node[right=0cm of second,align=left] {$11$\\cycles};
-    \end{visibleenv}
-}
 \end{tikzpicture}

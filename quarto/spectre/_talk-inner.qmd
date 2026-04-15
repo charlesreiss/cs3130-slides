@@ -151,13 +151,3 @@
 
 {{< include /spectre/_f2024-review-meltdown.qmd >}}
 
-# backup slides {visibility="hidden"}
-
-### backup slides 
-
-
-
-## quiz review (F2024) {visibility="hidden"}
-
-<!-- ### includepdf(pages=1-]../spectre/from-powerpoint/3130_Dec3_quiz14 -->
-<!-- \includepdf[pages=39-43,../spectre/from-powerpoint/3130_Dec3_spectre2.pdf) -->

@@ -11,6 +11,7 @@
 :::
  
 
+* value from memory stage too late for forwarding alone
 * <em>combine</em> stalling and forwarding to resolve hazard
 * assumption in diagram: hazard detected in <code>subq</code>'s decode stage 
 

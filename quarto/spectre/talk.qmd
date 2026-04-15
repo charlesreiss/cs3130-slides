@@ -4,3 +4,4 @@ title: "spectre"
 ---
 
 {{< include ../spectre/_talk-inner.qmd >}}
+{{< include ../spectre/_talk-backup.qmd >}}

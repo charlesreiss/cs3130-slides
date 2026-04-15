@@ -2,7 +2,6 @@
 ### register renaming: missing pieces  {.smaller}
 
 
-
 * what about ‘‘hidden’’ inputs like <code>%rsp</code>, condition codes?
 * one solution: translate to intructions with additional register parameters 
 
@@ -10,5 +9,6 @@
    * turning hidden condition codes into operands!
 
 * bonus: can also translate complex instructions to simpler ones
- ![](/ooo/texfig/oooMicrocodeSummary.figure.svg)
+
+![](/ooo/texfig/oooMicrocodeSummary.figure.svg){width=800px}
 
