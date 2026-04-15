@@ -253,7 +253,7 @@ TIKZSET.0: /\\tikzset\{
         )*
     \}/x
 NEWSAVEBOX.0: /\\newsavebox\{\\[^}]+\}|\\newsavebox\\[a-zA-Z]+|\\ifdefined\\[a-zA-Z]+\\else\\newsavebox\\[a-zA-Z]+\\fi/
-NEWCOMMAND.0: /\\(?:newcommand|renewcommand|providecommand)(?:<>)?\{[^}]+\}(?:
+NEWCOMMAND.0: /\\(?:newcommand|renewcommand|providecommand)(?:<>)?(?:\{[^}]+\}|\\[^{]+)(?:
         \{(?:
             [^{}]+
             |
