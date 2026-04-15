@@ -1,0 +1,71 @@
+
+### not just BLOCK_SIZE  {.smaller}
+
+
+```
+char *array, *other_array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * N] += 1;  // previously: * BLOCK_SIZE
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+
+```
+ 
+
+* 64KB ($2^{16}$B) direct-mapped cache with 64B blocks
+* array[0x800] slow to access?
+* other_array at <code>0x4000000</code> (index 0, offset 0)
+* value of <code>mystery</code> if N = 1? N = 32 * 64?
+
+
+### solution (N=1)  {.smaller}
+
+
+ \[
+\begin{align*}
+\left\lfloor\text{mystery} * N / \text{BLOCK\_SIZE}\right\rfloor~\text{mod}~1024 & = & 32 \\
+\left\lfloor\text{mystery} * N / \text{BLOCK\_SIZE}\right\rfloor & = & 32 + 1024K \\
+\end{align*}
+\] <br> let offset be some number in [0,BLOCK_SIZE): <br> 
+ \[
+\begin{align*}
+\text{mystery} * N & = & \text{BLOCK\_SIZE}\times(32+1024Z) + \text{offset}\\
+\text{mystery} & = & \text{BLOCK\_SIZE}\times(32+1024Z) + N\times\text{offset} \\
+\text{mystery} & = & 64\times(32+1024Z)+N\times\text{offset} \\
+\end{align*}
+\] <br> N=1: mystery = $2048$, $2049$, $2050$, …, $2048+63$, $64\cdot1024+2048$, $64\cdot1024+2048+1$, …
+
+### exercise (N=32*64)  {.smaller}
+
+
+
+* what if N = 32*64
+* recall: other_array[0] is set 0, offset 0
+* other_array[mystery * N] is set 32
+* possible values of mystery?
+ 
+ \[
+\begin{align*}
+\text{mystery}\cdot 32\cdot 64 & = & 64(32+1024Z) + \text{offset} \\
+        & = & 64\cdot32 + 65536Z + \text{offset}\\
+\text{mystery} & = & 1 + \frac{65536}{64\cdot32}Z + \frac{\text{offset}}{64\cdot32} = 1+32Z \\
+\end{align*}
+\]
+
+### alternate view  {.smaller}
+
+
+* learn index bits of mystery * N
+* this example: bits 6--15 
+<hr class="vspace" />
+* N = 1, bits 6--15 of mystery
+* N = 64, bits 0--9 of mystery
+* N = 32*64 ($2^{11}$), bits 0--4 of mystery
+

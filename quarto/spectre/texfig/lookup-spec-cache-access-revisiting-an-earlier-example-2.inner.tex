@@ -1,0 +1,54 @@
+\begin{tikzpicture}
+\tikzset{
+    forwardLine/.style={blue!60!black,thick,-Latex},
+    hiForwardOn/.style={alt=#1{blue}{}},
+    forwardLineB/.style={red,dashed,thick,-Latex},
+    sepLine/.style={black!40,densely dotted},
+};
+\tikzset{
+    fetch/.style={fill=red!15},
+    decode/.style={fill=orange!15},
+    rename/.style={fill=yellow!15},
+    issue/.style={fill=yellow!15!green!15},
+    execute/.style={fill=blue!15},
+    memory/.style={fill=blue!15},
+    writeback/.style={fill=violet!15},
+    commit/.style={fill=magenta!20},
+}
+\newcommand{\fdemw}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M \& |[writeback]| W}
+\newcommand{\fdew}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdr}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R}
+\newcommand{\issw}{ \& |[issue]| I \& |[execute]| E \& |[writeback]| W}
+\newcommand{\fdem}{ \& |[fetch]| F \& |[decode]| D \& |[rename]| R \& |[issue]| I \& |[execute]| E \& |[memory]| M }
+\newcommand{\m}{ \& |[memory]| M }
+\newcommand{\w}{ \& |[writeback]| W }
+\newcommand{\rn}{ \& |[rename]| R }
+\newcommand{\iss}{ \& |[issue]| I }
+\newcommand{\cmt}{ \& |[commit]| C }
+\newcommand{\dec}{ \& |[decode]| D } % conflicts with existing \d macro
+\newcommand{\e}{ \& |[execute]| E }
+\newcommand{\f}{ \& |[fetch]| F }
+\matrix[tight matrix no line,
+        nodes={text width=.6cm,inner sep=0mm,outer sep=0mm},
+        column sep={.6cm,between origins},
+        row sep={.7cm,between origins},
+        column 1/.style={nodes={font=\tt,text width=6cm,align=left},column sep=0cm},
+        ] (tbl) {
+|[align=right]| \normalfont\textit{cycle \#} \hspace{.5cm}
+                                 \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \& 10 \& 11\\
+movq mystery, \%rax   \fdr \iss \e\e\e \w \cmt \\
+test \%rax, \%rax      \fdr \& ~ \& ~ \& \issw \cmt\\
+jz skip {\normalfont (mispred.) }    \& ~ \fdr \& ~ \& ~ \& ~ \issw \cmt \\
+mov pointer, \%rax      \& ~ \fdr \iss \e\e\e \w \& \\
+mov (\%rax), \%r8 \& ~ \& ~ \fdr \& ~ \& ~ \& ~ \issw \& \\
+add \$1, \%r8     \& ~ \& ~ \fdr \\
+mov \%r8, \%rax   \& ~ \& ~ \& ~ \fdr \\
+\ldots \\
+skip: ...       \& ~ \& ~ \& ~ \& ~ \& ~ \& ~ \&~ \fdr \\
+};
+% FIXME: hilite in-order and out-of-order parts of pipeline
+\tikzset{
+    hibox/.style={draw=red,ultra thick,inner sep=0mm},
+    text box/.style={fill=white,draw=red, ultra thick,align=left},
+}
+\end{tikzpicture}

@@ -1,0 +1,21 @@
+
+### EVICT+RELOAD  {.smaller}
+
+
+
+* PRIME+PROBE: fill cache, detect eviction
+* alternate idea [EVICT]{.fragment fragment-index=2 .custom .myem-only}+[RELOAD]{.fragment fragment-index=3 .custom .myem-only}:
+ 
+<pre><code>unsigned char *probe_array;
+posix_memalign(&amp;probe_array, CACHE_SIZE, CACHE_SIZE);
+<span data-fragment-index="0" class="fragment custom myem-only">access OTHER things to evict all of probe_array</span>
+if (something false) {
+    read probe_array\[mystery * BLOCK_SIZE];
+}
+<span data-fragment-index="1" class="fragment custom myem-only">check which value from probe_array is faster</span>
+</code></pre>
+ 
+
+* requires code to access something you can access
+* but often easier to setup/more reliable than PRIME+PROBE
+

@@ -1,0 +1,36 @@
+
+### PRIME+PROBE  {.smaller}
+
+
+* name in literature: PRIME + PROBE
+* PRIME: fill cache (or part of it) with values
+* do thing that uses cache
+* PROBE: access those values again and see if it's slow 
+<hr class="vspace" />
+* (one of several ways to measure how cache is used) 
+<hr class="vspace" />
+* coined in attacks on AES encryption
+
+
+### example: AES (1)  {.smaller}
+
+
+* from Osvik, Shamir, and Tromer, ‘‘Cache Attacks and Countermeasures: the Case of AES’’ (2004)
+* early AES implementation used lookup tables
+* goal: detect index into lookup table 
+
+   * index depended on key + data being encrypted
+
+* tricks they did to make this work 
+
+   * vary data being encrypted
+   * subtract average time to look for what changes
+   * lots of measurements
+
+
+
+### example: AES (2) 
+
+[]{.my-small} from Osvik, Shamir, and Tromer, ‘‘Cache Attacks and Countermeasures: the Case of AES’’ (2004) <br> 
+![](/spectre/prime-probe-osvik){}
+

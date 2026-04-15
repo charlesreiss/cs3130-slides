@@ -1,0 +1,163 @@
+
+# some side channel examples {visibility="hidden"}
+
+## example: check_passphrase {visibility="hidden"}
+
+{{< include /spectre/_check-passphrase-time.qmd >}}
+
+## example: power analysis {visibility="hidden"}
+
+{{< include /spectre/_power-analysis.qmd >}}
+
+## example: RF leaks {visibility="hidden"}
+
+{{< include /spectre/_rf-leak.qmd >}}
+
+## timing and ciphers {visibility="hidden"}
+
+{{< include /spectre/_timing-and-ciphers.qmd >}}
+
+## example: which website {visibility="hidden"}
+
+{{< include /spectre/_which-website.qmd >}}
+
+# generally: side channels {visibility="hidden"}
+
+{{< include /spectre/_side-channels.qmd >}}
+
+### our focus  {.smaller}
+
+
+* we're going to focus on timing-related leaks…
+* and interaction with attacker input/processor design 
+<hr class="vspace" />
+* discovery: lots of cases where features that make code/processors fast <br> let attackers learn much more than they should through timing
+
+
+# cache side channels {visibility="hidden"}
+
+## introduction: observing cache evictions {visibility="hidden"}
+
+{{< include /spectre/_cache-measure.qmd >}}
+
+## exercise: detect this access? (DM) {visibility="hidden"}
+
+{{< include /spectre/_ex-detect-access.qmd >}}
+
+## exercise: detect this access? (2-way) {visibility="hidden"}
+
+{{< include /spectre/_ex-detect-access-2way.qmd >}}
+
+## reading a value (1) {visibility="hidden"}
+
+{{< include /spectre/_read-value-pattern.qmd >}}
+
+## PRIME+PROBE, AES example {visibility="hidden"}
+
+{{< include /spectre/_prime-probe.qmd >}}
+
+# seeing speculation via side channels {visibility="hidden"}
+
+## revising array lookup {visibility="hidden"}
+
+{{< include /spectre/_lookup-spec-cache-access.qmd >}}
+
+## reading a value (2) {visibility="hidden"}
+
+{{< include /spectre/_read-value-pattern-spec.qmd >}}
+
+# meltdown {visibility="hidden"}
+
+## well, what else gets speculated? {visibility="hidden"}
+
+{{< include /spectre/_spec-past-segfault.qmd >}}
+
+## vulnerability {visibility="hidden"}
+
+{{< include /spectre/_meltdown-code.qmd >}}
+
+## fix {visibility="hidden"}
+
+{{< include /spectre/_meltdown-fix.qmd >}}
+
+# spectre {visibility="hidden"}
+
+### Spectre 
+
+
+* Meltdown: address translation without permissions check
+* seems relatively easy to fix in hardware 
+<hr class="vspace" />
+* but idea of leaks from speculative execution has much harder to fix attacks…
+
+
+## concept: forcing branch misprediction {visibility="hidden"}
+
+### againframe(readWithoutRead)
+
+{{< include /spectre/_mistrain-bp.qmd >}}
+
+## review: reading value {visibility="hidden"}
+
+{{< include /spectre/_read-value-pattern.qmd >}}
+
+{{< include /spectre/_read-value-pattern-offset.qmd >}}
+
+## contrived? vulnerable code {visibility="hidden"}
+
+{{< include /spectre/_contrivedp-vuln.qmd >}}
+
+## array bounds check {visibility="hidden"}
+
+{{< include /spectre/_bounds-check-kernel.qmd >}}
+
+## JavaScript exploit {visibility="hidden"}
+
+{{< include /spectre/_js-vuln.qmd >}}
+
+## mispredicted indirect {visibility="hidden"}
+
+{{< include /spectre/_mispred-indirect.qmd >}}
+
+## more variants? {visibility="hidden"}
+
+{{< include /spectre/_more-variants.qmd >}}
+
+## software fix {visibility="hidden"}
+
+{{< include /spectre/_spectre-linux-fix.qmd >}}
+
+# additional exercises {visibility="hidden"}
+
+## which bits do we learn --- extended {visibility="hidden"}
+
+{{< include /spectre/_learn-parts.qmd >}}
+
+## simple prime+probe example {visibility="hidden"}
+
+{{< include /spectre/_f2024-review-simple-prime-probe.qmd >}}
+
+<!-- ### includepdf(pages=5-6,../spectre/from-powerpoint/3130_Dec3_spectre2.pdf) -->
+
+## variations: starting location, associativity {visibility="hidden"}
+
+{{< include /spectre/_f2024-review-pp-variation.qmd >}}
+
+# evict+reload {visibility="hidden"}
+
+{{< include /spectre/_evict-reload.qmd >}}
+
+## applied to meltdown {visibility="hidden"}
+
+{{< include /spectre/_f2024-review-meltdown.qmd >}}
+
+# backup slides {visibility="hidden"}
+
+### backup slides 
+
+
+
+## quiz review (F2024) {visibility="hidden"}
+
+<!-- ### includepdf(pages=1-]../spectre/from-powerpoint/3130_Dec3_quiz14 -->
+<!-- \includepdf[pages=39-43,../spectre/from-powerpoint/3130_Dec3_spectre2.pdf) -->

@@ -1,0 +1,52 @@
+
+### check_passphrase  {.smaller}
+
+
+```
+int check_passphrase(const char *versus) {
+    int i = 0;
+    while (passphrase[i] == versus[i] &&
+           passphrase[i]) {
+        i += 1;
+    }
+    return (passphrase[i] == versus[i]);
+}
+
+```
+ 
+
+* number of iterations = number matching characters
+* leaks information about passphrase, oops!
+
+
+### exploiting check_passphrase (1)  {.smaller}
+
+<table>
+<tr><td>guess</td><td>measured time</td></tr>
+<tr><td><!-- \hline --> aaaa</td><td>$100\pm5$</td></tr>
+<tr><td>baaa</td><td>$103\pm4$</td></tr>
+<tr><td>caaa</td><td>$102\pm6$</td></tr>
+<tr><td><em>daaa</em></td><td><em>$111\pm5$</em></td></tr>
+<tr><td>eaaa</td><td>$99 \pm6$</td></tr>
+<tr><td>faaa</td><td>$101\pm7$</td></tr>
+<tr><td>gaaa</td><td>$104\pm4$</td></tr>
+<tr><td>…</td><td>…</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### exploiting check_passphrase (2)  {.smaller}
+
+<table>
+<tr><td>guess</td><td>measured time</td></tr>
+<tr><td><!-- \hline --> daaa</td><td>$102\pm5$</td></tr>
+<tr><td>dbaa</td><td>$ 99\pm4$</td></tr>
+<tr><td>dcaa</td><td>$104\pm4$</td></tr>
+<tr><td>ddaa</td><td>$100\pm6$</td></tr>
+<tr><td>deaa</td><td>$102\pm4$</td></tr>
+<tr><td><em>dfaa</em></td><td><em>$109\pm7$</em></td></tr>
+<tr><td>dgaa</td><td>$103\pm4$</td></tr>
+<tr><td>…</td><td>…</td></tr>
+<tr><td></td></tr>
+</table>
+

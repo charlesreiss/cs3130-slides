@@ -1,0 +1,24 @@
+
+### revisiting an earlier example  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) {
+    *pointer = 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+
+```
+ 
+
+* what if mystery is false <i>but</i> branch mispredicted?
+
+
+### pipeline? 
+
+

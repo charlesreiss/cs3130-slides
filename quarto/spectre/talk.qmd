@@ -1,0 +1,6 @@
+---
+title: "spectre"
+
+---
+
+{{< include ../spectre/_talk-inner.qmd >}}

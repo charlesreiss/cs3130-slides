@@ -1,0 +1,23 @@
+
+### reading a value --- * X * BLOCK_SIZE  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+other_array[mystery * 8 * BLOCK_SIZE] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+        ...
+    }
+}
+
+```
+ 
+
+* if other_array is char* and starts at multiple of cache size
+* and <code>array[0x100*BLOCK_SIZE]</code> is slow to access
+* mystery * 8 = 0x100 + K * SET_COUNT
+* mystery = 32 + K * SET_COUNT / 8
+

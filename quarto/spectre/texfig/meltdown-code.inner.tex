@@ -1,0 +1,40 @@
+\begin{tikzpicture}
+\node[minimum width=15cm,minimum height=9cm] (current page) {};
+\begin{scope}[overlay]
+
+\coordinate (box place) at ([yshift=0.25cm]current page.center);
+\tikzset{
+    box/.style={at=(box place), anchor=south,align=left,fill=white,draw=red,ultra thick}
+}
+\begin{visibleenv}<2>
+\node[box] {space out accesses by 4096 \\
+ensure separate cache sets and \\
+avoid triggering prefetcher
+};
+\end{visibleenv}
+\begin{visibleenv}<3>
+\node[box] {
+    repeat access if zero \\
+    apparently value of zero speculatively read \\
+    when real value not yet available
+};
+\end{visibleenv}
+\begin{visibleenv}<4>
+\node[box] {
+    access cache to allow measurement later \\
+    in paper with FLUSH+RELOAD instead \\\
+    of PRIME+PROBE technique
+};
+\end{visibleenv}
+\begin{visibleenv}<5>
+\node[box] {
+    segfault actually happens eventually \\
+    option 1: okay, just start a new process every time \\
+    (don't even need to hide segfault) \\
+    option 2: way of suppressing segfault \\
+    (paper used transactional memory support, \\
+    not mispredicted branch)
+};
+\end{visibleenv}
+\end{scope}
+\end{tikzpicture}

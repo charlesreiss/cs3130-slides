@@ -1,0 +1,44 @@
+
+### privilege levels? 
+
+
+* vulnerable code runs with higher privileges
+* so far: higher privileges = kernel mode 
+<hr class="vspace" />
+* but other common cases of higher privileges
+* example: scripts in web browsers
+
+
+### JavaScript  {.smaller}
+
+
+* JavaScript: scripts in webpages
+* not supposed to be able to read arbitrary memory, but…
+* can access arrays to examine caches
+* and could take advantage of some browser function being vulnerable 
+<hr class="vspace" />
+* or --- [doesn't even need browser to supply vulnerable code itself!]{.fragment fragment-index=2 .custom .myem-only}
+
+
+### just-in-time compilation?  {.smaller}
+
+
+
+* for performance, compiled to machine code, run in browser
+* not supposed to be access arbitrary browser memory
+* example JavaScript code from paper:
+ 
+```
+if (index < simpleByteArray.length) {
+    index = simpleByteArray[index | 0];
+    index = (((index * 4096)|0) & (32*1024*1024-1))|0;
+    localJunk ˆ= probeTable[index|0]|0;
+}
+
+```
+ 
+
+* web page runs a lot to train branch predictor
+* then does run with out-of-bounds index
+* examines what's evicted by probeTable access
+

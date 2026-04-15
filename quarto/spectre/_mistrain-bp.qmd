@@ -1,0 +1,17 @@
+
+### mistraining branch predictor?  {.smaller}
+
+
+```
+if (something) {
+    CodeToRunSpeculatively()
+}
+
+```
+ 
+
+* useful for attacks: <br> have ‘something’ be false, but predicted as true 
+<hr class="vspace" />
+* one way: run lots of times with something true then do actually run with something false
+* another way: learn how branch prediction caches work, run code that fills in caches in known way
+

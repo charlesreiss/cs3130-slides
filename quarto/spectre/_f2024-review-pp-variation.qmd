@@ -1,0 +1,74 @@
+
+### variation: different starting location  {.smaller}
+
+
+* other_array starts at 0x4001440
+* then other_array[0] at cache index 
+
+   * 0x4001440 / BLOCK_SIZE mod NUM_SETS = 0x51
+
+* (0x51 + mystery * BLOCK_SIZE / BLOCK_SIZE) mod NUM_SETS = 32
+* mystery = -49 or 975 or 1099 or …
+
+
+### variation: associative cache  {.smaller}
+
+
+```
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) { ...  }
+}
+
+```
+ 
+
+* suppose 2-way 64KB cache instead of direct-mapped
+* NUM_SETS = 64KB/2/64B = 512 sets
+* array[0x800] still has cache index 32 (still)
+* but now mystery can be $32$ or $32+512$ or $32+512\cdot2$ or …
+
+
+### variation: associative cache (2)  {.smaller}
+
+
+```
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) { ...  }
+}
+
+```
+ 
+
+* suppose 2-way 64KB cache w/ 64B and <em><code></code> array[0x8800]</em> is slow
+* 0x8800/BLOCK_SIZE = 544 = 512 + 32
+* since 512 sets total, still set index 32
+* mystery still $32$ or $32+512$ or $32+512\cdot2$ or …
+
+
+### exercise  {.smaller}
+
+
+* if 4-way 64KB cache w/64B blocks and something from cache set 32 evicted,<br> then where could slow access be? 
+
+   * recall: 2-way cache: i=0x800, i=0x8800
+
+* A. i=0x400, i=0x800, i=0x8400, i=0x8800
+* B. i=0x800, i=0x8800, i=0x10800, i=0x18800
+* C. i=0x800, i=0x4800, i=0x8800, i=0xc800
+* D. i=0x800, i=0x4800, i=0x8800, i=0x10800
+* E. something else
+

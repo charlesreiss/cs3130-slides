@@ -1,0 +1,111 @@
+
+### exercise: inferring cache accesses (1)  {.smaller}
+
+
+```
+char *array;
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) {
+    *pointer += 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+
+```
+ 
+
+* suppose <code>pointer</code> is <code>0x1000188</code>
+* and cache (of interest) is direct-mapped, 32768 ($2^{15}$) byte, 64-byte blocks
+* what array index should we check?
+
+
+### solution  {.smaller}
+
+
+```
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) { *pointer = 1; }
+if (TimeAccessTo(&array[index]) > THRESHOLD) { /* pointer accessed */ }
+
+```
+ 
+
+* $2^{15}$ byte direct mapped cache, $64=2^{6}$ byte blocks
+* [9 index bits]{.fragment fragment-index=2 .custom .myem-only}, 6 offset bits
+* <code>0x1000188</code>: <code>… 0[<i>000 0001 10</i>]{.fragment fragment-index=2 .custom .myem-only}00 1000</code> 
+<hr class="vspace" />
+* <code>array[0]</code> starts at multiple of cache size --- index 0, offset 0
+* to get index 6, offset 0 array[<code>0b<em><i>1 10</i></em>00 0000</code>] = array[<code>0x180</code>]
+
+
+### againframe(inferCache1Soln)
+
+### aside  {.smaller}
+
+
+```
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) { *pointer += 1; }
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+
+```
+ 
+
+* will this detect when pointer accessed? yes
+* will this detect if mystery is true? not quite
+* … because branch prediction could started cache access
+
+
+### exercise: inferring cache accesses (2)  {.smaller}
+
+
+```
+char *other_array = ...;
+char *array;
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+other_array[mystery] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (TimeAccessTo(&array[i]) > THRESHOLD) {
+        /* found something interesting */
+    }
+}
+
+```
+ 
+
+* other_array at 0x200400, and interesting index is i=0x800, then what was mystery?
+
+
+### solution  {.smaller}
+
+
+```
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+other_array[mystery] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (TimeAccessTo(&array[i]) > THRESHOLD) { ... }
+}
+
+```
+ 
+
+* at i=0x800: <code>… 0<em><i>000 1000 00</i></em>00 0000</code> (cache index = 0x20)
+* other_array at <code>0x200400</code>
+* Q: <code>0x200400 + X</code> has cache index 0x20?
+ <div class="my-small">
+<code>0x200400… 0<em>000 0100 00</em>00 0000</code><br />
+<code>+ X… ?<em>000 0100 00</em>?? ????</code><br />
+<code><!-- \hline --> 0x200400+X… ?<em>000 1000 00</em>?? ????</code><br />
+<code></code>
+</div>
+
+
+### againframe(inferCache2Soln)

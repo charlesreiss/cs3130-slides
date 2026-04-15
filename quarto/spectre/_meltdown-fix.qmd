@@ -1,0 +1,16 @@
+
+### Meltdown fix  {.smaller}
+
+
+* HW: permissions check done with/before physical address lookup 
+
+   * was already done by AMD, ARM apparently?
+   * now done by Intel
+
+* SW: separate page tables for kernel and user space 
+
+   * don't have sensitive kernel memory pointed to by page table <br> when user-mode code running
+   * unfortunate performance problem
+   * exceptions start with code that switches page tables
+
+

@@ -1,0 +1,61 @@
+
+### timing and cryptography 
+
+
+* lots of asymmetric cryptography uses big-integer math
+* example: multiplying 500+ bit numbers together 
+<hr class="vspace" />
+* how do you implement that?
+
+
+### big integer multiplication  {.smaller}
+
+
+* say we have two 64-bit integers $x$, $y$ 
+
+   * and want to 128-bit product, but our multiply instruction only does 64-bit products
+
+* one way to multiply: 
+<hr class="vspace" />
+* divide $x$, $y$ into 32-bit parts: $x=x_1\cdot2^{32}+x_0$ and $y=y_1\cdot2^{32}+y_0$
+* then $xy = x_1y_12^{64}+x_1y_0\cdot2^{32}+x_0y_1\cdot2^{32}+x_0y_0$ 
+<hr class="vspace" />
+* can extend this idea to arbitrarily large numbers
+* <em>number of smaller multiplies depends on size of numbers!</em>
+
+
+### big integers and cryptography 
+
+
+* naive multiplication idea: 
+
+   * number of steps depends on size of numbers
+
+* problem: sometimes the value of the number is a secret 
+
+   * e.g. part of the private key
+
+* oops! revealed through timing
+
+
+### big integer timing attacks in practice (1)  {.smaller}
+
+
+* early versions of OpenSSL (TLS implementation) had timing attack 
+
+   * Brumley and Boneh, ‘‘Remote Timing Attacks are Practical'’ (Usenix Security ’03)
+
+* attacker could figure out bits of private key from timing 
+<hr class="vspace" />
+* why? variable-time multiplication and modulus operations 
+
+   * got faster/slower depending on how input was related to private key
+   * e.g. detect when attacker-value MOD private key part is close to <code>0</code>
+
+
+
+### big integer timing attacks in practice (2) 
+
+
+![](/spectre/remote-timing-prac-fig3a){}
+ [Figure 3a from Brumley and Boneh, ‘‘Remote Timing Attacks are Practical’’]{.mycredit}

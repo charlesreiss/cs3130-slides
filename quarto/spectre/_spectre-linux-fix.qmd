@@ -1,0 +1,58 @@
+
+### some Linux kernel mitigations (1)  {.smaller}
+
+
+
+* replace `array[x]` with `array[x & ComputeMask(x, size)]`
+* … where ComputeMask() returns 
+
+   * 0 if x $>$ size
+   * <code>0xFFFF..F</code> if x $\le$ size
+
+* … and ComputeMask() does not use jumps:
+ 
+```
+mov x, %r8
+mov size, %r9
+cmp %r9, %r8
+sbb %rax, %rax  // sbb = subtract with borrow
+    // either 0 or -1
+
+```
+
+
+### some Linux kernel mitigations (2)  {.smaller}
+
+
+* for indirect branches: 
+<hr class="vspace" />
+* with hardware help: 
+
+   * separate indirect (computed) branch prediction for kernel v user mode
+   * other branch predictor changes to isolate better
+
+* without hardware help: 
+
+   * transform `jmp *(%rax)`, etc. into code that <br> will only predicted to jump to safe locations <br> (by writing assembly very carefully)
+
+
+
+### only safe prediction  {.smaller}
+
+
+
+* as replacement for `jmp *%rax`
+* code from Intel's ‘‘Retpoline: A Branch Target Injection Mitigation’’
+ 
+```
+        call load_label
+    capture_ret_spec:    /* <-- want prediction to go here */
+        pause
+        lfence
+        jmp capture_ret_spec
+    load_label:
+        mov %rax, (%rsp)
+        ret
+
+```
+

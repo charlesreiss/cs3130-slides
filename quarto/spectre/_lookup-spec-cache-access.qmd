@@ -1,0 +1,40 @@
+
+### revisiting an earlier example (1)  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+if (mystery) {
+    *pointer += 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+
+```
+ 
+
+* what if mystery is false <i>but</i> branch mispredicted?
+
+
+### revisiting an earlier example (2) 
+
+<!-- \lstset{language=myasm} -->
+ ![](/spectre/texfig/lookup-spec-cache-access-revisiting-an-earlier-example-2.figure.svg)
+
+
+### avoiding/triggering this problem 
+
+
+```
+if (something false) {
+    access *pointer;
+}
+
+```
+ 
+
+* what can we do to make access more/less likely to happen?
+

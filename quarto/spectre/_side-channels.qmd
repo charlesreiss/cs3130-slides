@@ -1,0 +1,16 @@
+
+### side channels  {.smaller}
+
+
+* observing machine operation, indirectly
+* common types of indirect observations 
+
+   * timing
+   * power draw
+   * electromagnetic radiation
+
+* side channels can be security and privacy issues 
+
+   * often used to reveal internal/secret state
+
+

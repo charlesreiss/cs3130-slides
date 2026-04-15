@@ -1,0 +1,67 @@
+
+### supplying own attack code?  {.smaller}
+
+
+* JavaScript: could supply own attack code 
+<hr class="vspace" />
+* turns out also possible with kernel mode scenario
+* trick: don't need to <i>actually run</i> code for real
+* … just need branch predictor to fetch it <br> so it gets partially executed speculatively
+
+
+### other misprediction  {.smaller}
+
+
+
+* so far: talking about mispredicting direction of branch
+* what about mispredicting target of branch in, e.g.:
+ 
+```
+// possibly from C code like:
+//   (*function_pointer)();
+jmp *%rax           
+
+// possibly from C code like:
+//      switch(rcx) { ... }
+jmp *(%rax,%rcx,8)  
+
+```
+
+
+### an idea for predicting indirect jumps  {.smaller}
+
+for jmps like `jmp *%rax` predict target with cache: <br> <table>
+<tr><td>bottom 12 bits of jmp address</td><td>last seen target</td></tr>
+<tr><td><!-- \hline --> 0x0--0x7</td><td>0x200000</td></tr>
+<tr><td>0x8--0xF</td><td>0x440004</td></tr>
+<tr><td>0x10-0x18</td><td>0x4CD894</td></tr>
+<tr><td>0x18-0x20</td><td>0x510194</td></tr>
+<tr><td>0x20-0x28</td><td>0x4FF194</td></tr>
+<tr><td>…</td><td>…</td></tr>
+<tr><td>0xFF8--0xFFF</td><td>0x3F8403</td></tr>
+<tr><td></td></tr>
+</table>
+ 
+
+* Intel Haswell CPU did something similar to this 
+
+   * uses Hash(bits of last several jumps), not just last jmp
+
+
+
+### using mispredicted jump  {.smaller}
+
+
+* 1: find some kernel function with `jmp *%rax`
+* 2: mistrain branch target predictor for it to jump to chosen code 
+
+   * use code at address that conflicts in ‘‘recent jumps cache’’
+   * since only bottom bits are used, can set this up in user memory
+
+* 3: have chosen code be attack code (e.g. array access) 
+
+   * either write special code OR
+   * find suitable instructions (e.g. array access) in existing kernel code
+
+* 4: run the kernel function
+

@@ -1,0 +1,35 @@
+
+### RSA decryption/signing  {.smaller}
+
+
+* RSA common method to implement digital signatures or public-key encryption
+* math: $c^d \pmod n$ where $d$ secret value
+* how to compute $c^d \pmod n$? one idea: 
+
+   * say $d=2^0 + 2^3 + 2^8$
+   * then $m^d = m^{2^0 + 2^3 + 2^4} = m\cdot m^{2^3}\cdot m^{2^8} = m\cdot(((m^2)^2)^2)\cdot((((m^2)^2)^2))^2$
+   * trick: compute $m$, $m\cdot m = m^2 \pmod n$, $m^2\cdotm^2 = m^4 \pmod n$, …
+   * and conditionally multiply with result
+
+* overall algorithm: 
+
+   * for each bit of d: 
+
+      * compute $c^{2^i}$ mod $n$ using $c^{2^{i-1}} \cdot c^{2^{i-1}}$
+      * if bit set in $d$, multiply with result and take mod $n$
+
+
+
+
+### exponentation by squaring 
+
+
+* algorithm: 
+
+   * for each bit of d: 
+
+      * compute $c^{2^i}$ mod $n$ using $c^{2^{i-1}} \cdot c^{2^{i-1}}$
+      * <em>if bit set in $d$</em>, multiply with result and take mod $n$
+
+
+

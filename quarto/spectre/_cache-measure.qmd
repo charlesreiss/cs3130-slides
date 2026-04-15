@@ -1,0 +1,61 @@
+
+### inferring cache accesses (1)  {.smaller}
+
+
+* suppose I time accesses to array of chars: 
+
+   * reading array[0]: 3 cycles
+   * reading array[64]: 4 cycles
+   * reading array[128]: 4 cycles
+   * reading array[192]: 20 cycles
+   * reading array[256]: 4 cycles
+   * reading array[288]: 4 cycles
+   * …
+
+* what could cause this difference? 
+
+   * array[192] not in some cache, but others were
+
+
+
+### inferring cache accesses (2)  {.smaller}
+
+some psuedocode: 
+```
+char array[CACHE_SIZE];
+AccessAllOf(array);
+*other_address += 1;
+TimeAccessingArray();
+
+```
+ 
+
+* suppose during these accesses I discover that <code>array[128]</code> is slower to access
+* probably because <code>*other_address</code> loaded into cache + evicted it
+* what do we know about <code>other_address</code>? (select all that apply)
+ []{.my-small} <table>
+<tr><td>A. same cache tag</td><td>B. same cache index</td><td>C. same cache offset</td></tr>
+<tr><td>D. diff. cache tag</td><td>E. diff. cache index</td><td>F. diff. cache offset</td></tr>
+<tr><td></td></tr>
+</table>
+
+
+### some complications  {.smaller}
+
+
+* caches often use physical, not virtual addresses 
+
+   * (and need to know about physical address to compare index bits)
+   * (but can infer physical addresses with measurements/asking OS)
+   * (often OS allocates contiguous physical addresses esp. w/‘large pages’)
+
+* storing/processing timings evicts things in the cache 
+
+   * (but can compare timing with/without access of interest to check this)
+
+* processor ‘‘pre-fetching’’ may load things into cache before access is timed 
+
+   * (but can arrange accesses to avoid triggering prefetcher <br> and make sure to measure with memory barriers)
+
+* some L3 caches use a simple hash function to select index instead of  index bits
+

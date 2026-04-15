@@ -1,0 +1,49 @@
+
+### browsers and website leakage 
+
+
+* web browsers run code from untrusted webpages
+* one goal: can't tell what other webpages you visit
+
+
+### some webpage leakage (1)  {.smaller}
+
+![](/spectre/texfig/which-website-some-webpage-leakage-1.figure.svg)
+ 
+
+* convenient feature 1: browser marks visited links
+ 
+```
+<script>
+var the_color = window.getComputedStyle(
+    document.querySelector('a[href=~"foo.com"]')
+).color
+if (the_color == ...) { ... }
+</script>
+
+```
+ 
+
+* \sout{convenient feature 2: scripts can query current color of something}  
+
+   * fix 1: getComputedStyle lies about the color
+   * fix 2: limited styling options for visited links
+
+
+
+### some webpage leakage (2)  {.smaller}
+
+
+
+* one idea: script in webpage times loop that writes big array
+* variation in timing depends on <em>other things running on machine</em>
+ 
+
+::: {.r-stack}
+![](/spectre/texfig/which-website-some-webpage-leakage-2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/spectre/texfig/which-website-some-webpage-leakage-2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+
+:::
+

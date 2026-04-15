@@ -1,0 +1,20 @@
+
+### inferring cache accesses: shortcut  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+array[index] = 1;
+if (mystery) {
+    *pointer = 1;
+}
+if (TimeAccessTo(&array[index]) > THRESHOLD) {
+    /* pointer accessed */
+}
+
+```
+ 
+
+* if looking for <code>array[index]</code> to be evicted, don't need others loaded
+

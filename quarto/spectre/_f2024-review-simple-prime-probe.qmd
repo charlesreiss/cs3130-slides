@@ -1,0 +1,61 @@
+
+### exercise  {.smaller}
+
+
+```
+char *array;
+// PRIME
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+// (some code we don't control)
+other_array[mystery * BLOCK_SIZE] += 1;
+// PROBE
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+    ...
+    }
+}
+
+```
+ 
+
+* 64KB ($2^{16}$B) direct-mapped cache with 64B blocks
+* array[0x800] slow to access;
+* other_array at <code>0x4000000</code>
+* value of <code>mystery</code>?
+
+
+### exercise solution (1)  {.smaller}
+
+
+* NUM_SETS = 64KB/64B = 1K (1024) sets
+* array[0x800] has cache index [ <code>0x800</code>/BLOCK_SIZE mod NUM_SETS]{.my-small} 
+
+   * = cache index 32
+
+* know <code>[]{.my-small} other_array[mystery * BLOCK_SIZE]</code> had same index 
+<hr class="vspace" />
+* <code>other_array[0]</code> at cache index 0 
+
+   * (0x4000000 / BLOCK_SIZE) mod NUM_SETS = 0
+
+
+
+### exercise solution (2)  {.smaller}
+
+
+* recall have found: 
+
+   * <code>other_array[0]</code> at index 0;
+   * <code>other_array[mystery*BLOCK_SIZE]</code> has index 32 (same as <code>array[0x800]</code>)
+
+* <code>other_array[X]</code> at cache index (0 + X/BLOCK_SIZE  mod NUM_SETS) 
+
+   * advanced by X/BLOCK_SIZE blocks
+   * wrapping around after NUM_SETS blocks
+ 
+<hr class="vspace" />
+* X = mystery * BLOCK_SIZE
+* 32 = 0 + mystery mod NUM_SETS
+* mystery = 32 or 32 $\pm$ 1024 or 32 $\pm$ 1024 $\times$ 2 or etc.
+

@@ -1,0 +1,26 @@
+
+### Spectre variants  {.smaller}
+
+
+* showed Spectre variant 1 (array bounds), 2 (indirect jump) 
+
+   * from original paper
+ 
+<hr class="vspace" />
+* other possible variations: 
+
+   * could cause other things to be mispredicted 
+
+      * prediction of where functions return to?
+      * values instead of which code is executed?
+
+   * could use side-channel other than data cache changes 
+
+      * instruction cache
+      * cache of pending stores not yet committed
+      * contention for resources on multi-threaded CPU core
+      * branch prediction changes
+      * …
+
+
+

@@ -1,0 +1,46 @@
+
+### reading a value --- general pattern  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+other_array[mystery] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+        ...
+    }
+}
+
+```
+ 
+
+* previous idea: learn bits of mystery that correspond to index bits 
+
+   * compute index bits of other_array + mystery as function of mystery
+   * see how it matches index bits of array + i
+
+
+
+### reading a value --- simpler case  {.smaller}
+
+
+```
+char *array;
+posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
+AccessAllOf(array);
+other_array[mystery * BLOCK_SIZE] += 1;
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (CheckIfSlowToAccess(&array[i])) {
+        ...
+    }
+}
+
+```
+ 
+
+* if other_array is char* and starts at multiple of cache size
+* and <code>array[0x6*BLOCK_SIZE]</code> is slow to access
+* mystery == 0x6 + K * SET_COUNT
+

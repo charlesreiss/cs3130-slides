@@ -1,0 +1,6 @@
+
+### not just timing --- power analysis 
+
+
+![](/spectre/se-f19-10){}
+ [From Ross Anderson, <i>Security Engineering, Third Edition</i>]{.mycredit}

@@ -1,0 +1,74 @@
+
+### really contrived?  {.smaller}
+
+
+```
+char *array1; char *array2;
+if (x < array1_size)
+    y = array2[array1[x] * 4096];
+
+```
+ 
+
+* times 4096 shifts so we can get lower bits of target value 
+
+   * so all bits effect what cache block is used
+
+ <hr />
+ 
+<div class="fragment fade-in" data-fragment-index=2 >
+ 
+```
+int *array1; int *array2;
+if (x < array1_size)
+    y = array2[array1[x]];
+
+```
+ 
+
+* will still get <i>upper</i> bits of array1[x] (can tell from cache set) 
+
+   * still likely to be sensitive data
+
+ 
+</div>
+
+
+### bounds check in kernel  {.smaller}
+
+<!-- \lstset{
+    language=C,
+    style=small,
+    moredelim={**[is][\btHL<2>]{@2}{2@}},
+    moredelim={**[is][\btHL<3>]{@3}{3@}},
+    moredelim={**[is][\btHL<4>]{@4}{4@}},
+    moredelim={**[is][\btHL<5>]{@5}{5@}},
+} -->
+ 
+<pre><code>void SomeSystemCallHandler(int index) {
+    if (<span data-fragment-index="2" class="fragment custom myem-only">index &gt; some_table_size</span>) 
+        return ERROR;
+    int kind = <span data-fragment-index="3" class="fragment custom myem-only">table[index]</span>;
+    switch (<span data-fragment-index="4" class="fragment custom myem-only">other_table[kind].foo</span>) {
+        ...
+    }
+}
+</code></pre>
+ <hr />
+ 
+<pre><code>if (<span data-fragment-index="2" class="fragment custom myem-only">x &lt; array1_size</span>) {
+    y = <span data-fragment-index="4" class="fragment custom myem-only">array2[@3array1[x]3@]</span>;
+}
+</code></pre>
+
+
+### generalizing exploit 
+
+
+* limited in what address we can learn about based on how big entries in tables are 
+
+   * but can combine multiple Spectre-type exploits
+   * only need one secret value leaked
+
+* need to adjust calculations to actual addresses / array element sizes / etc.
+

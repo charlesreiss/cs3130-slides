@@ -1,0 +1,100 @@
+
+### contrived(?) vulnerable code (1)  {.smaller}
+
+
+
+* suppose this C code is run with extra privileges 
+
+   * (e.g. in system call handler, library called from JavaScript in webpage, etc.)
+
+* assume <code>x</code> chosen by attacker
+* (example from original Spectre paper)
+ 
+```
+if (x < array1_size)
+        y = array2[array1[x] * 4096];
+
+```
+
+
+### the out-of-bounds access (1)  {.smaller}
+
+
+```
+char array1[...];
+...
+int secret;
+...
+y = array2[array1[x] * 4096];
+
+```
+ 
+
+* suppose array1 is at <code>0x1000000</code> and
+* secret is at <code>0x103F0003</code>;
+* what x do we choose to make `array1[x]` access first byte of secret?
+
+
+### the out-of-bounds access (2)  {.smaller}
+
+
+```
+unsigned char array1[...];
+...
+int secret;
+...
+y = array2[array1[x] * 4096];
+
+```
+ 
+
+* suppose our cache has 64-byte blocks and 8192 sets
+* and `array2[0]` is char stored in cache set 0 
+<hr class="vspace" />
+* if the above evicts something in cache set 128, <br> then what do we know about <code>array1[x]</code>? 
+
+   * is 2 or 130
+
+
+
+### the out of bounds access (2) soln  {.smaller}
+
+
+* array2[array1[x] * 4096] accesses set with index = <br> (array1[x] * 4096 / BLOCK_SIZE mod 8192) 
+
+   * using division + modulus to extract index bits
+
+* know that set number is 128 from probing
+* array1[x] * 64 = 128 (mod 8192)
+* $\rightarrow$ array1[x] * 64 = 128 + 8192 * K
+* array1[x] = 2 + 128 * K
+
+
+### exploit with contrived(?) code  {.smaller}
+
+
+```
+/* in kernel: */
+int systemCallHandler(int x) {
+    if (x < array1_size)
+        y = array2[array1[x] * 4096];
+    return y;
+}
+
+```
+ <hr />
+ 
+```
+/* exploiting pseudocode */
+    /* step 1: mistrain branch predictor */
+for (a lot) {
+    systemCallHandler(0 /* less than array1_size */);
+}
+    /* step 2: evict from cache using misprediction */
+Prime();
+systemCallHandler((targetAddress - array1Address) / A1ElemSize);
+int evictedSet = ProbeAndFindEviction();
+int targetValue = (evictedSet - array2StartSet) / setsPer4KA2Elem;
+
+```
+
