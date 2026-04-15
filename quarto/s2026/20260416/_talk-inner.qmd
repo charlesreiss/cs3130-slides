@@ -1,0 +1,57 @@
+### last time
+
+*  multiple issue
+   *  fetch/read registers/do math/... for multiple instructions at once
+*  out-of-order
+   *  run instruction as values ready
+   *  waiting for value from data cache? run next thing
+
+###
+
+
+## functional units {visibility="hidden"}
+
+### an OOO pipeline (execution units) {.nostretch}
+
+![](/ooo/texfig/oooPipelineExecute.figure.svg){width=900px}
+
+{{< include /ooo/_realCpuFU.qmd >}}
+
+## instruction dispatch (two-cycle multiplier) {visibility="hidden"}
+
+{{< include /ooo/_oooDispatchAlt.qmd >}}
+
+## complex instructions and condition codes {visibility="hidden"}
+
+{{< include /ooo/_oooMicrocodeSummary.qmd >}}
+
+## reassociation and data flow {visibility="hidden"}
+
+{{< include /ooo/_reassocDataFlow.qmd >}}
+
+## the data flow limit {visibility="hidden"}
+
+{{< include /intro/_perf-examples.qmd >}}
+
+{{< include /ooo/_dataFlowLimitNew.qmd >}}
+
+## OOO limits {visibility="hidden"}
+
+{{< include /ooo/_oooLimitations.qmd >}}
+
+
+{{< include /ooo/_dataFlowLimitNew.qmd >}}
+## handling branch misprediction {visibility="hidden"}
+
+{{< include /ooo/_branch-mispred.qmd >}}
+
+
+## real OOO sizes {visibility="hidden"}
+
+{{< include /ooo/_oooSkylakeSizes.qmd >}}
+
+{{< include /spectre/_talk-inner.qmd >}}
+
+### backup slides
+
+{{< include /ooo/_talk-backup.qmd >}}
