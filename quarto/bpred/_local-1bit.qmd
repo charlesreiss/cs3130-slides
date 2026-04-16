@@ -23,7 +23,7 @@
 
  
 
-::: {.r-stack}
+::: {.r-stack .my-full}
 ![](/bpred/texfig/1bitPredExample.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
 ![](/bpred/texfig/1bitPredExample.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}

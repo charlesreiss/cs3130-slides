@@ -5,6 +5,9 @@
 *  out-of-order
    *  run instruction as values ready
    *  waiting for value from data cache? run next thing
+*  regsister renaming to handle data hazards
+   *  new physical register for each version of architectural register
+   *  physical register either ready or not (only written once)
 
 ###
 
@@ -52,5 +55,4 @@
 ### backup slides
 
 {{< include /ooo/_talk-backup.qmd >}}
-
 
