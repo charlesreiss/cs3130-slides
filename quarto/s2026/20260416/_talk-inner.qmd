@@ -39,19 +39,19 @@
 
 {{< include /ooo/_oooLimitations.qmd >}}
 
-
-{{< include /ooo/_dataFlowLimitNew.qmd >}}
-## handling branch misprediction {visibility="hidden"}
-
-{{< include /ooo/_branch-mispred.qmd >}}
-
-
 ## real OOO sizes {visibility="hidden"}
 
 {{< include /ooo/_oooSkylakeSizes.qmd >}}
+
+{{< include /bpred/_talk-basic.qmd >}}
+
+### side channels
 
 {{< include /spectre/_talk-inner.qmd >}}
 
 ### backup slides
 
-{{< include /ooo/_talk-backup.qmd >}}
+{< include /ooo/_talk-backup.qmd >}}
+
+{< include /bpred/_talk-advanced.qmd >}}
+
