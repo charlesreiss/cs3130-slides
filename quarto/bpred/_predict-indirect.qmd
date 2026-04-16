@@ -12,4 +12,5 @@
 <hr class="vspace"/>
 * prediction idea: instead of tables containing taken/not taken...
 * ... have table containing predicted target
+  * one implementation: hashtable keyed by recent branches taken
 

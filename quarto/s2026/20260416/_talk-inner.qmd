@@ -51,7 +51,6 @@
 
 ### backup slides
 
-{< include /ooo/_talk-backup.qmd >}}
+{{< include /ooo/_talk-backup.qmd >}}
 
-{< include /bpred/_talk-advanced.qmd >}}
 

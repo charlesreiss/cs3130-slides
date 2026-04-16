@@ -57,7 +57,7 @@ if (x < array1_size)
  <hr />
  
 <pre><code>if (<span data-fragment-index="2" class="fragment custom myem-only">x &lt; array1_size</span>) {
-    y = <span data-fragment-index="4" class="fragment custom myem-only">array2[@3array1[x]3@]</span>;
+    y = <span data-fragment-index="4" class="fragment custom myem-only">array2[<span data-fragment-index="3" class="fragment custom myem-only">array1[x]</span>]</span>;
 }
 </code></pre>
 
