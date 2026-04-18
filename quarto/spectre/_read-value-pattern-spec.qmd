@@ -1,5 +1,5 @@
 
-### reading a value without really reading it  {.smaller}
+### reading a value without really reading it
 
 
 ```c

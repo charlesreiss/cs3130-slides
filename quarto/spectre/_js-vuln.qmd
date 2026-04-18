@@ -28,13 +28,12 @@
 * not supposed to be access arbitrary browser memory
 * example JavaScript code from paper:
  
-```
+```{.javascript style="font-size: 160%"}
 if (index < simpleByteArray.length) {
     index = simpleByteArray[index | 0];
     index = (((index * 4096)|0) & (32*1024*1024-1))|0;
     localJunk ˆ= probeTable[index|0]|0;
 }
-
 ```
  
 

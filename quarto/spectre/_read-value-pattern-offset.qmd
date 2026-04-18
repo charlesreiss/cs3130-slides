@@ -2,7 +2,7 @@
 ### reading a value --- * X * BLOCK_SIZE  {.smaller}
 
 
-```
+```{.c style="font-size: 150%"}
 char *array;
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
 AccessAllOf(array);

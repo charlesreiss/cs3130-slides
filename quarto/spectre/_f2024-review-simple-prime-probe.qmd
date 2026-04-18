@@ -2,7 +2,7 @@
 ### exercise  {.smaller}
 
 
-```
+```c
 char *array;
 // PRIME
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);

@@ -2,11 +2,10 @@
 ### mistraining branch predictor?  {.smaller}
 
 
-```
+```{.c style="font-size: 200%"}
 if (something) {
     CodeToRunSpeculatively()
 }
-
 ```
  
 

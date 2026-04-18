@@ -7,6 +7,7 @@
 
    * 0x4001440 / BLOCK_SIZE mod NUM_SETS = 0x51
 
+
 * (0x51 + mystery * BLOCK_SIZE / BLOCK_SIZE) mod NUM_SETS = 32
 * mystery = -49 or 975 or 1099 or …
 

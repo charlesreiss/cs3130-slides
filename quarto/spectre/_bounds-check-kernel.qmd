@@ -1,8 +1,8 @@
 
-### really contrived?  {.smaller}
+### really contrived?
 
 
-```
+```c
 char *array1; char *array2;
 if (x < array1_size)
     y = array2[array1[x] * 4096];
@@ -18,7 +18,7 @@ if (x < array1_size)
  
 <div class="fragment fade-in" data-fragment-index=2 >
  
-```
+```c
 int *array1; int *array2;
 if (x < array1_size)
     y = array2[array1[x]];
@@ -34,16 +34,7 @@ if (x < array1_size)
 </div>
 
 
-### bounds check in kernel  {.smaller}
-
-<!-- \lstset{
-    language=C,
-    style=small,
-    moredelim={**[is][\btHL<2>]{@2}{2@}},
-    moredelim={**[is][\btHL<3>]{@3}{3@}},
-    moredelim={**[is][\btHL<4>]{@4}{4@}},
-    moredelim={**[is][\btHL<5>]{@5}{5@}},
-} -->
+### bounds check in kernel
  
 <pre><code>void SomeSystemCallHandler(int index) {
     if (<span data-fragment-index="2" class="fragment custom myem-only">index &gt; some_table_size</span>) 

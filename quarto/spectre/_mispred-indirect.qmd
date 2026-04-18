@@ -16,7 +16,7 @@
 * so far: talking about mispredicting direction of branch
 * what about mispredicting target of branch in, e.g.:
  
-```
+```gnuassembler
 // possibly from C code like:
 //   (*function_pointer)();
 jmp *%rax           
@@ -39,7 +39,6 @@ for jmps like `jmp *%rax` predict target with cache: <br> <table>
 <tr><td>0x20-0x28</td><td>0x4FF194</td></tr>
 <tr><td>…</td><td>…</td></tr>
 <tr><td>0xFF8--0xFFF</td><td>0x3F8403</td></tr>
-<tr><td></td></tr>
 </table>
  
 

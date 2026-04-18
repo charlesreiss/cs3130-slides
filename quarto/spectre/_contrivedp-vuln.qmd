@@ -1,5 +1,5 @@
 
-### contrived(?) vulnerable code (1)  {.smaller}
+### contrived(?) vulnerable code (1)
 
 
 
@@ -10,23 +10,21 @@
 * assume <code>x</code> chosen by attacker
 * (example from original Spectre paper)
  
-```
+```c
 if (x < array1_size)
         y = array2[array1[x] * 4096];
-
 ```
 
 
-### the out-of-bounds access (1)  {.smaller}
+### the out-of-bounds access (1)
 
 
-```
+```c
 char array1[...];
 ...
 int secret;
 ...
 y = array2[array1[x] * 4096];
-
 ```
  
 
@@ -35,16 +33,15 @@ y = array2[array1[x] * 4096];
 * what x do we choose to make `array1[x]` access first byte of secret?
 
 
-### the out-of-bounds access (2)  {.smaller}
+### the out-of-bounds access (2)
 
 
-```
+```c
 unsigned char array1[...];
 ...
 int secret;
 ...
 y = array2[array1[x] * 4096];
-
 ```
  
 
@@ -53,11 +50,9 @@ y = array2[array1[x] * 4096];
 <hr class="vspace" />
 * if the above evicts something in cache set 128, <br> then what do we know about <code>array1[x]</code>? 
 
-   * is 2 or 130
 
 
-
-### the out of bounds access (2) soln  {.smaller}
+### the out of bounds access (2) soln
 
 
 * array2[array1[x] * 4096] accesses set with index = <br> (array1[x] * 4096 / BLOCK_SIZE mod 8192) 
@@ -70,10 +65,10 @@ y = array2[array1[x] * 4096];
 * array1[x] = 2 + 128 * K
 
 
-### exploit with contrived(?) code  {.smaller}
+### exploit with contrived(?) code
 
 
-```
+```c
 /* in kernel: */
 int systemCallHandler(int x) {
     if (x < array1_size)
@@ -84,7 +79,7 @@ int systemCallHandler(int x) {
 ```
  <hr />
  
-```
+```c
 /* exploiting pseudocode */
     /* step 1: mistrain branch predictor */
 for (a lot) {

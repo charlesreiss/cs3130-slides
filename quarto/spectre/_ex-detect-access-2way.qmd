@@ -2,7 +2,7 @@
 ### exercise: inferring cache accesses (2)  {.smaller}
 
 
-```c
+```{.c style="font-size: 140%"}
 char *array;
 posix_memalign(&array, CACHE_SIZE, CACHE_SIZE);
 LoadIntoCache(array, CACHE_SIZE);

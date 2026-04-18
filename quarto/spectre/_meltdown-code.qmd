@@ -1,14 +1,7 @@
 
-### Meltdown  {.smaller}
+### Meltdown
 
-[ from Lipp et al, ‘‘Meltdown: Reading Kernel Memory from User Space’’]{.my-small} <br> <!-- \lstset{
-    language=myasm,
-    style=small,
-    moredelim={**[is][\btHL<2>]{@2}{2@}},
-    moredelim={**[is][\btHL<3>]{@3}{3@}},
-    moredelim={**[is][\btHL<4>]{@4}{4@}},
-    moredelim={**[is][\btHL<5>]{@5}{5@}},
-} -->
+[from Lipp et al, ‘‘Meltdown: Reading Kernel Memory from User Space’’]{style="font-size: 50%"}
  
 <pre><code>    // %rcx = kernel address
     // %rbx = array to load from to cause eviction
@@ -24,7 +17,7 @@ retry:
     <span data-fragment-index="4" class="fragment custom myem-only">mov (%rbx, %rax), %rbx</span>
 </code></pre>
 
-::: {.myoverbox .fragment fragment-index=2 .fade-in-then-out}
+::: {.myoverbox .fragment fragment-index=2 .fade-in-then-out .vlow}
 
 space out accessed by 4096  <br/>
 ensure sepaqrate cache sets and <br/>
@@ -33,7 +26,7 @@ avoid triggering prefetcher
 :::
 
 
-::: {.myoverbox .fragment fragment-index=3 .fade-in-then-out}
+::: {.myoverbox .fragment fragment-index=3 .fade-in-then-out .vlow}
 
 repeat access if zero <br/>
 apparently value of zero speculatively read<br/>
@@ -41,14 +34,14 @@ when real value not yet available
 
 :::
 
-::: {.myoverbox .fragment fragment-index=4 .fade-in-then-out}
+::: {.myoverbox .fragment fragment-index=4 .fade-in-then-out .high}
 
 acesss cache to allow measurement in later <br />
 in paper with FLUSH+RELOAD instead of PRIME+PROBE
 
 :::
 
-::: {.myoverbox .fragment fragment-index=5 .fade-in-then-out .low}
+::: {.myoverbox .fragment fragment-index=5 .fade-in-then-out .vlow}
 
 segfault actually happens eventually<br/>
 option 1: okay, just start a new process each time</br>

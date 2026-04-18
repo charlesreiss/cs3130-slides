@@ -1,17 +1,13 @@
 
-### some Linux kernel mitigations (1)  {.smaller}
-
-
+### some Linux kernel mitigations (1)
 
 * replace `array[x]` with `array[x & ComputeMask(x, size)]`
 * … where ComputeMask() returns 
-
    * 0 if x $>$ size
    * <code>0xFFFF..F</code> if x $\le$ size
-
 * … and ComputeMask() does not use jumps:
  
-```
+```gnuassembler
 mov x, %r8
 mov size, %r9
 cmp %r9, %r8
@@ -21,7 +17,7 @@ sbb %rax, %rax  // sbb = subtract with borrow
 ```
 
 
-### some Linux kernel mitigations (2)  {.smaller}
+### some Linux kernel mitigations (2)
 
 
 * for indirect branches: 
@@ -37,14 +33,14 @@ sbb %rax, %rax  // sbb = subtract with borrow
 
 
 
-### only safe prediction  {.smaller}
+### only safe prediction
 
 
 
 * as replacement for `jmp *%rax`
 * code from Intel's ‘‘Retpoline: A Branch Target Injection Mitigation’’
  
-```
+```gnuassembler
         call load_label
     capture_ret_spec:    /* <-- want prediction to go here */
         pause

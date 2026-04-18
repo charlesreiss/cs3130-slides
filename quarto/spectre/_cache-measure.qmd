@@ -21,7 +21,7 @@
 ### inferring cache accesses (2)  {.smaller}
 
 some psuedocode: 
-```
+```{.c style="font-size: 120%"}
 char array[CACHE_SIZE];
 AccessAllOf(array);
 *other_address += 1;
@@ -33,10 +33,10 @@ TimeAccessingArray();
 * suppose during these accesses I discover that <code>array[128]</code> is slower to access
 * probably because <code>*other_address</code> loaded into cache + evicted it
 * what do we know about <code>other_address</code>? (select all that apply)
- []{.my-small} <table>
+
+<table>
 <tr><td>A. same cache tag</td><td>B. same cache index</td><td>C. same cache offset</td></tr>
 <tr><td>D. diff. cache tag</td><td>E. diff. cache index</td><td>F. diff. cache offset</td></tr>
-<tr><td></td></tr>
 </table>
 
 

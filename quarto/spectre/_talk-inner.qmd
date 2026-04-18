@@ -48,6 +48,8 @@
 
 {{< include /spectre/_ex-detect-access-2way.qmd >}}
 
+<!-- FIXME: more exericses -->
+
 ## reading a value (1) {visibility="hidden"}
 
 {{< include /spectre/_read-value-pattern.qmd >}}
@@ -102,6 +104,8 @@
 {{< include /spectre/_read-value-pattern.qmd >}}
 
 {{< include /spectre/_read-value-pattern-offset.qmd >}}
+
+<!-- FIXME: exercise: find the pattern -->
 
 ## contrived? vulnerable code {visibility="hidden"}
 

@@ -4,7 +4,7 @@
 
 ```c
 Prime();
-if (something false) {
+if (... /*something false*/) {
     triggerSegfault();
     Use(*pointer);
 }
@@ -31,14 +31,6 @@ Probe();
    * check if access is permitted by permission bits
 
 * Intel processors: looks like these were separate steps, so...
- <!-- \lstset{
-    language=C,
-    style=small,
-    moredelim=**[is][\btHL<1|handout:1>]{@1}{@},
-    moredelim=**[is][\btHL<2|handout:2>]{@2}{@},
-    moredelim=**[is][\btHL<3|handout:3>]{@3}{@},
-    moredelim=**[is][\btHL<4|handout:4>]{@4}{@},
-} -->
  
 <pre><code>Prime();
 if (<span data-fragment-index="2" class="fragment custom myem-only">something false</span>) {
