@@ -1,8 +1,8 @@
 
-### seeing past a segfault? (1)  {.smaller}
+### seeing past a segfault? (1) 
 
 
-```
+```c
 Prime();
 if (something false) {
     triggerSegfault();
@@ -21,7 +21,7 @@ Probe();
 
 
 
-### seeing past a segfault? (2)  {.smaller}
+### seeing past a segfault? (2) 
 
 
 
