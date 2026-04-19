@@ -1,0 +1,16 @@
+### last time {.smaller}
+
+*  execution unit types
+   *  specialization for different operations
+   *  single v multi-cycle
+   *  pipelined
+*  issuing instructions with multi-cycle
+*  data-flow graphs and estimating performance
+*  branch prediction, briefly
+   *  backward taken, forward not-taken
+   *  using tables of history
+*  branch target buffer (caching branch info)
+   *  need to predict before decoding real instruction
+
+
+{{< include /spectre/_talk-inner.qmd >}}
