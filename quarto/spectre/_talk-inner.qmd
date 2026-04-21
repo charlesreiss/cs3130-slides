@@ -48,15 +48,25 @@
 
 {{< include /spectre/_ex-detect-access-2way.qmd >}}
 
-<!-- FIXME: more exericses -->
+## PRIME+PROBE {visibility="hidden"}
+
+{{< include /spectre/_prime-probe.qmd >}}
 
 ## reading a value (1) {visibility="hidden"}
 
 {{< include /spectre/_read-value-pattern.qmd >}}
 
-## PRIME+PROBE, AES example {visibility="hidden"}
+{{< include /spectre/_read-value-pattern-offset.qmd >}}
 
-{{< include /spectre/_prime-probe.qmd >}}
+## additional exercise
+
+{{< include /spectre/_ex-which-process-id.qmd >}}
+
+<!-- FIXME: more exericses -->
+
+## PRIME+PROBE for AES
+
+{{< include /spectre/_prime-probe-aes.qmd >}}
 
 # seeing speculation via side channels {visibility="hidden"}
 
@@ -99,11 +109,8 @@
 
 {{< include /spectre/_mistrain-bp.qmd >}}
 
-## review: reading value {visibility="hidden"}
 
-{{< include /spectre/_read-value-pattern.qmd >}}
-
-{{< include /spectre/_read-value-pattern-offset.qmd >}}
+{{< include /spectre/_ex-read-value-process.qmd >}}
 
 <!-- FIXME: exercise: find the pattern -->
 

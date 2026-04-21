@@ -1,5 +1,5 @@
 
-### exercise: inferring cache accesses (1)  {.smaller}
+### exercise: how to detect cache access?  {.smaller}
 
 
 ```{.c style="font-size: 140%"}
@@ -59,7 +59,7 @@ if (TimeAccessTo(&array[index]) > THRESHOLD) {
 * … because branch prediction could started cache access
 
 
-### exercise: inferring cache accesses (2)  {.smaller}
+### exercise: computing mystery  {.smaller}
 
 
 ```c
@@ -101,11 +101,11 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 | `0x200400`         |   | ...`0`<em>`000 0100 00`</em>`00 0000` |
 +--------------------+---+---------------------------------------+
 |                    |   |                                       | 
-|  $+$ X             |$+$| ...`0`<em>`000 0100 00`</em>`00 0000` |
+|  $+$ X             |$+$| ...`?`<em>`000 0100 00`</em>`?? ????` |
 |                    |   |                                       | 
 +--------------------+---+---------------------------------------+
 | <hr>               | <hr>                                      | 
 +--------------------+---+---------------------------------------+
-| `0x200400` + X     |   | ...`?`<em>`000 1000 00`</em>`00 0000` |
+| `0x200400` + X     |   | ...`?`<em>`000 1000 00`</em>`?? ????` |
 +--------------------+---+---------------------------------------+
 
