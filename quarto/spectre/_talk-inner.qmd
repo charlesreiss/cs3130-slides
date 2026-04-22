@@ -110,8 +110,6 @@
 {{< include /spectre/_mistrain-bp.qmd >}}
 
 
-{{< include /spectre/_ex-read-value-process.qmd >}}
-
 <!-- FIXME: exercise: find the pattern -->
 
 ## contrived? vulnerable code {visibility="hidden"}
@@ -121,6 +119,12 @@
 ## array bounds check {visibility="hidden"}
 
 {{< include /spectre/_bounds-check-kernel.qmd >}}
+
+## exercise: finding the pattern
+
+{{< include /spectre/_ex-where-spectre-pattern.qmd >}}
+
+{{< include /spectre/_ex-read-value-process.qmd >}}
 
 ## JavaScript exploit {visibility="hidden"}
 

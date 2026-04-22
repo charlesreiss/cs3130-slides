@@ -1,0 +1,31 @@
+
+### PRIME+PROBE technique and attacks
+
+* mentioned coined from attacks on AES
+* example scenario: hard disk encryption on shared server
+  * attacker running on system can cause files to be written/read
+  * but shouldn't have disk encryption keys
+* use PRIME+PROBE technique to see what disk encryption routine is doing
+
+### example: AES (1)  {.smaller}
+
+
+* from Osvik, Shamir, and Tromer, ‘‘Cache Attacks and Countermeasures: the Case of AES’’ (2004)
+* early AES implementation used lookup tables
+* goal: detect index into lookup table 
+
+   * index depended on key + data being encrypted
+
+* tricks they did to make this work 
+
+   * vary data being encrypted
+   * subtract average time to look for what changes
+   * lots of measurements
+
+
+
+### example: AES (2) 
+
+from Osvik, Shamir, and Tromer, ‘‘Cache Attacks and Countermeasures: the Case of AES’’ (2004) <br> 
+![](/spectre/prime-probe-osvik){}
+

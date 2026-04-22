@@ -1,0 +1,49 @@
+### exercise  {.smaller}
+
+<!-- adapted from 2025 spring final -->
+
+::::: {.columns}
+
+:::: {.column}
+
+```c
+struct Process {
+    long is_active;
+    ...
+}
+struct Process processes[16384];
+
+void SomeOsRoutine() {
+    ...
+        struct Process *this_process;
+        this_process = &processes[process_id];
+        if (this_process->is_active) {
+    ...
+}
+```
+
+::::
+
+:::: {.column}
+
+```c
+char *array;
+array = AllocateAlignedPhysicalMemory(CACHE_SIZE);
+LoadIntoCache(array, CACHE_SIZE);
+SomeOsRoutine();
+for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
+    if (TimeAccessTo(&array[i]) > THRESHOLD) {
+        /* found something interesting */
+    }
+}
+```
+
+::::
+
+:::::
+
+* 65536 byte ($2^{16}$ byte) direct-mapped data cache with 16-byte blocks
+* `processes[0]` is located at address `0x100000`
+* `struct Process` is 128 bytes in size
+* index 768 ($48\times 16$) evicted by code above, possible `process_id`?
+

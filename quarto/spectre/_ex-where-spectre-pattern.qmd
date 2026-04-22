@@ -1,0 +1,86 @@
+### where is Spectre pattern? (1a) {.smaller}
+
+```c
+struct Files all_files[NUM_FILES];
+int GetLastByteOfFile(int index) {
+    if (index >= 0 && index < all_files) {
+        struct File *file = &all_files[index];
+        if (file->type == MEMORY) {
+            return file->data[file->size - 1];
+        } else if (file->type == DISK) {
+            return GetLastByteOfDiskFile(file)
+        } else {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+}
+```
+
+In Spectre-style attack, it will be most useful to learn what cache set is evicted by the
+access to ___.
+
+<table>
+<tr><td>A. `file->type` </td><td>B. `file->data[file->size - 1]`</td></tr>
+<tr><td>C. `file->size`</td><td>D. `index`</td></tr>
+</table>
+
+### where is Spectre pattern? (1b) {.smaller}
+
+```c
+struct Files all_files[NUM_FILES];
+int GetLastByteOfFile(int index) {
+    if (index >= 0 && index < all_files) {
+        struct File *file = &all_files[index];
+        if (file->type == MEMORY) {
+            return file->data[file->size - 1];
+        } else if (file->type == DISK) {
+            return GetLastByteOfDiskFile(file)
+        } else {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+}
+```
+
+In Spectre-style attack, the value an attacker will learn the most above is ___.
+
+<table>
+<tr><td>A. `file->type` </td><td>B. `file->data[file->size - 1]`</td></tr>
+<tr><td>C. `file->size`</td><td>D. `index`</td></tr>
+</table>
+
+
+
+### where is Spectre pattern? (2) {.smaller}
+
+```c
+struct FileInfo all_files[4096];
+...
+
+struct SocketInfo all_sockets[4096];
+
+int GetLocalPortFor(int file_number)  {
+    if (file_number < 0 || file_number >= 4096) {
+        return -1;
+    } else if (!all_files[file_number].is_socket) {
+        return -1;
+    } else {
+        int socket_index = all_files[file_number].socket_index;
+        struct SocketInio *socket_info = &all_sockets[socket_index];
+        return socket_info->local_port;
+    }
+}
+```
+
+If attacker wants to learn the value at address X, they should make it
+so address X is the same as the address of ___.
+
+<table>
+<tr><td>A. `all_files[file_number].is_socket`</td><td>B. `all_files[file_number].socket_index`</td></tr>
+<tr><td>C. `all_sockets[file_number]`</td><td>D. `all_sockets[all_files[file_number].socket_index].local_port`</td>
+</table>
+

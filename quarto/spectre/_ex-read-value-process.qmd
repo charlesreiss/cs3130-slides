@@ -1,0 +1,57 @@
+### exercise {.smaller}
+
+<!-- adapted from 2025 spring final -->
+
+```
+struct Process {
+    long is_active;
+    ...
+}
+struct Process processes[16384];
+long GetParentProcessUser(long process_id) {
+    if (process_id >= 0 && process_id < 16384) {
+        struct Process *this_process;
+        this_process = &processes[process_id];
+        if (this_process->is_active) {
+            struct *parent_process;
+            parent_process = &processes[this_process->parent_process_id];
+            return parent_process->user_id;
+        } else {
+            return -1;
+        }
+    }
+}
+```
+*  exercise 1: where is cache access that is interesting for Spectre attack?
+  <table style="font-size: 80%">
+<tr><td>A. `&processes[process_id]`</td><td>B. `this_process->is_active`</td></tr>
+<tr><td>C. `this_process->parent_process_id`</td><td>D. `&processes[this_process->parent_process_id]`</td></tr>
+<tr><td>E. `parent_process->user_id`</td>
+</table>
+ 
+
+### exercise {.smaller}
+
+<!-- adapted from 2025 spring final -->
+
+```
+struct Process {
+    long is_active;
+    ...
+}
+struct Process processes[16384];
+long GetParentProcessUser(long process_id) {
+    if (process_id >= 0 && process_id < 16384) {
+        struct Process *this_process;
+        this_process = &processes[process_id];
+        if (this_process->is_active) {
+            struct *parent_process;
+            parent_process = &processes[this_process->parent_process_id];
+            return parent_process->user_id;
+        } else {
+            return -1;
+        }
+    }
+}
+```
+*  exercise 2: how to compute value for argument?
