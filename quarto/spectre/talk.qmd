@@ -3,5 +3,10 @@ title: "spectre"
 
 ---
 
+### changelog {.smaller}
+
+*  23 Apr 2026 [after lecture]: add some solution slides for some exericses; fix `< all_files` where `< NUM_FILES` should have been
+
+
 {{< include ../spectre/_talk-inner.qmd >}}
 {{< include ../spectre/_talk-backup.qmd >}}

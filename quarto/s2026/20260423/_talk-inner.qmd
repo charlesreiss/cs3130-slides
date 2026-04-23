@@ -10,8 +10,9 @@
 
 ###
 
+###
 
-## additional exercise
+## additional exercise {visibility="hidden"}
 
 {{< include /spectre/_ex-which-process-id.qmd >}}
 

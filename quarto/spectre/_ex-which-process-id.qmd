@@ -45,5 +45,11 @@ for (int i = 0; i < CACHE_SIZE; i += BLOCK_SIZE) {
 * 65536 byte ($2^{16}$ byte) direct-mapped data cache with 16-byte blocks
 * `processes[0]` is located at address `0x100000`
 * `struct Process` is 128 bytes in size
-* index 768 ($48\times 16$) evicted by code above, possible `process_id`?
+* array index 768 ($48\times 16$) evicted by code above, possible `process_id`?
 
+### solution
+
+* array[X] is cache offset $X \mod 16$, cache set $(X / 16) mod 2^{12}$ (number of sets).
+* processes[Y].is_active is cache offset 0, cache set $Y \times (128/16) \pmod{2^{12}}$
+    *  128 bytes per struct Process, so each struct Process spans 8 cache sets
+* $Y \times (128 / 16) = (768/16) \pmod{2^{12}}$ implies $Y = 6 + K\times2^9$ for some $K$
