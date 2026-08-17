@@ -1,7 +1,7 @@
 
-# two sections {visibility="hidden"}
+# exams {visibility="hidden"}
 
-{{< include ../logistics/_two-sections.qmd >}}
+{{< include ../logistics/_exams.qmd >}}
 
 # labs {visibility="hidden"}
 
@@ -31,9 +31,6 @@
 
 {{< include ../logistics/_sync.qmd >}}
 
-# exams {visibility="hidden"}
-
-{{< include ../logistics/_final.qmd >}}
 
 # dev environment {visibility="hidden"}
 

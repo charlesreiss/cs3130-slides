@@ -1,0 +1,7 @@
+### Computer-Based Testing Facility
+
+*  using computer-based testing facility (CBTF) this semester
+*  tests with randomized questions
+   *  starting in week 4, every 3 weeks afterwards
+*  probably final exam activity: opportunity to make-up one prior
+
