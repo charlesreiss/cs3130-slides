@@ -1,0 +1,5 @@
+# CSO2 (CS 3130)
+
+{{< include /logistics/_talk-inner.qmd >}}
+{{< include /intro/_talk-inner.qmd >}}
+{{< include /building/_talk-inner.qmd >}}

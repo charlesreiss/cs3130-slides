@@ -10,3 +10,44 @@
 
 :::
 
+### some performance examples 
+
+:::: {.columns}
+
+::: {.column style="width: 45%; margin-right: 9%"}
+
+```{.gnuassembler style="border: 2px solid black; font-size: 100%;"}
+example1:
+  movq $10000000000, %rax
+loop1:
+  addq %rbx, %rcx
+  decq %rax
+  jge loop1
+  ret
+```
+
+about _30B instructions_<br/>
+my desktop: _2.65 sec_
+:::
+
+
+::: {.column style="width: 45%"}
+
+```{.gnuassembler style="border: 2px solid black; font-size: 100%;"}
+example1:
+  movq $10000000000, %rax
+loop1:
+  addq %rbx, %rcx
+  addq %r8,  %r9
+  decq %rax
+  jge loop1
+  ret
+```
+
+about _40B instructions_<br/>
+my desktop: _2.65 sec_
+
+
+:::
+
+::::

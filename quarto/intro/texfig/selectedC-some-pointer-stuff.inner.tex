@@ -4,7 +4,7 @@
 \foreach \x/\v in {0/0x040,1/0x038,2/0x030,3/0x028,4/0x020,5/0x018,6/0x010,7/0x008,8/0x000} {
     \node[font=\tt,anchor=east] at (0, -\x) {\v};
 }
-\node[anchor=north west, overlay,font=\tt,align=left] (decl p) at (4.2, 1) {
+\node[anchor=north west,font=\tt,align=left] (decl p) at (4.2, 1) {
 \texttt{int array[3]=}\texttt{\{0x12,0x45,0x67\};} \\
 \texttt{int single = 0x78;} \\
 \texttt{int *ptr;} \\

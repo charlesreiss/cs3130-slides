@@ -2,10 +2,10 @@
 ### some avenues for review  {.smaller}
 
 
-* review CSO1 stuff 
+* review CSO1 stuff; examples from Fall 2025:
 
-   * labs 10--13, homeworks 7--8 of last Spring
-   * \\url{https://researcher111.github.io/uva-cso1-F23-DG/}
+   * labs 10--13, homeworks 7--8 
+   * https://researcher111.github.io/uva-cso1-F23-DG/
 
 * exercises we've used in the past: 
 
@@ -16,28 +16,29 @@
 
 ### some pointer stuff 
 
+<!-- FIXME: convert to new -->
 
 
 ::: {.r-stack .my-full}
-![](texfig/selectedC-some-pointer-stuff.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-1.svg){.fragment .fade-out fragment-index=2}
 
-![](texfig/selectedC-some-pointer-stuff.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](texfig/selectedC-some-pointer-stuff.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](texfig/selectedC-some-pointer-stuff.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
-![](texfig/selectedC-some-pointer-stuff.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
 
-![](texfig/selectedC-some-pointer-stuff.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
 
-![](texfig/selectedC-some-pointer-stuff.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
 
-![](texfig/selectedC-some-pointer-stuff.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
 
-![](texfig/selectedC-some-pointer-stuff.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
 
-![](texfig/selectedC-some-pointer-stuff.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+![](/intro/texfig/selectedC-some-pointer-stuff.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
 
 
 :::

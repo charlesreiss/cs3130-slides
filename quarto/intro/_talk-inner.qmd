@@ -1,16 +1,55 @@
 
 # overall themes {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* sharing machines
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time
+
+### themes
+
+* _automating buidling software_
+    *  libraries, taking advantage of incremental compilation
+* sharing machines
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time
+
 
 # briefly, building {visibility="hidden"}
-
 
 {{< include /intro/_make.qmd >}}
 
 # briefly, virtual memory {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* _sharing machines_
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time
+
 
 {{< include /vm/_translationOverview.qmd >}}
 
@@ -18,7 +57,19 @@
 
 ## interrupts {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* _sharing machines_
+    *  multiple users/programs on one system
+* _parallelism and concurrency_
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time
 
 {{< include /kernel/_keyInTimeline.qmd >}}
 
@@ -28,13 +79,24 @@
 
 ## kernel mode / permissions {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
-
 {{< include /intro/_permissions-limit.qmd >}}
 
 # networking {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* sharing machines
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* _communicating between machines_
+    *  layered design of networks
+    *  implementing secure communication
+* making processors fast
+    *  caching, (hidden) parallelism, avoiding idle time
+
 
 ## layered design {visibility="hidden"}
 
@@ -54,7 +116,19 @@
 
 # caching {visibility="hidden"}
 
-{{< include /intro/_themes.qmd >}}
+### themes
+
+* automating buidling software
+    *  libraries, taking advantage of incremental compilation
+* sharing machines
+    *  multiple users/programs on one system
+* parallelism and concurrency
+    *  doing two+ things at once
+* communicating between machines
+    *  layered design of networks
+    *  implementing secure communication
+* _making processors fast_
+    *  caching, (hidden) parallelism, avoiding idle time
 
 {{< include /caching/_memHierarchyPic.qmd >}}
 

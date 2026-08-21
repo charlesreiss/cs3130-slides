@@ -1,12 +1,14 @@
 
-### exercise: what will run?  {.smaller}
+### exercise: what will run? {.smaller .nostretch}
 
-![](/building/texfig/makeWhatRun.figure.svg)
- exercise: ‘‘make W’’ will run what commands? 
-  <table>
+![](/building/texfig/makeWhatRun.figure.svg){width=1000px}
+
+exercise: "make W" will run what commands? 
+
+<table>
 <tr><td>A. none</td><td>B. <code>buildY</code> only</td><td>C. <code>buildW</code> then <code>buildY</code></td></tr>
-<tr><td>D. <code>buildY</code> then <code>buildW</code></td><td>\multicolumn{2lE. <code>buildX</code> then <code>buildY</code> then <code>buildW</code>}</td></tr>
-<tr><td>F. <code>buildX</code> then <code>buildW</code></td><td>G. something else</td></tr>
+<tr><td>D. <code>buildY</code> then <code>buildW</code></td><td colspan="2">E. <code>buildX</code> then <code>buildY</code> then <code>buildW</code></td></tr>
+<tr><td>F. <code>buildX</code> then <code>buildW</code></td><td colspan="2">G. something else</td></tr>
 </table>
 
 
@@ -14,15 +16,16 @@
 
 
 ::: {.r-stack}
-![](/building/texfig/makeWhatRunExplain.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/building/texfig/makeWhatRunExplain.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/building/texfig/makeWhatRunExplain.figure-1.svg){.fragment .fade-out fragment-index=2 width=500px}
 
-![](/building/texfig/makeWhatRunExplain.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/building/texfig/makeWhatRunExplain.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=500px}
 
-![](/building/texfig/makeWhatRunExplain.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/building/texfig/makeWhatRunExplain.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=500px}
 
-![](/building/texfig/makeWhatRunExplain.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/building/texfig/makeWhatRunExplain.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width=500px}
+
+![](/building/texfig/makeWhatRunExplain.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 width=500px}
 
 :::
  
