@@ -1,0 +1,12 @@
+
+### layers terminology {.smaller}
+
+<table>
+<tr><td>layer name</td><td>problems solved</td><td>message called</td>
+<tr style="border-top: 2px solid black;"><td><!-- \hline --> application</td><td>application-defined meanings</td><td>&nbsp;</td></tr>
+<tr style="border-top: 2px solid black;"><td><!-- \hline --> transport</td><td>reach correct program, reliablity/streams</td><td>segments/datagrams</td></tr>
+<tr style="border-top: 2px solid black;"><td><!-- \hline --> network</td><td>reach correct machine (across networks)</td><td>packets</td></tr>
+<tr style="border-top: 2px solid black;"><td><!-- \hline --> link</td><td>coordinate shared wire/radio</td><td>frames</td></tr>
+<tr style="border-top: 2px solid black;"><td><!-- \hline --> physical</td><td>encode bits for wire/radio</td><td>&nbsp;</td></tr>
+</table>
+

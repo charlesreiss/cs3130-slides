@@ -44,6 +44,8 @@
 
 {{< include /network/_layers-list.qmd >}}
 
+{{< include /network/_layers-msg.qmd >}}
+
 ## layer wrapping {visibility="hidden"}
 
 {{< include /network/_layer-wrapping.qmd >}}

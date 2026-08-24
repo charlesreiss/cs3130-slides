@@ -1,7 +1,8 @@
 
 ### networking layers 
 
-<table>
+<table style="font-size: 80%">
+<tr><td>name</td><td>example protocols</td><td>problems solved</td></tr>
 <tr style="border-top: 2px solid black;"><td><!-- \hline -->  [application]{.fragment fragment-index=7 .custom .myem-only}</td><td>HTTP, SSH, SMTP, …</td><td>application-defined meanings</td></tr>
 <tr style="border-top: 2px solid black;"><td><!-- \hline --> [transport]{.fragment fragment-index=6 .custom .myem-only}</td><td>TCP, UDP, …</td><td>reach correct program [reliability/streams]{.fragment fragment-index=2 .custom .myem-only}</td></tr>
 <tr style="border-top: 2px solid black;"><td><!-- \hline --> [network]{.fragment fragment-index=5 .custom .myem-only}</td><td>IPv4, IPv6</td><td>reach correct machine (across networks)</td></tr>
@@ -9,14 +10,4 @@
 <tr style="border-top: 2px solid black;"><td><!-- \hline --> physical</td><td>Ethernet, Wi-Fi, …</td><td>encode bits for wire/radio</td></tr>
 </table>
 
-
-### layers terminology {.smaller}
-
-<table>
-<tr style="border-top: 2px solid black;"><td><!-- \hline --> application</td><td>application-defined meanings</td><td>&nbsp;</td></tr>
-<tr style="border-top: 2px solid black;"><td><!-- \hline --> transport</td><td>reach correct program, reliablity/streams</td><td>segments/datagrams</td></tr>
-<tr style="border-top: 2px solid black;"><td><!-- \hline --> network</td><td>reach correct machine (across networks)</td><td>packets</td></tr>
-<tr style="border-top: 2px solid black;"><td><!-- \hline --> link</td><td>coordinate shared wire/radio</td><td>frames</td></tr>
-<tr style="border-top: 2px solid black;"><td><!-- \hline --> physical</td><td>encode bits for wire/radio</td><td>&nbsp;</td></tr>
-</table>
 
