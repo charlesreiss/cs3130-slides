@@ -1,7 +1,7 @@
 
 # overall themes {visibility="hidden"}
 
-### themes
+### themes {.smaller}
 
 * automating buidling software
     *  libraries, taking advantage of incremental compilation
@@ -15,7 +15,7 @@
 * making processors fast
     *  caching, (hidden) parallelism, avoiding idle time
 
-### themes
+### themes {.smaller}
 
 * _automating buidling software_
     *  libraries, taking advantage of incremental compilation
@@ -36,7 +36,7 @@
 
 # briefly, virtual memory {visibility="hidden"}
 
-### themes
+### themes {.smaller}
 
 * automating buidling software
     *  libraries, taking advantage of incremental compilation
@@ -57,7 +57,7 @@
 
 ## interrupts {visibility="hidden"}
 
-### themes
+### themes {.smaller}
 
 * automating buidling software
     *  libraries, taking advantage of incremental compilation
@@ -83,7 +83,7 @@
 
 # networking {visibility="hidden"}
 
-### themes
+### themes {.smaller}
 
 * automating buidling software
     *  libraries, taking advantage of incremental compilation
@@ -116,7 +116,7 @@
 
 # caching {visibility="hidden"}
 
-### themes
+### themes {.smaller}
 
 * automating buidling software
     *  libraries, taking advantage of incremental compilation

@@ -5,7 +5,7 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm/texfig/translationOverview.figure-1.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Program addresses being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
+![](/vm/texfig/translationOverview.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="Program addresses being converted to real addresses using a mapping set by the OS. The program addresses are called &quot;virtual&quot; and the real addresses are called &quot;physical&quot;."}
 
 ![](/vm/texfig/translationOverview.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Virtual addresses (the program addreses) that are translated include both instructions and data"}
 

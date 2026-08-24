@@ -1,10 +1,10 @@
 
-### readings 
+### readings
 
 
 * in lieu of textbook, have readings
-* mostly written by Prof Tychnoveich (now at UIUC) with edits by me 
+  * mostly written by Prof Tychnoveich (now at UIUC) with edits by me 
 
 * on website; should be indicated with corresponding lecture
-* readings often link to alternative/supplemental readings on topic
+* often link to alternative/supplemental readings on topic
 
