@@ -1,4 +1,8 @@
 
+### waitlist
+
+*  you are more likely to get off the waitlist if you sign up for the 5pm lab
+
 # exams {visibility="hidden"}
 
 {{< include /logistics/_exams.qmd >}}
