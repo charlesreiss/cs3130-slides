@@ -12,34 +12,194 @@
    * implement strsep library function
    * implement conversion from dynamic array to linked list
 
+### some pointer stuff  (1) {.smaller}
 
+::::: {.columns}
 
-### some pointer stuff 
+:::: {.column width=60%}
 
-<!-- FIXME: convert to new -->
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+```
 
+::: {.fragment fragment-index=1 .fade-in}
 
-::: {.r-stack .my-full}
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-1.svg){.fragment .fade-out fragment-index=2}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
-
-![](/intro/texfig/selectedC-some-pointer-stuff.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
-
+<hr/>
+<s class="fancy">`*ptr = 0xAB;`</s> runtime error (hopefully)
 
 :::
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-2.svg){fig-alt="memory; shown unused from 0x000 through 0x020, exclusive; containing 'ptr = ???' between 0x20 and 0x28; then (at 0x28) single: 0x78,  (at 0x2c) array[0]: 0x12, (At 0x30) array[1]: 0x45, (at 0x34) array[2] 0x67, then (from 0x38 onward) unused"}
+
+::::
+
+:::::
+
+
+### some pointer stuff  (2) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=60%}
+
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+```
+<hr/>
+<em>`ptr = &single;`</em><br/>
+<em>`ptr = (int*) 0x28;`</em> [address of single (not recommended)]{.mysmall}
+
+::: {.fragment fragment-index=1 .fade-in}
+
+<hr/>
+<s class="fancy">`ptr = 0x28;`</s> compile error (hopefully)<br/>
+<s class="fancy">`ptr = (int*) single`</s> pointer to unknown place<br/>
+
+:::
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-3.svg){fig-alt="same memory as previous slide, but now ptr (at 0x20) is highlighted and set to 0x28 (the location of 'single')"}
+
+::::
+
+:::::
+
+
+### some pointer stuff (3) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=60%}
+
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+ptr = &single;
+```
+
+<hr/>
+
+<em>`*ptr = 0xFF;`</em>
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-6.svg){fig-alt="same memory as previous slide, but now single (at 0x28) is highlighted and set to 0xFF (as a result of the assignment to ptr)"}
+
+::::
+
+:::::
+
+
+### some pointer stuff (4) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=60%}
+
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+```
+
+<hr/>
+
+<em>`ptr = array`</em><br/>
+<em>`ptr = &array[0];`</em><br/>
+<em>`ptr = (int*) 0x2C;`</em>
+
+::: {.fragment .fade-in fragment-index=1}
+
+<hr/>
+<s class="fancy">`ptr = array[0];`</s> compile error* <br/>
+<s class="fancy">`ptr = (int*) array[0];`</s> pointer to unknown place
+
+:::
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-7.svg){fig-alt="same memory as initial slide in this sequence ('single' is 0x78), except now ptr is highlighted at set to 0x2C (address of array[0])"}
+
+::::
+
+:::::
+
+### some pointer stuff (5) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=60%}
+
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+ptr = &array[0];
+```
+<hr/>
+<em>`ptr[2] = 0xFF;`</em>
+<em>`*(ptr + 2) = 0xFF;`</em>
+<hr/>
+`int *temp1; temp1 = ptr +_2;`<br/>
+<em>`*temp1 = 0xFF;`</em><br/>
+<hr/>
+`int *temp2; temp2 = &ptr[2];`<br/>
+<em>`*temp2 = 0xFF;`</em><br/>
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-9.svg){fig-alt="same memory as previous slide, except now array[2] is highlighted and set to 0xFF."}
+
+::::
+
+:::::
+
+### some pointer stuff (6) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=60%}
+
+```{.biggercode}
+int array[3] = {0x12, 0x45, 0x67};
+int single = 0x78;
+int *ptr;
+```
+<hr/>
+```{.biggercode}
+void change_arg(int *x) {
+    *x = compute_some_value();
+}
+...
+change_arg(&single);
+```
+
+::::
+
+:::: {.column width=39% .my-full}
+
+![](/intro/texfig/selectedC-memory.figure-9.svg){fig-alt="same memory as initial, except now single is highlighted and set to an unspecified value."}
+
+::::
+
+:::::
+
 
