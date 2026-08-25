@@ -3,9 +3,6 @@
 
 *  you are more likely to get off the waitlist if you sign up for the 5pm lab
 
-# exams {visibility="hidden"}
-
-{{< include /logistics/_exams.qmd >}}
 
 # labs {visibility="hidden"}
 
@@ -27,6 +24,10 @@
 
 {{< include /logistics/_quizzes.qmd >}}
 
+# exams {visibility="hidden"}
+
+{{< include /logistics/_exams.qmd >}}
+
 # readings {visibility="hidden"}
 
 {{< include /logistics/_readings.qmd >}}
@@ -34,7 +35,6 @@
 # sync note {visibility="hidden"}
 
 {{< include /logistics/_sync.qmd >}}
-
 
 # dev environment {visibility="hidden"}
 
