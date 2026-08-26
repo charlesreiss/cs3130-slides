@@ -1,0 +1,17 @@
+### last time {.smaller}
+
+*  logistics
+*  course themes preview
+   *  automating building (later today)
+   *  sharing machines
+   *  multiple things at once
+   *  linking machines
+   *  fast processors
+*  some C review
+   *  reasoning about arrays, pointers, pointers to pointers, ...
+
+### CBTF practice note
+
+{{< include /intro/_selectedC.qmd >}}
+
+{{< include /building/_talk-inner.qmd >}}
