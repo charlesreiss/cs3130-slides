@@ -4,4 +4,3 @@ format:
   revealjs:
     chalkboard: false
     embed-resources: true
-mermaid-format: svg
