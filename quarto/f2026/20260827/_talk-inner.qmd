@@ -12,6 +12,8 @@
 
 ### CBTF practice note
 
+*  for CBTF, they will run very short practice test
+
 {{< include /intro/_selectedC.qmd >}}
 
 {{< include /building/_talk-inner.qmd >}}

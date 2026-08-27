@@ -1,15 +1,15 @@
 
 # accounts {visibility="hidden"}
 
-{{< include ../accounts/_intro.qmd >}}
+{{< include /accounts/_intro.qmd >}}
 
 # user ID idea {visibility="hidden"}
 
-{{< include ../accounts/_user-id.qmd >}}
+{{< include /accounts/_user-id.qmd >}}
 
 ## group IDs {visibility="hidden"}
 
-{{< include ../accounts/_group-id.qmd >}}
+{{< include /accounts/_group-id.qmd >}}
 
 ### user id and group id establish _identity_
 
@@ -56,9 +56,9 @@ block-beta
 
 ## file permissions {visibility="hidden"}
 
-{{< include ../accounts/_file-chmod.qmd >}}
+{{< include /accounts/_file-chmod.qmd >}}
 
-{{< include ../accounts/_file-acls.qmd >}}
+{{< include /accounts/_file-acls.qmd >}}
 
 ### ACLs establish permissions 
 
@@ -73,28 +73,28 @@ block-beta
 
 # enforcing permissions {visibility="hidden"}
 
-{{< include ../accounts/_auth-unix-check.qmd >}}
+{{< include /accounts/_auth-unix-check.qmd >}}
 
 # superuser {visibility="hidden"}
 
-{{< include ../accounts/_auth-unix-superuser.qmd >}}
+{{< include /accounts/_auth-unix-superuser.qmd >}}
 
 # becoming superuser {visibility="hidden"}
 
 ## on boot, /bin/login {visibility="hidden"}
 
-{{< include ../accounts/_bin-login.qmd >}}
+{{< include /accounts/_bin-login.qmd >}}
 
 ## set-user-ID/sudo {visibility="hidden"}
 
-{{< include ../accounts/_sudo.qmd >}}
+{{< include /accounts/_sudo.qmd >}}
 
-{{< include ../accounts/_setuid-use.qmd >}}
+{{< include /accounts/_setuid-use.qmd >}}
 
 ## a litany of silly setuid program issues {visibility="hidden"}
 
-{{< include ../accounts/_setuid-hard-to-write.qmd >}}
+{{< include /accounts/_setuid-hard-to-write.qmd >}}
 
 # privilege escalation {visibility="hidden"}
 
-{{< include ../accounts/_priv-escalate.qmd >}}
+{{< include /accounts/_priv-escalate.qmd >}}

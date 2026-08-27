@@ -8,4 +8,4 @@ format:
     margin: 0.1
     slide-number: "c"
 ---
-{{< include ../accounts/_talk-inner.qmd >}}
+{{< include /accounts/_talk-inner.qmd >}}

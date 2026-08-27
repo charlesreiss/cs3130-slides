@@ -1,4 +1,4 @@
 ---
 title: "building"
 ---
-{{< include ../building/_talk-inner.qmd >}}
+{{< include /building/_talk-inner.qmd >}}
