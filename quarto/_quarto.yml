@@ -18,3 +18,4 @@ format:
     self-contained-math: true
     slide-number: "c"
     syntax-definitions: [gnuassembler.xml]
+    mermaid-format: svg
