@@ -1,7 +1,7 @@
 
 ### how does login work?  {.smaller}
 
-::: {.columns}
+:::: {.columns}
 
 ::: {.column width="60%"}
 
@@ -37,7 +37,7 @@ flowchart TD
 
 :::
 
-:::
+::::
 
 
 
@@ -77,7 +77,7 @@ flowchart TD
 
 ### changing user IDs   {.smaller}
 
-::: {.columns}
+:::: {.columns}
 
 ::: {.column width="75%"}
 ```c
@@ -103,6 +103,6 @@ flowchart TD
     B -->|"Call setuid(uid)"| C[Run shell as user]
 ```
 
-:::
+::::
 
 :::
