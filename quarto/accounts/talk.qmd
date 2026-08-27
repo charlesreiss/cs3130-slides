@@ -1,11 +1,4 @@
 ---
 title: "accounts"
-
-format:
-  revealjs:
-    theme: [simple, ../custom.scss, ../bradjc.scss]
-    smaller: true
-    margin: 0.1
-    slide-number: "c"
 ---
 {{< include /accounts/_talk-inner.qmd >}}
