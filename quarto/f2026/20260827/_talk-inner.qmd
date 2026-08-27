@@ -12,8 +12,13 @@
 
 ### CBTF practice note
 
-*  for CBTF, they will run very short practice test
+*  for CBTF:
+   *  you will need to take a short introduction/practice test
+   *  purpose is to make sure things go technically right
+   *  I believe they will send you info about this
 
 {{< include /intro/_selectedC.qmd >}}
 
 {{< include /building/_talk-inner.qmd >}}
+
+{{< include /accounts/_talk-inner.qmd >}}
