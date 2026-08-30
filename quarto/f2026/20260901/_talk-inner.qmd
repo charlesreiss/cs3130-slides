@@ -1,0 +1,58 @@
+# last time {.smaller}
+
+*  C pointers
+*  passing pointer instead of returning pattern
+   *  `f(&x, &y);` since we can't do `(x, y) = f();`
+*  steps for building C programs
+   *  .c + includes into .s into .o
+   *  linking one or more .o into executable
+*  libraries
+   *  shared AKA dyamic versus static
+   *  `libname.a` or `libname.so`
+   *  `-Ldir -lname`
+   *  runtime path setting for dynamic libraries
+
+
+## exercise: commands to build {visibility="hidden"}
+
+{{< include /building/_c-build-exercise.qmd >}}
+
+# make {visibility="hidden"}
+
+## basics {visibility="hidden"}
+
+{{< include /building/_make-intro.qmd >}}
+
+## exercise: what will be run {visibility="hidden"}
+
+{{< include /building/_make-what-runs.qmd >}}
+
+## phony targets {visibility="hidden"}
+
+{{< include /building/_phony-targets.qmd >}}
+
+## conventional targets {visibility="hidden"}
+
+{{< include /building/_conventional-targets.qmd >}}
+
+## variables, macro rules {visibility="hidden"}
+
+{{< include /building/_macro-rules.qmd >}}
+
+## aside: make versions {visibility="hidden"}
+
+{{< include /building/_make-versions.qmd >}}
+
+## pattern rules {visibility="hidden"}
+
+{{< include /building/_pattern-rules.qmd >}}
+
+## built-in rules {visibility="hidden"}
+
+{{< include /building/_builtin-rules.qmd >}}
+
+# other build system stuff {visibility="hidden"}
+
+{{< include /building/_more-build-system.qmd >}}
+
+{{< include /accounts/_talk-inner.qmd >}}
