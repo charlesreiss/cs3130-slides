@@ -56,3 +56,10 @@
 {{< include /building/_more-build-system.qmd >}}
 
 {{< include /accounts/_talk-inner.qmd >}}
+
+###
+
+### backup slides
+
+{{< include /building/_talk-backup.qmd >}}
+{{< include /accounts/_talk-backup.qmd >}}
