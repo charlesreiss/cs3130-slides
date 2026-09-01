@@ -1,4 +1,4 @@
-# last time {.smaller}
+### last time {.smaller}
 
 *  C pointers
 *  passing pointer instead of returning pattern
@@ -12,6 +12,7 @@
    *  `-Ldir -lname`
    *  runtime path setting for dynamic libraries
 
+### CBTF pratice note
 
 ## exercise: commands to build {visibility="hidden"}
 

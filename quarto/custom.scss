@@ -144,6 +144,12 @@ div.myoverbox {
 
 .reveal div.myoverbox > p { margin: 0; }
 
+div.myoverbox.middletilt {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%) rotate(-15deg);
+}
+
 div.myoverbox.big {
     font-size: 40px;
     padding: 5px 5px 5px 5px;

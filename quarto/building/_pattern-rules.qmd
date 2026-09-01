@@ -15,4 +15,5 @@
 <code>&nbsp;</code><br />
 <code>extra.o: extra.c extra.h</code><br />
 <code>main.o: main.c main.h extra.h</code>
- <br> [ aside: these rules work on GNU make (usual on Linux), but less portable than suffix rules.]{.my-small}
+
+[aside: these rules work on GNU make (usual on Linux), but less portable than "suffix rules" (which have somewhat less intuitive syntax/are less flexible).]{.my-small}
