@@ -10,6 +10,8 @@
    *  CC, CFLAGS, LDFLAGS
    *  pattern rules (%.o: %.c)
 
+### `--force` note
+
 ### quiz logistics
 
 # user ID idea {visibility="hidden"}
