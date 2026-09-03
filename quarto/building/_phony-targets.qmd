@@ -40,7 +40,7 @@
 
 
 <code>clean:</code><br />
-<code>▶ rm --force main.o extra.o</code><br />
+<code>▶ rm -&zwnj;-force main.o extra.o</code><br />
 <code>&nbsp;</code><br />
 <code>all: program1 program2 libfoo.a</code><br />
 <code>&nbsp;</code></br />
