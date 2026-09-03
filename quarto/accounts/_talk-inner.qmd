@@ -31,7 +31,6 @@
 
 ### ACLs establish permissions 
 
-
 * identity: _who_ is running a process or accessing a resource
 * permissions: who has _what access_ to a file or resource
 * now need _enforcement_

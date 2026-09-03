@@ -9,6 +9,10 @@
    *  macros/variables
    *  CC, CFLAGS, LDFLAGS
    *  pattern rules (%.o: %.c)
+*  system calls --- asking OS to do things
+   *  processor restricts some operations (file access) to OS
+   *  OS needs to deecide whether to allow
+*  user IDs
 
 ### `--force` note
 

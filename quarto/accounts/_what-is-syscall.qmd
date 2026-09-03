@@ -1,4 +1,11 @@
 
+### two processor modes
+
+* processor has privileged mode and user mode
+  * hardware restricts some operations to privileged mode
+* only OS runs in privileged mode
+* programs need to ask OS for help with doing operations that need privileged mode
+
 ### system call = ???  {.smaller}
 
 
