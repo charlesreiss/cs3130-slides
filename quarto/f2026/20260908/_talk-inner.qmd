@@ -1,0 +1,42 @@
+### last time {.smaller}
+
+*  user IDs, group IDs
+*  access control lists
+   *  which user/group can do what to X, stored with X
+*  chmod permissions
+   *  very limited access control list
+   *  read/write/exec for owner (can change perms), 1 group, other
+*  more general access control lists
+*  permissions on directory v files
+   *  read/write directory = read/write list of files
+   *  execute directory = search (access files within by name)
+
+### quiz notes
+
+###
+
+# superuser {visibility="hidden"}
+
+{{< include /accounts/_auth-unix-superuser.qmd >}}
+
+# becoming superuser {visibility="hidden"}
+
+## on boot, /bin/login {visibility="hidden"}
+
+{{< include /accounts/_bin-login.qmd >}}
+
+## set-user-ID/sudo {visibility="hidden"}
+
+{{< include /accounts/_sudo.qmd >}}
+
+{{< include /accounts/_setuid-use.qmd >}}
+
+## a litany of silly setuid program issues {visibility="hidden"}
+
+{{< include /accounts/_setuid-hard-to-write.qmd >}}
+
+# privilege escalation {visibility="hidden"}
+
+{{< include /accounts/_priv-escalate.qmd >}}
+
+{{< include /kernel/_talk-inner.qmd >}}
