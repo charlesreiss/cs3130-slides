@@ -22,5 +22,5 @@
 
 *  `%` in target or dependencies
 *  `%` is not special in commands
-  *  typically use `$@` (target), `$<` (first dependency), `$^` (up-arrow)
-  *  variable `$*` represents stem of pattern
+   *  typically use `$@` (target), `$<` (first dependency), `$^` (up-arrow)
+   *  variable `$*` represents stem of pattern
