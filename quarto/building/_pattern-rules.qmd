@@ -17,3 +17,10 @@
 <code>main.o: main.c main.h extra.h</code>
 
 [aside: these rules work on GNU make (usual on Linux), but less portable than "suffix rules" (which have somewhat less intuitive syntax/are less flexible).]{.my-small}
+
+### pattern rule syntax
+
+*  `%` in target or dependencies
+*  `%` is not special in commands
+  *  typically use `$@` (target), `$<` (first dependency), `$^` (up-arrow)
+  *  variable `$*` represents stem of pattern
