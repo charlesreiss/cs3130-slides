@@ -24,7 +24,7 @@
 
 ### hardware + system call interface 
 
-![](/kernel/texfig/unixDesignHWNoLib.figure.svg)
+![](/kernel/texfig/unixDesignHWNoLib.figure.svg){fig-alt="Unix API: applications and libraries can use the limited user-mode hardware interface to access the hardware directly, or the system call interface. If they use the system call interface that accesses the kernel (the part of the OS that is always loaded), which can use the kernel-mode hardware interface to access the hardware directly."}
 
 ## OS code in memory {visibility="hidden"}
 
@@ -62,7 +62,7 @@
 
 ### hardware + system call + library interface 
 
-![](/kernel/texfig/unixDesignHWLib.figure.svg)
+![](/kernel/texfig/unixDesignHWLib.figure.svg){fig-alt="Unix API revised: applications use the limited user-mode hardware interface to access the hardware directly, or a library call interface to access libraries. Those libraries are implemented with a combination of the limited user-mode hardware interface and the system call interface. The system call interface is implemented by the running the kernel, which accesses the hardware with the kernel-mode hardware interface."}
 
 # memory protection {visibility="hidden"}
 
