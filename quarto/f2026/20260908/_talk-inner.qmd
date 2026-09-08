@@ -13,6 +13,46 @@
 
 ### quiz notes
 
+*  in pattern rules `%` works in target, dependencies
+*  `%` does not work in command part
+   *  need to use `$<`, `$^`, `$@`
+
+### some policy notes {.smaller}
+
+*  (guessing other people also have questions I was asked in office hours)
+
+*  although myself/TAs can't answer quiz questions,<br/>
+   we can certainly help review quiz-related topics
+   *  TAs are responsible for knowing what they can't answer, not you
+
+*  AI policy ("what you could ask fellow student")
+   *  looking at your homework code to debug/etc. = no
+   *  what library function does X = okay
+   *  what an error message means = okay
+   *  looking up something in the make/C documentation = okay
+      *  but may I recommend https://en.cppreference.com/c (C), https://www.gnu.org/software/make/manual/ (make)
+
+*  myself/TAs can provide debugging-type help in office hours/(private posts on) Piazza
+
+### Test 1
+
+*  slot signups on PrairieTest site available
+
+*  on https://us.priarielearn.com/ will have a practice test
+
+*  expect it to be the same format as upcoming Test 1
+   *  questions are randomized
+   *  real test may select from a different question bank
+
+### PraireLearn/Test logistical note
+
+*  does not submit as you type
+*  "save" button is important
+   *  practice test will also have "save and grade" button
+   *  real test probably will just have "save"
+<hr class="vspace"/>
+*  (as you can see from how quiz system works, not my design preference)
+
 ###
 
 # superuser {visibility="hidden"}
