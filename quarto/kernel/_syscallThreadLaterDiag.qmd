@@ -5,14 +5,11 @@
 
 ::: {.r-stack .my-full}
 
-![](/kernel/texfig/syscallThreadLaterDiag.figure-1.svg){.fragment .fade-out fragment-index=1}
+![](/kernel/texfig/syscallThreadLaterDiag.figure-1.svg){.fragment .fade-out fragment-index=1 fig-alt="Diagram: a thread is running in user mode and encodes its request in registers. In this example, that request is to read a keypress. Then the program runs a special instruction and execution switches to kernel mode in the system call handler. The system call handler in this case may need to wait for a keypress to read, so it will do something else for a while and later get back to the original program in kernel mode. After getting back to the original program, it finally resumes running the original thread in user mode."}
 
-![](/kernel/texfig/syscallThreadLaterDiag.figure-2.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/kernel/texfig/syscallThreadLaterDiag.figure-2.svg){.fragment .fade-in-then-out fragment-index=1 fig-alt="Same diagram but 'doing something else for a while' is highlighted."}
 
-![](/kernel/texfig/syscallThreadLaterDiag.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-![](/kernel/texfig/syscallThreadLaterDiag.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
+![](/kernel/texfig/syscallThreadLaterDiag.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="Same scenario, but instead of the program requesting to read from the keyboard, the program requests to exit. Because of this, after switching to kernel mode, the system just does something else and does not return to the original program in user mode."}
 
 :::
 

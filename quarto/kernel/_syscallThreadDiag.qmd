@@ -4,9 +4,9 @@
 
 
 ::: {.r-stack .my-full}
-![](/kernel/texfig/syscallThreadDiag.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/kernel/texfig/syscallThreadDiag.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="A thread is running in user mode. While it's running, it encodes a request for the OS in its registers, then runs a special instruction (the 'system call'). As a result, execution switches to kernel mode, first starting a 'system call handler'. The system call ahndler reads registers to find out what the program wants and maybe does that. Then, execution returns to user mode."}
 
-![](/kernel/texfig/syscallThreadDiag.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/kernel/texfig/syscallThreadDiag.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The transition from user to kernel mode in this case is a _system call_."}
 
 
 :::
