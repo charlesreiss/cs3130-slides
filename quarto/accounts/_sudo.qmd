@@ -1,5 +1,5 @@
 
-### sudo {.smaller}
+### sudo
 
 
 ```
@@ -9,27 +9,22 @@ Password: *********
  
 
 * sudo: run command with superuser permissions 
-
    * process started by non-superuser
 
-
 * issue: what makes the `sudo` command privileged?
-  * recall: normal command inherits UID from user who runs it (ie, non-superuser UID)
+  * normal command inherits user ID from user who runs it
   * can't just call <code>setuid(0)</code>
 
 
-### set-user-ID sudo  {.smaller}
+### set-user-ID sudo  
 
 
 * extra metadata bit on <it>executables</it>: set-user-ID
-* if set: <code>exec()</code> syscall changes effective user ID to _owner's_ ID
-
+* if set: running program sets effective user ID to _owner's_ ID
+   * versus normal behavior: effective user ID stays same
    * ‘‘extra’’ user IDs track what original user was
-
 * <code>sudo</code> program: owned by root, marked set-user-ID 
-
    * sudo's code: if (original user allowed) ...; else print error
- 
 
 * marking setuid: <code>chmod u+s</code>
 
