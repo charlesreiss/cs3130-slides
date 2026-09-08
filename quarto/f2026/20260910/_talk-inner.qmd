@@ -10,7 +10,7 @@
    *  system call number (operation), arguments
 *  programs have independent memory
 
-## exercise: expected behavior?{visibility="hidden"}
+## exercise: expected behavior? {visibility="hidden"}
 
 {{< include /kernel/_memProtectQC.qmd >}}
 
@@ -67,10 +67,6 @@
 
 {{< include /kernel/_ioTimeline.qmd >}}
 
-# preview: empty loop lab {visibility="hidden"}
-
-{{< include /kernel/_emptyLoopLab.qmd >}}
-
 # review: exception / context switch {visibility="hidden"}
 
 {{< include /kernel/_reviewExceptCtxt.qmd >}}
@@ -86,3 +82,19 @@
 # process {visibility="hidden"}
 
 {{< include /kernel/_processIdea.qmd >}}
+
+# process creation and management {visibility="hidden"}
+
+{{< include /unix-api/_processOverview.qmd >}}
+
+
+## fork {visibility="hidden"}
+
+{{< include /unix-api/_fork.qmd >}}
+
+{{< include /unix-api/_fork-pcb.qmd >}}
+
+## fork example {visibility="hidden"}
+
+{{< include /unix-api/_fork-example.qmd >}}
+
