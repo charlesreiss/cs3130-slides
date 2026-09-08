@@ -6,7 +6,7 @@ _start:
   movq $1, %rax # 1 = "write"
   movq $1, %rdi # file descriptor 1 = stdout
   movq $hello_str, %rsi 
-  movq $15, %rdx # 15 = strlen("Hello, World!\n")
+  movq $14, %rdx # 14 = strlen("Hello, World!\n")
   syscall
     
   movq $60, %rax # 60 = exit
