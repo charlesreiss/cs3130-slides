@@ -1,0 +1,88 @@
+### last time {.smaller}
+
+*  superuser
+*  set-user ID programs
+   *  run as owner (instead of who starts them)
+   *  setup by sys admin to allow extra functionality
+*  kernel mode v user mode
+*  system calls running OS-specified handler
+*  system call API
+   *  system call number (operation), arguments
+*  programs have independent memory
+
+## exercise: expected behavior?{visibility="hidden"}
+
+{{< include /kernel/_memProtectQC.qmd >}}
+
+## address spaces{visibility="hidden"}
+
+{{< include /kernel/_memProtectAddressSpaces.qmd >}}
+
+# extending system calls: exception idea {visibility="hidden"}
+
+{{< include /kernel/_exceptIdea.qmd >}}
+
+## reasons for exceptions, generally {visibility="hidden"}
+
+{{< include /kernel/_exceptKindInfoLib.qmd >}}
+
+# infinite loop {visibility="hidden"}
+
+### things programs on portal shouldn't do 
+
+* read other user's files
+* modify OS's memory
+* read other user's data in memory
+* <em>hang the entire system</em>
+
+# exception kinds, summarized {visibility="hidden"}
+
+{{< include /kernel/_exceptVenn.qmd >}}
+
+## exception handling generalized {visibility="hidden"}
+
+{{< include /kernel/_exceptThreadDiag.qmd >}}
+
+## operating system runs {visibility="hidden"}
+
+{{< include /kernel/_contextSwitchTimeline.qmd >}}
+
+## context switches {visibility="hidden"}
+
+{{< include /kernel/_contextSwitch.qmd >}}
+
+# thread idea {visibility="hidden"}
+
+{{< include /kernel/_thread.qmd >}}
+
+# not just timers {visibility="hidden"}
+
+## typical I/O pattern {visibility="hidden"}
+
+{{< include /kernel/_exceptIOPattern.qmd >}}
+
+{{< include /kernel/_keyInTimeline.qmd >}}
+
+# combined timeline {visibility="hidden"}
+
+{{< include /kernel/_ioTimeline.qmd >}}
+
+# preview: empty loop lab {visibility="hidden"}
+
+{{< include /kernel/_emptyLoopLab.qmd >}}
+
+# review: exception / context switch {visibility="hidden"}
+
+{{< include /kernel/_reviewExceptCtxt.qmd >}}
+
+# exercise {visibility="hidden"}
+
+{{< include /kernel/_howManyEx.qmd >}}
+
+## aside: terms {visibility="hidden"}
+
+{{< include /kernel/_exceptTerms.qmd >}}
+
+# process {visibility="hidden"}
+
+{{< include /kernel/_processIdea.qmd >}}
