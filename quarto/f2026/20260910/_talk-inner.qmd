@@ -5,8 +5,8 @@
    *  run as owner (instead of who starts them)
    *  setup by sys admin to allow extra functionality
 *  kernel mode v user mode
-*  system calls running OS-specified handler
-*  system call API
+*  system call = running OS-specified handler
+*  system call calling convention
    *  system call number (operation), arguments
 *  programs have independent memory
 
