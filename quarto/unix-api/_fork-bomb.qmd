@@ -1,5 +1,5 @@
 
-### warning re: forking in loops  {.smaller}
+### warning re: forking in loops
 
 <!-- \lstset{language=C,style=smaller} -->
  

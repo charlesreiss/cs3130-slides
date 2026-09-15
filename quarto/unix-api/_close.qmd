@@ -15,7 +15,7 @@ int close(int fd);
 
 * if last file descriptor for open file description, resources deallocated 
 <hr class="vspace" />
-* returns `0 on success
+* returns `0` on success
 * returns `-1` on error
 
    * e.g. ran out of disk space while finishing saving file

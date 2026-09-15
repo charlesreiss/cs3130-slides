@@ -57,11 +57,11 @@
     },
     marked/.style={draw=red,ultra thick},
 }
-\matrix[pcb,label={[font=\small]north:parent process control block}] (proc one) {
+\matrix[pcb,label={[font=\small]north:parent process info}] (proc one) {
     |[tall]| user regs \&
     |[tall]|
     {eax=\sout<1->{42}\only<1->{\textit{\myemph<0>{child (new) pid}}}, \\ ecx=133,} \ldots \\
-    page table \& |[one pt]| ~ \\
+    memory mapping \& |[one pt]| ~ \\
     |[taller]| open files \& |[taller,marked,alias=old files]| {fd 0: \ldots \\ fd 1: \ldots \\ \ldots } \\
     \ldots \& \ldots \\
 };
@@ -79,7 +79,7 @@
 \foreach \y in {-0.5cm,-0.7cm,-0.8mm} {
     \draw[very thick,one memory] ([yshift=\y,xshift=\halfvthick]memory.north west) rectangle ++ (1.5cm,-1mm);
 }
-\matrix[pcb,anchor=north west,label={[font=\small]north:child process control block}] (proc two) at ([yshift=-1cm]proc one.south west) {
+\matrix[pcb,anchor=north west,label={[font=\small]north:child process info}] (proc two) at ([yshift=-1cm]proc one.south west) {
     |[tall]| user regs \&
     |[tall]|
     {eax=\sout<1->{42}\only<1->{\myemph<0>{0}}, \\ ecx=133, \ldots} \\

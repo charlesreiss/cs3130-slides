@@ -14,13 +14,15 @@ int main() {
 ```c
 #include <sys/wait.h>
 ...
-waitpid(child_pid, &status, 0);
-if (WIFEXITED(status)) {
+pid_t pid = waitpid(child_pid, &status, 0);
+if (pid == (pid_t) -1) { /* waitpid failed */ }
+} else if (WIFEXITED(status)) {
   printf("main returned or exit called with %d\n", WEXITSTATUS(status));
 } else if (WIFSIGNALED(status)) {
-  printf("killed by signal %d\n", WTERMSIG(status));
+  printf("killed by signal %d\n", WTERMSIG(status))
+  printf("signal description: %s\n", strsignal(WTERMSIG(status)));
 } else {
-    ...
+  ... /* not possible? */
 }
 ```
 
@@ -28,11 +30,15 @@ if (WIFEXITED(status)) {
 - `W*` macros to decode it
 
 
-### "signals"
+### "signals" {.smaller}
 
-*  POSIX mechanism to let processes handle events
-*  example: control-C usually results in SIGINT signal
+*  POSIX mechanism to let processes handle special events
+*  example: control-C usually results in SIGINT (interrupt) signal
+   *  SIGINT is an integer constant in signal.h
    *  by default: SIGINT terminates process
-   *  but process can set "handler" to do something else (e.g. save+exit)
-*  signals notably used for segmentation fault, illegla instruction, etc.
-   *  give process option to "handle" event
+   *  process can install "handler" to override this behavior
+*  some other notable "signals":
+   *  SIGHUP (hang up; terminal went away when process still running)
+   *  SIGTERM (terminate), SIGKILL (unoverridable terminate)
+   *  SIGSEGV (segmentation fault), SIGBUS (bus error), SIGFPE (floating point exception)
+

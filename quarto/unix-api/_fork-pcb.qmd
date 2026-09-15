@@ -4,15 +4,15 @@
 
 
 ::: {.r-stack .my-full}
-![](/unix-api/texfig/fork-pcb.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/unix-api/texfig/fork-pcb.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="Initially, we have the parent process's info, with user registers, memory mapping (which points to seveeral slots in memory) and open files."}
 
-![](/unix-api/texfig/fork-pcb.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/unix-api/texfig/fork-pcb.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The OS  copies the entire parent process info (including user registers, open files) into a new child process info."}
 
-![](/unix-api/texfig/fork-pcb.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/unix-api/texfig/fork-pcb.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="In addition to copying the process info, the OS also copies the entire parent process's memory, allocating new spaces in memory for the child's copies. The child's process info's memory mapping is pointed to this copy."}
 
-![](/unix-api/texfig/fork-pcb.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+<!-- ![](/unix-api/texfig/fork-pcb.figure-4.svg){.fragment .fade-in-then-out fragment-index=4} -->
 
-![](/unix-api/texfig/fork-pcb.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/unix-api/texfig/fork-pcb.figure-5.svg){.fragment .fade-in-then-out fragment-index=5 fig-alt="The OS edits the return value register in the parent to be the child's process ID and edits the return value register in the child to 0."}
 
 
 :::

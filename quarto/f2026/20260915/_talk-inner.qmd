@@ -60,23 +60,25 @@
 
 {{< include /unix-api/_wait-exit-status.qmd >}}
 
+## summary diagram {visibility="hidden"}
+
+{{< include /unix-api/_fork-exec-wait-diag.qmd >}}
+
+## aside re: fork bombs {visibility="hidden"}
+
+{{< include /unix-api/_fork-bomb.qmd >}}
+
+
 ## aside: fork+exec, really? {visibility="hidden"}
 
 {{< include /unix-api/_why-fork-exec.qmd >}}
 
-## summary diagram {visibility="hidden"}
-
-{{< include /unix-api/_fork-exec-wait-diag.qmd >}}
 
 {{< include /unix-api/_processOverview.qmd >}}
 
 ## exercises (fork+exec+wait) {visibility="hidden"}
 
 {{< include /unix-api/_fork-wait-ex.qmd >}}
-
-## aside re: fork bombs {visibility="hidden"}
-
-{{< include /unix-api/_fork-bomb.qmd >}}
 
 # shell features {visibility="hidden"}
 
@@ -141,6 +143,28 @@
 ## fork exercise 3 {visibility="hidden"}
 
 {{< include /unix-api/_fork-ex3.qmd >}}
+
+# virtual memory {visibility="hidden"}
+
+## address spaces {visibility="hidden"}
+
+{{< include /vm/_recallAddr.qmd >}}
+
+{{< include /vm/_motivation.qmd >}}
+
+{{< include /vm/_addrSpaceOnly.qmd >}}
+
+## address translation overview {visibility="hidden"}
+
+{{< include /vm/_translationOverview.qmd >}}
+
+## simple paging with four pages {visibility="hidden"}
+
+{{< include /vm/_fourPages.qmd >}}
+
+## on address space sizes {visibility="hidden"}
+
+{{< include /vm/_sizeNotes.qmd >}}
 
 ###
 

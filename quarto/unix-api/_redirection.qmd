@@ -21,11 +21,11 @@
 
 
 ::: {.r-stack .my-full}
-![](/unix-api/texfig/forkTrick.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/unix-api/texfig/forkTrick.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="When a process is forked, the process's memory is copied (including creating a new memory mapping) and its process info, including its registers and open files are copied."}
 
-![](/unix-api/texfig/forkTrick.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/unix-api/texfig/forkTrick.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="But when the open files are copied, it is pointers that get copied, so both processes end upw with pointers to the same open file description."}
 
-![](/unix-api/texfig/forkTrick.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/unix-api/texfig/forkTrick.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="If we want to implement redirection, we would replace one of these pointers after fork in the child."}
 
 
 :::

@@ -2,8 +2,8 @@
 ### open: flags  {.smaller}
 
 
-<pre><code>int open(const char *path, int <span data-fragment-index="0" class="fragment custom myem">flags</span>);
-int open(const char *path, int <span data-fragment-index="0" class="fragment custom myem">flags</span>, int mode);
+<pre><code>int open(const char *path, int <em>flags</em>);
+int open(const char *path, int <em>flags</em>, int mode);
 </code></pre>
  
 
@@ -25,7 +25,7 @@ int open(const char *path, int <span data-fragment-index="0" class="fragment cus
 
 
 <pre><code>int open(const char *path, int flags);
-int open(const char *path, int flags, int <span data-fragment-index="1" class="fragment custom myem">mode</span>);
+int open(const char *path, int flags, int <em>mode</em>);
 </code></pre>
  
 
