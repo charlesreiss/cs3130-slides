@@ -24,10 +24,11 @@
 
 ### practice test 1 notes
 
-*  some question bugfixes
+*  some question bugfixes/clarifications
    *  missing .h file in rules on one of the makefile scenarios
    *  '(none)' as option for make ordering question
       *  (PrairieLearn/Test are annoying about allowing "blank" answers)
+   *  clarify in exception timeline question that things are still running
 
 # process creation and management {visibility="hidden"}
 

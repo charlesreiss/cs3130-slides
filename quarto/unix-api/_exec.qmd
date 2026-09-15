@@ -18,16 +18,19 @@
 
 
 
-### execv example  {.smaller}
+### execv example
 
 
-```c
+```{.c code-line-numbers=true}
 ...
 child_pid = fork();
 if (child_pid == 0) {
  /* child process */
  char *args[] = {"ls", "-l", NULL};
- execv("/bin/ls", args);
+ execv(
+    "/bin/ls",
+    args
+ );
  /* execv doesn't return when it works.
     So, if we got here, it failed. */
  perror("execv");
@@ -43,3 +46,64 @@ if (child_pid == 0) {
 ![](/unix-api/texfig/execExample1.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
 ![](/unix-api/texfig/execExample1.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
 
+### execv example
+
+
+```{.c code-line-numbers="5,8"}
+...
+child_pid = fork();
+if (child_pid == 0) {
+ /* child process */
+ char *args[] = {"ls", "-l", NULL};
+ execv(
+    "/bin/ls",
+    args
+ );
+ /* execv doesn't return when it works.
+    So, if we got here, it failed. */
+ perror("execv");
+ exit(1);
+} else if (child_pid > 0) {
+ /* parent process */
+ ...
+}
+```
+
+::: {.myoverbox .my-small .midright}
+
+*  second argument: used to compute new `argv`, `argc`
+*  convention: first argument is program name
+   *  can violate convention, supply whatever `argv[0]`
+
+:::
+
+
+### execv example
+
+
+```{.c code-line-numbers="7"}
+...
+child_pid = fork();
+if (child_pid == 0) {
+ /* child process */
+ char *args[] = {"ls", "-l", NULL};
+ execv(
+    "/bin/ls",
+    args
+ );
+ /* execv doesn't return when it works.
+    So, if we got here, it failed. */
+ perror("execv");
+ exit(1);
+} else if (child_pid > 0) {
+ /* parent process */
+ ...
+}
+```
+
+::: {.myoverbox .my-small .midright}
+
+*  first argument: path of executable to run
+*  on Unix, `/bin` is a directory <br/>with many common programs
+
+:::
