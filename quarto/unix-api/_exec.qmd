@@ -17,34 +17,29 @@
    * []{.my-small} environment variables = list of key-value pairs
 
 
-
 ### execv example
 
 
-```{.c code-line-numbers=true}
+```{.c code-line-numbers="true"}
 ...
 child_pid = fork();
 if (child_pid == 0) {
- /* child process */
- char *args[] = {"ls", "-l", NULL};
- execv(
-    "/bin/ls",
-    args
- );
- /* execv doesn't return when it works.
-    So, if we got here, it failed. */
- perror("execv");
- exit(1);
+  /* child process */
+  char *args[] = {"ls", "-l", NULL};
+  execv(
+     "/bin/ls",
+     args
+  );
+  /* execv doesn't return when it works.
+     So, if we got here, it failed. */
+  perror("execv");
+  exit(1);
 } else if (child_pid > 0) {
- /* parent process */
- ...
+  /* parent process */
+  ...
 }
 ```
 
-
-![](/unix-api/texfig/execExample1.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/unix-api/texfig/execExample1.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/unix-api/texfig/execExample1.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
 
 ### execv example
 
@@ -53,19 +48,19 @@ if (child_pid == 0) {
 ...
 child_pid = fork();
 if (child_pid == 0) {
- /* child process */
- char *args[] = {"ls", "-l", NULL};
- execv(
-    "/bin/ls",
-    args
- );
- /* execv doesn't return when it works.
-    So, if we got here, it failed. */
- perror("execv");
- exit(1);
+  /* child process */
+  char *args[] = {"ls", "-l", NULL};
+  execv(
+     "/bin/ls",
+     args
+  );
+  /* execv doesn't return when it works.
+     So, if we got here, it failed. */
+  perror("execv");
+  exit(1);
 } else if (child_pid > 0) {
- /* parent process */
- ...
+  /* parent process */
+  ...
 }
 ```
 
@@ -85,19 +80,19 @@ if (child_pid == 0) {
 ...
 child_pid = fork();
 if (child_pid == 0) {
- /* child process */
- char *args[] = {"ls", "-l", NULL};
- execv(
-    "/bin/ls",
-    args
- );
- /* execv doesn't return when it works.
-    So, if we got here, it failed. */
- perror("execv");
- exit(1);
+  /* child process */
+  char *args[] = {"ls", "-l", NULL};
+  execv(
+     "/bin/ls",
+     args
+  );
+  /* execv doesn't return when it works.
+     So, if we got here, it failed. */
+  perror("execv");
+  exit(1);
 } else if (child_pid > 0) {
- /* parent process */
- ...
+  /* parent process */
+  ...
 }
 ```
 

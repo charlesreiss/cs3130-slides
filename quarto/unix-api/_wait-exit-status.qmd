@@ -26,3 +26,13 @@ if (WIFEXITED(status)) {
 
 - "status code" encodes _both return value and if exit was abnormal_
 - `W*` macros to decode it
+
+
+### "signals"
+
+*  POSIX mechanism to let processes handle events
+*  example: control-C usually results in SIGINT signal
+   *  by default: SIGINT terminates process
+   *  but process can set "handler" to do something else (e.g. save+exit)
+*  signals notably used for segmentation fault, illegla instruction, etc.
+   *  give process option to "handle" event

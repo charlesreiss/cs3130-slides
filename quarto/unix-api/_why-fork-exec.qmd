@@ -9,17 +9,14 @@
 <hr class="vspace" />
 * some other OSs do this (e.g. Windows)
 * needs to include API to set new program's state 
-
    * e.g. without fork: either: <br> need function to set new program's current directory, <i>or</i> <br> need to change your directory, then start program, then change back
    * e.g. with fork: just change your current directory before exec
-
 * but allows OS to avoid ‘copy everything’ code 
-
    * probably makes OS implementation easier
 
 
 
-### `posix_spawn` example  {.smaller}
+### `posix_spawn` example
 
 
 ```c

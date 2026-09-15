@@ -52,10 +52,6 @@
 
 {{< include /unix-api/_exec-pcb.qmd >}}
 
-## aside: fork+exec, really? {visibility="hidden"}
-
-{{< include /unix-api/_why-fork-exec.qmd >}}
-
 ## wait {visibility="hidden"}
 
 {{< include /unix-api/_processOverview.qmd >}}
@@ -63,6 +59,10 @@
 {{< include /unix-api/_wait.qmd >}}
 
 {{< include /unix-api/_wait-exit-status.qmd >}}
+
+## aside: fork+exec, really? {visibility="hidden"}
+
+{{< include /unix-api/_why-fork-exec.qmd >}}
 
 ## summary diagram {visibility="hidden"}
 
