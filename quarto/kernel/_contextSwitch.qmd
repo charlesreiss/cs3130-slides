@@ -4,6 +4,7 @@
 * OS starts running somehow
    * some sort of exception
 * saves old registers + program counter + address mapping 
+   * OS needs to allocate own space for these
    * (optimization: could omit when program crashing/exiting)
 * sets new registers + address mapping, jumps to new program counter
 * called <em>context switch</em>

@@ -15,7 +15,19 @@
 
 ### quiz
 
-### test 1
+### test 1 reminder
+
+*  if you haven't already...
+*  sign up for time ASAP
+*  there is limited capacity
+*  do not assume you can wait until Monday
+
+### practice test 1 notes
+
+*  some question bugfixes
+   *  missing .h file in rules on one of the makefile scenarios
+   *  '(none)' as option for make ordering question
+      *  (PrairieLearn/Test are annoying about allowing "blank" answers)
 
 # process creation and management {visibility="hidden"}
 

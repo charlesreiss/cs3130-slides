@@ -10,6 +10,12 @@
    *  system call number (operation), arguments
 *  programs have independent memory
 
+### practice test note
+
+*  some tweaks to exception timeline question
+   *  phrasing adjusted
+   *  rare corner case where key was wrong for step 1 of timer case (fixed for new variants; don't think this actually affected anyone?)
+
 ## exercise: expected behavior? {visibility="hidden"}
 
 {{< include /kernel/_memProtectQC.qmd >}}
@@ -83,18 +89,4 @@
 
 {{< include /kernel/_processIdea.qmd >}}
 
-# process creation and management {visibility="hidden"}
-
-{{< include /unix-api/_processOverview.qmd >}}
-
-
-## fork {visibility="hidden"}
-
-{{< include /unix-api/_fork.qmd >}}
-
-{{< include /unix-api/_fork-pcb.qmd >}}
-
-## fork example {visibility="hidden"}
-
-{{< include /unix-api/_fork-example.qmd >}}
-
+{{< include /unix-api/_talk-inner.qmd >}}
