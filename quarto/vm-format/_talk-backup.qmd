@@ -1,0 +1,25 @@
+{{< include /vm-format/_ptInPipeline.qmd >}}
+
+# page table in memory --- assignment {visibility="hidden"}
+
+{{< include /vm-format/_ptInMemAssign.qmd >}}
+
+# actual page table format {visibility="hidden"}
+
+{{< include /vm-format/_actualPTE.qmd >}}
+
+{{< include /vm-format/_multiLevelx8664.qmd >}}
+
+# two-level access in assignment {visibility="hidden"}
+
+{{< include /vm-format/_asgnPageAccess2.qmd >}}
+
+# misc exercises
+
+{{< include /vm-format/_demandMultiEx.qmd >}}
+
+{{< include /vm-format/_multiLevelSplitEx.qmd >}}
+
+{{< include /vm-format/_multiSplitExPt0.qmd >}}
+
+{{< include /vm-format/_multiSplitEx.qmd >}}

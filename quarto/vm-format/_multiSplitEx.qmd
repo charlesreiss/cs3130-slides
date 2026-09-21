@@ -32,13 +32,13 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-1-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-1-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-1-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-1-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-1-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-1-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/multiSplitEx-1-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-format/texfig/multiSplitEx-1-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
 
 :::
@@ -54,17 +54,17 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-2-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-2-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-2-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/multiSplitEx-2-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
-![](/vm/texfig/multiSplitEx-2-level-example.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
 
-![](/vm/texfig/multiSplitEx-2-level-example.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/vm-format/texfig/multiSplitEx-2-level-example.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
 
 
 :::
@@ -108,15 +108,15 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-1.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
 
 
 :::
@@ -132,11 +132,11 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-2.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-2.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-2.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-2.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
 
 :::
@@ -152,13 +152,13 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-3.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-3.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-3.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-3.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-3.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
 
 :::
@@ -174,21 +174,21 @@
  
 
 ::: {.r-stack}
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
 
-![](/vm/texfig/multiSplitEx-2-level-exercise-4.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+![](/vm-format/texfig/multiSplitEx-2-level-exercise-4.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
 
 
 :::

@@ -45,8 +45,8 @@
 
    * designed for writes/reads of [kilobytes]{.fragment fragment-index=4 .custom .myem-only} (not much smaller)
 
- ![](/vm/texfig/swapping-hddsdds-are-slow.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/vm/texfig/swapping-hddsdds-are-slow.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
-![](/vm/texfig/swapping-hddsdds-are-slow.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
-![](/vm/texfig/swapping-hddsdds-are-slow.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
+ ![](/vm-fault/texfig/swapping-hddsdds-are-slow.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
+![](/vm-fault/texfig/swapping-hddsdds-are-slow.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+![](/vm-fault/texfig/swapping-hddsdds-are-slow.figure-3.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=3}
+![](/vm-fault/texfig/swapping-hddsdds-are-slow.figure-4.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=4}
 

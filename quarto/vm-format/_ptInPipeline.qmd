@@ -1,7 +1,7 @@
 
 ### MMUs in the pipeline 
 
-![](/vm/texfig/ptInPipeline.figure.svg)
+![](/vm-format/texfig/ptInPipeline.figure.svg)
  
 
 * <em>up to four memory accesses</em> per instruction

@@ -1,0 +1,8 @@
+
+## misc exercise {visibility="hidden"}
+
+{{< include /vm-intro/_ptSizeEx2.qmd >}}
+
+## exercise: simple lookup {visibility="hidden"}
+
+{{< include /vm-intro/_toyLookupEx2.qmd >}}

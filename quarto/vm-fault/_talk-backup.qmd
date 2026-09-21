@@ -1,0 +1,18 @@
+
+## swapping {visibility="hidden"}
+
+{{< include /vm-fault/_swapping.qmd >}}
+
+{{< include /vm-fault/_swapTimeline.qmd >}}
+
+## swap/mmap {visibility="hidden"}
+
+{{< include /vm-fault/_mmap-swap.qmd >}}
+
+### swap versus cache
+
+{{< include /vm-fault/_swapVCache.qmd >}}
+
+### copy-on-write and fork
+
+{{< include /vm-fault/_copyOnWriteFork.qmd >}}
