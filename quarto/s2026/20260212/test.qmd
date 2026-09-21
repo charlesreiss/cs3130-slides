@@ -1,5 +1,0 @@
----
-title: "test-20260212"
----
-
-{{< include /vm/_multiParamExercise.qmd >}}
