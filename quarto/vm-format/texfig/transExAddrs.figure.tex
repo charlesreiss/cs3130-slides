@@ -1,0 +1,18 @@
+\documentclass[tikz]{standalone}
+\input{common/tikzBase}
+\usetikzlibrary{}
+\NewDocumentCommand\exAnswer{D<>{} m}{\begingroup\alt<#1>{#2}{???}\endgroup}
+\NewDocumentCommand\emphAns{D<>{} m}{\alt<#1>{\myemph{#2}}{#2}}
+\begin{document}
+
+\setSlide{1}
+\input{vm-format/texfig/transExAddrs.inner.tex}
+\setSlide{2}
+\input{vm-format/texfig/transExAddrs.inner.tex}
+\setSlide{3}
+\input{vm-format/texfig/transExAddrs.inner.tex}
+\setSlide{4}
+\input{vm-format/texfig/transExAddrs.inner.tex}
+\setSlide{5}
+\input{vm-format/texfig/transExAddrs.inner.tex}
+\end{document}

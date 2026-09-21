@@ -1,0 +1,8 @@
+---
+name: vm-format
+---
+
+{{< include /vm-format/_talk-inner.qmd >}}
+# backup slides
+
+{{< include /vm-format/_talk-inner.qmd >}}

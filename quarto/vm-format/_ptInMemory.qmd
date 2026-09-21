@@ -1,0 +1,62 @@
+
+### page tables in memory {.smaller}
+
+
+
+* where can processor store megabytes of page tables? <em>in memory</em>
+
+
+<!-- FIXME: alt text -->
+
+::: {.r-stack .my-full}
+![](/vm-format/texfig/ptInMem1.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/vm-format/texfig/ptInMem1.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm-format/texfig/ptInMem1.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm-format/texfig/ptInMem1.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm-format/texfig/ptInMem1.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm-format/texfig/ptInMem1.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm-format/texfig/ptInMem1.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/vm-format/texfig/ptInMem1.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/vm-format/texfig/ptInMem1.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+![](/vm-format/texfig/ptInMem1.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
+
+
+:::
+
+
+### memory access with page table 
+
+
+
+::: {.r-stack .my-full}
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/vm-format/texfig/ptInMemory-memory-access-with-page-table.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+:::
+
+::: {.myoverbox .fragment fragment-index=7 .fade-in-then-out}
+
+one program memory access becomes multiple cache/memory accesses
+
+:::
+

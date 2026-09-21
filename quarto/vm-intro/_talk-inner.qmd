@@ -1,0 +1,30 @@
+# virtual memory {visibility="hidden"}
+
+## address spaces {visibility="hidden"}
+
+{{< include /vm-intro/_recallAddr.qmd >}}
+
+{{< include /vm-intro/_motivation.qmd >}}
+
+{{< include /vm-intro/_addrSpaceOnly.qmd >}}
+
+## address translation overview {visibility="hidden"}
+
+{{< include /vm-intro/_translationOverview.qmd >}}
+
+## simple paging with four pages {visibility="hidden"}
+
+{{< include /vm-intro/_fourPages.qmd >}}
+
+## on address space sizes {visibility="hidden"}
+
+{{< include /vm-intro/_sizeNotes.qmd >}}
+
+## exercise: address splitting {visibility="hidden"}
+
+{{< include /vm-intro/_ptSizeEx.qmd >}}
+
+## exercise: simple lookup {visibility="hidden"}
+
+{{< include /vm-intro/_toyLookupEx.qmd >}}
+

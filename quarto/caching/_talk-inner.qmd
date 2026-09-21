@@ -173,11 +173,11 @@
 
 # TLB {visibility="hidden"}
 
-{{< include /vm/_twoLevelPtLib.qmd >}}
+{{< include /vm-format/_twoLevelPtLib.qmd >}}
 
 ## review: page table lookup (1) {visibility="hidden"}
 
-{{< include /vm/_twoLevelPTAlt.qmd >}}
+{{< include /vm-format/_twoLevelPTAlt.qmd >}}
 
 ## why cache page table entries? {visibility="hidden"}
 

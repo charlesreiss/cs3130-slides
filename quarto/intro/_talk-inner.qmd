@@ -51,9 +51,9 @@
     *  caching, (hidden) parallelism, avoiding idle time
 
 
-{{< include /vm/_translationOverview.qmd >}}
+{{< include /vm-intro/_translationOverview.qmd >}}
 
-{{< include /vm/_addrSpaceOnly.qmd >}}
+{{< include /vm-intro/_addrSpaceOnly.qmd >}}
 
 ## interrupts {visibility="hidden"}
 

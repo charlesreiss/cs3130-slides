@@ -1,9 +1,5 @@
-
 {{< include /vm/_ptInPipeline.qmd >}}
 
-## copy-on-write?{visibility="hidden"}
-
-{{< include /vm/_copyOnWrite.qmd >}}
 
 # page table in memory --- assignment {visibility="hidden"}
 

@@ -1,6 +1,0 @@
-
-### program memory 
-
-
-![](/vm/texfig/recallAddr.figure-1.svg)
-

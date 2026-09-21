@@ -148,23 +148,23 @@
 
 ## address spaces {visibility="hidden"}
 
-{{< include /vm/_recallAddr.qmd >}}
+{{< include /vm-intro/_recallAddr.qmd >}}
 
-{{< include /vm/_motivation.qmd >}}
+{{< include /vm-intro/_motivation.qmd >}}
 
-{{< include /vm/_addrSpaceOnly.qmd >}}
+{{< include /vm-intro/_addrSpaceOnly.qmd >}}
 
 ## address translation overview {visibility="hidden"}
 
-{{< include /vm/_translationOverview.qmd >}}
+{{< include /vm-intro/_translationOverview.qmd >}}
 
 ## simple paging with four pages {visibility="hidden"}
 
-{{< include /vm/_fourPages.qmd >}}
+{{< include /vm-intro/_fourPages.qmd >}}
 
 ## on address space sizes {visibility="hidden"}
 
-{{< include /vm/_sizeNotes.qmd >}}
+{{< include /vm-intro/_sizeNotes.qmd >}}
 
 ###
 

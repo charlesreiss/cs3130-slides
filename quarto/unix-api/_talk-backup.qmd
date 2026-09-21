@@ -93,7 +93,7 @@
 
 ## aside: copy-on-write {visibility="hidden"}
 
-{{< include /vm/_copyOnWrite.qmd >}}
+{{< include /vm-fault/_copyOnWrite.qmd >}}
 
 ## fork with copy-on-write {visibility="hidden"}
 
