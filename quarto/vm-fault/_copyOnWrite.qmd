@@ -32,17 +32,17 @@
 
 
 ::: {.r-stack .my-full}
-![](/vm-fault/texfig/copyOnWrite-pt-only.figure-1.svg){.fragment .fade-out fragment-index=2}
+![](/vm-fault/texfig/copyOnWrite-pt-only.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="partial page table listing from VPNs 0x601 through 0x605. Each page is alloate to a different physical page and is valid and writeable."}
 
-![](/vm-fault/texfig/copyOnWrite-pt-only.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/vm-fault/texfig/copyOnWrite-pt-only.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Two copies of the same page table. Both the original and the copy has the same physical pages. Both have every page marked not writeable."}
 
-![](/vm-fault/texfig/copyOnWrite-pt-only.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/vm-fault/texfig/copyOnWrite-pt-only.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="the page table entry for page VPN 0x605 in the new page table is highlighted."}
 
-![](/vm-fault/texfig/copyOnWrite-pt-only.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/vm-fault/texfig/copyOnWrite-pt-only.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 fig-alt="the new page table's entry for VPN 0x605 is modified to be writeable and have a different physical page number."}
 
 :::
 
-::: {.myoverbox .fragment .fade-in-then-out fragment-index=2 .low}
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=2 .vlow}
 
 copy operation actually duplicates page table <br />
 both processes _share all physical pages_ <br />
@@ -50,14 +50,14 @@ but marked _read-only in both tables_
 
 :::
 
-::: {.myoverbox .fragment .fade-in-then-out fragment-index=3 .low}
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=3 .vlow}
 
 when either process tries to write a read-only page <br />
 triggers a page fault --- OS actually copies the page
 
 :::
 
-::: {.myoverbox .fragment .fade-in-then-out fragment-index=4 .low}
+::: {.myoverbox .fragment .fade-in-then-out fragment-index=4 .vlow}
 
 after allocating a copy, OS reruns the write instruction
 
