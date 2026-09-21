@@ -5,4 +5,4 @@ name: vm-intro
 {{< include /vm-intro/_talk-inner.qmd >}}
 # backup slides
 
-{{< include /vm-intro/_talk-inner.qmd >}}
+{{< include /vm-intro/_talk-backup.qmd >}}

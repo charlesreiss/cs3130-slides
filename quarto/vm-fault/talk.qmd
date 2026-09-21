@@ -5,4 +5,4 @@ name: vm-fault
 {{< include /vm-fault/_talk-inner.qmd >}}
 # backup slides
 
-{{< include /vm-fault/_talk-inner.qmd >}}
+{{< include /vm-fault/_talk-backup.qmd >}}
