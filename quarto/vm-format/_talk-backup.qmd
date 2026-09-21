@@ -22,4 +22,3 @@
 
 {{< include /vm-format/_multiSplitExPt0.qmd >}}
 
-{{< include /vm-format/_multiSplitEx.qmd >}}
