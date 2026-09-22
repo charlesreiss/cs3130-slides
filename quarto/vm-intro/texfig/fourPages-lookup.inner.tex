@@ -38,13 +38,13 @@
     \node[fill=white,anchor=west,align=center] at (pt-3-3.east) {\myemph{``page}\\ \myemph{table} \\ \myemph{entry''}};
 \end{visibleenv}
 \begin{visibleenv}<4>
-    \node[fill=white,anchor=south west,xshift=-1cm,overlay] at (addrLeft.north east) {\myemph{``virtual page number''}};
+    \node[fill=white,anchor=south west,xshift=-1cm] at (addrLeft.north east) {\myemph{``virtual page number''}};
 \end{visibleenv}
 \begin{visibleenv}<5>
     \node[fill=white, anchor=south west,xshift=-2cm] at (newAddrLeft.north east) {\myemph{``physical page number''}};
 \end{visibleenv}
 \begin{visibleenv}<6>
     \node[fill=white,xshift=-2cm,anchor=south west] at (newAddrRight.north east) {\myemph{``page offset''}};
-    \node[overlay,fill=white,xshift=-2cm,anchor=south west] at (addrRest.north east) {\myemph{``page offset''}};
+    \node[fill=white,xshift=-2cm,anchor=south west] at (addrRest.north east) {\myemph{``page offset''}};
 \end{visibleenv}
 \end{tikzpicture}
