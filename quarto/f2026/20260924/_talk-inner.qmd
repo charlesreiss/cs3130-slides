@@ -1,0 +1,25 @@
+### last time
+
+### on the emptyloop lab {.small}
+
+*  got measurements of nothing
+*  two big sources of variation:
+   *  external exceptions being handled
+   *  different "signatures" from different cores <!-- FIXME: example -->
+
+###
+
+## mmap {visibility="hidden"}
+
+{{< include /vm-fault/_mmap.qmd >}}
+
+## /proc/PID/maps {visibility="hidden"}
+
+{{< include /vm-fault/_linux-maps.qmd >}}
+
+## general page table tricks {visibility="hidden"}
+
+{{< include /vm-fault/_generalPtTrick.qmd >}}
+
+{{< include /vm-format/_talk-inner.qmd >}}
+
