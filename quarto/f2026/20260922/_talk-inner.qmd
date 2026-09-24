@@ -1,0 +1,131 @@
+### last time {.smaller}
+
+*  file descriptors
+   *  index into array of pointers (per process)
+   *  pointers point to open file descriptors
+*  `fork()`: copy pointers in array (not what they point to)
+*  `dup2(from, to)`: `files[to] = files[from]`
+*  `close(fd)`: `files[fd] = NULL`
+<hr class="vspace"/>
+*  page table introduction
+
+###
+
+## simple paging with four pages {visibility="hidden"}
+
+{{< include /vm-intro/_fourPages.qmd >}}
+
+## on address space sizes {visibility="hidden"}
+
+{{< include /vm-intro/_sizeNotes.qmd >}}
+
+## exercise: address splitting {visibility="hidden"}
+
+{{< include /vm-intro/_ptSizeEx.qmd >}}
+
+## exercise: simple lookup {visibility="hidden"}
+
+{{< include /vm-intro/_toyLookupEx.qmd >}}
+
+# permissions in page tables {visibility="hidden"}
+
+## read-only {visibility="hidden"}
+
+{{< include /vm-fault/_twoCopiesOfProgram.qmd >}}
+
+## permission bits {visibility="hidden"}
+
+{{< include /vm-fault/_permissionsBits.qmd >}}
+
+## switching address spaces {visibility="hidden"}
+
+{{< include /vm-fault/_osCode.qmd >}}
+
+## kernel-only {visibility="hidden"}
+
+{{< include /vm-fault/_kernelOnly.qmd >}}
+
+# page table tricks {visibility="hidden"}
+
+## space on demand {visibility="hidden"}
+
+{{< include /vm-fault/_spaceOnDemand.qmd >}}
+
+## aside: copy-on-write {visibility="hidden"}
+
+{{< include /vm-fault/_copyOnWrite.qmd >}}
+
+## fork with copy-on-write {visibility="hidden"}
+
+{{< include /unix-api/_fork-cow.qmd >}}
+
+## mmap {visibility="hidden"}
+
+{{< include /vm-fault/_mmap.qmd >}}
+
+## /proc/PID/maps {visibility="hidden"}
+
+{{< include /vm-fault/_linux-maps.qmd >}}
+
+## general page table tricks {visibility="hidden"}
+
+{{< include /vm-fault/_generalPtTrick.qmd >}}
+
+## page table lookup {visibility="hidden"}
+
+{{< include /vm-format/_transEx.qmd >}}
+
+## page table in memory {visibility="hidden"}
+
+{{< include /vm-format/_ptInMemory.qmd >}}
+
+## exercise: page table in memory {visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt1.qmd >}}
+
+## exercise (alt): page table in memory {visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt1b.qmd >}}
+
+## exercise (alt 2): page table in memory {visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt1c.qmd >}}
+
+
+## assignment preview 1 {visibility="hidden"}
+
+{{< include /vm-format/_asgnSetup.qmd >}}
+
+{{< include /vm-format/_asgnPageAccess.qmd >}}
+
+{{< include /vm-format/_toyLookupAsgn.qmd >}}
+
+# handling big page tables {visibility="hidden"}
+
+## the problem {visibility="hidden"}
+
+{{< include /vm-format/_ptSize64A.qmd >}}
+
+## general options {visibility="hidden"}
+
+{{< include /vm-format/_bigPageOptions.qmd >}}
+
+## two-level page tables {visibility="hidden"}
+
+{{< include /vm-format/_twoLevelPT.qmd >}}
+
+{{< include /vm-format/_twoLevelPtLib.qmd >}}
+
+{{< include /vm-format/_twoLevelPTAlt.qmd >}}
+
+## more than two levels {visibility="hidden"}
+
+{{< include /vm-format/_multiLevelGen.qmd >}}
+
+## page table counting
+
+{{< include /vm-format/_threeLevelCountingEx.qmd >}}
+
+{{< include /vm-format/_countingBestWorst.qmd >}}
+
+{{< include /vm-format/_multiChoice.qmd >}}
