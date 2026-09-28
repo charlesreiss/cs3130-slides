@@ -1,4 +1,16 @@
-### last time
+### last time {.smaller}
+
+*  page tables
+   *  divide virtual [program]/physical [real] memory into fixed-sized pages
+   *  number pages starting at 0
+   *  table: virtual page $X \rightarrow$ physical page $Y$
+   *  valid bits --- indicate page table entry has no physical page
+*  allocating memory on demand
+   *  OS gets control on page fault (using invalid memory)
+   *  update page table + retry on page fault
+*  permission bits
+   *  sharing memory as read-only
+*  copy-on-write
 
 ### on the emptyloop lab {.small}
 
@@ -7,7 +19,11 @@
    *  external exceptions being handled
    *  different "signatures" from different cores <!-- FIXME: example -->
 
-###
+{{< include /emptyloop/_plots.qmd >}}
+
+### 
+
+####
 
 ## mmap {visibility="hidden"}
 
