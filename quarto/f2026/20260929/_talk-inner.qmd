@@ -1,5 +1,16 @@
-### last time
+### last time {.smaller}
 
+*  tracking mmap-type "memory regions"
+   *  range of virtual addresses
+   *  optional backing file (file to load from), location in file
+   *  private (copy-on-write from backing file) or shared mappings
+*  on page fault: fill in from memory region list
+   *  determine what (if anything) "should" be there
+   *  how OS decides to load-on-demand, copy-on-write, etc. or crash
+*  page tables in memory
+   *  representing entries as integers
+   *  array of integers in memory
+   *  special <i>base pointer</i> register
 
 ## exercise (alt 2): page table in memory {visibility="hidden"}
 
