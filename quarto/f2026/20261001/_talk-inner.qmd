@@ -1,0 +1,58 @@
+### last time {.smaller}
+
+*  single-level page table lookup
+*  pagetable assignment
+*  multi-level page table structure
+   *  wide, short tree
+   *  page tables [arrays] at each node
+   *  index = some bits of virtual page number
+   *  always start at most significant bits
+   *  non-last-level entries: PPN of next table
+*  counting page tables exercise
+
+### sync lab
+
+## page table counting
+
+<!-- {{< include /vm-format/_threeLevelCountingEx.qmd >}} -->
+
+{{< include /vm-format/_countingBestWorst.qmd >}}
+
+<!-- FIXME: x86-64 page table parameters -->
+
+
+## exercises: multi-level lookup {visibility="hidden"}
+
+## part 2{visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt2.qmd >}}
+
+
+## part 3{visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt3.qmd >}}
+
+## exercise interlude: parameters
+
+{{< include /vm-format/_multiParamExercise.qmd >}}
+
+{{< include /vm-format/_multiSplitExPt3b.qmd >}}
+
+## part 4{visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt4.qmd >}}
+{{< include /vm-format/_multiSplitExPt4b.qmd >}}
+
+## part 5{visibility="hidden"}
+
+{{< include /vm-format/_multiSplitExPt5.qmd >}}
+
+###
+
+{{< include /caching/_talk-inner.qmd >}}:
+
+### backup slides
+
+{{< include /vm-format/_multiChoice.qmd >}}
+
+
