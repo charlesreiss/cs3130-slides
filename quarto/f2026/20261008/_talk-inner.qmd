@@ -1,0 +1,202 @@
+### last time
+
+*  multi-level page table lookups
+   *  saved space
+   *  series of array lookups
+*  caching
+
+### test 2
+
+# locality {visibility="hidden"}
+
+## locality exercises {visibility="hidden"}
+
+{{< include /caching/_localityExercise.qmd >}}
+
+{{< include /caching/_localityExercise2.qmd >}}
+
+{{< include /caching/_localityExercise3.qmd >}}
+
+# typical cache hierarchy {visibility="hidden"}
+
+## typical cache hierarchy {visibility="hidden"}
+
+{{< include /caching/_cacheSplitID.qmd >}}
+
+## cache analogy {visibility="hidden"}
+
+{{< include /caching/_analogyBook.qmd >}}
+
+## one-block cache {visibility="hidden"}
+
+{{< include /caching/_oneBlockCache.qmd >}}
+
+## direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_directMappedIntro.qmd >}}
+
+### terminology 
+
+* row = set
+   * preview: change how much is in a row
+
+
+## tag/index/offset for direct mapped caches {visibility="hidden"}
+
+{{< include /caching/_analogyBookTIO.qmd >}}
+
+# tag-index-offset {visibility="hidden"}
+
+{{< include /caching/_tioDMIntro.qmd >}}
+
+## aside: cache size{visibility="hidden"}
+
+### cache size 
+
+
+* cache size = amount of <i>data</i> in cache
+* not included metadata (tags, valid bits, etc.)
+
+
+## prelim. formulas {visibility="hidden"}
+
+{{< include /caching/_tioDMFormulas.qmd >}}
+
+## tio for DM: exercise {visibility="hidden"}
+
+{{< include /caching/_tioDMExercise.qmd >}}
+
+## sizing a direct mapped cache {visibility="hidden"}
+
+{{< include /caching/_sizeExercise.qmd >}}
+
+## simulating a direct mapped cache {visibility="hidden"}
+
+{{< include /caching/_dmExampleAccess.qmd >}}
+
+## exercise: direct-mapped cache access {visibility="hidden"}
+
+{{< include /caching/_dmAccessExercise.qmd >}}
+
+## mapping misses to sets (DM) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiagDM.qmd >}}
+
+## cache misses on real code {visibility="hidden"}
+
+{{< include /caching/_actMissesDM.qmd >}}
+
+# adding associativity {visibility="hidden"}
+
+{{< include /caching/_addAssoc.qmd >}}
+
+## diagram {visibility="hidden"}
+
+{{< include /caching/_addAssocOp.qmd >}}
+
+## options for replacement {visibility="hidden"}
+
+{{< include /caching/_replacement.qmd >}}
+
+# LRU tracking {visibility="hidden"}
+
+{{< include /caching/_lruTrackingExample.qmd >}}
+
+{{< include /caching/_lruTracking.qmd >}}
+
+## associativity terms {visibility="hidden"}
+
+{{< include /caching/_assocTerms.qmd >}}
+
+## tag/index/offset for set-assoc. caches {visibility="hidden"}
+
+{{< include /caching/_tioFormulas.qmd >}}
+
+# C code and caches {visibility="hidden"}
+
+## array misses exercises {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupAOrdered.qmd >}}
+{{< include /caching/_arrayMissesWarmupBInterleaved.qmd >}}
+{{< include /caching/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
+{{< include /caching/_arrayMissesWarmupEBig.qmd >}}
+
+## array misses and skipping around {visibility="hidden"}
+
+{{< include /caching/_arrayMissesSkip.qmd >}}
+
+# array misses and associative caches? {visibility="hidden"}
+
+## mapping misses to sets (3-way) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiag3.qmd >}}
+
+## array misses exercise (associative) {visibility="hidden"}
+
+{{< include /caching/_arrayMissesWarmupFBigAssociative.qmd >}}
+
+# options for handling cache writes {visibility="hidden"}
+
+{{< include /caching/_writePolicy.qmd >}}
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+<!-- FIXME: alt text/etc. -->
+
+{{< include /caching/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching/_fastWrites.qmd >}}
+
+# cache design and memory performance {visibility="hidden"}
+
+## briefly, cache tradeoffs {visibility="hidden"}
+
+{{< include /caching/_tradeoffsBrief.qmd >}}
+
+{{< include /caching/_cacheBenchExample.qmd >}}
+
+## AMAT {visibility="hidden"}
+
+{{< include /caching/_amatFormula.qmd >}}
+
+{{< include /caching/_amatEx.qmd >}}
+
+# TLB {visibility="hidden"}
+
+{{< include /vm-format/_twoLevelPtLib.qmd >}}
+
+## review: page table lookup (1) {visibility="hidden"}
+
+{{< include /vm-format/_twoLevelPTAlt.qmd >}}
+
+## why cache page table entries? {visibility="hidden"}
+
+{{< include /caching/_tlbWhy.qmd >}}
+
+## how TLB fits in page table lookup {visibility="hidden"}
+
+{{< include /caching/_tlbMulti.qmd >}}
+
+## how TLBs are organized {visibility="hidden"}
+
+{{< include /caching/_tlbOrgNoCircuit.qmd >}}
+
+## exercise: splitting for TLBs {visibility="hidden"}
+
+{{< include /caching/_tlbSplitEx1.qmd >}}
+
+{{< include /caching/_tlbSplitEx2.qmd >}}
+
+## exercise: TLB access pattern {visibility="hidden"}
+
+{{< include /caching/_tlbAccessExPrep.qmd >}}
+
+{{< include /caching/_tlbAccessEx.qmd >}}
+
+### backup slides 
+
+## locality {visibility="hidden"}
+
+{{< include /caching/_localityBasics.qmd >}}
