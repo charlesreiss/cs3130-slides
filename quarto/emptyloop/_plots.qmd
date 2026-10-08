@@ -1,0 +1,44 @@
+### no threshold
+
+::::: {.columns}
+
+:::: {.column}
+
+![my laptop](/emptyloop/laptop-plain1.png)
+
+::::
+
+:::: {.column}
+
+![my desktop](/emptyloop/desktop-plain1.png)
+
+::::
+
+:::::
+
+### my desktop, threshold
+
+::::: {.columns}
+
+:::: {.column}
+
+![normal (3500 samples)](/emptyloop/desktop-thresh-nonet-short.png)
+
+::::
+
+:::: {.column}
+
+![big network transfer (5000 samples)](/emptyloop/desktop-thresh-net.png)
+
+::::
+
+:::::
+
+### variations in time
+
+*  caches
+   *  takes X ns when in cache, Y ns when not
+<hr />
+*  page faults?
+*  different amounts of work on interrupts
+   *  when timer goes of, does OS have stuff to do?

@@ -1,0 +1,8 @@
+---
+name: emptyloop
+---
+
+{{< include /emptyloop/_talk-inner.qmd >}}
+# backup slides
+
+{{< include /emptyloop/_talk-backup.qmd >}}
