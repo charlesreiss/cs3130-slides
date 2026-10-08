@@ -7,7 +7,7 @@
   - Read `0x08249`
   - Read `0x0c658`
 
-- What is the fewest number of cache sets this cache could have to prevent the second read from evicting the first?
+- What is the fewest number of cache sets this cache could have to store both values at the same time?
 - What is the size of this cache?
 
 
