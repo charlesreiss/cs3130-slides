@@ -44,5 +44,5 @@ Image from "Computer Architecture: A Quantitative Approach"
 
 <div style="position:absolute; top:260px; left:200px; font-size: 20px;">
 1989: Intel 80486<br />with 8 KB cache<br />
-<img src="../caching/80486.jpg" style="width:100px;">
+<img src="../caching-intro/80486.jpg" style="width:100px;">
 </div>
