@@ -1,0 +1,146 @@
+
+### direct-mapped cache exercise (1) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=35%}
+
+<table class="cachesim-address nohigh">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>0000</td><td>00</td><td>00</td><td>(00)</td><td></td></tr>
+<tr><td>0000</td><td>00</td><td>01</td><td>(01)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>11</td><td>(63)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>01</td><td>(61)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>10</td><td>(62)</td><td></td></tr>
+<tr><td>0000</td><td>00</td><td>00</td><td>(00)</td><td></td></tr>
+<tr><td>0110</td><td>01</td><td>00</td><td>(64)</td><td></td></tr>
+</tbody>
+</table>
+<table class="cache-addresslabel">
+<tr><td class="tag">tag</td><td class="index">index</td><td class="offset">offset</td></tr>
+</table>
+
+::::
+
+:::: {.column width=65%}
+
+<table class="cachesim-cache wide">
+<caption><em>4</em> byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr><td>00</td><td></td><td></td><td></td></tr>
+<tr><td>01</td><td></td><td></td><td></td></tr>
+<tr><td>10</td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+::::
+
+:::::
+
+::: {.myoverbox .vlow}
+
+exercise: how to split addresses?
+
+:::
+
+### solution {.smaller}
+
+*  $4 = 2^b$ byte block size
+*  $b = 2$ (block) offset bits
+*  $S = 4 = 2^s$ sets
+*  $s = 2$ (set) index bits
+*  $m = 8$ bit addresses
+*  $t = m - (s+b) = 4$ tag bits
+
+### direct-mapped cache exercise (2) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=35%}
+
+<table class="cachesim-address">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>0000</td><td>00</td><td>00</td><td>(00)</td><td></td></tr>
+<tr><td>0000</td><td>00</td><td>01</td><td>(01)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>11</td><td>(63)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>01</td><td>(61)</td><td></td></tr>
+<tr><td>0110</td><td>00</td><td>10</td><td>(62)</td><td></td></tr>
+<tr><td>0000</td><td>00</td><td>00</td><td>(00)</td><td></td></tr>
+<tr><td>0110</td><td>01</td><td>00</td><td>(64)</td><td></td></tr>
+</tbody>
+</table>
+<table class="cache-addresslabel">
+<tr><td class="tag">tag</td><td class="index">index</td><td class="offset">offset</td></tr>
+</table>
+
+::::
+
+:::: {.column width=65%}
+
+<table class="cachesim-cache wide">
+<caption><em>4</em> byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr><td>00</td><td></td><td></td><td></td></tr>
+<tr><td>01</td><td></td><td></td><td></td></tr>
+<tr><td>10</td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+::::
+
+:::::
+
+::: {.myoverbox .vlow}
+
+exercise: which accesses are hits?
+
+:::
+
+
+
+
+### exercise
+
+
+::: {.r-stack .my-full}
+![](/caching-dm/texfig/dmAccessExercise.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+
+![](/caching-dm/texfig/dmAccessExercise.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching-dm/texfig/dmAccessExercise.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching-dm/texfig/dmAccessExercise.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching-dm/texfig/dmAccessExercise.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+
+:::
+

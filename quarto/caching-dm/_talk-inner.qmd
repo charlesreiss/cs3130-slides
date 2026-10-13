@@ -1,0 +1,50 @@
+## one-block cache {visibility="hidden"}
+
+{{< include /caching-dm/_oneBlockCache.qmd >}}
+
+## direct mapped caches {visibility="hidden"}
+
+{{< include /caching-dm/_directMappedIntro.qmd >}}
+
+### terminology 
+
+* row = set
+   * preview: change how much is in a row
+
+
+## tag/index/offset for direct mapped caches {visibility="hidden"}
+
+{{< include /caching-dm/_analogyBookTIO.qmd >}}
+
+# tag-index-offset {visibility="hidden"}
+
+{{< include /caching-dm/_tioDMIntro.qmd >}}
+
+## aside: cache size{visibility="hidden"}
+
+### cache size 
+
+
+* cache size = amount of <i>data</i> in cache
+* not included metadata (tags, valid bits, etc.)
+
+
+## prelim. formulas {visibility="hidden"}
+
+{{< include /caching-dm/_tioDMFormulas.qmd >}}
+
+## tio for DM: exercise {visibility="hidden"}
+
+{{< include /caching-dm/_tioDMExercise.qmd >}}
+
+## sizing a direct mapped cache {visibility="hidden"}
+
+{{< include /caching-dm/_sizeExercise.qmd >}}
+
+## simulating a direct mapped cache {visibility="hidden"}
+
+{{< include /caching-dm/_dmExampleAccess.qmd >}}
+
+## exercise: direct-mapped cache access {visibility="hidden"}
+
+{{< include /caching-dm/_dmAccessExercise.qmd >}}

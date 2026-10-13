@@ -1,0 +1,14 @@
+
+# cache design and memory performance {visibility="hidden"}
+
+## briefly, cache tradeoffs {visibility="hidden"}
+
+{{< include /caching-tradeoff/_tradeoffsBrief.qmd >}}
+
+{{< include /caching-tradeoff/_cacheBenchExample.qmd >}}
+
+## AMAT {visibility="hidden"}
+
+{{< include /caching-tradeoff/_amatFormula.qmd >}}
+
+{{< include /caching-tradeoff/_amatEx.qmd >}}

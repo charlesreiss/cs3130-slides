@@ -1,0 +1,14 @@
+
+# options for handling cache writes {visibility="hidden"}
+
+{{< include /caching-write/_writePolicy.qmd >}}
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+<!-- FIXME: alt text/etc. -->
+
+{{< include /caching-write/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching-write/_fastWrites.qmd >}}

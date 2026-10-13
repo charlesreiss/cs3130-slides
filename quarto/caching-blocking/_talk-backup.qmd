@@ -8,3 +8,12 @@
 
 {{< include /caching-blocking/_explicitCounting.qmd >}}
 
+{{< include /caching-blocking/_loopIneff.qmd >}}
+
+{{< include /caching-blocking/_countMisses.qmd >}}
+
+{{< include /caching-blocking/_overlappingLoads.qmd >}}
+
+{{< include /caching-blocking/_regBlocking.qmd >}}
+
+{{< include /caching-blocking/_regReuseAndAliasing.qmd >}}

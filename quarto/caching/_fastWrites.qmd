@@ -1,5 +1,0 @@
-
-### fast writes with write-through caches
-
-![](/caching/texfig/fastWrites.figure.svg)
-

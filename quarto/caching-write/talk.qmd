@@ -1,0 +1,8 @@
+---
+name: caching-write
+---
+
+{{< include /caching-write/_talk-inner.qmd >}}
+# backup slides
+
+{{< include /caching-write/_talk-backup.qmd >}}

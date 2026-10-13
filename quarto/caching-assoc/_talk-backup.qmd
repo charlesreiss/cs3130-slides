@@ -1,0 +1,27 @@
+
+# simulated misses with set-assoc. caches {visibility="hidden"}
+
+{{< include /caching-assoc/_actMissesAssoc.qmd >}}
+
+# tag/index/offset exercise {visibility="hidden"}
+
+## setup{visibility="hidden"}
+
+{{< include /caching-assoc/_tioExerciseIntro.qmd >}}
+
+## the exercise{visibility="hidden"}
+
+{{< include /caching-assoc/_tioExercise.qmd >}}
+
+# circuit diagram {visibility="hidden"}
+
+{{< include /caching-assoc/_assocCircuit.qmd >}}
+
+# misc {visibility="hidden"}
+
+{{< include /caching-assoc/_addAssocAltOp.qmd >}}
+{{< include /caching-assoc/_assocExercise.qmd >}}
+
+{{< include /caching-assoc/_replaceEx.qmd >}}
+{{< include /caching-assoc/_replaceEx2.qmd >}}
+{{< include /caching-assoc/_setMappingDiag.qmd >}}

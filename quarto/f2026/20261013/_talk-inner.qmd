@@ -25,84 +25,57 @@
 
 ## simulating a direct mapped cache {visibility="hidden"}
 
-{{< include /caching/_dmExampleAccess.qmd >}}
+{{< include /caching-dm/_dmExampleAccess.qmd >}}
 
 ## exercise: direct-mapped cache access {visibility="hidden"}
 
-{{< include /caching/_dmAccessExercise.qmd >}}
+{{< include /caching-dm/_dmAccessExercise.qmd >}}
 
 
 # adding associativity {visibility="hidden"}
 
-{{< include /caching/_addAssoc.qmd >}}
+{{< include /caching-assoc/_addAssoc.qmd >}}
 
 ## diagram {visibility="hidden"}
 
-{{< include /caching/_addAssocOp.qmd >}}
+{{< include /caching-assoc/_addAssocOp.qmd >}}
 
 
 ## LRU tracking {visibility="hidden"}
 
-{{< include /caching/_lruIntro.qmd >}}
+{{< include /caching-assoc/_lruIntro.qmd >}}
 
-{{< include /caching/_lruTrackingExample.qmd >}}
+{{< include /caching-assoc/_lruTrackingExample.qmd >}}
 
-{{< include /caching/_lruTracking.qmd >}}
+{{< include /caching-assoc/_lruTracking.qmd >}}
 
 ## options for replacement
 
-{{< include /caching/_replacement.qmd >}}
+{{< include /caching-assoc/_replacement.qmd >}}
 
 
 ## associativity terms {visibility="hidden"}
 
-{{< include /caching/_assocTerms.qmd >}}
+{{< include /caching-assoc/_assocTerms.qmd >}}
 
 ## tag/index/offset for set-assoc. caches {visibility="hidden"}
 
-{{< include /caching/_tioFormulas.qmd >}}
+{{< include /caching-assoc/_tioFormulas.qmd >}}
 
 ## mapping misses to sets (DM) {visibility="hidden"}
 
-{{< include /caching/_setMappingDiagDM.qmd >}}
+{{< include /caching-assoc/_setMappingDiagDM.qmd >}}
 
 ## cache misses on real code {visibility="hidden"}
 
-{{< include /caching/_actMissesDM.qmd >}}
+{{< include /caching-assoc/_actMissesDM.qmd >}}
 
 
 # C code and caches {visibility="hidden"}
 
 ## array misses exercises {visibility="hidden"}
 
-{{< include /caching/_arrayMissesWarmupAOrdered.qmd >}}
-{{< include /caching/_arrayMissesWarmupBInterleaved.qmd >}}
-{{< include /caching/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
-{{< include /caching/_arrayMissesWarmupEBig.qmd >}}
-
-## array misses and skipping around {visibility="hidden"}
-
-{{< include /caching/_arrayMissesSkip.qmd >}}
-
-# array misses and associative caches? {visibility="hidden"}
-
-## mapping misses to sets (3-way) {visibility="hidden"}
-
-{{< include /caching/_setMappingDiag3.qmd >}}
-
-## array misses exercise (associative) {visibility="hidden"}
-
-{{< include /caching/_arrayMissesWarmupFBigAssociative.qmd >}}
-
-# options for handling cache writes {visibility="hidden"}
-
-{{< include /caching/_writePolicy.qmd >}}
-
-## exercise: write/replacement policies {visibility="hidden"}
-
-<!-- FIXME: alt text/etc. -->
-
-{{< include /caching/_writeReplaceExercise.qmd >}}
-
-
-
+{{< include /caching-code/_arrayMissesWarmupAOrdered.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupBInterleaved.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupEBig.qmd >}}

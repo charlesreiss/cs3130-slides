@@ -1,0 +1,5 @@
+
+### cache operation (associative) 
+
+![](/caching-assoc/texfig/addAssocOp.figure.svg)
+

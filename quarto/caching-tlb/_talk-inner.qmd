@@ -1,0 +1,35 @@
+
+
+# TLB {visibility="hidden"}
+
+{{< include /vm-format/_twoLevelPtLib.qmd >}}
+
+## review: page table lookup (1) {visibility="hidden"}
+
+{{< include /vm-format/_twoLevelPTAlt.qmd >}}
+
+## why cache page table entries? {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbWhy.qmd >}}
+
+## how TLB fits in page table lookup {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbMulti.qmd >}}
+
+## how TLBs are organized {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbOrgNoCircuit.qmd >}}
+
+## exercise: splitting for TLBs {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbSplitEx1.qmd >}}
+
+{{< include /caching-tlb/_tlbSplitEx2.qmd >}}
+
+
+## exercise: TLB access pattern {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbAccessExPrep.qmd >}}
+
+{{< include /caching-tlb/_tlbAccessEx.qmd >}}
+

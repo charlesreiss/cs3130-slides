@@ -1,0 +1,20 @@
+
+## how TLBs fit in the pipeline {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbPipeline.qmd >}}
+
+## aside: TLB invalidation {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbSwitch.qmd >}}
+
+## TLBs and context switches {visibility="hidden"}
+
+{{< include /caching-tlb/_tlbSwitch.qmd >}}
+
+{{< include /caching-tlb/_tlbAccessExample.qmd >}}
+{{< include /caching-tlb/_tlbExercise.qmd >}}
+{{< include /caching-tlb/_tlbMissEx.qmd >}}
+{{< include /caching-tlb/_tlbOrganization.qmd >}}
+{{< include /caching-tlb/_tlbPerformance.qmd >}}
+{{< include /caching-tlb/_tlbShootdown.qmd >}}
+{{< include /caching-tlb/_tlbSplitEx3.qmd >}}

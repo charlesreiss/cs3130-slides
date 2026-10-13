@@ -1,0 +1,32 @@
+
+# varying parameters exercise {visibility="hidden"}
+
+{{< include /caching-tradeoff/_cacheTradeoffsEx.qmd >}}
+
+## misc cache optimizations: prefetching {visibility="hidden"}
+
+{{< include /caching-tradeoff/_miscCacheOpt.qmd >}}
+
+## miss types {visibility="hidden"}
+
+{{< include /caching-tradeoff/_missTypes.qmd >}}
+
+## and making caches look bad{visibility="hidden"}
+
+{{< include /caching-tradeoff/_cacheLookBad.qmd >}}
+
+## and AMAT{visibility="hidden"}
+
+{{< include /caching-tradeoff/_cacheTradeoffsHitMiss.qmd >}}
+
+## and msis types{visibility="hidden"}
+
+{{< include /caching-tradeoff/_cacheTradeoffsMissType.qmd >}}
+
+## exercise: multi-level cache AMAT{visibility="hidden"}
+
+{{< include /caching-tradeoff/_multiLevelAMATPrep.qmd >}}
+
+{{< include /caching-tradeoff/_multiLevelAMAT.qmd >}}
+
+{{< include /caching-tradeoff/_hitTimeEtc.qmd >}}

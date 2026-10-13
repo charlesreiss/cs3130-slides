@@ -1,0 +1,43 @@
+# misses in C, and intuition behind conflicts {visibility="hidden"}
+
+{{< include /caching-code/_conflictMissesAndC.qmd >}}
+
+## cache miss examples {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesWarmupCTwoSet.qmd >}}
+
+## misc array misses example {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesEx.qmd >}}
+
+## an old quiz question {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesQuizAnswer.qmd >}}
+
+## array misses exercises {visibility="hidden"}
+
+## sparse array miss exericse {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesExSparseConflicts.qmd >}}
+
+# alternate cache miss exericse {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesExSparseAlt.qmd >}}
+
+# array misses and cache results (old sparse) {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesExSparse.qmd >}}
+
+## set mapping (text) {visibility="hidden"}
+
+{{< include /caching-code/_setMappingText.qmd >}}
+
+## more complex array miss example {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesEx2.qmd >}}
+
+
+
+{{< include /caching-code/_arrayMissesExMapping.qmd >}}
+{{< include /caching-code/_arrayMissesSetAssocNotBetter.qmd >}}
+{{< include /caching-code/_arraysAndBlocks.qmd >}}

@@ -1,0 +1,5 @@
+
+### fast writes with write-through caches
+
+![](/caching-write/texfig/fastWrites.figure.svg)
+

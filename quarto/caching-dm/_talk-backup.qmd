@@ -1,0 +1,8 @@
+{{< include /caching-dm/_dmOperation.qmd >}}
+
+## cut example? {visibility="hidden"}
+
+{{< include /caching-dm/_dmExampleAccessCut.qmd >}}
+
+
+

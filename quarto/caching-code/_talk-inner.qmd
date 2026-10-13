@@ -1,0 +1,23 @@
+
+# C code and caches {visibility="hidden"}
+
+## array misses exercises {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesWarmupAOrdered.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupBInterleaved.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupEBig.qmd >}}
+
+## array misses and skipping around {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesSkip.qmd >}}
+
+# array misses and associative caches? {visibility="hidden"}
+
+## mapping misses to sets (3-way) {visibility="hidden"}
+
+{{< include /caching-code/_setMappingDiag3.qmd >}}
+
+## array misses exercise (associative) {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesWarmupFBigAssociative.qmd >}}

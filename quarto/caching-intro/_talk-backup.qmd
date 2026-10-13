@@ -1,0 +1,11 @@
+
+## inclusive v exclusive {visibility="hidden"}
+
+{{< include /caching-intro/_exclVIncl.qmd >}}
+
+{{< include /caching-intro/_loopOrdersLocalityEx.qmd >}}
+
+{{< include /caching-intro/_placeOfCache.qmd >}}
+
+{{< include /caching-intro/_memHierarchyIntro.qmd >}}
+{{< include /caching-intro/_memHierarchyPic.qmd >}}

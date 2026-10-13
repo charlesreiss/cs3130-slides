@@ -1,0 +1,37 @@
+
+## mapping misses to sets (DM) {visibility="hidden"}
+
+{{< include /caching-assoc/_setMappingDiagDM.qmd >}}
+
+## cache misses on real code {visibility="hidden"}
+
+{{< include /caching-assoc/_actMissesDM.qmd >}}
+
+# adding associativity {visibility="hidden"}
+
+{{< include /caching-assoc/_addAssoc.qmd >}}
+
+## diagram {visibility="hidden"}
+
+{{< include /caching-assoc/_addAssocOp.qmd >}}
+
+## LRU tracking {visibility="hidden"}
+
+{{< include /caching-assoc/_lruIntro.qmd >}}
+
+{{< include /caching-assoc/_lruTrackingExample.qmd >}}
+
+{{< include /caching-assoc/_lruTracking.qmd >}}
+
+## options for replacement {visibility="hidden"}
+
+{{< include /caching-assoc/_replacement.qmd >}}
+
+
+## associativity terms {visibility="hidden"}
+
+{{< include /caching-assoc/_assocTerms.qmd >}}
+
+## tag/index/offset for set-assoc. caches {visibility="hidden"}
+
+{{< include /caching-assoc/_tioFormulas.qmd >}}

@@ -1,0 +1,5 @@
+
+### ‘flat’ 2D arrays and cache blocks 
+
+![](/caching-code/texfig/arraysAndBlocks.figure.svg)
+

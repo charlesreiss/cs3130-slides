@@ -1,0 +1,27 @@
+
+### LRU bit updating 
+
+<!-- FIXME: to HTML animation -->
+
+::: {.r-stack .my-full}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-1.svg){.fragment .fade-out fragment-index=2}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+
+![](/caching-assoc/texfig/lruTrackingExample.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+
+:::
+

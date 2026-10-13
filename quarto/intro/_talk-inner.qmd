@@ -1,4 +1,3 @@
-
 # overall themes {visibility="hidden"}
 
 ### themes {.smaller}
@@ -130,7 +129,7 @@
 * _making processors fast_
     *  caching, (hidden) parallelism, avoiding idle time
 
-{{< include /caching/_memHierarchyPic.qmd >}}
+{{< include /caching-intro/_memHierarchyPic.qmd >}}
 
 # instruction-level parallelism {visibility="hidden"}
 
