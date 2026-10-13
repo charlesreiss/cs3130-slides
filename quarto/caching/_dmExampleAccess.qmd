@@ -1,35 +1,272 @@
 
-### example access pattern (1) 
+### example access pattern (setup) {.smaller}
 
+::::: {.columns}
 
+:::: {.column width=35%}
 
-::: {.r-stack .my-full}
-![](/caching/texfig/dmExampleAccess.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+<table class="cachesim-address nohigh">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td></td></tr>
+<tr><td>00000</td><td>00</td><td>1</td><td>(01)</td><td></td></tr>
+<tr><td>01100</td><td>00</td><td>1</td><td>(63)</td><td></td></tr>
+<tr><td>01100</td><td>00</td><td>1</td><td>(61)</td><td></td></tr>
+<tr><td>01100</td><td>01</td><td>0</td><td>(62)</td><td></td></tr>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td></td></tr>
+<tr><td>01100</td><td>10</td><td>0</td><td>(64)</td><td></td></tr>
+</tbody>
+</table>
 
-![](/caching/texfig/dmExampleAccess.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+::::
 
-![](/caching/texfig/dmExampleAccess.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+:::: {.column width=65%}
 
-![](/caching/texfig/dmExampleAccess.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+<table class="cachesim-cache">
+<caption>2 byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr><td>00</td><td></td><td></td><td></td></tr>
+<tr><td>01</td><td></td><td></td><td></td></tr>
+<tr><td>10</td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
 
-![](/caching/texfig/dmExampleAccess.figure-5.svg){.fragment .fade-in-then-out fragment-index=5}
+::::
 
-![](/caching/texfig/dmExampleAccess.figure-6.svg){.fragment .fade-in-then-out fragment-index=6}
+:::::
 
-![](/caching/texfig/dmExampleAccess.figure-7.svg){.fragment .fade-in-then-out fragment-index=7}
+::::: {.fragment .fade-in}
 
-![](/caching/texfig/dmExampleAccess.figure-8.svg){.fragment .fade-in-then-out fragment-index=8}
+:::: {.columns}
 
-![](/caching/texfig/dmExampleAccess.figure-9.svg){.fragment .fade-in-then-out fragment-index=9}
+::: {.column}
 
-![](/caching/texfig/dmExampleAccess.figure-10.svg){.fragment .fade-in-then-out fragment-index=10}
-
-![](/caching/texfig/dmExampleAccess.figure-11.svg){.fragment .fade-in-then-out fragment-index=11}
-
-![](/caching/texfig/dmExampleAccess.figure-12.svg){.fragment .fade-in-then-out fragment-index=12}
-
-![](/caching/texfig/dmExampleAccess.figure-13.svg){.fragment .fade-in-then-out fragment-index=13}
-
+$B = 2 = 2^b$ byte-block size<br/>
+$b = 1$ (block) offset bits<br/>
+$S = 4 = 2^s$ sets<br/>
+$s = 2$ (set) index bits
 
 :::
 
+::: {.column}
+
+$m$ = 8 bit addresss<br/>
+$t = m - (s + b) = 5$ tag bits
+
+:::
+
+::::
+
+:::::
+
+
+### example access pattern (steps 1-4) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=35%}
+
+<table class="cachesim-address">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td class="fragment myem-only fade-in" data-fragment-index="2">miss</td></tr>
+<tr><td>00000</td><td>00</td><td>1</td><td>(01)</td><td class="fragment myem-only fade-in" data-fragment-index="3">hit</td></tr>
+<tr><td>01100</td><td>01</td><td>1</td><td>(63)</td><td class="fragment myem-only fade-in" data-fragment-index="4">miss</td></tr>
+<tr><td>01100</td><td>00</td><td>1</td><td>(61)</td><td class="fragment myem-only fade-in" data-fragment-index="5">miss</td></tr>
+<tr><td>01100</td><td>01</td><td>0</td><td>(62)</td><td></td></tr>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td></td></tr>
+<tr><td>01100</td><td>10</td><td>0</td><td>(64)</td><td></td></tr>
+</tbody>
+</table>
+<table class="cache-addresslabel">
+<tr><td class="tag">tag</td><td class="index">index</td><td class="offset">offset</td></tr>
+</table>
+
+::::
+
+:::: {.column width=65%}
+
+<table class="cachesim-cache">
+<caption>2 byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr class="fragment custom mybox-one" data-fragment-index="5"><td>00</td><td class="fragment myem-only fade-in" data-fragment-index="2">1</td><td class="fragment myem-only fade-in" data-fragment-index="2"><span class="fragment custom myem-only" data-fragment-index="3">00000</span></td><td class="fragment myem-only fade-in" data-fragment-index="2">mem[0x00] mem[0x01]</td></tr>
+<tr><td>01</td><td class="fragment myem-only fade-in" data-fragment-index="4">1</td><td class="fragment myem-only fade-in" data-fragment-index="4">01100</td><td class="fragment myem-only fade-in" data-fragment-index="4">mem[0x62] mem[0x63]</td></tr>
+<tr><td>10</td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+::::
+
+:::::
+
+
+<div class="myoverbox vlow fragment fade-in" data-fragment-index="4">
+<ul>
+<li>access to <tt>0x61</tt> matches set index <tt>00</tt></li>
+<li>block's tag <tt>00000</tt> != 0x61's tag of <tt>01100</tt></li>
+<li>need to _replace_ value in that block</li>
+</ul>
+</div>
+
+### example access pattern (steps 4-7) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=35%}
+
+<table class="cachesim-address">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td>miss</td></tr>
+<tr><td>00000</td><td>00</td><td>1</td><td>(01)</td><td>hit</td></tr>
+<tr><td>01100</td><td>01</td><td>1</td><td>(63)</td><td>miss</td></tr>
+<tr><td>01100</td><td>00</td><td>1</td><td>(61)</td><td class="fragment myem-until custom" data-fragment-index="1">miss</td></tr>
+<tr><td>01100</td><td>01</td><td>0</td><td>(62)</td><td class="fragment myem-only fade-in" data-fragment-index="2">hit</td></tr>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td class="fragment myem-only fade-in" data-fragment-index="3">miss</td></tr>
+<tr><td>01100</td><td>10</td><td>0</td><td>(64)</td><td></td></tr>
+</tbody>
+</table>
+<table class="cache-addresslabel">
+<tr><td class="tag">tag</td><td class="index">index</td><td class="offset">offset</td></tr>
+</table>
+
+::::
+
+:::: {.column width=65%}
+
+<table class="cachesim-cache">
+<caption>2 byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr class="fragment custom mybox-one" data-fragment-index="3"><td>00</td><td class="fragment custom myem-until" data-fragment-index="1">1</td><td class="fragment custom myem-until" data-fragment-index="1">01100</td><td class="fragment custom myem-until" data-fragment-index="1">mem[0x60] mem[0x61]</td></tr>
+<tr class="fragment custom myem-only" data-fragment-index="2"><td>01</td><td>1</td><td>01100</td><td>mem[0x62] mem[0x63]</td></tr>
+<tr><td>10</td><td></td><td></td><td></td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+::::
+
+:::::
+
+
+<div class="myoverbox vlow fragment fade-in" data-fragment-index="3">
+<ul>
+<li>access to <tt>0x00</tt> is miss even though:
+<ul>
+<li>we had extra space in the cache to store blocks</li>
+<li>we previously accesses the <tt>0x00-0x01</tt> block</li>
+</ul></li>
+<li>called "conflict miss" (versus "compulsory" or "capacity" miss)</li>
+</ul>
+</div>
+
+### aside: miss types
+
+*  compulsory:
+   *  first access to block
+   *  avoid by increasing block size or "prefetching"
+*  capacity:
+   *  trying to put too much stuff in the cache
+   *  avoid with larger cache
+*  conflict:
+   *  index bits happen to match up too often
+   *  avoid with more "associative" cache (next topic)
+
+### example access pattern (steps 7-8) {.smaller}
+
+::::: {.columns}
+
+:::: {.column width=35%}
+
+<table class="cachesim-address">
+<colgroup>
+    <col class="tag" />
+    <col class="index" />
+    <col class="offset" />
+    <col class="hex" />
+    <col class="result" />
+</colgroup>
+<thead>
+<tr><th colspan="4">address (as hex)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td>miss</td></tr>
+<tr><td>00000</td><td>00</td><td>1</td><td>(01)</td><td>hit</td></tr>
+<tr><td>01100</td><td>01</td><td>1</td><td>(63)</td><td>miss</td></tr>
+<tr><td>01100</td><td>00</td><td>1</td><td>(61)</td><td>miss</td></tr>
+<tr><td>01100</td><td>01</td><td>0</td><td>(62)</td><td>hit</td></tr>
+<tr><td>00000</td><td>00</td><td>0</td><td>(00)</td><td class="fragment custom myem-only" data-fragment-index="1">miss</td></tr>
+<tr><td>01100</td><td>10</td><td>0</td><td>(64)</td><td class="fragment fade-in myem-only" data-fragment-index="2">miss</td></tr>
+</tbody>
+</table>
+<table class="cache-addresslabel">
+<tr><td class="tag">tag</td><td class="index">index</td><td class="offset">offset</td></tr>
+</table>
+
+::::
+
+:::: {.column width=65%}
+
+<table class="cachesim-cache">
+<caption>2 byte blocks, 4 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th></tr>
+</thead>
+<tbody>
+<tr><td>00</td><td>1</td><td class="fragment custom myem-only" data-fragment-index="1">00000</span></td><td class="fragment custom myem-only" data-fragment-index="1">mem[0x00] mem[0x00]</td></tr>
+<tr><td>01</td><td>1</td><td>01100</td><td>mem[0x62] mem[0x63]</td></tr>
+<tr><td>10</td><td class="fragment fade-in" data-fragment-index="2">1</td><td class="fragment fade-in myem-only" data-fragment-index="2">01100</td><td class="fragment fade-in myem-only" data-fragment-index="2">mem[0x64] mem[0x65]</td></tr>
+<tr><td>11</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+::::
+
+:::::
+
+
+<div class="myoverbox vlow fragment fade-in-then-out" data-fragment-index="1">
+<ul>
+<li>place 0x00-0x01 back in cache set 0</li>
+<li>would have been better if never replaced...</li>
+<li>... but cache can't see the future to know that</li>
+</ul>
+</div>
