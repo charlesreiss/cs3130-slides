@@ -64,11 +64,16 @@ $font-family-monospace: "Source Code Pro","Courier New",monospace;
 }
 
 .reveal .fragment.myem-only.current-fragment{
-    color: $myem-color;
+    color: $myem-color ! important;
     font-style: italic;
 }
 
 .reveal .fragment.myem.visible {
+    color: $myem-color;
+    font-style: italic;
+}
+
+.reveal .fragment.myem-until:not(.visible):not(.current-fragment) {
     color: $myem-color;
     font-style: italic;
 }
@@ -275,6 +280,107 @@ code span { color: inherit; }
 s.fancy { text-decoration: solid line-through red 2px; }
 
 pre.biggercode {font-size:inherit}
+
+table.cache-addresslabel .tag {
+    background-color: rgb(80%, 100%, 80%);
+}
+
+table.cache-addresslabel .offset {
+    background-color: rgb(80%, 80%, 80%);
+}
+
+table.cachesim-address.cachesim-address.cachesim-address td {
+    border: 2px solid black;
+    font-family: $font-family-monospace;
+}
+
+table.cachesim-address.cachesim-address.cachesim-address td:nth-child(5) {
+    font-family: inherit;
+}
+
+table.cachesim-address.cachesim-address.cachesim-address.nohigh tr td:nth-child(1) {
+    background-color: inherit;
+}
+table.cachesim-address.cachesim-address.cachesim-address.nohigh tr td:nth-child(3) {
+    background-color: inherit;
+}
+
+table.cachesim-address.cachesim-address.cachesim-address tr td:nth-child(1) {
+    border-right: none;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: rgb(80%, 100%, 80%);
+}
+
+table.cachesim-address.cachesim-address.cachesim-address tr td:nth-child(2) {
+    border-left: none;
+    padding-left: 0px;
+    border-right: none;
+    padding-right: 0px;
+}
+
+table.cachesim-address.cachesim-address.cachesim-address tr td:nth-child(3) {
+    border-left: none;
+    padding-left: 0px;
+    border-right: none;
+    padding-right: 0px;
+    background-color: rgb(80%, 80%, 80%);
+}
+
+table.cachesim-address.cachesim-address.cachesim-address tr td:nth-child(4) {
+    border-left: none;
+    padding-left: 0px;
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache td {
+    border: 2px solid black;
+    font-family: $font-family-monospace;
+    vertical-align: middle;
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr td:nth-child(4n+1) {
+    border: none;
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr td:nth-child(4n+3) {
+    color: rgb(0%, 60%, 0%);
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr th:nth-child(4n+3) {
+    color: rgb(0%, 60%, 0%);
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr th:nth-child(4n+4) {
+    color: rgb(0%, 0%, 60%);
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr td:nth-child(4n+4) {
+    color: rgb(0%, 0%, 60%);
+}
+
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr th:nth-child(4n+2) {
+    width: 3em;
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache.assoc tr th:nth-child(4n+2) {
+    width: 1em;
+}
+
+
+table.cachesim-cache.cachesim-cache.cachesim-cache tr td:last-child {
+    height: 2em;
+    width: 8em;
+}
+
+table.cachesim-cache.cachesim-cache.cachesim-cache.assoc tr td:nth-child(4n+4) {
+    height: 2em;
+    width: 4em;
+}
+
+
+
+
 
 @media print {
     .slide-chalkboard-buttons {

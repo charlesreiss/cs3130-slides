@@ -102,15 +102,18 @@
 
 {{< include /caching/_addAssocOp.qmd >}}
 
-## options for replacement {visibility="hidden"}
+## LRU tracking {visibility="hidden"}
 
-{{< include /caching/_replacement.qmd >}}
-
-# LRU tracking {visibility="hidden"}
+{{< include /caching/_lruIntro.qmd >}}
 
 {{< include /caching/_lruTrackingExample.qmd >}}
 
 {{< include /caching/_lruTracking.qmd >}}
+
+## options for replacement {visibility="hidden"}
+
+{{< include /caching/_replacement.qmd >}}
+
 
 ## associativity terms {visibility="hidden"}
 

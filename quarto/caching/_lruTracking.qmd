@@ -8,7 +8,31 @@
    * first replaces least recently used
    * next replaces next least recently used
    * etc.
- 
+
+<table class="cachesim-cache assoc" style="font-size: 80%">
+<caption>3-way set associtiative, 2 byte blocks, 2 sets</caption>
+<thead>
+<tr><th>index</th><th>valid</th><th>tag</th><th>value</th>
+<th></th>
+<th>valid</th><th>tag</th><th>value</th>
+<th></th>
+<th>valid</th><th>tag</th><th>value</th>
+<th>LRU</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td>
+<td>1</td><td>...</td><td>...</td><td></td>
+<td>1</td><td>...</td><td>...</td><td></td>
+<td>1</td><td>...</td><td>...</td><td>0 then 1</td>
+<tr><td>0</td>
+<td>1</td><td>...</td><td>...</td><td></td>
+<td>1</td><td>...</td><td>...</td><td></td>
+<td>1</td><td>...</td><td>...</td><td>2 then 0</td>
+</tbody>
+</table>
+
+
 <hr class="vspace" />
 * hard to track, so frequently only approximated
 

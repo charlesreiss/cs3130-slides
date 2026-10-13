@@ -20,11 +20,10 @@
 
 ### LRU  {.smaller}
 
-<code></code>[]{.my-small} <table>
-<tr><td>access</td><td>MRU $\\leftarrow{}\\rightarrow{}$ LRU</td></tr>
-<tr><td>\only{* }0x0</td><td><em>0x0-3</em></td></tr>
+<tr><td>access</td><td>MRU $\leftarrow\rightarrow$ LRU</td></tr>
+<tr><td>*0x0</td><td><em>0x0-3</em></td></tr>
 <tr><td>0x1000</td><td><em>0x1000-3</em>, 0x0-3</td></tr>
-<tr><td>\only{* }0x4</td><td><em>0x4-7</em>, 0x1000-3, 0x0-3</td></tr>
+<tr><td>*0x4</td><td><em>0x4-7</em>, 0x1000-3, 0x0-3</td></tr>
 <tr><td>0x1004</td><td><em>0x1004-7</em>, 0x4-7, 0x1000-3, 0x0-3</td></tr>
 <tr><td>0x0</td><td>0x0-3, 0x1004-7, 0x4-7, 0x1000-3</td></tr>
 <tr><td>0x1008</td><td><em>0x1008-B</em>, 0x0-3, 0x1004-7, 0x4-7, 0x1000-3</td></tr>
