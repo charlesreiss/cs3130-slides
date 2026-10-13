@@ -40,14 +40,6 @@
 
 {{< include /caching/_addAssocOp.qmd >}}
 
-## mapping misses to sets (DM) {visibility="hidden"}
-
-{{< include /caching/_setMappingDiagDM.qmd >}}
-
-## cache misses on real code {visibility="hidden"}
-
-{{< include /caching/_actMissesDM.qmd >}}
-
 
 ## LRU tracking {visibility="hidden"}
 
@@ -69,6 +61,15 @@
 ## tag/index/offset for set-assoc. caches {visibility="hidden"}
 
 {{< include /caching/_tioFormulas.qmd >}}
+
+## mapping misses to sets (DM) {visibility="hidden"}
+
+{{< include /caching/_setMappingDiagDM.qmd >}}
+
+## cache misses on real code {visibility="hidden"}
+
+{{< include /caching/_actMissesDM.qmd >}}
+
 
 # C code and caches {visibility="hidden"}
 
@@ -103,59 +104,5 @@
 
 {{< include /caching/_writeReplaceExercise.qmd >}}
 
-## fast writes: write buffers {visibility="hidden"}
 
-{{< include /caching/_fastWrites.qmd >}}
-
-# cache design and memory performance {visibility="hidden"}
-
-## briefly, cache tradeoffs {visibility="hidden"}
-
-{{< include /caching/_tradeoffsBrief.qmd >}}
-
-{{< include /caching/_cacheBenchExample.qmd >}}
-
-## AMAT {visibility="hidden"}
-
-{{< include /caching/_amatFormula.qmd >}}
-
-{{< include /caching/_amatEx.qmd >}}
-
-# TLB {visibility="hidden"}
-
-{{< include /vm-format/_twoLevelPtLib.qmd >}}
-
-## review: page table lookup (1) {visibility="hidden"}
-
-{{< include /vm-format/_twoLevelPTAlt.qmd >}}
-
-## why cache page table entries? {visibility="hidden"}
-
-{{< include /caching/_tlbWhy.qmd >}}
-
-## how TLB fits in page table lookup {visibility="hidden"}
-
-{{< include /caching/_tlbMulti.qmd >}}
-
-## how TLBs are organized {visibility="hidden"}
-
-{{< include /caching/_tlbOrgNoCircuit.qmd >}}
-
-## exercise: splitting for TLBs {visibility="hidden"}
-
-{{< include /caching/_tlbSplitEx1.qmd >}}
-
-{{< include /caching/_tlbSplitEx2.qmd >}}
-
-## exercise: TLB access pattern {visibility="hidden"}
-
-{{< include /caching/_tlbAccessExPrep.qmd >}}
-
-{{< include /caching/_tlbAccessEx.qmd >}}
-
-### backup slides 
-
-## locality {visibility="hidden"}
-
-{{< include /caching/_localityBasics.qmd >}}
 
