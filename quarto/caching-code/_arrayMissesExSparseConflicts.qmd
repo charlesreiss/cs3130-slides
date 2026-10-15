@@ -57,7 +57,6 @@ for (int i = 1; i < 40; i += 8)
 <tr><td>array[1]</td><td>array[32 to 35], array[0 to 3]</td><td>miss</td></tr>
 <tr><td>array[17]</td><td>array[0 to 3], array[16 to 19]</td><td>miss</td></tr>
 <tr><td>array[32]</td><td>array[16 to 19], array[32 to 35]</td><td>miss</td></tr>
-<tr><td></td></tr>
 </table>
  6 misses for set 0
 
@@ -70,6 +69,5 @@ for (int i = 1; i < 40; i += 8)
 <tr><td>array[24]</td><td>array[8 to 11], array[24 to 27]</td><td>miss</td></tr>
 <tr><td>array[9]</td><td>array[8 to 11], array[24 to 27]</td><td>hit</td></tr>
 <tr><td>array[25]</td><td>array[16 to 19], array[32 to 35]</td><td>hit</td></tr>
-<tr><td></td></tr>
 </table>
  2 misses for set 1

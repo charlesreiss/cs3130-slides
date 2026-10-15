@@ -1,0 +1,93 @@
+
+
+### C and cache misses (struct, rewritten?)  {.smaller}
+
+
+```c
+int array[60];
+int a_sum = 0, b_sum = 0;
+for (int i = 0; i < 60; i += 12)
+    a_sum += array[i];
+for (int i = 1; i < 60; i += 12)
+    b_sum += array[i];
+```
+ 
+
+* [Assume everything but <code>array</code> is kept in registers (and the compiler does not do anything funny) and array at beginning of cache block.]{.my-small}
+* How many <i>data cache misses</i> on a 64B direct-mapped cache with 16B cache blocks?
+* observation 1: first loop has 5 misses --- first accesses to each block
+* observation 2: array[0] and array[1], array[12] and array[13], etc. in same cache block
+
+### C and cache misses (struct, solution setup 1)  {.smaller}
+
+<table>
+<tr><td>array[0 to 3]</td><td>set 0</td></tr>
+<tr><td>array[4 to 7]</td><td>set 1</td></tr>
+<tr><td>array[8 to 11]</td><td>set 2</td></tr>
+<tr><td>array[12 to 15]</td><td>set 3</td></tr>
+<tr><td>array[16 to 19]</td><td>set 0</td></tr>
+<tr><td>array[20 to 23]</td><td>set 1</td></tr>
+<tr><td>array[20 to 23]</td><td>set 1</td></tr>
+<tr><td>...</td><td>...</td></tr>
+</table>
+
+### C and cache misses (struct, solution setup)  {.smaller}
+
+<table>
+<thead>
+<tr><th>access</th><th>set</th><th>block loaded (if needed)</th></tr>
+</thead>
+<tbody>
+<tr><td>array[0]</td><td>0</td><td>array[0 to 3]</td></tr>
+<tr><td>array[12]</td><td>3</td><td>array[12 to 15]</td></tr>
+<tr><td>array[24]</td><td>2</td><td>array[24 to 27]</td></tr>
+<tr><td>array[36]</td><td>1</td><td>array[36 to 39]</td></tr>
+<tr><td>array[48]</td><td>0</td><td>array[48 to 51]</td></tr>
+<tr><td>array[1]</td><td>0</td><td>array[0 to 3]</td></tr>
+<tr><td>array[13]</td><td>3</td><td>array[12 to 15]</td></tr>
+<tr><td>array[25]</td><td>2</td><td>array[24 to 27]</td></tr>
+<tr><td>array[37]</td><td>1</td><td>array[36 to 39]</td></tr>
+<tr><td>array[49]</td><td>0</td><td>array[48 to 51]</td></tr>
+</table>
+
+### C and cache misses (struct, solution)  {.smaller}
+
+<table>
+<thead>
+<tr><th>access</th><th>set</th><th>block loaded (if needed)</th><th>result</th></tr>
+</thead>
+<tbody>
+<tr><td>array[0]</td><td>0</td><td>array[0 to 3]</td><td>miss</td></tr>
+<tr><td>array[12]</td><td>3</td><td>array[12 to 15]</td><td>miss</td></tr>
+<tr><td>array[24]</td><td>2</td><td>array[24 to 27]</td><td>miss</td></tr>
+<tr><td>array[36]</td><td>1</td><td>array[36 to 39]</td><td>miss</td></tr>
+<tr><td>array[48]</td><td>0</td><td>array[48 to 51]</td><td>miss</td></tr>
+<tr><td>array[1]</td><td>0</td><td>array[0 to 3]</td><td>miss*</td></tr>
+<tr><td>array[13]</td><td>3</td><td>array[12 to 15]</td><td>hit</td></tr>
+<tr><td>array[25]</td><td>2</td><td>array[24 to 27]</td><td>hit</td></tr>
+<tr><td>array[37]</td><td>1</td><td>array[36 to 39]</td><td>hit</td></tr>
+<tr><td>array[49]</td><td>0</td><td>array[48 to 51]</td><td>miss*</td></tr>
+</table>
+
+
+
+### C and cache misses (struct, solution written)  {.smaller}
+
+
+* ints 4 byte $\rightarrow{}$ array[0 to 3] and array[16 to 19] in same cache set 
+
+   * 64B = 16 ints stored per way
+   * 4 sets total
+
+* accessing array indices 0, 12, 24, 36, 48, 1, 13, 25, 37, 49
+   *  0, 12, 24, 36, 48 all misses
+
+* 0 (set 0, array[0 to 3]), 12 (set 3, 12-15), 24 (set 2, 24-27), 36 (set 1, 36-39), 48 (set 0, 48-51) 
+
+   *  13, 25, 37 will be hits (rest of block already loaded)
+   *  1 will be a miss (0-3 was replaced with 48-51 when 48 accessed)
+   *  49 will be a miss (48-51 was replaced with 0-3 when 1 accessed)
+
+*  
+
+

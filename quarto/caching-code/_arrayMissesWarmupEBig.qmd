@@ -1,5 +1,5 @@
 
-### C and cache misses (5)
+### C and cache misses (5) {.smaller}
 
 ```c
 int array[1024]; /* assume aligned */ int even = 0, odd = 0;
@@ -19,7 +19,7 @@ odd += array[513];
 * How many data cache misses on a 2KB direct mapped cache with 16B blocks?
 
 
-### C and cache misses (6)
+### C and cache misses (6) {.smaller}
 
 
 ```c

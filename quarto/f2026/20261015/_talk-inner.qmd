@@ -1,0 +1,56 @@
+### last time
+
+*  cache lookup [set-associative]
+   *  address = tag:index:offset
+   *  lookup set (row) with index from address
+   *  check each block in set from valid + tag matching
+*  replacement policies
+   *  least recently used (RLU) = best for locality
+   *  LRU requires updating cache on (some) hits
+   *  lower bookkeeping options: approx of LRU, FIFO, random
+
+### pagetable2/code review reminder
+
+###
+
+### terminology aside
+
+*  I've been using "cache block"
+*  sometimes you'll see "cache line" instead
+
+
+# C code and caches {visibility="hidden"}
+
+## array misses exercises {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesWarmupAOrdered.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupBInterleaved.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupDTwoSetEvenOdd.qmd >}}
+{{< include /caching-code/_arrayMissesWarmupEBig.qmd >}}
+
+## array misses and skipping around {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesSkip.qmd >}}
+
+## mapping misses to sets (3-way) {visibility="hidden"}
+
+{{< include /caching-code/_setMappingDiag3.qmd >}}
+
+## array misses exercise (associative) {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesWarmupFBigAssociative.qmd >}}
+
+# skipping around with structs {visibility="hidden"}
+
+{{< include /caching-code/_arrayMissesExSparseAlt.qmd >}}
+
+
+{{< include /caching-write/_talk-inner.qmd >}}
+
+###
+
+### backup slides
+
+###
+
+{{< include /caching-code/_arrayMissesExSparseAltDM.qmd >}}

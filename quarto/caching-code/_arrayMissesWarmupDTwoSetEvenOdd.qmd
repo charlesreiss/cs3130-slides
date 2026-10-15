@@ -1,5 +1,5 @@
 
-### C and cache misses (3)
+### C and cache misses (3) {.smaller}
 
 
 ```c
@@ -21,23 +21,41 @@ odd_sum += array[7];
 * [Assume everything but `array` is kept in registers (and the compiler does not do anything funny).]{.my-small}
 * How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
 
+### assigning blocks to sets
 
-### exercise solution 
+![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc."}
 
-
-::: {.r-stack .my-full}
-
-![](/caching-code/texfig/arrayMissesWarmup4Answers.figure-1.svg){.fragment .fade-out fragment-index=2}
-
-![](/caching-code/texfig/arrayMissesWarmup4Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/caching-code/texfig/arrayMissesWarmup4Answers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+*  block of memory maps to set 0, then set 1, then set 0, then set 1
+   *  if more sets in cache would be: set 0, set 1, set 2, ... set N, set 0, set 1, ...
+*  could be that array[0] is in set 1, not 0
+   *  would just swap sets 0 and 1 --- same accesses otherwise
+   *  no change to miss rate
 
 
-:::
+### exercise solution {.smaller}
+
+![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc."}
+
+<table class="collines rowlines fragment custom myfadeout-table" data-fragment-index="1" style="font-size: 90%">
+<thead>
+<tr><th>memory access</th><th>set 0 aftewards</th><th>set 1 afterwards</th></tr>
+</thead>
+<tbody>
+<tr><td>---</td><td class="fragment custom mybox-fill" data-fragment-index="1">(empty)</td><td> (empty) </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="1">read `array[0]` (miss) </td><td class="fragment custom mybox-fill" data-fragment-index="1"> `{array[0], array[1]}` </td><td> (empty) </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="2"> read `array[2]` (miss) </td><td> `{array[0], array[1]}` </td><td class="fragment custom mybox-fill" data-fragment-index="2"> `{array[2], array[3]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="1">read `array[4]` (miss) </td><td class="fragment custom mybox-fill" data-fragment-index="1"> `{array[4], array[5]}` </td><td> `{array[2], array[3]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="2"> read `array[6]` (miss) </td><td> `{array[4], array[5]}` </td><td class="fragment custom mybox-fill" data-fragment-index="2"> `{array[6], array[7]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="1">read `array[1]` (miss) </td><td class="fragment custom mybox-fill" data-fragment-index="1"> `{array[0], array[1]}` </td><td> `{array[6], array[7]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="2"> read `array[3]` (miss) </td><td> `{array[0], array[1]}` </td><td class="fragment custom mybox-fill" data-fragment-index="2"> `{array[2], array[3]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="1"> read `array[5]` (miss) </td><td class="fragment custom mybox-fill" data-fragment-index="1"> `{array[4], array[5]}` </td><td> `{array[2], array[3]}` </td></tr>
+<tr><td class="fragment custom mybox-fill" data-fragment-index="2"> read `array[7]` (miss) </td><td> `{array[4], array[5]}` </td><td class="fragment custom mybox-fill" data-fragment-index="2"> `{array[6], array[7]}` </td></tr>
+</tbody>
+</table>
 
 
-### C and cache misses (4)
+
+### C and cache misses (4) {.smaller}
 
 ```c
 int array[8]; /* assume aligned */
@@ -51,10 +69,25 @@ even_sum += array[4];
 odd_sum += array[7];
 even_sum += array[2];
 odd_sum += array[5];
-
 ```
  
 
 * [Assume everything but `array` is kept in registers (and the compiler does not do anything funny).]{.my-small}
 * How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
 
+### {.smaller}
+
+```{.c}
+int array[8]; /* assume aligned */
+...
+int even_sum = 0, odd_sum = 0;
+even_sum += array[0];
+odd_sum += array[3];
+even_sum += array[6];
+odd_sum += array[1];
+even_sum += array[4];
+odd_sum += array[7];
+even_sum += array[2];
+odd_sum += array[5];
+```
+ 

@@ -23,6 +23,8 @@
 # alternate cache miss exericse {visibility="hidden"}
 
 {{< include /caching-code/_arrayMissesExSparseAlt.qmd >}}
+{{< include /caching-code/_arrayMissesExSparseAltSA.qmd >}}
+{{< include /caching-code/_arrayMissesExSparseAltDM.qmd >}}
 
 # array misses and cache results (old sparse) {visibility="hidden"}
 

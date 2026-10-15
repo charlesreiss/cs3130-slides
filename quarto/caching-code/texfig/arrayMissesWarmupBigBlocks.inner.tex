@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+    \foreach \offset in {-2,-1,0,1,2,...,31,32,33} {
+        \draw[black!25,thin] (\offset * \mywidth, 0) rectangle ++(\mywidth, -1);
+    }
+    \node[font=\large,anchor=east] at (-2 * \mywidth, -.5) {\ldots};
+    \node[font=\large,anchor=west] at (34 * \mywidth, -.5) {\ldots};
+    \begin{scope}
+    \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -1.1);
+    \foreach \offset/\name in {8/0,12/1,16/2,20/3,24/4,28/5,32/6} {
+        \draw[thin,fill=blue!10] (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
+            node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {array[\name]};
+    }
+    \foreach \offset in {-8,0,8,16,24,32} {
+        \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+            rectangle ++(\mywidth * 8, -1);
+    }
+    \end{scope}
+        \draw[very thick, decorate, decoration={brace}] (8 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (index 0)};
+        \draw[very thick, decorate, decoration={brace}] (16 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (index 1)};
+        \draw[very thick, decorate, decoration={brace}] (24 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (index 0)};
+        \draw[very thick, decorate, decoration={brace}] (0 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway,align=center,font=\small] {one cache block \\
+                                (index 1)};
+\end{tikzpicture}

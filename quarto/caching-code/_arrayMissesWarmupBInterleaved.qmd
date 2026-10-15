@@ -15,7 +15,21 @@ odd_sum += array[3];
 * Assume `array[0]` at beginning of cache block.
 * How many data cache misses on a 1-set direct-mapped cache with 8B blocks?
 
+### exercise solution
 
-### exercise solution 
 
-![](/caching-code/texfig/arrayMissesWarmup2Answers.figure.svg)
+![](/caching-code/texfig/arrayMissesWarmupOrderedPossible.figure-2.svg){fig-alt="memory, including array elements are divided into 8-byte cache blocks. Some of the cache blocks hold 8 bytes of memory outside the array. The array fills up two cache blocks: one which contains array[0] and array[1], another which contains array[2] and array[3]" width="100%"}
+
+*  if array[0] starts at beginning of a cache block, array split across two cache blocks
+
+<table class="collines rowlines">
+<thead>
+<tr><th>memory access</th><th>cache contents afterwards</th></tr>
+</thead>
+<tbody>
+<tr><td>read `array[0]` (miss)</td><td>`{array[0], array[1]}`</td></tr>
+<tr><td>read `array[2]` (miss)</td><td>`{array[2], array[3]}`</td></tr>
+<tr><td>read `array[1]` (miss)</td><td>`{array[0], array[1]}`</td></tr>
+<tr><td>read `array[3]` (miss)</td><td>`{array[2], array[3]}`</td></tr>
+</tbody>
+</table>

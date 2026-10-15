@@ -1,0 +1,52 @@
+\begin{tikzpicture}
+    \foreach \offset in {-2,-1,0,1,2,...,31,32,33} {
+        \draw[black!25,thin] (\offset * \mywidth, 0) rectangle ++(\mywidth, -1);
+    }
+    \node[font=\large,anchor=east] at (-2 * \mywidth, -.5) {\ldots};
+    \node[font=\large,anchor=west] at (34 * \mywidth, -.5) {\ldots};
+    \foreach \offset/\name in {8/0,12/1,16/2,20/3} {
+        \draw[thin,fill=blue!10] (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
+            node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {array[\name]};
+    }
+    \begin{visibleenv}<2>
+        \begin{scope}
+        \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -1.1);
+        \foreach \offset in {-8,0,8,16,24,32} {
+            \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+                rectangle ++(\mywidth * 8, -1);
+        }
+        \end{scope}
+        \draw[very thick, decorate, decoration={brace}] (16 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway] {one cache block};
+    \end{visibleenv}
+    \begin{visibleenv}<3>
+        \begin{scope}
+        \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -1.1);
+        \foreach \offset in {-4,4,12,20,28} {
+            \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+                rectangle ++(\mywidth * 8, -1);
+        }
+        \end{scope}
+        \foreach \offset/\name in {4/****,24/++++} {
+            \path (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
+                node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {\name};
+        }
+        \draw[very thick, decorate, decoration={brace}] (12 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+            node[above,midway] {one cache block};
+    \end{visibleenv}
+    \begin{visibleenv}<4>
+        \begin{scope}
+        \clip (-2.1 * \mywidth, .2) rectangle (34.1 * \mywidth, -1.1);
+        \foreach \offset in {-7,1,9,17,25,33} {
+            \draw[ultra thick,red!30!black] (\offset * \mywidth, 0)
+                rectangle ++(\mywidth * 8, -1);
+        }
+        \end{scope}
+            \draw[very thick, decorate, decoration={brace}] (9 * \mywidth, 0.05) -- ++(8 * \mywidth, 0)
+                node[above,midway] {one cache block};
+        \foreach \offset/\name in {4/****,24/++++} {
+            \path (\offset * \mywidth, 0) rectangle ++(\mywidth * 4, -1)
+                node[fill=none,opacity=1.0,black,midway,font=\fontsize{9}{10}\tt\selectfont] {\name};
+        }
+    \end{visibleenv}
+\end{tikzpicture}

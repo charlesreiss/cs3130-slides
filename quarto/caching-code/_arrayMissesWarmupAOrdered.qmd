@@ -18,20 +18,67 @@ odd_sum += array[3];
 * How many data cache misses on a 1-set direct-mapped cache with 8B blocks?
 
 
-### some possibilities 
+### some possibilities --- question
 
-::: {.r-stack .my-full}
+![](/caching-code/texfig/arrayMissesWarmupOrderedPossible.figure-1.svg){fig-alt="the 4 four-byte elemnts of the array are surrounded by other bytes of memory, but we don't see any indication about cache blocks or their exact addresses"}
 
-![](/caching-code/texfig/arrayMissesWarmup1Answers.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+*  how do cache blocks correspond to array elements?
+   *  not enough information provided!
 
-![](/caching-code/texfig/arrayMissesWarmup1Answers.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+### some possibilities --- good case {.smaller .nostretch}
 
-![](/caching-code/texfig/arrayMissesWarmup1Answers.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/caching-code/texfig/arrayMissesWarmupOrderedPossible.figure-2.svg){fig-alt="memory, including array elements are divided into 8-byte cache blocks. Some of the cache blocks hold 8 bytes of memory outside the array. The array fills up two cache blocks: one which contains array[0] and array[1], another which contains array[2] and array[3]" width="100%"}
 
-![](/caching-code/texfig/arrayMissesWarmup1Answers.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+*  if array[0] starts at beginning of a cache block, array split across two cache blocks
+
+<table class="collines rowlines">
+<thead>
+<tr><th>memory access</th><th>cache contents afterwards</th></tr>
+</thead>
+<tbody>
+<tr><td>read `array[0]` (miss)</td><td>`{array[0], array[1]}`</td></tr>
+<tr><td>read `array[1]` (hit)</td><td>`{array[0], array[1]}`</td></tr>
+<tr><td>read `array[2]` (miss)</td><td>`{array[2], array[3]}`</td></tr>
+<tr><td>read `array[3]` (hit)</td><td>`{array[2], array[3]}`</td></tr>
+</tbody>
+</table>
+
+### some possibilities --- not-so-good case {.smaller .nostretch}
+
+![](/caching-code/texfig/arrayMissesWarmupOrderedPossible.figure-3.svg){fig-alt="memory, including array elements are divided into 8-byte cache blocks. The array is split among three cache blocks: one containing 4 bytes before the array (labeled ****) and arary[0], the next with array[1] and array[2], the final with array[3] and 4 bytes after the array (labeled ++++)." width="100%"}
+
+<table class="collines rowlines">
+<thead>
+<tr><th>memory access</th><th>cache contents afterwards</th></tr>
+</thead>
+<tbody>
+<tr><td>read `array[0]` (miss)</td><td>`{****, array[1]}`</td></tr>
+<tr><td>read `array[1]` (miss)</td><td>`{array[1], array[2]}`</td></tr>
+<tr><td>read `array[2]` (hit)</td><td>`{array[1], array[2]}`</td></tr>
+<tr><td>read `array[3]` (miss)</td><td>`{array[3], ++++}`</td></tr>
+</tbody>
+</table>
+
+### some possibilities --- bad case {.smaller .nostretch}
+
+![](/caching-code/texfig/arrayMissesWarmupOrderedPossible.figure-4.svg){fig-alt="memory, including array elements are divided into 8-byte cache blocks. The array is split among three cache blocks with some of its elements divided among two cache blocks: the first block has 7 bytes labeled **** and byte 0 of array[0]. The second has bytes 1-3 of array[0] and array[1] and byte 0 of array[2]. The final has bytes 1-3 of array[1] and array[3], and an extra byte outside the array labeled ++++." width="100%"}
+
+<table class="collines rowlines" style="font-size: 90%">
+<thead>
+<tr><th>memory access</th><th>cache contents afterwards</th></tr>
+</thead>
+<tbody>
+<tr><td>read `array[0]` byte 0 (miss)</td><td>`{****, array[0] byte 0}`</td></tr>
+<tr><td>read `array[0]` byte 1-3 (miss)</td><td>`{array[0] byte 1-3, array[1], array[2] byte 0}`</td></tr>
+<tr><td>read `array[1]` (hit)</td><td>`{array[0] byte 1-3, array[1], array[2] byte 0}`</td></tr>
+<tr><td>read `array[2]` byte 0 (hit)</td><td>`{array[0] byte 1-3, array[1], array[2] byte 0}`</td></tr>
+<tr><td>read `array[2]` byte 1-3 (hit)</td><td>`{array[2] byte 1-3, array[3], ++++}`</td></tr>
+<tr><td>read `array[3]` (hit)</td><td>`{array[2] byte 1-3, array[3], ++++}`</td></tr>
+</tbody>
+</table>
 
 
-:::
+
 
 ### aside: alignment 
 

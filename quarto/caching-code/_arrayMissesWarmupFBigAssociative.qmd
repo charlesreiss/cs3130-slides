@@ -18,7 +18,7 @@ odd_sum += array[513];
 [ Assume everything but `array` is kept in registers (and the compiler does not do anything funny).
 <br>observation: `array[0]`, `array[256]`, `array[512]`, `array[768]` in same set]{.my-small} 
 
-* How many data cache misses on a 2KB 2-way set associative cache with 16B blocks?
+* How many data cache misses on a 2KB 2-way <b>set associative</b> cache with 16B blocks?
 
 
 ### C and cache misses (assoc)  {.smaller}
