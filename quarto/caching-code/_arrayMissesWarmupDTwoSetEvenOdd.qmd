@@ -21,9 +21,9 @@ odd_sum += array[7];
 * [Assume everything but `array` is kept in registers (and the compiler does not do anything funny).]{.my-small}
 * How many data cache misses on a <em>2</em>-set direct-mapped cache with 8B blocks?
 
-### assigning blocks to sets
+### assigning blocks to sets {.nostretch .smaller}
 
-![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc."}
+![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc." width="100%"}
 
 *  block of memory maps to set 0, then set 1, then set 0, then set 1
    *  if more sets in cache would be: set 0, set 1, set 2, ... set N, set 0, set 1, ...
@@ -32,9 +32,9 @@ odd_sum += array[7];
    *  no change to miss rate
 
 
-### exercise solution {.smaller}
+### exercise solution {.smaller .nostretch}
 
-![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc."}
+![](/caching-code/texfig/arrayMissesWarmupBigBlocks.figure.svg){fig-alt="the array is divided into cache blocks: array[0], array[1] into a block with set index 0; array[2], array[3] into a block with set index 1; array[4], array[5] into a block with set index 0; array[6], array[7] into a block with set index 1, etc." width="100%"}
 
 <table class="collines rowlines fragment custom myfadeout-table" data-fragment-index="1" style="font-size: 90%">
 <thead>
