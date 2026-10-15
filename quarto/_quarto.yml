@@ -19,3 +19,4 @@ format:
     slide-number: "c"
     syntax-definitions: [gnuassembler.xml]
     mermaid-format: svg
+    pdf-separate-fragments: true
