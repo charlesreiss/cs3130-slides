@@ -1,4 +1,4 @@
-### last time
+### last time {.smaller}
 
 *  mapping caches to code
 *  alignment
@@ -7,13 +7,14 @@
 *  calculating hits/misses in sets separately
 *  structs and cache layout
 *  write policies
-   *  write-allocate
-   *  write-back (v write-through)
+   *  write-allocate (if miss, allocate or not?)
+   *  write-back/write-through (update next level later or now?)
+   *  dirty bits for write-back (for only updating if needed on eviction)
 
+### homework/lab tomorrow
 
-# options for handling cache writes {visibility="hidden"}
+###
 
-{{< include /caching-write/_writePolicy.qmd >}}
 
 ## exercise: write/replacement policies {visibility="hidden"}
 
@@ -28,3 +29,11 @@
 {{< include /caching-tlb/_talk-inner.qmd >}}
 
 {{< include /threads/_talk-inner.qmd >}}
+
+### backup slides
+
+###
+
+# options for handling cache writes {visibility="hidden"}
+
+{{< include /caching-write/_writePolicy.qmd >}}
