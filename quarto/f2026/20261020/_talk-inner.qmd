@@ -1,0 +1,30 @@
+### last time
+
+*  mapping caches to code
+*  alignment
+   *  keeping values from crossing cache blocks
+*  mapping array elements to sets
+*  calculating hits/misses in sets separately
+*  structs and cache layout
+*  write policies
+   *  write-allocate
+   *  write-back (v write-through)
+
+
+# options for handling cache writes {visibility="hidden"}
+
+{{< include /caching-write/_writePolicy.qmd >}}
+
+## exercise: write/replacement policies {visibility="hidden"}
+
+<!-- FIXME: alt text/etc. -->
+
+{{< include /caching-write/_writeReplaceExercise.qmd >}}
+
+## fast writes: write buffers {visibility="hidden"}
+
+{{< include /caching-write/_fastWrites.qmd >}}
+
+{{< include /caching-tlb/_talk-inner.qmd >}}
+
+{{< include /threads/_talk-inner.qmd >}}
