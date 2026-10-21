@@ -1,0 +1,80 @@
+### last time
+
+*  translation lookaside buffer
+   *  cache for page table entries
+   *  lookup by virtual page number
+      *  VPN divided into tag:index
+   *  one page table entry per block
+   *  can be useful while much smaller than L1 memory cache
+*  reasons for threads
+   *  concurrency (multiple things at once), parallelism (divide up thing)
+*  started: pthread_create
+
+## pthread create {visibility="hidden"}
+
+{{< include /threads/_pthread-create.qmd >}}
+
+## exercise: pthread create race {visibility="hidden"}
+
+{{< include /threads/_pthread_create-race-problem.qmd >}}
+{{< include /threads/_pthread_create-race-soln.qmd >}}
+
+## pthread join and exit {visibility="hidden"}
+
+{{< include /threads/_pthread-join-exit.qmd >}}
+
+## on error checking {visibility="hidden"}
+
+{{< include /threads/_error-checking.qmd >}}
+
+## parallel calculations in threads {visibility="hidden"}
+
+{{< include /threads/_thread-sum-no-passing.qmd >}}
+
+{{< include /threads/_thread-sum-two-stacks.qmd >}}
+
+# passing info to threads {visibility="hidden"}
+
+## thread ID as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-id.qmd >}}
+
+## globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-globals-and-struct.qmd >}}
+
+{{< include /threads/_thread-sum-globals-and-struct-stacks.qmd >}}
+
+## no globals + info struct as argument{visibility="hidden"}
+
+{{< include /threads/_thread-sum-struct-main.qmd >}}
+
+{{< include /threads/_thread-sum-struct-main-stacks.qmd >}}
+
+## everything on the heap{visibility="hidden"}
+
+{{< include /threads/_thread-sum-structs-heap.qmd >}}
+
+{{< include /threads/_thread-sum-structs-heap-stacks.qmd >}}
+
+## on thread resources, detached threads {visibility="hidden"}
+
+## exercise{visibility="hidden"}
+
+{{< include /threads/_dangling-pointer-ex.qmd >}}
+
+## join, detach, etc.{visibility="hidden"}
+
+{{< include /threads/_thread-resources.qmd >}}
+
+### 
+
+{{< include /sync-reorder/_talk-inner.qmd >}}
+
+### backup slides
+
+###
+
+## thread v. processes {visibility="hidden"}
+
+{{< include /threads/_threads-v-processes.qmd >}}
