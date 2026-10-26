@@ -1,0 +1,22 @@
+### last time
+
+*  multithreaded processes
+   *  one open files, memory image
+   *  newly allocated stacks
+*  `pthread_create`, `pthread_join`
+*  passing values to thread
+   *  using `void *` arguments
+   *  accessing values on other thread's stacks via pointers
+*  detached threads
+
+###
+
+### logistics: quiz, pagetable3
+
+### logistics: test 3
+
+{{< include /sync-locks/_talk-inner.qmd >}}
+
+{{< include /sync-barriers/_talk-inner.qmd >}}
+
+{{< include /deadlock/_talk-inner.qmd >}}
