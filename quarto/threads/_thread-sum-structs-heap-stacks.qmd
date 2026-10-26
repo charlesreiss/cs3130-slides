@@ -1,5 +1,5 @@
 
 ### thread_sum memory (heap version) 
 
-![](/threads/texfig/thread-sum-structs-heap-stacks.figure.svg)
+![](/threads/texfig/thread-sum-structs-heap-stacks.figure.svg){fig-alt="similar memory layout diagram showing three stacks (main, first thread, second thread) and the first and second thread stacks have my_info variables that point to an info array. Now the info array is on the heap instead of on the main thread's stack."}
 

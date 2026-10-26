@@ -24,11 +24,10 @@ int main() {
 ### program memory 
 
 
-
 ::: {.r-stack .my-full}
-![](/threads/texfig/dangling-pointer-ex-program-memory.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+![](/threads/texfig/dangling-pointer-ex-program-memory.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="memory layout showing three stacks (main, first thread, and second thread). The first and second thread stacks are dynamically allocated and where char string[] is allocated and where string_ptr pointed."}
 
-![](/threads/texfig/dangling-pointer-ex-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/threads/texfig/dangling-pointer-ex-program-memory.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="Those dynamically allocated stacks (containing string and where string_ptr points) go away when the threads finish."}
 
 
 :::

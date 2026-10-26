@@ -9,7 +9,7 @@
    * same effect as returning from function passed to pthread_create
 
 
-### exit versus pthread_exit
+### exit versus pthread_exit {.smaller}
 
 | exit | pthread_exit |
 |---|---|

@@ -1,5 +1,6 @@
 
 ### program memory (to main stack) 
 
-![](/threads/texfig/thread-sum-struct-main-stacks.figure.svg)
+![](/threads/texfig/thread-sum-struct-main-stacks.figure.svg){fig-alt="memory layout diagram like before, with three stacks (main, first thread, second thread). The first and second thread stacks again have my_info pointers to the info array on the main thread's stack, and that info array has pointers to values in some unspecified location (might be stack, might be heap...)"}
+
 

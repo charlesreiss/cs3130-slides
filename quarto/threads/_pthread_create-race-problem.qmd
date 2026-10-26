@@ -16,5 +16,5 @@
    * same as calling exit; not like other threads
 * race: main's return 0 or print_message's printf first?
 
-![](/threads/texfig/pthreadCreateRace.figure.svg)
+![](/threads/texfig/pthreadCreateRace.figure.svg){fig-alt="Diagram showing: main runs doing printf/pthread_create/printf/return; in the middle of that print_message starts to do printf/return. print_message is cut off whereever main stops, possibly in the middle of its work."}
 

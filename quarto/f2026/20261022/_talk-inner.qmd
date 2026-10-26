@@ -1,4 +1,4 @@
-### last time
+### last time {.smaller}
 
 *  translation lookaside buffer
    *  cache for page table entries
@@ -9,6 +9,8 @@
 *  reasons for threads
    *  concurrency (multiple things at once), parallelism (divide up thing)
 *  started: pthread_create
+
+### 
 
 ## pthread create {visibility="hidden"}
 
@@ -71,6 +73,10 @@
 
 {{< include /sync-reorder/_talk-inner.qmd >}}
 
+###
+
+{{< include /sync-locks/_talk-inner.qmd >}}
+
 ### backup slides
 
 ###
@@ -78,3 +84,5 @@
 ## thread v. processes {visibility="hidden"}
 
 {{< include /threads/_threads-v-processes.qmd >}}
+
+{{< include /sync-reorder/_talk-backup.qmd >}}

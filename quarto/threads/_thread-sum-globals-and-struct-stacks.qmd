@@ -1,5 +1,5 @@
 
 ### thread_sum memory layout (info struct) 
 
-![](/threads/texfig/thread-sum-globals-and-struct-stacks.figure.svg)
+![](/threads/texfig/thread-sum-globals-and-struct-stacks.figure.svg){fig-alt="diagram showing memory layout similar to before except: instead of sum_front_thread stack and sum_back_thread stack, we have threads[0] stack and threads[1] stack. Each of these stacks has a my_info that points to the info array on the main thread stack."}
 

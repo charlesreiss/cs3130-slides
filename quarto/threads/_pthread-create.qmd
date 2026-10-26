@@ -16,7 +16,7 @@ int main() {
 }
 ```
 
-![](/threads/texfig/pthreadCreateOver.figure.svg)
+![](/threads/texfig/pthreadCreateOver.figure.svg){fig-alt="Diagram showing execution: main() runs in a thread, when pthread_create() is called a new thread runs in parallel to main() running ComputePi; then, main() calls pthread_create() again and a second new thread runs in parallel to main() running PrintClass List. At the end, all three threads (main, ComputePi, PrintClassList) may be running."}
 
 ### pthread_create  {.smaller}
 

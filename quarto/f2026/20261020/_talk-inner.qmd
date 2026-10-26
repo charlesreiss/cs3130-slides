@@ -30,6 +30,26 @@
 
 {{< include /threads/_talk-inner.qmd >}}
 
+## correctness problem {visibility="hidden"}
+
+{{< include /sync-reorder/_the-correctness-problem.qmd >}}
+
+# the lost write {visibility="hidden"}
+
+## motivation: threaded ATM server? {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-write-motivate-atm-server.qmd >}}
+
+## example {visibility="hidden"}
+
+{{< include /sync-reorder/_lost-write.qmd >}}
+
+# race conditions and atomicity {visibility="hidden"}
+
+## thinking about simple races {visibility="hidden"}
+
+{{< include /sync-reorder/_simple-races.qmd >}}
+
 ### backup slides
 
 ###

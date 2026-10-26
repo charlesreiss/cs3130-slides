@@ -1,13 +1,8 @@
 
-### thread_sum memory layout 
+### thread_sum memory layout (1)
 
+![](/threads/texfig/thread-sum-two-stacks.figure-1.svg){fig-alt="memory layout of program from highest address to lowest ---  reserved by OS (at 0xFFFF...); some unused space; main thread stack (at 0x7F...); some unused space; sum_front_thread stack; some unused space; sum_back_thread stack; heap/other dynamic; code/data (at 0x400000); some unused space. Part of the code/data region includes values and results"}
 
+### thread_sum memory layout (2, showing threads)
 
-::: {.r-stack .my-full}
-![](/threads/texfig/thread-sum-two-stacks.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
-
-![](/threads/texfig/thread-sum-two-stacks.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-
-:::
-
+![](/threads/texfig/thread-sum-two-stacks.figure-2.svg){fig-alt="same memory layout with sum_front_thread and sum_back_thread shown. Each thread has a PC, registers, ...; the PCs point to sum_back and sum_front in the code regions, and the registers include a pointer to each threads' stack regions."}
