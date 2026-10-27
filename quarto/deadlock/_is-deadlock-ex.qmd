@@ -22,8 +22,7 @@ Which of these (all run in parallel) can deadlock? <br>
 <tr><td>C. RemoveNode(B) and RemoveNode(C) and RemoveNode(D)</td></tr>
 <tr><td>D. A and C</td></tr>
 <tr><td>E. B and C</td></tr>
-<tr><td>F. all of the above</td></tr>
-<tr><td>G. none of the above</td></tr>
+<tr><td>F. all of the above   G. none of the above</td></tr>
 </table>
 
 

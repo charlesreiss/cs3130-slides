@@ -42,21 +42,47 @@
 
 ## techniques overview {visibility="hidden"}
 
-### deadlock prevention techniques 
-<!-- infinite resources, no shared resources, no waiting -->
+### deadlock prevention techniques {.smaller}
 
-::: {.r-stack .my-full}
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  [<b>infinite resources</b>]{.myem-only .custom .fragment fragment-index=1}
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  [<b>no shared resources</b>]{.myem-only .custom .fragment fragment-index=2}
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  ["busy signal" --- abort and (maybe) retry]{.myem-only .custom .fragment fragment-index=3}
+   *  revoke/preempt resources
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  acquire resources in <b>consistent order</b>
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  request <b>all resources at once</b>
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
 
-![](/deadlock/texfig/deadlock-prevention-lib.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
+### "busy signal"
 
-![](/deadlock/texfig/deadlock-prevention-lib.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
-
-![](/deadlock/texfig/deadlock-prevention-lib.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
-
-![](/deadlock/texfig/deadlock-prevention-lib.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
-
-
-:::
+*  example: malloc() fails rather than waiting
+   *  no deadlock possible
+*  problem: if retrying, how many times?
 
 ## example: livelock {visibility="hidden"}
 
@@ -66,25 +92,85 @@
 
 {{< include /deadlock/_prevent-livelock.qmd >}}
 
-### deadlock prevention techniques <!-- revoke -->
+### deadlock prevention techniques {.smaller}
 
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  <b>infinite resources</b>
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no shared resources</b>
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  "busy signal" --- abort and (maybe) retry
+   *  _revoke/preempt resources_
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  acquire resources in <b>consistent order</b>
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  request <b>all resources at once</b>
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
 
-![](/deadlock/texfig/deadlock-prevention-lib.figure-7.svg)
 
 ## example: revoke {visibility="hidden"}
 
 {{< include /deadlock/_revocable-locks.qmd >}}
 
-### deadlock prevention techniques <!-- all at once -->
+### deadlock prevention techniques {.smaller}
 
-![](/deadlock/texfig/deadlock-prevention-lib.figure-6.svg)
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  <b>infinite resources</b>
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no shared resources</b>
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  "busy signal" --- abort and (maybe) retry
+   *  revoke/preempt resources
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  [acquire resources in <b>consistent order</b>]{.myem-only .fragment .custom fragment-index=2}
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  [request <b>all resources at once</b>]{.myem-only .fragment .custom fragment-index=1}
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
 
 
 
-
-### deadlock prevention techniques <!-- consistent order -->
-
-![](/deadlock/texfig/deadlock-prevention-lib.figure-5.svg)
 
 ## example: consistent order {visibility="hidden"}
 

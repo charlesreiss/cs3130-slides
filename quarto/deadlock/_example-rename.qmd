@@ -67,8 +67,8 @@ void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
 <tr><th>`MoveFile(A, B, "foo")`</th><th>`MoveFile(B, A, "bar")`</th></tr>
 <tr><td>`lock(&A->lock);`</td><td></td></tr>
 <tr><td></td><td>`lock(&B->lock)`</td></tr>
-<tr><td>`lock(&B->lock;`..._stalled_</td><td></td></tr>
-<tr><td class="fade">(waiting for lock on B)</td><td>`lock(&A->lock;`..._stalled_</td></tr>
+<tr><td>`lock(&B->lock`..._stalled_</td><td></td></tr>
+<tr><td class="fade">(waiting for lock on B)</td><td>`lock(&A->lock`..._stalled_</td></tr>
 <tr><td class="fade">(waiting for lock on B)</td><td class="fade">(waiting for lock on A)</td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>~~(do move)~~_unreachable_</td><td>~~(do move)~~_unreachable_</td></tr>
@@ -89,5 +89,20 @@ void MoveFile(Dir *from_dir, Dir *to_dir, string filename) {
 
 ### moving three files: unlucky timeline 
 
-![](/deadlock/texfig/moveFileDeadlockTimeline2.figure.svg)
+<table class="race-timeline" style="font-size:50%">
+<tr class="top noborder"><th>Thread 1</th><th>Thread 2</th><th>Thread 3</th></tr>
+<tr><th>`MoveFile(A, B, "foo")`</th><th>`MoveFile(B, C, "bar")`</th><th>`MoveFile(C, A, "quux")`</tr>
+<tr><td>`lock(&A->lock);`</td><td></td></tr>
+<tr><td></td><td>`lock(&B->lock)`</td></tr>
+<tr><td></td><td></td><td>`lock(&C->lock)`</td></tr>
+<tr><td>`lock(&B->lock`..._stalled_</td><td></td></tr>
+<tr><td class="fade">(waiting for lock on B)</td><td>`lock(&C->lock`..._stalled_</td></tr>
+<tr><td class="fade">(waiting for lock on B)</td><td class="fade">(waiting for lock on C)</td><td>`lock(&A->lock`..._stalled_</tr>
+<tr><td class="fade">(waiting for lock on B)</td><td class="fade">(waiting for lock on C)</td><td class="fade">(waiting for lock on A)</tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>~~(do move)~~_unreachable_</td><td>~~(do move)~~_unreachable_</td><td>~~(do move)~~ _unreachable_</tr>
+<tr><td>~~`unlock(&B->lock)`~~_unreachable_</td><td>~~`unlock(&B->lock);`~~_unreachable_</td><td>~~`unlock(&A->lock);`~~_unreachable_</td></tr>
+<tr><td>~~`unlock(&A->lock)`~~_unreachable_</td><td>~~`unlock(&C->lock);`~~_unreachable_</td><td>~~`unlock(&C->lock);`~~_unreachable_</td></tr>
+</table>
+
 

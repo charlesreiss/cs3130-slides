@@ -1,5 +1,12 @@
+### revoke/preempt resourcse
 
-### stealing locks???  {.smaller}
+*  idea: "steal" resource from thread that has it
+*  why we don't have deadlocks for processor time
+   *  OS will eventually switch away
+   *  "preemption"
+
+
+### stealing locks??? 
 
 
 * how do we make stealing locks possible 
@@ -15,7 +22,7 @@
 * won't go into detail in this class
 
 
-### revocable locks?  {.smaller}
+### revocable locks? 
 
 
 ```

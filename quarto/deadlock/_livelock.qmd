@@ -2,8 +2,7 @@
 ### abort and retry limits? 
 
 
-* abort-and-retry
-* pthread's mutexes: 
+* pthread's mutexes support abort-and-retry pattern:
 
    * <code>pthread_mutex_trylock</code>
    * <code>pthread_mutex_timedlock</code>
