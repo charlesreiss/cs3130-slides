@@ -1,9 +1,9 @@
 
-### exercise  {.smaller}
+### exercise
 
 <!-- \lstset{language=C,style=smaller} -->
  
-```c
+```{.c style="margin-bottom: -1ex"}
 pthread_barrier_t barrier; int x = 0, y = 0;
 void thread_one() {
     y = 10;
@@ -20,9 +20,8 @@ void thread_two() {
     x = x + y;
     pthread_barrier_wait(&barrier);
 }
-
 ```
- 
+
 
 * output?  (if both run at once, barrier set for 2 threads)
 

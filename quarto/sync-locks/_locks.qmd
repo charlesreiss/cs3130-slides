@@ -1,5 +1,5 @@
 
-### the lock primitive  {.smaller}
+### the lock primitive
 
 
 
@@ -8,7 +8,7 @@
    * <i>acquire</i> or <i>lock</i> --- [wait]{.fragment fragment-index=2 .custom .myem-only} until lock is free, then ‘‘grab’’ it
    * <i>release</i> or <i>unlock</i> --- let others use lock, wakeup waiters
 
-* typical usage: everyone acquires lock before using shared resource 
+* typical usage: acquire lock before using shared resource 
 
    * forget to acquire lock? weird things happen
 
@@ -30,10 +30,10 @@ Unlock(account_lock);
 * OS can context switch to other programs
 
 
-### pthread mutex  {.smaller}
+### pthread mutex  {.longcode}
 
 
-```
+```c
 #include <pthread.h>
 
 pthread_mutex_t account_lock;

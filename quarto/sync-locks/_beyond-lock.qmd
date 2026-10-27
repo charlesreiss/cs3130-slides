@@ -3,7 +3,7 @@
 
 
 * in practice: want more than locks for synchronization
-* for waiting for arbtirary events (without CPU-hogging-loop): 
+* for waiting for arbitrary events (without CPU-hogging-loop): 
 
    * monitors
    * semaphores

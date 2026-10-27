@@ -13,8 +13,9 @@
   ...
 }
 </code></pre>
- ![](/deadlock/texfig/moveFileOrdering.figure-1.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=1}
-![](/deadlock/texfig/moveFileOrdering.figure-2.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center  .fragment .fade-in-then-out fragment-index=2}
+
+<hr/>
+any ordering will do  --- this example: compare pointers
 
 
 ### acquiring locks in consistent order (2)  {.smaller}

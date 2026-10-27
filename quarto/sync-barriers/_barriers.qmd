@@ -1,5 +1,5 @@
 
-### barriers  {.smaller}
+### barriers 
 
 
 * compute minimum of 100M element array with 2 processors
@@ -13,7 +13,7 @@
 * take minimum of all the minimums
 
 
-### barriers API  {.smaller}
+### barriers API  
 
 
 * barrier.Initialize(NumberOfThreads)
@@ -23,7 +23,7 @@
 * threads wait for <em>all other threads</em> to call Wait()
 
 
-### barrier: waiting for finish  {.smaller}
+### barrier: waiting for finish  
 
 
 ```c
@@ -66,7 +66,7 @@ barrier.Wait();
 ::::
 
 
-### barriers: reuse  {.smaller}
+### barriers: reuse  {.longcode}
 
 
 :::: {.columns}
@@ -116,10 +116,10 @@ results[2][1] =
 ::::
 
 
-### pthread barriers  {.smaller}
+### pthread barriers 
 
 
-```
+```c
 pthread_barrier_t barrier;
 pthread_barrier_init(
     &barrier,
