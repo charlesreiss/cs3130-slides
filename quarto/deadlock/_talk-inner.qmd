@@ -69,7 +69,7 @@
 <tr><td>
 *  acquire resources in <b>consistent order</b>
 </td>
-<td>no hold and wait/preemption</td>
+<td>no circular wait</td>
 </tr>
 <tr><td>
 *  request <b>all resources at once</b>
@@ -119,7 +119,7 @@
 <tr><td>
 *  acquire resources in <b>consistent order</b>
 </td>
-<td>no hold and wait/preemption</td>
+<td>no circular wait</td>
 </tr>
 <tr><td>
 *  request <b>all resources at once</b>
@@ -160,7 +160,7 @@
 <tr><td>
 *  [acquire resources in <b>consistent order</b>]{.myem-only .fragment .custom fragment-index=2}
 </td>
-<td>no hold and wait/preemption</td>
+<td>no circular wait</td>
 </tr>
 <tr><td>
 *  [request <b>all resources at once</b>]{.myem-only .fragment .custom fragment-index=1}
