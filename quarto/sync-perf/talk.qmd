@@ -1,0 +1,8 @@
+---
+name: sync-perf
+---
+
+{{< include /sync-perf/_talk-inner.qmd >}}
+# backup slides
+
+{{< include /sync-perf/_talk-backup.qmd >}}

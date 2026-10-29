@@ -1,0 +1,13 @@
+### parallelization and performance
+
+*  suppose we have 1000 time units of computation to do
+*  with 100 cores, how fast?
+*  [if "only" 99% can be parallelized?]{.fragment .fade-in fragment-index=1}
+*  [if we need to spend 2 time units coordinating threads?]{.fragment .fade-in fragment-index=2}
+*  [if we can't split the computation evenly?]{.fragment .fade-in fragment-index=3}
+
+### aside: Amdahl's Law
+
+*  performance gain limited to part we can speed up
+*  we'll quickly hit "diminishing returns" for any optimization
+   *  part we can't speed up becomes much bigger portion after optimization
