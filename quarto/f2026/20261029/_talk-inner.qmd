@@ -1,0 +1,165 @@
+### last time {.smaller}
+
+*  locks, pthread lock API
+   *  agree to acquire lock before accessing something shared
+   *  ensures thread take turns accessing shared thing
+      *  assuming everyone follows agreement
+*  barriers
+   *  wait for everyone else
+   *  reusing
+*  deadlock
+   *  mutual exclusion + hold and wait + circular wait
+   *  happening indeterminately and "by accident" with locks
+
+### test 3
+
+# exercise {visibility="hidden"}
+
+{{< include /deadlock/_is-deadlock-ex.qmd >}}
+
+# deadlock prevention {visibility="hidden"}
+
+## techniques overview {visibility="hidden"}
+
+### deadlock prevention techniques {.smaller}
+
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  [<b>infinite resources</b>]{.myem-only .custom .fragment fragment-index=1}
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  [<b>no shared resources</b>]{.myem-only .custom .fragment fragment-index=2}
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  ["busy signal" --- abort and (maybe) retry]{.myem-only .custom .fragment fragment-index=3}
+   *  revoke/preempt resources
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  acquire resources in <b>consistent order</b>
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  request <b>all resources at once</b>
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
+
+### "busy signal"
+
+*  example: malloc() fails rather than waiting
+   *  no deadlock possible
+*  problem: if retrying, how many times?
+
+## example: livelock {visibility="hidden"}
+
+{{< include /deadlock/_livelock.qmd >}}
+
+## preventing livelock {visibility="hidden"}
+
+{{< include /deadlock/_prevent-livelock.qmd >}}
+
+### deadlock prevention techniques {.smaller}
+
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  <b>infinite resources</b>
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no shared resources</b>
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  "busy signal" --- abort and (maybe) retry
+   *  _revoke/preempt resources_
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  acquire resources in <b>consistent order</b>
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  request <b>all resources at once</b>
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
+
+
+## example: revoke {visibility="hidden"}
+
+{{< include /deadlock/_revocable-locks.qmd >}}
+
+### deadlock prevention techniques {.smaller}
+
+<style>
+.myprevent td { vertical-align: top; margin-bottom: 1em; }
+</style>
+<table class="myprevent">
+<tr><td>
+*  <b>infinite resources</b>
+   *  or at least enough that they never run out
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no shared resources</b>
+</td>
+<td>no mutual exclusion</td>
+</tr>
+<tr><td>
+*  <b>no waiting</b>
+   *  "busy signal" --- abort and (maybe) retry
+   *  revoke/preempt resources
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  [acquire resources in <b>consistent order</b>]{.myem-only .fragment .custom fragment-index=2}
+</td>
+<td>no hold and wait/preemption</td>
+</tr>
+<tr><td>
+*  [request <b>all resources at once</b>]{.myem-only .fragment .custom fragment-index=1}
+</td>
+<td>no hold and wait</td>
+</tr>
+</table>
+
+
+
+
+## example: consistent order {visibility="hidden"}
+
+{{< include /deadlock/_prevention-ordering-examples.qmd >}}
+
+
+{{< include /sync-perf/_talk-inner.qmd >}}
+
+{{< include /sync-monitors/_talk-inner.qmd >}}
+
+{{< include /sync-rwlocks/_talk-inner.qmd >}}
+
+{{< include /sync-xact/_talk-inner.qmd >}}
