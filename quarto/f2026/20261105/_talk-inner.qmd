@@ -1,0 +1,31 @@
+### last time
+
+*  deadlock conditions
+*  deadlock prevention strategies like
+   *  (most common) consistent lock order [prevent loops]
+   *  abort and maybe retry (but livelock)
+*  monitors
+   *  condition variable = list of waiting threads
+   *  wait() in loop; broadcast() or signal() to wake-up
+
+## general monitor pattern {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-pattern.qmd >}}
+
+## monitor POSIX API details {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-api.qmd >}}
+
+## exercise: wait for both finished {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-ex-both-finishes.qmd >}}
+
+## exercise: barrier {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-exercise2.qmd >}}
+
+{{< include /sync-rwlocks/_talk-inner.qmd >}}
+
+{{< include /sync-xact/_talk-inner.qmd >}}
+
+{{< include /network/_talk-inner.qmd >}}
