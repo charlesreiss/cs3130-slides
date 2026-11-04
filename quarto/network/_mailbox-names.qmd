@@ -1,8 +1,13 @@
 
 ### mailbox model: importance of naming 
 
+ ![](/network/texfig/mailbox-names.figure.svg){fig-alt="A sends GET to B using the mailbox model"}
 
+::: {.myoverbox .vlow}
 
-* <i>mailbox</i> abstraction: send/receive messages
- ![](/network/texfig/mailbox-names.figure.svg)
+*  how does the network know what "B" is?
+*  how does B know the message is for the web server?
+*  how does the response get to "A"?
+
+:::
 

@@ -8,39 +8,17 @@
 
 ###  
 
-
-```
-\begin{center}
-
 ![](/network/internet_users.png){}
-
-\end{center}
-```
 
 
 ###  
-
-
-```
-\begin{center}
 
 ![](/network/internet_reasons.png){}
 
-\end{center}
-```
-
 
 ###  
 
-
-```
-\begin{center}
-
 ![](/network/internet_data.png){}
-
-\end{center}
-```
-
 
 # ethernet / 802.11 / \ldots {visibility="hidden"}
 

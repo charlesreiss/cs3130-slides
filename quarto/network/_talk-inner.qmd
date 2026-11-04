@@ -22,19 +22,24 @@
 
 ### sockets is the de-facto API for networking 
 
-
 * open <i>connection</i> then … 
-
    * read+write just like a terminal file
  
 <hr class="vspace" />
 * doesn't look like individual messages
 * ‘‘connection abstraction’’
 
-
 # mailbox model {visibility="hidden"}
 
 {{< include /network/_mailbox-model.qmd >}}
+
+### preview: layers
+
+*  mailbox model is already a lot to implement
+*  will subdivide into subproblems:
+   *  getting message to correct network
+   *  getting message to machine on local network (example: wifi)
+*  typiocal different mechanisms (and address types) for each
 
 # review: connection abstraction {visibility="hidden"}
 
@@ -58,11 +63,8 @@
 * the internet is a series of connected networks
 * packets traverse routers within and between networks
 * those networks provide ‘‘best-effort’’ service
- 
 
- 
-![](../network/network-of-network.jpg){}
- 
+![](/network/network-of-network.jpg){}
 
 
 
@@ -95,16 +97,17 @@
 ## checksums {visibility="hidden"}
 
 
-
 {{< include /network/_fail-corrupt.qmd >}}
 
 ## aside: going faster {visibility="hidden"}
 
 {{< include /network/_split-faster.qmd >}}
 
-# layers {visibility="hidden"}
+# layers, revisited (1) {visibility="hidden"}
 
 {{< include /network/_layers-overview.qmd >}}
+
+{{< include /network/_example-frame.qmd >}}
 
 # UDP v TCP {visibility="hidden"}
 
@@ -114,13 +117,19 @@
 
 {{< include /network/_labApi.qmd >}}
 
-
-
 # addresses versus names {visibility="hidden"}
 
 {{< include /network/_mailbox-names.qmd >}}
 
 {{< include /network/_names-and-addresses.qmd >}}
+
+### MAC addresses
+
+*  on local network MAC addresses (= "hardware addresses") used
+   *  unique identifier, typically assigned when network device made
+*  typically 48-bit hexadecimal number
+*  needs mechanism for correlating to "global" IP addresses
+   *  (one topic in CS 4457)
 
 # IP {visibility="hidden"}
 
@@ -138,9 +147,7 @@
 
 {{< include /network/_routing.qmd >}}
 
-
-
-# layers, revisited {visibility="hidden"}
+# layers, revisited (2) {visibility="hidden"}
 
 {{< include /network/_layers-overview.qmd >}}
 

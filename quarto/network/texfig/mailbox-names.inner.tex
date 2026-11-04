@@ -6,7 +6,7 @@
         msg/.style={font=\small},
         cmd/.style={font=\small},
     }
-        \node[comp box] (machine A) at (-6.5, 0) {machine \\ A};
+        \node[comp box] (machine A) at (-6.5, 0) {machine \\ A \\ ~\\~};
         \node[draw,cloud,line width=1pt,minimum width=4cm,minimum height=1cm,aspect=3,
                 ] (network) at (0,0) {the network};
         \node[comp box] (machine B) at (6.5, 0) {machine \\ B\\ ~\\~};
@@ -20,15 +20,11 @@
             % note/show buffering at A/B
 
 
-        \node[anchor=south,draw,rectangle,] at ([yshift=.1cm]machine A.south) {
+        \node[anchor=south,draw,rectangle,] at ([yshift=.5cm]machine A.south) {
             browser
         };
-        \node[explain box,anchor=north] at ([yshift=-1.25cm]network.south) {
-            how does the network know what ``B'' is? \\
-            how does B know the message is for the web server? \\
-            how does the response get to ``A''?
-        };
-        \node[anchor=south,draw,rectangle,align=center] at ([yshift=.2cm]machine B.south) {
+
+        \node[anchor=south,draw,rectangle,align=center] at ([yshift=.6cm]machine B.south) {
             web\\server
         };
     \end{tikzpicture}

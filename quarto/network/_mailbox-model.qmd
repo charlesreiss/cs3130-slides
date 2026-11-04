@@ -7,16 +7,47 @@
  
 
 ::: {.r-stack}
-![](/network/texfig/mailbox-model-mailbox-model.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/network/texfig/mailbox-model-mailbox-model.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/network/texfig/mailbox-model.figure-1.svg){.fragment .fade-out fragment-index=2 width=1000px fig-alt="machine A runs Send(B, 'Hello'). This sends 'B: Hello' to the network, represented by a cloud. The network then sends 'B: Hello' to B. On B, Recv() returns 'Hello'."}
 
-![](/network/texfig/mailbox-model-mailbox-model.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/network/texfig/mailbox-model.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 width=1000px }
 
-![](/network/texfig/mailbox-model-mailbox-model.figure-4.svg){.fragment .fade-in-then-out fragment-index=4}
+![](/network/texfig/mailbox-model.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 width=1000px fig-alt="On machine B, there is also a queue."}
 
+![](/network/texfig/mailbox-model.figure-4.svg){.fragment .fade-in-then-out fragment-index=4 width=1000px fig-alt="On machine A, there is a queue before the output to the network."}
 
 :::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=1}
+
+*  A sends "letter" to B
+*  "envelope" tells network it's addressed to B
+*  data in this example: Hello
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=3}
+
+*  the network provides "best effort" at getting message to B
+   *  Internet-like networks: no gaurentees
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=3}
+
+*  queues ("outgoing mailbox") of messages at sender A
+*  things sending program has 'sent', but haven't made it to network
+
+:::
+
+::: {.myoverbox .vlow .fragment .fade-in-then-out fragment-index=4}
+
+*  queues ("incoming mailbox") of messages at receiver B
+*  things machine B has received, but not passed to program
+
+:::
+
+
 
 
 ### connections over mailboxes  {.smaller}

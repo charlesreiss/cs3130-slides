@@ -41,7 +41,7 @@
     \end{visibleenv}
     \begin{visibleenv}<2->
     \draw[very thick,decorate,decoration={brace}] ([yshift=.7cm,xshift=1.9cm]ipFirstLine.north east) -- ([xshift=1.9cm]tcpEnd.south east) node[midway,right,font=\small,align=left] {IP\\packet};
-    \node[font=\small\bfseries,align=center,anchor=south,fill=orange!20,overlay] at ([yshift=-2mm,xshift=.25cm]ipTypeHLen.north west) {vers.};
+    \node[font=\small\bfseries,align=center,anchor=south,fill=orange!20] at ([yshift=-2mm,xshift=.25cm]ipTypeHLen.north west) {vers.};
     %\node[font=\small\bfseries,align=center,anchor=south west,fill=violet!20] at ([yshift=-2mm,xshift=-.5cm] ipTypeHLen.north east) {h. len.};
     \node[fill=green!20,inner sep=0mm, fit=(ipLenStart) (ipLenEnd),label={[fill=green!20]north:length}] {};
     \node[fill=yellow!20,inner sep=0mm, fit=(ipProto),label={[fill=yellow!20]north:protocol}] {};

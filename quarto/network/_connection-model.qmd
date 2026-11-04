@@ -1,5 +1,15 @@
 
 ### connections 
 
-![](/network/texfig/connection-model.figure.svg)
+![](/network/texfig/connection-model.figure.svg){fig-alt="A calls Connect(Conn, B) and messages are sent to be to start a connection. B calls Accept() and gets its own Conn object and messages are sent to verify connection is made. Then, A calls Send(Conn, '2 + 2 = ?') and B calls Recv(Conn) which returns '2 + 2 = ?'. Then B calls Send(Conn, '4') and A calls Recv(Conn) which returns '4'."}
+
+
+### connection abstraction
+
+*  most common version: (BSD) "sockets":
+*  setup:
+   *  passive end ("server"): listen() + accept()
+   *  active end ("client"): connect()
+*  program at each end has file descriptor representing connection
+*  usage after setup: send() + recv()
 

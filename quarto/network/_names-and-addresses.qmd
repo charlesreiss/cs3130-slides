@@ -1,9 +1,11 @@
 
 ### names and addresses  {.smaller}
 
-[]{.my-small} <table>
-<tr><td><em>name</em></td><td><em>address</em></td></tr>
-<tr><td><!-- \hline --> <em>logical identifier</em></td><td><em>location/how to locate</em></td></tr>
+<table>
+<thead>
+<tr><th><em>name</em></th><th><em>address</em></th></tr>
+<tr><td><em>logical identifier</em></td><td><em>location/how to locate</em></td></tr>
+</thead>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td>variable <code>counter</code></td><td>memory address <code>0x7FFF9430</code></td></tr>
 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>

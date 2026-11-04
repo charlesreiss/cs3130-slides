@@ -1,14 +1,13 @@
 
 ### an Ethernet frame 
 
-
-
 ::: {.r-stack .my-full}
-![](/network/texfig/example-frame.figure-1.svg){.fragment .fade-in-then-out fragment-index=1}
 
-![](/network/texfig/example-frame.figure-2.svg){.fragment .fade-in-then-out fragment-index=2}
+![](/network/texfig/example-frame.figure-1.svg){.fragment .fade-out fragment-index=2 fig-alt="Ethernet frame (written out as bytes) with destination MAC address, source MAC address, frame type; followed by frame data."}
 
-![](/network/texfig/example-frame.figure-3.svg){.fragment .fade-in-then-out fragment-index=3}
+![](/network/texfig/example-frame.figure-2.svg){.fragment .fade-in-then-out fragment-index=2 fig-alt="The same Ethernet frame, but now the frame data is labeled as an IP apcket. The IP packet includes a version, length, protocol, source IPv4 address, destination IPv4 address, and the packet's data."}
+
+![](/network/texfig/example-frame.figure-3.svg){.fragment .fade-in-then-out fragment-index=3 fig-alt="The IP packet's data is revealed to be a TCP segment, including source port, destination port, sequence number, flags, and the segment's own data."}
 
 
 :::
