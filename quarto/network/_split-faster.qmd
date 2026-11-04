@@ -10,5 +10,6 @@
 
 ### transmission window (ex: size 4) 
 
-![](/network/texfig/split-faster-transmission-window-ex-size-4.figure.svg)
- <br>Send a <i>window</i> of parts speculatively, then wait for ACKs.
+![](/network/texfig/split-faster-transmission-window-ex-size-4.figure.svg){width=900px fig-alt="machine A sends part 1, part 2, part 3, part 4 to machine B without waiting for responses. Machine B sends an ACK for each of them."}
+
+Send a <i>window</i> of parts speculatively, then wait for ACKs.
