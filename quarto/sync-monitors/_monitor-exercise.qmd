@@ -5,10 +5,8 @@
 
 * suppose we want producer/consumer, but…
 * but change Consume() to ConsumeTwo() which returns a <em>pair of values</em> 
-
    * and don't want two calls to ConsumeTwo() to wait…
    * with each getting one item
-
 * what should we change below?
  
 :::: {.columns}
@@ -51,7 +49,7 @@ Produce(item) {
 
 ### monitor exercise: solution (1)  {.smaller}
 
-[]{.my-small} (one of many possible solutions) <br> Assuming ConsumeTwo <em>replaces</em> Consume: 
+[(one of many possible solutions)]{.my-small} <br> Assuming ConsumeTwo <em>replaces</em> Consume: 
 ```
 Produce() {
   pthread_mutex_lock(&lock);
@@ -72,7 +70,7 @@ ConsumeTwo() {
 
 ### monitor exercise: solution (2)  {.smaller}
 
-(one of many possible solutions) <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using two CVs): 
+[(one of many possible solutions)]{.my-small} <br> Assuming ConsumeTwo is <em>in addition to</em> Consume (using two CVs): 
 ```
 Produce() {
   pthread_mutex_lock(&lock);

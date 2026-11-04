@@ -1,11 +1,12 @@
 
-### BROKEN: producer/consumer signal  {.smaller}
+### BROKEN: producer/consumer signal
 
 
 
 * exercise: example why signal here is BROKEN? hint: two consume()+two produce()
  
-<pre><code>pthread_mutex_t lock; pthread_cond_t data_ready; UnboundedQueue buffer;
+```c
+pthread_mutex_t lock; pthread_cond_t data_ready; UnboundedQueue buffer;
 Produce(item) {
     <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
     buffer.enqueue(item);
@@ -17,37 +18,42 @@ Consume() {
     <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
     while (<span data-fragment-index="0" class="fragment custom myem-only">buffer.empty()</span>) {X\\tikzmark{empty}X
         pthread_cond_wait(&amp;data_ready, &amp;lock);
-    }X\\tikzmark{after loop}X
+    }
     item = <span data-fragment-index="0" class="fragment custom myem-only">buffer.dequeue()</span>;
     <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
     return item;
 }
-</code></pre>
- ![](/sync-monitors/texfig/PCSignal.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center }
+```
+
+![](/sync-monitors/texfig/PCSignal.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center fig-alt="[BROKEN CODE]"}
 
 
 ### bad case (setup)  {.smaller}
 
- <table>
+<table class="collines rowlines">
+<thead>
 <tr><td>thread 0</td><td>1</td><td>2</td><td>3</td></tr>
-<tr><td>\\hline{} Consume():</td><td></td><td></td></tr>
+</thead>
+<tbody>
+<tr><td>Consume():</td><td></td><td></td></tr>
 <tr><td>lock</td><td></td><td></td></tr>
 <tr><td>empty? wait on cv</td><td>Consume():</td></tr>
 <tr><td></td><td>lock</td><td></td></tr>
 <tr><td></td><td>empty? wait on cv</td><td></td><td></td></tr>
 <tr><td></td><td></td><td>Produce():</td><td></td></tr>
 <tr><td></td><td></td><td>lock</td><td>Produce():</td></tr>
-<tr><td></td></tr>
+</tbody>
 </table>
 
 
-### againframe(PCSignalBadSetup)
-
 ### bad case  {.smaller}
 
- <table>
+<table>
+<thead>
 <tr><td>thread 0</td><td>1</td><td>2</td><td>3</td></tr>
-<tr><td>\\hline{} Consume():</td><td></td><td></td></tr>
+</thead>
+<tbody>
+<tr><td>Consume():</td><td></td><td></td></tr>
 <tr><td>lock</td><td></td><td></td></tr>
 <tr><td>empty? wait on cv</td><td>Consume():</td></tr>
 <tr><td></td><td>lock</td><td></td></tr>
@@ -64,7 +70,6 @@ Consume() {
 <tr><td>gets lock</td><td></td><td></td><td></td></tr>
 <tr><td>dequeue</td><td></td><td></td><td></td></tr>
 <tr><td></td><td>still waiting</td><td></td><td></td></tr>
+</tbody>
 </table>
 
-
-### againframe(PCSignalBad)

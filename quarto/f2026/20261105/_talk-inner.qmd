@@ -24,6 +24,14 @@
 
 {{< include /sync-monitors/_monitor-exercise2.qmd >}}
 
+## exercise: broken cond_signal {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-ex-ps-cond-signal.qmd >}}
+
+## exercise: ConsumeTwo {visibility="hidden"}
+
+{{< include /sync-monitors/_monitor-exercise.qmd >}}
+
 {{< include /sync-rwlocks/_talk-inner.qmd >}}
 
 {{< include /sync-xact/_talk-inner.qmd >}}
