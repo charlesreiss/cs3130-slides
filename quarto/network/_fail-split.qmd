@@ -1,14 +1,14 @@
 
 ### splitting messages: try 1 
 
-![](/network/texfig/fail-split-splitting-messages-try-1.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-try-1.figure.svg){width=1000px}
  <br>
  reconstructed message: <br>
  The meeting is at 12pm.
 
 ### splitting messages: try 1 --- problem 1 
 
-![](/network/texfig/fail-split-splitting-messages-try-1-----problem-1.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-try-1-----problem-1.figure.svg){width=1000px}
  
 <div class="fragment fade-in" data-fragment-index=2 >
  reconstructed message: <br> The meetingThe meeting is at 12pm. 
@@ -30,20 +30,20 @@
 
 ### splitting messages: try 2 
 
-![](/network/texfig/fail-split-splitting-messages-try-2.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-try-2.figure.svg){width=1000px}
  <br>reconstructed message: <br> The meeting is at 12pm.
 
 ### splitting messages: try 2 --- missed ack 
 
-![](/network/texfig/fail-split-splitting-messages-try-2-----missed-ack.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-try-2-----missed-ack.figure.svg){width=1000px}
  <br>reconstructed message: <br> The meeting is at 12pm.
 
 ### splitting messages: try 2 --- problem 
 
-![](/network/texfig/fail-split-splitting-messages-try-2-----problem.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-try-2-----problem.figure.svg){width=1000px}
  <br>A thinks: part 1 + part 2 acknowleged!
 
 ### splitting messages: version 3 
 
-![](/network/texfig/fail-split-splitting-messages-version-3.figure.svg)
+![](/network/texfig/fail-split-splitting-messages-version-3.figure.svg){width=1000px}
 
