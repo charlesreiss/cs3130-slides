@@ -8,14 +8,6 @@
    *  condition variable = list of waiting threads
    *  wait() in loop; broadcast() or signal() to wake-up
 
-### some feedback on test question 3
-
-*  TLB question had more of a memorizable "trick" than I really wanted
-   *  didn't think through how easily it would tend to "memorize numerical answer strategy without understanding what goes on"
-   *  would help to have varied parameters more (but I avoided to keep calculations simple)
-   *  possibly too cute to ask for "any possible" address
-*  appreciate feedback since I would like to improve tests, homeworks for the future
-
 ## general monitor pattern {visibility="hidden"}
 
 {{< include /sync-monitors/_monitor-pattern.qmd >}}

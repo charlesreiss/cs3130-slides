@@ -1,32 +1,47 @@
 
-### BROKEN: producer/consumer signal
+### BROKEN: producer/consumer signal {.smaller}
 
 
 
-* exercise: example why signal here is BROKEN? hint: two consume()+two produce()
- 
+* exercise: example why signal here is BROKEN?
+   *  hint 1: two consume()+two produce()
+   *  hitn 2: probably fine with Hoare scheduling (signal chooses next thread)
+
 ```c
 pthread_mutex_t lock; pthread_cond_t data_ready; UnboundedQueue buffer;
 Produce(item) {
-    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
+    pthread_mutex_lock(&lock);
     buffer.enqueue(item);
-    /* GOOD CODE: pthread_cond_signal(&amp;data_ready); */
-    /* BAD CODE: */ if (buffer.size() == 1) pthread_cond_signal(&amp;item);
-    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+    /* GOOD CODE: pthread_cond_signal(&data_ready); */
+    /* BAD CODE: */ if (buffer.size() == 1) pthread_cond_signal(&item);
+    pthread_mutex_unlock(&lock);
 }
 Consume() {
-    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_lock(&amp;lock);</span>
-    while (<span data-fragment-index="0" class="fragment custom myem-only">buffer.empty()</span>) {X\\tikzmark{empty}X
-        pthread_cond_wait(&amp;data_ready, &amp;lock);
+    pthread_mutex_lock(&lock);
+    while (buffer.empty()) {
+        pthread_cond_wait(&data_ready, &lock);
     }
-    item = <span data-fragment-index="0" class="fragment custom myem-only">buffer.dequeue()</span>;
-    <span data-fragment-index="0" class="fragment custom myem-only">pthread_mutex_unlock(&amp;lock);</span>
+    item = buffer.dequeue();
+    pthread_mutex_unlock(&lock);
     return item;
 }
 ```
 
-![](/sync-monitors/texfig/PCSignal.figure.svg){.absolute top="0%" left="0%" width=1050 height=600 .my-center fig-alt="[BROKEN CODE]"}
+::: {style="position: absolute; opacity: 0.15; z-index: 10; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(25deg); font-size: 300%; width: 100%;"}
 
+BROKEN CODE
+
+:::
+
+### bad case (quick)
+
+*  first producer goes
+   *  queue size size 1
+*  first consumer woken up
+*  second producer can go next
+*  second producer can add to queue
+   *  queue have size 2
+*  second consumer not woken up
 
 ### bad case (setup)  {.smaller}
 
@@ -48,9 +63,9 @@ Consume() {
 
 ### bad case  {.smaller}
 
-<table>
+<table style="font-size: 80%">
 <thead>
-<tr><td>thread 0</td><td>1</td><td>2</td><td>3</td></tr>
+<tr><th>thread 0</th><th>1</th><th>2</th><th>3</th></tr>
 </thead>
 <tbody>
 <tr><td>Consume():</td><td></td><td></td></tr>
