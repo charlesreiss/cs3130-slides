@@ -5,53 +5,37 @@
 * primary application-layer protocol for the Web
   - introduced in 1991
   - version 1.1 in 1997, version 2 in 2015, version 3 in 2022
-* text-based protocol
-* standard port: 80 (non-encrypted), 443 (encrypted)
+* standard ports: 80 (non-encrypted), 443 (encrypted)
 * uses TCP (or TCP + TLS for encrypted version)
-* client-server protocol 
-
-   * server = always on machine, never initiaites contact
-   * client = sometimes on machine, initiates contact
-
-* ex. URL: <code>http://www.foo.com/bar</code>
-
 
 ### HTTP: HyperText Transfer Protocol  {.smaller}
 
-
-
 * <code>http://www.foo.com/bar</code>
-* HTTP client (example: web browser):
-  * does a DNS lookup for www.foo.com (gets 123.156.189.12)
-  * connects via TCP to 123.156.189.12 port 80
-  * sends something like:
- 
-      ```
-      GET /bar HTTP/1.1
-      Host: www.foo.com
-      ...
-      ```
- 
+* resolve "server" www.foo.com via DNS
+* send "request" to server like:
+```
+GET /bar HTTP/1.1
+Host: www.foo.com
+...
+```
+* receive "response" like
+```
+HTTP/1.1 200 OK
+Content-Type: text/html
+...
 
-* server replies with status code + (usually) some data 
-
+<html>...
+```
+* status code (200 in example) indicates error or not
    * 200 OK, 403 Unauthorized, 404 Not Found, 500 Internal Server Error, …
+* headers (key/value pairs) for metadata on request + responses
 
-
-
-### HTTP  {.smaller}
+### HTTP methods {.smaller}
 
 
 * GET --- get resource
 * POST --- sending forms
 * HEAD --- get metadata about file (without getting its data)
 * PUT, DELETE, …  
-<hr class="vspace" />
-* all requests/replies have many possible headers 
-
-   * filetype inforation
-   * login-related information (usually)
-   * metadata used for caching webpages
-   * …
 
 

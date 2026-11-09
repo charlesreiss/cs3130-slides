@@ -13,7 +13,7 @@
 
 
 
-### URI examples  {.smaller}
+### URI examples
 
 
 ```
