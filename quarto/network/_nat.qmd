@@ -71,16 +71,18 @@
 
 ### implementing NAT  {.smaller}
 
-[]{.my-small} <table>
+<table>
+<thead>
 <tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
-<tr><td><!-- \hline --> 128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+</thead>
+<tbody>
+<tr><td>128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
 <tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
 <tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
 <tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
-<tr><td></td></tr>
+</tbody>
 </table>
  
 
 * table of the translations
 * need to update as new connections made
-

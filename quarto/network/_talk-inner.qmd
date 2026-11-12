@@ -181,6 +181,9 @@
 
 {{< include /network/_nat.qmd >}}
 
+{{< include /network/_nat-exercise.qmd >}}
+
+
 # layers, revisited {visibility="hidden"}
 
 {{< include /network/_layers-overview.qmd >}}

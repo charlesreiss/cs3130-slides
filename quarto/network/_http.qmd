@@ -1,41 +1,36 @@
 
-### HTTP: HyperText Transfer Protocol  {.smaller}
+### HTTP: HyperText Transfer Protocol
 
 
 * primary application-layer protocol for the Web
   - introduced in 1991
   - version 1.1 in 1997, version 2 in 2015, version 3 in 2022
-* standard ports: 80 (non-encrypted), 443 (encrypted)
 * uses TCP (or TCP + TLS for encrypted version)
+* standard ports: 80 (non-encrypted), 443 (encrypted)
 
-### HTTP: HyperText Transfer Protocol  {.smaller}
+### <code>http://www.foo.com/bar</code> (1)
 
-* <code>http://www.foo.com/bar</code>
-* resolve "server" www.foo.com via DNS
-* send "request" to server like:
-```
+* send "request" to www.foo.com like:
+```{style="border:2px solid black; width:90%"}
 GET /bar HTTP/1.1
 Host: www.foo.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:161.0) Gecko/20100101 Firefox/161.0
 ...
 ```
+* GET = read file; also POST (send form), PUT, and more...
+* headers (key/value pairs) for metadata
+
+### <code>http://www.foo.com/bar</code> (2)
+
 * receive "response" like
-```
+```{style="border:2px solid black; width: 90%"}
 HTTP/1.1 200 OK
 Content-Type: text/html
 ...
 
 <html>...
 ```
-* status code (200 in example) indicates error or not
-   * 200 OK, 403 Unauthorized, 404 Not Found, 500 Internal Server Error, …
-* headers (key/value pairs) for metadata on request + responses
-
-### HTTP methods {.smaller}
-
-
-* GET --- get resource
-* POST --- sending forms
-* HEAD --- get metadata about file (without getting its data)
-* PUT, DELETE, …  
-
+* status code (200 in example) indicates success/error
+   * [200 OK, 404 Not Found, 500 Internal Server Error, …]{.my-small}
+* headers (key/value pairs) for metadata
 

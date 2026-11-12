@@ -1,8 +1,8 @@
-### last time
+### last time {.smaller}
 
 *  review: acknowledgments + timeouts
 *  sequence numbers to handle splitting messages
-*  "onion" of network layers  in messages sent
+*  nesting dolls of headers
 *  names versus addresses
    *  MAC addresses (local)
    *  IP addresses (internet)
@@ -14,6 +14,8 @@
 # NAT {visibility="hidden"}
 
 {{< include /network/_nat.qmd >}}
+
+{{< include /network/_nat-exercise.qmd >}}
 
 <!-- FIXME: network address translation exercises -->
 
