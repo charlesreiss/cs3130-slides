@@ -15,7 +15,26 @@
 *  1: packet from 192.168.1.5:33212 to 11.7.17.3:443 on internal network?
    *  what does router do? (change source/destination? drop? update table?)
 
-### NAT exercise (20 {.smaller}
+### NAT exercise (1, solution) {.smaller}
+
+<table>
+<thead>
+<tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
+</thead>
+<tbody>
+<tr><td>128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+<tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
+<tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
+<tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
+</tbody>
+</table>
+
+*  1: packet from 192.168.1.5:33212 to 11.7.17.3:443 on internal network?
+   *  what does router do? (change source/destination? drop? update table?)
+*  matches table entry for second row
+   *  change to be packet from (router's address):53037 to 11.7.17.3:443
+
+### NAT exercise (2) {.smaller}
 
 <table>
 <thead>
@@ -32,3 +51,58 @@
 *  2: packet from 196.168.1.5:44444 to 11.7.17.3:443 on internal network?
    *  what does router do? (change source/destination? drop? update table?)
 
+### NAT exercise (2, solution) {.smaller}
+
+<table>
+<thead>
+<tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
+</thead>
+<tbody>
+<tr><td>128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+<tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
+<tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
+<tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
+</tbody>
+</table>
+
+*  2: packet from 196.168.1.5:44444 to 11.7.17.3:443 on internal network?
+   *  what does router do? (change source/destination? drop? update table?)
+*  does not match any table entry
+*  add new one, with new outside port number
+*  change packet be from (router's address):(new port number) to 11.7.17.3:443
+
+### NAT exercise (3) {.smaller}
+
+<table>
+<thead>
+<tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
+</thead>
+<tbody>
+<tr><td>128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+<tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
+<tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
+<tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
+</tbody>
+</table>
+
+*  3: packet from 128.148.17.3:443 to (router's IP):54033
+   *  what does router do?
+
+### NAT exercise (3, solution) {.smaller}
+
+<table>
+<thead>
+<tr><td>remote host + port</td><td>outside local port number</td><td>inside IP</td><td>inside port number</td></tr>
+</thead>
+<tbody>
+<tr><td>128.148.17.3:443</td><td>54033</td><td>192.168.1.5</td><td>43222</td></tr>
+<tr><td>11.7.17.3:443</td><td>53037</td><td>192.168.1.5</td><td>33212</td></tr>
+<tr><td>128.148.31.2:22</td><td>54032</td><td>192.168.1.37</td><td>43010</td></tr>
+<tr><td>128.148.17.3:443</td><td>63039</td><td>192.168.1.37</td><td>32132</td></tr>
+</tbody>
+</table>
+
+*  3: packet from 128.148.17.3:443 to (router's IP):54033
+   *  what does router do?
+*  matches first row
+*  change to be from 128.148.17.3:443 to 192.168.1.5:43222
