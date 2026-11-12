@@ -1,0 +1,24 @@
+### last time
+
+*  review: acknowledgments + timeouts
+*  sequence numbers to handle splitting messages
+*  "onion" of network layers  in messages sent
+*  names versus addresses
+   *  MAC addresses (local)
+   *  IP addresses (internet)
+   *  port numbers (on machine)
+*  TCP, UDP
+*  callback-based programming
+*  network address translation
+
+# NAT {visibility="hidden"}
+
+{{< include /network/_nat.qmd >}}
+
+<!-- FIXME: network address translation exercises -->
+
+# layers, revisited {visibility="hidden"}
+
+{{< include /network/_layers-overview.qmd >}}
+
+{{< include /secure/_talk-inner.qmd >}}
